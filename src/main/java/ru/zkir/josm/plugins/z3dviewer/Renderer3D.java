@@ -11,6 +11,7 @@ import java.awt.Color;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MapView;
+import org.openstreetmap.josm.data.coor.EastNorth;
 
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -120,16 +121,16 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 1, 0);
 
         // --- Prepare buildings for rendering ---
-        Point center = mapView.getPoint(mapView.getCenter());
+        EastNorth center = mapView.getCenter();
         List<DrawableBuilding> drawableBuildings = new ArrayList<>();
         for (Z3dViewerDialog.Building building : buildings) {
             if (building.way.getNodesCount() < 2) continue;
             
             double centerX = 0, centerZ = 0;
             for (Node node : building.way.getNodes()) {
-                Point p = mapView.getPoint(node.getCoor());
-                centerX += p.x - center.x;
-                centerZ += p.y - center.y;
+                EastNorth nodeEN = node.getEastNorth();
+                centerX += nodeEN.east() - center.east();
+                centerZ += nodeEN.north() - center.north();
             }
             centerX /= building.way.getNodesCount();
             centerZ /= building.way.getNodesCount();
@@ -148,8 +149,10 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             List<Point3D> basePoints = new ArrayList<>();
             for (Node node : way.getNodes()) {
-                Point p = mapView.getPoint(node.getCoor());
-                basePoints.add(new Point3D(p.x - center.x, minHeight, p.y - center.y));
+                EastNorth nodeEN = node.getEastNorth();
+                double x = nodeEN.east() - center.east();
+                double z = nodeEN.north() - center.north();
+                basePoints.add(new Point3D(x, minHeight, z));
             }
 
             // Draw walls
