@@ -22,7 +22,7 @@ public class Z3dViewerPlugin extends Plugin {
     @Override
     public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
         if (newFrame != null) {
-            dialog = new Z3dViewerDialog();
+            dialog = new Z3dViewerDialog(this);
             newFrame.addToggleDialog(dialog);
         }
     }
