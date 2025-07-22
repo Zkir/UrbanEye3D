@@ -32,10 +32,14 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, La
     public static class Building {
         public final Way way;
         public final double height;
+        public final String color;
+        public final String roofColor;
 
-        public Building(Way way, double height) {
+        public Building(Way way, double height, String color, String roofColor) {
             this.way = way;
             this.height = height;
+            this.color = color;
+            this.roofColor = roofColor;
         }
     }
 
@@ -71,7 +75,9 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, La
                         }
                     }
                     if (height > 0) {
-                        buildings.add(new Building((Way) primitive, height));
+                        String color = primitive.get("building:colour");
+                        String roofColor = primitive.get("roof:colour");
+                        buildings.add(new Building((Way) primitive, height, color, roofColor));
                     }
                 }
             }

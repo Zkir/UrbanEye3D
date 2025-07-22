@@ -6,6 +6,8 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
 import org.openstreetmap.josm.data.osm.Node;
+
+import java.awt.Color;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MapView;
@@ -151,7 +153,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             // Draw walls
             gl.glBegin(GL2.GL_QUAD_STRIP);
-            gl.glColor3f(0.8f, 0.8f, 0.8f); // Light gray for walls
+            setColor(gl, drawableBuilding.building.color, 0.8f, 0.8f, 0.8f);
             for (int i = 0; i <= basePoints.size(); i++) {
                 Point3D p = basePoints.get(i % basePoints.size());
                 gl.glVertex3d(p.x, height, p.z);
@@ -161,13 +163,22 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             // Draw roof
             gl.glBegin(GL2.GL_POLYGON);
-            gl.glColor3f(0.9f, 0.9f, 0.9f); // Lighter for roof
+            setColor(gl, drawableBuilding.building.roofColor, 0.9f, 0.9f, 0.9f);
             for (Point3D p : basePoints) {
                 gl.glVertex3d(p.x, height, p.z);
             }
             gl.glEnd();
         }
         gl.glFlush();
+    }
+
+    private void setColor(GL2 gl, String colorStr, float defaultR, float defaultG, float defaultB) {
+        Color color = ColorUtils.parseColor(colorStr);
+        if (color != null) {
+            gl.glColor3f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f);
+        } else {
+            gl.glColor3f(defaultR, defaultG, defaultB);
+        }
     }
 
     @Override
