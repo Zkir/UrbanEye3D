@@ -1,87 +1,185 @@
 package ru.zkir.josm.plugins.z3dviewer;
 
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.awt.GLJPanel;
+import com.jogamp.opengl.glu.GLU;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MapView;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class Renderer3D extends JPanel {
+public class Renderer3D extends GLJPanel implements GLEventListener {
     private final List<Z3dViewerDialog.Building> buildings;
-    private static final double SCALE = 2.0; // Let's add a scale factor
+    private final GLU glu = new GLU();
+
+    private double camX_angle = 30.0;
+    private double camY_angle = -45.0;
+    private double cam_dist = 500.0;
+
+    private Point lastMousePoint;
+
+    private static class Point3D {
+        double x, y, z;
+        Point3D(double x, double y, double z) { this.x = x; this.y = y; this.z = z; }
+    }
+
+    private static class DrawableBuilding {
+        Z3dViewerDialog.Building building;
+        double distanceToCamera;
+
+        DrawableBuilding(Z3dViewerDialog.Building building, double distance) {
+            this.building = building;
+            this.distanceToCamera = distance;
+        }
+    }
 
     public Renderer3D(List<Z3dViewerDialog.Building> buildings) {
         this.buildings = buildings;
+        this.addGLEventListener(this);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                lastMousePoint = e.getPoint();
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (lastMousePoint != null) {
+                    int dx = e.getX() - lastMousePoint.x;
+                    int dy = e.getY() - lastMousePoint.y;
+
+                    camY_angle -= dx * 0.5;
+                    camX_angle += dy * 0.5;
+
+                    camX_angle = Math.max(-89.0, Math.min(89.0, camX_angle));
+
+                    lastMousePoint = e.getPoint();
+                    repaint();
+                }
+            }
+        });
+
+        addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                cam_dist += e.getWheelRotation() * 50;
+                cam_dist = Math.max(50.0, cam_dist); // Prevent zooming too close
+                repaint();
+            }
+        });
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    public void init(GLAutoDrawable glAutoDrawable) {
+        GL2 gl = glAutoDrawable.getGL().getGL2();
+        gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // White background
+        gl.glEnable(GL2.GL_DEPTH_TEST);
+        gl.glEnable(GL2.GL_CULL_FACE);
+        gl.glCullFace(GL2.GL_BACK);
+    }
+
+    @Override
+    public void dispose(GLAutoDrawable glAutoDrawable) {}
+
+    @Override
+    public void display(GLAutoDrawable glAutoDrawable) {
+        GL2 gl = glAutoDrawable.getGL().getGL2();
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
+        gl.glLoadIdentity();
 
         MapView mapView = MainApplication.getMap().mapView;
-        if (mapView == null) {
-            g.drawString("No active map view.", 10, 20);
+        if (mapView == null || buildings == null || buildings.isEmpty()) {
             return;
         }
 
-        if (buildings == null || buildings.isEmpty()) {
-            g.drawString("No buildings with height found to display.", 10, 20);
-            return;
-        }
+        // --- Camera Setup ---
+        double camX_rad = Math.toRadians(camX_angle);
+        double camY_rad = Math.toRadians(camY_angle);
 
+        double eyeX = cam_dist * Math.cos(camX_rad) * Math.sin(camY_rad);
+        double eyeY = cam_dist * Math.sin(camX_rad);
+        double eyeZ = cam_dist * Math.cos(camX_rad) * Math.cos(camY_rad);
+
+        glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 1, 0);
+
+        // --- Prepare buildings for rendering ---
         Point center = mapView.getPoint(mapView.getCenter());
-        int panelCenterX = getWidth() / 2;
-        int panelCenterY = getHeight() / 2;
-
+        List<DrawableBuilding> drawableBuildings = new ArrayList<>();
         for (Z3dViewerDialog.Building building : buildings) {
-            Way way = building.way;
-            double height = building.height * SCALE;
+            if (building.way.getNodesCount() < 2) continue;
+            
+            double centerX = 0, centerZ = 0;
+            for (Node node : building.way.getNodes()) {
+                Point p = mapView.getPoint(node.getCoor());
+                centerX += p.x - center.x;
+                centerZ += p.y - center.y;
+            }
+            centerX /= building.way.getNodesCount();
+            centerZ /= building.way.getNodesCount();
+            
+            double dist = Math.sqrt(Math.pow(centerX - eyeX, 2) + Math.pow(centerZ - eyeZ, 2));
+            drawableBuildings.add(new DrawableBuilding(building, dist));
+        }
 
-            Polygon basePolygon = new Polygon();
+        drawableBuildings.sort(Comparator.comparingDouble(b -> -b.distanceToCamera));
+
+        // --- Render buildings ---
+        for (DrawableBuilding drawableBuilding : drawableBuildings) {
+            Way way = drawableBuilding.building.way;
+            double height = drawableBuilding.building.height;
+
+            List<Point3D> basePoints = new ArrayList<>();
             for (Node node : way.getNodes()) {
                 Point p = mapView.getPoint(node.getCoor());
-                int x = (int) ((p.x - center.x) * SCALE) + panelCenterX;
-                int y = (int) ((p.y - center.y) * SCALE) + panelCenterY;
-                basePolygon.addPoint(x, y);
-            }
-
-            // Simple isometric-like projection
-            int z_offset_x = (int) (height * 0.5);
-            int z_offset_y = (int) (height * -0.25);
-
-            Polygon topPolygon = new Polygon();
-            for (int i = 0; i < basePolygon.npoints; i++) {
-                topPolygon.addPoint(basePolygon.xpoints[i] + z_offset_x, basePolygon.ypoints[i] + z_offset_y);
+                basePoints.add(new Point3D(p.x - center.x, 0, p.y - center.y));
             }
 
             // Draw walls
-            g2d.setColor(new Color(210, 210, 210));
-            for (int i = 0; i < basePolygon.npoints; i++) {
-                int next = (i + 1) % basePolygon.npoints;
-                Polygon wall = new Polygon();
-                wall.addPoint(basePolygon.xpoints[i], basePolygon.ypoints[i]);
-                wall.addPoint(basePolygon.xpoints[next], basePolygon.ypoints[next]);
-                wall.addPoint(topPolygon.xpoints[next], topPolygon.ypoints[next]);
-                wall.addPoint(topPolygon.xpoints[i], topPolygon.ypoints[i]);
-                g2d.fill(wall);
+            gl.glBegin(GL2.GL_QUAD_STRIP);
+            gl.glColor3f(0.8f, 0.8f, 0.8f); // Light gray for walls
+            for (int i = 0; i <= basePoints.size(); i++) {
+                Point3D p = basePoints.get(i % basePoints.size());
+                gl.glVertex3d(p.x, height, p.z);
+                gl.glVertex3d(p.x, 0, p.z);
             }
-            
-            // Draw roof
-            g2d.setColor(new Color(230, 230, 230));
-            g2d.fill(topPolygon);
+            gl.glEnd();
 
-            // Draw outlines
-            g2d.setColor(Color.DARK_GRAY);
-            g2d.draw(basePolygon);
-            g2d.draw(topPolygon);
-            for (int i = 0; i < basePolygon.npoints; i++) {
-                 g2d.drawLine(basePolygon.xpoints[i], basePolygon.ypoints[i], topPolygon.xpoints[i], topPolygon.ypoints[i]);
+            // Draw roof
+            gl.glBegin(GL2.GL_POLYGON);
+            gl.glColor3f(0.9f, 0.9f, 0.9f); // Lighter for roof
+            for (Point3D p : basePoints) {
+                gl.glVertex3d(p.x, height, p.z);
             }
+            gl.glEnd();
         }
+        gl.glFlush();
+    }
+
+    @Override
+    public void reshape(GLAutoDrawable glAutoDrawable, int x, int y, int width, int height) {
+        GL2 gl = glAutoDrawable.getGL().getGL2();
+        if (height <= 0) height = 1;
+        float aspect = (float) width / (float) height;
+        gl.glViewport(0, 0, width, height);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
+        gl.glLoadIdentity();
+        glu.gluPerspective(45.0, aspect, 1.0, 10000.0);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glLoadIdentity();
     }
 }

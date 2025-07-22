@@ -59,12 +59,13 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, La
         if (editLayer != null) {
             DataSet dataSet = editLayer.getDataSet();
             for (OsmPrimitive primitive : dataSet.allPrimitives()) {
-                if (primitive instanceof Way && primitive.hasKey("building")) {
+                if (primitive instanceof Way && primitive.hasKey("building:part")) {
                     String heightStr = primitive.get("height");
                     double height = 0.0;
                     if (heightStr != null) {
                         try {
                             height = Double.parseDouble(heightStr.split(" ")[0]);
+                            height = height * 10;
                         } catch (NumberFormatException e) {
                             // Ignore
                         }

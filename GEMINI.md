@@ -5,14 +5,17 @@
 Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window.
 
 
-## next steps
+## Next steps
 
-Next we need to make our 3d window repaint when the data 
- changes, for example, loaded from the database, or the user edits something. Otherwise 
- (i.e. as it is now) it is always empty, because List buildings 
- is initialized before the data is loaded.
+1. Make 3d rendering via OpenGL, support orbitiong around scene centre via mouse left button, and zooming using mouse wheel
+2. Support colors and materials (osm tags building:colour and building:material
+3. Support roof shapes via roof:shape
+
  
  
 ## josm source code
 
- josm source code can be found in ./josm_source
+ Josm source code can be found in D:/z3dViewer/josm_source
+ 
+## Misc 
+ to build project we use maven
