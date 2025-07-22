@@ -69,7 +69,6 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, La
                     if (heightStr != null) {
                         try {
                             height = Double.parseDouble(heightStr.split(" ")[0]);
-                            height = height * 10;
                         } catch (NumberFormatException e) {
                             // Ignore
                         }
