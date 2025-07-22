@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.zkir.josm.plugins</groupId>
+    <artifactId>threedviewer</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>Z3dViewer</name>
+    <description>A JOSM plugin to view selected buildings in 3D.</description>
+
+    <properties>
+        <!-- We are targeting Java 8, which is the baseline for JOSM -->
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- You can change this to the JOSM version you are targeting -->
+        <josm.version>19423</josm.version>
+        <!-- JOGL version bundled with JOSM -->
+        <jogl.version>2.4.0</jogl.version>
+    </properties>
+
+    <!-- JOSM artifacts are hosted on a specific repository -->
+    <repositories>
+        <repository>
+            <id>josm</id>
+            <url>https://josm.openstreetmap.de/repository/releases/</url>
+        </repository>
+        <repository>
+            <id>jogamp-test-repo</id>
+            <url>https://jogamp.org/deployment/maven/</url> <!-- Основной URL -->
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- JOSM main dependency -->
+        <dependency>
+            <groupId>org.openstreetmap.josm</groupId>
+            <artifactId>josm</artifactId>
+            <version>${josm.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- JOGL (Java OpenGL) is provided by JOSM, so we mark it as 'provided' -->
+        <dependency>
+            <groupId>org.jogamp.jogl</groupId>
+            <artifactId>jogl-all-main</artifactId>
+            <version>${jogl.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jogamp.gluegen</groupId>
+            <artifactId>gluegen-rt-main</artifactId>
+            <version>${jogl.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- This plugin configures the JAR manifest with JOSM-specific entries -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Plugin-Mainversion>19423</Plugin-Mainversion>
+                            <Plugin-Version>${project.version}</Plugin-Version>
+                            <Plugin-Class>ru.zkir.josm.plugins.z3dviewer.Z3dViewerPlugin</Plugin-Class>
+                            <Plugin-Description>${project.description}</Plugin-Description>
+                            <Plugin-Name>${project.name}</Plugin-Name>
+                            <Author>zkir@zkir.ru</Author>
+                            <!-- You can change this link to your plugin's homepage -->
+                            <Plugin-Link>https://github.com/Zkir/josm-z3d-viewer</Plugin-Link>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
