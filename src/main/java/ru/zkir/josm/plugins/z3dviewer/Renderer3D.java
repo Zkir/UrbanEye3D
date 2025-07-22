@@ -91,8 +91,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         GL2 gl = glAutoDrawable.getGL().getGL2();
         gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // White background
         gl.glEnable(GL2.GL_DEPTH_TEST);
-        gl.glEnable(GL2.GL_CULL_FACE);
-        gl.glCullFace(GL2.GL_BACK);
+        //gl.glEnable(GL2.GL_CULL_FACE);
+        //gl.glCullFace(GL2.GL_BACK);
     }
 
     @Override
@@ -144,11 +144,12 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         for (DrawableBuilding drawableBuilding : drawableBuildings) {
             Way way = drawableBuilding.building.way;
             double height = drawableBuilding.building.height;
+            double minHeight = drawableBuilding.building.minHeight;
 
             List<Point3D> basePoints = new ArrayList<>();
             for (Node node : way.getNodes()) {
                 Point p = mapView.getPoint(node.getCoor());
-                basePoints.add(new Point3D(p.x - center.x, 0, p.y - center.y));
+                basePoints.add(new Point3D(p.x - center.x, minHeight, p.y - center.y));
             }
 
             // Draw walls
@@ -157,7 +158,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             for (int i = 0; i <= basePoints.size(); i++) {
                 Point3D p = basePoints.get(i % basePoints.size());
                 gl.glVertex3d(p.x, height, p.z);
-                gl.glVertex3d(p.x, 0, p.z);
+                gl.glVertex3d(p.x, p.y, p.z);
             }
             gl.glEnd();
 
@@ -165,7 +166,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             gl.glBegin(GL2.GL_POLYGON);
             setColor(gl, drawableBuilding.building.roofColor, 0.9f, 0.9f, 0.9f);
             for (Point3D p : basePoints) {
-                gl.glVertex3d(p.x, height, p.z);
+                gl.glVertex3d(p.x, p.y, p.z);
             }
             gl.glEnd();
         }
