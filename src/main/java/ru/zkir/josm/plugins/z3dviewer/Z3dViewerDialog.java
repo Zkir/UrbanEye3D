@@ -21,11 +21,13 @@ import org.openstreetmap.josm.gui.layer.LayerManager.LayerOrderChangeEvent;
 import org.openstreetmap.josm.gui.layer.LayerManager.LayerRemoveEvent;
 import org.openstreetmap.josm.gui.layer.MainLayerManager;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
+import org.openstreetmap.josm.gui.NavigatableComponent;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, LayerChangeListener, MainLayerManager.ActiveLayerChangeListener {
+public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, LayerChangeListener, MainLayerManager.ActiveLayerChangeListener, NavigatableComponent.ZoomChangeListener {
     private final Renderer3D renderer3D;
     private final List<RenderableBuildingElement> buildings = new ArrayList<>();
 
@@ -36,12 +38,24 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, La
 
         MainApplication.getLayerManager().addLayerChangeListener(this);
         MainApplication.getLayerManager().addActiveLayerChangeListener(this);
+        NavigatableComponent.addZoomChangeListener(this);
 
         if (MainApplication.getLayerManager().getActiveDataLayer() != null) {
             MainApplication.getLayerManager().getActiveDataLayer().getDataSet().addDataSetListener(this);
         }
         updateData();
     }
+
+    public void destroy() {
+        MainApplication.getLayerManager().removeLayerChangeListener(this);
+        MainApplication.getLayerManager().removeActiveLayerChangeListener(this);
+        NavigatableComponent.removeZoomChangeListener(this);
+        if (MainApplication.getLayerManager().getActiveDataLayer() != null) {
+            MainApplication.getLayerManager().getActiveDataLayer().getDataSet().removeDataSetListener(this);
+        }
+    }
+
+
 
     private void updateData() {
         buildings.clear();
@@ -156,6 +170,11 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, La
 
     @Override
     public void otherDatasetChange(AbstractDatasetChangedEvent event) {
+        updateData();
+    }
+
+    @Override
+    public void zoomChanged() {
         updateData();
     }
 }

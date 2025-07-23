@@ -20,7 +20,6 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class Renderer3D extends GLJPanel implements GLEventListener {

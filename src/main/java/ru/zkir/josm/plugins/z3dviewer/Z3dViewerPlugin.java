@@ -24,6 +24,11 @@ public class Z3dViewerPlugin extends Plugin {
         if (newFrame != null) {
             dialog = new Z3dViewerDialog(this);
             newFrame.addToggleDialog(dialog);
+        } else {
+            if (dialog!=null) {
+                dialog.destroy();
+                dialog=null;
+            }
         }
     }
 }
