@@ -21,13 +21,15 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Next steps
 
-1. Support multipolygons (relations). Both ways and relations should be converted to Polygon class. If there are holes (polygon should be cut)
-2. Fix bugs with xy/z proportions. Currently Height is taken from the height tag, where it is specified in meters, but xy are taken from some strage units (presumably from the map's projection coordinates. )
+1. **Support multipolygons (relations)**. New constructor in class Contour should be created. 
+Reference implementation in python cound be checked here: D:\_VFR_LANDMARKS_3D_RU\OsmParser\osmparser\osmGeometry.py, ExtractCloseNodeChainsFromRelation() function.
+If there are holes, polygon should be cut.
+2. **Fix bugs with xy/z proportions**. Currently Height is taken from the height tag, where it is specified in meters, but xy are taken from the map's projection coordinates. Since Mercator projection is used, projection units are distorted.
 xy should be recalculated in proper meters.
-3. Make rendering more interesting. Fake AO is cool, but we can improve further. Let's introduce sun (parallel light), so face color will depend on it's orientation
-4. Support roof shapes from roof:shape tag.    
-5. Support panning using right mouse button.    
-6. Support of materials(tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
+3. **Fix bug with rendering of non-convex polygons.**  It turned out that  gl.glBegin(GL2.GL_POLYGON) properly renders CONVEX polygons only, which is not always the case for building contours. What can we do about that?
+4. **Make rendering more interesting.** Fake AO is cool, but we can improve further. Let's introduce sun (parallel light), so face color will depend on it's orientation
+5. **Support roof shapes from roof:shape tag.** See  Plan for roof:shape implementation section   
+6. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
 
 
 
