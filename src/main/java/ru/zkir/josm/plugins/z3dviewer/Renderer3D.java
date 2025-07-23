@@ -130,7 +130,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             // Draw walls
             gl.glBegin(GL2.GL_QUAD_STRIP);
             Color wallColor = building.color;
-
             Color darkerWallColor = wallColor.darker();
             for (int i = 0; i <= basePoints.size(); i++) {
                 Point3D p = basePoints.get(i % basePoints.size());
@@ -142,7 +141,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             gl.glEnd();
 
             // Draw roof
-            gl.glBegin(GL2.GL_POLYGON);
+            gl.glBegin(GL2.GL_POLYGON);// TODO: GL_POLYGON draws CONVEX polygon, which is not always the case!!!
             gl.glColor3f(building.roofColor.getRed() / 255.0f, building.roofColor.getGreen() / 255.0f, building.roofColor.getBlue() / 255.0f);
             for (Point3D p : basePoints) {
                 gl.glVertex3d(p.x, p.y, height); // Use p.y, and height for z
