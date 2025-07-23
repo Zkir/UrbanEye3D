@@ -27,31 +27,40 @@ import org.openstreetmap.josm.gui.NavigatableComponent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, LayerChangeListener, MainLayerManager.ActiveLayerChangeListener, NavigatableComponent.ZoomChangeListener {
+public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, NavigatableComponent.ZoomChangeListener {
     private final Renderer3D renderer3D;
     private final List<RenderableBuildingElement> buildings = new ArrayList<>();
+    private OsmDataLayer listenedLayer;
 
     public Z3dViewerDialog(Z3dViewerPlugin plugin) {
         super("3D Viewer", "up", "3D Viewer", null, 150, true);
         renderer3D = new Renderer3D(buildings);
         add(renderer3D);
 
-        MainApplication.getLayerManager().addLayerChangeListener(this);
-        MainApplication.getLayerManager().addActiveLayerChangeListener(this);
         NavigatableComponent.addZoomChangeListener(this);
 
-        if (MainApplication.getLayerManager().getActiveDataLayer() != null) {
-            MainApplication.getLayerManager().getActiveDataLayer().getDataSet().addDataSetListener(this);
-        }
+        updateListenedLayer();
         updateData();
     }
 
+    @Override
     public void destroy() {
-        MainApplication.getLayerManager().removeLayerChangeListener(this);
-        MainApplication.getLayerManager().removeActiveLayerChangeListener(this);
         NavigatableComponent.removeZoomChangeListener(this);
-        if (MainApplication.getLayerManager().getActiveDataLayer() != null) {
-            MainApplication.getLayerManager().getActiveDataLayer().getDataSet().removeDataSetListener(this);
+        updateListenedLayer(null);
+        super.destroy();
+    }
+
+    private void updateListenedLayer() {
+        updateListenedLayer(MainApplication.getLayerManager().getEditLayer());
+    }
+
+    private void updateListenedLayer(OsmDataLayer newLayer) {
+        if (listenedLayer != null) {
+            listenedLayer.getDataSet().removeDataSetListener(this);
+        }
+        listenedLayer = newLayer;
+        if (listenedLayer != null) {
+            listenedLayer.getDataSet().addDataSetListener(this);
         }
     }
 
@@ -96,41 +105,7 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, La
         renderer3D.repaint();
     }
 
-    // --- LayerChangeListener ---
-    @Override
-    public void layerAdded(LayerAddEvent e) {
-        if (e.getAddedLayer() instanceof OsmDataLayer) {
-            ((OsmDataLayer) e.getAddedLayer()).getDataSet().addDataSetListener(this);
-        }
-        updateData();
-    }
-
-    @Override
-    public void layerRemoving(LayerRemoveEvent e) {
-        if (e.getRemovedLayer() instanceof OsmDataLayer) {
-            ((OsmDataLayer) e.getRemovedLayer()).getDataSet().removeDataSetListener(this);
-        }
-        updateData();
-    }
     
-    @Override
-    public void layerOrderChanged(LayerOrderChangeEvent e) {
-        updateData();
-    }
-
-    // --- ActiveLayerChangeListener ---
-    @Override
-    public void activeOrEditLayerChanged(MainLayerManager.ActiveLayerChangeEvent e) {
-        Layer oldLayer = e.getPreviousActiveLayer();
-        Layer newLayer = e.getSource().getActiveLayer();
-        if (oldLayer instanceof OsmDataLayer) {
-            ((OsmDataLayer) oldLayer).getDataSet().removeDataSetListener(this);
-        }
-        if (newLayer instanceof OsmDataLayer) {
-            ((OsmDataLayer) newLayer).getDataSet().addDataSetListener(this);
-        }
-        updateData();
-    }
 
     // --- DataSetListener ---
     @Override
