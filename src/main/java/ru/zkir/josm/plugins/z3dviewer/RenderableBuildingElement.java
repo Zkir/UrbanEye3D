@@ -4,8 +4,12 @@ import com.drew.lang.annotations.NotNull;
 import org.openstreetmap.josm.data.coor.EastNorth;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
+import org.openstreetmap.josm.data.osm.Relation;
+import org.openstreetmap.josm.data.osm.RelationMember;
+
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RenderableBuildingElement {
@@ -23,6 +27,61 @@ public class RenderableBuildingElement {
                 contour.add(new Point3D(en.east() - center.east(), en.north() - center.north(), 0));
             }
             this.contour = contour;
+        }
+
+        Contour(Relation relation, EastNorth center) {
+            List<Way> ways = new ArrayList<>();
+            for (RelationMember member : relation.getMembers()) {
+                if ("outer".equals(member.getRole()) && member.isWay() && !member.getMember().isIncomplete()) {
+                    ways.add(member.getWay());
+                }
+            }
+
+            if (ways.isEmpty()) {
+                this.contour = new ArrayList<>();
+                return;
+            }
+
+            List<Node> assembledNodes = new ArrayList<>(ways.get(0).getNodes());
+            ways.remove(0);
+
+            while (!ways.isEmpty()) {
+                boolean foundNext = false;
+                for (int i = 0; i < ways.size(); i++) {
+                    Way way = ways.get(i);
+                    if (way.getNodesCount() < 2) continue; // Skip ways with less than 2 nodes
+
+                    Node lastAssembledNode = assembledNodes.get(assembledNodes.size() - 1);
+                    Node wayFirstNode = way.firstNode();
+                    Node wayLastNode = way.lastNode();
+
+                    if (wayFirstNode == null || wayLastNode == null) continue; // Skip incomplete ways
+
+                    if (wayFirstNode.equals(lastAssembledNode)) {
+                        assembledNodes.addAll(way.getNodes().subList(1, way.getNodesCount()));
+                        ways.remove(i);
+                        foundNext = true;
+                        break;
+                    } else if (wayLastNode.equals(lastAssembledNode)) {
+                        List<Node> reversedNodes = new ArrayList<>(way.getNodes());
+                        Collections.reverse(reversedNodes);
+                        assembledNodes.addAll(reversedNodes.subList(1, reversedNodes.size()));
+                        ways.remove(i);
+                        foundNext = true;
+                        break;
+                    }
+                }
+                if (!foundNext) {
+                    // Relation is broken
+                    break;
+                }
+            }
+
+            this.contour = new ArrayList<>();
+            for (Node node : assembledNodes) {
+                EastNorth en = node.getEastNorth();
+                contour.add(new Point3D(en.east() - center.east(), en.north() - center.north(), 0));
+            }
         }
     }
 

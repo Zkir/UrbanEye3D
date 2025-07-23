@@ -2,6 +2,7 @@ package ru.zkir.josm.plugins.z3dviewer;
 
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import org.openstreetmap.josm.data.osm.Relation;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.osm.event.AbstractDatasetChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataChangedEvent;
@@ -69,34 +70,39 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, Na
             DataSet dataSet = editLayer.getDataSet();
             EastNorth center = MainApplication.getMap().mapView.getCenter();
             for (OsmPrimitive primitive : dataSet.allPrimitives()) {
-                if (primitive instanceof Way && primitive.hasKey("building:part")) {
-                    if ( ((Way)primitive).getNodesCount() < 3)
-                        continue;
-
-                    String heightStr = primitive.get("height");
-                    String minHeightStr = primitive.get("min_height");
-                    double height = 0.0;
-                    double minHeight = 0.0;
-                    if (heightStr != null) {
-                        try {
-                            height = Double.parseDouble(heightStr.split(" ")[0]);
-                        } catch (NumberFormatException e) {
-                            // Ignore
-                        }
+                if (primitive.hasKey("building:part")) {
+                    RenderableBuildingElement.Contour contour = null;
+                    if (primitive instanceof Way) {
+                        if (((Way) primitive).getNodesCount() < 3) continue;
+                        contour = new RenderableBuildingElement.Contour((Way) primitive, center);
+                    } else if (primitive instanceof Relation) {
+                        contour = new RenderableBuildingElement.Contour((Relation) primitive, center);
                     }
-                    if (minHeightStr != null) {
-                        try {
-                            minHeight = Double.parseDouble(minHeightStr.split(" ")[0]);
-                        } catch (NumberFormatException e) {
-                            // Ignore
-                        }
-                    }
-                    if (height > 0) {
-                        String color = primitive.get("building:colour");
-                        String roofColor = primitive.get("roof:colour");
 
-                        RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour((Way) primitive, center );
-                        buildings.add(new RenderableBuildingElement(contour, height, minHeight, color, roofColor));
+                    if (contour != null) {
+                        String heightStr = primitive.get("height");
+                        String minHeightStr = primitive.get("min_height");
+                        double height = 0.0;
+                        double minHeight = 0.0;
+                        if (heightStr != null) {
+                            try {
+                                height = Double.parseDouble(heightStr.split(" ")[0]);
+                            } catch (NumberFormatException e) {
+                                // Ignore
+                            }
+                        }
+                        if (minHeightStr != null) {
+                            try {
+                                minHeight = Double.parseDouble(minHeightStr.split(" ")[0]);
+                            } catch (NumberFormatException e) {
+                                // Ignore
+                            }
+                        }
+                        if (height > 0) {
+                            String color = primitive.get("building:colour");
+                            String roofColor = primitive.get("roof:colour");
+                            buildings.add(new RenderableBuildingElement(contour, height, minHeight, color, roofColor));
+                        }
                     }
                 }
             }
