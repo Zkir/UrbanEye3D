@@ -24,7 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Renderer3D extends GLJPanel implements GLEventListener {
-    private final List<Z3dViewerDialog.Building> buildings;
+    private final List<RenderableBuildingElement> buildings;
     private final GLU glu = new GLU();
 
     private double camX_angle = 30.0;
@@ -38,17 +38,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         Point3D(double x, double y, double z) { this.x = x; this.y = y; this.z = z; }
     }
 
-    private static class DrawableBuilding {
-        Z3dViewerDialog.Building building;
-        double distanceToCamera;
 
-        DrawableBuilding(Z3dViewerDialog.Building building, double distance) {
-            this.building = building;
-            this.distanceToCamera = distance;
-        }
-    }
-
-    public Renderer3D(List<Z3dViewerDialog.Building> buildings) {
+    public Renderer3D(List<RenderableBuildingElement> buildings) {
         this.buildings = buildings;
         this.addGLEventListener(this);
 
@@ -122,30 +113,12 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         // --- Prepare buildings for rendering ---
         EastNorth center = mapView.getCenter();
-        List<DrawableBuilding> drawableBuildings = new ArrayList<>();
-        for (Z3dViewerDialog.Building building : buildings) {
-            if (building.way.getNodesCount() < 2) continue;
-            
-            double centerX = 0, centerZ = 0;
-            for (Node node : building.way.getNodes()) {
-                EastNorth nodeEN = node.getEastNorth();
-                centerX += nodeEN.east() - center.east();
-                centerZ += nodeEN.north() - center.north();
-            }
-            centerX /= building.way.getNodesCount();
-            centerZ /= building.way.getNodesCount();
-            
-            double dist = Math.sqrt(Math.pow(centerX - eyeX, 2) + Math.pow(centerZ - eyeZ, 2));
-            drawableBuildings.add(new DrawableBuilding(building, dist));
-        }
-
-        drawableBuildings.sort(Comparator.comparingDouble(b -> -b.distanceToCamera));
 
         // --- Render buildings ---
-        for (DrawableBuilding drawableBuilding : drawableBuildings) {
-            Way way = drawableBuilding.building.way;
-            double height = drawableBuilding.building.height;
-            double minHeight = drawableBuilding.building.minHeight;
+        for (RenderableBuildingElement building : buildings) {
+            Way way = building.way;
+            double height = building.height;
+            double minHeight = building.minHeight;
 
             List<Point3D> basePoints = new ArrayList<>();
             for (Node node : way.getNodes()) {
@@ -157,10 +130,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             // Draw walls
             gl.glBegin(GL2.GL_QUAD_STRIP);
-            Color wallColor = ColorUtils.parseColor(drawableBuilding.building.color);
-            if (wallColor == null) {
-                wallColor = new Color(204, 204, 204); // Default light gray (0.8f)
-            }
+            Color wallColor = building.color;
+
             Color darkerWallColor = wallColor.darker();
             for (int i = 0; i <= basePoints.size(); i++) {
                 Point3D p = basePoints.get(i % basePoints.size());
@@ -173,22 +144,13 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             // Draw roof
             gl.glBegin(GL2.GL_POLYGON);
-            setColor(gl, drawableBuilding.building.roofColor, 0.9f, 0.9f, 0.9f);
+            gl.glColor3f(building.roofColor.getRed() / 255.0f, building.roofColor.getGreen() / 255.0f, building.roofColor.getBlue() / 255.0f);
             for (Point3D p : basePoints) {
                 gl.glVertex3d(p.x, height, p.z);
             }
             gl.glEnd();
         }
         gl.glFlush();
-    }
-
-    private void setColor(GL2 gl, String colorStr, float defaultR, float defaultG, float defaultB) {
-        Color color = ColorUtils.parseColor(colorStr);
-        if (color != null) {
-            gl.glColor3f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f);
-        } else {
-            gl.glColor3f(defaultR, defaultG, defaultB);
-        }
     }
 
     @Override

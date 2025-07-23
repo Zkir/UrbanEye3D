@@ -27,23 +27,7 @@ import java.util.List;
 
 public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, LayerChangeListener, MainLayerManager.ActiveLayerChangeListener {
     private final Renderer3D renderer3D;
-    private final List<Building> buildings = new ArrayList<>();
-
-    public static class Building {
-        public final Way way;
-        public final double height;
-        public final double minHeight;
-        public final String color;
-        public final String roofColor;
-
-        public Building(Way way, double height, double minHeight, String color, String roofColor) {
-            this.way = way;
-            this.height = height;
-            this.minHeight = minHeight;
-            this.color = color;
-            this.roofColor = roofColor;
-        }
-    }
+    private final List<RenderableBuildingElement> buildings = new ArrayList<>();
 
     public Z3dViewerDialog(Z3dViewerPlugin plugin) {
         super("3D Viewer", "up", "3D Viewer", null, 150, true);
@@ -66,6 +50,9 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, La
             DataSet dataSet = editLayer.getDataSet();
             for (OsmPrimitive primitive : dataSet.allPrimitives()) {
                 if (primitive instanceof Way && primitive.hasKey("building:part")) {
+                    if ( ((Way)primitive).getNodesCount() < 3)
+                        continue;
+
                     String heightStr = primitive.get("height");
                     String minHeightStr = primitive.get("min_height");
                     double height = 0.0;
@@ -87,7 +74,7 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, La
                     if (height > 0) {
                         String color = primitive.get("building:colour");
                         String roofColor = primitive.get("roof:colour");
-                        buildings.add(new Building((Way) primitive, height, minHeight, color, roofColor));
+                        buildings.add(new RenderableBuildingElement((Way) primitive, height, minHeight, color, roofColor));
                     }
                 }
             }
