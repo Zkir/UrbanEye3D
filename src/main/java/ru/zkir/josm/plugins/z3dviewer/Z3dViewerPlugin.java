@@ -15,8 +15,7 @@ public class Z3dViewerPlugin extends Plugin {
 
     public Z3dViewerPlugin(PluginInformation info) {
         super(info);
-        // Add a menu item to the "Windows" menu
-        MainMenu.add(MainApplication.getMenu().windowMenu, new Z3dViewerAction());
+        
     }
 
     @Override
