@@ -11,13 +11,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * Orbiting around scene centre via mouse left button, zooming using mouse wheel 
 * Simple support of colours (osm tags building:colour and roof:colour)
 
-## Recent Accomplishments (July 23, 2025)
 
-*   **Map Movement Sync:** The 3D viewer now correctly responds to panning and zooming events on the main JOSM map, redrawing the scene as the viewport changes.
-*   **Z-Up Coordinate System:** The rendering engine was refactored to use a Z-up coordinate system, which is more conventional for 3D architectural visualization. The Z-axis is now vertical.
-*   **Lifecycle and Bug Fixes:**
-    *   Resolved critical `NullPointerException` and `IllegalArgumentException` crashes related to improper listener management when layers were removed or the application was closed.
-    *   Removed the redundant, manually-created "Windows" menu item, relying on JOSM's native handling for toggle dialogs. This also fixed a startup crash when no data was loaded.
 
 ## Next steps
 
@@ -32,6 +26,18 @@ xy should be recalculated in proper meters.
 6. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
 
 
+## Recent Accomplishments 
+
+###July 24, 2025###
+* **Initial support for relations/multipolygons.** At least they work somehow. Several bugs expected.
+
+###July 23, 2025###
+
+*   **Map Movement Sync:** The 3D viewer now correctly responds to panning and zooming events on the main JOSM map, redrawing the scene as the viewport changes.
+*   **Z-Up Coordinate System:** The rendering engine was refactored to use a Z-up coordinate system, which is more conventional for 3D architectural visualization. The Z-axis is now vertical.
+*   **Lifecycle and Bug Fixes:**
+    *   Resolved critical `NullPointerException` and `IllegalArgumentException` crashes related to improper listener management when layers were removed or the application was closed.
+    *   Removed the redundant, manually-created "Windows" menu item, relying on JOSM's native handling for toggle dialogs. This also fixed a startup crash when no data was loaded.
 
  
 ## Misc 
