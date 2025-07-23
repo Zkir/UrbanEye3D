@@ -14,14 +14,10 @@ import org.openstreetmap.josm.data.osm.event.TagsChangedEvent;
 import org.openstreetmap.josm.data.osm.event.WayNodesChangedEvent;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
-import org.openstreetmap.josm.gui.layer.Layer;
-import org.openstreetmap.josm.gui.layer.LayerManager.LayerAddEvent;
-import org.openstreetmap.josm.gui.layer.LayerManager.LayerChangeListener;
-import org.openstreetmap.josm.gui.layer.LayerManager.LayerOrderChangeEvent;
-import org.openstreetmap.josm.gui.layer.LayerManager.LayerRemoveEvent;
-import org.openstreetmap.josm.gui.layer.MainLayerManager;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.gui.NavigatableComponent;
+import org.openstreetmap.josm.data.osm.Node;
+import org.openstreetmap.josm.data.coor.EastNorth;
 
 
 import java.util.ArrayList;
@@ -71,6 +67,7 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, Na
         OsmDataLayer editLayer = MainApplication.getLayerManager().getEditLayer();
         if (editLayer != null) {
             DataSet dataSet = editLayer.getDataSet();
+            EastNorth center = MainApplication.getMap().mapView.getCenter();
             for (OsmPrimitive primitive : dataSet.allPrimitives()) {
                 if (primitive instanceof Way && primitive.hasKey("building:part")) {
                     if ( ((Way)primitive).getNodesCount() < 3)
@@ -97,7 +94,9 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, Na
                     if (height > 0) {
                         String color = primitive.get("building:colour");
                         String roofColor = primitive.get("roof:colour");
-                        buildings.add(new RenderableBuildingElement((Way) primitive, height, minHeight, color, roofColor));
+
+                        RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour((Way) primitive, center );
+                        buildings.add(new RenderableBuildingElement(contour, height, minHeight, color, roofColor));
                     }
                 }
             }
@@ -105,7 +104,6 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, Na
         renderer3D.repaint();
     }
 
-    
 
     // --- DataSetListener ---
     @Override

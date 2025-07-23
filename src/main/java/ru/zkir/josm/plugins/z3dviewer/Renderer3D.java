@@ -5,14 +5,9 @@ import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
-import org.openstreetmap.josm.data.osm.Node;
+import org.openstreetmap.josm.gui.MainApplication;
 
 import java.awt.Color;
-import org.openstreetmap.josm.data.osm.Way;
-import org.openstreetmap.josm.gui.MainApplication;
-import org.openstreetmap.josm.gui.MapView;
-import org.openstreetmap.josm.data.coor.EastNorth;
-
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,6 +16,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Renderer3D extends GLJPanel implements GLEventListener {
     private final List<RenderableBuildingElement> buildings;
@@ -31,12 +27,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private double cam_dist = 500.0;
 
     private Point lastMousePoint;
-
-    private static class Point3D {
-        double x, y, z;
-        Point3D(double x, double y, double z) { this.x = x; this.y = y; this.z = z; }
-    }
-
 
     public Renderer3D(List<RenderableBuildingElement> buildings) {
         this.buildings = buildings;
@@ -95,8 +85,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
-        MapView mapView = MainApplication.getMap().mapView;
-        if (mapView == null || buildings == null || buildings.isEmpty()) {
+        if ( buildings == null || buildings.isEmpty()) {
             return;
         }
 
@@ -110,40 +99,29 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 0, 1);
 
-        // --- Prepare buildings for rendering ---
-        EastNorth center = mapView.getCenter();
-
         // --- Render buildings ---
         for (RenderableBuildingElement building : buildings) {
-            Way way = building.way;
             double height = building.height;
             double minHeight = building.minHeight;
-
-            List<Point3D> basePoints = new ArrayList<>();
-            for (Node node : way.getNodes()) {
-                EastNorth nodeEN = node.getEastNorth();
-                double x = nodeEN.east() - center.east();
-                double y = nodeEN.north() - center.north(); // Changed from z to y
-                basePoints.add(new Point3D(x, y, minHeight)); // z is now minHeight
-            }
+            List<RenderableBuildingElement.Point3D> basePoints = building.getContour();
 
             // Draw walls
             gl.glBegin(GL2.GL_QUAD_STRIP);
             Color wallColor = building.color;
             Color darkerWallColor = wallColor.darker();
             for (int i = 0; i <= basePoints.size(); i++) {
-                Point3D p = basePoints.get(i % basePoints.size());
+                RenderableBuildingElement.Point3D p = basePoints.get(i % basePoints.size());
                 gl.glColor3f(wallColor.getRed() / 255.0f, wallColor.getGreen() / 255.0f, wallColor.getBlue() / 255.0f);
                 gl.glVertex3d(p.x, p.y, height); // Use p.y, and height for z
                 gl.glColor3f(darkerWallColor.getRed() / 255.0f, darkerWallColor.getGreen() / 255.0f, darkerWallColor.getBlue() / 255.0f);
-                gl.glVertex3d(p.x, p.y, p.z); // Use p.y, and p.z (minHeight) for z
+                gl.glVertex3d(p.x, p.y, minHeight); // Use p.y, and p.z (minHeight) for z
             }
             gl.glEnd();
 
             // Draw roof
             gl.glBegin(GL2.GL_POLYGON);// TODO: GL_POLYGON draws CONVEX polygon, which is not always the case!!!
             gl.glColor3f(building.roofColor.getRed() / 255.0f, building.roofColor.getGreen() / 255.0f, building.roofColor.getBlue() / 255.0f);
-            for (Point3D p : basePoints) {
+            for (RenderableBuildingElement.Point3D p : basePoints) {
                 gl.glVertex3d(p.x, p.y, height); // Use p.y, and height for z
             }
             gl.glEnd();
