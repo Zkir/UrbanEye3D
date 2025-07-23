@@ -26,8 +26,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private final List<RenderableBuildingElement> buildings;
     private final GLU glu = new GLU();
 
-    private double camX_angle = 30.0;
-    private double camY_angle = -45.0;
+    private double camX_angle = 35; //this is rather Z-angle (in vertical plane)
+    private double camY_angle = -90; // x and y mixed, but it is not a problem yet.
     private double cam_dist = 500.0;
 
     private Point lastMousePoint;
@@ -100,15 +100,15 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             return;
         }
 
-        // --- Camera Setup ---
+        // --- Camera Setup (Z-up) ---
         double camX_rad = Math.toRadians(camX_angle);
         double camY_rad = Math.toRadians(camY_angle);
 
-        double eyeX = cam_dist * Math.cos(camX_rad) * Math.sin(camY_rad);
-        double eyeY = cam_dist * Math.sin(camX_rad);
-        double eyeZ = cam_dist * Math.cos(camX_rad) * Math.cos(camY_rad);
+        double eyeX = cam_dist * Math.cos(camX_rad) * Math.cos(camY_rad);
+        double eyeY = cam_dist * Math.cos(camX_rad) * Math.sin(camY_rad);
+        double eyeZ = cam_dist * Math.sin(camX_rad);
 
-        glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 1, 0);
+        glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 0, 1);
 
         // --- Prepare buildings for rendering ---
         EastNorth center = mapView.getCenter();
@@ -123,8 +123,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             for (Node node : way.getNodes()) {
                 EastNorth nodeEN = node.getEastNorth();
                 double x = nodeEN.east() - center.east();
-                double z = nodeEN.north() - center.north();
-                basePoints.add(new Point3D(x, minHeight, z));
+                double y = nodeEN.north() - center.north(); // Changed from z to y
+                basePoints.add(new Point3D(x, y, minHeight)); // z is now minHeight
             }
 
             // Draw walls
@@ -135,9 +135,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             for (int i = 0; i <= basePoints.size(); i++) {
                 Point3D p = basePoints.get(i % basePoints.size());
                 gl.glColor3f(wallColor.getRed() / 255.0f, wallColor.getGreen() / 255.0f, wallColor.getBlue() / 255.0f);
-                gl.glVertex3d(p.x, height, p.z);
+                gl.glVertex3d(p.x, p.y, height); // Use p.y, and height for z
                 gl.glColor3f(darkerWallColor.getRed() / 255.0f, darkerWallColor.getGreen() / 255.0f, darkerWallColor.getBlue() / 255.0f);
-                gl.glVertex3d(p.x, minHeight, p.z);
+                gl.glVertex3d(p.x, p.y, p.z); // Use p.y, and p.z (minHeight) for z
             }
             gl.glEnd();
 
@@ -145,7 +145,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             gl.glBegin(GL2.GL_POLYGON);
             gl.glColor3f(building.roofColor.getRed() / 255.0f, building.roofColor.getGreen() / 255.0f, building.roofColor.getBlue() / 255.0f);
             for (Point3D p : basePoints) {
-                gl.glVertex3d(p.x, height, p.z);
+                gl.glVertex3d(p.x, p.y, height); // Use p.y, and height for z
             }
             gl.glEnd();
         }
