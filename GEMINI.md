@@ -25,12 +25,12 @@ Also, additional features should be supported: if there are several outer rings,
 
 ## Recent Accomplishments 
 
-###July 24, 2025###
+### July 24, 2025
 * **Initial support for relations/multipolygons.** At least they work somehow. Several bugs expected.
 * **Fixed bug with xy/z proportions**. xy coordinates are calculated in proper meters, in the same scale as height.
 * **Rendering of non-convex polygons.**  It turned out that  gl.glBegin(GL2.GL_POLYGON) properly renders CONVEX polygons only, which is not always the case for building contours. We use tessellation to handle that.
 
-###July 23, 2025###
+###  July 23, 2025
 
 *   **Map Movement Sync:** The 3D viewer now correctly responds to panning and zooming events on the main JOSM map, redrawing the scene as the viewport changes.
 *   **Z-Up Coordinate System:** The rendering engine was refactored to use a Z-up coordinate system, which is more conventional for 3D architectural visualization. The Z-axis is now vertical.
