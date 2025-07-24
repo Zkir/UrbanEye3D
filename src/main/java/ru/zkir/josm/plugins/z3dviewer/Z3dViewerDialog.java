@@ -22,7 +22,9 @@ import org.openstreetmap.josm.gui.NavigatableComponent;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.coor.LatLon;
 
-
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,22 @@ public class Z3dViewerDialog extends ToggleDialog
         super("3D Viewer", "up", "3D Viewer", null, 150, true);
         renderer3D = new Renderer3D(buildings);
         add(renderer3D);
+
+        renderer3D.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    renderer3D.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                } else if (e.getButton() == MouseEvent.BUTTON3) {
+                    renderer3D.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                renderer3D.setCursor(Cursor.getDefaultCursor());
+            }
+        });
 
         NavigatableComponent.addZoomChangeListener(this);
         MainApplication.getLayerManager().addLayerChangeListener(this);
