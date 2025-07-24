@@ -50,9 +50,6 @@ public class Z3dViewerDialog extends ToggleDialog
 
     @Override
     public void destroy() {
-        NavigatableComponent.removeZoomChangeListener(this);
-        MainApplication.getLayerManager().removeLayerChangeListener(this);
-        MainApplication.getLayerManager().removeActiveLayerChangeListener(this);
         updateListenedLayer(null);
         super.destroy();
     }
