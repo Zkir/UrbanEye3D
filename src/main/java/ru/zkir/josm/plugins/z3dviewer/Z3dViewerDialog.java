@@ -20,7 +20,7 @@ import org.openstreetmap.josm.gui.layer.MainLayerManager;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.gui.NavigatableComponent;
 import org.openstreetmap.josm.data.osm.Node;
-import org.openstreetmap.josm.data.coor.EastNorth;
+import org.openstreetmap.josm.data.coor.LatLon;
 
 
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class Z3dViewerDialog extends ToggleDialog
         OsmDataLayer editLayer = MainApplication.getLayerManager().getEditLayer();
         if (editLayer != null) {
             DataSet dataSet = editLayer.getDataSet();
-            EastNorth center = MainApplication.getMap().mapView.getCenter();
+            LatLon center = MainApplication.getMap().mapView.getProjection().eastNorth2latlon(MainApplication.getMap().mapView.getCenter());
             for (OsmPrimitive primitive : dataSet.allPrimitives()) {
                 if (primitive.hasKey("building:part")) {
                     RenderableBuildingElement.Contour contour = null;

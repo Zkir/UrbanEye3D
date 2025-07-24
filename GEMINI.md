@@ -16,21 +16,20 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Next steps
 
-1. **Support multipolygons (relations)**. New constructor in class Contour should be created. 
-Reference implementation in python cound be checked here: D:\z3dViewer\misc\osmGeometry.py, ExtractCloseNodeChainsFromRelation() function.
-If there are holes, polygon should be cut.
-2. **Fix bugs with xy/z proportions**. Currently Height is taken from the height tag, where it is specified in meters, but xy are taken from the map's projection coordinates. Since Mercator projection is used, projection units are distorted.
-xy should be recalculated in proper meters.
-3. **Fix bug with rendering of non-convex polygons.**  It turned out that  gl.glBegin(GL2.GL_POLYGON) properly renders CONVEX polygons only, which is not always the case for building contours. What can we do about that?
-4. **Make rendering more interesting.** Fake AO is cool, but we can improve further. Let's introduce sun (parallel light), so face color will depend on it's orientation
-5. **Support roof shapes from roof:shape tag.** See  Plan for roof:shape implementation section   
-6. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
+1. **Support multipolygons (relations)**. Support of multipolygons/relations should be improved according to the reference implementation (see  here: D:\z3dViewer\misc\osmGeometry.py, ExtractCloseNodeChainsFromRelation() function.)
+Also, additional features should be supported: if there are several outer rings, polygon should be split and several Contour objects should be created.
+(??If there are holes, polygon should be cut. ??)
+2. **Fix bug with rendering of non-convex polygons.**  It turned out that  gl.glBegin(GL2.GL_POLYGON) properly renders CONVEX polygons only, which is not always the case for building contours. What can we do about that?
+3. **Make rendering more interesting.** Fake AO is cool, but we can improve further. Let's introduce sun (parallel light), so face color will depend on it's orientation
+4. **Support roof shapes from roof:shape tag.** See  Plan for roof:shape implementation section   
+5. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
 
 
 ## Recent Accomplishments 
 
 ###July 24, 2025###
 * **Initial support for relations/multipolygons.** At least they work somehow. Several bugs expected.
+* **Fix bugs with xy/z proportions**. xy coordinates are calculated in proper meters, in the same scale as height.
 
 ###July 23, 2025###
 

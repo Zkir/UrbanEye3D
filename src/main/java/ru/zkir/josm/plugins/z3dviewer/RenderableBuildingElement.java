@@ -1,7 +1,7 @@
 package ru.zkir.josm.plugins.z3dviewer;
 
 import com.drew.lang.annotations.NotNull;
-import org.openstreetmap.josm.data.coor.EastNorth;
+import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.osm.Relation;
@@ -20,16 +20,15 @@ public class RenderableBuildingElement {
 
     public static class Contour{
         ArrayList<Point3D> contour;
-        Contour(Way way, EastNorth center){
+        Contour(Way way, LatLon center){
             ArrayList<Point3D> contour = new ArrayList<>();
             for (Node node : way.getNodes()) {
-                EastNorth en = node.getEastNorth();
-                contour.add(new Point3D(en.east() - center.east(), en.north() - center.north(), 0));
+                contour.add(getNodeLocalCoords(node, center));
             }
             this.contour = contour;
         }
 
-        Contour(Relation relation, EastNorth center) {
+        Contour(Relation relation, LatLon center) {
             List<Way> ways = new ArrayList<>();
             for (RelationMember member : relation.getMembers()) {
                 if ("outer".equals(member.getRole()) && member.isWay() && !member.getMember().isIncomplete()) {
@@ -79,9 +78,16 @@ public class RenderableBuildingElement {
 
             this.contour = new ArrayList<>();
             for (Node node : assembledNodes) {
-                EastNorth en = node.getEastNorth();
-                contour.add(new Point3D(en.east() - center.east(), en.north() - center.north(), 0));
+                contour.add(getNodeLocalCoords(node, center));
             }
+        }
+
+        static Point3D getNodeLocalCoords(Node node, LatLon center){
+            LatLon ll = node.getCoor();
+            double dx = ll.lon() - center.lon();
+            double dy = ll.lat() - center.lat();
+            return new Point3D(dx * Math.cos(Math.toRadians(center.lat())) * 111320.0,
+                    dy * 111320.0, 0);
         }
     }
 
