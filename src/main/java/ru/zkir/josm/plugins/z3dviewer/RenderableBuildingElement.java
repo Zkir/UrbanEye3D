@@ -105,14 +105,18 @@ public class RenderableBuildingElement {
 
     public final double height;
     public final double minHeight;
+    public final double roofHeight;
     public final @NotNull Color color;
     public final @NotNull Color roofColor;
+    public final String roofShape;
     private final Contour contour;
 
-    public RenderableBuildingElement(Contour contour, double height, double minHeight, String wallColor, String roofColor) {
+    public RenderableBuildingElement(Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape) {
         this.contour = contour;
         this.height = height;
         this.minHeight = minHeight;
+        this.roofHeight = roofHeight;
+        this.roofShape = roofShape;
 
         this.color = parseColor(wallColor, new Color(204, 204, 204));
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));

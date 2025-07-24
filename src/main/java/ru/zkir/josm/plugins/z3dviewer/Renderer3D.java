@@ -155,6 +155,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         for (RenderableBuildingElement building : buildings) {
             double height = building.height;
             double minHeight = building.minHeight;
+            double roofHeight = building.roofHeight;
+            double wallHeight = height - roofHeight;
             List<RenderableBuildingElement.Point3D> basePoints = building.getContour();
 
             // Draw walls
@@ -171,8 +173,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
                 // Top vertices get the calculated lit color
                 gl.glColor3f(litWallColor.getRed() / 255.0f, litWallColor.getGreen() / 255.0f, litWallColor.getBlue() / 255.0f);
-                gl.glVertex3d(p1.x, p1.y, height);
-                gl.glVertex3d(p2.x, p2.y, height);
+                gl.glVertex3d(p1.x, p1.y, wallHeight);
+                gl.glVertex3d(p2.x, p2.y, wallHeight);
 
                 // Bottom vertices get a darker version for the Fake AO effect
                 gl.glColor3f(darkerLitWallColor.getRed() / 255.0f, darkerLitWallColor.getGreen() / 255.0f, darkerLitWallColor.getBlue() / 255.0f);
@@ -183,10 +185,76 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
 
             // Draw roof
-            RenderableBuildingElement.Point3D roofNormal = new RenderableBuildingElement.Point3D(0, 0, 1);
-            double roofDotProduct = roofNormal.dot(SUN_DIRECTION);
-            Color litRoofColor = applyLighting(building.roofColor, roofDotProduct);
-            drawPolygon(gl, basePoints, height, litRoofColor);
+            if ("pyramidal".equals(building.roofShape)) {
+                // --- Pyramidal Roof ---
+                // 1. Find the geometric centroid of the base polygon
+                RenderableBuildingElement.Point3D center = calculateCentroid(basePoints);
+
+                // 2. Define the apex of the pyramid at the full building height
+                RenderableBuildingElement.Point3D apex = new RenderableBuildingElement.Point3D(center.x, center.y, height);
+
+                // 3. Draw the triangular faces of the pyramid
+                gl.glBegin(GL2.GL_TRIANGLES);
+                for (int i = 0; i < basePoints.size(); i++) {
+                    RenderableBuildingElement.Point3D p1 = basePoints.get(i);
+                    RenderableBuildingElement.Point3D p2 = basePoints.get((i + 1) % basePoints.size());
+
+                    // Base vertices of the triangle (at the top of the walls)
+                    RenderableBuildingElement.Point3D baseP1 = new RenderableBuildingElement.Point3D(p1.x, p1.y, wallHeight);
+                    RenderableBuildingElement.Point3D baseP2 = new RenderableBuildingElement.Point3D(p2.x, p2.y, wallHeight);
+
+                    // Calculate normal vector for lighting
+                    RenderableBuildingElement.Point3D v1 = new RenderableBuildingElement.Point3D(baseP2.x - baseP1.x, baseP2.y - baseP1.y, 0);
+                    RenderableBuildingElement.Point3D v2 = new RenderableBuildingElement.Point3D(apex.x - baseP1.x, apex.y - baseP1.y, apex.z - baseP1.z);
+                    RenderableBuildingElement.Point3D normal = new RenderableBuildingElement.Point3D(
+                        v1.y * v2.z - v1.z * v2.y,
+                        v1.z * v2.x - v1.x * v2.z,
+                        v1.x * v2.y - v1.y * v2.x
+                    ).normalize();
+
+                    double dotProduct = normal.dot(SUN_DIRECTION);
+                    Color litRoofColor = applyLighting(building.roofColor, dotProduct);
+                    gl.glColor3f(litRoofColor.getRed() / 255.0f, litRoofColor.getGreen() / 255.0f, litRoofColor.getBlue() / 255.0f);
+
+                    // Draw the triangle
+                    gl.glVertex3d(baseP1.x, baseP1.y, baseP1.z);
+                    gl.glVertex3d(baseP2.x, baseP2.y, baseP2.z);
+                    gl.glVertex3d(apex.x, apex.y, apex.z);
+                }
+                gl.glEnd();
+            } else {
+                // --- Flat Roof (Default) ---
+                // The top surface of the roof is at the full building height
+                RenderableBuildingElement.Point3D roofNormal = new RenderableBuildingElement.Point3D(0, 0, 1);
+                double roofDotProduct = roofNormal.dot(SUN_DIRECTION);
+                Color litRoofColor = applyLighting(building.roofColor, roofDotProduct);
+                drawPolygon(gl, basePoints, height, litRoofColor);
+
+                // If the roof has a defined height, it's a slab. We need to draw its sides (fascia).
+                if (building.roofHeight > 0) {
+                    gl.glBegin(GL2.GL_QUADS);
+                    for (int i = 0; i < basePoints.size(); i++) {
+                        RenderableBuildingElement.Point3D p1 = basePoints.get(i);
+                        RenderableBuildingElement.Point3D p2 = basePoints.get((i + 1) % basePoints.size());
+
+                        // Calculate normal for the fascia wall
+                        RenderableBuildingElement.Point3D wallNormal = new RenderableBuildingElement.Point3D(p2.y - p1.y, p1.x - p2.x, 0).normalize();
+                        double wallDotProduct = wallNormal.dot(SUN_DIRECTION);
+                        Color litFasciaColor = applyLighting(building.roofColor, wallDotProduct); // Use roof color for fascia
+
+                        gl.glColor3f(litFasciaColor.getRed() / 255.0f, litFasciaColor.getGreen() / 255.0f, litFasciaColor.getBlue() / 255.0f);
+
+                        // Top vertices of the fascia quad
+                        gl.glVertex3d(p1.x, p1.y, height);
+                        gl.glVertex3d(p2.x, p2.y, height);
+
+                        // Bottom vertices of the fascia quad (top of the main walls)
+                        gl.glVertex3d(p2.x, p2.y, wallHeight);
+                        gl.glVertex3d(p1.x, p1.y, wallHeight);
+                    }
+                    gl.glEnd();
+                }
+            }
 
 
             // Draw floor
@@ -196,6 +264,38 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             }
         }
         gl.glFlush();
+    }
+
+    private RenderableBuildingElement.Point3D calculateCentroid(List<RenderableBuildingElement.Point3D> points) {
+        double signedArea = 0.0;
+        double cx = 0.0;
+        double cy = 0.0;
+
+        for (int i = 0; i < points.size(); i++) {
+            RenderableBuildingElement.Point3D p1 = points.get(i);
+            RenderableBuildingElement.Point3D p2 = points.get((i + 1) % points.size());
+            double crossProduct = (p1.x * p2.y) - (p2.x * p1.y);
+            signedArea += crossProduct;
+            cx += (p1.x + p2.x) * crossProduct;
+            cy += (p1.y + p2.y) * crossProduct;
+        }
+        signedArea *= 0.5;
+
+        if (Math.abs(signedArea) < 1e-9) {
+            // Fallback for zero-area polygons (collinear points) to simple average
+            cx = 0;
+            cy = 0;
+            for (RenderableBuildingElement.Point3D p : points) {
+                cx += p.x;
+                cy += p.y;
+            }
+            cx /= points.size();
+            cy /= points.size();
+        } else {
+            cx /= (6.0 * signedArea);
+            cy /= (6.0 * signedArea);
+        }
+        return new RenderableBuildingElement.Point3D(cx, cy, 0);
     }
 
     private void drawPolygon(GL2 gl, List<RenderableBuildingElement.Point3D> points, double z, Color color) {
