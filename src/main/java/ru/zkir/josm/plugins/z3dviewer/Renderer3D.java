@@ -5,6 +5,8 @@ import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.glu.GLUtessellator;
+import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
 import org.openstreetmap.josm.gui.MainApplication;
 
 import java.awt.Color;
@@ -118,17 +120,86 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             }
             gl.glEnd();
 
-            // Draw roof
-            gl.glBegin(GL2.GL_POLYGON);// TODO: GL_POLYGON draws CONVEX polygon, which is not always the case!!!
-            gl.glColor3f(building.roofColor.getRed() / 255.0f, building.roofColor.getGreen() / 255.0f, building.roofColor.getBlue() / 255.0f);
-            for (RenderableBuildingElement.Point3D p : basePoints) {
-                gl.glVertex3d(p.x, p.y, height); // Use p.y, and height for z
+            // Draw roof using tessellation for non-convex polygons
+            drawPolygon(gl, basePoints, height, building.roofColor);
+
+            // Draw floor
+            if (building.minHeight > 0) {
+                drawPolygon(gl, basePoints, building.minHeight, building.color.darker());
             }
-            gl.glEnd();
         }
         gl.glFlush();
     }
 
+    private void drawPolygon(GL2 gl, List<RenderableBuildingElement.Point3D> points, double z, Color color) {
+        GLUtessellator tess = glu.gluNewTess();
+        TessellatorCallback callback = new TessellatorCallback(gl, glu);
+
+        glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, callback);
+        glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, callback);
+        glu.gluTessCallback(tess, GLU.GLU_TESS_END, callback);
+        glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, callback);
+        glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, callback);
+
+        gl.glColor3f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f);
+
+        // Set winding rule to correctly handle complex polygons
+        glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
+
+        glu.gluTessBeginPolygon(tess, null);
+        glu.gluTessBeginContour(tess);
+
+        for (RenderableBuildingElement.Point3D p : points) {
+            double[] vertex = {p.x, p.y, z};
+            glu.gluTessVertex(tess, vertex, 0, vertex);
+        }
+
+        glu.gluTessEndContour(tess);
+        glu.gluTessEndPolygon(tess);
+        glu.gluDeleteTess(tess);
+    }
+
+    // Tessellator callback inner class
+    private static class TessellatorCallback extends GLUtessellatorCallbackAdapter {
+        private final GL2 gl;
+        private final GLU glu;
+
+        public TessellatorCallback(GL2 gl, GLU glu) {
+            this.gl = gl;
+            this.glu = glu;
+        }
+
+        @Override
+        public void begin(int type) {
+            gl.glBegin(type);
+        }
+
+        @Override
+        public void end() {
+            gl.glEnd();
+        }
+
+        @Override
+        public void vertex(Object vertexData) {
+            if (vertexData instanceof double[]) {
+                gl.glVertex3dv((double[]) vertexData, 0);
+            }
+        }
+
+        @Override
+        public void combine(double[] coords, Object[] data, float[] weight, Object[] outData) {
+            double[] vertex = new double[3];
+            vertex[0] = coords[0];
+            vertex[1] = coords[1];
+            vertex[2] = coords[2];
+            outData[0] = vertex;
+        }
+
+        @Override
+        public void error(int errnum) {
+            System.err.println("Tessellation Error (" + errnum + "): " + glu.gluErrorString(errnum));
+        }
+    }
     @Override
     public void reshape(GLAutoDrawable glAutoDrawable, int x, int y, int width, int height) {
         GL2 gl = glAutoDrawable.getGL().getGL2();
