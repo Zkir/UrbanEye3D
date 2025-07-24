@@ -37,7 +37,7 @@ public class Z3dViewerDialog extends ToggleDialog
     private OsmDataLayer listenedLayer;
 
     public Z3dViewerDialog(Z3dViewerPlugin plugin) {
-        super("3D Viewer", "up", "3D Viewer", null, 150, true);
+        super("3D Viewer", "up", "3D Viewer", null, 150, true); //TODO: proper custom icon instead of "up"
         renderer3D = new Renderer3D(buildings);
         add(renderer3D);
 

@@ -10,6 +10,7 @@ import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
 import org.openstreetmap.josm.data.coor.EastNorth;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.NavigatableComponent;
+import org.openstreetmap.josm.spi.preferences.Config;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -134,10 +135,21 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
         GL2 gl = glAutoDrawable.getGL().getGL2();
+
+        // Check for wireframe mode preference
+        boolean wireframeMode = Config.getPref().getBoolean("z3dviewer.wireframe.enabled", false);
+        if (wireframeMode) {
+            gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
+        } else {
+            gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+        }
+
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
         if ( buildings == null || buildings.isEmpty()) {
+            // Reset polygon mode before returning
+            gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
             return;
         }
 
@@ -264,6 +276,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             }
         }
         gl.glFlush();
+
+        // Reset polygon mode to default to avoid affecting other UI components
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
     }
 
     private RenderableBuildingElement.Point3D calculateCentroid(List<RenderableBuildingElement.Point3D> points) {

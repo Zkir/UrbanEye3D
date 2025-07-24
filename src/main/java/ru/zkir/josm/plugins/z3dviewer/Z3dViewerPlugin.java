@@ -5,6 +5,10 @@ import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MainMenu;
 import org.openstreetmap.josm.gui.MapFrame;
+import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This is the main class for the 3D Viewer plugin.
@@ -16,6 +20,11 @@ public class Z3dViewerPlugin extends Plugin {
     public Z3dViewerPlugin(PluginInformation info) {
         super(info);
         
+    }
+
+    @Override
+    public PreferenceSetting getPreferenceSetting() {
+        return new Z3dViewerPreferenceSetting();
     }
 
     @Override

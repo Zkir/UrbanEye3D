@@ -4,25 +4,29 @@
 
 Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window.
 
-# [Desired] Features:
+### [Desired] Features:
 * Just rendering of loaded building parts, no editing, nothing else.
 * Support of [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
-* 3D rendering via openGL (ogl library)
+* 3D rendering via openGL (jogl library)
 * Orbiting around scene centre via mouse left button, zooming using mouse wheel 
 * Simple support of colours (osm tags building:colour and roof:colour)
 * Update in real time: when editing in 2d, changes are reflected in the 3d view window.
-
 
 
 ## Next steps
 1. **Support multipolygons (relations)**. Support of multipolygons/relations should be improved according to the reference implementation (see  here: D:\z3dViewer\misc\osmGeometry.py, ExtractCloseNodeChainsFromRelation() function.)
 Also, additional features should be supported: if there are several outer rings, polygon should be split and several Contour objects should be created.
 (??If there are holes, polygon should be cut. ??)
-2. **Support roof shapes from roof:shape tag.** See  Plan for roof:shape implementation section   
+2. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
 3. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-
+4. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
 
 ## Recent Accomplishments 
+
+### July 25, 2025
+* **Initial roof support:** Implemented support for `roof:shape=pyramidal`, as the most simple one. Pyramids are created with correct centroid, even better then in blosm!
+* **Flat roof support:** Yes, if flat roof has height (roof:shape=flat+roof:heigh=*), we create fascia (vertical side faces) in roof color. Noone before has done that. We done!
+* **Wireframe rendering mode:** A new preference setting allows users to toggle between solid and wireframe rendering for buildings.
 
 ### July 24, 2025
 * **Initial support for relations/multipolygons.** At least they work somehow. Several bugs expected.
@@ -41,6 +45,8 @@ right mouse button, it changes to crossed arrows (expressing the movement of the
     *   Resolved critical `NullPointerException` and `IllegalArgumentException` crashes related to improper listener management when layers were removed or the application was closed.
     *   Removed the redundant, manually-created "Windows" menu item, relying on JOSM's native handling for toggle dialogs. This also fixed a startup crash when no data was loaded.
 
+###  July 22, 2025
+* **Start of the project** : plugin is working and building parts are rendered  as extruded bodies via OpenGL (JOGL library) 
  
 ## Misc 
  ### Build environment
@@ -63,6 +69,7 @@ The `roof:shape` tag in OpenStreetMap is used to describe the shape of a buildin
 
 1.  **Extend the `Building` data class:** Add a `roofShape` field (String) to the `Building` class in `Z3dViewerDialog.java`.
 2.  **Extract `roof:shape` tags:** In the `updateData()` method, read the `roof:shape` tag from each `Way` object and store it in the new `roofShape` field. Default to `"flat"` if the tag is not present.
+
 
 ### Roof Geometry Generation (in `Renderer3D.java`)
 
@@ -90,3 +97,7 @@ Reference implementation from patched blosm blender addon should be reused, see:
 *   **JOSM API for Panning:** The correct way to programmatically pan the map is via `NavigatableComponent.zoomTo(EastNorth newCenter)`. This method is inherited by `MapView` and is the reliable way to control the map view using geographic coordinates.
 *   **Coordinate System Transformation:** For an intuitive 3D panning experience that controls the 2D map, a careful transformation of the mouse movement vector is required. This involves: 1) Inverting the vector for a "drag" feel, 2) Aligning the screen's Y-down coordinate system with the map's North-up system, and 3) Rotating the final vector by the camera's current angle (`camY_angle`) to ensure the pan direction always matches the user's perspective.
 *   **User-Centric Panning Sensitivity:** Panning speed should be tied to the user's context. Linking the pan sensitivity to the 3D camera's distance (`cam_dist`) provides a more natural and intuitive interaction than linking it to the 2D map's scale.
+*   **JOSM Preference API Complexity:** The JOSM Preference API (specifically `PreferenceSetting` and `TabPreferenceSetting`) is more complex and version-sensitive than initially anticipated. Direct implementation of `TabPreferenceSetting` requires careful adherence to all interface methods (`addGui`, `ok`, `isExpert`, `getIconName`, `getTitle`, `getTooltip`, `getDescription`, `addSubTab`, `registerSubTab`, `getSubTab`, `getSelectedSubTab`, `selectSubTab`, `getHelpContext`, `getSubTabs`), and their exact signatures (return types, parameters).
+*   **`addGui` Method Usage:** For `TabPreferenceSetting`, the `addGui` method is used to add the GUI components to the tab's `PreferencePanel` (obtained via `gui.createPreferenceTab(this, false)`), not to create the tab itself. The `PreferencePanel` uses `GridBagLayout`.
+*   **Icon Naming Conventions:** JOSM's `ImageProvider` expects specific icon names, often including a path (e.g., `preferences/dialogs/preferences.svg` or `shortcuts.svg`). Using generic names like "up" will result in `JosmRuntimeException`.
+*   **GridBagLayout for UI Alignment:** To align components to the top in `GridBagLayout`, `weighty = 0.0` should be set for the components, and a "vertical glue" (`JPanel` with `weighty = 1.0`) should be added at the end to absorb remaining vertical space.
