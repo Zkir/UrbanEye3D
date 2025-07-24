@@ -7,7 +7,9 @@ import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUtessellator;
 import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
+import org.openstreetmap.josm.data.coor.EastNorth;
 import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.gui.NavigatableComponent;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -48,18 +50,45 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (lastMousePoint != null) {
-                    int dx = e.getX() - lastMousePoint.x;
-                    int dy = e.getY() - lastMousePoint.y;
+                if (lastMousePoint == null) {
+                    return;
+                }
+                int dx = e.getX() - lastMousePoint.x;
+                int dy = e.getY() - lastMousePoint.y;
 
+                if (javax.swing.SwingUtilities.isRightMouseButton(e)) {
+                    // Pan the map, taking camera orientation into account
+                    if (MainApplication.getMap() != null && MainApplication.getMap().mapView != null) {
+                        NavigatableComponent nc = MainApplication.getMap().mapView;
+                        EastNorth center = nc.getCenter();
+
+                        // Panning sensitivity based on 3D camera distance.
+                        double panSensitivity = cam_dist * 0.002; // Magic number, may require tuning.
+
+                        // Rotate the pan vector to align with the map's East-North coordinates.
+                        double angleRad = Math.toRadians(camY_angle + 90); // +90 degree offset for default camera view
+                        double cosAngle = Math.cos(angleRad);
+                        double sinAngle = Math.sin(angleRad);
+
+                        // To make the scene follow the cursor, the map must move in the opposite direction of the drag.
+                        // The screen's Y-axis is inverted relative to North, so the base vector is (-dx, dy).
+                        double panEast = (-dx * cosAngle) - (dy * sinAngle);
+                        double panNorth = (-dx * sinAngle) + (dy * cosAngle);
+
+                        // Add the calculated pan vector to the current map center.
+                        double newEast = center.east() + panEast * panSensitivity;
+                        double newNorth = center.north() + panNorth * panSensitivity;
+
+                        nc.zoomTo(new EastNorth(newEast, newNorth));
+                    }
+                } else { // Assume left button for rotation
                     camY_angle -= dx * 0.5;
                     camX_angle += dy * 0.5;
-
                     camX_angle = Math.max(-0.0, Math.min(89.0, camX_angle));
-
-                    lastMousePoint = e.getPoint();
-                    repaint();
                 }
+
+                lastMousePoint = e.getPoint();
+                repaint();
             }
         });
 

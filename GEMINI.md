@@ -4,7 +4,7 @@
 
 Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window.
 
-# [Desigred] Features:
+# [Desired] Features:
 * Just rendering of loaded building parts, no editing, nothing else.
 * Support of [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
 * 3D rendering via openGL (ogl library)
@@ -15,23 +15,23 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 
 ## Next steps
-1. **Cursor icons** When user presses the left mouse button in the plugin window, the cursor changes to the eye (thus expressing the Orbiting mode), and when user presses the 
-right mouse button, it changes to crossed arrows (expressing the movement of the map), as it is in JOSM?
-2. **Support multipolygons (relations)**. Support of multipolygons/relations should be improved according to the reference implementation (see  here: D:\z3dViewer\misc\osmGeometry.py, ExtractCloseNodeChainsFromRelation() function.)
+1. **Support multipolygons (relations)**. Support of multipolygons/relations should be improved according to the reference implementation (see  here: D:\z3dViewer\misc\osmGeometry.py, ExtractCloseNodeChainsFromRelation() function.)
 Also, additional features should be supported: if there are several outer rings, polygon should be split and several Contour objects should be created.
 (??If there are holes, polygon should be cut. ??)
-
-4. **Support roof shapes from roof:shape tag.** See  Plan for roof:shape implementation section   
-5. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
+2. **Support roof shapes from roof:shape tag.** See  Plan for roof:shape implementation section   
+3. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
 
 
 ## Recent Accomplishments 
 
 ### July 24, 2025
 * **Initial support for relations/multipolygons.** At least they work somehow. Several bugs expected.
-* **Bug with xy/z proportions fixed **. xy coordinates are calculated in proper meters, in the same scale as height.
+* **Bug with xy/z proportions fixed**. xy coordinates are calculated in proper meters, in the same scale as height.
 * **Rendering of non-convex polygons.**  It turned out that  gl.glBegin(GL2.GL_POLYGON) properly renders CONVEX polygons only, which is not always the case for building contours. We use tessellation to handle that.
 * **Rendering made more interesting.**  Parallel light (sun) has been introduced along with curent Fake AO  shading. 
+* **Panning in 3D Window.** Pan is now supported in 3D window. Map window is panned accordingly
+* **Cursor icons.** When user presses the left mouse button in the plugin window, the cursor changes to hand (thus expressing the Orbiting mode), and when user presses the 
+right mouse button, it changes to crossed arrows (expressing the movement of the map), as it is in JOSM.
 
 ###  July 23, 2025
 
@@ -47,9 +47,10 @@ Also, additional features should be supported: if there are several outer rings,
  
  To build project we use maven: `mvn package`
  
- ### JOSM source code
+ ### External source code
 
- Josm source code can be found in D:/z3dViewer/josm_source
+ * JOSM source code can be found in d:\z3dViewer\ext_sources\josm_source
+ * Blosm (aka blender-osm) source code can be found in d:\z3dViewer\ext_sources\blosm_source
 
 ## Plan for roof:shape implementation
 
