@@ -15,6 +15,8 @@ import org.openstreetmap.josm.data.osm.event.TagsChangedEvent;
 import org.openstreetmap.josm.data.osm.event.WayNodesChangedEvent;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
+import org.openstreetmap.josm.gui.layer.LayerManager;
+import org.openstreetmap.josm.gui.layer.MainLayerManager;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.gui.NavigatableComponent;
 import org.openstreetmap.josm.data.osm.Node;
@@ -24,7 +26,10 @@ import org.openstreetmap.josm.data.coor.EastNorth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, NavigatableComponent.ZoomChangeListener {
+public class Z3dViewerDialog extends ToggleDialog
+                             implements DataSetListener, NavigatableComponent.ZoomChangeListener,
+                                        LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener
+{
     private final Renderer3D renderer3D;
     private final List<RenderableBuildingElement> buildings = new ArrayList<>();
     private OsmDataLayer listenedLayer;
@@ -35,6 +40,9 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, Na
         add(renderer3D);
 
         NavigatableComponent.addZoomChangeListener(this);
+        MainApplication.getLayerManager().addLayerChangeListener(this);
+        MainApplication.getLayerManager().addActiveLayerChangeListener(this);
+
 
         updateListenedLayer();
         updateData();
@@ -43,6 +51,8 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, Na
     @Override
     public void destroy() {
         NavigatableComponent.removeZoomChangeListener(this);
+        MainApplication.getLayerManager().removeLayerChangeListener(this);
+        MainApplication.getLayerManager().removeActiveLayerChangeListener(this);
         updateListenedLayer(null);
         super.destroy();
     }
@@ -134,7 +144,9 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, Na
 
     @Override
     public void nodeMoved(NodeMovedEvent event) {
+       //System.out.println("Event: nodeMoved");
         updateData();
+
     }
 
     @Override
@@ -149,11 +161,38 @@ public class Z3dViewerDialog extends ToggleDialog implements DataSetListener, Na
 
     @Override
     public void otherDatasetChange(AbstractDatasetChangedEvent event) {
+        //System.out.println("Event: otherDatasetChange");
         updateData();
     }
 
     @Override
     public void zoomChanged() {
+        //System.out.println("Event: zoom changed");
+        updateData();
+    }
+
+    @Override
+    public void layerAdded(LayerManager.LayerAddEvent e) {
+        updateListenedLayer();
+        updateData();
+    }
+
+    @Override
+    public void layerRemoving(LayerManager.LayerRemoveEvent e) {
+        if (e.getRemovedLayer() == listenedLayer) {
+            updateListenedLayer(null);
+        }
+        updateData();
+    }
+
+    @Override
+    public void layerOrderChanged(LayerManager.LayerOrderChangeEvent e) {
+        updateData();
+    }
+
+    @Override
+    public void activeOrEditLayerChanged(MainLayerManager.ActiveLayerChangeEvent e) {
+        updateListenedLayer();
         updateData();
     }
 }
