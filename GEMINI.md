@@ -4,19 +4,20 @@
 
 Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window.
 
-# Features:
+# [Desigred] Features:
 * Just rendering of loaded building parts, no editing, nothing else.
 * Support of [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
 * 3D rendering via openGL (ogl library)
 * Orbiting around scene centre via mouse left button, zooming using mouse wheel 
 * Simple support of colours (osm tags building:colour and roof:colour)
+* Update in real time: when editing in 2d, changes are reflected in the 3d view window.
 
 
 
 ## Next steps
 
 1. **Support multipolygons (relations)**. New constructor in class Contour should be created. 
-Reference implementation in python cound be checked here: D:\_VFR_LANDMARKS_3D_RU\OsmParser\osmparser\osmGeometry.py, ExtractCloseNodeChainsFromRelation() function.
+Reference implementation in python cound be checked here: D:\z3dViewer\misc\osmGeometry.py, ExtractCloseNodeChainsFromRelation() function.
 If there are holes, polygon should be cut.
 2. **Fix bugs with xy/z proportions**. Currently Height is taken from the height tag, where it is specified in meters, but xy are taken from the map's projection coordinates. Since Mercator projection is used, projection units are distorted.
 xy should be recalculated in proper meters.
