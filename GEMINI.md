@@ -72,15 +72,15 @@ The `roof:shape` tag in OpenStreetMap is used to describe the shape of a buildin
 
 Reference implementation from patched blosm blender addon should be reused, see:
 
-* c:\Users\zkir\AppData\Roaming\Blender Foundation\Blender\4.5\scripts\addons\blosm\building\renderer.py
-* c:\Users\zkir\AppData\Roaming\Blender Foundation\Blender\4.5\scripts\addons\blosm\building\roof\__init__.py
-* c:\Users\zkir\AppData\Roaming\Blender Foundation\Blender\4.5\scripts\addons\blosm\building\roof\zakomar.py
-* c:\Users\zkir\AppData\Roaming\Blender Foundation\Blender\4.5\scripts\addons\blosm\building\roof\profile.py
-* c:\Users\zkir\AppData\Roaming\Blender Foundation\Blender\4.5\scripts\addons\blosm\building\roof\pyramidal.py
-* c:\Users\zkir\AppData\Roaming\Blender Foundation\Blender\4.5\scripts\addons\blosm\building\roof\skillion.py
-* c:\Users\zkir\AppData\Roaming\Blender Foundation\Blender\4.5\scripts\addons\blosm\building\roof\half_hipped.py
-* c:\Users\zkir\AppData\Roaming\Blender Foundation\Blender\4.5\scripts\addons\blosm\building\roof\hipped.py
-* c:\Users\zkir\AppData\Roaming\Blender Foundation\Blender\4.5\scripts\addons\blosm\building\roof\mansard.py
-* c:\Users\zkir\AppData\Roaming\Blender Foundation\Blender\4.5\scripts\addons\blosm\building\roof\conic_profile.py
+* d:\z3dViewer\ext_sources\blosm_source\\building\renderer.py
+* d:\z3dViewer\ext_sources\blosm_source\\building\roof\__init__.py
+* d:\z3dViewer\ext_sources\blosm_source\\building\roof\zakomar.py
+* d:\z3dViewer\ext_sources\blosm_source\\building\roof\profile.py
+* d:\z3dViewer\ext_sources\blosm_source\\building\roof\pyramidal.py
+* d:\z3dViewer\ext_sources\blosm_source\\building\roof\skillion.py
+* d:\z3dViewer\ext_sources\blosm_source\\building\roof\half_hipped.py
+* d:\z3dViewer\ext_sources\blosm_source\\building\roof\hipped.py
+* d:\z3dViewer\ext_sources\blosm_source\\building\roof\mansard.py
+* d:\z3dViewer\ext_sources\blosm_source\\building\roof\conic_profile.py
     
 4.  **Default behavior:** If `roof:shape` is unknown or missing, render a `flat` roof.
