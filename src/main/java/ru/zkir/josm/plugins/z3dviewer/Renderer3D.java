@@ -30,6 +30,10 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     private Point lastMousePoint;
 
+    // Sun direction (normalized)
+    private final RenderableBuildingElement.Point3D SUN_DIRECTION = new RenderableBuildingElement.Point3D(0.5, 0.5, 1.0).normalize();
+
+
     public Renderer3D(List<RenderableBuildingElement> buildings) {
         this.buildings = buildings;
         this.addGLEventListener(this);
@@ -81,6 +85,23 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     @Override
     public void dispose(GLAutoDrawable glAutoDrawable) {}
 
+    private Color applyLighting(Color baseColor, double dotProduct) {
+        // 70% ambient light + 30% diffuse light from the sun
+        // We clamp the dot product to 0 so that faces pointing away from the light aren't darkened
+        double diffuseFactor = Math.abs(dotProduct);
+        float factor = (float) (0.5 + 0.5 * diffuseFactor);
+
+        // Ensure the factor does not exceed 1.0
+        factor = Math.min(1.0f, factor);
+
+        return new Color(
+                (int) (baseColor.getRed() * factor),
+                (int) (baseColor.getGreen() * factor),
+                (int) (baseColor.getBlue() * factor)
+        );
+    }
+
+
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
         GL2 gl = glAutoDrawable.getGL().getGL2();
@@ -108,23 +129,40 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             List<RenderableBuildingElement.Point3D> basePoints = building.getContour();
 
             // Draw walls
-            gl.glBegin(GL2.GL_QUAD_STRIP);
-            Color wallColor = building.color;
-            Color darkerWallColor = wallColor.darker();
-            for (int i = 0; i <= basePoints.size(); i++) {
-                RenderableBuildingElement.Point3D p = basePoints.get(i % basePoints.size());
-                gl.glColor3f(wallColor.getRed() / 255.0f, wallColor.getGreen() / 255.0f, wallColor.getBlue() / 255.0f);
-                gl.glVertex3d(p.x, p.y, height); // Use p.y, and height for z
-                gl.glColor3f(darkerWallColor.getRed() / 255.0f, darkerWallColor.getGreen() / 255.0f, darkerWallColor.getBlue() / 255.0f);
-                gl.glVertex3d(p.x, p.y, minHeight); // Use p.y, and p.z (minHeight) for z
+            gl.glBegin(GL2.GL_QUADS);
+            for (int i = 0; i < basePoints.size(); i++) {
+                RenderableBuildingElement.Point3D p1 = basePoints.get(i);
+                RenderableBuildingElement.Point3D p2 = basePoints.get((i + 1) % basePoints.size());
+
+                // Calculate wall normal
+                RenderableBuildingElement.Point3D wallNormal = new RenderableBuildingElement.Point3D(p2.y - p1.y, p1.x - p2.x, 0).normalize();
+                double dotProduct = wallNormal.dot(SUN_DIRECTION);
+                Color litWallColor = applyLighting(building.color, dotProduct);
+                Color darkerLitWallColor = litWallColor.darker();
+
+                // Top vertices get the calculated lit color
+                gl.glColor3f(litWallColor.getRed() / 255.0f, litWallColor.getGreen() / 255.0f, litWallColor.getBlue() / 255.0f);
+                gl.glVertex3d(p1.x, p1.y, height);
+                gl.glVertex3d(p2.x, p2.y, height);
+
+                // Bottom vertices get a darker version for the Fake AO effect
+                gl.glColor3f(darkerLitWallColor.getRed() / 255.0f, darkerLitWallColor.getGreen() / 255.0f, darkerLitWallColor.getBlue() / 255.0f);
+                gl.glVertex3d(p2.x, p2.y, minHeight);
+                gl.glVertex3d(p1.x, p1.y, minHeight);
             }
             gl.glEnd();
 
-            // Draw roof using tessellation for non-convex polygons
-            drawPolygon(gl, basePoints, height, building.roofColor);
+
+            // Draw roof
+            RenderableBuildingElement.Point3D roofNormal = new RenderableBuildingElement.Point3D(0, 0, 1);
+            double roofDotProduct = roofNormal.dot(SUN_DIRECTION);
+            Color litRoofColor = applyLighting(building.roofColor, roofDotProduct);
+            drawPolygon(gl, basePoints, height, litRoofColor);
+
 
             // Draw floor
             if (building.minHeight > 0) {
+                // Assuming floor is not lit
                 drawPolygon(gl, basePoints, building.minHeight, building.color.darker());
             }
         }
