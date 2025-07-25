@@ -23,6 +23,9 @@ Also, additional features should be supported: if there are several outer rings,
 
 ## Recent Accomplishments 
 
+### July 26, 2025
+* **Skillion roof support:** Implemented support for `roof:shape=skillion`, including `roof:direction`. The implementation correctly generates trapezoidal walls and handles non-convex polygons using tessellation.
+
 ### July 25, 2025
 * **Initial roof support:** Implemented support for `roof:shape=pyramidal`, as the most simple one. Pyramids are created with correct centroid, even better then in blosm!
 * **Flat roof support:** Yes! If a flat roof has a defined height (roof:shape=flat+roof:heigh=*), we create fascia (vertical side faces) in the roof color. No one has done this before. We did it!
@@ -72,10 +75,10 @@ Already supported:
 * 'dome'
 * 'onion'
 * 'half-dome'
+* 'skillion' 
 
 Yet to be implemented:
 * 'flat' - for multipolygons, if there several inner or outer rings. 
-* 'skillion' 
 * 'gabled'
 * 'hipped':
 * 'zakomar'
@@ -104,6 +107,8 @@ Reference implementation from patched blosm blender addon should be reused, see:
 
 ## Learnings
 
+*   **Tessellation for Complex Polygons:** The `GLU.gluTess` functions are essential for correctly rendering non-convex polygons, which are common in building footprints. Relying on `GL_QUADS` or `GL_POLYGON` is insufficient for complex shapes.
+*   **Skillion Roof Geometry:** A skillion roof is not just a sloped plane. It requires the generation of trapezoidal side walls that connect the roof edge to the building's base, colored with the wall color.
 *   **JOSM API for Panning:** The correct way to programmatically pan the map is via `NavigatableComponent.zoomTo(EastNorth newCenter)`. This method is inherited by `MapView` and is the reliable way to control the map view using geographic coordinates.
 *   **Coordinate System Transformation:** For an intuitive 3D panning experience that controls the 2D map, a careful transformation of the mouse movement vector is required. This involves: 1) Inverting the vector for a "drag" feel, 2) Aligning the screen's Y-down coordinate system with the map's North-up system, and 3) Rotating the final vector by the camera's current angle (`camY_angle`) to ensure the pan direction always matches the user's perspective.
 *   **User-Centric Panning Sensitivity:** Panning speed should be tied to the user's context. Linking the pan sensitivity to the 3D camera's distance (`cam_dist`) provides a more natural and intuitive interaction than linking it to the 2D map's scale.

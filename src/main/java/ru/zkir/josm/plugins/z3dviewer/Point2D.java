@@ -8,4 +8,12 @@ public class Point2D {
         this.x = x;
         this.y = y;
     }
+
+    public void normalize() {
+        double length = Math.sqrt(x * x + y * y);
+        if (length != 0) {
+            x /= length;
+            y /= length;
+        }
+    }
 }

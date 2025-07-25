@@ -18,10 +18,10 @@ public class RenderableBuildingElement {
         // Define a tolerance for the tangent of the angle. For example, 0.08 corresponds to ~175.5 degrees.
         // This allows for slight deviations in manually placed points.
         static final double STRAIGHT_ANGLE_TAN_TOLERANCE = 0.08;
-        ArrayList<Point3D> contour;
+        ArrayList<Point2D> contour;
 
         Contour(Way way, LatLon center){
-            ArrayList<Point3D> tempContour = new ArrayList<>();
+            ArrayList<Point2D> tempContour = new ArrayList<>();
             for (Node node : way.getNodes()) {
                 tempContour.add(getNodeLocalCoords(node, center));
             }
@@ -76,28 +76,28 @@ public class RenderableBuildingElement {
                 }
             }
 
-            ArrayList<Point3D> tempContour = new ArrayList<>();
+            ArrayList<Point2D> tempContour = new ArrayList<>();
             for (Node node : assembledNodes) {
                 tempContour.add(getNodeLocalCoords(node, center));
             }
             this.contour = simplifyContour(tempContour);
         }
 
-        static Point3D getNodeLocalCoords(Node node, LatLon center){
+        static Point2D getNodeLocalCoords(Node node, LatLon center){
             LatLon ll = node.getCoor();
             double dx = ll.lon() - center.lon();
             double dy = ll.lat() - center.lat();
-            return new Point3D(dx * Math.cos(Math.toRadians(center.lat())) * 111320.0,
-                    dy * 111320.0, 0);
+            return new Point2D(dx * Math.cos(Math.toRadians(center.lat())) * 111320.0,
+                    dy * 111320.0);
         }
 
 
-        static ArrayList<Point3D> simplifyContour(ArrayList<Point3D> originalContour) {
+        static ArrayList<Point2D> simplifyContour(ArrayList<Point2D> originalContour) {
             if (originalContour.size() < 3) {
                 return originalContour; // Cannot simplify a line or a single point
             }
 
-            ArrayList<Point3D> simplifiedContour = new ArrayList<>();
+            ArrayList<Point2D> simplifiedContour = new ArrayList<>();
             boolean isClosed = originalContour.get(0).x == originalContour.get(originalContour.size() - 1).x &&
                                originalContour.get(0).y == originalContour.get(originalContour.size() - 1).y;
 
@@ -113,14 +113,14 @@ public class RenderableBuildingElement {
 
             for (int i = start_index; i < numPoints; i++) {
                 //special check for the first (#0) node
-                Point3D p_prev;
+                Point2D p_prev;
                 if (i==0){
                     p_prev = originalContour.get(numPoints - 1); //for node 0 previous is second to last :)
                 } else {
                     p_prev = originalContour.get(i - 1);
                 }
-                Point3D p_current = originalContour.get(i);
-                Point3D p_next = originalContour.get(i + 1);
+                Point2D p_current = originalContour.get(i);
+                Point2D p_next = originalContour.get(i + 1);
 
                 if (!isAntiCollinear(p_prev, p_current, p_next)) { // If not anti-collinear, keep the point
                     simplifiedContour.add(p_current);
@@ -150,7 +150,7 @@ public class RenderableBuildingElement {
 
         // Calculate the 2D cross product and dot product of vectors ( p_prev-p_current) and (p_next - p_current)
         // If the tangent of the angle between them is close to zero, the points are collinear.
-        private static boolean isAntiCollinear(Point3D p_prev, Point3D p_current, Point3D p_next) {
+        private static boolean isAntiCollinear(Point2D p_prev, Point2D p_current, Point2D p_next) {
             double vec1_x = p_prev.x - p_current.x;
             double vec1_y = p_prev.y - p_current.y;
             double vec2_x = p_next.x - p_current.x;
@@ -176,21 +176,53 @@ public class RenderableBuildingElement {
     public final @NotNull Color color;
     public final @NotNull Color roofColor;
     public final RoofShapes roofShape;
+    public final double roofDirection;
     private final Contour contour;
 
-    public RenderableBuildingElement(Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape) {
+    public RenderableBuildingElement(Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr) {
         this.contour = contour;
         this.height = height;
         this.minHeight = minHeight;
         this.roofHeight = roofHeight;
         this.roofShape = RoofShapes.fromString(roofShape);
+        this.roofDirection = parseDirection(roofDirectionStr);
 
         this.color = parseColor(wallColor, new Color(204, 204, 204));
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
     }
 
-    public List<Point3D> getContour() {
+    public List<Point2D> getContour() {
         return contour.contour;
+    }
+
+    private double parseDirection(String direction) {
+        if (direction == null || direction.isEmpty()) {
+            return Double.NaN; // Return NaN if direction is not specified
+        }
+        try {
+            return Double.parseDouble(direction);
+        } catch (NumberFormatException e) {
+            // Handle cardinal directions (N, S, E, W, etc.)
+            switch (direction.toUpperCase()) {
+                case "N": return 0;
+                case "NNE": return 22.5;
+                case "NE": return 45;
+                case "ENE": return 67.5;
+                case "E": return 90;
+                case "ESE": return 112.5;
+                case "SE": return 135;
+                case "SSE": return 157.5;
+                case "S": return 180;
+                case "SSW": return 202.5;
+                case "SW": return 225;
+                case "WSW": return 247.5;
+                case "W": return 270;
+                case "WNW": return 292.5;
+                case "NW": return 315;
+                case "NNW": return 337.5;
+                default: return Double.NaN;
+            }
+        }
     }
 
     private Color parseColor(String color, Color default_color){

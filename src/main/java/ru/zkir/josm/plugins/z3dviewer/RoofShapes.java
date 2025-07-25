@@ -6,10 +6,10 @@ public enum RoofShapes {
     PYRAMIDAL("pyramidal"),
     DOME("dome"),
     HALF_DOME("half-dome"),
-    ONION("onion");
+    ONION("onion"),
+    SKILLION("skillion");
 
     /* roof shapes yet to be supported.
-    SKILLION("skillion"),
     GABLED("gabled"),
     HIPPED("hipped"),
 
