@@ -13,22 +13,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class RenderableBuildingElement {
-    public static class Point3D {
-        double x, y, z;
-        Point3D(double x, double y, double z) { this.x = x; this.y = y; this.z = z; }
-
-        public Point3D normalize() {
-            double length = Math.sqrt(x * x + y * y + z * z);
-            if (length > 0) {
-                return new Point3D(x / length, y / length, z / length);
-            }
-            return new Point3D(0, 0, 0);
-        }
-
-        public double dot(Point3D other) {
-            return this.x * other.x + this.y * other.y + this.z * other.z;
-        }
-    }
 
     public static class Contour {
         // Define a tolerance for the tangent of the angle. For example, 0.08 corresponds to ~175.5 degrees.
@@ -191,7 +175,7 @@ public class RenderableBuildingElement {
     public final double roofHeight;
     public final @NotNull Color color;
     public final @NotNull Color roofColor;
-    public final String roofShape;
+    public final RoofShapes roofShape;
     private final Contour contour;
 
     public RenderableBuildingElement(Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape) {
@@ -199,7 +183,7 @@ public class RenderableBuildingElement {
         this.height = height;
         this.minHeight = minHeight;
         this.roofHeight = roofHeight;
-        this.roofShape = roofShape;
+        this.roofShape = RoofShapes.fromString(roofShape);
 
         this.color = parseColor(wallColor, new Color(204, 204, 204));
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));

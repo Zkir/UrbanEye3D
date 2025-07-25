@@ -28,6 +28,7 @@ Also, additional features should be supported: if there are several outer rings,
 * **Flat roof support:** Yes! If a flat roof has a defined height (roof:shape=flat+roof:heigh=*), we create fascia (vertical side faces) in the roof color. No one has done this before. We did it!
 * **Wireframe rendering mode:** A new preference setting allows users to toggle between solid and wireframe rendering for buildings.
 * **Removing of redundant nodes:** A lot of nodes, which belong to building parts, are not really needed for rendering. Removing them is a huge optimization!
+* **Dome, half-dome and onion roofs:** support added for "conical" roofs.
 
 ### July 24, 2025
 * **Initial support for relations/multipolygons.** At least they work somehow. Several bugs expected.
@@ -65,18 +66,26 @@ right mouse button, it changes to crossed arrows (expressing the movement of the
 
 The `roof:shape` tag in OpenStreetMap is used to describe the shape of a building's roof. This plan outlines the steps to implement support for this tag in the 3D viewer plugin.
 
+Already supported: 
+* 'flat' - partially.
+* 'pyramidal'
+* 'dome'
+* 'onion'
+* 'half-dome'
 
-### Data Collection
+Yet to be implemented:
+* 'flat' - for multipolygons, if there several inner or outer rings. 
+* 'skillion' 
+* 'gabled'
+* 'hipped':
+* 'zakomar'
+* 'cross_gabled'
+* 'round'
+* 'half-hipped'
+* 'gambrel'
+* 'saltbox' 
+* 'mansard' 
 
-1.  **Extend the `Building` data class:** Add a `roofShape` field (String) to the `Building` class in `Z3dViewerDialog.java`.
-2.  **Extract `roof:shape` tags:** In the `updateData()` method, read the `roof:shape` tag from each `Way` object and store it in the new `roofShape` field. Default to `"flat"` if the tag is not present.
-
-
-### Roof Geometry Generation (in `Renderer3D.java`)
-
-1.  **Create a roof factory method:** Implement a new private method, `drawRoof(GL2 gl, Building building, List<Point3D> basePoints)`, to handle all roof rendering logic.
-2.  **Use conditional logic:** Inside `drawRoof`, use a `switch` or `if-else if` statement to select the correct rendering method based on the `building.roofShape` value.
-3.  **Implement geometry for each shape:**
 
 Reference implementation from patched blosm blender addon should be reused, see:
 
