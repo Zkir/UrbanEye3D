@@ -6,7 +6,7 @@ import static java.lang.Math.*;
 
 public class RoofGeometryGenerator {
 
-    public static class RoofMesh {
+    public static class Mesh {
         public List<Point3D> verts = new ArrayList<>();
         public List<int[]> roofFaces = new ArrayList<>();
         public List<int[]> wallFaces = new ArrayList<>();
@@ -47,8 +47,8 @@ public class RoofGeometryGenerator {
         return profile;
     }
 
-    public static RoofMesh generateConicalRoof(RoofShapes roofShape, List<Point2D> basePoints, double minHeight, double wallHeight, double height) {
-        RoofMesh mesh = new RoofMesh();
+    public static Mesh generateConicalRoof(RoofShapes roofShape, List<Point2D> basePoints, double minHeight, double wallHeight, double height) {
+        Mesh mesh = new Mesh();
         List<Point3D> verts = new ArrayList<>();
         for (Point2D p:basePoints){
             verts.add(new Point3D(p.x, p.y, minHeight));
@@ -198,8 +198,8 @@ public class RoofGeometryGenerator {
         return midpoint;
     }
 
-    public static RoofMesh generateSkillionRoof(List<Point2D> basePoints, double minHeight, double wallHeight, double height, double roofDirection) {
-        RoofMesh mesh = new RoofMesh();
+    public static Mesh generateSkillionRoof(List<Point2D> basePoints, double minHeight, double wallHeight, double height, double roofDirection) {
+        Mesh mesh = new Mesh();
         List<Point3D> verts = new ArrayList<>();
         int n = basePoints.size();
 

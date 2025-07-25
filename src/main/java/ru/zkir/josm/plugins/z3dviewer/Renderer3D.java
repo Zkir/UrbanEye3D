@@ -169,104 +169,63 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             double wallHeight = height - roofHeight;
             List<Point2D> basePoints = building.getContour();
 
-            // Draw walls
-            if (wallHeight > minHeight) {
-                gl.glBegin(GL2.GL_QUADS);
-                for (int i = 0; i < basePoints.size(); i++) {
-                    Point2D p1 = basePoints.get(i);
-                    Point2D p2 = basePoints.get((i + 1) % basePoints.size());
+            RoofGeometryGenerator.Mesh buildingMesh=null;
 
-                    // Calculate wall normal
-                    Point3D wallNormal = new Point3D(p2.y - p1.y, p1.x - p2.x, 0).normalize();
-                    double dotProduct = wallNormal.dot(SUN_DIRECTION);
-                    Color litWallColor = applyLighting(building.color, dotProduct);
-                    Color darkerLitWallColor = litWallColor.darker();
-
-                    // Top vertices get the calculated lit color
-                    gl.glColor3f(litWallColor.getRed() / 255.0f, litWallColor.getGreen() / 255.0f, litWallColor.getBlue() / 255.0f);
-                    gl.glVertex3d(p1.x, p1.y, wallHeight);
-                    gl.glVertex3d(p2.x, p2.y, wallHeight);
-
-                    // Bottom vertices get a darker version for the Fake AO effect
-                    gl.glColor3f(darkerLitWallColor.getRed() / 255.0f, darkerLitWallColor.getGreen() / 255.0f, darkerLitWallColor.getBlue() / 255.0f);
-                    gl.glVertex3d(p2.x, p2.y, minHeight);
-                    gl.glVertex3d(p1.x, p1.y, minHeight);
-                }
-                gl.glEnd();
+            if (building.roofShape == RoofShapes.SKILLION) {
+                buildingMesh = RoofGeometryGenerator.generateSkillionRoof(basePoints, minHeight, wallHeight, height, building.roofDirection);
             }
 
-            // Draw roof
-            if (building.roofShape == RoofShapes.SKILLION) {
-                RoofGeometryGenerator.RoofMesh roofMesh = RoofGeometryGenerator.generateSkillionRoof(basePoints, minHeight, wallHeight, height, building.roofDirection);
-                // Draw roof faces (the top sloped part)
-                for (int[] face : roofMesh.roofFaces) {
-                    drawPolygon(gl, roofMesh.verts, face, building.roofColor);
-                }
-                // Draw wall faces (the trapezoidal sides)
-                for (int[] face : roofMesh.wallFaces) {
-                    drawPolygon(gl, roofMesh.verts, face, building.color);
-                }
-            } else if (( building.roofShape == RoofShapes.PYRAMIDAL
+            if (( building.roofShape == RoofShapes.PYRAMIDAL
                     || building.roofShape == RoofShapes.DOME)  || (building.roofShape == RoofShapes.HALF_DOME
                     || (building.roofShape == RoofShapes.ONION)  )) {
-                RoofGeometryGenerator.RoofMesh roofMesh = RoofGeometryGenerator.generateConicalRoof(building.roofShape, basePoints, minHeight, wallHeight, height);
+                buildingMesh = RoofGeometryGenerator.generateConicalRoof(building.roofShape, basePoints, minHeight, wallHeight, height);
+            }
+
+            if (buildingMesh != null ){
+                //in normal circumstances we should be able to compose mesh for building.
+                //so we can render mesh directly.
+
+                // Draw wall faces
+                for (int[] face : buildingMesh.wallFaces) {
+                    drawPolygon(gl, buildingMesh.verts, face, building.color);
+                }
 
                 // Draw roof faces
-                for (int[] face : roofMesh.roofFaces) {
-                    gl.glBegin(face.length == 3 ? GL2.GL_TRIANGLES : GL2.GL_QUADS); // Determine if it's a triangle or quad
+                for (int[] face : buildingMesh.roofFaces) {
+                    drawPolygon(gl, buildingMesh.verts, face, building.roofColor);
+                }
 
-                    // Calculate face normal for lighting
-                    Point3D p1 = roofMesh.verts.get(face[0]);
-                    Point3D p2 = roofMesh.verts.get(face[1]);
-                    Point3D p3 = roofMesh.verts.get(face[2]);
+            }else {
+                //in rare cases, like complex multipolygons with holes, we are bot able to construct mesh,
+                //because we do not have hand tesselator, so we need to fallback to some "direct" method,
+                // and render something directly form building outline.
 
-                    Point3D v1 = new Point3D(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
-                    Point3D v2 = new Point3D(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z);
-                    Point3D normal = new Point3D(
-                        v1.y * v2.z - v1.z * v2.y,
-                        v1.z * v2.x - v1.x * v2.z,
-                        v1.x * v2.y - v1.y * v2.x
-                    ).normalize();
+                // Draw walls
+                if (wallHeight > minHeight) {
+                    gl.glBegin(GL2.GL_QUADS);
+                    for (int i = 0; i < basePoints.size(); i++) {
+                        Point2D p1 = basePoints.get(i);
+                        Point2D p2 = basePoints.get((i + 1) % basePoints.size());
 
-                    double dotProduct = normal.dot(SUN_DIRECTION);
-                    Color litRoofColor = applyLighting(building.roofColor, dotProduct);
-                    gl.glColor3f(litRoofColor.getRed() / 255.0f, litRoofColor.getGreen() / 255.0f, litRoofColor.getBlue() / 255.0f);
+                        // Calculate wall normal
+                        Point3D wallNormal = new Point3D(p2.y - p1.y, p1.x - p2.x, 0).normalize();
+                        double dotProduct = wallNormal.dot(SUN_DIRECTION);
+                        Color litWallColor = applyLighting(building.color, dotProduct);
+                        Color darkerLitWallColor = litWallColor.darker();
 
-                    for (int vertexIndex : face) {
-                        Point3D p = roofMesh.verts.get(vertexIndex);
-                        gl.glVertex3d(p.x, p.y, p.z);
+                        // Top vertices get the calculated lit color
+                        gl.glColor3f(litWallColor.getRed() / 255.0f, litWallColor.getGreen() / 255.0f, litWallColor.getBlue() / 255.0f);
+                        gl.glVertex3d(p1.x, p1.y, wallHeight);
+                        gl.glVertex3d(p2.x, p2.y, wallHeight);
+
+                        // Bottom vertices get a darker version for the Fake AO effect
+                        gl.glColor3f(darkerLitWallColor.getRed() / 255.0f, darkerLitWallColor.getGreen() / 255.0f, darkerLitWallColor.getBlue() / 255.0f);
+                        gl.glVertex3d(p2.x, p2.y, minHeight);
+                        gl.glVertex3d(p1.x, p1.y, minHeight);
                     }
                     gl.glEnd();
                 }
-                // TODO: improve code structure!!! walls are created anyway for all roof types above!!!
-                // Draw wall faces (if any generated by the conical roof generator)
-                for (int[] face : roofMesh.wallFaces) {
-                    gl.glBegin(GL2.GL_QUADS); // Walls are typically quads
 
-                    // Calculate wall normal for lighting
-                    Point3D p1 = roofMesh.verts.get(face[0]);
-                    Point3D p2 = roofMesh.verts.get(face[1]);
-                    Point3D p3 = roofMesh.verts.get(face[2]); // Assuming it's a quad, so we need a third point
-
-                    Point3D v1 = new Point3D(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
-                    Point3D v2 = new Point3D(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z);
-                    Point3D normal = new Point3D(
-                        v1.y * v2.z - v1.z * v2.y,
-                        v1.z * v2.x - v1.x * v2.z,
-                        v1.x * v2.y - v1.y * v2.x
-                    ).normalize();
-
-                    double dotProduct = normal.dot(SUN_DIRECTION);
-                    Color litWallColor = applyLighting(building.color, dotProduct);
-                    gl.glColor3f(litWallColor.getRed() / 255.0f, litWallColor.getGreen() / 255.0f, litWallColor.getBlue() / 255.0f);
-
-                    for (int vertexIndex : face) {
-                        Point3D p = roofMesh.verts.get(vertexIndex);
-                        gl.glVertex3d(p.x, p.y, p.z);
-                    }
-                    gl.glEnd();
-                }
-            } else {
                 // --- Flat Roof (Default) ---
                 // The top surface of the roof is at the full building height
                 Point3D roofNormal = new Point3D(0, 0, 1);
@@ -300,8 +259,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 }
             }
 
-
-            // Draw floor
+            // Draw floor. TODO: implement Mesh.bottomFaces
             if (building.minHeight > 0) {
                 // Assuming floor is not lit
                 drawPolygon(gl, basePoints, building.minHeight, building.color.darker());
@@ -344,17 +302,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     private void drawPolygon(GL2 gl, List<Point3D> vertices, int[] faceIndices, Color color) {
         if (faceIndices.length < 3) return;
-
-        // Use tessellator for all polygons to handle non-convex cases correctly.
-        GLUtessellator tess = glu.gluNewTess();
-        TessellatorCallback callback = new TessellatorCallback(gl, glu);
-
-        glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, callback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, callback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_END, callback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, callback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, callback);
-
         // Calculate face normal for lighting
         Point3D p1 = vertices.get(faceIndices[0]);
         Point3D p2 = vertices.get(faceIndices[1]);
@@ -363,29 +310,57 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         Point3D v1 = new Point3D(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
         Point3D v2 = new Point3D(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z);
         Point3D normal = new Point3D(
-            v1.y * v2.z - v1.z * v2.y,
-            v1.z * v2.x - v1.x * v2.z,
-            v1.x * v2.y - v1.y * v2.x
+                v1.y * v2.z - v1.z * v2.y,
+                v1.z * v2.x - v1.x * v2.z,
+                v1.x * v2.y - v1.y * v2.x
         ).normalize();
 
         double dotProduct = normal.dot(SUN_DIRECTION);
         Color litColor = applyLighting(color, dotProduct);
         gl.glColor3f(litColor.getRed() / 255.0f, litColor.getGreen() / 255.0f, litColor.getBlue() / 255.0f);
 
-        glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
+        if (faceIndices.length == 4){
+            gl.glBegin(GL2.GL_QUADS);
+            //this complication is needed for wireframe mode. Diagonals does not look nice at all
+            Point3D p4 = vertices.get(faceIndices[3]);
 
-        glu.gluTessBeginPolygon(tess, null);
-        glu.gluTessBeginContour(tess);
+            gl.glVertex3d(p1.x, p1.y,  p1.z);
+            gl.glVertex3d(p2.x, p2.y,  p2.z);
 
-        for (int index : faceIndices) {
-            Point3D p = vertices.get(index);
-            double[] vertex = {p.x, p.y, p.z};
-            glu.gluTessVertex(tess, vertex, 0, vertex);
+            // TODO: implement FAKE AO here, it should be possible.
+            //gl.glColor3f(darkerLitWallColor.getRed() / 255.0f, darkerLitWallColor.getGreen() / 255.0f, darkerLitWallColor.getBlue() / 255.0f);
+            gl.glVertex3d(p3.x, p3.y, p3.z);
+            gl.glVertex3d(p4.x, p4.y, p4.z);
+            gl.glEnd();
+
+        }else {
+            // Use tessellator for all polygons to handle non-convex cases correctly.
+            GLUtessellator tess = glu.gluNewTess();
+            TessellatorCallback callback = new TessellatorCallback(gl, glu);
+
+            glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_END, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, callback);
+
+
+
+            glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
+
+            glu.gluTessBeginPolygon(tess, null);
+            glu.gluTessBeginContour(tess);
+
+            for (int index : faceIndices) {
+                Point3D p = vertices.get(index);
+                double[] vertex = {p.x, p.y, p.z};
+                glu.gluTessVertex(tess, vertex, 0, vertex);
+            }
+
+            glu.gluTessEndContour(tess);
+            glu.gluTessEndPolygon(tess);
+            glu.gluDeleteTess(tess);
         }
-
-        glu.gluTessEndContour(tess);
-        glu.gluTessEndPolygon(tess);
-        glu.gluDeleteTess(tess);
     }
 
     // Tessellator callback inner class

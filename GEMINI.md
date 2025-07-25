@@ -23,17 +23,18 @@ Also, additional features should be supported: if there are several outer rings,
 
 ## Recent Accomplishments 
 
-### July 26, 2025
+### July 25, 2025
+* **Dome, half-dome and onion roofs:** support added for "conical" roofs.
 * **Skillion roof support:** Implemented support for `roof:shape=skillion`, including `roof:direction`. The implementation correctly generates trapezoidal walls and handles non-convex polygons using tessellation.
 
-### July 25, 2025
+### July 24, 2025
 * **Initial roof support:** Implemented support for `roof:shape=pyramidal`, as the most simple one. Pyramids are created with correct centroid, even better then in blosm!
 * **Flat roof support:** Yes! If a flat roof has a defined height (roof:shape=flat+roof:heigh=*), we create fascia (vertical side faces) in the roof color. No one has done this before. We did it!
 * **Wireframe rendering mode:** A new preference setting allows users to toggle between solid and wireframe rendering for buildings.
 * **Removing of redundant nodes:** A lot of nodes, which belong to building parts, are not really needed for rendering. Removing them is a huge optimization!
-* **Dome, half-dome and onion roofs:** support added for "conical" roofs.
 
-### July 24, 2025
+
+### July 23, 2025
 * **Initial support for relations/multipolygons.** At least they work somehow. Several bugs expected.
 * **Bug with xy/z proportions fixed**. xy coordinates are calculated in proper meters, in the same scale as height.
 * **Rendering of non-convex polygons.**  It turned out that  gl.glBegin(GL2.GL_POLYGON) properly renders CONVEX polygons only, which is not always the case for building contours. We use tessellation to handle that.
@@ -42,7 +43,7 @@ Also, additional features should be supported: if there are several outer rings,
 * **Cursor icons.** When user presses the left mouse button in the plugin window, the cursor changes to hand (thus expressing the Orbiting mode), and when user presses the 
 right mouse button, it changes to crossed arrows (expressing the movement of the map), as it is in JOSM.
 
-###  July 23, 2025
+###  July 22, 2025
 
 *   **Map Movement Sync:** The 3D viewer now correctly responds to panning and zooming events on the main JOSM map, redrawing the scene as the viewport changes.
 *   **Z-Up Coordinate System:** The rendering engine was refactored to use a Z-up coordinate system, which is more conventional for 3D architectural visualization. The Z-axis is now vertical.
@@ -50,7 +51,7 @@ right mouse button, it changes to crossed arrows (expressing the movement of the
     *   Resolved critical `NullPointerException` and `IllegalArgumentException` crashes related to improper listener management when layers were removed or the application was closed.
     *   Removed the redundant, manually-created "Windows" menu item, relying on JOSM's native handling for toggle dialogs. This also fixed a startup crash when no data was loaded.
 
-###  July 22, 2025
+###  July 21, 2025
 * **Start of the project** : plugin is working and building parts are rendered  as extruded bodies via OpenGL (JOGL library) 
  
 ## Misc 
