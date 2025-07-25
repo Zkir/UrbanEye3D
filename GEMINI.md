@@ -70,7 +70,7 @@ right mouse button, it changes to crossed arrows (expressing the movement of the
 The `roof:shape` tag in OpenStreetMap is used to describe the shape of a building's roof. This plan outlines the steps to implement support for this tag in the 3D viewer plugin.
 
 Already supported: 
-* 'flat' - partially.
+* 'flat' -    both for simple polygons and multipolygons
 * 'pyramidal'
 * 'dome'
 * 'onion'
@@ -78,7 +78,6 @@ Already supported:
 * 'skillion' 
 
 Yet to be implemented:
-* 'flat' - for multipolygons, if there several inner or outer rings. 
 * 'gabled'
 * 'hipped':
 * 'zakomar'
