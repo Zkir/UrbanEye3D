@@ -18,69 +18,101 @@ public class RenderableBuildingElement {
         // Define a tolerance for the tangent of the angle. For example, 0.08 corresponds to ~175.5 degrees.
         // This allows for slight deviations in manually placed points.
         static final double STRAIGHT_ANGLE_TAN_TOLERANCE = 0.08;
-        ArrayList<Point2D> contour;
+        List<ArrayList<Point2D>> outerRings;
+        List<ArrayList<Point2D>> innerRings;
 
         Contour(Way way, LatLon center){
+            this.outerRings = new ArrayList<>();
+            this.innerRings = new ArrayList<>();
             ArrayList<Point2D> tempContour = new ArrayList<>();
             for (Node node : way.getNodes()) {
                 tempContour.add(getNodeLocalCoords(node, center));
             }
-            this.contour = simplifyContour(tempContour);
+            this.outerRings.add(simplifyContour(tempContour));
         }
 
         Contour(Relation relation, LatLon center) {
-            List<Way> ways = new ArrayList<>();
+            this.outerRings = new ArrayList<>();
+            this.innerRings = new ArrayList<>();
+
+            List<Way> outerWays = new ArrayList<>();
+            List<Way> innerWays = new ArrayList<>();
+
             for (RelationMember member : relation.getMembers()) {
-                if ("outer".equals(member.getRole()) && member.isWay() && !member.getMember().isIncomplete()) {
-                    ways.add(member.getWay());
+                if (!member.isWay() || member.getMember().isIncomplete()) continue;
+
+                if ("outer".equals(member.getRole())) {
+                    outerWays.add(member.getWay());
+                } else if ("inner".equals(member.getRole())) {
+                    innerWays.add(member.getWay());
                 }
             }
 
-            if (ways.isEmpty()) {
-                this.contour = new ArrayList<>();
-                return;
+            List<List<Node>> outerNodeRings = assembleRings(outerWays);
+            for (List<Node> nodeRing : outerNodeRings) {
+                ArrayList<Point2D> pointRing = new ArrayList<>();
+                for (Node node : nodeRing) {
+                    pointRing.add(getNodeLocalCoords(node, center));
+                }
+                this.outerRings.add(simplifyContour(pointRing));
             }
 
-            List<Node> assembledNodes = new ArrayList<>(ways.get(0).getNodes());
-            ways.remove(0);
+            List<List<Node>> innerNodeRings = assembleRings(innerWays);
+            for (List<Node> nodeRing : innerNodeRings) {
+                ArrayList<Point2D> pointRing = new ArrayList<>();
+                for (Node node : nodeRing) {
+                    pointRing.add(getNodeLocalCoords(node, center));
+                }
+                this.innerRings.add(simplifyContour(pointRing));
+            }
+        }
 
-            while (!ways.isEmpty()) {
-                boolean foundNext = false;
-                for (int i = 0; i < ways.size(); i++) {
-                    Way way = ways.get(i);
-                    if (way.getNodesCount() < 2) continue; // Skip ways with less than 2 nodes
+        private List<List<Node>> assembleRings(List<Way> ways) {
+            List<List<Node>> rings = new ArrayList<>();
+            List<Way> remainingWays = new ArrayList<>(ways);
 
-                    Node lastAssembledNode = assembledNodes.get(assembledNodes.size() - 1);
-                    Node wayFirstNode = way.firstNode();
-                    Node wayLastNode = way.lastNode();
+            while (!remainingWays.isEmpty()) {
+                List<Node> currentRing = new ArrayList<>(remainingWays.get(0).getNodes());
+                remainingWays.remove(0);
 
-                    if (wayFirstNode == null || wayLastNode == null) continue; // Skip incomplete ways
+                boolean ringClosed = false;
+                while (!ringClosed && !remainingWays.isEmpty()) {
+                    Node firstNode = currentRing.get(0);
+                    Node lastNode = currentRing.get(currentRing.size() - 1);
 
-                    if (wayFirstNode.equals(lastAssembledNode)) {
-                        assembledNodes.addAll(way.getNodes().subList(1, way.getNodesCount()));
-                        ways.remove(i);
-                        foundNext = true;
-                        break;
-                    } else if (wayLastNode.equals(lastAssembledNode)) {
-                        List<Node> reversedNodes = new ArrayList<>(way.getNodes());
-                        Collections.reverse(reversedNodes);
-                        assembledNodes.addAll(reversedNodes.subList(1, reversedNodes.size()));
-                        ways.remove(i);
-                        foundNext = true;
+                    if (firstNode.equals(lastNode)) {
+                        ringClosed = true;
+                        continue;
+                    }
+
+                    boolean foundNext = false;
+                    for (int i = 0; i < remainingWays.size(); i++) {
+                        Way nextWay = remainingWays.get(i);
+                        if (nextWay.getNodesCount() < 2) continue;
+
+                        if (nextWay.firstNode().equals(lastNode)) {
+                            currentRing.addAll(nextWay.getNodes().subList(1, nextWay.getNodesCount()));
+                            remainingWays.remove(i);
+                            foundNext = true;
+                            break;
+                        } else if (nextWay.lastNode().equals(lastNode)) {
+                            List<Node> reversedNodes = new ArrayList<>(nextWay.getNodes());
+                            Collections.reverse(reversedNodes);
+                            currentRing.addAll(reversedNodes.subList(1, reversedNodes.size()));
+                            remainingWays.remove(i);
+                            foundNext = true;
+                            break;
+                        }
+                    }
+
+                    if (!foundNext) {
+                        // Could not find a way to close the ring, break to avoid infinite loop
                         break;
                     }
                 }
-                if (!foundNext) {
-                    // Relation is broken
-                    break;
-                }
+                rings.add(currentRing);
             }
-
-            ArrayList<Point2D> tempContour = new ArrayList<>();
-            for (Node node : assembledNodes) {
-                tempContour.add(getNodeLocalCoords(node, center));
-            }
-            this.contour = simplifyContour(tempContour);
+            return rings;
         }
 
         static Point2D getNodeLocalCoords(Node node, LatLon center){
@@ -191,8 +223,21 @@ public class RenderableBuildingElement {
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
     }
 
+    public boolean hasComplexContour() {
+        return this.getContourOuterRings().size() > 1 || !this.getContourInnerRings().isEmpty();
+    }
+
+
     public List<Point2D> getContour() {
-        return contour.contour;
+        return contour.outerRings.isEmpty() ? new ArrayList<>() : contour.outerRings.get(0);
+    }
+
+    public List<ArrayList<Point2D>> getContourOuterRings() {
+        return contour.outerRings;
+    }
+
+    public List<ArrayList<Point2D>> getContourInnerRings() {
+        return contour.innerRings;
     }
 
     private double parseDirection(String direction) {

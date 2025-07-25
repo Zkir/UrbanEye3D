@@ -14,18 +14,17 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 
 ## Next steps
-1. **Support multipolygons (relations)**. Support of multipolygons/relations should be improved according to the reference implementation (see  here: D:\z3dViewer\misc\osmGeometry.py, ExtractCloseNodeChainsFromRelation() function.)
-Also, additional features should be supported: if there are several outer rings, polygon should be split and several Contour objects should be created.
-(??If there are holes, polygon should be cut. ??)
-2. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
-3. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-4. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
+1. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
+2. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
+3. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
 
 ## Recent Accomplishments 
+
 
 ### July 25, 2025
 * **Dome, half-dome and onion roofs:** support added for "conical" roofs.
 * **Skillion roof support:** Implemented support for `roof:shape=skillion`, including `roof:direction`. The implementation correctly generates trapezoidal walls and handles non-convex polygons using tessellation.
+* **Complex Multipolygon Support:** Implemented robust support for multipolygon relations, including those with multiple outer rings and inner holes. The logic now correctly assembles complex geometries and uses OpenGL tessellation for proper rendering. Buildings with multiple rings now correctly default to a flat roof, regardless of `roof:shape` tags.
 
 ### July 24, 2025
 * **Initial roof support:** Implemented support for `roof:shape=pyramidal`, as the most simple one. Pyramids are created with correct centroid, even better then in blosm!

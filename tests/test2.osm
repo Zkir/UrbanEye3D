@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <bounds minlat='55.04' minlon='37.04' maxlat='55.06' maxlon='37.06' />
+
+  <!-- Building 1: Simple Multipolygon (1 outer, 1 inner) -->
+  <node id='-1' lat='55.047' lon='37.047' />
+  <node id='-2' lat='55.053' lon='37.047' />
+  <node id='-3' lat='55.053' lon='37.053' />
+  <node id='-4' lat='55.047' lon='37.053' />
+  <node id='-5' lat='55.048' lon='37.048' />
+  <node id='-6' lat='55.052' lon='37.048' />
+  <node id='-7' lat='55.052' lon='37.052' />
+  <node id='-8' lat='55.048' lon='37.052' />
+
+  <way id='-10'>
+    <nd ref='-1' /> <nd ref='-2' /> <nd ref='-3' /> <nd ref='-4' /> <nd ref='-1' />
+  </way>
+  <way id='-20'>
+    <nd ref='-5' /> <nd ref='-6' /> <nd ref='-7' /> <nd ref='-8' /> <nd ref='-5' />
+  </way>
+
+  <relation id='-100'>
+    <member type='way' ref='-10' role='outer' />
+    <member type='way' ref='-20' role='inner' />
+    <tag k='type' v='multipolygon' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='25' />
+    <tag k='building:colour' v='red' />
+    <tag k='roof:colour' v='blue' />
+  </relation>
+
+  <!-- Building 2: Complex Multipolygon (2 outer, 3 inner) -->
+  <!-- Outer 1 -->
+  <node id='-101' lat='55.055' lon='37.047' />
+  <node id='-102' lat='55.058' lon='37.047' />
+  <node id='-103' lat='55.058' lon='37.050' />
+  <node id='-104' lat='55.055' lon='37.050' />
+  <!-- Outer 2 -->
+  <node id='-105' lat='55.055' lon='37.051' />
+  <node id='-106' lat='55.058' lon='37.051' />
+  <node id='-107' lat='55.058' lon='37.054' />
+  <node id='-108' lat='55.055' lon='37.054' />
+
+  <!-- Inner 1 (in Outer 1) -->
+  <node id='-201' lat='55.0555' lon='37.0475' />
+  <node id='-202' lat='55.0560' lon='37.0475' />
+  <node id='-203' lat='55.0560' lon='37.0480' />
+  <node id='-204' lat='55.0555' lon='37.0480' />
+  <!-- Inner 2 (in Outer 1) -->
+  <node id='-205' lat='55.0565' lon='37.0485' />
+  <node id='-206' lat='55.0570' lon='37.0485' />
+  <node id='-207' lat='55.0570' lon='37.0490' />
+  <node id='-208' lat='55.0565' lon='37.0490' />
+  <!-- Inner 3 (in Outer 2) -->
+  <node id='-209' lat='55.056' lon='37.052' />
+  <node id='-210' lat='55.057' lon='37.052' />
+  <node id='-211' lat='55.057' lon='37.053' />
+  <node id='-212' lat='55.056' lon='37.053' />
+
+  <way id='-110'> <nd ref='-101'/> <nd ref='-102'/> <nd ref='-103'/> <nd ref='-104'/> <nd ref='-101'/> </way>
+  <way id='-120'> <nd ref='-105'/> <nd ref='-106'/> <nd ref='-107'/> <nd ref='-108'/> <nd ref='-105'/> </way>
+  <way id='-210'> <nd ref='-201'/> <nd ref='-202'/> <nd ref='-203'/> <nd ref='-204'/> <nd ref='-201'/> </way>
+  <way id='-220'> <nd ref='-205'/> <nd ref='-206'/> <nd ref='-207'/> <nd ref='-208'/> <nd ref='-205'/> </way>
+  <way id='-230'> <nd ref='-209'/> <nd ref='-210'/> <nd ref='-211'/> <nd ref='-212'/> <nd ref='-209'/> </way>
+
+  <relation id='-200'>
+    <member type='way' ref='-110' role='outer' />
+    <member type='way' ref='-120' role='outer' />
+    <member type='way' ref='-210' role='inner' />
+    <member type='way' ref='-220' role='inner' />
+    <member type='way' ref='-230' role='inner' />
+    <tag k='type' v='multipolygon' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='15' />
+    <tag k='building:colour' v='green' />
+    <tag k='roof:colour' v='brown' />
+  </relation>
+
+</osm>

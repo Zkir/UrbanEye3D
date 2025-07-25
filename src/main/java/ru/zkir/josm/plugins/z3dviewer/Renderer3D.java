@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Renderer3D extends GLJPanel implements GLEventListener {
@@ -167,18 +168,20 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             double minHeight = building.minHeight;
             double roofHeight = building.roofHeight;
             double wallHeight = height - roofHeight;
-            List<Point2D> basePoints = building.getContour();
 
-            RoofGeometryGenerator.Mesh buildingMesh=null;
+            RoofGeometryGenerator.Mesh buildingMesh = null;
 
-            if (building.roofShape == RoofShapes.SKILLION) {
-                buildingMesh = RoofGeometryGenerator.generateSkillionRoof(basePoints, minHeight, wallHeight, height, building.roofDirection);
-            }
+            if ( !building.hasComplexContour() ) {
+                List<Point2D> basePoints = building.getContour();
+                if (building.roofShape == RoofShapes.SKILLION) {
+                    buildingMesh = RoofGeometryGenerator.generateSkillionRoof(basePoints, minHeight, wallHeight, height, building.roofDirection);
+                }
 
-            if (( building.roofShape == RoofShapes.PYRAMIDAL
-                    || building.roofShape == RoofShapes.DOME)  || (building.roofShape == RoofShapes.HALF_DOME
-                    || (building.roofShape == RoofShapes.ONION)  )) {
-                buildingMesh = RoofGeometryGenerator.generateConicalRoof(building.roofShape, basePoints, minHeight, wallHeight, height);
+                if ((building.roofShape == RoofShapes.PYRAMIDAL
+                        || building.roofShape == RoofShapes.DOME) || (building.roofShape == RoofShapes.HALF_DOME
+                        || (building.roofShape == RoofShapes.ONION))) {
+                    buildingMesh = RoofGeometryGenerator.generateConicalRoof(building.roofShape, basePoints, minHeight, wallHeight, height);
+                }
             }
 
             if (buildingMesh != null ){
@@ -202,28 +205,33 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
                 // Draw walls
                 if (wallHeight > minHeight) {
-                    gl.glBegin(GL2.GL_QUADS);
-                    for (int i = 0; i < basePoints.size(); i++) {
-                        Point2D p1 = basePoints.get(i);
-                        Point2D p2 = basePoints.get((i + 1) % basePoints.size());
+                    List<List<Point2D>> allRings = new ArrayList<>(building.getContourOuterRings());
+                    allRings.addAll(building.getContourInnerRings());
 
-                        // Calculate wall normal
-                        Point3D wallNormal = new Point3D(p2.y - p1.y, p1.x - p2.x, 0).normalize();
-                        double dotProduct = wallNormal.dot(SUN_DIRECTION);
-                        Color litWallColor = applyLighting(building.color, dotProduct);
-                        Color darkerLitWallColor = litWallColor.darker();
+                    for (List<Point2D> ring : allRings) {
+                        gl.glBegin(GL2.GL_QUADS);
+                        for (int i = 0; i < ring.size(); i++) {
+                            Point2D p1 = ring.get(i);
+                            Point2D p2 = ring.get((i + 1) % ring.size());
 
-                        // Top vertices get the calculated lit color
-                        gl.glColor3f(litWallColor.getRed() / 255.0f, litWallColor.getGreen() / 255.0f, litWallColor.getBlue() / 255.0f);
-                        gl.glVertex3d(p1.x, p1.y, wallHeight);
-                        gl.glVertex3d(p2.x, p2.y, wallHeight);
+                            // Calculate wall normal
+                            Point3D wallNormal = new Point3D(p2.y - p1.y, p1.x - p2.x, 0).normalize();
+                            double dotProduct = wallNormal.dot(SUN_DIRECTION);
+                            Color litWallColor = applyLighting(building.color, dotProduct);
+                            Color darkerLitWallColor = litWallColor.darker();
 
-                        // Bottom vertices get a darker version for the Fake AO effect
-                        gl.glColor3f(darkerLitWallColor.getRed() / 255.0f, darkerLitWallColor.getGreen() / 255.0f, darkerLitWallColor.getBlue() / 255.0f);
-                        gl.glVertex3d(p2.x, p2.y, minHeight);
-                        gl.glVertex3d(p1.x, p1.y, minHeight);
+                            // Top vertices get the calculated lit color
+                            gl.glColor3f(litWallColor.getRed() / 255.0f, litWallColor.getGreen() / 255.0f, litWallColor.getBlue() / 255.0f);
+                            gl.glVertex3d(p1.x, p1.y, wallHeight);
+                            gl.glVertex3d(p2.x, p2.y, wallHeight);
+
+                            // Bottom vertices get a darker version for the Fake AO effect
+                            gl.glColor3f(darkerLitWallColor.getRed() / 255.0f, darkerLitWallColor.getGreen() / 255.0f, darkerLitWallColor.getBlue() / 255.0f);
+                            gl.glVertex3d(p2.x, p2.y, minHeight);
+                            gl.glVertex3d(p1.x, p1.y, minHeight);
+                        }
+                        gl.glEnd();
                     }
-                    gl.glEnd();
                 }
 
                 // --- Flat Roof (Default) ---
@@ -231,38 +239,63 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 Point3D roofNormal = new Point3D(0, 0, 1);
                 double roofDotProduct = roofNormal.dot(SUN_DIRECTION);
                 Color litRoofColor = applyLighting(building.roofColor, roofDotProduct);
-                drawPolygon(gl, basePoints, height, litRoofColor);
+                drawPolygonWithHoles(gl, building.getContourOuterRings(), building.getContourInnerRings(), height, litRoofColor);
 
                 // If the roof has a defined height, it's a slab. We need to draw its sides (fascia).
                 if (building.roofHeight > 0) {
-                    gl.glBegin(GL2.GL_QUADS);
-                    for (int i = 0; i < basePoints.size(); i++) {
-                        Point2D p1 = basePoints.get(i);
-                        Point2D p2 = basePoints.get((i + 1) % basePoints.size());
+                    for (List<Point2D> ring : building.getContourOuterRings()) {
+                        gl.glBegin(GL2.GL_QUADS);
+                        for (int i = 0; i < ring.size(); i++) {
+                            Point2D p1 = ring.get(i);
+                            Point2D p2 = ring.get((i + 1) % ring.size());
 
-                        // Calculate normal for the fascia wall
-                        Point3D wallNormal = new Point3D(p2.y - p1.y, p1.x - p2.x, 0).normalize();
-                        double wallDotProduct = wallNormal.dot(SUN_DIRECTION);
-                        Color litFasciaColor = applyLighting(building.roofColor, wallDotProduct); // Use roof color for fascia
+                            // Calculate normal for the fascia wall
+                            Point3D wallNormal = new Point3D(p2.y - p1.y, p1.x - p2.x, 0).normalize();
+                            double wallDotProduct = wallNormal.dot(SUN_DIRECTION);
+                            Color litFasciaColor = applyLighting(building.roofColor, wallDotProduct); // Use roof color for fascia
 
-                        gl.glColor3f(litFasciaColor.getRed() / 255.0f, litFasciaColor.getGreen() / 255.0f, litFasciaColor.getBlue() / 255.0f);
+                            gl.glColor3f(litFasciaColor.getRed() / 255.0f, litFasciaColor.getGreen() / 255.0f, litFasciaColor.getBlue() / 255.0f);
 
-                        // Top vertices of the fascia quad
-                        gl.glVertex3d(p1.x, p1.y, height);
-                        gl.glVertex3d(p2.x, p2.y, height);
+                            // Top vertices of the fascia quad
+                            gl.glVertex3d(p1.x, p1.y, height);
+                            gl.glVertex3d(p2.x, p2.y, height);
 
-                        // Bottom vertices of the fascia quad (top of the main walls)
-                        gl.glVertex3d(p2.x, p2.y, wallHeight);
-                        gl.glVertex3d(p1.x, p1.y, wallHeight);
+                            // Bottom vertices of the fascia quad (top of the main walls)
+                            gl.glVertex3d(p2.x, p2.y, wallHeight);
+                            gl.glVertex3d(p1.x, p1.y, wallHeight);
+                        }
+                        gl.glEnd();
                     }
-                    gl.glEnd();
+                    for (List<Point2D> ring : building.getContourInnerRings()) {
+                        gl.glBegin(GL2.GL_QUADS);
+                        for (int i = 0; i < ring.size(); i++) {
+                            Point2D p1 = ring.get(i);
+                            Point2D p2 = ring.get((i + 1) % ring.size());
+
+                            // Calculate normal for the fascia wall
+                            Point3D wallNormal = new Point3D(p2.y - p1.y, p1.x - p2.x, 0).normalize();
+                            double wallDotProduct = wallNormal.dot(SUN_DIRECTION);
+                            Color litFasciaColor = applyLighting(building.roofColor, wallDotProduct); // Use roof color for fascia
+
+                            gl.glColor3f(litFasciaColor.getRed() / 255.0f, litFasciaColor.getGreen() / 255.0f, litFasciaColor.getBlue() / 255.0f);
+
+                            // Top vertices of the fascia quad
+                            gl.glVertex3d(p1.x, p1.y, height);
+                            gl.glVertex3d(p2.x, p2.y, height);
+
+                            // Bottom vertices of the fascia quad (top of the main walls)
+                            gl.glVertex3d(p2.x, p2.y, wallHeight);
+                            gl.glVertex3d(p1.x, p1.y, wallHeight);
+                        }
+                        gl.glEnd();
+                    }
                 }
             }
 
             // Draw floor. TODO: implement Mesh.bottomFaces
             if (building.minHeight > 0) {
                 // Assuming floor is not lit
-                drawPolygon(gl, basePoints, building.minHeight, building.color.darker());
+                drawPolygonWithHoles(gl, building.getContourOuterRings(), building.getContourInnerRings(), building.minHeight, building.color.darker());
             }
         }
         gl.glFlush();
@@ -272,7 +305,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     }
 
 
-    private void drawPolygon(GL2 gl, List<Point2D> points, double z, Color color) {
+    private void drawPolygonWithHoles(GL2 gl, List<ArrayList<Point2D>> outerRings, List<ArrayList<Point2D>> innerRings, double z, Color color) {
         GLUtessellator tess = glu.gluNewTess();
         TessellatorCallback callback = new TessellatorCallback(gl, glu);
 
@@ -284,18 +317,28 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         gl.glColor3f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f);
 
-        // Set winding rule to correctly handle complex polygons
         glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
 
         glu.gluTessBeginPolygon(tess, null);
-        glu.gluTessBeginContour(tess);
 
-        for (Point2D p : points) {
-            double[] vertex = {p.x, p.y, z};
-            glu.gluTessVertex(tess, vertex, 0, vertex);
+        for (List<Point2D> outerRing : outerRings) {
+            glu.gluTessBeginContour(tess);
+            for (Point2D p : outerRing) {
+                double[] vertex = {p.x, p.y, z};
+                glu.gluTessVertex(tess, vertex, 0, vertex);
+            }
+            glu.gluTessEndContour(tess);
         }
 
-        glu.gluTessEndContour(tess);
+        for (List<Point2D> innerRing : innerRings) {
+            glu.gluTessBeginContour(tess);
+            for (Point2D p : innerRing) {
+                double[] vertex = {p.x, p.y, z};
+                glu.gluTessVertex(tess, vertex, 0, vertex);
+            }
+            glu.gluTessEndContour(tess);
+        }
+
         glu.gluTessEndPolygon(tess);
         glu.gluDeleteTess(tess);
     }
