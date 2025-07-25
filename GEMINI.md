@@ -25,7 +25,7 @@ Also, additional features should be supported: if there are several outer rings,
 
 ### July 25, 2025
 * **Initial roof support:** Implemented support for `roof:shape=pyramidal`, as the most simple one. Pyramids are created with correct centroid, even better then in blosm!
-* **Flat roof support:** Yes, if flat roof has height (roof:shape=flat+roof:heigh=*), we create fascia (vertical side faces) in roof color. Noone before has done that. We done!
+* **Flat roof support:** Yes! If a flat roof has a defined height (roof:shape=flat+roof:heigh=*), we create fascia (vertical side faces) in the roof color. No one has done this before. We did it!
 * **Wireframe rendering mode:** A new preference setting allows users to toggle between solid and wireframe rendering for buildings.
 * **Removing of redundant nodes:** A lot of nodes, which belong to building parts, are not really needed for rendering. Removing them is a huge optimization!
 
