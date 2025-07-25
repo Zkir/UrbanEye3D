@@ -87,7 +87,6 @@ public class Z3dViewerDialog extends ToggleDialog
     }
 
 
-
     private void updateData() {
         buildings.clear();
         OsmDataLayer editLayer = MainApplication.getLayerManager().getEditLayer();
@@ -95,50 +94,48 @@ public class Z3dViewerDialog extends ToggleDialog
             DataSet dataSet = editLayer.getDataSet();
             LatLon center = MainApplication.getMap().mapView.getProjection().eastNorth2latlon(MainApplication.getMap().mapView.getCenter());
             for (OsmPrimitive primitive : dataSet.allPrimitives()) {
-                if (primitive.hasKey("building:part")) {
-                    RenderableBuildingElement.Contour contour = null;
+                if (primitive instanceof  Node ) {
+                    continue;
+                }
+
+                if (primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no")) {
                     if (primitive instanceof Way) {
                         if (((Way) primitive).getNodesCount() < 3) continue;
-                        contour = new RenderableBuildingElement.Contour((Way) primitive, center);
-                    } else if (primitive instanceof Relation) {
-                        contour = new RenderableBuildingElement.Contour((Relation) primitive, center);
                     }
 
-                    if (contour != null) {
-                        String heightStr = primitive.get("height");
-                        String minHeightStr = primitive.get("min_height");
-                        String roofHeightStr = primitive.get("roof:height");
-                        double height = 0.0;
-                        double minHeight = 0.0;
-                        double roofHeight = 0.0;
-                        if (heightStr != null) {
-                            try {
-                                height = Double.parseDouble(heightStr.split(" ")[0]);
-                            } catch (NumberFormatException e) {
-                                // Ignore
-                            }
+                    String heightStr = primitive.get("height");
+                    String minHeightStr = primitive.get("min_height");
+                    String roofHeightStr = primitive.get("roof:height");
+                    double height = 0.0;
+                    double minHeight = 0.0;
+                    double roofHeight = 0.0;
+                    if (heightStr != null) {
+                        try {
+                            height = Double.parseDouble(heightStr.split(" ")[0]);
+                        } catch (NumberFormatException e) {
+                            // Ignore
                         }
-                        if (minHeightStr != null) {
-                            try {
-                                minHeight = Double.parseDouble(minHeightStr.split(" ")[0]);
-                            } catch (NumberFormatException e) {
-                                // Ignore
-                            }
+                    }
+                    if (minHeightStr != null) {
+                        try {
+                            minHeight = Double.parseDouble(minHeightStr.split(" ")[0]);
+                        } catch (NumberFormatException e) {
+                            // Ignore
                         }
-                        if (roofHeightStr != null) {
-                            try {
-                                roofHeight = Double.parseDouble(roofHeightStr.split(" ")[0]);
-                            } catch (NumberFormatException e) {
-                                // Ignore
-                            }
+                    }
+                    if (roofHeightStr != null) {
+                        try {
+                            roofHeight = Double.parseDouble(roofHeightStr.split(" ")[0]);
+                        } catch (NumberFormatException e) {
+                            // Ignore
                         }
-                        if (height > 0) {
-                            String color = primitive.get("building:colour");
-                            String roofColor = primitive.get("roof:colour");
-                            String roofShape = primitive.get("roof:shape");
-                            String roofDirection = primitive.get("roof:direction");
-                            buildings.add(new RenderableBuildingElement(contour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection));
-                        }
+                    }
+                    if (height > 0) {
+                        String color = primitive.get("building:colour");
+                        String roofColor = primitive.get("roof:colour");
+                        String roofShape = primitive.get("roof:shape");
+                        String roofDirection = primitive.get("roof:direction");
+                        buildings.add(new RenderableBuildingElement(primitive, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection));
                     }
                 }
             }
@@ -193,8 +190,9 @@ public class Z3dViewerDialog extends ToggleDialog
 
     @Override
     public void zoomChanged() {
-        //System.out.println("Event: zoom changed");
-        updateData();
+        //this event is triggered for both moving and panning
+        // we need to process this, because our camera always look to the center of the screen.
+        renderer3D.repaint();
     }
 
     @Override

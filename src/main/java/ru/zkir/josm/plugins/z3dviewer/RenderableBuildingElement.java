@@ -2,10 +2,7 @@ package ru.zkir.josm.plugins.z3dviewer;
 
 import com.drew.lang.annotations.NotNull;
 import org.openstreetmap.josm.data.coor.LatLon;
-import org.openstreetmap.josm.data.osm.Node;
-import org.openstreetmap.josm.data.osm.Way;
-import org.openstreetmap.josm.data.osm.Relation;
-import org.openstreetmap.josm.data.osm.RelationMember;
+import org.openstreetmap.josm.data.osm.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -210,18 +207,39 @@ public class RenderableBuildingElement {
     public final RoofShapes roofShape;
     public final double roofDirection;
     private final Contour contour;
+    public final LatLon origin;
 
-    public RenderableBuildingElement(Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr) {
-        this.contour = contour;
+    public RenderableBuildingElement(OsmPrimitive primitive, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr) {
+        this.origin = primitive.getBBox().getCenter();
+
+        if (primitive instanceof Way) {
+            this.contour = new Contour( (Way) primitive, this.origin);
+
+        } else if (primitive instanceof Relation) {
+            this.contour = new Contour((Relation)primitive, this.origin);
+        } else {
+            this.contour = null;
+        }
+
+
         this.height = height;
         this.minHeight = minHeight;
-        this.roofHeight = roofHeight;
         this.roofShape = RoofShapes.fromString(roofShape);
         this.roofDirection = parseDirection(roofDirectionStr);
+
+        //default value for roofHeight
+        if (this.roofShape!=RoofShapes.FLAT && roofHeight==0){
+            roofHeight=3.0;
+        }
+        if (roofHeight>height-minHeight){
+            roofHeight=height-minHeight;
+        }
+        this.roofHeight = roofHeight;
 
         this.color = parseColor(wallColor, new Color(204, 204, 204));
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
     }
+
 
     public boolean hasComplexContour() {
         return this.getContourOuterRings().size() > 1 || !this.getContourInnerRings().isEmpty();

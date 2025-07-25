@@ -11,6 +11,7 @@ import org.openstreetmap.josm.data.coor.EastNorth;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.NavigatableComponent;
 import org.openstreetmap.josm.spi.preferences.Config;
+import org.openstreetmap.josm.data.coor.LatLon;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -164,6 +165,16 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         // --- Render buildings ---
         for (RenderableBuildingElement building : buildings) {
+            gl.glPushMatrix();
+            // ToDo: we should use here not a center of the map, but a center of the displayed area.
+            // But it is not clear, how to get it.
+            LatLon mapCenter = MainApplication.getMap().mapView.getProjection().eastNorth2latlon(MainApplication.getMap().mapView.getCenter());
+            double dx = building.origin.lon() - mapCenter.lon();
+            double dy = building.origin.lat() - mapCenter.lat();
+            double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+            double transY = dy * 111320.0;
+            gl.glTranslated(transX, transY, 0);
+
             double height = building.height;
             double minHeight = building.minHeight;
             double roofHeight = building.roofHeight;
@@ -297,6 +308,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 // Assuming floor is not lit
                 drawPolygonWithHoles(gl, building.getContourOuterRings(), building.getContourInnerRings(), building.minHeight, building.color.darker());
             }
+            gl.glPopMatrix();
         }
         gl.glFlush();
 
