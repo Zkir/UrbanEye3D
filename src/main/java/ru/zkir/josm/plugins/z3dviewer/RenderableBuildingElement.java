@@ -302,6 +302,10 @@ public class RenderableBuildingElement {
             if (roofShape == RoofShapes.GABLED) {
                 this.mesh = RoofGeometryGenerator.generateGabledRoof(basePoints, minHeight, wallHeight, height, roofOrientation);
             }
+            if (roofShape == RoofShapes.HIPPED) {
+                this.mesh = RoofGeometryGenerator.generateHippedRoof(basePoints, minHeight, wallHeight, height, roofOrientation);
+            }
+
             if (roofShape == RoofShapes.SKILLION) {
                 this.mesh = RoofGeometryGenerator.generateSkillionRoof(basePoints, minHeight, wallHeight, height, roofDirection);
             }

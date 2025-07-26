@@ -26,12 +26,14 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
     *   **Watertightness:** Ensures that the mesh is a closed, solid object with no holes by verifying that every edge is shared by exactly two faces.
     *   **Normal Direction:** Confirms that all face normals point outwards, which is essential for correct lighting and rendering.
 * **Test-Driven Development for Roofs:** The test suite now covers `pyramidal`, `gabled`, `skillion`, `dome`, and `onion` roof shapes, solidifying their implementation and providing a clear framework for developing new roof types. 
+
 ### July 26, 2025                                                            
 * **Gabled Roof Support:** Implemented support for `roof:shape=gabled` on quadrilateral buildings. 
 The implementation correctly identifies gable ends based on the shortest or longest sides of the building footprint, controlled by the
 `roof:orientation=along/across` tag. The gable walls are generated  as single pentagonal faces, ensuring correct geometry and appearance.
 * **Сonsistent naming** : Plugin file is called z3dviewer 
 * **Split multipolygons**. If a building contour has several outer rings, but no inner ones, it is separated into several RenderableBuildingElements. Not precisely correct, because origin is not moved, but at least such objects rendered.
+* **Hipped Roof Support:** Implemented support for `roof:shape=hipped` on quadrilateral buildings. 
 
 ### July 25, 2025
 * **Dome, half-dome and onion roofs:** support added for "conical" roofs.
@@ -111,24 +113,24 @@ The existing test suite serves as a powerful tool for Test-Driven Development (T
 The `roof:shape` tag in OpenStreetMap is used to describe the shape of a building's roof. This plan outlines the steps to implement support for this tag in the 3D viewer plugin.
 
 Already supported: 
-* 'flat' -    both for simple polygons and multipolygons
+* 'flat'     
 * 'pyramidal'
 * 'dome'
 * 'onion'
 * 'half-dome'
 * 'skillion' 
 * 'gabled'  - for quadrilateral polygons.
+* 'hipped' - for quadrilateral polygons.
 
 Yet to be implemented:
-* 'hipped':
-* 'zakomar'
-* 'cross_gabled'
-* 'round'
 * 'half-hipped'
+* 'round'
 * 'gambrel'
+* 'cross_gabled'
 * 'saltbox' 
 * 'mansard' 
-* 'gabled'  - for arbitrary polygons.
+* 'zakomar'
+* 'gabled'  - for arbitrary polygons. there is quite complex algorithm for this in blosm, but it handles only rectangular-like buildings (just with more verticies). I am not aware of proper implementation of gabled roof for Г-shaped or П-shaped buildings.
 
 
 Reference implementation from patched blosm blender addon should be reused, see:

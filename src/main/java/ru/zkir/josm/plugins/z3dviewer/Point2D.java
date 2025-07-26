@@ -16,4 +16,21 @@ public class Point2D {
             y /= length;
         }
     }
+
+    public double length(){
+        return Math.sqrt(x * x + y * y);
+    }
+    //vector summation
+    public Point2D add(Point2D other){
+        return new Point2D(this.x+other.x, this.y+other.y);
+    }
+    //vector subtraction
+    public Point2D subtract(Point2D other){
+        return new Point2D(this.x-other.x, this.y-other.y);
+    }
+
+    //scalar multiplication
+    public Point2D mult(double scalar) {
+        return new Point2D(x * scalar, y * scalar);
+    }
 }

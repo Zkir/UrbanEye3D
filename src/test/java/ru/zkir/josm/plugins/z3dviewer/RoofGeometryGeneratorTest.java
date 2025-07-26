@@ -108,6 +108,15 @@ class RoofGeometryGeneratorTest {
     }
 
     @Test
+    void testHippedRoof() {
+        List<Point2D> base = createRectangularBase(10, 20);
+        RoofGeometryGenerator.Mesh mesh = RoofGeometryGenerator.generateHippedRoof(base, 0, 5, 10, "along");
+        assertNotNull(mesh);
+        assertWatertight(mesh);
+        assertNormalsOutward(mesh);
+    }
+
+    @Test
     void testSkillionRoof() {
         List<Point2D> base = createRectangularBase(10, 10);
         RoofGeometryGenerator.Mesh mesh = RoofGeometryGenerator.generateSkillionRoof(base, 0, 5, 10, 45);
