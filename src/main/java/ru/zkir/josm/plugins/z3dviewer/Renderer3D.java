@@ -196,6 +196,12 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 for (int[] face : buildingMesh.roofFaces) {
                     drawPolygon(gl, buildingMesh.verts, face, building.roofColor);
                 }
+                // Draw bottom faces
+                for (int[] face : buildingMesh.bottomFaces) {
+                    drawPolygon(gl, buildingMesh.verts, face, building.roofColor);
+                }
+
+
 
             }else {
                 //in rare cases, like complex multipolygons with holes, we are bot able to construct mesh,

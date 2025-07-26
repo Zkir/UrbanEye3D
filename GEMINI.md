@@ -21,6 +21,12 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 5. ** Сonsistent naming** : Plugin should be called z3dviewer 
 
 ## Recent Accomplishments 
+### July 26, 2025 (testing)
+* **Unit Testing Framework:** Established a robust unit testing environment using JUnit 5.
+* **Geometry Validation Tests:** Created a suite of unit tests for the `RoofGeometryGenerator` class. These tests automatically validate two critical properties of the generated 3D meshes:
+    *   **Watertightness:** Ensures that the mesh is a closed, solid object with no holes by verifying that every edge is shared by exactly two faces.
+    *   **Normal Direction:** Confirms that all face normals point outwards, which is essential for correct lighting and rendering.
+* **Test-Driven Development for Roofs:** The test suite now covers `pyramidal`, `gabled`, `skillion`, `dome`, and `onion` roof shapes, solidifying their implementation and providing a clear framework for developing new roof types. 
 ### July 26, 2025                                                            
 * **Gabled Roof Support:** Implemented support for `roof:shape=gabled` on quadrilateral buildings. 
 The implementation correctly identifies gable ends based on the shortest or longest sides of the building footprint, controlled by the
@@ -59,6 +65,7 @@ right mouse button, it changes to crossed arrows (expressing the movement of the
 ###  July 21, 2025
 * **Start of the project** : plugin is working and building parts are rendered  as extruded bodies via OpenGL (JOGL library) 
  
+ 
 ## Misc 
  ### Build environment
  
@@ -68,6 +75,33 @@ right mouse button, it changes to crossed arrows (expressing the movement of the
 
  * JOSM source code can be found in d:\z3dViewer\ext_sources\josm_source
  * Blosm (aka blender-osm) source code can be found in d:\z3dViewer\ext_sources\blosm_source
+
+## Unit Testing
+
+A unit testing suite has been set up using JUnit 5. To run the tests, execute `mvn package` from the project root.
+
+The primary test class is `RoofGeometryGeneratorTest.java`, which focuses on validating the 3D geometry produced for different roof shapes.
+
+### Adding New Roof Shape Tests
+
+The existing test suite serves as a powerful tool for Test-Driven Development (TDD) when adding support for new roof shapes. To add a test for a new shape (e.g., `hipped`):
+
+1.  **Create a Failing Test:** Add a new `@Test` method to `RoofGeometryGeneratorTest.java`, for example, `testHippedRoof()`. This method should call the (not-yet-implemented) generation logic (e.g., `RoofGeometryGenerator.generateHippedRoof(...)`) and then assert its validity using the provided helper functions:
+    ```java
+    @Test
+    void testHippedRoof() {
+        List<Point2D> base = createRectangularBase(10, 20);
+        RoofGeometryGenerator.Mesh mesh = RoofGeometryGenerator.generateHippedRoof(base, 0, 5, 10);
+        assertNotNull(mesh);
+        assertWatertight(mesh);
+        assertNormalsOutward(mesh);
+    }
+    ```
+2.  **Implement the Feature:** Create the `generateHippedRoof` method in `RoofGeometryGenerator.java`.
+3.  **Iterate:** Run `mvn package` repeatedly. The test results will guide the implementation:
+    *   A failure in `assertWatertight` indicates a geometric error (a "hole" in the mesh).
+    *   A failure in `assertNormalsOutward` indicates an incorrect vertex winding order for a face.
+4.  **Succeed:** Continue refining the implementation until all tests pass.
 
 ## Plan for roof:shape implementation
 

@@ -10,6 +10,7 @@ public class RoofGeometryGenerator {
         public List<Point3D> verts = new ArrayList<>();
         public List<int[]> roofFaces = new ArrayList<>();
         public List<int[]> wallFaces = new ArrayList<>();
+        public List<int[]> bottomFaces = new ArrayList<>();
     }
 
     // Generatrix for a dome
@@ -136,6 +137,13 @@ public class RoofGeometryGenerator {
             indexOffset + (rows - 1) * n + 0,
             centreIdx
         });
+
+        // Create bottom face
+        int[] bottomFace = new int[n];
+        for (int i = 0; i < n; i++) {
+            bottomFace[i] = n - 1 - i; // Reverse order for correct normal
+        }
+        mesh.bottomFaces.add(bottomFace);
 
         mesh.verts = verts;
         return mesh;
@@ -267,6 +275,13 @@ public class RoofGeometryGenerator {
             mesh.wallFaces.add(new int[]{p1_base, p2_base, p2_roof, p1_roof});
         }
 
+        // Create bottom face
+        int[] bottomFace = new int[n];
+        for (int i = 0; i < n; i++) {
+            bottomFace[i] = n - 1 - i; // Reverse order for correct normal
+        }
+        mesh.bottomFaces.add(bottomFace);
+
         mesh.verts = verts;
         return mesh;
     }
@@ -382,6 +397,13 @@ public class RoofGeometryGenerator {
         // Create Roof Planes (Quads)
         mesh.roofFaces.add(new int[]{wallIdx + eave1_idx0, wallIdx + eave1_idx1, ridge2Idx, ridge1Idx});
         mesh.roofFaces.add(new int[]{wallIdx + eave2_idx0, wallIdx + eave2_idx1, ridge1Idx, ridge2Idx});
+
+        // Create bottom face
+        int[] bottomFace = new int[n];
+        for (int i = 0; i < n; i++) {
+            bottomFace[i] = n - 1 - i; // Reverse order for correct normal
+        }
+        mesh.bottomFaces.add(bottomFace);
 
         return mesh;
     }
