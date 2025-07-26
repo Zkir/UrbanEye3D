@@ -176,8 +176,23 @@ public class RenderableBuildingElement {
                 //simplifiedContour.add(simplifiedContour.get(0));
             }
 
-            return simplifiedContour;
+        // Ensure the contour is counter-clockwise (CCW)
+            if (isClosed && isClockwise(simplifiedContour)) {
+            Collections.reverse(simplifiedContour);
         }
+
+            return simplifiedContour;
+    }
+
+    private static boolean isClockwise(List<Point2D> polygon) {
+        double sum = 0.0;
+        for (int i = 0; i < polygon.size(); i++) {
+            Point2D p1 = polygon.get(i);
+            Point2D p2 = polygon.get((i + 1) % polygon.size());
+            sum += (p2.x - p1.x) * (p2.y + p1.y);
+        }
+        return sum > 0;
+    }
 
         // Calculate the 2D cross product and dot product of vectors ( p_prev-p_current) and (p_next - p_current)
         // If the tangent of the angle between them is close to zero, the points are collinear.
