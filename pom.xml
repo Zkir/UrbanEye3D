@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.zkir.josm.plugins</groupId>
-    <artifactId>threedviewer</artifactId>
+    <artifactId>z3dviewer</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Z3dViewer</name>
     <description>A JOSM plugin to view selected buildings in 3D.</description>

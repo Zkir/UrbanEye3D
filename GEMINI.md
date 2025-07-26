@@ -14,11 +14,11 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 
 ## Next steps
-1. **Split multipolygons**. If a contour have several outer rings, but no inner ones, it should be separated and several RenderableBuildingElements should be created.
+1. **Split multipolygons**. If a building contour has several outer rings, but no inner ones, it should be separated and several RenderableBuildingElements should be created per each outer ring.
 2. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
 3. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
 4. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
-5. ** Сonsistent naming** : Plugin should be called z3dviewer 
+
 
 ## Recent Accomplishments 
 ### July 26, 2025 (testing)
@@ -31,6 +31,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * **Gabled Roof Support:** Implemented support for `roof:shape=gabled` on quadrilateral buildings. 
 The implementation correctly identifies gable ends based on the shortest or longest sides of the building footprint, controlled by the
 `roof:orientation=along/across` tag. The gable walls are generated  as single pentagonal faces, ensuring correct geometry and appearance.
+* **Сonsistent naming** : Plugin file is called z3dviewer 
 
 ### July 25, 2025
 * **Dome, half-dome and onion roofs:** support added for "conical" roofs.
