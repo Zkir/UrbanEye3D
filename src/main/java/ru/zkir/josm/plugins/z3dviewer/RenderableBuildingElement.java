@@ -11,6 +11,9 @@ import java.util.List;
 
 public class RenderableBuildingElement {
 
+
+
+
     public static class Contour {
         // Define a tolerance for the tangent of the angle. For example, 0.08 corresponds to ~175.5 degrees.
         // This allows for slight deviations in manually placed points.
@@ -226,6 +229,7 @@ public class RenderableBuildingElement {
     public final String roofOrientation;
     private final Contour contour;
     public final LatLon origin;
+    private RoofGeometryGenerator.Mesh mesh;
 
     public RenderableBuildingElement(OsmPrimitive primitive, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
         this.origin = primitive.getBBox().getCenter();
@@ -257,6 +261,9 @@ public class RenderableBuildingElement {
 
         this.color = parseColor(wallColor, new Color(204, 204, 204));
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
+        
+        //since we have all the data, we can compose building mesh right in constructor.
+        composeMesh();
     }
 
 
@@ -276,6 +283,31 @@ public class RenderableBuildingElement {
     public List<ArrayList<Point2D>> getContourInnerRings() {
         return contour.innerRings;
     }
+
+    public RoofGeometryGenerator.Mesh getMesh() {
+        return this.mesh;
+
+    }
+    public void composeMesh(){
+        this.mesh = null;
+        double wallHeight = height - roofHeight;
+        if ( !hasComplexContour() ) {
+            List<Point2D> basePoints = getContour();
+            if (roofShape == RoofShapes.GABLED) {
+                this.mesh = RoofGeometryGenerator.generateGabledRoof(basePoints, minHeight, wallHeight, height, roofOrientation);
+            }
+            if (roofShape == RoofShapes.SKILLION) {
+                this.mesh = RoofGeometryGenerator.generateSkillionRoof(basePoints, minHeight, wallHeight, height, roofDirection);
+            }
+
+            if ((roofShape == RoofShapes.PYRAMIDAL
+                    || roofShape == RoofShapes.DOME) || (roofShape == RoofShapes.HALF_DOME
+                    || (roofShape == RoofShapes.ONION))) {
+                this.mesh = RoofGeometryGenerator.generateConicalRoof(roofShape, basePoints, minHeight, wallHeight, height);
+            }
+        }
+    }
+
 
     private double parseDirection(String direction) {
         if (direction == null || direction.isEmpty()) {

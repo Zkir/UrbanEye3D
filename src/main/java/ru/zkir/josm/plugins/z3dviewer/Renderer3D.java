@@ -180,23 +180,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             double roofHeight = building.roofHeight;
             double wallHeight = height - roofHeight;
 
-            RoofGeometryGenerator.Mesh buildingMesh = null;
+            RoofGeometryGenerator.Mesh buildingMesh = building.getMesh();
 
-            if ( !building.hasComplexContour() ) {
-                List<Point2D> basePoints = building.getContour();
-                if (building.roofShape == RoofShapes.GABLED) {
-                    buildingMesh = RoofGeometryGenerator.generateGabledRoof(basePoints, minHeight, wallHeight, height, building.roofOrientation);
-                }
-                if (building.roofShape == RoofShapes.SKILLION) {
-                    buildingMesh = RoofGeometryGenerator.generateSkillionRoof(basePoints, minHeight, wallHeight, height, building.roofDirection);
-                }
-
-                if ((building.roofShape == RoofShapes.PYRAMIDAL
-                        || building.roofShape == RoofShapes.DOME) || (building.roofShape == RoofShapes.HALF_DOME
-                        || (building.roofShape == RoofShapes.ONION))) {
-                    buildingMesh = RoofGeometryGenerator.generateConicalRoof(building.roofShape, basePoints, minHeight, wallHeight, height);
-                }
-            }
 
             if (buildingMesh != null ){
                 //in normal circumstances we should be able to compose mesh for building.
