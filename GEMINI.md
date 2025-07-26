@@ -14,9 +14,11 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 
 ## Next steps
-1. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
-2. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-3. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
+1. **Split multipolygons**. If a contour have several outer rings, but no inner ones, it should be separated and several RenderableBuildingElements should be created.
+2. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
+3. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
+4. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
+5. ** Сonsistent naming** : Plugin should be called z3dviewer 
 
 ## Recent Accomplishments 
 
@@ -25,6 +27,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * **Dome, half-dome and onion roofs:** support added for "conical" roofs.
 * **Skillion roof support:** Implemented support for `roof:shape=skillion`, including `roof:direction`. The implementation correctly generates trapezoidal walls and handles non-convex polygons using tessellation.
 * **Complex Multipolygon Support:** Implemented robust support for multipolygon relations, including those with multiple outer rings and inner holes. The logic now correctly assembles complex geometries and uses OpenGL tessellation for proper rendering. Buildings with multiple rings now correctly default to a flat roof, regardless of `roof:shape` tags.
+* **Local coords for buildings.** Objects are created in local coordinate system, with origin at building centroid. This should allow some performance improvement.
 
 ### July 24, 2025
 * **Initial roof support:** Implemented support for `roof:shape=pyramidal`, as the most simple one. Pyramids are created with correct centroid, even better then in blosm!
