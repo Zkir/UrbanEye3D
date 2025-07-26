@@ -94,11 +94,11 @@
     <nd ref='-25383' />
     <tag k='building:colour' v='purple' />
     <tag k='building:part' v='yes' />
-    <tag k='height' v='40' />
+    <tag k='height' v='60' />
     <tag k='roof:colour' v='orange' />
-    <tag k='roof:height' v='15' />
+    <tag k='roof:height' v='40' />
     <tag k='roof:orientation' v='across' />
-    <tag k='roof:shape' v='gabled' />
+    <tag k='roof:shape' v='round' />
   </way>
   <way id='-1218' action='modify' visible='true'>
     <nd ref='-25403' />
@@ -108,10 +108,10 @@
     <nd ref='-25403' />
     <tag k='building:colour' v='purple' />
     <tag k='building:part' v='yes' />
-    <tag k='height' v='40' />
+    <tag k='height' v='60' />
     <tag k='roof:colour' v='orange' />
-    <tag k='roof:height' v='15' />
-    <tag k='roof:shape' v='gabled' />
+    <tag k='roof:height' v='40' />
+    <tag k='roof:shape' v='round' />
   </way>
   <relation id='-100' action='modify' visible='true'>
     <member type='way' ref='-579' role='outer' />
