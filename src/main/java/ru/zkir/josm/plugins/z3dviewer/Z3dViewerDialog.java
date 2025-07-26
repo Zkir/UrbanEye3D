@@ -135,7 +135,8 @@ public class Z3dViewerDialog extends ToggleDialog
                         String roofColor = primitive.get("roof:colour");
                         String roofShape = primitive.get("roof:shape");
                         String roofDirection = primitive.get("roof:direction");
-                        buildings.add(new RenderableBuildingElement(primitive, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection));
+                        String roofOrientation = primitive.get("roof:orientation");
+                        buildings.add(new RenderableBuildingElement(primitive, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
                     }
                 }
             }

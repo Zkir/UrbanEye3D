@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <osm version='0.6' generator='JOSM'>
   <bounds minlat='55.04' minlon='37.04' maxlat='55.06' maxlon='37.06' origin='JOSM' />
-  <node id='-25355' visible='true' lat='55.047' lon='37.047' />
-  <node id='-25356' visible='true' lat='55.053' lon='37.047' />
-  <node id='-25357' visible='true' lat='55.053' lon='37.053' />
-  <node id='-25358' visible='true' lat='55.047' lon='37.053' />
-  <node id='-25359' visible='true' lat='55.048' lon='37.048' />
-  <node id='-25360' visible='true' lat='55.052' lon='37.048' />
-  <node id='-25361' visible='true' lat='55.052' lon='37.052' />
-  <node id='-25362' visible='true' lat='55.048' lon='37.052' />
+  <node id='-25355' action='modify' visible='true' lat='55.04745605764' lon='37.04074532452' />
+  <node id='-25356' action='modify' visible='true' lat='55.05345598931' lon='37.04074532452' />
+  <node id='-25357' action='modify' visible='true' lat='55.05345598931' lon='37.04674532452' />
+  <node id='-25358' action='modify' visible='true' lat='55.04745605764' lon='37.04674532452' />
+  <node id='-25359' action='modify' visible='true' lat='55.04845604625' lon='37.04174532452' />
+  <node id='-25360' action='modify' visible='true' lat='55.0524560007' lon='37.04174532452' />
+  <node id='-25361' action='modify' visible='true' lat='55.0524560007' lon='37.04574532452' />
+  <node id='-25362' action='modify' visible='true' lat='55.04845604625' lon='37.04574532452' />
   <node id='-25363' visible='true' lat='55.055' lon='37.047' />
   <node id='-25364' visible='true' lat='55.058' lon='37.047' />
   <node id='-25365' visible='true' lat='55.058' lon='37.05' />
@@ -29,10 +29,14 @@
   <node id='-25380' visible='true' lat='55.057' lon='37.052' />
   <node id='-25381' visible='true' lat='55.057' lon='37.053' />
   <node id='-25382' visible='true' lat='55.056' lon='37.053' />
-  <node id='-25383' visible='true' lat='55.045' lon='37.055' />
-  <node id='-25384' visible='true' lat='55.05' lon='37.055' />
-  <node id='-25385' visible='true' lat='55.05' lon='37.058' />
-  <node id='-25386' visible='true' lat='55.045' lon='37.058' />
+  <node id='-25383' action='modify' visible='true' lat='55.04807603965' lon='37.04922946178' />
+  <node id='-25384' action='modify' visible='true' lat='55.0529265309' lon='37.04932286316' />
+  <node id='-25385' action='modify' visible='true' lat='55.05290946273' lon='37.05202406814' />
+  <node id='-25386' action='modify' visible='true' lat='55.04805896941' lon='37.05193066676' />
+  <node id='-25403' action='modify' visible='true' lat='55.04801628248' lon='37.05357461552' />
+  <node id='-25404' action='modify' visible='true' lat='55.05286678097' lon='37.0536680169' />
+  <node id='-25405' action='modify' visible='true' lat='55.05284971277' lon='37.05636922188' />
+  <node id='-25406' action='modify' visible='true' lat='55.04799921221' lon='37.0562758205' />
   <way id='-579' visible='true'>
     <nd ref='-25355' />
     <nd ref='-25356' />
@@ -90,28 +94,42 @@
     <nd ref='-25383' />
     <tag k='building:colour' v='purple' />
     <tag k='building:part' v='yes' />
-    <tag k='height' v='20' />
+    <tag k='height' v='40' />
     <tag k='roof:colour' v='orange' />
-    <tag k='roof:height' v='6' />
+    <tag k='roof:height' v='15' />
+    <tag k='roof:orientation' v='across' />
     <tag k='roof:shape' v='gabled' />
   </way>
-  <relation id='-100' visible='true'>
+  <way id='-1218' action='modify' visible='true'>
+    <nd ref='-25403' />
+    <nd ref='-25404' />
+    <nd ref='-25405' />
+    <nd ref='-25406' />
+    <nd ref='-25403' />
+    <tag k='building:colour' v='purple' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='40' />
+    <tag k='roof:colour' v='orange' />
+    <tag k='roof:height' v='15' />
+    <tag k='roof:shape' v='gabled' />
+  </way>
+  <relation id='-100' action='modify' visible='true'>
     <member type='way' ref='-579' role='outer' />
     <member type='way' ref='-580' role='inner' />
-    <tag k='building' v='yes' />
     <tag k='building:colour' v='red' />
+    <tag k='building:part' v='yes' />
     <tag k='height' v='25' />
     <tag k='roof:colour' v='blue' />
     <tag k='type' v='multipolygon' />
   </relation>
-  <relation id='-200' visible='true'>
+  <relation id='-200' action='modify' visible='true'>
     <member type='way' ref='-581' role='outer' />
     <member type='way' ref='-582' role='outer' />
     <member type='way' ref='-583' role='inner' />
     <member type='way' ref='-584' role='inner' />
     <member type='way' ref='-585' role='inner' />
-    <tag k='building' v='yes' />
     <tag k='building:colour' v='green' />
+    <tag k='building:part' v='yes' />
     <tag k='height' v='15' />
     <tag k='roof:colour' v='brown' />
     <tag k='type' v='multipolygon' />

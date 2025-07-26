@@ -171,7 +171,9 @@ public class RenderableBuildingElement {
             if (isClosed  &&
                 !(simplifiedContour.get(0).x == simplifiedContour.get(simplifiedContour.size() - 1).x &&
                   simplifiedContour.get(0).y == simplifiedContour.get(simplifiedContour.size() - 1).y)) {
-                simplifiedContour.add(simplifiedContour.get(0));
+                //Funny thing: it seems that all consequent logic does not expect "closed" ways, where first node is repeated as last one.
+                // let's comment out and see what happens
+                //simplifiedContour.add(simplifiedContour.get(0));
             }
 
             return simplifiedContour;
@@ -206,10 +208,11 @@ public class RenderableBuildingElement {
     public final @NotNull Color roofColor;
     public final RoofShapes roofShape;
     public final double roofDirection;
+    public final String roofOrientation;
     private final Contour contour;
     public final LatLon origin;
 
-    public RenderableBuildingElement(OsmPrimitive primitive, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr) {
+    public RenderableBuildingElement(OsmPrimitive primitive, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
         this.origin = primitive.getBBox().getCenter();
 
         if (primitive instanceof Way) {
@@ -226,6 +229,7 @@ public class RenderableBuildingElement {
         this.minHeight = minHeight;
         this.roofShape = RoofShapes.fromString(roofShape);
         this.roofDirection = parseDirection(roofDirectionStr);
+        this.roofOrientation = roofOrientation;
 
         //default value for roofHeight
         if (this.roofShape!=RoofShapes.FLAT && roofHeight==0){

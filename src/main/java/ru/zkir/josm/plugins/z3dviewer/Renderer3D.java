@@ -184,6 +184,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             if ( !building.hasComplexContour() ) {
                 List<Point2D> basePoints = building.getContour();
+                if (building.roofShape == RoofShapes.GABLED) {
+                    buildingMesh = RoofGeometryGenerator.generateGabledRoof(basePoints, minHeight, wallHeight, height, building.roofOrientation);
+                }
                 if (building.roofShape == RoofShapes.SKILLION) {
                     buildingMesh = RoofGeometryGenerator.generateSkillionRoof(basePoints, minHeight, wallHeight, height, building.roofDirection);
                 }

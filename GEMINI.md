@@ -21,7 +21,10 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 5. ** Сonsistent naming** : Plugin should be called z3dviewer 
 
 ## Recent Accomplishments 
-
+### July 26, 2025                                                            
+* **Gabled Roof Support:** Implemented support for `roof:shape=gabled` on quadrilateral buildings. 
+The implementation correctly identifies gable ends based on the shortest or longest sides of the building footprint, controlled by the
+`roof:orientation=along/across` tag. The gable walls are generated  as single pentagonal faces, ensuring correct geometry and appearance.
 
 ### July 25, 2025
 * **Dome, half-dome and onion roofs:** support added for "conical" roofs.
@@ -79,9 +82,9 @@ Already supported:
 * 'onion'
 * 'half-dome'
 * 'skillion' 
+* 'gabled'  - for quadrilateral polygons.
 
 Yet to be implemented:
-* 'gabled'
 * 'hipped':
 * 'zakomar'
 * 'cross_gabled'
@@ -90,6 +93,7 @@ Yet to be implemented:
 * 'gambrel'
 * 'saltbox' 
 * 'mansard' 
+* 'gabled'  - for arbitrary polygons.
 
 
 Reference implementation from patched blosm blender addon should be reused, see:
@@ -109,6 +113,7 @@ Reference implementation from patched blosm blender addon should be reused, see:
 
 ## Learnings
 
+*   **Gabled Roof Geometry:** For gabled roofs, the triangular gable end should not be a separate face from the rectangular wall below it. The entire gable wall should be generated as a single, continuous polygon (a pentagon in the case of a simple gable) to ensure correct rendering, lighting, and a seamless appearance. This is consistent with how `skillion` roofs are handled.
 *   **Tessellation for Complex Polygons:** The `GLU.gluTess` functions are essential for correctly rendering non-convex polygons, which are common in building footprints. Relying on `GL_QUADS` or `GL_POLYGON` is insufficient for complex shapes.
 *   **Skillion Roof Geometry:** A skillion roof is not just a sloped plane. It requires the generation of trapezoidal side walls that connect the roof edge to the building's base, colored with the wall color.
 *   **JOSM API for Panning:** The correct way to programmatically pan the map is via `NavigatableComponent.zoomTo(EastNorth newCenter)`. This method is inherited by `MapView` and is the reliable way to control the map view using geographic coordinates.

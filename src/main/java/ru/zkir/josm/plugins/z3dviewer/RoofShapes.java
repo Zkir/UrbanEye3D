@@ -7,10 +7,10 @@ public enum RoofShapes {
     DOME("dome"),
     HALF_DOME("half-dome"),
     ONION("onion"),
-    SKILLION("skillion");
+    SKILLION("skillion"),
+    GABLED("gabled");
 
     /* roof shapes yet to be supported.
-    GABLED("gabled"),
     HIPPED("hipped"),
 
     ZAKOMAR("zakomar"),

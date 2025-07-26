@@ -295,4 +295,142 @@ public class RoofGeometryGenerator {
         }
         return edgeIndices;
     }
+
+    private static int[] findLongestOppositeEdges(List<Point2D> points) {
+        if (points.size() != 4) {
+            return new int[]{-1, -1};
+        }
+
+        double[] lengthsSq = new double[4];
+        for (int i = 0; i < 4; i++) {
+            Point2D p1 = points.get(i);
+            Point2D p2 = points.get((i + 1) % 4);
+            lengthsSq[i] = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+        }
+
+        if (lengthsSq[0] + lengthsSq[2] > lengthsSq[1] + lengthsSq[3]) {
+            return new int[]{0, 2};
+        } else {
+            return new int[]{1, 3};
+        }
+    }
+
+    public static Mesh generateGabledRoof(List<Point2D> basePoints, double minHeight, double wallHeight, double height, String roofOrientation) {
+        Mesh mesh = new Mesh();
+        if (basePoints.size() != 4) {
+            // Fallback to flat roof for non-quadrilaterals
+            return null;
+        }
+
+        List<Point3D> verts = new ArrayList<>();
+        int n = basePoints.size();
+
+        // --- Find the two edges which will form the gables ---
+        int[] gableEdgeIndices;
+        if ("across".equals(roofOrientation)) {
+            gableEdgeIndices = findLongestOppositeEdges(basePoints);
+        } else { // Default to "along"
+            gableEdgeIndices = findShortestEdges(basePoints);
+        }
+
+        int g1_idx0 = gableEdgeIndices[0];
+        int g1_idx1 = (g1_idx0 + 1) % n;
+        int g2_idx0 = gableEdgeIndices[1];
+        int g2_idx1 = (g2_idx0 + 1) % n;
+
+        // --- Create Vertices ---
+        // 1. Base vertices (at the bottom of the walls)
+        for (Point2D p : basePoints) {
+            verts.add(new Point3D(p.x, p.y, minHeight));
+        }
+        // 2. Wall top vertices (at the height of the eaves)
+        for (Point2D p : basePoints) {
+            verts.add(new Point3D(p.x, p.y, wallHeight));
+        }
+        // 3. Roof ridge vertices
+        Point2D g1_p0 = basePoints.get(g1_idx0);
+        Point2D g1_p1 = basePoints.get(g1_idx1);
+        Point2D g2_p0 = basePoints.get(g2_idx0);
+        Point2D g2_p1 = basePoints.get(g2_idx1);
+        Point2D mid1 = new Point2D((g1_p0.x + g1_p1.x) / 2, (g1_p0.y + g1_p1.y) / 2);
+        Point2D mid2 = new Point2D((g2_p0.x + g2_p1.x) / 2, (g2_p0.y + g2_p1.y) / 2);
+        verts.add(new Point3D(mid1.x, mid1.y, height)); // Ridge point 1 (index 8)
+        verts.add(new Point3D(mid2.x, mid2.y, height)); // Ridge point 2 (index 9)
+
+        mesh.verts = verts;
+
+        // --- Create Faces ---
+        int baseIdx = 0;
+        int wallIdx = n;
+        int ridge1Idx = 2 * n;
+        int ridge2Idx = 2 * n + 1;
+
+        // Find the indices of the vertices that form the eave walls
+        int eave1_idx0 = g1_idx1;
+        int eave1_idx1 = g2_idx0;
+        int eave2_idx0 = g2_idx1;
+        int eave2_idx1 = g1_idx0;
+
+        // Create Eave Walls (Quads)
+        mesh.wallFaces.add(new int[]{baseIdx + eave1_idx0, baseIdx + eave1_idx1, wallIdx + eave1_idx1, wallIdx + eave1_idx0});
+        mesh.wallFaces.add(new int[]{baseIdx + eave2_idx0, baseIdx + eave2_idx1, wallIdx + eave2_idx1, wallIdx + eave2_idx0});
+
+        // Create Gable Walls (Pentagons)
+        mesh.wallFaces.add(new int[]{baseIdx + g1_idx0, baseIdx + g1_idx1, wallIdx + g1_idx1, ridge1Idx, wallIdx + g1_idx0});
+        mesh.wallFaces.add(new int[]{baseIdx + g2_idx0, baseIdx + g2_idx1, wallIdx + g2_idx1, ridge2Idx, wallIdx + g2_idx0});
+
+        // Create Roof Planes (Quads)
+        mesh.roofFaces.add(new int[]{wallIdx + eave1_idx0, wallIdx + eave1_idx1, ridge2Idx, ridge1Idx});
+        mesh.roofFaces.add(new int[]{wallIdx + eave2_idx0, wallIdx + eave2_idx1, ridge1Idx, ridge2Idx});
+
+        return mesh;
+    }
+
+    private static int[] findShortestEdges(List<Point2D> points) {
+        if (points.size() != 4) {
+            return new int[]{-1, -1}; // Should not happen with the check in generateGabledRoof
+        }
+
+        double[] lengthsSq = new double[4];
+        for (int i = 0; i < 4; i++) {
+            Point2D p1 = points.get(i);
+            Point2D p2 = points.get((i + 1) % 4);
+            lengthsSq[i] = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+        }
+
+        // In a quad, if we sort edges by length, the two shortest are not necessarily opposite.
+        // We need to find the two shortest edges that don't share a vertex.
+        int[] indices = {0, 1, 2, 3};
+
+        // Find the indices of the two shortest edges
+        int shortest1 = -1, shortest2 = -1;
+        double minLength1 = Double.MAX_VALUE, minLength2 = Double.MAX_VALUE;
+
+        for (int i = 0; i < 4; i++) {
+            if (lengthsSq[i] < minLength1) {
+                minLength2 = minLength1;
+                shortest2 = shortest1;
+                minLength1 = lengthsSq[i];
+                shortest1 = i;
+            } else if (lengthsSq[i] < minLength2) {
+                minLength2 = lengthsSq[i];
+                shortest2 = i;
+            }
+        }
+
+        // Check if the two shortest edges are adjacent. If so, they can't form the gables.
+        // In a typical rectangular building, the two shortest sides will be opposite.
+        // If the building is not rectangular, we must decide which pair of opposite sides to use.
+        // We'll choose the pair with the shorter average length.
+        if (Math.abs(shortest1 - shortest2) == 1 || Math.abs(shortest1 - shortest2) == 3) { // Adjacent
+             // Edges 0 and 2 vs 1 and 3
+            if (lengthsSq[0] + lengthsSq[2] < lengthsSq[1] + lengthsSq[3]) {
+                return new int[]{0, 2};
+            } else {
+                return new int[]{1, 3};
+            }
+        } else { // Opposite
+            return new int[]{shortest1, shortest2};
+        }
+    }
 }
