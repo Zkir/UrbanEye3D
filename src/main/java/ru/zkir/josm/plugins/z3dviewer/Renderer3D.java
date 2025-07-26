@@ -187,6 +187,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 if (building.roofShape == RoofShapes.GABLED) {
                     buildingMesh = RoofGeometryGenerator.generateGabledRoof(basePoints, minHeight, wallHeight, height, building.roofOrientation);
                 }
+                if (building.roofShape == RoofShapes.ROUND) {
+                    buildingMesh = RoofGeometryGenerator.generateLinearProfileRoof(basePoints, minHeight, wallHeight, height, building.roofOrientation, RoofGeometryGenerator.getRoundProfile(10));
+                }
                 if (building.roofShape == RoofShapes.SKILLION) {
                     buildingMesh = RoofGeometryGenerator.generateSkillionRoof(basePoints, minHeight, wallHeight, height, building.roofDirection);
                 }

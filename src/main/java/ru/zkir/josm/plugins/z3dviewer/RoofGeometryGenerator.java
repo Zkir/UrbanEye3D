@@ -296,25 +296,6 @@ public class RoofGeometryGenerator {
         return edgeIndices;
     }
 
-    private static int[] findLongestOppositeEdges(List<Point2D> points) {
-        if (points.size() != 4) {
-            return new int[]{-1, -1};
-        }
-
-        double[] lengthsSq = new double[4];
-        for (int i = 0; i < 4; i++) {
-            Point2D p1 = points.get(i);
-            Point2D p2 = points.get((i + 1) % 4);
-            lengthsSq[i] = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
-        }
-
-        if (lengthsSq[0] + lengthsSq[2] > lengthsSq[1] + lengthsSq[3]) {
-            return new int[]{0, 2};
-        } else {
-            return new int[]{1, 3};
-        }
-    }
-
     public static Mesh generateGabledRoof(List<Point2D> basePoints, double minHeight, double wallHeight, double height, String roofOrientation) {
         Mesh mesh = new Mesh();
         if (basePoints.size() != 4) {
@@ -432,5 +413,154 @@ public class RoofGeometryGenerator {
         } else { // Opposite
             return new int[]{shortest1, shortest2};
         }
+    }
+
+    private static int[] findLongestOppositeEdges(List<Point2D> points) {
+        if (points.size() != 4) {
+            return new int[]{-1, -1};
+        }
+        double[] lengthsSq = new double[4];
+        for (int i = 0; i < 4; i++) {
+            Point2D p1 = points.get(i);
+            Point2D p2 = points.get((i + 1) % 4);
+            lengthsSq[i] = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+        }
+
+        // Return the pair of opposite edges with the greater combined length.
+        if (lengthsSq[0] + lengthsSq[2] > lengthsSq[1] + lengthsSq[3]) {
+            return new int[]{0, 2};
+        } else {
+            return new int[]{1, 3};
+        }
+    }
+
+    public static List<Point2D> getRoundProfile(int segments) {
+        List<Point2D> profile = new ArrayList<>();
+        // Profile X goes from -1 to 1, Y from 0 to 1 (for semicircle)
+        for (int i = 0; i <= segments; i++) {
+            double angle = Math.PI * i / segments;
+            profile.add(new Point2D(-Math.cos(angle), Math.sin(angle)));
+        }
+        return profile;
+    }
+
+    public static Mesh generateLinearProfileRoof(List<Point2D> basePoints, double minHeight, double wallHeight, double height, String roofOrientation, List<Point2D> profile) {
+        Mesh mesh = new Mesh();
+        if (basePoints.size() != 4) {
+            return null; // This generator is for quads only
+        }
+
+        // 1. Identify Gable and Eave edges
+        int[] shortEdges = findShortestEdges(basePoints);
+        int[] longEdges = findLongestOppositeEdges(basePoints);
+        int[] gableEdgeIndices;
+        int[] eaveEdgeIndices;
+
+        if ("across".equals(roofOrientation)) {
+            gableEdgeIndices = longEdges;
+            eaveEdgeIndices = shortEdges;
+        } else { // "along" is default
+            gableEdgeIndices = shortEdges;
+            eaveEdgeIndices = longEdges;
+        }
+
+        // 2. Define vertices for the two gables
+        int g1_idx0 = gableEdgeIndices[0];
+        int g1_idx1 = (g1_idx0 + 1) % 4;
+        int g2_idx0 = gableEdgeIndices[1];
+        int g2_idx1 = (g2_idx0 + 1) % 4;
+
+        Point2D g1_p0_base = basePoints.get(g1_idx0);
+        Point2D g1_p1_base = basePoints.get(g1_idx1);
+        Point2D g2_p0_base = basePoints.get(g2_idx0);
+        Point2D g2_p1_base = basePoints.get(g2_idx1);
+
+        // 3. Create base and wall-top vertices
+        List<Point3D> verts = new ArrayList<>();
+        for (Point2D p : basePoints) {
+            verts.add(new Point3D(p.x, p.y, minHeight));
+        }
+        for (Point2D p : basePoints) {
+            verts.add(new Point3D(p.x, p.y, wallHeight));
+        }
+
+        // 4. Generate the extruded roof profile vertices
+        double roofHeight = height - wallHeight;
+
+        // Define coordinate system for the first gable
+        Point3D C1 = new Point3D((g1_p0_base.x + g1_p1_base.x) / 2, (g1_p0_base.y + g1_p1_base.y) / 2, wallHeight);
+        double gableWidth = g1_p0_base.distance(g1_p1_base);
+        Point3D xAxis = new Point3D(g1_p1_base.x - g1_p0_base.x, g1_p1_base.y - g1_p0_base.y, 0).normalize();
+
+        // Define extrusion vector
+        Point3D C2 = new Point3D((g2_p0_base.x + g2_p1_base.x) / 2, (g2_p0_base.y + g2_p1_base.y) / 2, wallHeight);
+        Point3D extrusionVector = new Point3D(C2.x - C1.x, C2.y - C1.y, 0);
+
+        int roofVtxStart = verts.size();
+        int profileSize = profile.size();
+
+        // Generate vertices for the first gable end
+        for (Point2D prof : profile) {
+            double offsetX = prof.x * (gableWidth / 2);
+            double offsetY = prof.y * roofHeight;
+            Point3D p = new Point3D(
+                C1.x + xAxis.x * offsetX,
+                C1.y + xAxis.y * offsetX,
+                C1.z + offsetY
+            );
+            verts.add(p);
+        }
+
+        // Generate vertices for the second gable end by extruding
+        for (int i = 0; i < profileSize; i++) {
+            Point3D p1 = verts.get(roofVtxStart + i);
+            verts.add(new Point3D(p1.x + extrusionVector.x, p1.y + extrusionVector.y, p1.z + extrusionVector.z));
+        }
+
+        mesh.verts = verts;
+
+        // 5. Generate Faces
+        int baseIdx = 0;
+        int wallIdx = 4;
+
+        // Eave walls (the flat ones under the roof overhang)
+        int eave1_v0 = eaveEdgeIndices[0];
+        int eave1_v1 = (eave1_v0 + 1) % 4;
+        int eave2_v0 = eaveEdgeIndices[1];
+        int eave2_v1 = (eave2_v0 + 1) % 4;
+        mesh.wallFaces.add(new int[]{baseIdx + eave1_v0, baseIdx + eave1_v1, wallIdx + eave1_v1, wallIdx + eave1_v0});
+        mesh.wallFaces.add(new int[]{baseIdx + eave2_v0, baseIdx + eave2_v1, wallIdx + eave2_v1, wallIdx + eave2_v0});
+
+        // Add the lower part of the gable walls
+        mesh.wallFaces.add(new int[]{baseIdx + g1_idx0, baseIdx + g1_idx1, wallIdx + g1_idx1, wallIdx + g1_idx0});
+        mesh.wallFaces.add(new int[]{baseIdx + g2_idx0, baseIdx + g2_idx1, wallIdx + g2_idx1, wallIdx + g2_idx0});
+
+        // Gable end walls (the walls with the curved profile)
+        int[] cap1 = new int[profileSize + 2];
+        cap1[0] = wallIdx + g1_idx0;
+        cap1[1] = wallIdx + g1_idx1;
+        for (int i = 0; i < profileSize; i++) {
+            cap1[i + 2] = roofVtxStart + (profileSize - 1 - i);
+        }
+        mesh.wallFaces.add(cap1);
+
+        int[] cap2 = new int[profileSize + 2];
+        cap2[0] = wallIdx + g2_idx1;
+        cap2[1] = wallIdx + g2_idx0;
+        for (int i = 0; i < profileSize; i++) {
+            cap2[i + 2] = roofVtxStart + profileSize + i;
+        }
+        mesh.wallFaces.add(cap2);
+
+        // Roof surface
+        for (int i = 0; i < profileSize - 1; i++) {
+            int v1 = roofVtxStart + i;
+            int v2 = roofVtxStart + i + 1;
+            int v3 = roofVtxStart + profileSize + i + 1;
+            int v4 = roofVtxStart + profileSize + i;
+            mesh.roofFaces.add(new int[]{v1, v4, v3, v2});
+        }
+
+        return mesh;
     }
 }
