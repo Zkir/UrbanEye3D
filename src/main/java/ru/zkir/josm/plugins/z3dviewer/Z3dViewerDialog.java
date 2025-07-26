@@ -136,7 +136,29 @@ public class Z3dViewerDialog extends ToggleDialog
                         String roofShape = primitive.get("roof:shape");
                         String roofDirection = primitive.get("roof:direction");
                         String roofOrientation = primitive.get("roof:orientation");
-                        buildings.add(new RenderableBuildingElement(primitive, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+
+                        LatLon primitiveOrigin = primitive.getBBox().getCenter();
+                        RenderableBuildingElement.Contour mainContour = null;
+
+                        if (primitive instanceof Way) {
+                            mainContour = new RenderableBuildingElement.Contour((Way) primitive, primitiveOrigin);
+                        } else if (primitive instanceof Relation) {
+                            mainContour = new RenderableBuildingElement.Contour((Relation) primitive, primitiveOrigin);
+                        }
+
+                        if (mainContour != null) {
+                            if (primitive instanceof Relation && mainContour.outerRings.size() > 1 && mainContour.innerRings.isEmpty()) {
+                                // Split multipolygon with multiple outer rings and no inner rings
+                                for (ArrayList<Point2D> outerRing : mainContour.outerRings) {
+                                    //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
+                                    //to make things worse, we use local coords already, so if origin is moved, coordinates of the outerRing should be recalculated.
+                                    buildings.add(new RenderableBuildingElement(primitiveOrigin, new RenderableBuildingElement.Contour(outerRing), height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                                }
+                            } else {
+                                // Single outer ring, or multiple outer rings with inner rings, or a Way
+                                buildings.add(new RenderableBuildingElement(primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                            }
+                        }
                     }
                 }
             }

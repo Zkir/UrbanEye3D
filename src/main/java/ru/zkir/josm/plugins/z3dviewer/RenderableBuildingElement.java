@@ -67,6 +67,12 @@ public class RenderableBuildingElement {
             }
         }
 
+        Contour(ArrayList<Point2D> outerRing) {
+            this.outerRings = new ArrayList<>();
+            this.outerRings.add(outerRing);
+            this.innerRings = new ArrayList<>();
+        }
+
         private List<List<Node>> assembleRings(List<Way> ways) {
             List<List<Node>> rings = new ArrayList<>();
             List<Way> remainingWays = new ArrayList<>(ways);
@@ -231,22 +237,20 @@ public class RenderableBuildingElement {
     public final LatLon origin;
     private RoofGeometryGenerator.Mesh mesh;
 
-    public RenderableBuildingElement(OsmPrimitive primitive, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
-        this.origin = primitive.getBBox().getCenter();
-
-        if (primitive instanceof Way) {
-            this.contour = new Contour( (Way) primitive, this.origin);
-
-        } else if (primitive instanceof Relation) {
-            this.contour = new Contour((Relation)primitive, this.origin);
-        } else {
-            this.contour = null;
-        }
-
+    public RenderableBuildingElement(LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
+        this.origin = origin;
+        this.contour = contour;
 
         this.height = height;
         this.minHeight = minHeight;
-        this.roofShape = RoofShapes.fromString(roofShape);
+
+        if (!this.hasComplexContour()){
+            this.roofShape = RoofShapes.fromString(roofShape);
+        }else{
+            //in case outline has inner rings, we cannot construct any other roof, but FLAT
+            this.roofShape = RoofShapes.FLAT;
+        }
+
         this.roofDirection = parseDirection(roofDirectionStr);
         this.roofOrientation = roofOrientation;
 
@@ -258,6 +262,8 @@ public class RenderableBuildingElement {
             roofHeight=height-minHeight;
         }
         this.roofHeight = roofHeight;
+
+
 
         this.color = parseColor(wallColor, new Color(204, 204, 204));
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
