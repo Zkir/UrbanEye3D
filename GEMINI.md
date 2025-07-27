@@ -14,15 +14,21 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 
 ## Next steps
-1. **Split RoofGeometryGenerator into several classes, one per roof:shape or class**
-2. **Introduce 2 new autotests: check mesh verticies for height/min_height**
-3. **Reintroduce FAKE AO **
-4. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
-5. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-6. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
+1. **Introduce 2 new autotests:** check mesh verticies for height/min_height.
+2. **Reintroduce FAKE AO**. It was dropped when rendering was reworked to render meshes only.it seems that we can try darkining proportionally to vertex height relative to building height.
+3. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
+4. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
+5. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
 
 
 ## Recent Accomplishments 
+### July 27, 2025
+* **Huge refactoring:**  class RoofGeometryGenerator split into several classes (meshers). Autotests' structure also improved
+* **Zero-Length Edge Validation:** Added a new unit test assertion, `assertNoZeroLengthEdges`, to prevent the creation of degenerate edges in meshes. This test was integrated into the main test suite, improving the geometric integrity of all generated roof shapes.
+* **No-Wall Case Validation:** Refactored the `MesherFlat`,  `MesherSkillion`, `MesherGabled`, and `MesherHipped` classes to correctly generate roof geometry when no walls are present (`roof:height = height - min_height`). 
+* **Masard roof support**. Thank to autotests, success from the first try.
+
+
 ### July 26, 2025 (testing)
 * **Unit Testing Framework:** Established a robust unit testing environment using JUnit 5.
 * **Geometry Validation Tests:** Created a suite of unit tests for the `RoofGeometryGenerator` class. These tests automatically validate two critical properties of the generated 3D meshes:
@@ -126,6 +132,7 @@ Already supported:
 * 'skillion' 
 * 'gabled'  - for quadrilateral polygons.
 * 'hipped' - for quadrilateral polygons.
+* 'mansard' - for quadrilateral polygons.
 
 Yet to be implemented:
 * 'half-hipped'
@@ -155,6 +162,8 @@ Reference implementation from patched blosm blender addon should be reused, see:
 
 ## Learnings
 
+*   **Gable Coloring on No-Wall Buildings:** A key detail of the Simple 3D Buildings specification is that gable ends are considered part of the wall. When generating a gabled roof on a building with no wall height (i.e., the roof starts at `min_height`), the resulting triangular gable faces must still be treated as wall surfaces and colored accordingly, not as roof surfaces.
+*   **Mesh Generation for No-Wall Scenarios:** When a building's `wallHeight` is equal to its `minHeight`, the logic for generating roof geometry must be carefully adapted. To avoid creating degenerate, zero-length edges and to ensure the mesh remains watertight, the generation code must reuse the base vertices instead of creating a duplicate set of vertices at the same location for the top of the "wall". This applies to `flat`, `gabled`, and `hipped` roofs.
 *   **Gabled Roof Geometry:** For gabled roofs, the triangular gable end should not be a separate face from the rectangular wall below it. The entire gable wall should be generated as a single, continuous polygon (a pentagon in the case of a simple gable) to ensure correct rendering, lighting, and a seamless appearance. This is consistent with how `skillion` roofs are handled.
 *   **Tessellation for Complex Polygons:** The `GLU.gluTess` functions are essential for correctly rendering non-convex polygons, which are common in building footprints. Relying on `GL_QUADS` or `GL_POLYGON` is insufficient for complex shapes.
 *   **Skillion Roof Geometry:** A skillion roof is not just a sloped plane. It requires the generation of trapezoidal side walls that connect the roof edge to the building's base, colored with the wall color.

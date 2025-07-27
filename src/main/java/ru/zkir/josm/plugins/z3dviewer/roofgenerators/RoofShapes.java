@@ -9,7 +9,8 @@ public enum RoofShapes {
     ONION("onion", new MesherConicProfile("onion")),
     SKILLION("skillion", new MesherSkillion()),
     GABLED("gabled", new MesherGabled()),
-    HIPPED("hipped", new MesherHipped());
+    HIPPED("hipped", new MesherHipped()),
+    MANSARD("mansard", new MesherMansard());
 
     /* roof shapes yet to be supported.
     ZAKOMAR("zakomar"),
