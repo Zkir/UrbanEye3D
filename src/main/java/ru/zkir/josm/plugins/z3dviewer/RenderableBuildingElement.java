@@ -297,8 +297,11 @@ public class RenderableBuildingElement {
     public void composeMesh(){
         this.mesh = null;
         double wallHeight = height - roofHeight;
-        if ( !hasComplexContour() ) {
-            List<Point2D> basePoints = getContour();
+
+        // Always generate flat roof if roofShape is FLAT or if it's a complex contour
+        if ( !hasComplexContour()) {
+            // Existing logic for other roof shapes (only for simple contours)
+            List<Point2D> basePoints = getContour(); // This will return the first outer ring
             if (roofShape == RoofShapes.GABLED) {
                 this.mesh = RoofGeometryGenerator.generateGabledRoof(basePoints, minHeight, wallHeight, height, roofOrientation);
             }
@@ -315,6 +318,17 @@ public class RenderableBuildingElement {
                     || (roofShape == RoofShapes.ONION))) {
                 this.mesh = RoofGeometryGenerator.generateConicalRoof(roofShape, basePoints, minHeight, wallHeight, height);
             }
+        }
+
+        //last chance! mesh can be null, in case specific roof shapes was not created due to limitations
+        // for example, GABLED and HIPPED can be created for quadrangles only.
+        if(roofShape == RoofShapes.FLAT || this.mesh == null){
+            // Collect all contours (outer and inner) for flat roof generation
+            List<List<Point2D>> allContours = new ArrayList<>();
+            allContours.addAll(getContourOuterRings());
+            allContours.addAll(getContourInnerRings());
+
+            this.mesh = RoofGeometryGenerator.generateFlatRoof(allContours, minHeight, wallHeight, height);
         }
     }
 

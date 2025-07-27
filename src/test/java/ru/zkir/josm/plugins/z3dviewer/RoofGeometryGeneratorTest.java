@@ -18,6 +18,32 @@ class RoofGeometryGeneratorTest {
         return base;
     }
 
+    private List<List<Point2D>> createSingleContourList(List<Point2D> contour) {
+        List<List<Point2D>> contours = new ArrayList<>();
+        contours.add(contour);
+        return contours;
+    }
+
+    private List<List<Point2D>> createRectangularBaseWithHole(double outerWidth, double outerDepth, double innerWidth, double innerDepth) {
+        List<Point2D> outer = new ArrayList<>();
+        outer.add(new Point2D(-outerWidth / 2, -outerDepth / 2));
+        outer.add(new Point2D(outerWidth / 2, -outerDepth / 2));
+        outer.add(new Point2D(outerWidth / 2, outerDepth / 2));
+        outer.add(new Point2D(-outerWidth / 2, outerDepth / 2));
+
+        List<Point2D> inner = new ArrayList<>();
+        // Inner contour in clockwise order for hole
+        inner.add(new Point2D(-innerWidth / 2, -innerDepth / 2));
+        inner.add(new Point2D(innerWidth / 2, -innerDepth / 2));
+        inner.add(new Point2D(innerWidth / 2, innerDepth / 2));
+        inner.add(new Point2D(-innerWidth / 2, innerDepth / 2));
+
+        List<List<Point2D>> contours = new ArrayList<>();
+        contours.add(outer);
+        contours.add(inner);
+        return contours;
+    }
+
     private void assertWatertight(RoofGeometryGenerator.Mesh mesh) {
         Map<String, Integer> edgeCounts = new HashMap<>();
         List<int[]> allFaces = new ArrayList<>();
@@ -138,6 +164,24 @@ class RoofGeometryGeneratorTest {
     void testOnionRoof() {
         List<Point2D> base = createRectangularBase(10, 10);
         RoofGeometryGenerator.Mesh mesh = RoofGeometryGenerator.generateConicalRoof(RoofShapes.ONION, base, 0, 0, 10);
+        assertNotNull(mesh);
+        assertWatertight(mesh);
+        assertNormalsOutward(mesh);
+    }
+
+    @Test
+    void testFlatRoof() {
+        List<List<Point2D>> base = createSingleContourList(createRectangularBase(10, 10));
+        RoofGeometryGenerator.Mesh mesh = RoofGeometryGenerator.generateFlatRoof(base, 0, 5, 10); // height > wallHeight
+        assertNotNull(mesh);
+        assertWatertight(mesh);
+        assertNormalsOutward(mesh);
+    }
+
+    @Test
+    void testFlatRoofWithHole() {
+        List<List<Point2D>> base = createRectangularBaseWithHole(10, 10, 2, 2);
+        RoofGeometryGenerator.Mesh mesh = RoofGeometryGenerator.generateFlatRoof(base, 0, 5, 10); // height > wallHeight
         assertNotNull(mesh);
         assertWatertight(mesh);
         assertNormalsOutward(mesh);

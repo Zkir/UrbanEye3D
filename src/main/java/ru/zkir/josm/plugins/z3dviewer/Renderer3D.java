@@ -204,6 +204,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
 
             }else {
+                System.out.println("STILL DIRECT RENDERING. " +  "roof:shape=" + building.roofShape.toString());
                 //in rare cases, like complex multipolygons with holes, we are bot able to construct mesh,
                 //because we do not have hand tesselator, so we need to fallback to some "direct" method,
                 // and render something directly form building outline.

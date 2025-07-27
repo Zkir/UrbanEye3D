@@ -14,9 +14,12 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 
 ## Next steps
-1. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
-2. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-3. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
+1. **Split RoofGeometryGenerator into several classes, one per roof:shape or class**
+2. **Introduce 2 new autotests: check mesh verticies for height/min_height**
+3. **Reintroduce FAKE AO **
+4. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
+5. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
+6. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
 
 
 ## Recent Accomplishments 
@@ -34,6 +37,8 @@ The implementation correctly identifies gable ends based on the shortest or long
 * **Сonsistent naming** : Plugin file is called z3dviewer 
 * **Split multipolygons**. If a building contour has several outer rings, but no inner ones, it is separated into several RenderableBuildingElements. Not precisely correct, because origin is not moved, but at least such objects rendered.
 * **Hipped Roof Support:** Implemented support for `roof:shape=hipped` on quadrilateral buildings. 
+* **Mesh generation for FLAT/multipolygon**. However, FAKE AO suffered. Should be returned ASAP.
+
 
 ### July 25, 2025
 * **Dome, half-dome and onion roofs:** support added for "conical" roofs.
