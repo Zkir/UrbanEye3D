@@ -1,4 +1,4 @@
-package ru.zkir.josm.plugins.z3dviewer;
+package ru.zkir.josm.plugins.z3dviewer.utils;
 
 import java.awt.Color;
 import java.util.HashMap;

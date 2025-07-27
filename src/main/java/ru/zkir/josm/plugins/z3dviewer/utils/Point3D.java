@@ -1,11 +1,11 @@
-package ru.zkir.josm.plugins.z3dviewer;
+package ru.zkir.josm.plugins.z3dviewer.utils;
 
 import java.util.Objects;
 
 public class Point3D {
-    double x, y, z;
+    public double x, y, z;
 
-    Point3D(double x, double y, double z) {
+   public Point3D(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;

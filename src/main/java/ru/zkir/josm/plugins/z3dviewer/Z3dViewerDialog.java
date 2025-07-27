@@ -21,6 +21,7 @@ import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.gui.NavigatableComponent;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.coor.LatLon;
+import ru.zkir.josm.plugins.z3dviewer.utils.Point2D;
 
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;

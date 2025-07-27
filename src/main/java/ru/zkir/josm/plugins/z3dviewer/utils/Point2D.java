@@ -1,4 +1,4 @@
-package ru.zkir.josm.plugins.z3dviewer;
+package ru.zkir.josm.plugins.z3dviewer.utils;
 
 public class Point2D {
     public double x;

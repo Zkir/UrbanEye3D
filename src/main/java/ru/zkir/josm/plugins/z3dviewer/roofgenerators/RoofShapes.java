@@ -1,19 +1,17 @@
-package ru.zkir.josm.plugins.z3dviewer;
+package ru.zkir.josm.plugins.z3dviewer.roofgenerators;
 
 public enum RoofShapes {
     //supported roof shapes
-    FLAT("flat"),
-    PYRAMIDAL("pyramidal"),
-    DOME("dome"),
-    HALF_DOME("half-dome"),
-    ONION("onion"),
-    SKILLION("skillion"),
-    GABLED("gabled"),
-    HIPPED("hipped");
+    FLAT("flat", new MesherFlat()),
+    PYRAMIDAL("pyramidal", new MesherConicProfile("pyramidal")),
+    DOME("dome", new MesherConicProfile("dome")),
+    HALF_DOME("half-dome", new MesherConicProfile("half-dome")),
+    ONION("onion", new MesherConicProfile("onion")),
+    SKILLION("skillion", new MesherSkillion()),
+    GABLED("gabled", new MesherGabled()),
+    HIPPED("hipped", new MesherHipped());
 
     /* roof shapes yet to be supported.
-
-
     ZAKOMAR("zakomar"),
     CROSS_GABLED("cross_gabled"),
     ROUND("round"),
@@ -21,13 +19,14 @@ public enum RoofShapes {
     GAMBREL("gambrel"),
     SALTBOX("saltbox"),
     MANSARD("mansard");
-
      */
 
     private final String displayName;
+    private final RoofGenerator mesher;
 
-    RoofShapes(String displayName) {
+    RoofShapes(String displayName, RoofGenerator mesher) {
         this.displayName = displayName;
+        this.mesher = mesher;
     }
 
     @Override
@@ -43,5 +42,9 @@ public enum RoofShapes {
             }
         }
         return FLAT;
+    }
+
+    public RoofGenerator getMesher(){
+        return this.mesher;
     }
 }

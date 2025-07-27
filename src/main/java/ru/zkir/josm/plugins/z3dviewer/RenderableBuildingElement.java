@@ -3,6 +3,10 @@ package ru.zkir.josm.plugins.z3dviewer;
 import com.drew.lang.annotations.NotNull;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
+import ru.zkir.josm.plugins.z3dviewer.utils.ColorUtils;
+import ru.zkir.josm.plugins.z3dviewer.utils.Mesh;
+import ru.zkir.josm.plugins.z3dviewer.utils.Point2D;
+import ru.zkir.josm.plugins.z3dviewer.roofgenerators.RoofShapes;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -10,8 +14,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class RenderableBuildingElement {
-
-
 
 
     public static class Contour {
@@ -225,9 +227,10 @@ public class RenderableBuildingElement {
         }
     }
 
-    public final double height;
-    public final double minHeight;
     public final double roofHeight;
+    public final double minHeight;  // z0 -- z-coordinate of building bottom
+    public final double wallHeight; // z1 -- z coordinate of walls top
+    public final double height;     // z2 -- z coordinate of roof top
     public final @NotNull Color color;
     public final @NotNull Color roofColor;
     public final RoofShapes roofShape;
@@ -235,7 +238,7 @@ public class RenderableBuildingElement {
     public final String roofOrientation;
     private final Contour contour;
     public final LatLon origin;
-    private RoofGeometryGenerator.Mesh mesh;
+    private Mesh mesh;
 
     public RenderableBuildingElement(LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
         this.origin = origin;
@@ -262,8 +265,7 @@ public class RenderableBuildingElement {
             roofHeight=height-minHeight;
         }
         this.roofHeight = roofHeight;
-
-
+        this.wallHeight = height - roofHeight;
 
         this.color = parseColor(wallColor, new Color(204, 204, 204));
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
@@ -272,11 +274,9 @@ public class RenderableBuildingElement {
         composeMesh();
     }
 
-
     public boolean hasComplexContour() {
         return this.getContourOuterRings().size() > 1 || !this.getContourInnerRings().isEmpty();
     }
-
 
     public List<Point2D> getContour() {
         return contour.outerRings.isEmpty() ? new ArrayList<>() : contour.outerRings.get(0);
@@ -290,7 +290,7 @@ public class RenderableBuildingElement {
         return contour.innerRings;
     }
 
-    public RoofGeometryGenerator.Mesh getMesh() {
+    public Mesh getMesh() {
         return this.mesh;
 
     }
@@ -302,33 +302,14 @@ public class RenderableBuildingElement {
         if ( !hasComplexContour()) {
             // Existing logic for other roof shapes (only for simple contours)
             List<Point2D> basePoints = getContour(); // This will return the first outer ring
-            if (roofShape == RoofShapes.GABLED) {
-                this.mesh = RoofGeometryGenerator.generateGabledRoof(basePoints, minHeight, wallHeight, height, roofOrientation);
-            }
-            if (roofShape == RoofShapes.HIPPED) {
-                this.mesh = RoofGeometryGenerator.generateHippedRoof(basePoints, minHeight, wallHeight, height, roofOrientation);
-            }
-
-            if (roofShape == RoofShapes.SKILLION) {
-                this.mesh = RoofGeometryGenerator.generateSkillionRoof(basePoints, minHeight, wallHeight, height, roofDirection);
-            }
-
-            if ((roofShape == RoofShapes.PYRAMIDAL
-                    || roofShape == RoofShapes.DOME) || (roofShape == RoofShapes.HALF_DOME
-                    || (roofShape == RoofShapes.ONION))) {
-                this.mesh = RoofGeometryGenerator.generateConicalRoof(roofShape, basePoints, minHeight, wallHeight, height);
-            }
+            this.mesh = roofShape.getMesher().generate(this);
         }
 
         //last chance! mesh can be null, in case specific roof shapes was not created due to limitations
         // for example, GABLED and HIPPED can be created for quadrangles only.
-        if(roofShape == RoofShapes.FLAT || this.mesh == null){
+        if( this.mesh == null){
             // Collect all contours (outer and inner) for flat roof generation
-            List<List<Point2D>> allContours = new ArrayList<>();
-            allContours.addAll(getContourOuterRings());
-            allContours.addAll(getContourInnerRings());
-
-            this.mesh = RoofGeometryGenerator.generateFlatRoof(allContours, minHeight, wallHeight, height);
+            this.mesh = RoofShapes.FLAT.getMesher().generate(this);
         }
     }
 

@@ -12,6 +12,9 @@ import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.NavigatableComponent;
 import org.openstreetmap.josm.spi.preferences.Config;
 import org.openstreetmap.josm.data.coor.LatLon;
+import ru.zkir.josm.plugins.z3dviewer.utils.Mesh;
+import ru.zkir.josm.plugins.z3dviewer.utils.Point2D;
+import ru.zkir.josm.plugins.z3dviewer.utils.Point3D;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -180,7 +183,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             double roofHeight = building.roofHeight;
             double wallHeight = height - roofHeight;
 
-            RoofGeometryGenerator.Mesh buildingMesh = building.getMesh();
+            Mesh buildingMesh = building.getMesh();
 
 
             if (buildingMesh != null ){
