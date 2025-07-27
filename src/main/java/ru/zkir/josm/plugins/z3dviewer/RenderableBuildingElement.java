@@ -242,7 +242,15 @@ public class RenderableBuildingElement {
 
     public RenderableBuildingElement(LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
         this.origin = origin;
+        if (contour.outerRings.isEmpty()){
+            throw new RuntimeException("There can be empty multipolygon relations, broken or not fully downloaded. " +
+                                       "However, renderable building cannot be created without outer ring. " +
+                                       "This condition should be checked outside this constructor."
+                                    );
+        }
         this.contour = contour;
+
+
 
         this.height = height;
         this.minHeight = minHeight;

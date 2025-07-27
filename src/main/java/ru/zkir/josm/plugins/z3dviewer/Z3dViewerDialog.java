@@ -147,7 +147,7 @@ public class Z3dViewerDialog extends ToggleDialog
                             mainContour = new RenderableBuildingElement.Contour((Relation) primitive, primitiveOrigin);
                         }
 
-                        if (mainContour != null) {
+                        if (mainContour != null && !mainContour.outerRings.isEmpty()) {
                             if (primitive instanceof Relation && mainContour.outerRings.size() > 1 && mainContour.innerRings.isEmpty()) {
                                 // Split multipolygon with multiple outer rings and no inner rings
                                 for (ArrayList<Point2D> outerRing : mainContour.outerRings) {
