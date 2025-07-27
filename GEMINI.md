@@ -14,7 +14,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 
 ## Next steps
-1. **Introduce 2 new autotests:** check mesh verticies for height/min_height.
+
 2. **Reintroduce FAKE AO**. It was dropped when rendering was reworked to render meshes only.it seems that we can try darkining proportionally to vertex height relative to building height.
 3. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
 4. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
@@ -26,6 +26,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * **Huge refactoring:**  class RoofGeometryGenerator split into several classes (meshers). Autotests' structure also improved
 * **Zero-Length Edge Validation:** Added a new unit test assertion, `assertNoZeroLengthEdges`, to prevent the creation of degenerate edges in meshes. This test was integrated into the main test suite, improving the geometric integrity of all generated roof shapes.
 * **No-Wall Case Validation:** Refactored the `MesherFlat`,  `MesherSkillion`, `MesherGabled`, and `MesherHipped` classes to correctly generate roof geometry when no walls are present (`roof:height = height - min_height`). 
+* **Height/MinHeight Validation:** New autotests to check that generated mesh vertices match initial height/min_height.
 * **Masard roof support**. Thank to autotests, success from the first try.
 
 
@@ -140,7 +141,6 @@ Yet to be implemented:
 * 'gambrel'
 * 'cross_gabled'
 * 'saltbox' 
-* 'mansard' 
 * 'zakomar'
 * 'gabled'  - for arbitrary polygons. there is quite complex algorithm for this in blosm, but it handles only rectangular-like buildings (just with more verticies). I am not aware of proper implementation of gabled roof for Г-shaped or П-shaped buildings.
 

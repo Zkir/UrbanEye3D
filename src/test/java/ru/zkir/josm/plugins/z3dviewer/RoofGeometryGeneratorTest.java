@@ -142,8 +142,27 @@ class RoofGeometryGeneratorTest {
         );
     }
 
-    void AssertMeshTopology(Mesh mesh, String roofShape){
+    private void assertHeightConstraints(Mesh mesh, double minHeight, double height, String mesherName) {
+        assertFalse(mesh.verts.isEmpty(), "Mesh has no vertices for " + mesherName);
+
+        double minZ = Double.MAX_VALUE;
+        double maxZ = Double.MIN_VALUE;
+
+        for (Point3D vert : mesh.verts) {
+            if (vert.z < minZ) {
+                minZ = vert.z;
+            }
+            if (vert.z > maxZ) {
+                maxZ = vert.z;
+            }
+        }
+        assertEquals(minHeight, minZ, 0.001, "Roof shape " + mesherName + ": Minimum Z coordinate of mesh vertices does not match minHeight.");
+        assertEquals(height, maxZ, 0.001, "Roof shape " + mesherName + ": Maximum Z coordinate of mesh vertices does not match height.");
+    }
+
+    void AssertMeshTopology(Mesh mesh, double minHeight, double height, String roofShape){
         assertNotNull(mesh, "Mesh is null for the roof shape " + roofShape);
+        assertHeightConstraints(mesh,  minHeight, height, roofShape);
         assertNoZeroLengthEdges(mesh, roofShape);
         assertWatertight(mesh, roofShape);
         assertNormalsOutward(mesh, roofShape);
@@ -160,7 +179,7 @@ class RoofGeometryGeneratorTest {
             Mesh mesh = roof_shape.getMesher().generate(test_building);
 
             //common set of topology checks.
-            AssertMeshTopology(mesh, roof_shape.toString());
+            AssertMeshTopology(mesh, test_building.minHeight, test_building.height,  roof_shape.toString());
         }
     }
 
@@ -175,7 +194,7 @@ class RoofGeometryGeneratorTest {
             Mesh mesh = roof_shape.getMesher().generate(test_building);
 
             //common set of topology checks.
-            AssertMeshTopology(mesh, roof_shape.toString());
+            AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape.toString());
 
         }
     }
@@ -188,12 +207,12 @@ class RoofGeometryGeneratorTest {
         LatLon origin = new LatLon(55,37);
         RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(basePoints);
 
-        RenderableBuildingElement building = new RenderableBuildingElement(origin, contour,  10, 0, 4,
+        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 4,
                 "","", RoofShapes.GABLED.toString(), "","across" );
 
-        Mesh mesh = RoofShapes.GABLED.getMesher().generate(building);
+        Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         //common set of topology checks for a mesh.
-        AssertMeshTopology(mesh, RoofShapes.GABLED.toString());
+        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.GABLED.toString());
 
     }
 
@@ -204,13 +223,13 @@ class RoofGeometryGeneratorTest {
 
         LatLon origin = new LatLon(55,37);
         RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(basePoints);
-        RenderableBuildingElement building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
+        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
                 "","", RoofShapes.HIPPED.toString(), "","across" );
 
-        Mesh mesh = RoofShapes.HIPPED.getMesher().generate(building);
+        Mesh mesh = RoofShapes.HIPPED.getMesher().generate(test_building);
 
         //common set of topology checks for a mesh.
-        AssertMeshTopology(mesh, RoofShapes.HIPPED.toString());
+        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.HIPPED.toString());
 
     }
 
@@ -221,13 +240,13 @@ class RoofGeometryGeneratorTest {
         ArrayList<Point2D> basePoints = createRectangularBase(14, 10);
         LatLon origin = new LatLon(55,37);
         RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(basePoints);
-        RenderableBuildingElement building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
+        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
                 "","", RoofShapes.SKILLION.toString(), "45","" );
 
-        Mesh mesh = RoofShapes.SKILLION.getMesher().generate(building);
+        Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
 
         //common set of topology checks for a mesh.
-        AssertMeshTopology(mesh, RoofShapes.SKILLION.toString());
+        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString());
     }
 
 
@@ -236,13 +255,13 @@ class RoofGeometryGeneratorTest {
         RenderableBuildingElement.Contour contour = createRectangularBaseWithHole(10, 10, 2, 2);
 
         LatLon origin = new LatLon(55,37);
-        RenderableBuildingElement building = new RenderableBuildingElement(origin, contour,  10, 0, 3,
+        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 3,
                 "","", RoofShapes.FLAT.toString(), "","" );
 
-        Mesh mesh = RoofShapes.FLAT.getMesher().generate(building); // height > wallHeight
+        Mesh mesh = RoofShapes.FLAT.getMesher().generate(test_building); // height > wallHeight
 
         //common set of topology checks for a mesh.
-        AssertMeshTopology(mesh, RoofShapes.FLAT.toString());
+        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.FLAT.toString());
 
     }
 
