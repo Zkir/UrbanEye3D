@@ -6,6 +6,7 @@ import ru.zkir.josm.plugins.z3dviewer.utils.Point2D;
 import ru.zkir.josm.plugins.z3dviewer.utils.Point3D;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MesherSkillion extends RoofGenerator {
@@ -56,34 +57,52 @@ public class MesherSkillion extends RoofGenerator {
 
         // --- Create Vertices ---
         // 1. Base vertices (at the bottom of the walls)
-        int baseStartIndex = 0;
         for (Point2D p : basePoints) {
             verts.add(new Point3D(p.x, p.y, minHeight));
         }
 
         // 2. Roof vertices (at the top of the sloped roof)
+        HashMap<Integer, Integer> topFaceIndicies = new HashMap<>();
         int roofStartIndex = verts.size();
+        int k = verts.size();
         for (int i = 0; i < n; i++) {
             double z = wallHeight + (projections.get(i) - minProj) * tan;
-            verts.add(new Point3D(basePoints.get(i).x, basePoints.get(i).y, z));
+            if (z>minHeight) {
+                verts.add(new Point3D(basePoints.get(i).x, basePoints.get(i).y, z));
+                topFaceIndicies.put(i, k);
+                k++;
+            }else{
+                topFaceIndicies.put(i, i);
+            }
         }
 
         // --- Create Faces ---
         // 1. Top roof face (a single polygon)
         int[] roofIndices = new int[n];
         for (int i = 0; i < n; i++) {
-            roofIndices[i] = roofStartIndex + i;
+            roofIndices[i] = topFaceIndicies.get(i);
         }
         mesh.roofFaces.add(roofIndices);
 
-        // 2. Trapezoidal wall faces
+        // 2. Trapezoidal or triangular wall faces
         for (int i = 0; i < n; i++) {
             int next = (i + 1) % n;
-            int p1_base = baseStartIndex + i;
-            int p2_base = baseStartIndex + next;
-            int p1_roof = roofStartIndex + i;
-            int p2_roof = roofStartIndex + next;
-            mesh.wallFaces.add(new int[]{p1_base, p2_base, p2_roof, p1_roof});
+            int p1_base = i;
+            int p2_base = next;
+            int p1_roof =  topFaceIndicies.get(i);
+            int p2_roof =  topFaceIndicies.get(next);
+            if (p1_base==p1_roof && p2_base == p2_roof) {
+                //this is a sharp edge, wall is not needed here
+                continue;
+            }
+
+            if (p1_base!=p1_roof && p2_base != p2_roof) {
+                mesh.wallFaces.add(new int[]{p1_base, p2_base, p2_roof, p1_roof});
+            } else if(p1_base==p1_roof){
+                mesh.wallFaces.add(new int[]{p1_base, p2_base, p2_roof});
+            } else  {
+                mesh.wallFaces.add(new int[]{p1_base, p2_base,  p1_roof});
+            }
         }
 
         // Create bottom face

@@ -15,7 +15,6 @@ import java.util.List;
 
 public class RenderableBuildingElement {
 
-
     public static class Contour {
         // Define a tolerance for the tangent of the angle. For example, 0.08 corresponds to ~175.5 degrees.
         // This allows for slight deviations in manually placed points.
@@ -233,6 +232,7 @@ public class RenderableBuildingElement {
     public final double height;     // z2 -- z coordinate of roof top
     public final @NotNull Color color;
     public final @NotNull Color roofColor;
+    public final @NotNull Color bottomColor;
     public final RoofShapes roofShape;
     public final double roofDirection;
     public final String roofOrientation;
@@ -247,28 +247,33 @@ public class RenderableBuildingElement {
         this.height = height;
         this.minHeight = minHeight;
 
-        if (!this.hasComplexContour()){
-            this.roofShape = RoofShapes.fromString(roofShape);
-        }else{
+        //default value for roofHeight
+        if (roofShape != null){
+            if (!roofShape.equals("flat") && roofHeight == 0) { //its a bug. original string value should be tested.
+                roofHeight = 3.0;
+            }
+        }
+        if (roofHeight>height-minHeight){
+            roofHeight=height-minHeight;
+        }
+
+        if (this.hasComplexContour() || roofHeight == 0){
             //in case outline has inner rings, we cannot construct any other roof, but FLAT
+            // also, if roof's height is zero, it's flat!
             this.roofShape = RoofShapes.FLAT;
+        }else{
+            this.roofShape = RoofShapes.fromString(roofShape);
         }
 
         this.roofDirection = parseDirection(roofDirectionStr);
         this.roofOrientation = roofOrientation;
 
-        //default value for roofHeight
-        if (this.roofShape!=RoofShapes.FLAT && roofHeight==0){
-            roofHeight=3.0;
-        }
-        if (roofHeight>height-minHeight){
-            roofHeight=height-minHeight;
-        }
         this.roofHeight = roofHeight;
         this.wallHeight = height - roofHeight;
 
         this.color = parseColor(wallColor, new Color(204, 204, 204));
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
+        this.bottomColor = this.color.darker().darker(); //Fake AO LOL!
         
         //since we have all the data, we can compose building mesh right in constructor.
         composeMesh();

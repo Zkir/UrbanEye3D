@@ -201,12 +201,10 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 }
                 // Draw bottom faces
                 for (int[] face : buildingMesh.bottomFaces) {
-                    drawPolygon(gl, buildingMesh.verts, face, building.roofColor);
+                    drawPolygon(gl, buildingMesh.verts, face, building.bottomColor );
                 }
 
-
-
-            }else {
+            }/*else {
                 System.out.println("STILL DIRECT RENDERING. " +  "roof:shape=" + building.roofShape.toString());
                 //in rare cases, like complex multipolygons with holes, we are bot able to construct mesh,
                 //because we do not have hand tesselator, so we need to fallback to some "direct" method,
@@ -299,13 +297,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                         gl.glEnd();
                     }
                 }
-            }
+            } */
 
-            // Draw floor. TODO: implement Mesh.bottomFaces
-            if (building.minHeight > 0) {
-                // Assuming floor is not lit
-                drawPolygonWithHoles(gl, building.getContourOuterRings(), building.getContourInnerRings(), building.minHeight, building.color.darker());
-            }
             gl.glPopMatrix();
         }
         gl.glFlush();

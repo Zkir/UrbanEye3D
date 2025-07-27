@@ -108,23 +108,31 @@ public class MesherFlat extends RoofGenerator{
         List<Integer> contourRoofTopVertexStartIndices = new ArrayList<>(); // Start index of height vertices for each contour
 
 
-        // Add vertices for all contours at minHeight, wallHeight, and height
+        // Add vertices for all contours at minHeight, wallHeight, and height, avoiding duplicates
         for (List<Point2D> contour : contours) {
-            int n = contour.size();
-
             contourBaseVertexStartIndices.add(verts.size());
             for (Point2D p : contour) {
                 verts.add(new Point3D(p.x, p.y, minHeight));
             }
 
-            contourWallTopVertexStartIndices.add(verts.size());
-            for (Point2D p : contour) {
-                verts.add(new Point3D(p.x, p.y, wallHeight));
+            if (wallHeight > minHeight) {
+                contourWallTopVertexStartIndices.add(verts.size());
+                for (Point2D p : contour) {
+                    verts.add(new Point3D(p.x, p.y, wallHeight));
+                }
+            } else {
+                // wallHeight == minHeight, so wall-top vertices are the same as base vertices
+                contourWallTopVertexStartIndices.add(contourBaseVertexStartIndices.get(contourBaseVertexStartIndices.size() - 1));
             }
 
-            contourRoofTopVertexStartIndices.add(verts.size());
-            for (Point2D p : contour) {
-                verts.add(new Point3D(p.x, p.y, height));
+            if (height > wallHeight) {
+                contourRoofTopVertexStartIndices.add(verts.size());
+                for (Point2D p : contour) {
+                    verts.add(new Point3D(p.x, p.y, height));
+                }
+            } else {
+                // height == wallHeight, so roof-top vertices are the same as wall-top vertices
+                contourRoofTopVertexStartIndices.add(contourWallTopVertexStartIndices.get(contourWallTopVertexStartIndices.size() - 1));
             }
         }
 

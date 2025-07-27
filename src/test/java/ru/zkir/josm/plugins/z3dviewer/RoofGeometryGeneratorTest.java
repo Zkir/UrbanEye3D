@@ -58,6 +58,18 @@ class RoofGeometryGeneratorTest {
         return  building;
     }
 
+    private void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
+        // A small tolerance for floating point comparisons
+        final double Epsilon = 1e-6;
+        List<Point3D> vertices = mesh.verts;
+        for (int i = 0; i < vertices.size(); i++) {
+            for (int j = i + 1; j < vertices.size(); j++) {
+                assertTrue(vertices.get(i).distance(vertices.get(j)) > Epsilon,
+                        "Roof shape " + mesherName + ": Vertices " + i + " and " + j + " are too close, effectively a zero-length edge.");
+            }
+        }
+    }
+
 
     private void assertWatertight(Mesh mesh, String mesherName) {
         Map<String, Integer> edgeCounts = new HashMap<>();
@@ -130,6 +142,13 @@ class RoofGeometryGeneratorTest {
         );
     }
 
+    void AssertMeshTopology(Mesh mesh, String roofShape){
+        assertNotNull(mesh, "Mesh is null for the roof shape " + roofShape);
+        assertNoZeroLengthEdges(mesh, roofShape);
+        assertWatertight(mesh, roofShape);
+        assertNormalsOutward(mesh, roofShape);
+    }
+
     // all defined roof shapes are tested automatically for a typical building.
     // so we should not even worry about extending autotests, they are extended automatically.
     @Test
@@ -139,34 +158,30 @@ class RoofGeometryGeneratorTest {
         for (RoofShapes roof_shape: RoofShapes.values()){
             RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 1, 5, 10);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
-            assertNotNull(mesh, "Mesh is null for the roof shape " + roof_shape);
-            assertWatertight(mesh, roof_shape.toString());
-            assertNormalsOutward(mesh, roof_shape.toString());
+
+            //common set of topology checks.
+            AssertMeshTopology(mesh, roof_shape.toString());
         }
     }
 
 
     //the same test as above, for all known roof shapes, but with wallHeight=0, i.e. no walls (roof only) case.
-    /*
+
     @Test
     void testAllRoofShapesNoWalls(){
         ArrayList<Point2D> base = createRectangularBase(25, 10);
         for (RoofShapes roof_shape: RoofShapes.values()){
             RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 2, 9, 11);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
-            assertNotNull(mesh, "Mesh is null for roof shape "+ roof_shape);
-            assertWatertight(mesh, roof_shape.toString());
-            assertNormalsOutward(mesh, roof_shape.toString());
+
+            //common set of topology checks.
+            AssertMeshTopology(mesh, roof_shape.toString());
+
         }
     }
 
-     */
-
-
     //only SPECIAL cases should be added below.
     // For example, some specific parameter values different from default ones. roof:orientation=across, multipolygons with holes or smth like this.
-
-
     @Test
     void testGabledRoofAcross() {
         ArrayList<Point2D> basePoints = createRectangularBase(10, 20);
@@ -177,10 +192,9 @@ class RoofGeometryGeneratorTest {
                 "","", RoofShapes.GABLED.toString(), "","across" );
 
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(building);
+        //common set of topology checks for a mesh.
+        AssertMeshTopology(mesh, RoofShapes.GABLED.toString());
 
-        assertNotNull(mesh,RoofShapes.GABLED.toString());
-        assertWatertight(mesh,RoofShapes.GABLED.toString());
-        assertNormalsOutward(mesh, RoofShapes.GABLED.toString());
     }
 
 
@@ -194,9 +208,10 @@ class RoofGeometryGeneratorTest {
                 "","", RoofShapes.HIPPED.toString(), "","across" );
 
         Mesh mesh = RoofShapes.HIPPED.getMesher().generate(building);
-        assertNotNull(mesh,RoofShapes.HIPPED.toString());
-        assertWatertight(mesh, RoofShapes.HIPPED.toString());
-        assertNormalsOutward(mesh, RoofShapes.HIPPED.toString());
+
+        //common set of topology checks for a mesh.
+        AssertMeshTopology(mesh, RoofShapes.HIPPED.toString());
+
     }
 
 
@@ -211,9 +226,8 @@ class RoofGeometryGeneratorTest {
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(building);
 
-        assertNotNull(mesh, RoofShapes.SKILLION.toString());
-        assertWatertight(mesh, RoofShapes.SKILLION.toString());
-        assertNormalsOutward(mesh, RoofShapes.SKILLION.toString());
+        //common set of topology checks for a mesh.
+        AssertMeshTopology(mesh, RoofShapes.SKILLION.toString());
     }
 
 
@@ -226,10 +240,10 @@ class RoofGeometryGeneratorTest {
                 "","", RoofShapes.FLAT.toString(), "","" );
 
         Mesh mesh = RoofShapes.FLAT.getMesher().generate(building); // height > wallHeight
-        assertNotNull(mesh, "Mesh is null for roof shape "+ RoofShapes.FLAT);
-        assertWatertight(mesh, RoofShapes.FLAT.toString());
-        assertNormalsOutward(mesh, RoofShapes.FLAT.toString());
-    }
 
+        //common set of topology checks for a mesh.
+        AssertMeshTopology(mesh, RoofShapes.FLAT.toString());
+
+    }
 
 }

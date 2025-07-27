@@ -19,8 +19,28 @@ public class Point3D {
         return new Point3D(0, 0, 0);
     }
 
+    // vector module
+    public double length(){
+        return Math.sqrt(x*x + y*y+ z*z);
+    }
+
+    //vector summation
+    public Point3D add(Point3D other){
+        return new Point3D(this.x+other.x, this.y+other.y, this.z+other.z );
+    }
+
+    //vector subtraction
+    public Point3D subtract(Point3D other){
+        return new Point3D(this.x-other.x, this.y-other.y, this.z-other.z);
+    }
+
     public double dot(Point3D other) {
         return this.x * other.x + this.y * other.y + this.z * other.z;
+    }
+
+    public double distance(Point3D other) {
+       // l(a,b) = |a-b|
+       return this.subtract(other).length();
     }
 
     @Override
@@ -37,4 +57,6 @@ public class Point3D {
     public int hashCode() {
         return Objects.hash(x, y, z);
     }
+
+
 }

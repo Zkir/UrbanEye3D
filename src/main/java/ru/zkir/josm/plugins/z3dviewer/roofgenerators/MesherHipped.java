@@ -42,13 +42,22 @@ public class MesherHipped extends RoofGenerator {
 
         // --- Create Vertices ---
         // 1. Base vertices (at the bottom of the walls)
+        int baseIdx = verts.size();
         for (Point2D p : basePoints) {
             verts.add(new Point3D(p.x, p.y, minHeight));
         }
+
         // 2. Wall top vertices (at the height of the eaves)
-        for (Point2D p : basePoints) {
-            verts.add(new Point3D(p.x, p.y, wallHeight));
+        int wallIdx;
+        if (wallHeight > minHeight) {
+            wallIdx = verts.size();
+            for (Point2D p : basePoints) {
+                verts.add(new Point3D(p.x, p.y, wallHeight));
+            }
+        } else {
+            wallIdx = baseIdx; // Reuse base vertices if no walls
         }
+
         // 3. Roof ridge vertices
         Point2D g1_p0 = basePoints.get(g1_idx0);
         Point2D g1_p1 = basePoints.get(g1_idx1);
@@ -76,30 +85,30 @@ public class MesherHipped extends RoofGenerator {
 
 
         Point2D[] shortened_ridge = shortenSegment(mid1, mid2,ridge_length/a);
-        verts.add(new Point3D(shortened_ridge[0].x, shortened_ridge[0].y, height)); // Ridge point 1 (index 8)
-        verts.add(new Point3D(shortened_ridge[1].x, shortened_ridge[1].y, height)); // Ridge point 2 (index 9)
+        int ridge1Idx = verts.size();
+        verts.add(new Point3D(shortened_ridge[0].x, shortened_ridge[0].y, height));
+        int ridge2Idx = verts.size();
+        verts.add(new Point3D(shortened_ridge[1].x, shortened_ridge[1].y, height));
 
         mesh.verts = verts;
 
         // --- Create Faces ---
-        int baseIdx = 0;
-        int wallIdx = n;
-        int ridge1Idx = 2 * n;
-        int ridge2Idx = 2 * n + 1;
-
         // Find the indices of the vertices that form the eave walls
         int eave1_idx0 = g1_idx1;
         int eave1_idx1 = g2_idx0;
         int eave2_idx0 = g2_idx1;
         int eave2_idx1 = g1_idx0;
 
-        // Create Eave Walls (Quads)
-        mesh.wallFaces.add(new int[]{baseIdx + eave1_idx0, baseIdx + eave1_idx1, wallIdx + eave1_idx1, wallIdx + eave1_idx0});
-        mesh.wallFaces.add(new int[]{baseIdx + eave2_idx0, baseIdx + eave2_idx1, wallIdx + eave2_idx1, wallIdx + eave2_idx0});
+        // Create Walls only if they have height
+        if (wallHeight > minHeight) {
+            // Create Eave Walls (Quads)
+            mesh.wallFaces.add(new int[]{baseIdx + eave1_idx0, baseIdx + eave1_idx1, wallIdx + eave1_idx1, wallIdx + eave1_idx0});
+            mesh.wallFaces.add(new int[]{baseIdx + eave2_idx0, baseIdx + eave2_idx1, wallIdx + eave2_idx1, wallIdx + eave2_idx0});
 
-        // Create Gable Walls (also Quads for hipped)
-        mesh.wallFaces.add(new int[]{baseIdx + g1_idx0, baseIdx + g1_idx1, wallIdx + g1_idx1,  wallIdx + g1_idx0});
-        mesh.wallFaces.add(new int[]{baseIdx + g2_idx0, baseIdx + g2_idx1, wallIdx + g2_idx1,  wallIdx + g2_idx0});
+            // Create Gable Walls (also Quads for hipped)
+            mesh.wallFaces.add(new int[]{baseIdx + g1_idx0, baseIdx + g1_idx1, wallIdx + g1_idx1,  wallIdx + g1_idx0});
+            mesh.wallFaces.add(new int[]{baseIdx + g2_idx0, baseIdx + g2_idx1, wallIdx + g2_idx1,  wallIdx + g2_idx0});
+        }
 
         //Create Roof Planes (Triangles)
         mesh.roofFaces.add(new int[]{ wallIdx + g1_idx1, ridge1Idx, wallIdx + g1_idx0});
@@ -113,7 +122,7 @@ public class MesherHipped extends RoofGenerator {
         // Create bottom face
         int[] bottomFace = new int[n];
         for (int i = 0; i < n; i++) {
-            bottomFace[i] = n - 1 - i; // Reverse order for correct normal
+            bottomFace[i] = baseIdx + n - 1 - i; // Reverse order for correct normal
         }
         mesh.bottomFaces.add(bottomFace);
 
