@@ -234,7 +234,7 @@ public class MesherFlat extends RoofGenerator{
 
         // Outer contour for bottom (using vertices at 'minHeight')
         glu.gluTessBeginContour(tessBottom);
-        for (int i = 0; i < outerContour.size(); i++) {
+        for (int i = outerContour.size() - 1; i >= 0; i--) {
             int vertexIndex = contourBaseVertexStartIndices.get(0) + i;
             Point3D vertex = verts.get(vertexIndex);
             double[] coords = {vertex.x, vertex.y, vertex.z};
@@ -246,7 +246,7 @@ public class MesherFlat extends RoofGenerator{
         for (int c = 1; c < contours.size(); c++) {
             List<Point2D> innerContour = contours.get(c);
             glu.gluTessBeginContour(tessBottom);
-            for (int i = 0; i < innerContour.size(); i++) {
+            for (int i = innerContour.size() - 1; i >= 0; i--) {
                 int vertexIndex = contourBaseVertexStartIndices.get(c) + i;
                 Point3D vertex = verts.get(vertexIndex);
                 double[] coords = {vertex.x, vertex.y, vertex.z};

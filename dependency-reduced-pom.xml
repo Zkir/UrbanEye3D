@@ -30,7 +30,7 @@
               <Plugin-Description>${project.description}</Plugin-Description>
               <Plugin-Name>${project.name}</Plugin-Name>
               <Author>zkir@zkir.ru</Author>
-              <Plugin-Link>https://github.com/Zkir/josm-z3d-viewer</Plugin-Link>
+              <Plugin-Link>https://github.com/Zkir/z3dViewer</Plugin-Link>
               <Plugin-Icon>images/preferences/z3dviewer.svg</Plugin-Icon>
             </manifestEntries>
           </archive>

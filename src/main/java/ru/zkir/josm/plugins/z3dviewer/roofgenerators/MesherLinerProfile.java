@@ -184,9 +184,9 @@ public class MesherLinerProfile extends  RoofGenerator {
         } else
         {   //roof corners will be used instead
             idxAg = front1Start;
-            idxBg = front1End;
+            idxBg = front2Start;
             idxCg = front2End;
-            idxDg = front2Start;
+            idxDg = front1End;
         }
 
         // 7. Создать грани крыши
