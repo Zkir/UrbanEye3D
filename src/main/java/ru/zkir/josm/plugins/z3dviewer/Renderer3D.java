@@ -29,6 +29,7 @@ import java.util.List;
 public class Renderer3D extends GLJPanel implements GLEventListener {
     private final List<RenderableBuildingElement> buildings;
     private final GLU glu = new GLU();
+    private boolean isWireframeMode;
 
     private double camX_angle = 35; //this is rather Z-angle (in vertical plane)
     private double camY_angle = -90; // x and y mixed, but it is not a problem yet.
@@ -133,6 +134,10 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 (int) (baseColor.getBlue() * factor)
         );
     }
+    public void toggleWireframeMode() {
+        isWireframeMode = !isWireframeMode;
+        Config.getPref().putBoolean("z3dviewer.wireframe.enabled", isWireframeMode);
+    }
 
 
     @Override
@@ -140,8 +145,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         GL2 gl = glAutoDrawable.getGL().getGL2();
 
         // Check for wireframe mode preference
-        boolean wireframeMode = Config.getPref().getBoolean("z3dviewer.wireframe.enabled", false);
-        if (wireframeMode) {
+        if (isWireframeMode) {
             gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
         } else {
             gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
@@ -308,44 +312,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     }
 
 
-    private void drawPolygonWithHoles(GL2 gl, List<ArrayList<Point2D>> outerRings, List<ArrayList<Point2D>> innerRings, double z, Color color) {
-        GLUtessellator tess = glu.gluNewTess();
-        TessellatorCallback callback = new TessellatorCallback(gl, glu);
-
-        glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, callback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, callback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_END, callback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, callback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, callback);
-
-        gl.glColor3f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f);
-
-        glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
-
-        glu.gluTessBeginPolygon(tess, null);
-
-        for (List<Point2D> outerRing : outerRings) {
-            glu.gluTessBeginContour(tess);
-            for (Point2D p : outerRing) {
-                double[] vertex = {p.x, p.y, z};
-                glu.gluTessVertex(tess, vertex, 0, vertex);
-            }
-            glu.gluTessEndContour(tess);
-        }
-
-        for (List<Point2D> innerRing : innerRings) {
-            glu.gluTessBeginContour(tess);
-            for (Point2D p : innerRing) {
-                double[] vertex = {p.x, p.y, z};
-                glu.gluTessVertex(tess, vertex, 0, vertex);
-            }
-            glu.gluTessEndContour(tess);
-        }
-
-        glu.gluTessEndPolygon(tess);
-        glu.gluDeleteTess(tess);
-    }
-
     private void drawPolygon(GL2 gl, List<Point3D> vertices, int[] faceIndices, Color color) {
         if (faceIndices.length < 3) return;
         // Calculate face normal for lighting
@@ -389,8 +355,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             glu.gluTessCallback(tess, GLU.GLU_TESS_END, callback);
             glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, callback);
             glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, callback);
-
-
 
             glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
 

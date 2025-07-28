@@ -26,6 +26,8 @@ import ru.zkir.josm.plugins.z3dviewer.utils.Point2D;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,18 @@ public class Z3dViewerDialog extends ToggleDialog
                 renderer3D.setCursor(Cursor.getDefaultCursor());
             }
         });
+
+        renderer3D.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_Z) {
+                    renderer3D.toggleWireframeMode();
+                    renderer3D.repaint();
+                }
+            }
+        });
+        renderer3D.setFocusable(true);
+        renderer3D.requestFocusInWindow();
 
         NavigatableComponent.addZoomChangeListener(this);
         MainApplication.getLayerManager().addLayerChangeListener(this);
