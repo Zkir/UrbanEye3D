@@ -6,18 +6,15 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Benefits for Mappers
 
-This plugin provides significant practical advantages for OpenStreetMap mappers working with JOSM:
+3D OSM has been around for years. There are also various external tools to visualize it. However, ironically (since the demise of [Kenzi 3D](https://github.com/kendzi/kendzi3d)), there has been no plugin to see 3D buildings directly in JOSM.
 
-1.  **Instant Visual Data Validation:** Mappers can immediately see how their 2D data (building outlines, `height`, `min_height`, `roof:shape` tags, etc.) translate into a 3D model. This allows for:
-    *   **Error Detection:** Incorrect heights, wrong roof types, or misaligned outlines become immediately apparent in 3D, which might be easily missed in 2D. For example, a "floating" roof or walls that don't meet the roof are instantly visible.
-    *   **Consistency Checks:** Ensure that adjacent buildings or parts of a single building appear harmonious and accurately reflect real-world structures.
+This problem is now solved! Cartographers and 3D building enthusiasts will be able to see the results of their work in the editor they edit the data in BEFORE uploading it to OSM!
 
-2.  **Improved Data Quality:** The ability to quickly visually inspect data encourages mappers to provide more accurate and complete tagging for 3D modeling, thereby enhancing the overall detail and quality of OpenStreetMap data.
 
-3.  **Understanding Complex Geometries:** For buildings with intricate outlines, courtyards, or multiple parts (`building:part=*`), 3D visualization greatly simplifies the comprehension of their structure and interrelationships, which is challenging to grasp from a flat 2D map.
+## Licensing
 
-4.  **Efficient Workflow:** Instead of exporting data to external 3D software for verification, mappers receive immediate feedback directly within JOSM. This accelerates the mapping process and reduces iteration cycles.
+Currently [MIT LICENSE](LICENSE)
 
-5.  **Learning and Adoption of New Tags:** For new mappers or those learning about 3D-related tags, the plugin serves as an excellent tool to understand how each tag influences the final 3D representation.
+## Contributing
 
-In essence, this plugin is a powerful tool for **quality control, debugging, and data improvement** directly within the mapping workflow, making a mapper's work more precise, efficient, and enjoyable.
+Any help is appreciated. However, please discuss significant code changes with me before creating a PR.

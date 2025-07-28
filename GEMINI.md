@@ -16,11 +16,10 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 ## Next steps
 
 ### Musts for the first release (1.0.0)
+* Settle up on naming. Should we go on with **"z3dViewer"** or could it be say *"Simple Building Viewer"* or "Falcon Eye 3D" or **UrbanEye3D** ?
 * **Fancy icon for plugin and dialogs.** Currently stub icons are used, but we can improve them.
     * Icon for preferences/plugin   48px*48px svg/png
     * Icon for 3D window            24px*24px svg/png
-
-* Settle up on naming. Should we go on with **"z3dViewer"** or could it be say **"Simple Building Viewer"** or "Falcon Eye 3D" or  **UrbanEye3D** ?
 * Support of **half-hipped** roof shape, it's a popular one. 
 
 
@@ -28,7 +27,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 *. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
 *. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-*. **Defeat forced tesselation:** with forced tesselation, wireframe mode is not of much use.
+*. **Improve wireframe mode:** Only original mesh edges should be displayed. Currently, sometimes tesselated faces are displayed, which does not look nice.
 
 
 ## Recent Accomplishments 
@@ -160,9 +159,9 @@ Yet to be implemented:
 * 'half-hipped'
 * 'cross_gabled'
 * 'zakomar'
-* 'gabled'  - for arbitrary polygons. 
+* Linear profile roof (`gabled`, `round`) for arbitrary polygons.  It is highly needed, since used in existing models from TOP-200.
 
-there is quite complex algorithm to create gabled roofs for n-gons in blosm, but it handles only rectangular-like buildings . 
+There is quite complex algorithm to create gabled roofs for n-gons in blosm, but it handles only rectangular-like buildings . 
 A rectangular-like  means that the building is basically quadrangular(just with more verticies in contour), and the deviations from a quadrangle, although there are, are insignificant.
 I am not aware of proper implementation of gabled roof for Г-shaped or П-shaped buildings.
 
@@ -175,14 +174,13 @@ If we knew how to do Boolean operations on meshes, the algorithm would become tr
 5) that's it!
 
 
-see for known values:
+See taginfo for known values of `roof:shape` tag:
 * https://taginfo.openstreetmap.org/keys/roof%3Ashape#values
+* https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table
 
-And also:
-*  https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table
+### Reference implementation of roof:shapes
 
-
-Reference implementation from patched blosm blender addon should be reused, see:
+Reference implementation from patched blosm blender addon should be reused whenewer possible, see:
 
 * d:\z3dViewer\ext_sources\blosm_source\building\renderer.py
 * d:\z3dViewer\ext_sources\blosm_source\building\roof\__init__.py
@@ -194,8 +192,8 @@ Reference implementation from patched blosm blender addon should be reused, see:
 * d:\z3dViewer\ext_sources\blosm_source\building\roof\hipped.py
 * d:\z3dViewer\ext_sources\blosm_source\building\roof\mansard.py
 * d:\z3dViewer\ext_sources\blosm_source\building\roof\conic_profile.py
-    
-4.  **Default behavior:** If `roof:shape` is unknown or missing, render a `flat` roof.
+   
+
 
 ## Plan for Screen-Space Ambient Occlusion (SSAO) Implementation
 
