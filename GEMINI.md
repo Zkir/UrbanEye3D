@@ -22,21 +22,22 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 * Settle up on naming. Should we go on with **"z3dViewer"** or could it be say **"Simple Building Viewer"** or "Falcon Eye 3D" or  **UrbanEye3D** ?
 * Support of **half-hipped** roof shape, it's a popular one. 
-* **Reintroduce FAKE AO**. It was dropped when rendering was reworked to render meshes only.it seems that we can try darkining proportionally to vertex height relative to building height.
+
 
 ### Further Development 
 
 *. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
 *. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-*. **Defeat forced tesselation:** with forsed tesselation, wireframe mode is not of much use.
+*. **Defeat forced tesselation:** with forced tesselation, wireframe mode is not of much use.
 
 
 ## Recent Accomplishments 
 ### July 28, 2025
 * **Support of "linear profile" roof shapes:** `round`, `gambrel`, `saltbox` roofs are supported. Obviously, for quadrangle bases only. 
 * **Stub icons for dialog, preferences and plugin itself**
-* **Return of fake AO** ??
-
+* **Return of fake AO.**  Even this simple type of shading make picture much better.
+* **Proper registration of Wireframe mode shortcut.** Pressin "Z" now works also when 3d window is docked.
+* **Debugging**: More informative message for "Tesselation error, combine callback needed"  
 
 
 ### July 27, 2025
@@ -258,6 +259,10 @@ This pass combines the original scene color with the ambient occlusion map.
         *   Outputs the final color to the screen.
 3.  **Render:** Render a full-screen quad to display the final, beautifully shaded image.
 
+## Operation instructions
+
+*   **Definition of Done:** A task is considered DONE only when `mvn package` completes successfully without any errors.
+
 ## Learnings
 
 *   **Gable Coloring on No-Wall Buildings:** A key detail of the Simple 3D Buildings specification is that gable ends are considered part of the wall. When generating a gabled roof on a building with no wall height (i.e., the roof starts at `min_height`), the resulting triangular gable faces must still be treated as wall surfaces and colored accordingly, not as roof surfaces.
@@ -272,3 +277,4 @@ This pass combines the original scene color with the ambient occlusion map.
 *   **`addGui` Method Usage:** For `TabPreferenceSetting`, the `addGui` method is used to add the GUI components to the tab's `PreferencePanel` (obtained via `gui.createPreferenceTab(this, false)`), not to create the tab itself. The `PreferencePanel` uses `GridBagLayout`.
 *   **Icon Naming Conventions:** JOSM's `ImageProvider` expects specific icon names, often including a path (e.g., `preferences/dialogs/preferences.svg` or `shortcuts.svg`). Using generic names like "up" will result in `JosmRuntimeException`.
 *   **GridBagLayout for UI Alignment:** To align components to the top in `GridBagLayout`, `weighty = 0.0` should be set for the components, and a "vertical glue" (`JPanel` with `weighty = 1.0`) should be added at the end to absorb remaining vertical space.
+

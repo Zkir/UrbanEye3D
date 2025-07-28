@@ -29,7 +29,7 @@ import java.util.List;
 public class Renderer3D extends GLJPanel implements GLEventListener {
     private final List<RenderableBuildingElement> buildings;
     private final GLU glu = new GLU();
-    private boolean isWireframeMode;
+    public boolean isWireframeMode;
 
     private double camX_angle = 35; //this is rather Z-angle (in vertical plane)
     private double camY_angle = -90; // x and y mixed, but it is not a problem yet.

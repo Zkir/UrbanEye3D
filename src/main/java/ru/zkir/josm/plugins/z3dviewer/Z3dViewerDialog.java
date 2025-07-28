@@ -23,11 +23,10 @@ import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.coor.LatLon;
 import ru.zkir.josm.plugins.z3dviewer.utils.Point2D;
 
+import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +41,10 @@ public class Z3dViewerDialog extends ToggleDialog
     public Z3dViewerDialog(Z3dViewerPlugin plugin) {
         super("3D Viewer", "z3dviewer", "3D Viewer", null, 150, true); //TODO: proper custom icon instead of "up"
         renderer3D = new Renderer3D(buildings);
-        add(renderer3D);
+        add(renderer3D, BorderLayout.CENTER);
+
+        // Register the action so the shortcut works, but don't create a menu item
+        new ToggleWireframeAction(renderer3D);
 
         renderer3D.addMouseListener(new MouseAdapter() {
             @Override
@@ -60,15 +62,6 @@ public class Z3dViewerDialog extends ToggleDialog
             }
         });
 
-        renderer3D.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_Z) {
-                    renderer3D.toggleWireframeMode();
-                    renderer3D.repaint();
-                }
-            }
-        });
         renderer3D.setFocusable(true);
         renderer3D.requestFocusInWindow();
 

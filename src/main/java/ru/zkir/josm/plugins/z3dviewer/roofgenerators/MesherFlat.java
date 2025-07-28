@@ -19,10 +19,12 @@ public class MesherFlat extends RoofGenerator{
         private final List<Point3D> vertices;
         private final List<int[]> faces;
         private int currentPrimitiveType; // To store the type from beginData
+        private final RenderableBuildingElement building; // Reference to the building
 
-        public TessellatorCallback(List<Point3D> vertices, List<int[]> faces) {
+        public TessellatorCallback(List<Point3D> vertices, List<int[]> faces, RenderableBuildingElement building) {
             this.vertices = vertices;
             this.faces = faces;
+            this.building = building;
         }
 
         @Override
@@ -45,7 +47,8 @@ public class MesherFlat extends RoofGenerator{
 
         @Override
         public void error(int errnum) {
-            System.err.println("Tessellation Error (" + errnum + "): " + new GLU().gluErrorString(errnum));
+            System.err.println("Tessellation Error (" + errnum + "): " + new GLU().gluErrorString(errnum) +
+                               " on building at " + building.origin.toString());
         }
 
         private List<Integer> currentContourVertices = new ArrayList<>();
@@ -176,87 +179,107 @@ public class MesherFlat extends RoofGenerator{
             }
         }
 
-        // Create roof face using tessellation (using vertices at 'height')
-        GLU glu = new GLU();
-        GLUtessellator tess = glu.gluNewTess();
-        TessellatorCallback roofCallback = new TessellatorCallback(verts, mesh.roofFaces);
-
-        glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX_DATA, roofCallback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN_DATA, roofCallback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_END_DATA, roofCallback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, roofCallback);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE_DATA, roofCallback);
-
-        glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
-
-        glu.gluTessBeginPolygon(tess, null);
-
-        // Outer contour for roof (using vertices at 'height')
         List<Point2D> outerContour = contours.get(0);
-        glu.gluTessBeginContour(tess);
-        for (int i = 0; i < outerContour.size(); i++) {
-            int vertexIndex = contourRoofTopVertexStartIndices.get(0) + i;
-            Point3D vertex = verts.get(vertexIndex);
-            double[] coords = {vertex.x, vertex.y, vertex.z};
-            glu.gluTessVertex(tess, coords, 0, vertexIndex);
-        }
-        glu.gluTessEndContour(tess);
+        if (contours.size() == 1) {
+            // Simple case: one outer contour, no inner contours.
+            // Create roof face as a single polygon
+            int n = outerContour.size();
+            int[] roofFace = new int[n];
+            int roofTopStartIdx = contourRoofTopVertexStartIndices.get(0);
+            for (int i = 0; i < n; i++) {
+                roofFace[i] = roofTopStartIdx + i;
+            }
+            mesh.roofFaces.add(roofFace);
 
-        // Inner contours (holes) for roof (using vertices at 'height')
-        for (int c = 1; c < contours.size(); c++) {
-            List<Point2D> innerContour = contours.get(c);
+            // Create bottom face as a single polygon (with reversed winding)
+            int[] bottomFace = new int[n];
+            int baseStartIdx = contourBaseVertexStartIndices.get(0);
+            for (int i = 0; i < n; i++) {
+                bottomFace[i] = baseStartIdx + (n - 1 - i);
+            }
+            mesh.bottomFaces.add(bottomFace);
+        } else {
+            // Complex case: multiple contours (holes). Use tessellation.
+            GLU glu = new GLU();
+            GLUtessellator tess = glu.gluNewTess();
+            TessellatorCallback roofCallback = new TessellatorCallback(verts, mesh.roofFaces, building);
+
+            glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX_DATA, roofCallback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN_DATA, roofCallback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_END_DATA, roofCallback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, roofCallback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE_DATA, roofCallback);
+
+            glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
+
+            glu.gluTessBeginPolygon(tess, null);
+
+            // Outer contour for roof (using vertices at 'height')
             glu.gluTessBeginContour(tess);
-            for (int i = 0; i < innerContour.size(); i++) {
-                int vertexIndex = contourRoofTopVertexStartIndices.get(c) + i;
+            for (int i = 0; i < outerContour.size(); i++) {
+                int vertexIndex = contourRoofTopVertexStartIndices.get(0) + i;
                 Point3D vertex = verts.get(vertexIndex);
                 double[] coords = {vertex.x, vertex.y, vertex.z};
                 glu.gluTessVertex(tess, coords, 0, vertexIndex);
             }
             glu.gluTessEndContour(tess);
-        }
 
-        glu.gluTessEndPolygon(tess);
-        glu.gluDeleteTess(tess);
+            // Inner contours (holes) for roof (using vertices at 'height')
+            for (int c = 1; c < contours.size(); c++) {
+                List<Point2D> innerContour = contours.get(c);
+                glu.gluTessBeginContour(tess);
+                for (int i = 0; i < innerContour.size(); i++) {
+                    int vertexIndex = contourRoofTopVertexStartIndices.get(c) + i;
+                    Point3D vertex = verts.get(vertexIndex);
+                    double[] coords = {vertex.x, vertex.y, vertex.z};
+                    glu.gluTessVertex(tess, coords, 0, vertexIndex);
+                }
+                glu.gluTessEndContour(tess);
+            }
 
-        // Create bottom face using tessellation (using vertices at 'minHeight')
-        GLUtessellator tessBottom = glu.gluNewTess();
-        TessellatorCallback bottomCallback = new TessellatorCallback(verts, mesh.bottomFaces);
+            glu.gluTessEndPolygon(tess);
+            glu.gluDeleteTess(tess);
 
-        glu.gluTessCallback(tessBottom, GLU.GLU_TESS_VERTEX_DATA, bottomCallback);
-        glu.gluTessCallback(tessBottom, GLU.GLU_TESS_BEGIN_DATA, bottomCallback);
-        glu.gluTessCallback(tessBottom, GLU.GLU_TESS_END_DATA, bottomCallback);
-        glu.gluTessCallback(tessBottom, GLU.GLU_TESS_ERROR, bottomCallback);
-        glu.gluTessCallback(tessBottom, GLU.GLU_TESS_COMBINE_DATA, bottomCallback);
+            // Create bottom face using tessellation (using vertices at 'minHeight')
+            GLUtessellator tessBottom = glu.gluNewTess();
+            TessellatorCallback bottomCallback = new TessellatorCallback(verts, mesh.bottomFaces, building);
 
-        glu.gluTessProperty(tessBottom, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
+            glu.gluTessCallback(tessBottom, GLU.GLU_TESS_VERTEX_DATA, bottomCallback);
+            glu.gluTessCallback(tessBottom, GLU.GLU_TESS_BEGIN_DATA, bottomCallback);
+            glu.gluTessCallback(tessBottom, GLU.GLU_TESS_END_DATA, bottomCallback);
+            glu.gluTessCallback(tessBottom, GLU.GLU_TESS_ERROR, bottomCallback);
+            glu.gluTessCallback(tessBottom, GLU.GLU_TESS_COMBINE_DATA, bottomCallback);
 
-        glu.gluTessBeginPolygon(tessBottom, null);
+            glu.gluTessProperty(tessBottom, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
 
-        // Outer contour for bottom (using vertices at 'minHeight')
-        glu.gluTessBeginContour(tessBottom);
-        for (int i = outerContour.size() - 1; i >= 0; i--) {
-            int vertexIndex = contourBaseVertexStartIndices.get(0) + i;
-            Point3D vertex = verts.get(vertexIndex);
-            double[] coords = {vertex.x, vertex.y, vertex.z};
-            glu.gluTessVertex(tessBottom, coords, 0, vertexIndex);
-        }
-        glu.gluTessEndContour(tessBottom);
+            glu.gluTessBeginPolygon(tessBottom, null);
 
-        // Inner contours (holes) for bottom (using vertices at 'minHeight')
-        for (int c = 1; c < contours.size(); c++) {
-            List<Point2D> innerContour = contours.get(c);
+            // Outer contour for bottom (using vertices at 'minHeight')
             glu.gluTessBeginContour(tessBottom);
-            for (int i = innerContour.size() - 1; i >= 0; i--) {
-                int vertexIndex = contourBaseVertexStartIndices.get(c) + i;
+            for (int i = outerContour.size() - 1; i >= 0; i--) {
+                int vertexIndex = contourBaseVertexStartIndices.get(0) + i;
                 Point3D vertex = verts.get(vertexIndex);
                 double[] coords = {vertex.x, vertex.y, vertex.z};
                 glu.gluTessVertex(tessBottom, coords, 0, vertexIndex);
             }
             glu.gluTessEndContour(tessBottom);
-        }
 
-        glu.gluTessEndPolygon(tessBottom);
-        glu.gluDeleteTess(tessBottom);
+            // Inner contours (holes) for bottom (using vertices at 'minHeight')
+            for (int c = 1; c < contours.size(); c++) {
+                List<Point2D> innerContour = contours.get(c);
+                glu.gluTessBeginContour(tessBottom);
+                for (int i = innerContour.size() - 1; i >= 0; i--) {
+                    int vertexIndex = contourBaseVertexStartIndices.get(c) + i;
+                    Point3D vertex = verts.get(vertexIndex);
+                    double[] coords = {vertex.x, vertex.y, vertex.z};
+                    glu.gluTessVertex(tessBottom, coords, 0, vertexIndex);
+                }
+                glu.gluTessEndContour(tessBottom);
+            }
+
+            glu.gluTessEndPolygon(tessBottom);
+            glu.gluDeleteTess(tessBottom);
+        }
 
         return mesh;
     }

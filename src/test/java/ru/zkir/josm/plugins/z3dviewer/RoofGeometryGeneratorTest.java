@@ -114,8 +114,6 @@ class RoofGeometryGeneratorTest {
         assertNormalsOutwardFaceGroup(mesh, mesh.wallFaces, geometricCenter, mesherName, "wall");
         assertNormalsOutwardFaceGroup(mesh, mesh.roofFaces, geometricCenter, mesherName, "roof");
         assertNormalsOutwardFaceGroup(mesh, mesh.bottomFaces, geometricCenter, mesherName, "bottom");
-
-
     }
 
     private Point3D calculateGeometricCenter(List<Point3D> vertices) {
