@@ -35,7 +35,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 ### July 28, 2025
 * **Support of "linear profile" roof shapes:** `round`, `gambrel`, `saltbox` roofs are supported. Obviously, for quadrangle bases only. 
 * **Stub icons for dialog, preferences and plugin itself**
-
+* **Return of fake AO** ??
 
 
 
@@ -159,7 +159,20 @@ Yet to be implemented:
 * 'half-hipped'
 * 'cross_gabled'
 * 'zakomar'
-* 'gabled'  - for arbitrary polygons. there is quite complex algorithm for this in blosm, but it handles only rectangular-like buildings (just with more verticies). I am not aware of proper implementation of gabled roof for Г-shaped or П-shaped buildings.
+* 'gabled'  - for arbitrary polygons. 
+
+there is quite complex algorithm to create gabled roofs for n-gons in blosm, but it handles only rectangular-like buildings . 
+A rectangular-like  means that the building is basically quadrangular(just with more verticies in contour), and the deviations from a quadrangle, although there are, are insignificant.
+I am not aware of proper implementation of gabled roof for Г-shaped or П-shaped buildings.
+
+If we knew how to do Boolean operations on meshes, the algorithm would become trivial.
+
+1) determine the quadrangular base of the roof.
+2) construct the roof volume on the quadrangular base using a simple algorithm.
+3) find the INTERSECTION between the roof volume and the mass model of the building.
+4) find the UNION between the resulting volume and the lower part of the building.
+5) that's it!
+
 
 see for known values:
 * https://taginfo.openstreetmap.org/keys/roof%3Ashape#values
@@ -170,18 +183,80 @@ And also:
 
 Reference implementation from patched blosm blender addon should be reused, see:
 
-* d:\z3dViewer\ext_sources\blosm_source\\building\renderer.py
-* d:\z3dViewer\ext_sources\blosm_source\\building\roof\__init__.py
-* d:\z3dViewer\ext_sources\blosm_source\\building\roof\zakomar.py
-* d:\z3dViewer\ext_sources\blosm_source\\building\roof\profile.py
-* d:\z3dViewer\ext_sources\blosm_source\\building\roof\pyramidal.py
-* d:\z3dViewer\ext_sources\blosm_source\\building\roof\skillion.py
-* d:\z3dViewer\ext_sources\blosm_source\\building\roof\half_hipped.py
-* d:\z3dViewer\ext_sources\blosm_source\\building\roof\hipped.py
-* d:\z3dViewer\ext_sources\blosm_source\\building\roof\mansard.py
-* d:\z3dViewer\ext_sources\blosm_source\\building\roof\conic_profile.py
+* d:\z3dViewer\ext_sources\blosm_source\building\renderer.py
+* d:\z3dViewer\ext_sources\blosm_source\building\roof\__init__.py
+* d:\z3dViewer\ext_sources\blosm_source\building\roof\zakomar.py
+* d:\z3dViewer\ext_sources\blosm_source\building\roof\profile.py
+* d:\z3dViewer\ext_sources\blosm_source\building\roof\pyramidal.py
+* d:\z3dViewer\ext_sources\blosm_source\building\roof\skillion.py
+* d:\z3dViewer\ext_sources\blosm_source\building\roof\half_hipped.py
+* d:\z3dViewer\ext_sources\blosm_source\building\roof\hipped.py
+* d:\z3dViewer\ext_sources\blosm_source\building\roof\mansard.py
+* d:\z3dViewer\ext_sources\blosm_source\building\roof\conic_profile.py
     
 4.  **Default behavior:** If `roof:shape` is unknown or missing, render a `flat` roof.
+
+## Plan for Screen-Space Ambient Occlusion (SSAO) Implementation
+
+Implementing SSAO requires a shift from the immediate-mode rendering pipeline to a modern, shader-based, multi-pass approach.
+
+### Core Requirements
+1.  **Shader-based Pipeline:** Transition from `glBegin`/`glEnd` to GLSL shaders for rendering.
+2.  **Framebuffer Objects (FBOs):** Use FBOs to render the scene into off-screen textures.
+3.  **Multi-Pass Rendering:** The `display` method will execute a sequence of rendering passes instead of a single one.
+
+### Implementation Steps
+
+#### Step 1: G-Buffer Pass
+The goal is to render the scene's geometry data into a set of textures called a G-Buffer.
+
+1.  **Configure FBO:** Create an FBO to manage the G-Buffer textures.
+2.  **Define G-Buffer Textures:**
+    *   **Position Texture:** Stores world-space coordinates (XYZ) for each pixel.
+    *   **Normal Texture:** Stores normal vectors (XYZ) for each pixel.
+    *   **Depth Texture:** The standard depth buffer.
+3.  **Create G-Buffer Shader (GLSL):**
+    *   **Vertex Shader:** Transforms vertex positions to screen space.
+    *   **Fragment Shader:** Writes the fragment's world-space position and normal to the corresponding G-Buffer textures.
+4.  **Render:** In the `display` method, bind the G-Buffer FBO and render all buildings using this shader.
+
+#### Step 2: SSAO Calculation Pass
+This pass computes the ambient occlusion factor for each pixel using the G-Buffer data.
+
+1.  **Configure SSAO FBO:** Create a new FBO with a single-channel (grayscale) texture to store the AO results.
+2.  **Prepare Uniforms:**
+    *   **Sample Kernel:** Generate an array of random sample vectors within a hemisphere, used to sample the area around a fragment.
+    *   **Noise Texture:** Create a small, tiling texture with random rotation vectors to eliminate banding artifacts.
+3.  **Create SSAO Shader (GLSL):**
+    *   **Vertex Shader:** Renders a full-screen quad.
+    *   **Fragment Shader:**
+        *   For each fragment, retrieve its position and normal from the G-Buffer.
+        *   Iterate through the sample kernel, transforming each sample into world space.
+        *   Project each sample back to screen space and compare its depth with the value in the position/depth texture.
+        *   If a sample is behind the stored fragment, it contributes to the occlusion factor.
+        *   The final occlusion value (0.0 to 1.0) is written to the SSAO texture.
+4.  **Render:** Bind the SSAO FBO and render a full-screen quad using the SSAO shader.
+
+#### Step 3: Blur Pass
+The raw SSAO output is noisy and requires smoothing.
+
+1.  **Configure Blur FBO:** Create a final FBO to hold the smoothed AO texture.
+2.  **Create Blur Shader (GLSL):** A simple shader that samples neighboring pixels in the SSAO texture and averages them (e.g., a Gaussian blur).
+3.  **Render:** Bind the Blur FBO, use the noisy SSAO texture as input, and render a full-screen quad with the blur shader.
+
+#### Step 4: Final Lighting and Composition Pass
+This pass combines the original scene color with the ambient occlusion map.
+
+1.  **Bind Default Framebuffer:** Switch rendering back to the screen.
+2.  **Create Final Composite Shader (GLSL):**
+    *   **Vertex Shader:** Renders a full-screen quad.
+    *   **Fragment Shader:**
+        *   Samples the original scene color (from a color texture generated in the G-Buffer pass or calculated anew).
+        *   Samples the smoothed AO factor from the blur texture.
+        *   Multiplies the scene color by the AO factor (`finalColor = sceneColor * aoFactor`).
+        *   Applies any additional lighting (like the directional sun light).
+        *   Outputs the final color to the screen.
+3.  **Render:** Render a full-screen quad to display the final, beautifully shaded image.
 
 ## Learnings
 
