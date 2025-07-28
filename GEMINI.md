@@ -5,8 +5,8 @@
 Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window.
 
 ### [Desired] Features:
-* Just rendering of loaded building parts, no editing, nothing else.
-* Support of [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
+* Just rendering of loaded building parts, no editing, no exporting, no e.t.c.
+* Support of [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification.
 * 3D rendering via openGL (jogl library)
 * Orbiting around scene centre via mouse left button, zooming using mouse wheel 
 * Simple support of colours (osm tags building:colour and roof:colour)
@@ -15,14 +15,30 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Next steps
 
-1. **Reintroduce FAKE AO**. It was dropped when rendering was reworked to render meshes only.it seems that we can try darkining proportionally to vertex height relative to building height.
-2. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
-3. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-4. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
-5. **Defeat forsed tesselation:** with forsed tesselation, wireframe mode is not of much use.
+### Musts for the first release (1.0.0)
+* **Fancy icon for plugin and dialogs.** Currently stub icons are used, but we can improve them.
+    * Icon for preferences/plugin   48px*48px svg/png
+    * Icon for 3D window            24px*24px svg/png
+
+* Settle up on naming. Should we go on with **"z3dViewer"** or could it be say **"Simple Building Viewer"** or "Falcon Eye 3D" or  **UrbanEye3D** ?
+* Support of **half-hipped** roof shape, it's a popular one. 
+* **Reintroduce FAKE AO**. It was dropped when rendering was reworked to render meshes only.it seems that we can try darkining proportionally to vertex height relative to building height.
+
+### Further Development 
+
+*. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
+*. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
+*. **Defeat forced tesselation:** with forsed tesselation, wireframe mode is not of much use.
 
 
 ## Recent Accomplishments 
+### July 28, 2025
+* **Support of "linear profile" roof shapes:** `round`, `gambrel`, `saltbox` roofs are supported. Obviously, for quadrangle bases only. 
+* **Stub icons for dialog, preferences and plugin itself**
+
+
+
+
 ### July 27, 2025
 * **Huge refactoring:**  class RoofGeometryGenerator split into several classes (meshers). Autotests' structure also improved
 * **Zero-Length Edge Validation:** Added a new unit test assertion, `assertNoZeroLengthEdges`, to prevent the creation of degenerate edges in meshes. This test was integrated into the main test suite, improving the geometric integrity of all generated roof shapes.
@@ -135,15 +151,21 @@ Already supported:
 * 'gabled'  - for quadrilateral polygons.
 * 'hipped' - for quadrilateral polygons.
 * 'mansard' - for quadrilateral polygons.
+* 'round' - for quadrilateral polygons.
+* 'gambrel' - for quadrilateral polygons.
+* 'saltbox' - for quadrilateral polygons. Also, there is no cosistent opionion about what this shape is.
 
 Yet to be implemented:
 * 'half-hipped'
-* 'round'
-* 'gambrel'
 * 'cross_gabled'
-* 'saltbox' 
 * 'zakomar'
 * 'gabled'  - for arbitrary polygons. there is quite complex algorithm for this in blosm, but it handles only rectangular-like buildings (just with more verticies). I am not aware of proper implementation of gabled roof for Г-shaped or П-shaped buildings.
+
+see for known values:
+* https://taginfo.openstreetmap.org/keys/roof%3Ashape#values
+
+And also:
+*  https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table
 
 
 Reference implementation from patched blosm blender addon should be reused, see:

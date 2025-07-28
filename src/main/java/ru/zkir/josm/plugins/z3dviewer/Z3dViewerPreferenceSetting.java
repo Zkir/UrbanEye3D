@@ -62,7 +62,7 @@ public class Z3dViewerPreferenceSetting implements TabPreferenceSetting {
 
     @Override
     public String getIconName() {
-        return "shortcuts.svg"; //TODO: proper custom icon instead of shortcuts.svg
+        return "z3dviewer.svg"; //TODO: proper custom icon instead of shortcuts.svg
     }
 
     @Override

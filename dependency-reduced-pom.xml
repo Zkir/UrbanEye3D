@@ -7,6 +7,12 @@
   <version>1.0-SNAPSHOT</version>
   <description>A JOSM plugin to view selected buildings in 3D.</description>
   <build>
+    <resources>
+      <resource>
+        <targetPath>images</targetPath>
+        <directory>images</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -25,6 +31,7 @@
               <Plugin-Name>${project.name}</Plugin-Name>
               <Author>zkir@zkir.ru</Author>
               <Plugin-Link>https://github.com/Zkir/josm-z3d-viewer</Plugin-Link>
+              <Plugin-Icon>images/preferences/z3dviewer.svg</Plugin-Icon>
             </manifestEntries>
           </archive>
         </configuration>

@@ -68,6 +68,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>images</directory>
+                <targetPath>images</targetPath>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -90,6 +96,7 @@
                             <Author>zkir@zkir.ru</Author>
                             <!-- You can change this link to your plugin's homepage -->
                             <Plugin-Link>https://github.com/Zkir/josm-z3d-viewer</Plugin-Link>
+                            <Plugin-Icon>images/preferences/z3dviewer.svg</Plugin-Icon>
                         </manifestEntries>
                     </archive>
                 </configuration>
