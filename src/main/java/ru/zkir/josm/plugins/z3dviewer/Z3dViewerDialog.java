@@ -106,7 +106,7 @@ public class Z3dViewerDialog extends ToggleDialog
                     continue;
                 }
 
-                if (primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no")) {
+                if (primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no") ) {
                     if (primitive instanceof Way) {
                         if (((Way) primitive).getNodesCount() < 3) continue;
                     }
@@ -138,6 +138,16 @@ public class Z3dViewerDialog extends ToggleDialog
                             // Ignore
                         }
                     }
+
+                    // this is a dirty hack.
+                    // since we do not have proper support for building:part=roof,
+                    // we just set zero height for walls. It's better than nothing obviously.
+                    //TODO: for gabled and profiled building:part=roof requires completely different mesher:
+                    //walls and bottom are not created, but roof polygons are extruded downwards slightly!
+                    if (primitive.get("building:part").equals("roof")){
+                        minHeight = height - roofHeight;
+                    }
+
                     if (height > 0) {
                         String color = primitive.get("building:colour");
                         String roofColor = primitive.get("roof:colour");
