@@ -95,7 +95,7 @@
                             <Plugin-Name>${project.name}</Plugin-Name>
                             <Author>zkir@zkir.ru</Author>
                             <!-- You can change this link to your plugin's homepage -->
-                            <Plugin-Link>https://github.com/Zkir/josm-z3d-viewer</Plugin-Link>
+                            <Plugin-Link>https://github.com/Zkir/z3dViewer</Plugin-Link>
                             <Plugin-Icon>images/preferences/z3dviewer.svg</Plugin-Icon>
                         </manifestEntries>
                     </archive>
