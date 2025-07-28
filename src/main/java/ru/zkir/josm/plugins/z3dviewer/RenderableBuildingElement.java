@@ -235,7 +235,7 @@ public class RenderableBuildingElement {
     public final @NotNull Color bottomColor;
     public final RoofShapes roofShape;
     public final double roofDirection;
-    public final String roofOrientation;
+    public final @NotNull String roofOrientation;
     private final Contour contour;
     public final LatLon origin;
     private Mesh mesh;
@@ -274,6 +274,9 @@ public class RenderableBuildingElement {
         }
 
         this.roofDirection = parseDirection(roofDirectionStr);
+        if (roofOrientation==null){
+            roofOrientation="";
+        }
         this.roofOrientation = roofOrientation;
 
         this.roofHeight = roofHeight;

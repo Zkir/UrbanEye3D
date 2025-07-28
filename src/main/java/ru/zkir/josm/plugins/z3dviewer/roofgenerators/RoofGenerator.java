@@ -149,4 +149,13 @@ public abstract class RoofGenerator {
         return new Point2D[]{new1,new2};
     }
 
+    //reverse face order. should be used for testing, when normals check fails.
+    public static int[] ra(int[] array) {
+        int[] reversed = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            reversed[i] = array[array.length - 1 - i];
+        }
+        return reversed;
+    }
+
 }

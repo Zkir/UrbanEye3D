@@ -10,17 +10,16 @@ public enum RoofShapes {
     SKILLION("skillion", new MesherSkillion()),
     GABLED("gabled", new MesherGabled()),
     HIPPED("hipped", new MesherHipped()),
-    MANSARD("mansard", new MesherMansard());
+    MANSARD("mansard", new MesherMansard()),
+    ROUND("round", new MesherLinerProfile(MesherLinerProfile.LinerProfiles.ROUND )),
+    GAMBREL("gambrel", new MesherLinerProfile(MesherLinerProfile.LinerProfiles.GAMBREL)),
+    SALTBOX("saltbox", new MesherLinerProfile(MesherLinerProfile.LinerProfiles.SALTBOX));
 
     /* roof shapes yet to be supported.
-    ZAKOMAR("zakomar"),
     CROSS_GABLED("cross_gabled"),
-    ROUND("round"),
-    HALF_HIPPED("half-hipped"),
-    GAMBREL("gambrel"),
-    SALTBOX("saltbox"),
-    MANSARD("mansard");
-     */
+    HALF_HIPPED("half-hipped"), //simple?
+    ZAKOMAR("zakomar"),
+    */
 
     private final String displayName;
     private final RoofGenerator mesher;

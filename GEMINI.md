@@ -15,10 +15,11 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Next steps
 
-2. **Reintroduce FAKE AO**. It was dropped when rendering was reworked to render meshes only.it seems that we can try darkining proportionally to vertex height relative to building height.
-3. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
-4. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-5. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
+1. **Reintroduce FAKE AO**. It was dropped when rendering was reworked to render meshes only.it seems that we can try darkining proportionally to vertex height relative to building height.
+2. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
+3. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
+4. **Correct icons for menus and windows.** We are currently using the default "up" and "shortcuts.svg" icons, just to make the plugin work; proper custom icons must be created and placed in the appropriate resource folders.
+5. **Defeat forsed tesselation:** with forsed tesselation, wireframe mode is not of much use.
 
 
 ## Recent Accomplishments 

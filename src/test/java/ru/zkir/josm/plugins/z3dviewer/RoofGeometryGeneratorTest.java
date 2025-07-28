@@ -92,13 +92,10 @@ class RoofGeometryGeneratorTest {
         }
     }
 
-    private void assertNormalsOutward(Mesh mesh, String mesherName) {
-        Point3D geometricCenter = calculateGeometricCenter(mesh.verts);
-        List<int[]> allFaces = new ArrayList<>();
-        allFaces.addAll(mesh.wallFaces);
-        allFaces.addAll(mesh.roofFaces);
+    void assertNormalsOutwardFaceGroup(Mesh mesh, List<int[]> faceGroup, Point3D geometricCenter, String mesherName, String face_group_name ){
+        int i=0;
+        for (int[] face : faceGroup) {
 
-        for (int[] face : allFaces) {
             Point3D v0 = mesh.verts.get(face[0]);
             Point3D v1 = mesh.verts.get(face[1]);
             Point3D v2 = mesh.verts.get(face[2]);
@@ -107,8 +104,18 @@ class RoofGeometryGeneratorTest {
             Point3D faceCenter = calculateFaceCenter(face, mesh.verts);
             Point3D toCenter = new Point3D(geometricCenter.x - faceCenter.x, geometricCenter.y - faceCenter.y, geometricCenter.z - faceCenter.z);
 
-            assertTrue(normal.dot(toCenter) < 0, "Roof shape " +mesherName+ ": normal of a face is pointing inwards.");
+            assertTrue(normal.dot(toCenter) < 0, "Roof shape " +mesherName+ ": normal of a "+ face_group_name+" face (#"+i+") is pointing inwards.");
+            i++ ;
         }
+    }
+
+    private void assertNormalsOutward(Mesh mesh, String mesherName) {
+        Point3D geometricCenter = calculateGeometricCenter(mesh.verts);
+        assertNormalsOutwardFaceGroup(mesh, mesh.wallFaces, geometricCenter, mesherName, "wall");
+        assertNormalsOutwardFaceGroup(mesh, mesh.roofFaces, geometricCenter, mesherName, "roof");
+        //assertNormalsOutwardFaceGroup(mesh, mesh.bottomFaces, geometricCenter, mesherName, "bottom");
+
+
     }
 
     private Point3D calculateGeometricCenter(List<Point3D> vertices) {

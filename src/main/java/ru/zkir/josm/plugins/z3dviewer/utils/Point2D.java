@@ -33,4 +33,8 @@ public class Point2D {
     public Point2D mult(double scalar) {
         return new Point2D(x * scalar, y * scalar);
     }
+
+    public double distance(Point2D other) {
+        return this.subtract(other).length();
+    }
 }
