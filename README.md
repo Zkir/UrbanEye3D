@@ -1,8 +1,10 @@
-# JOSM 3D Viewer Plugin
+# Urban Eye 3D -- JOSM 3D Viewer Plugin
 
 ## Goal
 
-Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window.
+Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window, docked or free floating.
+
+![Docked window](docs/images/pic1.png)
 
 ## Benefits for Mappers
 
@@ -12,12 +14,12 @@ This problem is now solved! Cartographers and 3D building enthusiasts will be ab
 
 
 ## Features:
-* Just rendering of loaded building parts, no editing, no exporting, no e.t.c.
 * Support of [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification.
-* 3D rendering via openGL (jogl library)
+* Just rendering of loaded buildings and parts, no editing, no exporting, no e.t.c.
 * Orbiting around scene centre via left mouse button, zooming using mouse wheel 
-* Simple support of colours (osm tags building:colour and roof:colour)
-* Update in real time: when editing in 2d, changes are reflected in the 3d view window.
+* 3D rendering via openGL (jogl library)
+* Simple support of colours (osm tags `building:colour` and `roof:colour`)
+* Update in real time: when editing in main JOSM window, changes are reflected in the 3d view window instantly.
 
 
 ## Licensing
@@ -27,3 +29,12 @@ Currently [MIT LICENSE](LICENSE)
 ## Contributing
 
 Any help is appreciated. However, please discuss significant code changes with me before creating a PR.
+
+
+### AI usage
+
+In year 2025 Artificial Intelligence is already here and rules the world! [GEMINI.md](GEMINI.md) contains notes usefull for both silicon and protein programmers.
+
+The Urban Eye is looking at You!
+
+<img src="docs/images/pic2.jpg" alt="Urban Eye" width="250px" />

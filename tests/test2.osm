@@ -37,6 +37,10 @@
   <node id='-25407' action='modify' visible='true' lat='55.05286678097' lon='37.0536680169' />
   <node id='-25408' action='modify' visible='true' lat='55.05284971277' lon='37.05636922188' />
   <node id='-25409' action='modify' visible='true' lat='55.04796663728' lon='37.05631372762' />
+  <node id='-25415' action='modify' visible='true' lat='55.04180485241' lon='37.04775587197' />
+  <node id='-25416' action='modify' visible='true' lat='55.04674297248' lon='37.04788718047' />
+  <node id='-25417' action='modify' visible='true' lat='55.04672590168' lon='37.05058838545' />
+  <node id='-25418' action='modify' visible='true' lat='55.0417877795' lon='37.05045707695' />
   <way id='-7690' visible='true'>
     <nd ref='-25374' />
     <nd ref='-25375' />
@@ -112,6 +116,20 @@
     <tag k='roof:colour' v='orange' />
     <tag k='roof:height' v='15' />
     <tag k='roof:shape' v='hipped' />
+  </way>
+  <way id='-7711' action='modify' visible='true'>
+    <nd ref='-25415' />
+    <nd ref='-25416' />
+    <nd ref='-25417' />
+    <nd ref='-25418' />
+    <nd ref='-25415' />
+    <tag k='building' v='yes' />
+    <tag k='building:colour' v='purple' />
+    <tag k='height' v='40' />
+    <tag k='roof:colour' v='orange' />
+    <tag k='roof:height' v='15' />
+    <tag k='roof:orientation' v='across' />
+    <tag k='roof:shape' v='gabled' />
   </way>
   <relation id='-100' action='modify' visible='true'>
     <member type='way' ref='-7690' role='outer' />

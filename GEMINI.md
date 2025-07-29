@@ -7,11 +7,11 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 ## Next steps
 
 ### Musts for the first release (1.0.0)
-* Settle up on naming. Should we go on with **"z3dViewer"** or could it be say *"Simple Building Viewer"* or "Falcon Eye 3D" or **UrbanEye3D** ?
-* **Draw not only building parts, but also building.** Algorithm to decide whether buildings should be drawn is yet to be coined.
-* Refactor updateData()  method. New class Scene: Scene.updateData(), Scene.render()? 
+* Make final decision on LICENSE. MIT LICENSE vs GNU GPL v3?
+* Make repository public.
 
-### Further Development 
+
+### Ideas for the further Development 
 
 * **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
 * **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
@@ -20,6 +20,11 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 
 ## Recent Accomplishments 
+### July 29, 2025
+* Name has been decided: we will go with **Urban Eye 3D**
+* Both buildings and building parts are rendered. The most simple algorithm is used to decide what to display is used: comparison by bbox.
+* Some last minute refactoring: Scene class introduced.
+
 ### July 28, 2025
 * **Support of "linear profile" roof shapes:** `round`, `gambrel`, `saltbox` roofs are supported. Obviously, for quadrangle bases only. 
 * **Stub icons for dialog, preferences and plugin itself**
