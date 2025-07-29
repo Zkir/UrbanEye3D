@@ -8,16 +8,15 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ### Musts for the first release (1.0.0)
 * Settle up on naming. Should we go on with **"z3dViewer"** or could it be say *"Simple Building Viewer"* or "Falcon Eye 3D" or **UrbanEye3D** ?
-* **Fancy icon for plugin and dialogs.** Currently stub icons are used, but we can improve them.
-    * Icon for preferences and plugin   48px*48px svg/png
-    * Icon for 3D window                24px*24px svg/png
-
+* **Draw not only building parts, but also building.** Algorithm to decide whether buildings should be drawn is yet to be coined.
+* Refactor updateData()  method. New class Scene: Scene.updateData(), Scene.render()? 
 
 ### Further Development 
 
 * **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
 * **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-* **Draw not only building parts, but also building.** Algorithm to decide whether buildings should be drawn is yet to be coined.
+* **New Icons** We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
+* **Real Ambient Occlusion.** See "Plan for Screen-Space Ambient Occlusion (SSAO) Implementation" section below
 
 
 ## Recent Accomplishments 
@@ -146,7 +145,9 @@ Yet to be implemented:
 
 There is quite complex algorithm to create gabled roofs for n-gons in blosm, but it handles only rectangular-like buildings . 
 A rectangular-like  means that the building is basically quadrangular(just with more verticies in contour), and the deviations from a quadrangle, although there are, are insignificant.
-I am not aware of proper implementation of gabled roof for Г-shaped or П-shaped buildings.
+
+NB: F4 has implementation of non-convex (Г-shaped or П-shaped) roofs!
+See example: https://demo.f4map.com/#lat=56.3106825&lon=38.1273214&zoom=19&camera.theta=55.313&camera.phi=-14.037
 
 If we knew how to do Boolean operations on meshes, the algorithm would become trivial.
 
