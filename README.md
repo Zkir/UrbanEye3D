@@ -11,6 +11,15 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 This problem is now solved! Cartographers and 3D building enthusiasts will be able to see the results of their work in the editor they edit the data in BEFORE uploading it to OSM!
 
 
+## Features:
+* Just rendering of loaded building parts, no editing, no exporting, no e.t.c.
+* Support of [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification.
+* 3D rendering via openGL (jogl library)
+* Orbiting around scene centre via left mouse button, zooming using mouse wheel 
+* Simple support of colours (osm tags building:colour and roof:colour)
+* Update in real time: when editing in 2d, changes are reflected in the 3d view window.
+
+
 ## Licensing
 
 Currently [MIT LICENSE](LICENSE)

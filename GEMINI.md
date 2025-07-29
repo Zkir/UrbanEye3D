@@ -4,14 +4,6 @@
 
 Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window.
 
-### [Desired] Features:
-* Just rendering of loaded building parts, no editing, no exporting, no e.t.c.
-* Support of [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification.
-* 3D rendering via openGL (jogl library)
-* Orbiting around scene centre via mouse left button, zooming using mouse wheel 
-* Simple support of colours (osm tags building:colour and roof:colour)
-* Update in real time: when editing in 2d, changes are reflected in the 3d view window.
-
 
 ## Next steps
 
@@ -20,7 +12,6 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * **Fancy icon for plugin and dialogs.** Currently stub icons are used, but we can improve them.
     * Icon for preferences/plugin   48px*48px svg/png
     * Icon for 3D window            24px*24px svg/png
-* Support of **half-hipped** roof shape, it's a popular one. 
 
 
 ### Further Development 
@@ -37,6 +28,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * **Return of fake AO.**  Even this simple type of shading make picture much better.
 * **Proper registration of Wireframe mode shortcut.** Pressin "Z" now works also when 3d window is docked.
 * **Debugging**: More informative message for "Tesselation error, combine callback needed"  
+* **Support of `half-hipped` roofs:** one of the popular shapes for buildings, maybe not so usefull for building parts. 
 
 
 ### July 27, 2025
@@ -96,17 +88,7 @@ right mouse button, it changes to crossed arrows (expressing the movement of the
 
 ###  July 21, 2025
 * **Start of the project** : plugin is working and building parts are rendered  as extruded bodies via OpenGL (JOGL library) 
- 
- 
-## Misc 
- ### Build environment
- 
- To build project we use maven: `mvn package`
- 
- ### External source code
 
- * JOSM source code can be found in d:\z3dViewer\ext_sources\josm_source
- * Blosm (aka blender-osm) source code can be found in d:\z3dViewer\ext_sources\blosm_source
 
 ## Unit Testing
 
@@ -154,11 +136,12 @@ Already supported:
 * 'round' - for quadrilateral polygons.
 * 'gambrel' - for quadrilateral polygons.
 * 'saltbox' - for quadrilateral polygons. Also, there is no cosistent opionion about what this shape is.
+* 'half-hipped' - for quadrilateral polygons.
 
 Yet to be implemented:
-* 'half-hipped'
+
 * 'cross_gabled'
-* 'zakomar'
+* 'zakomar' -- no good implementation in in blosm (does not form watertight mesh)
 * Linear profile roof (`gabled`, `round`) for arbitrary polygons.  It is highly needed, since used in existing models from TOP-200.
 
 There is quite complex algorithm to create gabled roofs for n-gons in blosm, but it handles only rectangular-like buildings . 
@@ -260,6 +243,11 @@ This pass combines the original scene color with the ambient occlusion map.
 ## Operation instructions
 
 *   **Definition of Done:** A task is considered DONE only when `mvn package` completes successfully without any errors.
+*   **Human testing required:** Do not proceed to next task, before previous one is confirmed by a human.
+*   **Do not suggest git commits**. Git commits in this project are allowed for protein-based developers only.
+*   **JOSM source code** can be found in d:\z3dViewer\ext_sources\josm_source
+*   **Blosm (aka blender-osm) source code** can be found in d:\z3dViewer\ext_sources\blosm_source
+
 
 ## Learnings
 

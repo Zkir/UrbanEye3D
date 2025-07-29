@@ -13,11 +13,11 @@ public enum RoofShapes {
     MANSARD("mansard", new MesherMansard()),
     ROUND("round", new MesherLinerProfile(MesherLinerProfile.LinerProfiles.ROUND )),
     GAMBREL("gambrel", new MesherLinerProfile(MesherLinerProfile.LinerProfiles.GAMBREL)),
-    SALTBOX("saltbox", new MesherLinerProfile(MesherLinerProfile.LinerProfiles.SALTBOX));
+    SALTBOX("saltbox", new MesherLinerProfile(MesherLinerProfile.LinerProfiles.SALTBOX)),
+    HALF_HIPPED("half-hipped", new MesherHalfHipped());
 
     /* roof shapes yet to be supported.
     CROSS_GABLED("cross_gabled"),
-    HALF_HIPPED("half-hipped"), //simple?
     ZAKOMAR("zakomar"),
     */
 
