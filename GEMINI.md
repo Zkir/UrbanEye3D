@@ -1,4 +1,4 @@
-# JOSM 3D Viewer Plugin
+# Urban Eye 3D – JOSM 3D Viewer Plugin
 
 ## Goal
 
@@ -7,7 +7,6 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 ## Next steps
 
 ### Musts for the first release (1.0.0)
-* Make final decision on LICENSE. MIT LICENSE vs GNU GPL v3?
 * Make repository public.
 
 
@@ -18,80 +17,22 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * **New Icons** We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
 * **Real Ambient Occlusion.** See "Plan for Screen-Space Ambient Occlusion (SSAO) Implementation" section below
 
-
 ## Recent Accomplishments 
-### July 29, 2025
-* Name has been decided: we will go with **Urban Eye 3D**
-* Both buildings and building parts are rendered. The most simple algorithm is used to decide what to display is used: comparison by bbox.
-* Some last minute refactoring: Scene class introduced.
 
-### July 28, 2025
-* **Support of "linear profile" roof shapes:** `round`, `gambrel`, `saltbox` roofs are supported. Obviously, for quadrangle bases only. 
-* **Stub icons for dialog, preferences and plugin itself**
-* **Return of fake AO.**  Even this simple type of shading make picture much better.
-* **Proper registration of Wireframe mode shortcut.** Pressin "Z" now works also when 3d window is docked.
-* **Debugging**: More informative message for "Tesselation error, combine callback needed"  
-* **Support of `half-hipped` roofs:** one of the popular shapes for buildings, maybe not so usefull for building parts. 
-* **Wireframe mode improved:** original edges are displayed, before tesselation. With the exception of building with holes, but this case seems to be unfixible.
+See [DEVBLOG.MD](DEVBLOG.MD)
+
+## Architectural Notes
+
+* All the meshes for all roof shapes should be created as WATERTIGHT bodies, with correct normals orientation. 
 
 
-### July 27, 2025
-* **Huge refactoring:**  class RoofGeometryGenerator split into several classes (meshers). Autotests' structure also improved
-* **Zero-Length Edge Validation:** Added a new unit test assertion, `assertNoZeroLengthEdges`, to prevent the creation of degenerate edges in meshes. This test was integrated into the main test suite, improving the geometric integrity of all generated roof shapes.
-* **No-Wall Case Validation:** Refactored the `MesherFlat`,  `MesherSkillion`, `MesherGabled`, and `MesherHipped` classes to correctly generate roof geometry when no walls are present (`roof:height = height - min_height`). 
-* **Height/MinHeight Validation:** New autotests to check that generated mesh vertices match initial height/min_height.
-* **Masard roof support**. Thank to autotests, success from the first try.
+## Operation instructions
 
-
-### July 26, 2025 (testing)
-* **Unit Testing Framework:** Established a robust unit testing environment using JUnit 5.
-* **Geometry Validation Tests:** Created a suite of unit tests for the `RoofGeometryGenerator` class. These tests automatically validate two critical properties of the generated 3D meshes:
-    *   **Watertightness:** Ensures that the mesh is a closed, solid object with no holes by verifying that every edge is shared by exactly two faces.
-    *   **Normal Direction:** Confirms that all face normals point outwards, which is essential for correct lighting and rendering.
-* **Test-Driven Development for Roofs:** The test suite now covers `pyramidal`, `gabled`, `skillion`, `dome`, and `onion` roof shapes, solidifying their implementation and providing a clear framework for developing new roof types. 
-
-### July 26, 2025                                                            
-* **Gabled Roof Support:** Implemented support for `roof:shape=gabled` on quadrilateral buildings. 
-The implementation correctly identifies gable ends based on the shortest or longest sides of the building footprint, controlled by the
-`roof:orientation=along/across` tag. The gable walls are generated  as single pentagonal faces, ensuring correct geometry and appearance.
-* **Сonsistent naming** : Plugin file is called z3dviewer 
-* **Split multipolygons**. If a building contour has several outer rings, but no inner ones, it is separated into several RenderableBuildingElements. Not precisely correct, because origin is not moved, but at least such objects rendered.
-* **Hipped Roof Support:** Implemented support for `roof:shape=hipped` on quadrilateral buildings. 
-* **Mesh generation for FLAT/multipolygon**. However, FAKE AO suffered. Should be returned ASAP.
-
-
-### July 25, 2025
-* **Dome, half-dome and onion roofs:** support added for "conical" roofs.
-* **Skillion roof support:** Implemented support for `roof:shape=skillion`, including `roof:direction`. The implementation correctly generates trapezoidal walls and handles non-convex polygons using tessellation.
-* **Complex Multipolygon Support:** Implemented robust support for multipolygon relations, including those with multiple outer rings and inner holes. The logic now correctly assembles complex geometries and uses OpenGL tessellation for proper rendering. Buildings with multiple rings now correctly default to a flat roof, regardless of `roof:shape` tags.
-* **Local coords for buildings.** Objects are created in local coordinate system, with origin at building centroid. This should allow some performance improvement.
-
-### July 24, 2025
-* **Initial roof support:** Implemented support for `roof:shape=pyramidal`, as the most simple one. Pyramids are created with correct centroid, even better then in blosm!
-* **Flat roof support:** Yes! If a flat roof has a defined height (roof:shape=flat+roof:heigh=*), we create fascia (vertical side faces) in the roof color. No one has done this before. We did it!
-* **Wireframe rendering mode:** A new preference setting allows users to toggle between solid and wireframe rendering for buildings.
-* **Removing of redundant nodes:** A lot of nodes, which belong to building parts, are not really needed for rendering. Removing them is a huge optimization!
-
-
-### July 23, 2025
-* **Initial support for relations/multipolygons.** At least they work somehow. Several bugs expected.
-* **Bug with xy/z proportions fixed**. xy coordinates are calculated in proper meters, in the same scale as height.
-* **Rendering of non-convex polygons.**  It turned out that  gl.glBegin(GL2.GL_POLYGON) properly renders CONVEX polygons only, which is not always the case for building contours. We use tessellation to handle that.
-* **Rendering made more interesting.**  Parallel light (sun) has been introduced along with curent Fake AO  shading. 
-* **Panning in 3D Window.** Pan is now supported in 3D window. Map window is panned accordingly
-* **Cursor icons.** When user presses the left mouse button in the plugin window, the cursor changes to hand (thus expressing the Orbiting mode), and when user presses the 
-right mouse button, it changes to crossed arrows (expressing the movement of the map), as it is in JOSM.
-
-###  July 22, 2025
-
-*   **Map Movement Sync:** The 3D viewer now correctly responds to panning and zooming events on the main JOSM map, redrawing the scene as the viewport changes.
-*   **Z-Up Coordinate System:** The rendering engine was refactored to use a Z-up coordinate system, which is more conventional for 3D architectural visualization. The Z-axis is now vertical.
-*   **Lifecycle and Bug Fixes:**
-    *   Resolved critical `NullPointerException` and `IllegalArgumentException` crashes related to improper listener management when layers were removed or the application was closed.
-    *   Removed the redundant, manually-created "Windows" menu item, relying on JOSM's native handling for toggle dialogs. This also fixed a startup crash when no data was loaded.
-
-###  July 21, 2025
-* **Start of the project** : plugin is working and building parts are rendered  as extruded bodies via OpenGL (JOGL library) 
+*   **Definition of Done:** A task is considered DONE only when `mvn package` completes successfully without any errors.
+*   **Human testing required:** Do not proceed to next task, before previous one is confirmed by a human.
+*   **Do not suggest git commits**. Git commits in this project are allowed for protein-based developers only.
+*   **JOSM source code** can be found in d:\z3dViewer\ext_sources\josm_source
+*   **Blosm (aka blender-osm) source code** can be found in d:\z3dViewer\ext_sources\blosm_source
 
 
 ## Unit Testing
@@ -102,20 +43,33 @@ The primary test class is `RoofGeometryGeneratorTest.java`, which focuses on val
 
 ### Adding New Roof Shape Tests
 
-The existing test suite serves as a powerful tool for Test-Driven Development (TDD) when adding support for new roof shapes. To add a test for a new shape (e.g., `hipped`):
+The existing test suite serves as a powerful tool for Test-Driven Development (TDD) when adding support for new roof shapes. 
+When a new roof shape is added to the RoofShapes enum, e.g. RoofShapes.HIPPED, it is added to the test suite AUTOMATICALLY.
+No specific code changes are necessary.
 
-1.  **Create a Failing Test:** Add a new `@Test` method to `RoofGeometryGeneratorTest.java`, for example, `testHippedRoof()`. This method should call the (not-yet-implemented) generation logic (e.g., `RoofGeometryGenerator.generateHippedRoof(...)`) and then assert its validity using the provided helper functions:
+New specific test can be added when the new roof shape have some known pecularities in special cases. e.g. have non-default values for roof:direction, roof:orientation e.t.c.
+
+To add a test for a new shape (e.g., `hipped`):
+
+1.  **Create a Failing Test:** Add a new `@Test` method to `RoofGeometryGeneratorTest.java`, for example, `testHippedRoof()`. This method should call the (not-yet-implemented) generation logic (e.g., `MesherHipped.generate(...)`) and then assert its validity using the provided helper functions:
     ```java
     @Test
     void testHippedRoof() {
-        List<Point2D> base = createRectangularBase(10, 20);
-        RoofGeometryGenerator.Mesh mesh = RoofGeometryGenerator.generateHippedRoof(base, 0, 5, 10);
-        assertNotNull(mesh);
-        assertWatertight(mesh);
-        assertNormalsOutward(mesh);
+        
+        ArrayList<Point2D> basePoints = createRectangularBase(14, 10);
+        LatLon origin = new LatLon(55,37);
+        RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(basePoints);
+        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
+                "","", RoofShapes.HIPPED.toString(), "45","" );
+
+        Mesh mesh = RoofShapes.HIPPED.getMesher().generate(test_building);
+
+        //common set of topology checks for a mesh.
+        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.HIPPED.toString());
+        
     }
     ```
-2.  **Implement the Feature:** Create the `generateHippedRoof` method in `RoofGeometryGenerator.java`.
+2.  **Implement the Feature:** Create the `generate` method in a new `MesherHIPPED.java`.
 3.  **Iterate:** Run `mvn package` repeatedly. The test results will guide the implementation:
     *   A failure in `assertWatertight` indicates a geometric error (a "hole" in the mesh).
     *   A failure in `assertNormalsOutward` indicates an incorrect vertex winding order for a face.
@@ -245,14 +199,6 @@ This pass combines the original scene color with the ambient occlusion map.
         *   Applies any additional lighting (like the directional sun light).
         *   Outputs the final color to the screen.
 3.  **Render:** Render a full-screen quad to display the final, beautifully shaded image.
-
-## Operation instructions
-
-*   **Definition of Done:** A task is considered DONE only when `mvn package` completes successfully without any errors.
-*   **Human testing required:** Do not proceed to next task, before previous one is confirmed by a human.
-*   **Do not suggest git commits**. Git commits in this project are allowed for protein-based developers only.
-*   **JOSM source code** can be found in d:\z3dViewer\ext_sources\josm_source
-*   **Blosm (aka blender-osm) source code** can be found in d:\z3dViewer\ext_sources\blosm_source
 
 
 ## Learnings

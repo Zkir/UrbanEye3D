@@ -1,40 +1,36 @@
-# Urban Eye 3D -- JOSM 3D Viewer Plugin
+# Urban Eye 3D – JOSM 3D Viewer Plugin
 
-## Goal
-
-Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window, docked or free floating.
+**Urban Eye 3D** is a JOSM plugin that provides a dedicated 3D view (dockable or floating) to visualize loaded buildings and building parts (`building=*` and `building:part=*`).
 
 ![Docked window](docs/images/pic1.png)
 
 ## Benefits for Mappers
 
-3D OSM has been around for years. There are also various external tools to visualize it. However, ironically (since the demise of [Kenzi 3D](https://github.com/kendzi/kendzi3d)), there has been no plugin to see 3D buildings directly in JOSM.
+While 3D visualization of OSM data has existed for years through external tools, the absence of a dedicated 3D viewer within JOSM (particularly since the discontinuation of [Kenzi 3D](https://github.com/kendzi/kendzi3d)) has been a notable gap. 
 
-This problem is now solved! Cartographers and 3D building enthusiasts will be able to see the results of their work in the editor they edit the data in BEFORE uploading it to OSM!
+Urban Eye 3D solves this problem! Mappers and 3D building enthusiasts can now preview their edits directly within JOSM before uploading data to OpenStreetMap.
 
-
-## Features:
-* Support of [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification.
-* Just rendering of loaded buildings and parts, no editing, no exporting, no e.t.c.
-* Orbiting around scene centre via left mouse button, zooming using mouse wheel 
-* 3D rendering via openGL (jogl library)
-* Simple support of colours (osm tags `building:colour` and `roof:colour`)
-* Update in real time: when editing in main JOSM window, changes are reflected in the 3d view window instantly.
-
+## Key Features
+* Supports the [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
+* Visualizes loaded buildings/parts only – no editing or export functionality
+* Intuitive navigation:  
+  - Orbit (left mouse drag)  
+  - Zoom (mouse wheel)
+  - Pan (right mouse drag)
+* Basic color support for `building:colour` and `roof:colour` tags
+* Real-time updates: Changes made in JOSM instantly reflect in the 3D view
 
 ## Licensing
-
-Currently [MIT LICENSE](LICENSE)
+Inspired by the GNU GPL-licensed [Blosm](https://github.com/vvoovv/blosm) project and following JOSM's [plugin licensing recommendations](https://josm.openstreetmap.de/wiki/DevelopersGuide/DevelopingPlugins#LegalStuff), this code is licensed under [GNU GPL v3](LICENSE).
 
 ## Contributing
+Contributions are welcome! Please discuss significant code changes via issue tickets before submitting pull requests.
 
-Any help is appreciated. However, please discuss significant code changes with me before creating a PR.
+### AI Development Notes
+As artificial intelligence reshapes development in 2025, [GEMINI.md](GEMINI.md) contains insights valuable to both silicon-based and protein-based programmers.
 
+---
 
-### AI usage
-
-In year 2025 Artificial Intelligence is already here and rules the world! [GEMINI.md](GEMINI.md) contains notes usefull for both silicon and protein programmers.
-
-The Urban Eye is looking at You!
+The Urban Eye is watching!  
 
 <img src="docs/images/pic2.jpg" alt="Urban Eye" width="250px" />
