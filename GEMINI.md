@@ -4,21 +4,20 @@
 
 Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window.
 
-
 ## Next steps
 
 ### Musts for the first release (1.0.0)
 * Settle up on naming. Should we go on with **"z3dViewer"** or could it be say *"Simple Building Viewer"* or "Falcon Eye 3D" or **UrbanEye3D** ?
 * **Fancy icon for plugin and dialogs.** Currently stub icons are used, but we can improve them.
-    * Icon for preferences/plugin   48px*48px svg/png
-    * Icon for 3D window            24px*24px svg/png
+    * Icon for preferences and plugin   48px*48px svg/png
+    * Icon for 3D window                24px*24px svg/png
 
 
 ### Further Development 
 
-*. **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
-*. **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-*. **Improve wireframe mode:** Only original mesh edges should be displayed. Currently, sometimes tesselated faces are displayed, which does not look nice.
+* **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
+* **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
+* **Draw not only building parts, but also building.** Algorithm to decide whether buildings should be drawn is yet to be coined.
 
 
 ## Recent Accomplishments 
@@ -29,6 +28,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * **Proper registration of Wireframe mode shortcut.** Pressin "Z" now works also when 3d window is docked.
 * **Debugging**: More informative message for "Tesselation error, combine callback needed"  
 * **Support of `half-hipped` roofs:** one of the popular shapes for buildings, maybe not so usefull for building parts. 
+* **Wireframe mode improved:** original edges are displayed, before tesselation. With the exception of building with holes, but this case seems to be unfixible.
 
 
 ### July 27, 2025
@@ -251,6 +251,9 @@ This pass combines the original scene color with the ambient occlusion map.
 
 ## Learnings
 
+*   **Polygon Merging and Winding Order:** When merging triangles from a tessellator back into a polygon with holes, it's not enough to just find the boundary edges. It is critical to ensure the correct winding order for the resulting polygons: counter-clockwise for the outer boundary and clockwise for all inner holes. This is essential for the face normals to point in the correct direction.
+*   **Signed Area for Winding Detection:** A reliable way to programmatically determine and correct the winding order is to calculate the signed area of each reconstructed polygon. This allows for identifying the outer polygon (the one with the largest area) and then reversing the vertex order of any polygon (outer or inner) that has an incorrect orientation.
+*   **Limitations of Center-Based Normal Testing:** The unit test `assertNormalsOutward` is flawed for non-convex shapes or shapes with holes. Its logic, which assumes normals should point away from the object's geometric center, fails when the center lies outside the solid volume (e.g., inside a hole). This test needs a more robust implementation for complex geometries.
 *   **Gable Coloring on No-Wall Buildings:** A key detail of the Simple 3D Buildings specification is that gable ends are considered part of the wall. When generating a gabled roof on a building with no wall height (i.e., the roof starts at `min_height`), the resulting triangular gable faces must still be treated as wall surfaces and colored accordingly, not as roof surfaces.
 *   **Mesh Generation for No-Wall Scenarios:** When a building's `wallHeight` is equal to its `minHeight`, the logic for generating roof geometry must be carefully adapted. To avoid creating degenerate, zero-length edges and to ensure the mesh remains watertight, the generation code must reuse the base vertices instead of creating a duplicate set of vertices at the same location for the top of the "wall". This applies to `flat`, `gabled`, and `hipped` roofs.
 *   **Gabled Roof Geometry:** For gabled roofs, the triangular gable end should not be a separate face from the rectangular wall below it. The entire gable wall should be generated as a single, continuous polygon (a pentagon in the case of a simple gable) to ensure correct rendering, lighting, and a seamless appearance. This is consistent with how `skillion` roofs are handled.

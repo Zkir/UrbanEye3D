@@ -144,19 +144,12 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     public void display(GLAutoDrawable glAutoDrawable) {
         GL2 gl = glAutoDrawable.getGL().getGL2();
 
-        // Check for wireframe mode preference
-        if (isWireframeMode) {
-            gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
-        } else {
-            gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
-        }
+        isWireframeMode = Config.getPref().getBoolean("z3dviewer.wireframe.enabled", false);
 
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
         if ( buildings == null || buildings.isEmpty()) {
-            // Reset polygon mode before returning
-            gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
             return;
         }
 
@@ -180,13 +173,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             double transY = dy * 111320.0;
             gl.glTranslated(transX, transY, 0);
 
-            double height = building.height;
-            double minHeight = building.minHeight;
-            double roofHeight = building.roofHeight;
-            double wallHeight = height - roofHeight;
-
             Mesh buildingMesh = building.getMesh();
-
 
             if (buildingMesh != null ){
                 //in normal circumstances we should be able to compose mesh for building.
@@ -205,15 +192,11 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 for (int[] face : buildingMesh.bottomFaces) {
                     drawPolygon(gl, building, face, building.bottomColor );
                 }
-
             }
 
             gl.glPopMatrix();
         }
         gl.glFlush();
-
-        // Reset polygon mode to default to avoid affecting other UI components
-        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
     }
 
 
@@ -236,10 +219,16 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         double dotProduct = normal.dot(SUN_DIRECTION);
         Color litColor = applyLighting(color, dotProduct);
 
-
-        if (faceIndices.length == 4){
+        if (isWireframeMode) {
+            gl.glBegin(GL2.GL_LINE_LOOP);
+            gl.glColor3f(litColor.getRed() / 255.0f, litColor.getGreen() / 255.0f, litColor.getBlue() / 255.0f);
+            for (int index : faceIndices) {
+                Point3D p = vertices.get(index);
+                gl.glVertex3d(p.x, p.y, p.z);
+            }
+            gl.glEnd();
+        } else if (faceIndices.length == 4) {
             gl.glBegin(GL2.GL_QUADS);
-            //this complication is needed for wireframe mode. Diagonals does not look nice at all
             Point3D p4 = vertices.get(faceIndices[3]);
 
             drawVertexWithFakeAO(gl, p1, litColor, building);
@@ -249,7 +238,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             gl.glEnd();
 
-        }else {
+        } else {
             // Use tessellator for all polygons to handle non-convex cases correctly.
             GLUtessellator tess = glu.gluNewTess();
             TessellatorCallback callback = new TessellatorCallback(gl, glu, litColor, building);

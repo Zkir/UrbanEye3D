@@ -38,6 +38,14 @@ public class Point3D {
         return this.x * other.x + this.y * other.y + this.z * other.z;
     }
 
+    public Point3D cross(Point3D other) {
+        return new Point3D(
+            this.y * other.z - this.z * other.y,
+            this.z * other.x - this.x * other.z,
+            this.x * other.y - this.y * other.x
+        );
+    }
+
     public double distance(Point3D other) {
        // l(a,b) = |a-b|
        return this.subtract(other).length();
