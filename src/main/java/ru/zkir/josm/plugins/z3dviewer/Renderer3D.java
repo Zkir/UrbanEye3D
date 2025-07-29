@@ -173,8 +173,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         // --- Render buildings ---
         for (RenderableBuildingElement building : buildings) {
             gl.glPushMatrix();
-            // ToDo: we should use here not a center of the map, but a center of the displayed area.
-            // But it is not clear, how to get it.
             LatLon mapCenter = MainApplication.getMap().mapView.getProjection().eastNorth2latlon(MainApplication.getMap().mapView.getCenter());
             double dx = building.origin.lon() - mapCenter.lon();
             double dy = building.origin.lat() - mapCenter.lat();
