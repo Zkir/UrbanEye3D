@@ -19,7 +19,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Recent Accomplishments 
 
-See [DEVBLOG.MD](DEVBLOG.MD)
+See [Devblog page](DEVBLOG.md)
 
 ## Architectural Notes
 

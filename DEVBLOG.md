@@ -1,16 +1,19 @@
-## Recent Accomplishments
+# Recent Accomplishments
+
+# Version 1.0.0
 
 ### July 29, 2025
-* Name has been decided: we will go with **Urban Eye 3D**
-* License has been decided: GNU GPL v3
+* Name has been decided: we will go with **"Urban Eye 3D"**
+* License has been decided: **GNU GPL v3**
 * Both buildings and building parts are rendered. The most simple algorithm is used to decide what to display is used: comparison by bbox.
 * Some last minute refactoring: Scene class introduced.
+* Version **1.0.0** has been **released**!
 
 ### July 28, 2025
 * **Support of "linear profile" roof shapes:** `round`, `gambrel`, `saltbox` roofs are supported. Obviously, for quadrangle bases only. 
 * **Stub icons for dialog, preferences and plugin itself**
 * **Return of fake AO.**  Even this simple type of shading make picture much better.
-* **Proper registration of Wireframe mode shortcut.** Pressin "Z" now works also when 3d window is docked.
+* **Proper registration of Wireframe mode shortcut.** Pressing "Z" now works also when 3d window is docked.
 * **Debugging**: More informative message for "Tesselation error, combine callback needed"  
 * **Support of `half-hipped` roofs:** one of the popular shapes for buildings, maybe not so usefull for building parts. 
 * **Wireframe mode improved:** original edges are displayed, before tesselation. With the exception of building with holes, but this case seems to be unfixible.
