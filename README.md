@@ -8,17 +8,23 @@
 
 While 3D visualization of OSM data has existed for years through external tools, the absence of a dedicated 3D viewer within JOSM (particularly since the discontinuation of [Kenzi 3D](https://github.com/kendzi/kendzi3d)) has been a notable gap. 
 
-Urban Eye 3D solves this problem! Mappers and 3D building enthusiasts can now preview their edits directly within JOSM before uploading data to OpenStreetMap.
+Urban Eye 3D solves this problem! Mappers and 3D building enthusiasts can now preview their edits directly within JOSM before commiting changes to OpenStreetMap.
 
 ## Key Features
-* Supports the [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
-* Visualizes loaded buildings/parts only – no editing or export functionality
-* Intuitive navigation:  
+* Support of the [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
+* Visualization only  – no editing or export functionality
+* Intuitive navigation, simlar to modern 3d editors:  
   - Orbit (left mouse drag)  
   - Zoom (mouse wheel)
   - Pan (right mouse drag)
 * Basic color support for `building:colour` and `roof:colour` tags
+* Two modes: *solid* and *wireframe*. Press 'z' to switch between them
 * Real-time updates: Changes made in JOSM instantly reflect in the 3D view
+
+
+### Limitations
+* Several roof shapes (`gabled`, `gambrel`, `hipped`, `round` and some others) are supported for quadrilateral polygons. 
+Support of those roof shapes for arbitrary non-convex polygons may be added in future versions.
 
 ## Licensing
 Inspired by the GNU GPL-licensed [Blosm](https://github.com/vvoovv/blosm) project and following JOSM's [plugin licensing recommendations](https://josm.openstreetmap.de/wiki/DevelopersGuide/DevelopingPlugins#LegalStuff), this code is licensed under [GNU GPL v3](LICENSE).
