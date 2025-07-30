@@ -6,8 +6,8 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Next steps
 
-### Musts for the first release (1.0.0)
-* Make repository public.
+### Musts for the next release 
+*Currently none*
 
 
 ### Ideas for the further Development 
@@ -23,8 +23,54 @@ See [Devblog page](DEVBLOG.md)
 
 ## Architectural Notes
 
-* All the meshes for all roof shapes should be created as WATERTIGHT bodies, with correct normals orientation. 
+*   **Core Principle:** All meshes for all roof shapes must be generated as **watertight** bodies with correct **outward-facing normals**. This is enforced by the `assertWatertight` and `assertNormalsOutward` checks in the `RoofGeometryGeneratorTest`.
+*   **Plugin Entry Point:** `UrbanEye3dPlugin.java` is the main entry point, responsible for initializing the 3D dialog window (`DialogWindow3D.java`).
+*   **3D Scene Management:** `DialogWindow3D.java` creates and manages the `Renderer3D` canvas and handles user input for navigation (orbit, pan, zoom).
+*   **Rendering:** `Renderer3D.java` is the core of the visualization. It uses JOGL (OpenGL for Java) to render the `Scene`. It manages the camera, lighting, and the main rendering loop. It also handles the switch between solid and wireframe modes.
+*   **Scene Composition:** The `Scene.java` class holds the collection of `RenderableBuildingElement` objects that need to be drawn. It's responsible for rebuilding the scene when OSM data changes.
+*   **Building Representation:** `RenderableBuildingElement.java` is a data class that holds all the necessary information to render a single building or building part, including its footprint, height, colors, and roof shape.
+*   **Roof Generation:** The `roofgenerators` package contains the logic for creating the 3D geometry for different roof shapes.
+    *   `RoofShapes.java`: An enum that maps OSM `roof:shape` tags to specific `RoofGenerator` implementations.
+    *   `RoofGenerator.java`: An interface for all roof generation classes.
+    *   `Mesher... .java`: Concrete implementations for each roof shape (e.g., `MesherHipped`, `MesherGabled`, `MesherSkillion`). Each is responsible for generating a `Mesh` object.
+*   **Geometry:** The `utils` package contains helper classes for geometry and color.
+    *   `Mesh.java`: A data structure to hold the vertices, faces, and normals of a 3D object.
+    *   `Point2D.java`, `Point3D.java`: Basic 2D and 3D point representations.
 
+## Code Structure
+
+```
+src
+├── main
+│   └── java
+│       └── ru
+│           └── zkir
+│               └── urbaneye3d
+│                   ├── UrbanEye3dPlugin.java    // Main plugin class, entry point
+│                   ├── DialogWindow3D.java      // The dockable 3D window
+│                   ├── Renderer3D.java          // OpenGL rendering logic
+│                   ├── Scene.java               // Manages the objects to be rendered
+│                   ├── RenderableBuildingElement.java // Data for a single building
+│                   ├── UrbanEye3dPreferences.java // Manages user preferences
+│                   │
+│                   ├── roofgenerators           // Logic for creating roof geometries
+│                   │   ├── RoofShapes.java      // Enum mapping roof tags to generators
+│                   │   ├── RoofGenerator.java   // Interface for all roof generators
+│                   │   ├── MesherFlat.java      // Generator for flat roofs
+│                   │   └── ...                  // Other roof generator implementations
+│                   │
+│                   └── utils                    // Helper classes
+│                       ├── Mesh.java            // 3D mesh data structure
+│                       ├── Point2D.java         // 2D point
+│                       └── Point3D.java         // 3D point
+│
+└── test
+    └── java
+        └── ru
+            └── zkir
+                └── urbaneye3d
+                    └── RoofGeometryGeneratorTest.java // JUnit tests for roof geometry
+```
 
 ## Operation instructions
 
@@ -43,7 +89,7 @@ The primary test class is `RoofGeometryGeneratorTest.java`, which focuses on val
 
 ### Adding New Roof Shape Tests
 
-The existing test suite serves as a powerful tool for Test-Driven Development (TDD) when adding support for new roof shapes. 
+The existing test suite serves as a powerful tool for Test-Driven Development (TDD) when adding support for new roof shapes.
 When a new roof shape is added to the RoofShapes enum, e.g. RoofShapes.HIPPED, it is added to the test suite AUTOMATICALLY.
 No specific code changes are necessary.
 
@@ -55,7 +101,7 @@ To add a test for a new shape (e.g., `hipped`):
     ```java
     @Test
     void testHippedRoof() {
-        
+
         ArrayList<Point2D> basePoints = createRectangularBase(14, 10);
         LatLon origin = new LatLon(55,37);
         RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(basePoints);
@@ -66,7 +112,7 @@ To add a test for a new shape (e.g., `hipped`):
 
         //common set of topology checks for a mesh.
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.HIPPED.toString());
-        
+
     }
     ```
 2.  **Implement the Feature:** Create the `generate` method in a new `MesherHIPPED.java`.
@@ -81,13 +127,13 @@ To add a test for a new shape (e.g., `hipped`):
 
 The `roof:shape` tag in OpenStreetMap is used to describe the shape of a building's roof. This plan outlines the steps to implement support for this tag in the 3D viewer plugin.
 
-Already supported: 
-* 'flat'     
+Already supported:
+* 'flat'
 * 'pyramidal'
 * 'dome'
 * 'onion'
 * 'half-dome'
-* 'skillion' 
+* 'skillion'
 * 'gabled'  - for quadrilateral polygons.
 * 'hipped' - for quadrilateral polygons.
 * 'mansard' - for quadrilateral polygons.
@@ -102,7 +148,7 @@ Yet to be implemented:
 * 'zakomar' -- no good implementation in in blosm (does not form watertight mesh)
 * Linear profile roof (`gabled`, `round`) for arbitrary polygons.  It is highly needed, since used in existing models from TOP-200.
 
-There is quite complex algorithm to create gabled roofs for n-gons in blosm, but it handles only rectangular-like buildings . 
+There is quite complex algorithm to create gabled roofs for n-gons in blosm, but it handles only rectangular-like buildings .
 A rectangular-like  means that the building is basically quadrangular(just with more verticies in contour), and the deviations from a quadrangle, although there are, are insignificant.
 
 NB: F4 has implementation of non-convex (Г-shaped or П-shaped) roofs!
@@ -135,7 +181,7 @@ Reference implementation from patched blosm blender addon should be reused whene
 * d:\z3dViewer\ext_sources\blosm_source\building\roof\hipped.py
 * d:\z3dViewer\ext_sources\blosm_source\building\roof\mansard.py
 * d:\z3dViewer\ext_sources\blosm_source\building\roof\conic_profile.py
-   
+
 
 
 ## Plan for Screen-Space Ambient Occlusion (SSAO) Implementation
@@ -203,19 +249,13 @@ This pass combines the original scene color with the ambient occlusion map.
 
 ## Learnings
 
-*   **Polygon Merging and Winding Order:** When merging triangles from a tessellator back into a polygon with holes, it's not enough to just find the boundary edges. It is critical to ensure the correct winding order for the resulting polygons: counter-clockwise for the outer boundary and clockwise for all inner holes. This is essential for the face normals to point in the correct direction.
-*   **Signed Area for Winding Detection:** A reliable way to programmatically determine and correct the winding order is to calculate the signed area of each reconstructed polygon. This allows for identifying the outer polygon (the one with the largest area) and then reversing the vertex order of any polygon (outer or inner) that has an incorrect orientation.
-*   **Limitations of Center-Based Normal Testing:** The unit test `assertNormalsOutward` is flawed for non-convex shapes or shapes with holes. Its logic, which assumes normals should point away from the object's geometric center, fails when the center lies outside the solid volume (e.g., inside a hole). This test needs a more robust implementation for complex geometries.
-*   **Gable Coloring on No-Wall Buildings:** A key detail of the Simple 3D Buildings specification is that gable ends are considered part of the wall. When generating a gabled roof on a building with no wall height (i.e., the roof starts at `min_height`), the resulting triangular gable faces must still be treated as wall surfaces and colored accordingly, not as roof surfaces.
-*   **Mesh Generation for No-Wall Scenarios:** When a building's `wallHeight` is equal to its `minHeight`, the logic for generating roof geometry must be carefully adapted. To avoid creating degenerate, zero-length edges and to ensure the mesh remains watertight, the generation code must reuse the base vertices instead of creating a duplicate set of vertices at the same location for the top of the "wall". This applies to `flat`, `gabled`, and `hipped` roofs.
-*   **Gabled Roof Geometry:** For gabled roofs, the triangular gable end should not be a separate face from the rectangular wall below it. The entire gable wall should be generated as a single, continuous polygon (a pentagon in the case of a simple gable) to ensure correct rendering, lighting, and a seamless appearance. This is consistent with how `skillion` roofs are handled.
-*   **Tessellation for Complex Polygons:** The `GLU.gluTess` functions are essential for correctly rendering non-convex polygons, which are common in building footprints. Relying on `GL_QUADS` or `GL_POLYGON` is insufficient for complex shapes.
-*   **Skillion Roof Geometry:** A skillion roof is not just a sloped plane. It requires the generation of trapezoidal side walls that connect the roof edge to the building's base, colored with the wall color.
-*   **JOSM API for Panning:** The correct way to programmatically pan the map is via `NavigatableComponent.zoomTo(EastNorth newCenter)`. This method is inherited by `MapView` and is the reliable way to control the map view using geographic coordinates.
-*   **Coordinate System Transformation:** For an intuitive 3D panning experience that controls the 2D map, a careful transformation of the mouse movement vector is required. This involves: 1) Inverting the vector for a "drag" feel, 2) Aligning the screen's Y-down coordinate system with the map's North-up system, and 3) Rotating the final vector by the camera's current angle (`camY_angle`) to ensure the pan direction always matches the user's perspective.
-*   **User-Centric Panning Sensitivity:** Panning speed should be tied to the user's context. Linking the pan sensitivity to the 3D camera's distance (`cam_dist`) provides a more natural and intuitive interaction than linking it to the 2D map's scale.
-*   **JOSM Preference API Complexity:** The JOSM Preference API (specifically `PreferenceSetting` and `TabPreferenceSetting`) is more complex and version-sensitive than initially anticipated. Direct implementation of `TabPreferenceSetting` requires careful adherence to all interface methods (`addGui`, `ok`, `isExpert`, `getIconName`, `getTitle`, `getTooltip`, `getDescription`, `addSubTab`, `registerSubTab`, `getSubTab`, `getSelectedSubTab`, `selectSubTab`, `getHelpContext`, `getSubTabs`), and their exact signatures (return types, parameters).
-*   **`addGui` Method Usage:** For `TabPreferenceSetting`, the `addGui` method is used to add the GUI components to the tab's `PreferencePanel` (obtained via `gui.createPreferenceTab(this, false)`), not to create the tab itself. The `PreferencePanel` uses `GridBagLayout`.
-*   **Icon Naming Conventions:** JOSM's `ImageProvider` expects specific icon names, often including a path (e.g., `preferences/dialogs/preferences.svg` or `shortcuts.svg`). Using generic names like "up" will result in `JosmRuntimeException`.
-*   **GridBagLayout for UI Alignment:** To align components to the top in `GridBagLayout`, `weighty = 0.0` should be set for the components, and a "vertical glue" (`JPanel` with `weighty = 1.0`) should be added at the end to absorb remaining vertical space.
+*   **JOSM Plugin Lifecycle:** `UrbanEye3dPlugin` is the entry point. It initializes `DialogWindow3D`, which is a `ToggleDialog`. JOSM automatically handles the creation of the menu item and the visibility of the dialog.
+*   **Event Handling:** The plugin listens for changes in the OSM data (`DataSetListener`) and map view (`MapView.addZoomChangeListener`) to trigger scene updates and redraws.
+*   **OpenGL with JOGL:** The rendering is done in `Renderer3D` using the JOGL library, which provides Java bindings for OpenGL. The rendering pipeline is currently a fixed-function pipeline (`glBegin`/`glEnd`), with plans to move to a modern shader-based pipeline for features like SSAO.
+*   **Immediate Mode Rendering:** The current rendering approach sends drawing commands to the GPU for each frame directly. While simple, it's less efficient than using Vertex Buffer Objects (VBOs), which would store geometry on the GPU.
+*   **Roof Geometry Generation:** The `roofgenerators` package showcases a factory pattern. The `RoofShapes` enum acts as a factory, providing the correct `Mesher` instance for a given `roof:shape` tag. This makes it easy to add new roof shapes without changing the core rendering logic.
+*   **Watertight Meshes:** A critical requirement for all generated geometry is that it must be "watertight" (i.e., have no holes). This is crucial for correct rendering and for future features like SSAO or Boolean operations. The `RoofGeometryGeneratorTest` includes checks to enforce this.
+*   **TDD for Geometry:** The `RoofGeometryGeneratorTest` is a good example of Test-Driven Development. By creating a test for a new roof shape first, the implementation can be guided by the test results, ensuring correctness from the start.
+*   **Coordinate Systems:** The plugin deals with multiple coordinate systems: Latitude/Longitude from OSM, East/North from JOSM's map projection, and the 3D Cartesian coordinates used for rendering. `RenderableBuildingElement` handles the conversion from OSM data to a renderable format.
+
 
