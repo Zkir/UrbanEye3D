@@ -34,6 +34,14 @@ public class Point3D {
         return new Point3D(this.x-other.x, this.y-other.y, this.z-other.z);
     }
 
+    public Point3D mult(double scalar){
+       return new Point3D(this.x*scalar, this.y*scalar, this.z*scalar);
+    }
+
+    public Point3D div(double scalar){
+        return new Point3D(this.x/scalar, this.y/scalar, this.z/scalar);
+    }
+
     public double dot(Point3D other) {
         return this.x * other.x + this.y * other.y + this.z * other.z;
     }
@@ -65,6 +73,5 @@ public class Point3D {
     public int hashCode() {
         return Objects.hash(x, y, z);
     }
-
 
 }

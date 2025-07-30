@@ -4,24 +4,30 @@
 
 Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window.
 
-## Next steps
+## Next Steps
 
-### Musts for the next release 
+### Musts for the Next Release 
+
 *Currently none*
 
-
-### Ideas for the further Development 
+### Ideas for the Further Development 
 
 * **Continue with roof:shape support.**
-    * implement a new mesher for `cross-gabled` roof for quadrangle base. should not be too hard.
     * support linear profle roofs for arbitrary quasi-quadrangular bases. seems to be very tricky.
         * See  Plan for roof:shape implementation section   
-* **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
-* **New Icons** We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
+    * implement zakomar roof somehow. maybe boolean operation should be tried.    
+* **More efficient check** for building/building part belongings based on r-tree  
 * **Real Ambient Occlusion.** See "Plan for Screen-Space Ambient Occlusion (SSAO) Implementation" section below
+* **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness. 
+    * Some more advanced shading is obviously required. 
+* **New Icons** We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
 
 ## Recent Accomplishments 
 
+### July 30, 2025
+* Support of **roof:shape=cross_gabled:** New mesher implemented.
+
+### Earlier
 See [Devblog page](DEVBLOG.md)
 
 ## Architectural Notes
@@ -144,10 +150,10 @@ Already supported:
 * 'gambrel' - for quadrilateral polygons.
 * 'saltbox' - for quadrilateral polygons. Also, there is no cosistent opionion about what this shape is.
 * 'half-hipped' - for quadrilateral polygons.
+* 'cross_gabled' - for quadrilateral polygons.
 
 Yet to be implemented:
 
-* 'cross_gabled'
 * 'zakomar' -- no good implementation in in blosm (does not form watertight mesh)
 * Linear profile roof (`gabled`, `round`) for arbitrary polygons.  It is highly needed, since used in existing models from TOP-200.
 
@@ -178,12 +184,6 @@ Reference implementation from patched blosm blender addon should be reused whene
 * d:\z3dViewer\ext_sources\blosm_source\building\roof\__init__.py
 * d:\z3dViewer\ext_sources\blosm_source\building\roof\zakomar.py
 * d:\z3dViewer\ext_sources\blosm_source\building\roof\profile.py
-* d:\z3dViewer\ext_sources\blosm_source\building\roof\pyramidal.py
-* d:\z3dViewer\ext_sources\blosm_source\building\roof\skillion.py
-* d:\z3dViewer\ext_sources\blosm_source\building\roof\half_hipped.py
-* d:\z3dViewer\ext_sources\blosm_source\building\roof\hipped.py
-* d:\z3dViewer\ext_sources\blosm_source\building\roof\mansard.py
-* d:\z3dViewer\ext_sources\blosm_source\building\roof\conic_profile.py
 
 
 
