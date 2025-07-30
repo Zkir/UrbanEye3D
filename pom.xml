@@ -67,6 +67,14 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Zkir Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/Zkir/UrbanEye3D</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <resources>
             <resource>
