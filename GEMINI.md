@@ -12,7 +12,10 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ### Ideas for the further Development 
 
-* **Continue with roof:shape support.** See  Plan for roof:shape implementation section   
+* **Continue with roof:shape support.**
+    * implement a new mesher for `cross-gabled` roof for quadrangle base. should not be too hard.
+    * support linear profle roofs for arbitrary quasi-quadrangular bases. seems to be very tricky.
+        * See  Plan for roof:shape implementation section   
 * **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness.
 * **New Icons** We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
 * **Real Ambient Occlusion.** See "Plan for Screen-Space Ambient Occlusion (SSAO) Implementation" section below
