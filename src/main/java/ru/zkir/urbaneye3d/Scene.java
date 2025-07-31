@@ -1,5 +1,6 @@
 package ru.zkir.urbaneye3d;
 
+import com.drew.lang.annotations.NotNull;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
 import org.openstreetmap.josm.gui.MainApplication;
@@ -44,18 +45,18 @@ public class Scene {
                 }
                 boolean include_element = false;
                 String source_key="";
-                if (primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no") ) {
+                if (primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no")  ) {
                     source_key="building:part";
                     include_element = true;
 
                 }
 
-                if (primitive.hasKey("building") && ! primitive.get("building").equals("no") ) {
+                if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !  getTag(primitive, "building:part").equals("base") ) {
                     source_key = "building";
                     include_element = true;
-                    for (BBox part: buildingParts ){ //TODO: implement more efficient geospatial check using r-tree.
+                    for (BBox part: buildingParts ){ //TODO: implement more efficient geospatial check using r-tree. And implement outline check, not bbox only
                         if (primitive.getBBox().bounds(part)) {
-                            //there are building parts for this building. goodbye!
+                            //there is a building part for this building. goodbye!
                             include_element = false;
                             break;
                         }
@@ -68,6 +69,10 @@ public class Scene {
                     }
 
                     String heightStr = primitive.get("height");
+                    if ((heightStr==null) ||  heightStr.isEmpty()) {
+                        heightStr = primitive.get("building:height");
+                    }
+
                     String minHeightStr = primitive.get("min_height");
                     String roofHeightStr = primitive.get("roof:height");
                     double height = 0.0;
@@ -105,15 +110,22 @@ public class Scene {
                             // Ignore
                         }
                     }
-                    if (source_key.equals("building")){
-                        if ((height==0) && (levels==0)) {
-                            final double DEFAULT_LEVELS=2;
-                            levels = DEFAULT_LEVELS;
-                        }
-                        if ((height==0) && (levels!=0)) {
-                            height= levels*3 + 2;
-                        }
 
+                    final double DEFAULT_LEVELS_NUMBER=2;
+                    final double DEFAULT_LEVEL_HEIGHT=3;
+
+                    if (height==0) {
+                        if (source_key.equals("building")) {
+                            if (levels == 0) {
+                                levels = DEFAULT_LEVELS_NUMBER;
+                            }
+                            height = levels * DEFAULT_LEVEL_HEIGHT + 2; //some bonus for roof and basement!
+                        }
+                        else{
+                            //for building parts there is no default height.
+                            //if neither height nor levels are specified, building part is not rendered.
+                            height = levels * DEFAULT_LEVEL_HEIGHT; // no bonus!
+                        }
                     }
 
                     // this is a dirty hack.
@@ -158,5 +170,12 @@ public class Scene {
                 }
             }
         }
+    }
+    private @NotNull String getTag(OsmPrimitive primitive, String key ){
+        String value=primitive.get(key);
+        if (value==null){
+            value="";
+        }
+        return value;
     }
 }

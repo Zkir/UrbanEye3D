@@ -26,6 +26,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ### July 30, 2025
 * Support of **roof:shape=cross_gabled:** New mesher implemented.
+* Handling of defaults for height improved.
 
 ### Earlier
 See [Devblog page](DEVBLOG.md)
