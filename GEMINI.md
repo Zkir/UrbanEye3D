@@ -22,12 +22,14 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
     * Some more advanced shading is obviously required. 
 * **New Icons** We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
 * osm2world supports [windows](https://wiki.openstreetmap.org/wiki/Key:window). we also want that.
-* Inherit certain tag values (`building:colour`, `building:material`, `roof:colour`, `roof:material`, maybe some others) from building to building part. It seems that F4 and osm2world do so.
+
 
 ## Recent Accomplishments 
 
 ### July 31, 2025
-* Autotest for Scene.updateData()
+* Autotest for Scene.updateData() -- proved to be very usefull
+* Tags related to color and material (`building:colour`, `building:material`, `roof:colour`, `roof:material`) are inherited from building to parts. This improves colors significantly.
+* Check whether building part belongs to a building imporved. Actual contour is tested, not only bbox.
 
 ### July 30, 2025
 * [enh] Support of **roof:shape=cross_gabled:** New mesher implemented.

@@ -25,6 +25,8 @@ public class Scene {
             return;
         }
 
+        // A map to cache the expensive-to-create Contour objects for each primitive.
+        HashMap<OsmPrimitive, RenderableBuildingElement.Contour> primitiveContours = new HashMap<>();
 
         //preliminary list of building parts. Needed to check buildings
         ArrayList<OsmPrimitive> buildings = new ArrayList<>();
@@ -37,49 +39,50 @@ public class Scene {
         // buildings -- only if they do not contain building parts.
 
         for (OsmPrimitive primitive : dataSet.allPrimitives()) {
-            if (primitive instanceof Node) {
-                continue;
-            }
-
-            if (!isPrimitiveComplete(primitive))
-            {
+            if (primitive instanceof Node || !isPrimitiveComplete(primitive)) {
                 continue;
             }
 
             if (primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no") ) {
                 buildingParts.add(primitive);
+                // Create and cache the contour for the building part.
+                primitiveContours.put(primitive, new RenderableBuildingElement.Contour(primitive, null));
             }
         }
 
         for (OsmPrimitive primitive : dataSet.allPrimitives()) {
-            if (primitive instanceof  Node ) {
-                continue;
-            }
-
-            if (!isPrimitiveComplete(primitive))
-            {
+            if (primitive instanceof  Node || !isPrimitiveComplete(primitive)) {
                 continue;
             }
 
             if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !  getTag("building:part", primitive, null).equals("base") ) {
                 boolean include_element = true;
-                for (OsmPrimitive part: buildingParts ){ //TODO: implement more efficient geospatial check using r-tree. And implement outline check, not bbox only
+                // Create and cache the contour for the building, if not already present.
+                if (!primitiveContours.containsKey(primitive)) {
+                    primitiveContours.put(primitive, new RenderableBuildingElement.Contour(primitive, null )); //primitive.getBBox().getCenter()
+                }
+                RenderableBuildingElement.Contour buildingContour = primitiveContours.get(primitive);
+
+                for (OsmPrimitive part: buildingParts ){
+                    // First, a quick BBox check. It is much cheaper and will filter out most of the candidates.
                     if (primitive.getBBox().bounds(part.getBBox())) {
-                        //there is a building part for this building. goodbye!
-                        include_element = false;
-                        partParents.put(part, primitive);
+                        // If BBoxes intersect, then perform a more expensive contour check.
+                        RenderableBuildingElement.Contour partContour = primitiveContours.get(part);
+                        if (buildingContour.contains(partContour)) {
+                            //there is a building part for this building. goodbye!
+                            include_element = false;
+                            partParents.put(part, primitive);
+                        }
                     }
                 }
                 if (include_element) {
                     buildings.add(primitive);
                 }
             }
-
         }
         ArrayList<OsmPrimitive> allCandidates = new ArrayList<>();
         allCandidates.addAll(buildings);
         allCandidates.addAll(buildingParts);
-
 
         for (OsmPrimitive primitive : allCandidates) {
 
@@ -170,24 +173,20 @@ public class Scene {
                 String roofOrientation = getTag("roof:orientation", primitive, parent);
 
                 LatLon primitiveOrigin = primitive.getBBox().getCenter();
-                RenderableBuildingElement.Contour mainContour = null;
-
-                if (primitive instanceof Way) {
-                    mainContour = new RenderableBuildingElement.Contour((Way) primitive, primitiveOrigin);
-                } else if (primitive instanceof Relation) {
-                    mainContour = new RenderableBuildingElement.Contour((Relation) primitive, primitiveOrigin);
-                }
+                RenderableBuildingElement.Contour mainContour = primitiveContours.get(primitive);
 
                 if (mainContour != null && !mainContour.outerRings.isEmpty()) {
                     if (primitive instanceof Relation && mainContour.outerRings.size() > 1 && mainContour.innerRings.isEmpty()) {
                         // Split multipolygon with multiple outer rings and no inner rings
                         for (ArrayList<Point2D> outerRing : mainContour.outerRings) {
                             //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
-                            //to make things worse, we use local coords already, so if origin is moved, coordinates of the outerRing should be recalculated.
-                            renderableElements.add(new RenderableBuildingElement(primitiveOrigin, new RenderableBuildingElement.Contour(outerRing), height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                            RenderableBuildingElement.Contour partContour = new RenderableBuildingElement.Contour(outerRing);
+                            partContour.toLocalCoords(primitiveOrigin); //TODO: recalculate origin
+                            renderableElements.add(new RenderableBuildingElement(primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
                         }
                     } else {
                         // Single outer ring, or multiple outer rings with inner rings, or a Way
+                        mainContour.toLocalCoords(primitiveOrigin);
                         renderableElements.add(new RenderableBuildingElement(primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
                     }
                 }

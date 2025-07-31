@@ -19,52 +19,74 @@ public class RenderableBuildingElement {
         // Define a tolerance for the tangent of the angle. For example, 0.08 corresponds to ~175.5 degrees.
         // This allows for slight deviations in manually placed points.
         static final double STRAIGHT_ANGLE_TAN_TOLERANCE = 0.08;
+        private String mode="XY";
         List<ArrayList<Point2D>> outerRings;
         List<ArrayList<Point2D>> innerRings;
 
-        Contour(Way way, LatLon center){
-            this.outerRings = new ArrayList<>();
-            this.innerRings = new ArrayList<>();
-            ArrayList<Point2D> tempContour = new ArrayList<>();
-            for (Node node : way.getNodes()) {
-                tempContour.add(getNodeLocalCoords(node, center));
+        Contour(OsmPrimitive primitive, LatLon center){
+            if (center==null) {
+                this.mode = "LatLon";
+            }else{
+                this.mode = "XY";
+                throw new RuntimeException("only latlon right now!");
             }
-            this.outerRings.add(simplifyContour(tempContour));
-        }
-
-        Contour(Relation relation, LatLon center) {
-            this.outerRings = new ArrayList<>();
-            this.innerRings = new ArrayList<>();
-
-            List<Way> outerWays = new ArrayList<>();
-            List<Way> innerWays = new ArrayList<>();
-
-            for (RelationMember member : relation.getMembers()) {
-                if (!member.isWay() || member.getMember().isIncomplete()) continue;
-
-                if ("outer".equals(member.getRole())) {
-                    outerWays.add(member.getWay());
-                } else if ("inner".equals(member.getRole())) {
-                    innerWays.add(member.getWay());
+            if (primitive instanceof Way) {
+                Way way = (Way) primitive;
+                this.outerRings = new ArrayList<>();
+                this.innerRings = new ArrayList<>();
+                ArrayList<Point2D> tempContour = new ArrayList<>();
+                for (Node node : way.getNodes()) {
+                    if ("XY".equals(this.mode)) {
+                        tempContour.add(getNodeLocalCoords(node, center));
+                    }else{
+                        tempContour.add(new Point2D(node.lon(),node.lat()));
+                    }
                 }
-            }
+                this.outerRings.add(simplifyContour(tempContour));
+            }else { //relation
+                Relation relation = (Relation) primitive;
+                this.outerRings = new ArrayList<>();
+                this.innerRings = new ArrayList<>();
 
-            List<List<Node>> outerNodeRings = assembleRings(outerWays);
-            for (List<Node> nodeRing : outerNodeRings) {
-                ArrayList<Point2D> pointRing = new ArrayList<>();
-                for (Node node : nodeRing) {
-                    pointRing.add(getNodeLocalCoords(node, center));
-                }
-                this.outerRings.add(simplifyContour(pointRing));
-            }
+                List<Way> outerWays = new ArrayList<>();
+                List<Way> innerWays = new ArrayList<>();
 
-            List<List<Node>> innerNodeRings = assembleRings(innerWays);
-            for (List<Node> nodeRing : innerNodeRings) {
-                ArrayList<Point2D> pointRing = new ArrayList<>();
-                for (Node node : nodeRing) {
-                    pointRing.add(getNodeLocalCoords(node, center));
+                for (RelationMember member : relation.getMembers()) {
+                    if (!member.isWay() || member.getMember().isIncomplete()) continue;
+
+                    if ("outer".equals(member.getRole())) {
+                        outerWays.add(member.getWay());
+                    } else if ("inner".equals(member.getRole())) {
+                        innerWays.add(member.getWay());
+                    }
                 }
-                this.innerRings.add(simplifyContour(pointRing));
+
+                List<List<Node>> outerNodeRings = assembleRings(outerWays);
+                for (List<Node> nodeRing : outerNodeRings) {
+                    ArrayList<Point2D> pointRing = new ArrayList<>();
+                    for (Node node : nodeRing) {
+                        if ("XY".equals(this.mode)) {
+                            pointRing.add(getNodeLocalCoords(node, center));
+                        }else{
+                            pointRing.add(new Point2D(node.lon() , node.lat()));
+                        }
+
+                    }
+                    this.outerRings.add(simplifyContour(pointRing));
+                }
+
+                List<List<Node>> innerNodeRings = assembleRings(innerWays);
+                for (List<Node> nodeRing : innerNodeRings) {
+                    ArrayList<Point2D> pointRing = new ArrayList<>();
+                    for (Node node : nodeRing) {
+                        if ("XY".equals(this.mode)) {
+                            pointRing.add(getNodeLocalCoords(node, center));
+                        }else{
+                            pointRing.add(new Point2D(node.lon() , node.lat()));
+                        }
+                    }
+                    this.innerRings.add(simplifyContour(pointRing));
+                }
             }
         }
 
@@ -73,6 +95,99 @@ public class RenderableBuildingElement {
             this.outerRings.add(outerRing);
             this.innerRings = new ArrayList<>();
         }
+
+        public boolean contains(Contour other) {
+            // 'this' is the potential container (building), 'other' is the content (part).
+
+            // A building must have an outer ring to contain anything.
+            if (this.outerRings.isEmpty()) {
+                return false;
+            }
+            // A part must have an outer ring to be contained.
+            if (other.outerRings.isEmpty()) {
+                return false;
+            }
+
+            // For simplicity, we assume a building is defined by its first outer ring for containment checks.
+            // This is a reasonable simplification for most OSM data.
+            List<Point2D> buildingOuterRing = this.outerRings.get(0);
+
+            // Check every outer ring of the part.
+            for (ArrayList<Point2D> partOuterRing : other.outerRings) {
+                // Check every point of the part's outer ring.
+                for (Point2D point : partOuterRing) {
+                    // 1. All points of the part must be inside the building's outer ring.
+                    if (!isPointInside(buildingOuterRing, point)) {
+                        return false; // Part is not fully inside the building's boundary.
+                    }
+
+                    // 2. All points of the part must be outside all of the building's inner rings (holes).
+                    for (ArrayList<Point2D> buildingInnerRing : this.innerRings) {
+                        if (isPointInside(buildingInnerRing, point)) {
+                            return false; // Part is inside a hole of the building.
+                        }
+                    }
+                }
+            }
+
+            // If all checks pass, the part is considered to be inside the building.
+            return true;
+        }
+
+        private boolean isPointInside(List<Point2D> polygon, Point2D point) {
+            if (isPointOnBorder(polygon, point)) {
+                return true; // for our purposes we consider borders as part of a polygon
+            }
+
+            int intersections = 0;
+            for (int i = 0; i < polygon.size(); i++) {
+                Point2D p1 = polygon.get(i);
+                Point2D p2 = polygon.get((i + 1) % polygon.size());
+                if (p1.y == p2.y) continue;
+                if (point.y < Math.min(p1.y, p2.y) || point.y >= Math.max(p1.y, p2.y)) continue;
+                double x = (point.y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x;
+                if (x > point.x) {
+                    intersections++;
+                }
+            }
+            return (intersections % 2) == 1;
+        }
+
+        // Проверка, лежит ли точка на границе полигона
+        private boolean isPointOnBorder(List<Point2D> polygon, Point2D point) {
+            final double EPS = 1e-10;
+            for (int i = 0; i < polygon.size(); i++) {
+                Point2D p1 = polygon.get(i);
+                Point2D p2 = polygon.get((i + 1) % polygon.size());
+
+                // Проверка принадлежности точки ребру (p1, p2)
+                if (pointOnSegment(p1, p2, point, EPS)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Проверка, лежит ли точка на отрезке
+        private boolean pointOnSegment(Point2D p1, Point2D p2, Point2D point, double eps) {
+            // Расстояние от точки до концов отрезка
+            double distToP1 = Math.hypot(point.x - p1.x, point.y - p1.y);
+            double distToP2 = Math.hypot(point.x - p2.x, point.y - p2.y);
+            double segLength = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+
+            // Если точка совпадает с вершиной
+            if (distToP1 < eps || distToP2 < eps) return true;
+
+            // Коллинеарность и нахождение на отрезке
+            double cross = (point.x - p1.x) * (p2.y - p1.y) - (point.y - p1.y) * (p2.x - p1.x);
+            boolean withinBoundingBox = point.x >= Math.min(p1.x, p2.x) - eps &&
+                    point.x <= Math.max(p1.x, p2.x) + eps &&
+                    point.y >= Math.min(p1.y, p2.y) - eps &&
+                    point.y <= Math.max(p1.y, p2.y) + eps;
+
+            return Math.abs(cross) < eps && withinBoundingBox;
+        }
+
 
         private List<List<Node>> assembleRings(List<Way> ways) {
             List<List<Node>> rings = new ArrayList<>();
@@ -123,9 +238,12 @@ public class RenderableBuildingElement {
         }
 
         static Point2D getNodeLocalCoords(Node node, LatLon center){
-            LatLon ll = node.getCoor();
-            double dx = ll.lon() - center.lon();
-            double dy = ll.lat() - center.lat();
+            return getLocalCoords(new Point2D(node.lon(),node.lat()), center);
+        }
+
+        static Point2D getLocalCoords(Point2D point, LatLon center){
+            double dx = point.x - center.lon();
+            double dy = point.y - center.lat();
             return new Point2D(dx * Math.cos(Math.toRadians(center.lat())) * 111320.0,
                     dy * 111320.0);
         }
@@ -224,6 +342,21 @@ public class RenderableBuildingElement {
             }
             return isAntiCollinear;
         }
+
+        public void toLocalCoords(LatLon origin) {
+            this.mode = "XY";
+            for (ArrayList<Point2D> ring:outerRings){
+                for (int i=0;i< ring.size();i++){
+                    ring.set(i, getLocalCoords(ring.get(i),origin));
+                }
+
+            }
+            for (ArrayList<Point2D> ring:innerRings){
+                for (int i=0;i< ring.size();i++){
+                    ring.set(i, getLocalCoords(ring.get(i),origin));
+                }
+            }
+        }
     }
 
     public final double roofHeight;
@@ -241,6 +374,10 @@ public class RenderableBuildingElement {
     private Mesh mesh;
 
     public RenderableBuildingElement(LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
+        if (contour==null){
+            throw new RuntimeException("contour must be specified");
+        }
+
         this.origin = origin;
         if (contour.outerRings.isEmpty()){
             throw new RuntimeException("There can be empty multipolygon relations, broken or not fully downloaded. " +

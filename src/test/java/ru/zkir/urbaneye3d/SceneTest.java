@@ -63,4 +63,25 @@ class SceneTest {
         assertEquals(2, scene.renderableElements.size());
     }
 
+    @Test
+    /*
+        Even more complex belonging topology test
+        part should be inside outer ring(s), but outside inner ring(s).
+
+     */
+    void testMultipolygonBelonging() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("multipolygons_belonging.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        // We expect only the building:part to be rendered, not the parent building.
+        assertEquals(3, scene.renderableElements.size());
+    }
+
+
+
 }
