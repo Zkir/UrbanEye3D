@@ -21,12 +21,14 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness. 
     * Some more advanced shading is obviously required. 
 * **New Icons** We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
+* osm2world supports [windows](https://wiki.openstreetmap.org/wiki/Key:window). we also want that.
+* Inherit certain tag values (`building:colour`, `building:material`, `roof:colour`, `roof:material`, maybe some others) from building to building part. It seems that F4 and osm2world do so.
 
 ## Recent Accomplishments 
 
 ### July 30, 2025
-* Support of **roof:shape=cross_gabled:** New mesher implemented.
-* Handling of defaults for height improved.
+* [enh] Support of **roof:shape=cross_gabled:** New mesher implemented.
+* [bugfix] Handling of defaults for height improved.
 
 ### Earlier
 See [Devblog page](DEVBLOG.md)
