@@ -87,7 +87,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 } else { // Assume left button for rotation
                     camY_angle -= dx * 0.5;
                     camX_angle += dy * 0.5;
-                    camX_angle = Math.max(-0.0, Math.min(89.0, camX_angle));
+                    camX_angle = Math.max(-89, Math.min(89.0, camX_angle));
                 }
 
                 lastMousePoint = e.getPoint();

@@ -184,12 +184,14 @@ public class Scene {
                             //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
                             Contour partContour = new Contour(outerRing);
                             partContour.toLocalCoords(primitiveOrigin); //TODO: recalculate origin
-                            renderableElements.add(new RenderableBuildingElement(primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                            var element =new RenderableBuildingElement(primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation, new HashMap<>(primitive.getInterestingTags()));
+                            renderableElements.add(element);
                         }
                     } else {
                         // Single outer ring, or multiple outer rings with inner rings, or a Way
                         mainContour.toLocalCoords(primitiveOrigin);
-                        renderableElements.add(new RenderableBuildingElement(primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                        var element = new RenderableBuildingElement(primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation, new HashMap<>(primitive.getInterestingTags()));
+                        renderableElements.add(element);
                     }
                 }
             }

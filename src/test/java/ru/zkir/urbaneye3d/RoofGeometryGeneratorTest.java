@@ -54,7 +54,7 @@ class RoofGeometryGeneratorTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
         RenderableBuildingElement building = new RenderableBuildingElement(origin, contour,  height, minHeight, roofHeight,
-                "","", roofShape.toString(), "","" );
+                "","", roofShape.toString(), "","", new HashMap<>());
 
         return  building;
     }
@@ -214,7 +214,7 @@ class RoofGeometryGeneratorTest {
         Contour contour = new Contour(basePoints);
 
         RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 4,
-                "","", RoofShapes.GABLED.toString(), "","across" );
+                "","", RoofShapes.GABLED.toString(), "","across", new HashMap<>() );
 
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         //common set of topology checks for a mesh.
@@ -230,7 +230,7 @@ class RoofGeometryGeneratorTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
         RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
-                "","", RoofShapes.HIPPED.toString(), "","across" );
+                "","", RoofShapes.HIPPED.toString(), "","across", new HashMap<>() );
 
         Mesh mesh = RoofShapes.HIPPED.getMesher().generate(test_building);
 
@@ -247,7 +247,7 @@ class RoofGeometryGeneratorTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
         RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
-                "","", RoofShapes.SKILLION.toString(), "45","" );
+                "","", RoofShapes.SKILLION.toString(), "45","", new HashMap<>() );
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
 
@@ -262,7 +262,7 @@ class RoofGeometryGeneratorTest {
 
         LatLon origin = new LatLon(55,37);
         RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 3,
-                "","", RoofShapes.FLAT.toString(), "","" );
+                "","", RoofShapes.FLAT.toString(), "","", new HashMap<>() );
 
         Mesh mesh = RoofShapes.FLAT.getMesher().generate(test_building); // height > wallHeight
 

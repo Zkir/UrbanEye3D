@@ -2,6 +2,7 @@ package ru.zkir.urbaneye3d;
 
 import com.drew.lang.annotations.NotNull;
 import org.openstreetmap.josm.data.coor.LatLon;
+import ru.zkir.urbaneye3d.osm2world.Osm2WoldProxy;
 import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
@@ -10,6 +11,7 @@ import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class RenderableBuildingElement {
@@ -26,12 +28,14 @@ public class RenderableBuildingElement {
     public final @NotNull String roofOrientation;
     private final Contour contour;
     public final LatLon origin;
+    public HashMap<String, String> tags;
     private Mesh mesh;
 
-    public RenderableBuildingElement(LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
+    public RenderableBuildingElement(LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation, HashMap<String, String> tags) {
         if (contour==null){
             throw new RuntimeException("contour must be specified");
         }
+        this.tags = tags;
 
         this.origin = origin;
         if (contour.outerRings.isEmpty()){
@@ -82,7 +86,11 @@ public class RenderableBuildingElement {
         this.bottomColor = this.color.darker().darker(); //Fake AO LOL!
         
         //since we have all the data, we can compose building mesh right in constructor.
-        composeMesh();
+        if (false) {
+            composeMesh();
+        }else{
+            composeMeshViaOsm2World();
+        }
     }
 
     public boolean hasComplexContour() {
@@ -107,7 +115,6 @@ public class RenderableBuildingElement {
     }
     public void composeMesh(){
         this.mesh = null;
-        double wallHeight = height - roofHeight;
 
         // Always generate flat roof if roofShape is FLAT or if it's a complex contour
         if ( !hasComplexContour()) {
@@ -123,6 +130,11 @@ public class RenderableBuildingElement {
             this.mesh = RoofShapes.FLAT.getMesher().generate(this);
         }
     }
+
+    public void composeMeshViaOsm2World(){
+        this.mesh = Osm2WoldProxy.composeMesh(this);
+    }
+
 
 
     private double parseDirection(String direction) {
