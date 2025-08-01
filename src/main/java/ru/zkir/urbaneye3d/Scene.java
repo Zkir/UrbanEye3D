@@ -3,8 +3,7 @@ package ru.zkir.urbaneye3d;
 import com.drew.lang.annotations.NotNull;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
-import org.openstreetmap.josm.gui.MainApplication;
-import org.openstreetmap.josm.gui.layer.OsmDataLayer;
+import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Point2D;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class Scene {
         }
 
         // A map to cache the expensive-to-create Contour objects for each primitive.
-        HashMap<OsmPrimitive, RenderableBuildingElement.Contour> primitiveContours = new HashMap<>();
+        HashMap<OsmPrimitive, Contour> primitiveContours = new HashMap<>();
 
         //preliminary list of building parts. Needed to check buildings
         ArrayList<OsmPrimitive> buildings = new ArrayList<>();
@@ -46,7 +45,7 @@ public class Scene {
             if (primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no") ) {
                 buildingParts.add(primitive);
                 // Create and cache the contour for the building part.
-                primitiveContours.put(primitive, new RenderableBuildingElement.Contour(primitive, null));
+                primitiveContours.put(primitive, new Contour(primitive, null));
             }
         }
 
@@ -59,15 +58,15 @@ public class Scene {
                 boolean include_element = true;
                 // Create and cache the contour for the building, if not already present.
                 if (!primitiveContours.containsKey(primitive)) {
-                    primitiveContours.put(primitive, new RenderableBuildingElement.Contour(primitive, null )); //primitive.getBBox().getCenter()
+                    primitiveContours.put(primitive, new Contour(primitive, null )); //primitive.getBBox().getCenter()
                 }
-                RenderableBuildingElement.Contour buildingContour = primitiveContours.get(primitive);
+                Contour buildingContour = primitiveContours.get(primitive);
 
                 for (OsmPrimitive part: buildingParts ){
                     // First, a quick BBox check. It is much cheaper and will filter out most of the candidates.
                     if (primitive.getBBox().bounds(part.getBBox())) {
                         // If BBoxes intersect, then perform a more expensive contour check.
-                        RenderableBuildingElement.Contour partContour = primitiveContours.get(part);
+                        Contour partContour = primitiveContours.get(part);
                         if (buildingContour.contains(partContour)) {
                             //there is a building part for this building. goodbye!
                             include_element = false;
@@ -138,7 +137,7 @@ public class Scene {
                 // Ignore
             }
 
-
+            String roofShape = getTag("roof:shape", primitive, parent);
             final double DEFAULT_LEVELS_NUMBER=2;
             final double DEFAULT_LEVEL_HEIGHT=3;
 
@@ -154,6 +153,9 @@ public class Scene {
                     //if neither height nor levels are specified, building part is not rendered.
                     height = levels * DEFAULT_LEVEL_HEIGHT; // no bonus!
                 }
+                if (!roofShape.equals("flat")){
+                    height += 3 ; //levels tag does not include roof
+                }
             }
 
             // this is a dirty hack.
@@ -168,19 +170,19 @@ public class Scene {
             if (height > 0) {
                 String color = getTag("building:colour", primitive, parent);
                 String roofColor = getTag("roof:colour", primitive, parent);
-                String roofShape = getTag("roof:shape", primitive, parent);
+
                 String roofDirection = getTag("roof:direction", primitive, parent);
                 String roofOrientation = getTag("roof:orientation", primitive, parent);
 
                 LatLon primitiveOrigin = primitive.getBBox().getCenter();
-                RenderableBuildingElement.Contour mainContour = primitiveContours.get(primitive);
+                Contour mainContour = primitiveContours.get(primitive);
 
                 if (mainContour != null && !mainContour.outerRings.isEmpty()) {
                     if (primitive instanceof Relation && mainContour.outerRings.size() > 1 && mainContour.innerRings.isEmpty()) {
                         // Split multipolygon with multiple outer rings and no inner rings
                         for (ArrayList<Point2D> outerRing : mainContour.outerRings) {
                             //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
-                            RenderableBuildingElement.Contour partContour = new RenderableBuildingElement.Contour(outerRing);
+                            Contour partContour = new Contour(outerRing);
                             partContour.toLocalCoords(primitiveOrigin); //TODO: recalculate origin
                             renderableElements.add(new RenderableBuildingElement(primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
                         }

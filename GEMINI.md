@@ -26,6 +26,9 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Recent Accomplishments 
 
+### August 3, 2025
+* Refactoring: `Contour` class is now located in the `utils` package
+
 ### July 31, 2025
 * Autotest for Scene.updateData() -- proved to be very usefull
 * Tags related to color and material (`building:colour`, `building:material`, `roof:colour`, `roof:material`) are inherited from building to parts. This improves colors significantly.
@@ -77,6 +80,7 @@ src
 │                   │   └── ...                  // Other roof generator implementations
 │                   │
 │                   └── utils                    // Helper classes
+│                       ├── Contour.java         // data structure and utils for building 2D outline.   
 │                       ├── Mesh.java            // 3D mesh data structure
 │                       ├── Point2D.java         // 2D point
 │                       └── Point3D.java         // 3D point

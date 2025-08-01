@@ -2,6 +2,7 @@ package ru.zkir.urbaneye3d;
 
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.coor.LatLon;
+import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -30,7 +31,7 @@ class RoofGeometryGeneratorTest {
         return contours;
     }
 
-    private RenderableBuildingElement.Contour createRectangularBaseWithHole(double outerWidth, double outerDepth, double innerWidth, double innerDepth) {
+    private Contour createRectangularBaseWithHole(double outerWidth, double outerDepth, double innerWidth, double innerDepth) {
         ArrayList<Point2D> outer = new ArrayList<>();
         outer.add(new Point2D(-outerWidth / 2, -outerDepth / 2));
         outer.add(new Point2D(outerWidth / 2, -outerDepth / 2));
@@ -44,14 +45,14 @@ class RoofGeometryGeneratorTest {
         inner.add(new Point2D(innerWidth / 2, innerDepth / 2));
         inner.add(new Point2D(-innerWidth / 2, innerDepth / 2));
 
-        RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(outer);
+        Contour contour = new Contour(outer);
         contour.innerRings.add(inner);
 
         return contour;
     }
     private RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
         LatLon origin = new LatLon(55,37);
-        RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(basePoints);
+        Contour contour = new Contour(basePoints);
         RenderableBuildingElement building = new RenderableBuildingElement(origin, contour,  height, minHeight, roofHeight,
                 "","", roofShape.toString(), "","" );
 
@@ -210,7 +211,7 @@ class RoofGeometryGeneratorTest {
     void testGabledRoofAcross() {
         ArrayList<Point2D> basePoints = createRectangularBase(10, 20);
         LatLon origin = new LatLon(55,37);
-        RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(basePoints);
+        Contour contour = new Contour(basePoints);
 
         RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 4,
                 "","", RoofShapes.GABLED.toString(), "","across" );
@@ -227,7 +228,7 @@ class RoofGeometryGeneratorTest {
         ArrayList<Point2D> basePoints = createRectangularBase(10, 20);
 
         LatLon origin = new LatLon(55,37);
-        RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(basePoints);
+        Contour contour = new Contour(basePoints);
         RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
                 "","", RoofShapes.HIPPED.toString(), "","across" );
 
@@ -244,7 +245,7 @@ class RoofGeometryGeneratorTest {
     void testSkillionRoof() {
         ArrayList<Point2D> basePoints = createRectangularBase(14, 10);
         LatLon origin = new LatLon(55,37);
-        RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(basePoints);
+        Contour contour = new Contour(basePoints);
         RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
                 "","", RoofShapes.SKILLION.toString(), "45","" );
 
@@ -257,7 +258,7 @@ class RoofGeometryGeneratorTest {
 
     @Test
     void testFlatRoofWithHole() {
-        RenderableBuildingElement.Contour contour = createRectangularBaseWithHole(10, 10, 2, 2);
+        Contour contour = createRectangularBaseWithHole(10, 10, 2, 2);
 
         LatLon origin = new LatLon(55,37);
         RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 3,
