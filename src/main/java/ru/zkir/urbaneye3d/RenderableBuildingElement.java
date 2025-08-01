@@ -84,12 +84,12 @@ public class RenderableBuildingElement {
         this.color = parseColor(wallColor, new Color(204, 204, 204));
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
         this.bottomColor = this.color.darker().darker(); //Fake AO LOL!
-        
-        //since we have all the data, we can compose building mesh right in constructor.
-        if (false) {
-            composeMesh();
-        }else{
+
+        String renderingEngine = org.openstreetmap.josm.spi.preferences.Config.getPref().get("urbaneye3d.rendering.engine", "Urban Eye");
+        if (renderingEngine.equals("Osm2World")) {
             composeMeshViaOsm2World();
+        } else {
+            composeMesh();
         }
     }
 

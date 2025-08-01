@@ -86,7 +86,7 @@ public class DialogWindow3D extends ToggleDialog
     }
 
 
-    private void updateData() {
+    public void updateData() {
         if (listenedLayer != null) {
             scene3d.updateData(listenedLayer.getDataSet());
         } else {

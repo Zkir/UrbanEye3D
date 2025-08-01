@@ -2,50 +2,96 @@ package ru.zkir.urbaneye3d;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
+import org.openstreetmap.josm.gui.preferences.DefaultTabPreferenceSetting;
+import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane;
+import org.openstreetmap.josm.spi.preferences.Config;
+
+import javax.swing.Box;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
-import java.awt.Component;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import org.openstreetmap.josm.gui.preferences.SubPreferenceSetting;
-import org.openstreetmap.josm.gui.preferences.TabPreferenceSetting;
-import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane;
-import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane.PreferencePanel;
-import org.openstreetmap.josm.spi.preferences.Config;
-import org.openstreetmap.josm.tools.ImageProvider;
-import javax.swing.ImageIcon;
-
-public class UrbanEye3dPreferences implements TabPreferenceSetting {
+public class UrbanEye3dPreferences extends DefaultTabPreferenceSetting {
 
     private JCheckBox wireframeCheckBox;
+    private JComboBox<String> renderingEngineComboBox;
+    private final String[] renderingEngines = {tr("Urban Eye"), tr("Osm2World")};
+    private final JPanel panel = new JPanel(new GridBagLayout());
 
-    @Override
-    public void addGui(PreferenceTabbedPane gui) {
-        PreferencePanel panel = gui.createPreferenceTab(this, false);
+    public UrbanEye3dPreferences() {
+        super("urbaneye3d.svg", tr("Urban Eye 3D"), tr("Settings for the Urban Eye 3D plugin"));
+        initComponents();
+        loadPreferences();
+    }
+
+    private void initComponents() {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1; // Start from row 1, as row 0 is used by the header
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.0; // Explicitly set weighty to 0 for the checkbox row
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
 
+        // Row 0: Rendering Engine
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.fill = GridBagConstraints.NONE;
+        panel.add(new JLabel(tr("Rendering Engine:")), gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        renderingEngineComboBox = new JComboBox<>(renderingEngines);
+        renderingEngineComboBox.setToolTipText(tr("Select the engine to generate 3D models."));
+        panel.add(renderingEngineComboBox, gbc);
+
+        // Row 1: Wireframe Checkbox
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1.0;
         wireframeCheckBox = new JCheckBox(tr("Enable wireframe rendering mode"));
-        wireframeCheckBox.setSelected(Config.getPref().getBoolean("urbaneye3d.wireframe.enabled", false));
         wireframeCheckBox.setToolTipText(tr("If checked, buildings will be rendered as outlines instead of solid polygons."));
         panel.add(wireframeCheckBox, gbc);
 
-        // Add vertical glue to push content to the top
-        gbc.gridy = 2; // Next row
-        gbc.weighty = 1.0; // This component takes all remaining vertical space
-        gbc.fill = GridBagConstraints.BOTH; // Fill both horizontally and vertically
-        panel.add(new JPanel(), gbc); // Add an empty JPanel as glue
+        // Add vertical glue to push everything to the top
+        gbc.gridy++;
+        gbc.weighty = 1.0;
+        panel.add(Box.createVerticalGlue(), gbc);
+    }
+
+    public void loadPreferences() {
+        wireframeCheckBox.setSelected(Config.getPref().getBoolean("urbaneye3d.wireframe.enabled", false));
+        String currentEngine = Config.getPref().get("urbaneye3d.rendering.engine", "Urban Eye");
+        renderingEngineComboBox.setSelectedItem("Osm2World".equals(currentEngine) ? tr("Osm2World") : tr("Urban Eye"));
+    }
+
+    public boolean savePreferences() {
+        if (wireframeCheckBox != null) {
+            Config.getPref().putBoolean("urbaneye3d.wireframe.enabled", wireframeCheckBox.isSelected());
+        }
+        if (renderingEngineComboBox != null) {
+            String selectedValue = (String) renderingEngineComboBox.getSelectedItem();
+            String keyToSave = tr("Osm2World").equals(selectedValue) ? "Osm2World" : "Urban Eye";
+            Config.getPref().put("urbaneye3d.rendering.engine", keyToSave);
+        }
+        return false; // No restart required
+    }
+
+    @Override
+    public void addGui(PreferenceTabbedPane gui) {
+        createPreferenceTabWithScrollPane(gui, panel);
     }
 
     @Override
     public boolean ok() {
-        if (wireframeCheckBox != null) {
-            Config.getPref().putBoolean("urbaneye3d.wireframe.enabled", wireframeCheckBox.isSelected());
+        savePreferences();
+        // Force a redraw of the 3D view to apply changes immediately
+        DialogWindow3D dialog = UrbanEye3dPlugin.getDialog();
+        if (dialog != null) {
+            dialog.updateData();
         }
         return false; // No restart required
     }
@@ -53,65 +99,5 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
     @Override
     public boolean isExpert() {
         return false;
-    }
-
-    @Override
-    public String getIconName() {
-        return "urbaneye3d.svg"; //path is not necessary here, JOSM picks it automatically.
-    }
-
-    @Override
-    public ImageIcon getIcon(ImageProvider.ImageSizes size) {
-        return TabPreferenceSetting.super.getIcon(size);
-    }
-
-    @Override
-    public String getTitle() {
-        return tr("Urban Eye 3D");
-    }
-
-    @Override
-    public String getTooltip() {
-        return tr("Settings for the Urban Eye 3D plugin");
-    }
-
-    @Override
-    public String getDescription() {
-        return tr("Configure rendering options for the 3D Viewer.");
-    }
-
-    @Override
-    public void addSubTab(SubPreferenceSetting sub, String title, Component component) {
-        // Not used for this simple setting
-    }
-
-    @Override
-    public void addSubTab(SubPreferenceSetting sub, String title, Component component, String tip) {
-        // Not used for this simple setting
-    }
-
-    @Override
-    public void registerSubTab(SubPreferenceSetting sub, Component component) {
-        // Not used for this simple setting
-    }
-
-    @Override
-    public Component getSubTab(SubPreferenceSetting sub) {
-        return null; // Not used for this simple setting
-    }
-
-    @Override
-    public Class<? extends SubPreferenceSetting> getSelectedSubTab() {
-        return null; // Not used for this simple setting
-    }
-
-    @Override
-    public boolean selectSubTab(SubPreferenceSetting subPref) {
-        return false; // Not used for this simple setting
-    }
-
-    @Override
-    public String getHelpContext() {
-        return null; // No specific help context for now
     }
 }

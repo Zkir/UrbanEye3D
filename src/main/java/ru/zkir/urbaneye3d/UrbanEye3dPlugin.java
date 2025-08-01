@@ -10,11 +10,15 @@ import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
  */
 public class UrbanEye3dPlugin extends Plugin {
 
-    private DialogWindow3D dialog;
+    private static DialogWindow3D dialog;
 
     public UrbanEye3dPlugin(PluginInformation info) {
         super(info);
         
+    }
+
+    public static DialogWindow3D getDialog() {
+        return dialog;
     }
 
     @Override

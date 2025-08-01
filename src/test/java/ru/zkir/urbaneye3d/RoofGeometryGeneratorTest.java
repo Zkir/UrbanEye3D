@@ -1,7 +1,10 @@
 package ru.zkir.urbaneye3d;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.data.coor.LatLon;
+import org.openstreetmap.josm.spi.preferences.Config;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
@@ -15,6 +18,11 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoofGeometryGeneratorTest {
+
+    @BeforeAll
+    public static void setUp() {
+        Config.setPreferencesInstance(new Preferences());
+    }
 
     private ArrayList<Point2D> createRectangularBase(double width, double depth) {
         ArrayList<Point2D> base = new ArrayList<>();
