@@ -30,8 +30,6 @@ public class Osm2WoldProxy {
 
         final boolean DEBUG=false;
 
-
-
         if(DEBUG){
             // this is sample provided by Osm2world author
             var tags = TagSet.of(
@@ -51,20 +49,6 @@ public class Osm2WoldProxy {
 
             builder.createWayArea(wayNodes, tags);
         }else{
-            //just to make thing breathe. TODO: find a more proper way to submit tag values.
-
-            /*var tags = TagSet.of(
-                    "building", "yes", //TODO: osm2world issue: it does not render building parts.
-                    "height", String.valueOf(element.height),
-                    "min_height", String.valueOf(element.minHeight),
-                    "building:colour", element.color.toString(),
-
-                    "roof:shape", element.roofShape.toString(),
-                    "roof:height", String.valueOf(element.roofHeight),
-                    "roof:colour", element.roofColor.toString(),
-                    "roof:direction", String.valueOf(element.roofDirection),
-                    "roof:orientation", element.roofOrientation
-            );*/
             var tags = TagSet.of(element.tags);
 
             if (!element.hasComplexContour()){
@@ -93,7 +77,7 @@ public class Osm2WoldProxy {
                     }
                     innerRings.add(innerRing);
                 }
-                //BUG in osm2world API. Buildings with several outer rings are possible.
+                //TODO: report BUG in the osm2world API. Buildings with several outer rings are possible.
                 builder.createMultipolygonArea(outerRing, innerRings, tags);
 
             }
