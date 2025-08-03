@@ -1,6 +1,7 @@
 package ru.zkir.urbaneye3d;
 
 import com.drew.lang.annotations.NotNull;
+import org.apache.commons.io.ByteOrderMark;
 import org.openstreetmap.josm.data.coor.LatLon;
 import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
@@ -10,6 +11,7 @@ import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class RenderableBuildingElement {
@@ -26,6 +28,7 @@ public class RenderableBuildingElement {
     public final @NotNull String roofOrientation;
     private final Contour contour;
     public final LatLon origin;
+    public  HashMap<String, String> tags;
     private Mesh mesh;
 
     public RenderableBuildingElement(LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
@@ -41,7 +44,7 @@ public class RenderableBuildingElement {
                                     );
         }
         this.contour = contour;
-
+        this.tags = new HashMap<>();
 
 
         this.height = height;
@@ -124,8 +127,7 @@ public class RenderableBuildingElement {
         }
     }
 
-
-    private double parseDirection(String direction) {
+    public Double parseDirection(String direction) {
         if (direction == null || direction.isEmpty()) {
             return Double.NaN; // Return NaN if direction is not specified
         }
@@ -134,23 +136,23 @@ public class RenderableBuildingElement {
         } catch (NumberFormatException e) {
             // Handle cardinal directions (N, S, E, W, etc.)
             switch (direction.toUpperCase()) {
-                case "N": return 0;
-                case "NNE": return 22.5;
-                case "NE": return 45;
-                case "ENE": return 67.5;
-                case "E": return 90;
+                case "N":   return   0.0;
+                case "NNE": return  22.5;
+                case "NE":  return  45.0;
+                case "ENE": return  67.5;
+                case "E":   return  90.0;
                 case "ESE": return 112.5;
-                case "SE": return 135;
+                case "SE":  return 135.0;
                 case "SSE": return 157.5;
-                case "S": return 180;
+                case "S":   return 180.0;
                 case "SSW": return 202.5;
-                case "SW": return 225;
+                case "SW":  return 225.0;
                 case "WSW": return 247.5;
-                case "W": return 270;
+                case "W":   return 270.0;
                 case "WNW": return 292.5;
-                case "NW": return 315;
+                case "NW":  return 315.0;
                 case "NNW": return 337.5;
-                default: return Double.NaN;
+                default:    return Double.NaN;
             }
         }
     }

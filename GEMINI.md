@@ -13,7 +13,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 ### Ideas for the Further Development 
 
 * **Continue with roof:shape support.**
-    * support linear profle roofs for arbitrary quasi-quadrangular bases. seems to be very tricky.
+    * support linear profile roofs for arbitrary quasi-quadrangular bases. seems to be very tricky.
         * See  Plan for roof:shape implementation section   
     * implement zakomar roof somehow. maybe boolean operation should be tried.    
 * **More efficient check** for building/building part belongings based on r-tree  
@@ -30,9 +30,9 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * Refactoring: `Contour` class is now located in the `utils` package
 
 ### July 31, 2025
-* Autotest for Scene.updateData() -- proved to be very usefull
+* Autotest for Scene.updateData() -- proved to be very useful.
 * Tags related to color and material (`building:colour`, `building:material`, `roof:colour`, `roof:material`) are inherited from building to parts. This improves colors significantly.
-* Check whether building part belongs to a building imporved. Actual contour is tested, not only bbox.
+* Check whether building part belongs to a building improved. Actual contour is tested, not only bbox.
 
 ### July 30, 2025
 * [enh] Support of **roof:shape=cross_gabled:** New mesher implemented.

@@ -1,2 +1,5 @@
 /.idea/
 /target/
+/tests_blosm/output
+/log
+tests_blosm/log
