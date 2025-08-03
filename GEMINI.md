@@ -12,21 +12,16 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ### Ideas for the Further Development 
 
-* **Continue with roof:shape support.**
-    * support linear profle roofs for arbitrary quasi-quadrangular bases. seems to be very tricky.
-        * See  Plan for roof:shape implementation section   
-    * implement zakomar roof somehow. maybe boolean operation should be tried.    
-* **More efficient check** for building/building part belongings based on r-tree  
-* **Real Ambient Occlusion.** See "Plan for Screen-Space Ambient Occlusion (SSAO) Implementation" section below
-* **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness. 
-    * Some more advanced shading is obviously required. 
-* **New Icons** We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
-* osm2world supports [windows](https://wiki.openstreetmap.org/wiki/Key:window). we also want that.
+* Better osm2world integration
 
 
 ## Recent Accomplishments 
 
-### August 3, 2025
+### August 2, 2025
+* Start of the new idea: integration with osm2world
+* New parameter add: Rendering engine
+
+### August 1, 2025
 * Refactoring: `Contour` class is now located in the `utils` package
 
 ### July 31, 2025
@@ -51,7 +46,7 @@ See [Devblog page](DEVBLOG.md)
 *   **Building Representation:** `RenderableBuildingElement.java` is a data class that holds all the necessary information to render a single building or building part, including its footprint, height, colors, and roof shape.
 *   **Roof Generation:** The `roofgenerators` package contains the logic for creating the 3D geometry for different roof shapes.
     *   `RoofShapes.java`: An enum that maps OSM `roof:shape` tags to specific `RoofGenerator` implementations.
-    *   `RoofGenerator.java`: An interface for all roof generation classes.
+    *   `RoofGenerator.java`: An interface for all roof generators.
     *   `Mesher... .java`: Concrete implementations for each roof shape (e.g., `MesherHipped`, `MesherGabled`, `MesherSkillion`). Each is responsible for generating a `Mesh` object.
 *   **Geometry:** The `utils` package contains helper classes for geometry and color.
     *   `Mesh.java`: A data structure to hold the vertices, faces, and normals of a 3D object.
@@ -127,7 +122,7 @@ To add a test for a new shape (e.g., `hipped`):
         LatLon origin = new LatLon(55,37);
         RenderableBuildingElement.Contour contour = new RenderableBuildingElement.Contour(basePoints);
         RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
-                "","", RoofShapes.HIPPED.toString(), "45","" );
+                "","", RoofShapes.HIPPED.toString(), "45","");
 
         Mesh mesh = RoofShapes.HIPPED.getMesher().generate(test_building);
 
@@ -264,6 +259,7 @@ This pass combines the original scene color with the ambient occlusion map.
 
 ## Learnings
 
+*   **JOSM Preferences:** For creating preference tabs, the best practice is to extend `DefaultTabPreferenceSetting`. The UI components should be placed within a `JPanel`, which is then added to the tab using `createPreferenceTabWithScrollPane`. For correct vertical alignment (i.e., pushing components to the top), a `Box.createVerticalGlue()` should be added as the last component with a `weighty` constraint.
 *   **JOSM Plugin Lifecycle:** `UrbanEye3dPlugin` is the entry point. It initializes `DialogWindow3D`, which is a `ToggleDialog`. JOSM automatically handles the creation of the menu item and the visibility of the dialog.
 *   **Event Handling:** The plugin listens for changes in the OSM data (`DataSetListener`) and map view (`MapView.addZoomChangeListener`) to trigger scene updates and redraws.
 *   **OpenGL with JOGL:** The rendering is done in `Renderer3D` using the JOGL library, which provides Java bindings for OpenGL. The rendering pipeline is currently a fixed-function pipeline (`glBegin`/`glEnd`), with plans to move to a modern shader-based pipeline for features like SSAO.
