@@ -13,12 +13,12 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 ### Ideas for the Further Development 
 
 * **Continue with roof:shape support.**
-    * support linear profle roofs for arbitrary quasi-quadrangular bases. seems to be very tricky.
+    * support linear profile roofs for arbitrary quasi-quadrangular bases. seems to be very tricky.
         * See  Plan for roof:shape implementation section   
     * implement zakomar roof somehow. maybe boolean operation should be tried.    
 * **More efficient check** for building/building part belongings based on r-tree  
 * **Real Ambient Occlusion.** See "Plan for Screen-Space Ambient Occlusion (SSAO) Implementation" section below
-* **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedurial texture and metalness. 
+* **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedural texture and metalness. 
     * Some more advanced shading is obviously required. 
 * **New Icons** We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
 * osm2world supports [windows](https://wiki.openstreetmap.org/wiki/Key:window). we also want that.
