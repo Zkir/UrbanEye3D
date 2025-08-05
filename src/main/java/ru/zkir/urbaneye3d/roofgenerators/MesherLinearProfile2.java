@@ -17,7 +17,28 @@ public class MesherLinearProfile2 extends RoofGenerator {
         var roofProfile = new LinearProfileInner(profile_data);
         roofProfile.init(building);
         roofProfile.make();
-        return null;
+        System.out.println("DEBUG: MAKE COMPLETED!!!");
+
+        Mesh mesh= new Mesh();
+
+        mesh.verts = roofProfile.verts;
+        mesh.roofFaces = copyFaces(roofProfile.roofIndices);
+        mesh.wallFaces = copyFaces(roofProfile.wallIndices);
+        mesh.bottomFaces = new ArrayList<>();
+
+        return mesh;
+    }
+
+    List<int[]> copyFaces( List<List<Integer>>  source ){
+        List<int[]> result = new ArrayList<>();
+        for (List<Integer> innerList : source) {
+            int[] arr = new int[innerList.size()];
+            for (int i = 0; i < innerList.size(); i++) {
+                arr[i] = innerList.get(i); // Автораспаковка Integer -> int
+            }
+            result.add(arr);
+        }
+        return result;
     }
 
     static final double ZERO = 1e-6;
@@ -197,7 +218,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
             System.out.println("      Self:  " + this);
             List<Integer> vertIndices = new ArrayList<>();
             vertIndices.add(vertIndex);
-            Part part = new Part(y, vertIndices, reflection);
+            Part part = new Part(y, vertIndices, reflection, index);
             parts.add(part);
             originSlot.endAtSelf.add(originSlot == this);
             index++;
@@ -205,35 +226,47 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
         int trackDown(List<List<Integer>> roofIndices, Integer startIndex, Integer destVertIndex) {
             System.out.println("\nDEBUG: Slot.trackDown() entry");
-            System.out.println("    Params: roofIndices=" + roofIndices + 
-                    ", startIndex=" + startIndex + ", destVertIndex=" + destVertIndex);
-            System.out.println("    Self: " + this);
+            System.out.println("    Params: roofIndices=" + roofIndices);
+            System.out.println("            startIndex=" + startIndex + ", destVertIndex=" + destVertIndex);
+            //System.out.println("      Self:  " + this);
             List<Part> partsList = this.parts;
             int indexPartR = -1;
             int index = (startIndex == null ? partsList.size() : startIndex) - 2;
             Integer vertIndex0 = null;
+            List<Integer> roofFace = null;
 
             while (index >= 0) {
                 Part part = partsList.get(index);
                 if (vertIndex0 == null) {
                     vertIndex0 = partsList.get(index + 1).vertIndices.get(0);
+                    roofFace = new ArrayList<>();
                 }
 
                 if (part.reflection != null && !part.reflection) {
                     index--;
                     continue;
                 }
+                //extend <roofFace> with vertex indices from <part>
+                System.out.println("        part="+part.vertIndices);
+                roofFace.addAll(part.vertIndices);
 
-                List<Integer> roofFace = new ArrayList<>(part.vertIndices);
+                System.out.println("        part._index="+part._index);
+                System.out.println("        indexPartR="+indexPartR);
+                System.out.println("        partsR="+this.n.partsR);
+
                 if (part.vertIndices.get(part.vertIndices.size() - 1).equals(vertIndex0)) {
                     roofIndices.add(roofFace);
                     vertIndex0 = null;
                 } else if (!endAtSelf.get(part._index)) {
-                    if (!partsR.isEmpty() && indexPartR >= 0) {
-                        roofFace.addAll(partsR.get(indexPartR));
+                    int ii;
+                    if (indexPartR >= 0) {ii=indexPartR;} else{ii=n.partsR.size()+indexPartR;}
+                    if (!n.partsR.isEmpty() ) {
+                        roofFace.addAll(n.partsR.get(ii));
+                        System.out.println("        second extension:"+n.partsR.get(ii));
                         indexPartR--;
                     }
                     roofIndices.add(roofFace);
+                    System.out.println("        roofIndices="+roofIndices);
                     vertIndex0 = null;
                 } else if (!part.vertIndices.get(part.vertIndices.size() - 1)
                          .equals(partsList.get(index - 1).vertIndices.get(0))) {
@@ -244,26 +277,32 @@ public class MesherLinearProfile2 extends RoofGenerator {
                         part.reflection = null;
                     }
                 }
-
+                System.out.println("        roofFace="+roofFace);
                 if (destVertIndex != null) {
                     if (partsList.get(index - 1).vertIndices.get(0).equals(destVertIndex)) {
+                        System.out.println("DEBUG: Slot.trackDown() exit");
+                        System.out.println("    Returns: " + index +"\n");
                         return index;
                     } else if (part.reflection != null && part.reflection && 
                                part.vertIndices.get(0).equals(destVertIndex)) {
+                        System.out.println("DEBUG: Slot.trackDown() exit");
+                        System.out.println("    Returns: " + index +"\n");
                         return index + 1;
                     }
                 }
 
                 index -= (part.reflection != null && part.reflection) ? 1 : 2;
             }
+            System.out.println("DEBUG: Slot.trackDown() exit");
+            System.out.println("    Returns: " + index +"\n");
             return index;
         }
 
         int trackUp(List<List<Integer>> roofIndices, Integer startIndex, Integer destVertIndex) {
             System.out.println("\nDEBUG: Slot.trackUp() entry");
-            System.out.println("    Params: roofIndices=" + roofIndices + 
-                    ", startIndex=" + startIndex + ", destVertIndex=" + destVertIndex);
-            System.out.println("    Self: " + this);
+            System.out.println("    Params: roofIndices=" + roofIndices);
+            System.out.println("            startIndex=" + startIndex + ", destVertIndex=" + destVertIndex);
+            //System.out.println("      Self:  " + this);
             
             List<Part> partsList = this.parts;
             int numParts = partsList.size();
@@ -281,7 +320,10 @@ public class MesherLinearProfile2 extends RoofGenerator {
                     continue;
                 }
 
+                System.out.println("        part=" +part.vertIndices);
                 List<Integer> roofFace = new ArrayList<>(part.vertIndices);
+                System.out.println("        roofFace=" +roofFace );
+
                 if (part.vertIndices.get(part.vertIndices.size() - 1).equals(vertIndex0)) {
                     roofIndices.add(roofFace);
                     vertIndex0 = null;
@@ -295,11 +337,15 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
                 if (destVertIndex != null && 
                     partsList.get(index + 1).vertIndices.get(0).equals(destVertIndex)) {
+                    System.out.println("DEBUG: Slot.trackUp() exit");
+                    System.out.println("    Returns: " + index +"\n");
                     return index;
                 }
 
                 index += (part.reflection != null && !part.reflection) ? 1 : 2;
             }
+            System.out.println("DEBUG: Slot.trackUp() exit");
+            System.out.println("    Returns: " + index +"\n");
             return index;
         }
 
@@ -318,15 +364,14 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
             @Override
             public String toString(){
-                return ""+y +" "+vertIndices.toString()+" " + reflection +" " + _index;
-
-
+                return "("+y +", "+vertIndices.toString()+", " + reflection +", " + _index+")";
             }
 
-            public Part(double y, List<Integer> vertIndices, Boolean reflection) {
+            public Part(double y, List<Integer> vertIndices, Boolean reflection, int index) {
                 this.y = y;
                 this.vertIndices = vertIndices;
                 this.reflection = reflection;
+                this._index=index;
             }
         }
     }
@@ -559,6 +604,21 @@ public class MesherLinearProfile2 extends RoofGenerator {
             }
             
             super.makeBottom();
+            System.out.println("DEBUG: MAKE COMPLETED!!!");
+
+            String verts_str="";
+            for(var vert:verts){
+                verts_str += "(" +
+                String.format(Locale.ROOT, "%.3f", vert.x) +", " +
+                String.format(Locale.ROOT, "%.3f", vert.y) +", " +
+                String.format(Locale.ROOT, "%.3f", vert.z) +") ";
+            }
+
+            System.out.println("verts="+verts_str);
+            System.out.println("roofIndices"+roofIndices);
+            System.out.println("wallIndices"+wallIndices);
+
+
             return true;
         }
 
@@ -716,28 +776,36 @@ public class MesherLinearProfile2 extends RoofGenerator {
             double factorX = (v2.x - v1.x) / (pv2.x - pv1.x);
             double factorY = (v2.y - v1.y) / (pv2.x - pv1.x);
             double factorSlots = (pv2.y - pv1.y) / (pv2.x - pv1.x);
+            System.out.println("        qq="+start+" "+end +" "+ step);
 
-            int current = start;
+
+            int slotIndexVerts = start;
+            int slotIndex = end-step;
             for (int i = 0; i < count; i++) {
-                double factor = p[current].x - pv1.x;
+                double factor = p[slotIndexVerts].x - pv1.x;
                 double x = v1.x + factor * factorX;
                 double y = v1.y + factor * factorY;
-                double z = roofVerticalPosition + roofHeight * p[current].y;
+                double z = roofVerticalPosition + roofHeight * p[slotIndexVerts].y;
+                System.out.println("        z="+z);
                 verts.add(new Point3D(x, y, z));
+                System.out.println("        vertIndex:"+vertIndex);
                 _wallIndices.add(vertIndex);
                 
                 slot.append(vertIndexForSlots);
                 originSlot = slot;
-                slot = slots[current];
-                
-                double yCoord = pv1.y + factorSlots * (p[current].x - pv1.x);
+                slot = slots[slotIndex];
+                System.out.println("        slotIndex="+ slotIndex);
+                System.out.println("        " + pv1.y +" " + factorSlots + " " + p[slotIndex].x +" " + pv1.x);
+                double yCoord = pv1.y + factorSlots * (p[slotIndex].x - pv1.x);
+
                 slot.append(vertIndexForSlots, yCoord, originSlot, null);
-                onNewSlotVertex(current, vertIndexForSlots, yCoord);
+                onNewSlotVertex(slotIndex, vertIndexForSlots, yCoord);
                 slot.processWallFace(_wallIndices, pv1, pv2);
                 
                 vertIndex++;
                 vertIndexForSlots--;
-                current += step;
+                slotIndexVerts += step;
+                slotIndex -= step;
             }
             System.out.println("\n     : common_code() exit");
             System.out.println("    Returns: " + slot);
