@@ -82,6 +82,26 @@ class SceneTest {
         assertEquals(3, scene.renderableElements.size());
     }
 
+    @Test
+    /*
+        Test various buildings just from raw osm data
+     */
+
+    void testCityCenter() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("city_center.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        //resulting number of  buildings is not so important.
+        //Just to understan how picture changes.
+        assertEquals(4227, scene.renderableElements.size());
+        //4395 - for all roofs
+    }
+
 
 
 }

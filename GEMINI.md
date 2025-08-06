@@ -8,7 +8,10 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ### Musts for the Next Release 
 
-*Currently none*
+* bug #1 Adding building:part=yes within building=yes makes building disappear from preview #1
+
+* height<min_height ?
+
 
 ### Ideas for the Further Development 
 
@@ -25,6 +28,10 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 
 ## Recent Accomplishments 
+
+### August 6, 2025.
+
+* Support of missed tags `roof:levels` and `building:min_level`. Related to [issue #5](https://github.com/Zkir/UrbanEye3D/issues/5) and [issue #1](https://github.com/Zkir/UrbanEye3D/issues/1)
 
 ### August 3, 2025
 * Refactoring: `Contour` class is now located in the `utils` package

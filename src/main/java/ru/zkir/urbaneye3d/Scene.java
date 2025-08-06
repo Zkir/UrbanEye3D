@@ -54,7 +54,7 @@ public class Scene {
                 continue;
             }
 
-            if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !  getTag("building:part", primitive, null).equals("base") ) {
+            if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !  getTagStr("building:part", primitive, null).equals("base") ) {
                 boolean include_element = true;
                 // Create and cache the contour for the building, if not already present.
                 if (!primitiveContours.containsKey(primitive)) {
@@ -99,63 +99,64 @@ public class Scene {
             }
             OsmPrimitive parent = partParents.get(primitive);
 
-            String heightStr =  getTag("height", primitive, parent);
-            if ( heightStr.isEmpty()) {
-                heightStr = getTag("building:height", primitive, parent);
+            Double height =  getTagD("height", primitive, parent);
+            if ( height==null ) {
+                height = getTagD("building:height", primitive, parent);
+            }
+            Double levels = getTagD("building:levels", primitive, parent);
+            Double minHeight = getTagD("min_height", primitive, parent);
+            Double minLevel = getTagD("building:min_level", primitive, parent);
+            Double roofHeight = getTagD("roof:height", primitive, parent);
+            Double roofLevels =  getTagD("roof:levels", primitive, parent);
+            String roofShape = getTagStr("roof:shape", primitive, parent);
+            if (roofShape.isEmpty()){
+                roofShape="flat";
             }
 
-            String minHeightStr = getTag("min_height", primitive, parent);
-            String roofHeightStr = getTag("roof:height", primitive, parent);
-            double height = 0.0;
-            double minHeight = 0.0;
-            double roofHeight = 0.0;
-
-            try {
-                height = Double.parseDouble(heightStr.split(" ")[0]);
-            } catch (NumberFormatException e) {
-                // Ignore
-            }
-
-            try {
-                minHeight = Double.parseDouble(minHeightStr.split(" ")[0]);
-            } catch (NumberFormatException e) {
-                // Ignore
-            }
-
-            try {
-                roofHeight = Double.parseDouble(roofHeightStr.split(" ")[0]);
-            } catch (NumberFormatException e) {
-                // Ignore
-            }
-
-            String levelsStr = getTag("building:levels", primitive, parent);
-            double levels = 0.0;
-
-            try {
-                levels = Double.parseDouble(levelsStr.split(" ")[0]);
-            } catch (NumberFormatException e) {
-                // Ignore
-            }
-
-            String roofShape = getTag("roof:shape", primitive, parent);
             final double DEFAULT_LEVELS_NUMBER=2;
             final double DEFAULT_LEVEL_HEIGHT=3;
 
-            if (height==0) {
+            //default values for minHeight. Tags order: min_height, minLevel
+            if (minHeight ==null){
+                if (minLevel!=null) {
+                    minHeight = minLevel * DEFAULT_LEVEL_HEIGHT;
+                }else{
+                    minHeight=0.0;
+                }
+            }
+
+            //default value for roof:height
+            if (roofHeight == null ) {
+                if (roofLevels != null) {
+                    roofHeight = roofLevels * DEFAULT_LEVEL_HEIGHT;
+                } else {
+                    if (roofShape.equals("flat")) {
+                        roofHeight = 0.;
+                        roofLevels = 0.;
+                    } else {
+                        roofHeight = 1.0 * DEFAULT_LEVEL_HEIGHT;
+                        roofLevels = 0.; //
+                    }
+                }
+            }
+            //default values for height. Tags order: height, building:levels+roof:levels
+            if (height==null) {
                 if (source_key.equals("building")) {
-                    if (levels == 0) {
+                    if (levels == null) {
                         levels = DEFAULT_LEVELS_NUMBER;
                     }
-                    height = levels * DEFAULT_LEVEL_HEIGHT + 2; //some bonus for roof and basement!
-                }
-                else{
+                }else{
                     //for building parts there is no default height.
-                    //if neither height nor levels are specified, building part is not rendered.
-                    height = levels * DEFAULT_LEVEL_HEIGHT; // no bonus!
+                    //TODO: only other possible source for height is PARENT
+                    height = 0.;
                 }
-                if (!roofShape.equals("flat")){
-                    height += 3 ; //levels tag does not include roof
+                //for both buildings and building parts.
+                if (levels!=null){
+                    height = levels * DEFAULT_LEVEL_HEIGHT;
+                }else{
+                    height = 0.;
                 }
+                height += roofHeight; //roof:levels are not included into levels, so we can do this increment
             }
 
             // this is a dirty hack.
@@ -168,11 +169,11 @@ public class Scene {
             }
 
             if (height > 0) {
-                String color = getTag("building:colour", primitive, parent);
-                String roofColor = getTag("roof:colour", primitive, parent);
+                String color = getTagStr("building:colour", primitive, parent);
+                String roofColor = getTagStr("roof:colour", primitive, parent);
 
-                String roofDirection = getTag("roof:direction", primitive, parent);
-                String roofOrientation = getTag("roof:orientation", primitive, parent);
+                String roofDirection = getTagStr("roof:direction", primitive, parent);
+                String roofOrientation = getTagStr("roof:orientation", primitive, parent);
 
                 LatLon primitiveOrigin = primitive.getBBox().getCenter();
                 Contour mainContour = primitiveContours.get(primitive);
@@ -214,7 +215,7 @@ public class Scene {
         return isComplete;
     }
 
-    private @NotNull String getTag(String key, OsmPrimitive primitive, OsmPrimitive parent ){
+    private @NotNull String getTagStr(String key, OsmPrimitive primitive, OsmPrimitive parent ){
 
         String value=primitive.get(key);
         if ((value==null) && parent!=null && inheritableKeys.contains(key)){
@@ -225,5 +226,25 @@ public class Scene {
             value="";
         }
         return value;
+    }
+
+    //we need to get a floating point value from an osm tag
+    // if tag is missing or cannot be parsed, the return value is null,
+    // to let it possible to fallback to defaults.
+    private Double getTagD(String key, OsmPrimitive primitive, OsmPrimitive parent ){
+        Double result;
+        String tag_str = getTagStr(key, primitive, parent);
+
+        if (tag_str.isEmpty()){
+            return null;
+        }
+
+        try {
+            result = Double.parseDouble(tag_str.split(" ")[0]);
+        } catch (NumberFormatException e) {
+            result = null;
+        }
+        return result;
+
     }
 }
