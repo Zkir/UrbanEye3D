@@ -174,8 +174,11 @@ public class Scene {
                 String roofDirection = getTag("roof:direction", primitive, parent);
                 String roofOrientation = getTag("roof:orientation", primitive, parent);
 
-                LatLon primitiveOrigin = primitive.getBBox().getCenter();
                 Contour mainContour = primitiveContours.get(primitive);
+                //LatLon primitiveOrigin = primitive.getBBox().getCenter();
+                LatLon primitiveOrigin = mainContour.getCentroid();
+                System.out.println(primitiveOrigin.lat()+" "+primitiveOrigin.lon());
+
 
                 if (mainContour != null && !mainContour.outerRings.isEmpty()) {
                     if (primitive instanceof Relation && mainContour.outerRings.size() > 1 && mainContour.innerRings.isEmpty()) {

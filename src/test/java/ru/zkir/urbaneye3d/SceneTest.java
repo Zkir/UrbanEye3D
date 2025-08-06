@@ -81,6 +81,20 @@ class SceneTest {
         // We expect only the building:part to be rendered, not the parent building.
         assertEquals(3, scene.renderableElements.size());
     }
+    @Test
+    void roundRoofPentagon() throws Exception{
+
+        DataSet dataSet = loadDataSetFromOsmFile("round_roof_pentagon.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        // We expect only the building:part to be rendered, not the parent building.
+        assertEquals(1, scene.renderableElements.size());
+
+    }
 
 
 

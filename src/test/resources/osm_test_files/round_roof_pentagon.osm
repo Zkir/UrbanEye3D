@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <bounds minlat='55.04' minlon='37.04' maxlat='55.06' maxlon='37.06' origin='JOSM' />
+  <node id='-25635' action='modify' visible='true' lat='55.04798917327' lon='37.04919155466' />
+  <node id='-25636' action='modify' visible='true' lat='55.0529265309' lon='37.04932286316' />
+  <node id='-25637' action='modify' visible='true' lat='55.05290946273' lon='37.05202406814' />
+  <node id='-25638' action='modify' visible='true' lat='55.047972103' lon='37.05189275964' />
+  <node id='-25639' action='modify' visible='true' lat='55.05046783133' lon='37.05025588989' />
+  <way id='-9602' action='modify' visible='true'>
+    <nd ref='-25635' />
+    <nd ref='-25636' />
+    <nd ref='-25637' />
+    <nd ref='-25639' />
+    <nd ref='-25638' />
+    <nd ref='-25635' />
+    <tag k='building' v='yes' />
+    <tag k='building:colour' v='purple' />
+    <tag k='height' v='40' />
+    <tag k='roof:colour' v='orange' />
+    <tag k='roof:height' v='15' />
+    <tag k='roof:shape' v='round' />
+  </way>
+</osm>

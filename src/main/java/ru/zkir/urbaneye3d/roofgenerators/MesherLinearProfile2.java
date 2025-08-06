@@ -1,11 +1,9 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
 import ru.zkir.urbaneye3d.RenderableBuildingElement;
-import ru.zkir.urbaneye3d.utils.Contour;
-import ru.zkir.urbaneye3d.utils.Mesh;
-import ru.zkir.urbaneye3d.utils.Point2D;
-import ru.zkir.urbaneye3d.utils.Point3D;
+import ru.zkir.urbaneye3d.utils.*;
 
+import java.io.IOException;
 import java.util.*;
 
 public class MesherLinearProfile2 extends RoofGenerator {
@@ -17,14 +15,51 @@ public class MesherLinearProfile2 extends RoofGenerator {
         var roofProfile = new LinearProfileInner(profile_data);
         roofProfile.init(building);
         roofProfile.make();
-        System.out.println("DEBUG: MAKE COMPLETED!!!");
 
         Mesh mesh= new Mesh();
 
         mesh.verts = roofProfile.verts;
+
         mesh.roofFaces = copyFaces(roofProfile.roofIndices);
         mesh.wallFaces = copyFaces(roofProfile.wallIndices);
+        //mesh.wallFaces = new ArrayList<>();
         mesh.bottomFaces = new ArrayList<>();
+        System.out.println("DEBUG: MAKE COMPLETED!!!");
+
+        String verts_str="";
+        Point3D vert0 = mesh.verts.get(0);
+        for(var vert:mesh.verts){
+            verts_str += "\n        (" +
+                    String.format(Locale.ROOT, "%.4f", vert.x-vert0.x) +", " +
+                    String.format(Locale.ROOT, "%.4f", vert.y-vert0.y) +", " +
+                    String.format(Locale.ROOT, "%.4f", vert.z-vert0.z) +") ";
+        }
+
+        System.out.println("verts="+verts_str);
+
+        String roofIndices_str="[";
+        String wallIndices_str="[";
+        for (var face:mesh.roofFaces) {
+            if (roofIndices_str.length()!=1) {roofIndices_str +=", ";}
+            roofIndices_str += Arrays.toString(face);
+        }
+
+        roofIndices_str+="]";
+
+        for (var face:mesh.wallFaces) {
+            if (wallIndices_str.length()!=1) {wallIndices_str +=", ";}
+            wallIndices_str += (Arrays.toString(face));
+        }
+        wallIndices_str+="]";
+
+        System.out.println("roofIndices"+roofIndices_str);
+        System.out.println("wallIndices"+wallIndices_str);
+
+        try {
+            ObjExporter.saveMeshToObj(mesh, "d:/test.obj" );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         return mesh;
     }
@@ -44,8 +79,9 @@ public class MesherLinearProfile2 extends RoofGenerator {
     static final double ZERO = 1e-6;
     
     // Профили крыш
-    public Object[] GABLED_ROOF() {
-        Object[] profile = new Object[]{
+
+    public final Object[] GABLED_ROOF = { //
+
         new Point2D[]{
             new Point2D(0.0, 0.0),
             new Point2D(0.5, 1.0),
@@ -54,11 +90,11 @@ public class MesherLinearProfile2 extends RoofGenerator {
         Map.of(
             "numSamples", 10,
             "angleToHeight", 0.5
-        )};
-        return profile;
+        )
     };
 
-    public final Object[] ROUND_ROOF = {
+
+    public final Object[] ROUND_ROOF = { //ROUND_ROOF
             new Point2D[]{
                     new Point2D(0.0, 0.0),
                     new Point2D(0.01, 0.195),
@@ -308,11 +344,14 @@ public class MesherLinearProfile2 extends RoofGenerator {
             int numParts = partsList.size();
             int index = (startIndex == null ? 1 : startIndex + 2);
             Integer vertIndex0 = null;
+            List<Integer> roofFace = null;
 
             while (index < numParts) {
                 Part part = partsList.get(index);
                 if (vertIndex0 == null) {
                     vertIndex0 = partsList.get(index - 1).vertIndices.get(0);
+                    // start a new roof face
+                    roofFace = new ArrayList<>();
                 }
 
                 if (part.reflection != null && part.reflection) {
@@ -321,7 +360,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
                 }
 
                 System.out.println("        part=" +part.vertIndices);
-                List<Integer> roofFace = new ArrayList<>(part.vertIndices);
+                roofFace.addAll(part.vertIndices);
                 System.out.println("        roofFace=" +roofFace );
 
                 if (part.vertIndices.get(part.vertIndices.size() - 1).equals(vertIndex0)) {
@@ -402,8 +441,9 @@ public class MesherLinearProfile2 extends RoofGenerator {
             polygon = new Polygon(building.getContour());
 
             //filling vertices
-            for (int i=0;i<building.getContour().size();i++){
-                var p2d = building.getContour().get(i);
+            int n = building.getContour().size();
+            for (int i=0;i<n;i++){
+                var p2d = building.getContour().get(n-i-1);
                 verts.add( new Point3D(p2d.x, p2d.y, building.minHeight));
             }
             roofVerticalPosition = building.wallHeight;
@@ -604,20 +644,6 @@ public class MesherLinearProfile2 extends RoofGenerator {
             }
             
             super.makeBottom();
-            System.out.println("DEBUG: MAKE COMPLETED!!!");
-
-            String verts_str="";
-            for(var vert:verts){
-                verts_str += "(" +
-                String.format(Locale.ROOT, "%.3f", vert.x) +", " +
-                String.format(Locale.ROOT, "%.3f", vert.y) +", " +
-                String.format(Locale.ROOT, "%.3f", vert.z) +") ";
-            }
-
-            System.out.println("verts="+verts_str);
-            System.out.println("roofIndices"+roofIndices);
-            System.out.println("wallIndices"+wallIndices);
-
 
             return true;
         }
@@ -914,7 +940,8 @@ public class MesherLinearProfile2 extends RoofGenerator {
             n=outerRing.size();
             for (int i=0;i<n;i++){
                 indices.add(n-i-1);
-                var p=outerRing.get(i);
+                //var p=outerRing.get(i);
+                var p=outerRing.get(n-1-i);
                 vertices.add(new Point3D(p.x,p.y,0));
             }
 

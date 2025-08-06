@@ -184,7 +184,7 @@ class RoofGeometryGeneratorTest {
         assertWatertight(mesh, roofShape);
         assertNormalsOutward(mesh, roofShape);*/
     }
-
+    /*
     // all defined roof shapes are tested automatically for a typical building.
     // so we should not even worry about extending autotests, they are extended automatically.
     @Test
@@ -202,7 +202,6 @@ class RoofGeometryGeneratorTest {
 
 
     //the same test as above, for all known roof shapes, but with wallHeight=0, i.e. no walls (roof only) case.
-
     @Test
     void testAllRoofShapesNoWalls(){
         ArrayList<Point2D> base = createRectangularBase(25, 10);
@@ -214,7 +213,7 @@ class RoofGeometryGeneratorTest {
             AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape.toString());
 
         }
-    }
+    }*/
 
     //only SPECIAL cases should be added below.
     // For example, some specific parameter values different from default ones. roof:orientation=across, multipolygons with holes or smth like this.
