@@ -8,13 +8,10 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ### Musts for the Next Release 
 
-* bug #1 Adding building:part=yes within building=yes makes building disappear from preview #1
-
-* height<min_height ?
-
+*  TG, none.
 
 ### Ideas for the Further Development 
-
+* Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene. 
 * **Continue with roof:shape support.**
     * support linear profile roofs for arbitrary quasi-quadrangular bases. seems to be very tricky.
         * See  Plan for roof:shape implementation section   
@@ -28,6 +25,11 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 
 ## Recent Accomplishments 
+
+### August 7, 2025
+
+* Building part now inherits height from parent building as a default value. Also it solves the problem with disappearing buildings (see gh. issue [#1](https://github.com/Zkir/UrbanEye3D/issues/1))
+* In case  height<min_height, height is set to min_height, to avoid upside-down buildings.
 
 ### August 6, 2025.
 

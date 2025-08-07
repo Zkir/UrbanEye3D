@@ -86,7 +86,6 @@ class SceneTest {
     /*
         Test various buildings just from raw osm data
      */
-
     void testCityCenter() throws Exception {
         // Arrange: Load the specific test case
         DataSet dataSet = loadDataSetFromOsmFile("city_center.osm");
@@ -98,9 +97,30 @@ class SceneTest {
         // Assert: Verify the outcome
         //resulting number of  buildings is not so important.
         //Just to understan how picture changes.
-        assertEquals(4227, scene.renderableElements.size());
+        assertEquals(4381, scene.renderableElements.size());
         //4395 - for all roofs
+        //4211 -- zero height parts excluded (without height inheritance)
     }
+
+    @Test
+    /*
+        Here we test that buildings and building parts do not disappear suddenly.
+        Building is rendered even without specified height, and a part should follow
+        the height of the parent.
+     */
+    void testPartWithoutHeight() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("part_without_height.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        assertEquals(1, scene.renderableElements.size());
+
+    }
+
 
 
 

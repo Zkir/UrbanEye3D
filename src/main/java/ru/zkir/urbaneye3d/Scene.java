@@ -31,6 +31,8 @@ public class Scene {
         ArrayList<OsmPrimitive> buildings = new ArrayList<>();
         ArrayList<OsmPrimitive> buildingParts = new ArrayList<>();
         HashMap<OsmPrimitive, OsmPrimitive> partParents = new HashMap<>();
+        HashMap<OsmPrimitive, Double> buildingHeights = new HashMap<>();
+
 
         //We need to do very interesting thing.
         // we need to collect both buildings and building parts.
@@ -67,16 +69,14 @@ public class Scene {
                     if (primitive.getBBox().bounds(part.getBBox())) {
                         // If BBoxes intersect, then perform a more expensive contour check.
                         Contour partContour = primitiveContours.get(part);
+                        //TODO: bug: proper spatial check requires original contour, before simplification.
                         if (buildingContour.contains(partContour)) {
                             //there is a building part for this building. goodbye!
-                            include_element = false;
                             partParents.put(part, primitive);
                         }
                     }
                 }
-                if (include_element) {
-                    buildings.add(primitive);
-                }
+                buildings.add(primitive);
             }
         }
         ArrayList<OsmPrimitive> allCandidates = new ArrayList<>();
@@ -132,32 +132,40 @@ public class Scene {
                 } else {
                     if (roofShape.equals("flat")) {
                         roofHeight = 0.;
-                        roofLevels = 0.;
                     } else {
                         roofHeight = 1.0 * DEFAULT_LEVEL_HEIGHT;
-                        roofLevels = 0.; //
                     }
                 }
             }
-            //default values for height. Tags order: height, building:levels+roof:levels
+            //default values for height. Tags order: height, building:levels+roof:levels, default height or parent height
             if (height==null) {
-                if (source_key.equals("building")) {
-                    if (levels == null) {
-                        levels = DEFAULT_LEVELS_NUMBER;
-                    }
-                }else{
-                    //for building parts there is no default height.
-                    //TODO: only other possible source for height is PARENT
-                    height = 0.;
+                if (source_key.equals("building") && levels == null) {
+                    levels = DEFAULT_LEVELS_NUMBER;
                 }
-                //for both buildings and building parts.
-                if (levels!=null){
+                if (levels != null) {
                     height = levels * DEFAULT_LEVEL_HEIGHT;
+                    height += roofHeight; //roof:levels are not included into levels, so we can do this increment
                 }else{
-                    height = 0.;
+                    //This is a very controversial feature. There are a lot of building parts without height,
+                    //which are not rendered in any 3D renderer. So they can look strange.
+                    height = buildingHeights.get(parent);
+                    if (height==null){
+                        //this situation is possible in 2 cases:
+                        // * Building part is orphan
+                        // * Spatial containment check failed
+                        height=0.0;
+                        //System.out.println("Height could not be determined for "+ primitive.getPrimitiveId()+ " (" + source_key+")");
+                    }
                 }
-                height += roofHeight; //roof:levels are not included into levels, so we can do this increment
             }
+
+            if(height<minHeight){
+                // this it not a defined behaviour, so we can do anything.
+                // disappearing buildings are not nice, so let's limit height.
+                height=minHeight;
+            }
+
+            buildingHeights.put(primitive, height);
 
             // this is a dirty hack.
             // since we do not have proper support for building:part=roof,
@@ -166,6 +174,10 @@ public class Scene {
             //walls and bottom are not created, but roof polygons are extruded downwards slightly!
             if (primitive.get(source_key).equals("roof")){
                 minHeight = height - roofHeight;
+            }
+
+            if (partParents.containsValue(primitive)){
+                continue; //we just skip building if it is a parent for some building parts.
             }
 
             if (height > 0) {
