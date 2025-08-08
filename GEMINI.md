@@ -26,6 +26,18 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Recent Accomplishments 
 
+### August 9, 2025
+#### Performance tests:
+Scene #1, Сity center ( ~4200 parts):
+* GEOMETRY UPDATE TIME: 306 ms 
+* Render Time (Average 100 frames avg): 95 ms
+
+Scene #2, Christ the Saviour (921 parts)
+* Render Time (100 frame average): 18 ms
+* GEOMETRY UPDATE TIME: 78 ms 
+
+Сoclusion: partial scene update is worth efforts
+
 ### August 8, 2025
 * Version uplifted to 1.2.0
 * Small refactorings
