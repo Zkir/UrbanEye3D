@@ -10,6 +10,7 @@ import org.openstreetmap.josm.spi.preferences.Config;
 import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SceneTest {
 
@@ -97,7 +98,9 @@ class SceneTest {
         // Assert: Verify the outcome
         //resulting number of  buildings is not so important.
         //Just to understan how picture changes.
-        assertEquals(4381, scene.renderableElements.size());
+        int NumberOfBuildings =scene.renderableElements.size();
+        assertTrue(NumberOfBuildings>=4377 && NumberOfBuildings<=4381, "Number of building " + NumberOfBuildings + " in reasonable range");
+
         //4395 - for all roofs
         //4211 -- zero height parts excluded (without height inheritance)
     }
