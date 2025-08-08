@@ -26,26 +26,10 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Recent Accomplishments 
 
-### August 7, 2025
+### August 8, 2025
+* Version uplifted to 1.2.0
+* Small refactorings
 
-* Building part now inherits height from parent building as a default value. Also it solves the problem with disappearing buildings (see gh. issue [#1](https://github.com/Zkir/UrbanEye3D/issues/1))
-* In case  height<min_height, height is set to min_height, to avoid upside-down buildings.
-
-### August 6, 2025.
-
-* Support of missed tags `roof:levels` and `building:min_level`. Related to [issue #5](https://github.com/Zkir/UrbanEye3D/issues/5) and [issue #1](https://github.com/Zkir/UrbanEye3D/issues/1)
-
-### August 3, 2025
-* Refactoring: `Contour` class is now located in the `utils` package
-
-### July 31, 2025
-* Autotest for Scene.updateData() -- proved to be very usefull
-* Tags related to color and material (`building:colour`, `building:material`, `roof:colour`, `roof:material`) are inherited from building to parts. This improves colors significantly.
-* Check whether building part belongs to a building imporved. Actual contour is tested, not only bbox.
-
-### July 30, 2025
-* [enh] Support of **roof:shape=cross_gabled:** New mesher implemented.
-* [bugfix] Handling of defaults for height improved.
 
 ### Earlier
 See [Devblog page](DEVBLOG.md)
@@ -271,7 +255,103 @@ This pass combines the original scene color with the ambient occlusion map.
 3.  **Render:** Render a full-screen quad to display the final, beautifully shaded image.
 
 
-## Learnings
+## Plan for Performance-Сheck
+
+### Goal
+
+Determine whether it makes sense to invest in partial scene updates. For this, we need to measure and compare the time spent on two key operations:
+
+1.  **Geometry Update:** Calculation and creation of 3D meshes for buildings (`Scene.updateData()`)
+2.  **Rendering:** Displaying the already created geometry on the screen (`Renderer3D.display()`)
+
+### Tools
+
+We will use standard Java tools for time measurement — `System.nanoTime()` — and output the results to the console using `System.out.println()`.
+
+---
+
+#### Step 1: Measuring Geometry Update Time
+
+This measures how long it takes to fully recalculate the entire scene after making changes to the OSM data.
+
+1.  **Location:** `DialogWindow3D.java` file.
+2.  **Logic:** We will find the `updateData()` method and wrap the `scene3d.updateData()` call in a timer.
+
+    ```java
+    // In DialogWindow3D.java, inside the updateData() method
+
+    private void updateData() {
+        long startTime = System.nanoTime(); // <--- START
+
+        if (listenedLayer != null) {
+            scene3d.updateData(listenedLayer.getDataSet());
+        } else {
+            scene3d.updateData(null);
+        }
+
+        long endTime = System.nanoTime(); // <--- END
+        long durationMs = (endTime - startTime) / 1_000_000;
+        System.out.println("--- GEOMETRY UPDATE TIME: " + durationMs + " ms ---");
+
+        renderer3D.repaint();
+    }
+    ```
+3.  **What we will see:** After each change in JOSM (moving a node, changing a tag), a single line will appear in the console showing how many milliseconds it took to fully recalculate the geometry.
+
+---
+
+#### Step 2: Measuring the Rendering Time of a Single Frame
+
+This measures how long it takes to render an already prepared scene. This code is executed for each frame (i.e., many times per second).
+
+1.  **Location:** `Renderer3D.java` file.
+2.  **Logic:** We will add a timer at the beginning and end of the `display()` method. To avoid cluttering the console, we will output the average time, for example, every 100 frames.
+
+    ```java
+    // In the Renderer3D.java file
+
+    private long frameCount = 0;
+    private long totalFrameTime = 0;
+
+    @Override
+    public void display(GLAutoDrawable drawable) {
+        long startTime = System.nanoTime(); // <--- START
+
+        // ... (all existing rendering code: gl.glClear, loop through buildings, etc.)
+
+        long endTime = System.nanoTime(); // <--- END
+        totalFrameTime += (endTime - startTime);
+        frameCount++;
+
+        if (frameCount == 100) {
+            long averageTimeNs = totalFrameTime / 100;
+            long averageTimeMs = averageTimeNs / 1_000_000;
+            System.out.println("Average Render Time (100 frames): " + averageTimeMs + " ms");
+            frameCount = 0;
+            totalFrameTime = 0;
+        }
+    }
+    ```
+3.  **What we will see:** Messages about the average rendering time will periodically appear in the console. This will show how "heavy" the scene is for the graphics card.
+
+---
+
+#### Step 3: Analysis of the Results
+
+1.  **Launch JOSM** with the plugin and open a test file with a large number of buildings.
+2.  **Look at the console output:** You will see a constant stream of messages about the rendering time.
+3.  **Make a change:** Move a building node or change a tag.
+4.  **Compare the numbers:**
+    *   A single large number will appear in the console — the **geometry update time**.
+    *   Compare it with the average **rendering time**.
+
+**Conclusion:**
+
+*   **If the geometry update time (e.g., 500 ms) is significantly longer than the rendering time (e.g., 10 ms)**, this is a clear sign that the bottleneck is in the geometry calculation. In this case, **implementing partial scene updates will provide a huge performance boost**, as we will avoid the costly operation.
+*   **If the update time is comparable to or less than the rendering time**, the problem is more likely in the complexity of the scene itself, and partial updates will have less effect.
+
+This plan will allow us to obtain clear, measurable data to make a decision.
+
 
 *   **JOSM Plugin Lifecycle:** `UrbanEye3dPlugin` is the entry point. It initializes `DialogWindow3D`, which is a `ToggleDialog`. JOSM automatically handles the creation of the menu item and the visibility of the dialog.
 *   **Event Handling:** The plugin listens for changes in the OSM data (`DataSetListener`) and map view (`MapView.addZoomChangeListener`) to trigger scene updates and redraws.

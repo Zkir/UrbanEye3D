@@ -329,7 +329,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         @Override
         public void error(int errnum) {
             //TODO: uncomment when some way to output more specific error, including object id is found.
-            //System.err.println("Tessellation Error (" + errnum + "): " + glu.gluErrorString(errnum));
+            //UrbanEye3dPlugin.debugMsg("Tessellation Error (" + errnum + "): " + glu.gluErrorString(errnum));
         }
     }
     @Override
@@ -340,7 +340,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0, aspect, 1.0, 10000.0);
+        glu.gluPerspective(45.0, aspect, 10.0, 5000.0);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
     }
