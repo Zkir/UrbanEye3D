@@ -257,6 +257,20 @@ class RoofGeometryGeneratorTest {
 
 
     @Test
+    void testSkillionRoofWithHole() {
+        Contour contour = createRectangularBaseWithHole(12, 12, 4, 4);
+        LatLon origin = new LatLon(55, 37);
+        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour, 10, 0, 5,
+                "", "", RoofShapes.SKILLION.toString(), "30", "");
+
+        Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
+
+        // Common set of topology checks for a mesh.
+        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
+    }
+
+
+    @Test
     void testFlatRoofWithHole() {
         Contour contour = createRectangularBaseWithHole(10, 10, 2, 2);
 

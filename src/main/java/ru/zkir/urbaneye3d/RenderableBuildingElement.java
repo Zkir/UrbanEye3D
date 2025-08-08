@@ -60,9 +60,10 @@ public class RenderableBuildingElement {
             roofHeight=height-minHeight;
         }
 
-        if (this.hasComplexContour() || roofHeight == 0){
-            //in case outline has inner rings, we cannot construct any other roof, but FLAT
-            // also, if roof's height is zero, it's flat!
+
+        //in case outline has inner rings, we cannot construct any other roof, but FLAT and SKILLION
+        // also, if roof's height is zero, it's flat!
+        if( (roofHeight == 0) || (this.hasComplexContour() && !roofShape.equals(RoofShapes.SKILLION.toString()))){
             this.roofShape = RoofShapes.FLAT;
         }else{
             this.roofShape = RoofShapes.fromString(roofShape);
@@ -107,14 +108,8 @@ public class RenderableBuildingElement {
     }
     public void composeMesh(){
         this.mesh = null;
-        double wallHeight = height - roofHeight;
 
-        // Always generate flat roof if roofShape is FLAT or if it's a complex contour
-        if ( !hasComplexContour()) {
-            // Existing logic for other roof shapes (only for simple contours)
-            List<Point2D> basePoints = getContour(); // This will return the first outer ring
-            this.mesh = roofShape.getMesher().generate(this);
-        }
+        this.mesh = roofShape.getMesher().generate(this);
 
         //last chance! mesh can be null, in case specific roof shapes was not created due to limitations
         // for example, GABLED and HIPPED can be created for quadrangles only.

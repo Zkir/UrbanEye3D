@@ -29,7 +29,8 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 ### August 8, 2025
 * Version uplifted to 1.2.0
 * Small refactorings
-
+* [pythonic script](collect_tags.py) to collect actually used tags has been created. taginfo.json has been submited to taginfo projects.
+* Support of skillion roof for multipolygons.
 
 ### Earlier
 See [Devblog page](DEVBLOG.md)
