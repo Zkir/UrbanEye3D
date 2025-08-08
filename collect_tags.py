@@ -53,7 +53,7 @@ output_data = {
         "description": "JOSM plugin for 3D visualization of buildings",
         "project_url": "https://github.com/Zkir/UrbanEye3D",
         "doc_url": "https://github.com/Zkir/UrbanEye3D/blob/master/README.md",
-        "icon_url": "https://github.com/Zkir/UrbanEye3D/blob/master/images/dialogs/urbaneye3d.svg",
+        "icon_url": "https://raw.githubusercontent.com/Zkir/UrbanEye3D/refs/heads/master/images/dialogs/urbaneye3d.svg",
         "contact_name": "Zkir",
         "contact_email": "zkir@zkir.ru"
     },
