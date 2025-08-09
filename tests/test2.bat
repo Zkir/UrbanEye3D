@@ -1,5 +1,5 @@
 pushd d:\UrbanEye3D
-call mvn package
+call mvn package -DskipTests
 if ERRORLEVEL 1 goto :err
 xcopy /Y d:\UrbanEye3D\target\urbaneye3d.jar c:\Users\zkir\AppData\Roaming\JOSM\plugins
 java -jar d:\tools\josm\josm-tested.jar d:\UrbanEye3D\tests\test2.osm
