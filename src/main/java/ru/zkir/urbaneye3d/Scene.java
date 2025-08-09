@@ -86,12 +86,13 @@ public class Scene {
         for (OsmPrimitive primitive : allCandidates) {
 
             String source_key="";
-            if (primitive.hasKey("building:part")  ) {
-                source_key="building:part";
-            }
-
             if (primitive.hasKey("building")) {
                 source_key = "building";
+            } else if (primitive.hasKey("building:part")  ) {
+                source_key="building:part";
+            } else {
+                //UrbanEye3dPlugin.debugMsg("Primitive "+ primitive.getPrimitiveId() + " is neither building nor building part");
+                continue;
             }
 
             if (primitive instanceof Way) {
@@ -197,12 +198,12 @@ public class Scene {
                             //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
                             Contour partContour = new Contour(outerRing);
                             partContour.toLocalCoords(primitiveOrigin); //TODO: recalculate origin
-                            renderableElements.add(new RenderableBuildingElement(primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                            renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(),  primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
                         }
                     } else {
                         // Single outer ring, or multiple outer rings with inner rings, or a Way
                         mainContour.toLocalCoords(primitiveOrigin);
-                        renderableElements.add(new RenderableBuildingElement(primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                        renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
                     }
                 }
             }

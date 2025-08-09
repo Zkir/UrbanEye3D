@@ -8,13 +8,22 @@ import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
+import org.openstreetmap.josm.data.osm.OsmPrimitiveType;
+import org.openstreetmap.josm.data.osm.SimplePrimitiveId;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openstreetmap.josm.spi.preferences.Config;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoofGeometryGeneratorTest {
+
+    static {
+        Config.setPreferencesInstance(new org.openstreetmap.josm.data.Preferences());
+    }
 
     private ArrayList<Point2D> createRectangularBase(double width, double depth) {
         ArrayList<Point2D> base = new ArrayList<>();
@@ -53,7 +62,7 @@ class RoofGeometryGeneratorTest {
     private RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
-        RenderableBuildingElement building = new RenderableBuildingElement(origin, contour,  height, minHeight, roofHeight,
+        RenderableBuildingElement building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  height, minHeight, roofHeight,
                 "","", roofShape.toString(), "","" );
 
         return  building;
@@ -213,7 +222,7 @@ class RoofGeometryGeneratorTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
 
-        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 4,
+        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 4,
                 "","", RoofShapes.GABLED.toString(), "","across" );
 
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
@@ -229,7 +238,7 @@ class RoofGeometryGeneratorTest {
 
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
+        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
                 "","", RoofShapes.HIPPED.toString(), "","across" );
 
         Mesh mesh = RoofShapes.HIPPED.getMesher().generate(test_building);
@@ -246,7 +255,7 @@ class RoofGeometryGeneratorTest {
         ArrayList<Point2D> basePoints = createRectangularBase(14, 10);
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 6,
+        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
                 "","", RoofShapes.SKILLION.toString(), "45","" );
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
@@ -255,34 +264,31 @@ class RoofGeometryGeneratorTest {
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString());
     }
 
-
-    @Test
-    void testSkillionRoofWithHole() {
-        Contour contour = createRectangularBaseWithHole(12, 12, 4, 4);
-        LatLon origin = new LatLon(55, 37);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour, 10, 0, 5,
-                "", "", RoofShapes.SKILLION.toString(), "30", "");
-
-        Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
-
-        // Common set of topology checks for a mesh.
-        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
-    }
-
-
     @Test
     void testFlatRoofWithHole() {
         Contour contour = createRectangularBaseWithHole(10, 10, 2, 2);
 
         LatLon origin = new LatLon(55,37);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(origin, contour,  10, 0, 3,
+        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 3,
                 "","", RoofShapes.FLAT.toString(), "","" );
 
         Mesh mesh = RoofShapes.FLAT.getMesher().generate(test_building); // height > wallHeight
 
         //common set of topology checks for a mesh.
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.FLAT.toString());
+    }
 
+    @Test
+    void testSkillionRoofWithHole() {
+        Contour contour = createRectangularBaseWithHole(12, 12, 4, 4);
+        LatLon origin = new LatLon(55, 37);
+        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, 10, 0, 5,
+                "", "", RoofShapes.SKILLION.toString(), "30", "");
+
+        Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
+
+        // Common set of topology checks for a mesh.
+        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
     }
 
 }

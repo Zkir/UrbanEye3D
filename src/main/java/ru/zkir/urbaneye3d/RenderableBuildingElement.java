@@ -12,8 +12,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openstreetmap.josm.data.osm.PrimitiveId;
+
 public class RenderableBuildingElement {
 
+    public final PrimitiveId primitiveId;
     public final double roofHeight;
     public final double minHeight;  // z0 -- z-coordinate of building bottom
     public final double wallHeight; // z1 -- z coordinate of walls top
@@ -28,7 +31,8 @@ public class RenderableBuildingElement {
     public final LatLon origin;
     private Mesh mesh;
 
-    public RenderableBuildingElement(LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
+    public RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
+        this.primitiveId = primitiveId;
         if (contour==null){
             throw new RuntimeException("contour must be specified");
         }
@@ -106,6 +110,7 @@ public class RenderableBuildingElement {
         return this.mesh;
 
     }
+	
     public void composeMesh(){
         this.mesh = null;
 
