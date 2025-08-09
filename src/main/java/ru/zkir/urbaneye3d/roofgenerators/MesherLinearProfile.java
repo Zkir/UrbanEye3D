@@ -8,7 +8,7 @@ import ru.zkir.urbaneye3d.utils.Point3D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MesherLinerProfile extends  RoofGenerator {
+public class MesherLinearProfile extends  RoofGenerator {
     public enum LinerProfiles{
         GABLED(getGabled()),
         ROUND(getRound()),
@@ -76,7 +76,7 @@ public class MesherLinerProfile extends  RoofGenerator {
     }
 
     private final LinerProfiles profile;
-    MesherLinerProfile(LinerProfiles profile){
+    MesherLinearProfile(LinerProfiles profile){
         this.profile = profile;
     }
 
