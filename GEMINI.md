@@ -28,6 +28,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ### August 9, 2025
 * primitiveId  added to RenderableBuildingElement
+* Serious autotest fix: more accurate normals check, which work properly even for non-convex meshes.
 
 #### Performance tests:
 Scene #1, Сity center ( ~4200 parts):

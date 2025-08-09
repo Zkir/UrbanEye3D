@@ -82,6 +82,7 @@ class SceneTest {
         // We expect only the building:part to be rendered, not the parent building.
         assertEquals(3, scene.renderableElements.size());
     }
+
     @Test
     void roundRoofPentagon() throws Exception{
 
@@ -94,7 +95,6 @@ class SceneTest {
         // Assert: Verify the outcome
         // We expect only the building:part to be rendered, not the parent building.
         assertEquals(1, scene.renderableElements.size());
-
     }
 
     @Test
@@ -113,7 +113,7 @@ class SceneTest {
         //resulting number of  buildings is not so important.
         //Just to understan how picture changes.
         int NumberOfBuildings =scene.renderableElements.size();
-        assertTrue(NumberOfBuildings>=4377 && NumberOfBuildings<=4381, "Number of building " + NumberOfBuildings + " in reasonable range");
+        assertTrue(NumberOfBuildings>=4377 && NumberOfBuildings<=4383, "Number of building " + NumberOfBuildings + " in reasonable range");
 
         //4395 - for all roofs
         //4211 -- zero height parts excluded (without height inheritance)

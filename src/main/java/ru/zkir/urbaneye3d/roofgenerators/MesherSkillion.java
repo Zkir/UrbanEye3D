@@ -165,12 +165,26 @@ public class MesherSkillion extends RoofGenerator {
 
                 if (p1_base == p1_roof && p2_base == p2_roof) continue;
 
+                boolean isInnerContour = (c > 0);
+
                 if (p1_base != p1_roof && p2_base != p2_roof) {
-                    mesh.wallFaces.add(new int[]{p1_base, p2_base, p2_roof, p1_roof});
+                    if (isInnerContour) {
+                        mesh.wallFaces.add(new int[]{p2_base, p1_base, p1_roof, p2_roof});
+                    } else {
+                        mesh.wallFaces.add(new int[]{p1_base, p2_base, p2_roof, p1_roof});
+                    }
                 } else if (p1_base == p1_roof) {
-                    mesh.wallFaces.add(new int[]{p2_base, p2_roof, p1_base});
+                    if (isInnerContour) {
+                        mesh.wallFaces.add(new int[]{p2_roof, p2_base, p1_base});
+                    } else {
+                        mesh.wallFaces.add(new int[]{p2_base, p2_roof, p1_base});
+                    }
                 } else { // p2_base == p2_roof
-                    mesh.wallFaces.add(new int[]{p1_base, p2_base, p1_roof});
+                    if (isInnerContour) {
+                        mesh.wallFaces.add(new int[]{p2_base, p1_base, p1_roof});
+                    } else {
+                        mesh.wallFaces.add(new int[]{p1_base, p2_base, p1_roof});
+                    }
                 }
             }
         }

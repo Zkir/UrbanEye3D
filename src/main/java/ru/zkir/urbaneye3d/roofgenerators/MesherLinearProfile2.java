@@ -34,8 +34,8 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
         mesh.roofFaces = copyFaces(roofProfile.roofIndices);
         mesh.wallFaces = copyFaces(roofProfile.wallIndices);
-        //mesh.wallFaces = new ArrayList<>();
-        mesh.bottomFaces = new ArrayList<>();
+        mesh.bottomFaces = copyFaces(roofProfile.bottomFaces);
+
         debugMsg("DEBUG: MAKE COMPLETED!!!");
 
         String verts_str="";
@@ -67,11 +67,13 @@ public class MesherLinearProfile2 extends RoofGenerator {
         debugMsg("roofIndices"+roofIndices_str);
         debugMsg("wallIndices"+wallIndices_str);
 
+        /* uncomment if debugging of the mesh is needed !! do not remove !!
         try {
-            ObjExporter.saveMeshToObj(mesh, "d:/test.obj" );
+            ObjExporter.saveMeshToObj(mesh, "d:/UrbanEye3D/tests/test.obj" );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+         */
 
         return mesh;
     }
@@ -443,6 +445,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
         double roofVerticalPosition;
         List<List<Integer>> roofIndices = new ArrayList<>();
         List<List<Integer>> wallIndices = new ArrayList<>();
+        List<List<Integer>> bottomFaces = new ArrayList<>();
 
         public void init(RenderableBuildingElement building) {
 
@@ -469,7 +472,15 @@ public class MesherLinearProfile2 extends RoofGenerator {
         }
 
         public void makeBottom() {
-            // Формирование нижней части
+
+            ArrayList<Integer> bottomFace = new  ArrayList<>();
+
+            // We need to create faces with correct winding (counter-clockwise for bottom face when viewed from outside).
+            int n = polygon.indices.size();
+            for (int i = 0; i < n; i++) {
+                bottomFace.add(polygon.indices.get(n-i-1)); //in reverse order, to get proper normals
+            }
+            bottomFaces.add(bottomFace);
         }
 
         protected Point3D getDefaultDirection() {
