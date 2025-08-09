@@ -1,7 +1,6 @@
 package ru.zkir.urbaneye3d;
 
 import com.drew.lang.annotations.NotNull;
-import org.apache.commons.io.ByteOrderMark;
 import org.openstreetmap.josm.data.coor.LatLon;
 import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
@@ -11,7 +10,6 @@ import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.openstreetmap.josm.data.osm.PrimitiveId;
@@ -31,7 +29,6 @@ public class RenderableBuildingElement {
     public final @NotNull String roofOrientation;
     private final Contour contour;
     public final LatLon origin;
-    public  HashMap<String, String> tags;
     private Mesh mesh;
 
     public RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
@@ -48,8 +45,6 @@ public class RenderableBuildingElement {
                                     );
         }
         this.contour = contour;
-        this.tags = new HashMap<>();
-
 
         this.height = height;
         this.minHeight = minHeight;

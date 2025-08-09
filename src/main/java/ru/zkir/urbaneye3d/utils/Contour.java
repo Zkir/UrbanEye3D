@@ -355,6 +355,7 @@ public class Contour {
     }
     //simple implementation for compatibility with blender osm
     public LatLon getCentroid() {
+        if (outerRings.size()<1) return new LatLon(0, 0);
         var outerRing=outerRings.get(0);
         var s = new Point2D(0.0,0.0);
         int n=0;

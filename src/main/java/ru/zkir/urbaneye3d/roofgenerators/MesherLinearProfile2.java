@@ -1,6 +1,7 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
 import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.*;
 
 import java.io.IOException;
@@ -8,13 +9,24 @@ import java.util.*;
 
 public class MesherLinearProfile2 extends RoofGenerator {
 
+    public static void debugMsg(String s){
+        //System.err.println(s);
+    }
+
     //main method to be called
     public Mesh generate(RenderableBuildingElement building)
     {
         var profile_data = ROUND_ROOF;
         var roofProfile = new LinearProfileInner(profile_data);
-        roofProfile.init(building);
-        roofProfile.make();
+        try {
+            roofProfile.init(building);
+            roofProfile.make();
+        }
+        catch (Exception e){
+            UrbanEye3dPlugin.debugMsg("LinearProfile2 unable to create mesh, with message: " + e.getMessage() );
+            // fallback to flat mesher.
+            return null;
+        }
 
         Mesh mesh= new Mesh();
 
@@ -24,7 +36,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
         mesh.wallFaces = copyFaces(roofProfile.wallIndices);
         //mesh.wallFaces = new ArrayList<>();
         mesh.bottomFaces = new ArrayList<>();
-        System.out.println("DEBUG: MAKE COMPLETED!!!");
+        debugMsg("DEBUG: MAKE COMPLETED!!!");
 
         String verts_str="";
         Point3D vert0 = mesh.verts.get(0);
@@ -35,7 +47,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
                     String.format(Locale.ROOT, "%.4f", vert.z-vert0.z) +") ";
         }
 
-        System.out.println("verts="+verts_str);
+        debugMsg("verts="+verts_str);
 
         String roofIndices_str="[";
         String wallIndices_str="[";
@@ -52,8 +64,8 @@ public class MesherLinearProfile2 extends RoofGenerator {
         }
         wallIndices_str+="]";
 
-        System.out.println("roofIndices"+roofIndices_str);
-        System.out.println("wallIndices"+wallIndices_str);
+        debugMsg("roofIndices"+roofIndices_str);
+        debugMsg("wallIndices"+wallIndices_str);
 
         try {
             ObjExporter.saveMeshToObj(mesh, "d:/test.obj" );
@@ -133,8 +145,8 @@ public class MesherLinearProfile2 extends RoofGenerator {
         LinearProfileInner roof;
 
         public ProfiledVert(LinearProfileInner roof, int i, double roofVerticalPosition, boolean noWalls) {
-            System.out.println("\nDEBUG: ProfiledVert constructor entry");
-            System.out.println("    Params: RoofProfile: " + roof + ", i=" + i +
+            debugMsg("\nDEBUG: ProfiledVert constructor entry");
+            debugMsg("    Params: RoofProfile: " + roof + ", i=" + i +
                     ", roofVerticalPosition=" + roofVerticalPosition + ", noWalls=" + noWalls);
             this.roof = roof;
             this.i = i;
@@ -211,8 +223,8 @@ public class MesherLinearProfile2 extends RoofGenerator {
         int index;
 
         public Slot(double x) {
-            System.out.println("\nDEBUG: Slot constructor entry ");
-            System.out.println("    Params: x=" + x);
+            debugMsg("\nDEBUG: Slot constructor entry ");
+            debugMsg("    Params: x=" + x);
             this.x = x;
         }
         @Override
@@ -222,8 +234,8 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
 
         void reset() {
-            System.out.println("\nDEBUG: Slot.reset() entry");
-            System.out.println("    Params: ");
+            debugMsg("\nDEBUG: Slot.reset() entry");
+            debugMsg("    Params: ");
             parts.clear();
             partsR.clear();
             endAtSelf.clear();
@@ -231,16 +243,16 @@ public class MesherLinearProfile2 extends RoofGenerator {
         }
 
         void prepare() {
-            System.out.println("\nDEBUG: Slot.prepare() entry");
-            System.out.println("    Self: " + this);
+            debugMsg("\nDEBUG: Slot.prepare() entry");
+            debugMsg("    Self: " + this);
             
             parts.sort(Comparator.comparingDouble(p -> p.y));
         }
 
         void append(int vertIndex) {
-            System.out.println("\nDEBUG: Slot.append() entry");
-            System.out.println("    Params:  " + vertIndex+ " None None None");
-            System.out.println("      Self:  " + this);
+            debugMsg("\nDEBUG: Slot.append() entry");
+            debugMsg("    Params:  " + vertIndex+ " None None None");
+            debugMsg("      Self:  " + this);
             if (!parts.isEmpty()) {
                 Part lastPart = parts.get(parts.size() - 1);
                 lastPart.vertIndices.add(vertIndex);
@@ -248,10 +260,10 @@ public class MesherLinearProfile2 extends RoofGenerator {
         }
 
         void append(int vertIndex, double y, Slot originSlot, Boolean reflection) {
-            System.out.println("\nDEBUG: Slot.append() entry");
-            System.out.println("    Params:  " + vertIndex + " " + y +
+            debugMsg("\nDEBUG: Slot.append() entry");
+            debugMsg("    Params:  " + vertIndex + " " + y +
                     " " + originSlot + " " + reflection);
-            System.out.println("      Self:  " + this);
+            debugMsg("      Self:  " + this);
             List<Integer> vertIndices = new ArrayList<>();
             vertIndices.add(vertIndex);
             Part part = new Part(y, vertIndices, reflection, index);
@@ -261,10 +273,10 @@ public class MesherLinearProfile2 extends RoofGenerator {
         }
 
         int trackDown(List<List<Integer>> roofIndices, Integer startIndex, Integer destVertIndex) {
-            System.out.println("\nDEBUG: Slot.trackDown() entry");
-            System.out.println("    Params: roofIndices=" + roofIndices);
-            System.out.println("            startIndex=" + startIndex + ", destVertIndex=" + destVertIndex);
-            //System.out.println("      Self:  " + this);
+            debugMsg("\nDEBUG: Slot.trackDown() entry");
+            debugMsg("    Params: roofIndices=" + roofIndices);
+            debugMsg("            startIndex=" + startIndex + ", destVertIndex=" + destVertIndex);
+            //debugMsg("      Self:  " + this);
             List<Part> partsList = this.parts;
             int indexPartR = -1;
             int index = (startIndex == null ? partsList.size() : startIndex) - 2;
@@ -283,12 +295,12 @@ public class MesherLinearProfile2 extends RoofGenerator {
                     continue;
                 }
                 //extend <roofFace> with vertex indices from <part>
-                System.out.println("        part="+part.vertIndices);
+                debugMsg("        part="+part.vertIndices);
                 roofFace.addAll(part.vertIndices);
 
-                System.out.println("        part._index="+part._index);
-                System.out.println("        indexPartR="+indexPartR);
-                System.out.println("        partsR="+this.n.partsR);
+                debugMsg("        part._index="+part._index);
+                debugMsg("        indexPartR="+indexPartR);
+                debugMsg("        partsR="+this.n.partsR);
 
                 if (part.vertIndices.get(part.vertIndices.size() - 1).equals(vertIndex0)) {
                     roofIndices.add(roofFace);
@@ -298,11 +310,11 @@ public class MesherLinearProfile2 extends RoofGenerator {
                     if (indexPartR >= 0) {ii=indexPartR;} else{ii=n.partsR.size()+indexPartR;}
                     if (!n.partsR.isEmpty() ) {
                         roofFace.addAll(n.partsR.get(ii));
-                        System.out.println("        second extension:"+n.partsR.get(ii));
+                        debugMsg("        second extension:"+n.partsR.get(ii));
                         indexPartR--;
                     }
                     roofIndices.add(roofFace);
-                    System.out.println("        roofIndices="+roofIndices);
+                    debugMsg("        roofIndices="+roofIndices);
                     vertIndex0 = null;
                 } else if (!part.vertIndices.get(part.vertIndices.size() - 1)
                          .equals(partsList.get(index - 1).vertIndices.get(0))) {
@@ -313,32 +325,32 @@ public class MesherLinearProfile2 extends RoofGenerator {
                         part.reflection = null;
                     }
                 }
-                System.out.println("        roofFace="+roofFace);
+                debugMsg("        roofFace="+roofFace);
                 if (destVertIndex != null) {
                     if (partsList.get(index - 1).vertIndices.get(0).equals(destVertIndex)) {
-                        System.out.println("DEBUG: Slot.trackDown() exit");
-                        System.out.println("    Returns: " + index +"\n");
+                        debugMsg("DEBUG: Slot.trackDown() exit");
+                        debugMsg("    Returns: " + index +"\n");
                         return index;
                     } else if (part.reflection != null && part.reflection && 
                                part.vertIndices.get(0).equals(destVertIndex)) {
-                        System.out.println("DEBUG: Slot.trackDown() exit");
-                        System.out.println("    Returns: " + index +"\n");
+                        debugMsg("DEBUG: Slot.trackDown() exit");
+                        debugMsg("    Returns: " + index +"\n");
                         return index + 1;
                     }
                 }
 
                 index -= (part.reflection != null && part.reflection) ? 1 : 2;
             }
-            System.out.println("DEBUG: Slot.trackDown() exit");
-            System.out.println("    Returns: " + index +"\n");
+            debugMsg("DEBUG: Slot.trackDown() exit");
+            debugMsg("    Returns: " + index +"\n");
             return index;
         }
 
         int trackUp(List<List<Integer>> roofIndices, Integer startIndex, Integer destVertIndex) {
-            System.out.println("\nDEBUG: Slot.trackUp() entry");
-            System.out.println("    Params: roofIndices=" + roofIndices);
-            System.out.println("            startIndex=" + startIndex + ", destVertIndex=" + destVertIndex);
-            //System.out.println("      Self:  " + this);
+            debugMsg("\nDEBUG: Slot.trackUp() entry");
+            debugMsg("    Params: roofIndices=" + roofIndices);
+            debugMsg("            startIndex=" + startIndex + ", destVertIndex=" + destVertIndex);
+            //debugMsg("      Self:  " + this);
             
             List<Part> partsList = this.parts;
             int numParts = partsList.size();
@@ -359,9 +371,9 @@ public class MesherLinearProfile2 extends RoofGenerator {
                     continue;
                 }
 
-                System.out.println("        part=" +part.vertIndices);
+                debugMsg("        part=" +part.vertIndices);
                 roofFace.addAll(part.vertIndices);
-                System.out.println("        roofFace=" +roofFace );
+                debugMsg("        roofFace=" +roofFace );
 
                 if (part.vertIndices.get(part.vertIndices.size() - 1).equals(vertIndex0)) {
                     roofIndices.add(roofFace);
@@ -376,21 +388,21 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
                 if (destVertIndex != null && 
                     partsList.get(index + 1).vertIndices.get(0).equals(destVertIndex)) {
-                    System.out.println("DEBUG: Slot.trackUp() exit");
-                    System.out.println("    Returns: " + index +"\n");
+                    debugMsg("DEBUG: Slot.trackUp() exit");
+                    debugMsg("    Returns: " + index +"\n");
                     return index;
                 }
 
                 index += (part.reflection != null && !part.reflection) ? 1 : 2;
             }
-            System.out.println("DEBUG: Slot.trackUp() exit");
-            System.out.println("    Returns: " + index +"\n");
+            debugMsg("DEBUG: Slot.trackUp() exit");
+            debugMsg("    Returns: " + index +"\n");
             return index;
         }
 
         void processWallFace(List<Integer> indices, ProfiledVert pv1, ProfiledVert pv2) {
-            //System.out.println("\nDEBUG: Slot.processWallFace() entry");
-            //System.out.println("    Params: indices=" + indices +
+            //debugMsg("\nDEBUG: Slot.processWallFace() entry");
+            //debugMsg("    Params: indices=" + indices +
             //        ", pv1=" + pv1 + ", pv2=" + pv2);
             // This function is blank in blosm
         }
@@ -462,7 +474,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
         protected Point3D getDefaultDirection() {
 
-            //# a perpendicular to the longest edge of the polygon
+            // a perpendicular to the longest edge of the polygon
             var edges =polygon.getEdges();
             Point3D maxEdge=null;
             double maxEdgeLength=-1;
@@ -473,6 +485,22 @@ public class MesherLinearProfile2 extends RoofGenerator {
                 }
             }
             return maxEdge.cross(polygon.normal).normalize();
+        }
+
+        //parallel to the longest edge of the polygon
+        protected Point3D getAcrossDirection() {
+
+            //# a perpendicular to the longest edge of the polygon
+            var edges =polygon.getEdges();
+            Point3D maxEdge=null;
+            double maxEdgeLength=-1;
+            for(var edge:edges){
+                if (edge.length()>maxEdgeLength){
+                    maxEdgeLength = edge.length();
+                    maxEdge = edge;
+                }
+            }
+            return maxEdge.normalize();
         }
     }
 
@@ -504,8 +532,8 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
 
         public LinearProfileInner(Object[] profile_data) {
-            System.out.println("\nDEBUG: RoofProfile constructor entry");
-            System.out.println("    Params: data=" + Arrays.toString(profile_data));
+            debugMsg("\nDEBUG: RoofProfile constructor entry");
+            debugMsg("    Params: data=" + Arrays.toString(profile_data));
             
             this.profile = (Point2D[]) profile_data[0];
             Map<String, Object> attributes = (Map<String, Object>) profile_data[1];
@@ -543,14 +571,14 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
         @Override
         public void init(RenderableBuildingElement building) {
-            System.out.println("\nDEBUG: RoofProfile.init() entry");
+            debugMsg("\nDEBUG: RoofProfile.init() entry");
 
             super.init(building);
             initProfile();
         }
 
         void initProfile() {
-            System.out.println("\nDEBUG: RoofProfile.initProfile() entry");
+            debugMsg("\nDEBUG: RoofProfile.initProfile() entry");
             for (int i = 0; i < lastProfileIndex; i++) {
                 slots[i].reset();
             }
@@ -558,8 +586,8 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
         @Override
         public boolean make() {
-            System.out.println("\nDEBUG: RoofProfile.make() entry");
-            System.out.println("    Params: ");
+            debugMsg("\nDEBUG: RoofProfile.make() entry");
+            debugMsg("    Params: ");
             if (projections.isEmpty()) {
                 processDirection();
             }
@@ -577,20 +605,20 @@ public class MesherLinearProfile2 extends RoofGenerator {
                 - direction;
                 - roofVerticalPosition;
             */
-            System.out.println("        slots:  ");
+            debugMsg("        slots:  ");
             for (var s: this.slots) {
-                System.out.println("            " + s.toString());
+                debugMsg("            " + s.toString());
             }
 
-            System.out.println("        polygon: " + polygon.toString().replace("[","(").replace("]",")"));
-            System.out.println("        polygonWidth: " + polygonWidth);
-            System.out.println("        verts:  " + verts.toString());
-            System.out.println("        roofIndices: "+ roofIndices.toString());
-            System.out.println("        projections: "+ projections.toString());
-            System.out.println("        roofHeight: "+ roofHeight);
-            System.out.println("        minProjIndex: "+ minProjIndex);
-            System.out.println("        direction: " + direction);
-            System.out.println("        roofVerticalPosition: " + roofVerticalPosition);
+            debugMsg("        polygon: " + polygon.toString().replace("[","(").replace("]",")"));
+            debugMsg("        polygonWidth: " + polygonWidth);
+            debugMsg("        verts:  " + verts.toString());
+            debugMsg("        roofIndices: "+ roofIndices.toString());
+            debugMsg("        projections: "+ projections.toString());
+            debugMsg("        roofHeight: "+ roofHeight);
+            debugMsg("        minProjIndex: "+ minProjIndex);
+            debugMsg("        direction: " + direction);
+            debugMsg("        roofVerticalPosition: " + roofVerticalPosition);
 
             boolean noWalls = this.noWalls;
             slot = slots[0];
@@ -653,16 +681,16 @@ public class MesherLinearProfile2 extends RoofGenerator {
         }
 
         ProfiledVert getProfiledVert(int i, double roofVerticalPosition, boolean noWalls) {
-            System.out.println("\nDEBUG: RoofProfile.getProfiledVert() entry");
-            System.out.println("    Params: i=" + i + ", roofVerticalPosition=" + 
+            debugMsg("\nDEBUG: RoofProfile.getProfiledVert() entry");
+            debugMsg("    Params: i=" + i + ", roofVerticalPosition=" +
                     roofVerticalPosition + ", noWalls=" + noWalls);
             
             return new ProfiledVert(this, i, roofVerticalPosition, noWalls);
         }
 
         void createProfileVertices(ProfiledVert pv1, ProfiledVert pv2, ProfiledVert _pv) {
-            System.out.println("\nDEBUG: RoofProfile.createProfileVertices() entry");
-            System.out.println("    Params: pv1=" + pv1 + ", pv2=" + pv2 + ", _pv=" + _pv);
+            debugMsg("\nDEBUG: RoofProfile.createProfileVertices() entry");
+            debugMsg("    Params: pv1=" + pv1 + ", pv2=" + pv2 + ", _pv=" + _pv);
             
             List<Point3D> verts = this.verts;
             List<Integer> indices = polygon.indices;
@@ -787,8 +815,8 @@ public class MesherLinearProfile2 extends RoofGenerator {
                                  Point3D v1, Point3D v2, int start, int end, 
                                  int step, List<Integer> _wallIndices) {
 
-            System.out.println("\nDEBUG: common_code() entry");
-            System.out.println("    Params:  "+ slot);
+            debugMsg("\nDEBUG: common_code() entry");
+            debugMsg("    Params:  "+ slot);
 
 
             List<Point3D> verts = this.verts;
@@ -802,7 +830,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
             double factorX = (v2.x - v1.x) / (pv2.x - pv1.x);
             double factorY = (v2.y - v1.y) / (pv2.x - pv1.x);
             double factorSlots = (pv2.y - pv1.y) / (pv2.x - pv1.x);
-            System.out.println("        qq="+start+" "+end +" "+ step);
+            debugMsg("        qq="+start+" "+end +" "+ step);
 
 
             int slotIndexVerts = start;
@@ -812,16 +840,16 @@ public class MesherLinearProfile2 extends RoofGenerator {
                 double x = v1.x + factor * factorX;
                 double y = v1.y + factor * factorY;
                 double z = roofVerticalPosition + roofHeight * p[slotIndexVerts].y;
-                System.out.println("        z="+z);
+                debugMsg("        z="+z);
                 verts.add(new Point3D(x, y, z));
-                System.out.println("        vertIndex:"+vertIndex);
+                debugMsg("        vertIndex:"+vertIndex);
                 _wallIndices.add(vertIndex);
                 
                 slot.append(vertIndexForSlots);
                 originSlot = slot;
                 slot = slots[slotIndex];
-                System.out.println("        slotIndex="+ slotIndex);
-                System.out.println("        " + pv1.y +" " + factorSlots + " " + p[slotIndex].x +" " + pv1.x);
+                debugMsg("        slotIndex="+ slotIndex);
+                debugMsg("        " + pv1.y +" " + factorSlots + " " + p[slotIndex].x +" " + pv1.x);
                 double yCoord = pv1.y + factorSlots * (p[slotIndex].x - pv1.x);
 
                 slot.append(vertIndexForSlots, yCoord, originSlot, null);
@@ -833,14 +861,14 @@ public class MesherLinearProfile2 extends RoofGenerator {
                 slotIndexVerts += step;
                 slotIndex -= step;
             }
-            System.out.println("\n     : common_code() exit");
-            System.out.println("    Returns: " + slot);
+            debugMsg("\n     : common_code() exit");
+            debugMsg("    Returns: " + slot);
             return slot;
         }
 
         double getRoofHeight() {
-            System.out.println("\nDEBUG: RoofProfile.getRoofHeight() entry");
-            System.out.println("    Params: ");
+            debugMsg("\nDEBUG: RoofProfile.getRoofHeight() entry");
+            debugMsg("    Params: ");
             
             // Заглушка для парсинга тегов
             double h = defaultHeight;
@@ -852,35 +880,20 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
             // <d> stands for direction
 
-            String ds = this.building.tags.get("roof:direction");
-            if (ds == null) {
-                ds = this.building.tags.get("roof:slope:direction");
-            }
-            Double d=Double.NaN;
-            if (ds != null && !ds.isEmpty()){
-                d = this.building.parseDirection(ds);
-            }
+            Double d = building.roofDirection;
 
-            if ( ds==null || Double.isNaN(d)){
-                if (this.hasRidge && "across".equals(building.tags.get("roof:orientation"))) {
+            if ( d==null || Double.isNaN(d)){
+                if (this.hasRidge && "across".equals(building.roofOrientation)) {
                     // The roof ridge is across the longest side of the building outline,
                     // i.e. the profile direction is along the longest side
-                    var edges = polygon.getEdges();
-                    for (var edge:edges){
-
-                    }
-                    //d = max(this.polygon.edges()).normalized();
+                    this.direction =getAcrossDirection();
+                }else{
+                    this.direction = this.getDefaultDirection();
                 }
-            }
-
-            // the direction vector is used by <profile.RoofProfile>
-            if(d==null || Double.isNaN(d)) {
-                this.direction = this.getDefaultDirection();
-            }else{
+            } else{
                 d = Math.toRadians(d);
                 this.direction = new Point3D(Math.sin(d), Math.cos(d), 0.);
             }
-
 
             // For each vertex from <polygon.verts> calculate projection of the vertex
             // on the vector <d> that defines the roof direction
@@ -922,8 +935,8 @@ public class MesherLinearProfile2 extends RoofGenerator {
         }
 
         void onRoofForSlotCompleted(int slotIndex) {
-            System.out.println("\nDEBUG: RoofProfile.onRoofForSlotCompleted() entry");
-            System.out.println("    Params: slotIndex=" + slotIndex);
+            debugMsg("\nDEBUG: RoofProfile.onRoofForSlotCompleted() entry");
+            debugMsg("    Params: slotIndex=" + slotIndex);
             // Может быть переопределено
         }
     }

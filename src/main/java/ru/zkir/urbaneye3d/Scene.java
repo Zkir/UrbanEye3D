@@ -3,6 +3,7 @@ package ru.zkir.urbaneye3d;
 import com.drew.lang.annotations.NotNull;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
+import ru.zkir.urbaneye3d.roofgenerators.MesherLinearProfile2;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Point2D;
 
@@ -191,7 +192,7 @@ public class Scene {
                 Contour mainContour = primitiveContours.get(primitive);
                 //LatLon primitiveOrigin = primitive.getBBox().getCenter();
                 LatLon primitiveOrigin = mainContour.getCentroid();
-                System.out.println(primitiveOrigin.lat()+" "+primitiveOrigin.lon());
+                MesherLinearProfile2.debugMsg(primitiveOrigin.lat()+" "+primitiveOrigin.lon());
 
 
                 if (mainContour != null && !mainContour.outerRings.isEmpty()) {
