@@ -1,0 +1,79 @@
+{
+    "data_format": 1,
+    "data_updated": "20250808T125652Z",
+    "project": {
+        "name": "Urban Eye 3D",
+        "description": "JOSM plugin for 3D visualization of buildings",
+        "project_url": "https://github.com/Zkir/UrbanEye3D",
+        "doc_url": "https://github.com/Zkir/UrbanEye3D/blob/master/README.md",
+        "icon_url": "https://raw.githubusercontent.com/Zkir/UrbanEye3D/refs/heads/master/images/dialogs/urbaneye3d.svg",
+        "contact_name": "Zkir",
+        "contact_email": "zkir@zkir.ru"
+    },
+    "tags": [
+        {
+            "key": "building",
+            "description": "The main tag for identifying a building outline."
+        },
+        {
+            "key": "building:colour",
+            "description": "Specifies the color of the building's walls."
+        },
+        {
+            "key": "building:height",
+            "description": "An alternative tag for the total height of the building, including the roof, in meters."
+        },
+        {
+            "key": "building:levels",
+            "description": "The number of floors (levels) in the main part of the building. Used to calculate height if not specified explicitly."
+        },
+        {
+            "key": "building:material",
+            "description": "Specifies the material of the building's walls. Used for texturing and shading."
+        },
+        {
+            "key": "building:min_level",
+            "description": "The number of floors to offset the building from the ground. Used to calculate min_height if not specified explicitly."
+        },
+        {
+            "key": "building:part",
+            "description": "Identifies a part of a building, which is rendered as a separate 3D element."
+        },
+        {
+            "key": "height",
+            "description": "The total height of the building, including the roof, in meters."
+        },
+        {
+            "key": "min_height",
+            "description": "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes."
+        },
+        {
+            "key": "roof:colour",
+            "description": "Specifies the color of the roof."
+        },
+        {
+            "key": "roof:direction",
+            "description": "Specifies the direction or orientation of the roof, typically in degrees. Used for directional roof shapes like 'skillion'."
+        },
+        {
+            "key": "roof:height",
+            "description": "The height of the roof section of the building, in meters."
+        },
+        {
+            "key": "roof:levels",
+            "description": "The number of floors (levels) within the roof structure. Used to calculate roof:height if not specified explicitly."
+        },
+        {
+            "key": "roof:material",
+            "description": "Specifies the material of the roof. Used for texturing and shading."
+        },
+        {
+            "key": "roof:orientation",
+            "description": "Specifies the orientation of the roof ridge, typically 'along' or 'across' the longer axis of the building."
+        },
+        {
+            "key": "roof:shape",
+            "description": "Defines the shape of the roof, which determines the geometry generation algorithm."
+        }
+    ]
+}

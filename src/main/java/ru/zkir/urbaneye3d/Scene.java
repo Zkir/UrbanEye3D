@@ -31,6 +31,8 @@ public class Scene {
         ArrayList<OsmPrimitive> buildings = new ArrayList<>();
         ArrayList<OsmPrimitive> buildingParts = new ArrayList<>();
         HashMap<OsmPrimitive, OsmPrimitive> partParents = new HashMap<>();
+        HashMap<OsmPrimitive, Double> buildingHeights = new HashMap<>();
+
 
         //We need to do very interesting thing.
         // we need to collect both buildings and building parts.
@@ -54,7 +56,7 @@ public class Scene {
                 continue;
             }
 
-            if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !  getTag("building:part", primitive, null).equals("base") ) {
+            if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !  getTagStr("building:part", primitive, null).equals("base") ) {
                 boolean include_element = true;
                 // Create and cache the contour for the building, if not already present.
                 if (!primitiveContours.containsKey(primitive)) {
@@ -67,16 +69,14 @@ public class Scene {
                     if (primitive.getBBox().bounds(part.getBBox())) {
                         // If BBoxes intersect, then perform a more expensive contour check.
                         Contour partContour = primitiveContours.get(part);
+                        //TODO: bug: proper spatial check requires original contour, before simplification.
                         if (buildingContour.contains(partContour)) {
                             //there is a building part for this building. goodbye!
-                            include_element = false;
                             partParents.put(part, primitive);
                         }
                     }
                 }
-                if (include_element) {
-                    buildings.add(primitive);
-                }
+                buildings.add(primitive);
             }
         }
         ArrayList<OsmPrimitive> allCandidates = new ArrayList<>();
@@ -86,12 +86,13 @@ public class Scene {
         for (OsmPrimitive primitive : allCandidates) {
 
             String source_key="";
-            if (primitive.hasKey("building:part")  ) {
-                source_key="building:part";
-            }
-
             if (primitive.hasKey("building")) {
                 source_key = "building";
+            } else if (primitive.hasKey("building:part")  ) {
+                source_key="building:part";
+            } else {
+                //UrbanEye3dPlugin.debugMsg("Primitive "+ primitive.getPrimitiveId() + " is neither building nor building part");
+                continue;
             }
 
             if (primitive instanceof Way) {
@@ -99,64 +100,73 @@ public class Scene {
             }
             OsmPrimitive parent = partParents.get(primitive);
 
-            String heightStr =  getTag("height", primitive, parent);
-            if ( heightStr.isEmpty()) {
-                heightStr = getTag("building:height", primitive, parent);
+            Double height =  getTagD("height", primitive, parent);
+            if ( height==null ) {
+                height = getTagD("building:height", primitive, parent);
+            }
+            Double levels = getTagD("building:levels", primitive, parent);
+            Double minHeight = getTagD("min_height", primitive, parent);
+            Double minLevel = getTagD("building:min_level", primitive, parent);
+            Double roofHeight = getTagD("roof:height", primitive, parent);
+            Double roofLevels =  getTagD("roof:levels", primitive, parent);
+            String roofShape = getTagStr("roof:shape", primitive, parent);
+            if (roofShape.isEmpty()){
+                roofShape="flat";
             }
 
-            String minHeightStr = getTag("min_height", primitive, parent);
-            String roofHeightStr = getTag("roof:height", primitive, parent);
-            double height = 0.0;
-            double minHeight = 0.0;
-            double roofHeight = 0.0;
-
-            try {
-                height = Double.parseDouble(heightStr.split(" ")[0]);
-            } catch (NumberFormatException e) {
-                // Ignore
-            }
-
-            try {
-                minHeight = Double.parseDouble(minHeightStr.split(" ")[0]);
-            } catch (NumberFormatException e) {
-                // Ignore
-            }
-
-            try {
-                roofHeight = Double.parseDouble(roofHeightStr.split(" ")[0]);
-            } catch (NumberFormatException e) {
-                // Ignore
-            }
-
-            String levelsStr = getTag("building:levels", primitive, parent);
-            double levels = 0.0;
-
-            try {
-                levels = Double.parseDouble(levelsStr.split(" ")[0]);
-            } catch (NumberFormatException e) {
-                // Ignore
-            }
-
-            String roofShape = getTag("roof:shape", primitive, parent);
             final double DEFAULT_LEVELS_NUMBER=2;
             final double DEFAULT_LEVEL_HEIGHT=3;
 
-            if (height==0) {
-                if (source_key.equals("building")) {
-                    if (levels == 0) {
-                        levels = DEFAULT_LEVELS_NUMBER;
-                    }
-                    height = levels * DEFAULT_LEVEL_HEIGHT + 2; //some bonus for roof and basement!
-                }
-                else{
-                    //for building parts there is no default height.
-                    //if neither height nor levels are specified, building part is not rendered.
-                    height = levels * DEFAULT_LEVEL_HEIGHT; // no bonus!
-                }
-                if (!roofShape.equals("flat")){
-                    height += 3 ; //levels tag does not include roof
+            //default values for minHeight. Tags order: min_height, minLevel
+            if (minHeight ==null){
+                if (minLevel!=null) {
+                    minHeight = minLevel * DEFAULT_LEVEL_HEIGHT;
+                }else{
+                    minHeight=0.0;
                 }
             }
+
+            //default value for roof:height
+            if (roofHeight == null ) {
+                if (roofLevels != null) {
+                    roofHeight = roofLevels * DEFAULT_LEVEL_HEIGHT;
+                } else {
+                    if (roofShape.equals("flat")) {
+                        roofHeight = 0.;
+                    } else {
+                        roofHeight = 1.0 * DEFAULT_LEVEL_HEIGHT;
+                    }
+                }
+            }
+            //default values for height. Tags order: height, building:levels+roof:levels, default height or parent height
+            if (height==null) {
+                if (source_key.equals("building") && levels == null) {
+                    levels = DEFAULT_LEVELS_NUMBER;
+                }
+                if (levels != null) {
+                    height = levels * DEFAULT_LEVEL_HEIGHT;
+                    height += roofHeight; //roof:levels are not included into levels, so we can do this increment
+                }else{
+                    //This is a very controversial feature. There are a lot of building parts without height,
+                    //which are not rendered in any 3D renderer. So they can look strange.
+                    height = buildingHeights.get(parent);
+                    if (height==null){
+                        //this situation is possible in 2 cases:
+                        // * Building part is orphan
+                        // * Spatial containment check failed
+                        height=0.0;
+                        //System.out.println("Height could not be determined for "+ primitive.getPrimitiveId()+ " (" + source_key+")");
+                    }
+                }
+            }
+
+            if(height<minHeight){
+                // this it not a defined behaviour, so we can do anything.
+                // disappearing buildings are not nice, so let's limit height.
+                height=minHeight;
+            }
+
+            buildingHeights.put(primitive, height);
 
             // this is a dirty hack.
             // since we do not have proper support for building:part=roof,
@@ -167,12 +177,16 @@ public class Scene {
                 minHeight = height - roofHeight;
             }
 
-            if (height > 0) {
-                String color = getTag("building:colour", primitive, parent);
-                String roofColor = getTag("roof:colour", primitive, parent);
+            if (partParents.containsValue(primitive)){
+                continue; //we just skip building if it is a parent for some building parts.
+            }
 
-                String roofDirection = getTag("roof:direction", primitive, parent);
-                String roofOrientation = getTag("roof:orientation", primitive, parent);
+            if (height > 0) {
+                String color = getTagStr("building:colour", primitive, parent);
+                String roofColor = getTagStr("roof:colour", primitive, parent);
+
+                String roofDirection = getTagStr("roof:direction", primitive, parent);
+                String roofOrientation = getTagStr("roof:orientation", primitive, parent);
 
                 Contour mainContour = primitiveContours.get(primitive);
                 //LatLon primitiveOrigin = primitive.getBBox().getCenter();
@@ -187,12 +201,12 @@ public class Scene {
                             //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
                             Contour partContour = new Contour(outerRing);
                             partContour.toLocalCoords(primitiveOrigin); //TODO: recalculate origin
-                            renderableElements.add(new RenderableBuildingElement(primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                            renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(),  primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
                         }
                     } else {
                         // Single outer ring, or multiple outer rings with inner rings, or a Way
                         mainContour.toLocalCoords(primitiveOrigin);
-                        renderableElements.add(new RenderableBuildingElement(primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                        renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
                     }
                 }
             }
@@ -217,7 +231,7 @@ public class Scene {
         return isComplete;
     }
 
-    private @NotNull String getTag(String key, OsmPrimitive primitive, OsmPrimitive parent ){
+    private @NotNull String getTagStr(String key, OsmPrimitive primitive, OsmPrimitive parent ){
 
         String value=primitive.get(key);
         if ((value==null) && parent!=null && inheritableKeys.contains(key)){
@@ -228,5 +242,25 @@ public class Scene {
             value="";
         }
         return value;
+    }
+
+    //we need to get a floating point value from an osm tag
+    // if tag is missing or cannot be parsed, the return value is null,
+    // to let it possible to fallback to defaults.
+    private Double getTagD(String key, OsmPrimitive primitive, OsmPrimitive parent ){
+        Double result;
+        String tag_str = getTagStr(key, primitive, parent);
+
+        if (tag_str.isEmpty()){
+            return null;
+        }
+
+        try {
+            result = Double.parseDouble(tag_str.split(" ")[0]);
+        } catch (NumberFormatException e) {
+            result = null;
+        }
+        return result;
+
     }
 }

@@ -6,7 +6,7 @@
 
 ## Benefits for Mappers
 
-While 3D visualization of OSM data has existed for years through external tools, the absence of a dedicated 3D viewer within JOSM (particularly since the discontinuation of [Kenzi 3D](https://github.com/kendzi/kendzi3d)) has been a notable gap. 
+While 3D visualization of OSM data has existed for years through external tools, the absence of a dedicated 3D viewer in JOSM (particularly since the discontinuation of [Kenzi 3D](https://github.com/kendzi/kendzi3d)) has been a notable gap. 
 
 Urban Eye 3D solves this problem! Mappers and 3D building enthusiasts can now preview their edits directly within JOSM before commiting changes to OpenStreetMap.
 
@@ -25,6 +25,18 @@ Urban Eye 3D solves this problem! Mappers and 3D building enthusiasts can now pr
 ### Limitations
 * Several roof shapes (`gabled`, `gambrel`, `hipped`, `round` and some others) are supported for quadrilateral polygons. 
 Support of those roof shapes for arbitrary non-convex polygons may be added in future versions.
+
+## How to install
+Please install the Urban Eyer 3D just like any other plugin in JOSM:
+
+![how to activate](docs/images/pic3_how_to_activate.png)
+
+1. In JOSM, open the menu **Edit → Preferences**, find the **Plugins** tab.
+2. If needed, hit the **"Download list"** button,
+3. Select the **"Available"** radio button,
+4. Type **"urba..."** in the search field,
+5. Don’t forget to **check the box**,
+6. Enjoy!
 
 ## Licensing
 Inspired by the GNU GPL-licensed [Blosm](https://github.com/vvoovv/blosm) project and following JOSM's [plugin licensing recommendations](https://josm.openstreetmap.de/wiki/DevelopersGuide/DevelopingPlugins#LegalStuff), this code is licensed under [GNU GPL v3](LICENSE).

@@ -5,6 +5,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUtessellator;
 import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
 import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -47,7 +48,7 @@ public class MesherFlat extends RoofGenerator{
 
         @Override
         public void error(int errnum) {
-            System.err.println("Tessellation Error (" + errnum + "): " + new GLU().gluErrorString(errnum) +
+            UrbanEye3dPlugin.debugMsg("Tessellation Error (" + errnum + "): " + new GLU().gluErrorString(errnum) +
                                " on building at " + building.origin.toString());
         }
 

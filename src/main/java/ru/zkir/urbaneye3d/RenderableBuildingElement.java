@@ -14,8 +14,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.openstreetmap.josm.data.osm.PrimitiveId;
+
 public class RenderableBuildingElement {
 
+    public final PrimitiveId primitiveId;
     public final double roofHeight;
     public final double minHeight;  // z0 -- z-coordinate of building bottom
     public final double wallHeight; // z1 -- z coordinate of walls top
@@ -31,7 +34,8 @@ public class RenderableBuildingElement {
     public  HashMap<String, String> tags;
     private Mesh mesh;
 
-    public RenderableBuildingElement(LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
+    public RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
+        this.primitiveId = primitiveId;
         if (contour==null){
             throw new RuntimeException("contour must be specified");
         }
@@ -63,9 +67,10 @@ public class RenderableBuildingElement {
             roofHeight=height-minHeight;
         }
 
-        if (this.hasComplexContour() || roofHeight == 0){
-            //in case outline has inner rings, we cannot construct any other roof, but FLAT
-            // also, if roof's height is zero, it's flat!
+
+        //in case outline has inner rings, we cannot construct any other roof, but FLAT and SKILLION
+        // also, if roof's height is zero, it's flat!
+        if( (roofHeight == 0) || (this.hasComplexContour() && !roofShape.equals(RoofShapes.SKILLION.toString()))){
             this.roofShape = RoofShapes.FLAT;
         }else{
             this.roofShape = RoofShapes.fromString(roofShape);
@@ -108,16 +113,11 @@ public class RenderableBuildingElement {
         return this.mesh;
 
     }
+	
     public void composeMesh(){
         this.mesh = null;
-        double wallHeight = height - roofHeight;
 
-        // Always generate flat roof if roofShape is FLAT or if it's a complex contour
-        if ( !hasComplexContour()) {
-            // Existing logic for other roof shapes (only for simple contours)
-            List<Point2D> basePoints = getContour(); // This will return the first outer ring
-            this.mesh = roofShape.getMesher().generate(this);
-        }
+        this.mesh = roofShape.getMesher().generate(this);
 
         //last chance! mesh can be null, in case specific roof shapes was not created due to limitations
         // for example, GABLED and HIPPED can be created for quadrangles only.

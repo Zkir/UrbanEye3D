@@ -1,6 +1,29 @@
 # Recent Accomplishments
 
-# Version 1.0.0
+## Version 1.1.0
+
+### August 7, 2025
+
+* Building part now inherits height from parent building as a default value. Also it solves the problem with disappearing buildings (see gh. issue [#1](https://github.com/Zkir/UrbanEye3D/issues/1))
+* In case  height<min_height, height is set to min_height, to avoid upside-down buildings.
+
+### August 6, 2025.
+
+* Support of missed tags `roof:levels` and `building:min_level`. Related to [issue #5](https://github.com/Zkir/UrbanEye3D/issues/5) and [issue #1](https://github.com/Zkir/UrbanEye3D/issues/1)
+
+### August 3, 2025
+* Refactoring: `Contour` class is now located in the `utils` package
+
+### July 31, 2025
+* Autotest for Scene.updateData() -- proved to be very usefull
+* Tags related to color and material (`building:colour`, `building:material`, `roof:colour`, `roof:material`) are inherited from building to parts. This improves colors significantly.
+* Check whether building part belongs to a building imporved. Actual contour is tested, not only bbox.
+
+### July 30, 2025
+* [enh] Support of **roof:shape=cross_gabled:** New mesher implemented.
+* [bugfix] Handling of defaults for height improved.
+
+## Version 1.0.0
 
 ### July 29, 2025
 * Name has been decided: we will go with **"Urban Eye 3D"**
