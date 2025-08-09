@@ -450,6 +450,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
         public void init(RenderableBuildingElement building) {
 
             this.building = building;
+            this.noWalls = (building.wallHeight <= building.minHeight);
             // Polygon contains just indices of the base vertices.
             // since we removed unnecessary nodes, this initialization is very simple
             //except order should be reversed

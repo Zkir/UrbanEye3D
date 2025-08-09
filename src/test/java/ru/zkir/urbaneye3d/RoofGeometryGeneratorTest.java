@@ -188,7 +188,6 @@ class RoofGeometryGeneratorTest {
         }
     }
 
-    /* temporary disabled, do not remove!!
     //the same test as above, for all known roof shapes, but with wallHeight=0, i.e. no walls (roof only) case.
     @Test
     void testAllRoofShapesNoWalls(){
@@ -199,7 +198,6 @@ class RoofGeometryGeneratorTest {
             AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape.toString());
         }
     }
-     */
 
     //only SPECIAL cases should be added below.
     // For example, some specific parameter values different from default ones. roof:orientation=across, multipolygons with holes or smth like this.
@@ -283,7 +281,6 @@ class RoofGeometryGeneratorTest {
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.ROUND.toString() + ", pentagonal base");
     }
 
-    /* temporary disabled, do not remove!!
     @Test
     //to do: test all the roofs with pentagonal base
     void testRoundRoofNonRectangularNoWalls() {
@@ -296,6 +293,5 @@ class RoofGeometryGeneratorTest {
         // Common set of topology checks for a mesh.
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.ROUND.toString() + ", pentagonal base");
     }
-   */
 
 }

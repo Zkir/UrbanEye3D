@@ -52,7 +52,10 @@ See [Devblog page](DEVBLOG.md)
 
 ## Architectural Notes
 
-*   **Core Principle:** All meshes for all roof shapes must be generated as **watertight** bodies with correct **outward-facing normals**. This is enforced by the `assertWatertight` and `assertNormalsOutward` checks in the `RoofGeometryGeneratorTest`.
+*   **Core Principle:** All meshes for all roof shapes must be generated as **watertight** bodies with correct **outward-facing normals**. This is enforced by the `assertWatertight` and `assertNormalsAndConsistency` checks in the `RoofGeometryGeneratorTest`.
+*   **Normal Vector Validation:** Validating that normals face "outward" is complex for non-convex shapes (like buildings with courtyards or complex roofs like an onion dome). A naive check against the geometric center of the mesh will fail. The robust approach is a two-step process:
+    1.  **Consistency Check:** Ensure the entire mesh has a consistent winding order. This can be verified by checking that for every edge, the two adjacent faces traverse the edge in opposite directions.
+    2.  **Orientation Anchor:** After consistency is confirmed, check the absolute orientation of a single "anchor" face. A bottom face is ideal, as its normal should always point downwards (negative Z). If the anchor is correct and the mesh is consistent, the entire model is correctly oriented.
 *   **Plugin Entry Point:** `UrbanEye3dPlugin.java` is the main entry point, responsible for initializing the 3D dialog window (`DialogWindow3D.java`).
 *   **3D Scene Management:** `DialogWindow3D.java` creates and manages the `Renderer3D` canvas and handles user input for navigation (orbit, pan, zoom).
 *   **Rendering:** `Renderer3D.java` is the core of the visualization. It uses JOGL (OpenGL for Java) to render the `Scene`. It manages the camera, lighting, and the main rendering loop. It also handles the switch between solid and wireframe modes.
