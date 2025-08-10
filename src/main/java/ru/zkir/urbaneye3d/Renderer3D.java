@@ -271,12 +271,18 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         if (totalHeight > 0.1) { // Avoid division by zero
             aoFactor = 0.6f + 0.4f * (float)(vertexHeight / totalHeight);
         }
-
-        Color finalColor = new Color(
-                (int)(baseColor.getRed() * aoFactor),
-                (int)(baseColor.getGreen() * aoFactor),
-                (int)(baseColor.getBlue() * aoFactor)
-        );
+        //TODO: dirty hack. No idea why AO factor is calculated differently for Osm2World, jsut to make things breathe.
+        Color finalColor;
+        try {
+            finalColor = new Color(
+                    (int) (baseColor.getRed() * aoFactor),
+                    (int) (baseColor.getGreen() * aoFactor),
+                    (int) (baseColor.getBlue() * aoFactor)
+            );
+        }catch (Exception e){
+            //UrbanEye3dPlugin.debugMsg("Color range is wrong: " +baseColor.getRed() + " " + baseColor.getGreen() + " " + baseColor.getBlue() + " ao factor "+ aoFactor);
+            finalColor = new Color(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue());
+            }
 
         gl.glColor3f(finalColor.getRed() / 255.0f, finalColor.getGreen() / 255.0f, finalColor.getBlue() / 255.0f);
         gl.glVertex3d(vertex.x, vertex.y, vertex.z);
