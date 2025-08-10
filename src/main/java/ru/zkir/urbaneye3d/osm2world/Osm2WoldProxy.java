@@ -2,6 +2,7 @@ package ru.zkir.urbaneye3d.osm2world;
 
 import com.drew.lang.annotations.NotNull;
 import org.osm2world.O2WConverter;
+import org.osm2world.conversion.O2WConfig;
 import org.osm2world.map_data.creation.MapDataBuilder;
 import org.osm2world.map_data.data.MapData;
 import org.osm2world.map_data.data.MapNode;
@@ -21,11 +22,18 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Osm2WoldProxy {
     public static ru.zkir.urbaneye3d.utils.Mesh composeMesh(RenderableBuildingElement element) {
 
         var o2w = new O2WConverter();
+        o2w.setConfig(new O2WConfig(Map.of(
+                "lod", "3",
+                "consoleLogLevels", "FATAL"
+        )));
+
+
         var builder = new MapDataBuilder();
 
         final boolean DEBUG=false;
@@ -49,6 +57,14 @@ public class Osm2WoldProxy {
 
             builder.createWayArea(wayNodes, tags);
         }else{
+            //TODO: dirty hack: osm2world does not render building parts by itself,
+            //so we should change parts to buildings.
+            if (element.tags.containsKey("building:part")){
+                String part_value= element.tags.get("building:part");
+                element.tags.remove("building:part");
+                element.tags.put("building",part_value);
+            }
+
             var tags = TagSet.of(element.tags);
 
             if (!element.hasComplexContour()){
@@ -82,6 +98,8 @@ public class Osm2WoldProxy {
 
             }
         }
+
+
 
         Scene scene = null;
         try {

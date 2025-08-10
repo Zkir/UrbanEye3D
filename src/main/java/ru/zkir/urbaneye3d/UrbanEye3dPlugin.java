@@ -21,6 +21,10 @@ public class UrbanEye3dPlugin extends Plugin {
         return dialog;
     }
 
+    public static void debugMsg(String s) {
+        System.err.println("[UrbanEye3d] "+s);
+    }
+
     @Override
     public PreferenceSetting getPreferenceSetting() {
         return new UrbanEye3dPreferences();

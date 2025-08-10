@@ -2,6 +2,7 @@ package ru.zkir.urbaneye3d;
 
 import com.drew.lang.annotations.NotNull;
 import org.openstreetmap.josm.data.coor.LatLon;
+import org.osm2world.util.exception.InvalidGeometryException;
 import ru.zkir.urbaneye3d.osm2world.Osm2WoldProxy;
 import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
@@ -132,7 +133,15 @@ public class RenderableBuildingElement {
     }
 
     public void composeMeshViaOsm2World(){
-        this.mesh = Osm2WoldProxy.composeMesh(this);
+        try {
+            this.mesh = Osm2WoldProxy.composeMesh(this);
+        }
+        catch (InvalidGeometryException e){
+            //TODO: print original primitive ID.
+            UrbanEye3dPlugin.debugMsg("Unable to process geometry via osm2world at " + origin.toString() +" " + e.getMessage());
+
+            this.mesh = null;
+        }
     }
 
 
