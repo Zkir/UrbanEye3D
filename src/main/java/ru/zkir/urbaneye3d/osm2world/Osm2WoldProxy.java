@@ -11,6 +11,7 @@ import org.osm2world.math.shapes.TriangleXYZ;
 import org.osm2world.scene.Scene;
 import org.osm2world.scene.mesh.Mesh;
 import org.osm2world.scene.mesh.TriangleGeometry;
+import org.openstreetmap.josm.spi.preferences.Config;
 import ru.zkir.urbaneye3d.RenderableBuildingElement;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 import ru.zkir.urbaneye3d.utils.ObjExporter;
@@ -28,8 +29,9 @@ public class Osm2WoldProxy {
     public static ru.zkir.urbaneye3d.utils.Mesh composeMesh(RenderableBuildingElement element) {
 
         var o2w = new O2WConverter();
+        String lod = Config.getPref().get("urbaneye3d.osm2world.lod", "3");
         o2w.setConfig(new O2WConfig(Map.of(
-                "lod", "3",
+                "lod", lod,
                 "consoleLogLevels", "FATAL"
         )));
 

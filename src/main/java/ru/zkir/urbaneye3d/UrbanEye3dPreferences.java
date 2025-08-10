@@ -19,7 +19,9 @@ public class UrbanEye3dPreferences extends DefaultTabPreferenceSetting {
 
     private JCheckBox wireframeCheckBox;
     private JComboBox<String> renderingEngineComboBox;
+    private JComboBox<String> lodComboBox;
     private final String[] renderingEngines = {tr("Urban Eye"), tr("Osm2World")};
+    private final String[] lodLevels = {"1", "2", "3", "4"};
     private final JPanel panel = new JPanel(new GridBagLayout());
 
     public UrbanEye3dPreferences() {
@@ -47,7 +49,22 @@ public class UrbanEye3dPreferences extends DefaultTabPreferenceSetting {
         renderingEngineComboBox.setToolTipText(tr("Select the engine to generate 3D models."));
         panel.add(renderingEngineComboBox, gbc);
 
-        // Row 1: Wireframe Checkbox
+        // Row 1: LOD Level
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.weightx = 0.0;
+        gbc.fill = GridBagConstraints.NONE;
+        panel.add(new JLabel(tr("LOD (for Osm2World):")), gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        lodComboBox = new JComboBox<>(lodLevels);
+        lodComboBox.setToolTipText(tr("Select the Level of Detail for Osm2World rendering."));
+        panel.add(lodComboBox, gbc);
+
+
+        // Row 2: Wireframe Checkbox
         gbc.gridy++;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
@@ -66,6 +83,7 @@ public class UrbanEye3dPreferences extends DefaultTabPreferenceSetting {
         wireframeCheckBox.setSelected(Config.getPref().getBoolean("urbaneye3d.wireframe.enabled", false));
         String currentEngine = Config.getPref().get("urbaneye3d.rendering.engine", "Urban Eye");
         renderingEngineComboBox.setSelectedItem("Osm2World".equals(currentEngine) ? tr("Osm2World") : tr("Urban Eye"));
+        lodComboBox.setSelectedItem(Config.getPref().get("urbaneye3d.osm2world.lod", "3"));
     }
 
     public boolean savePreferences() {
@@ -76,6 +94,9 @@ public class UrbanEye3dPreferences extends DefaultTabPreferenceSetting {
             String selectedValue = (String) renderingEngineComboBox.getSelectedItem();
             String keyToSave = tr("Osm2World").equals(selectedValue) ? "Osm2World" : "Urban Eye";
             Config.getPref().put("urbaneye3d.rendering.engine", keyToSave);
+        }
+        if (lodComboBox != null) {
+            Config.getPref().put("urbaneye3d.osm2world.lod", (String) lodComboBox.getSelectedItem());
         }
         return false; // No restart required
     }
