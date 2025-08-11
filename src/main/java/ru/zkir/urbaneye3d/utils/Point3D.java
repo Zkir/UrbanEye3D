@@ -5,6 +5,12 @@ import java.util.Objects;
 public class Point3D {
     public double x, y, z;
 
+    public Point3D(Point2D p2d) {
+        this.x = p2d.x;
+        this.y = p2d.y;
+        this.z = 0;
+    }
+
     @Override
     public String toString() {
        //We need "Vector here" for compatibility tests with blosm plugin

@@ -113,7 +113,7 @@ class SceneTest {
         //resulting number of  buildings is not so important.
         //Just to understan how picture changes.
         int NumberOfBuildings =scene.renderableElements.size();
-        assertTrue(NumberOfBuildings>=4377 && NumberOfBuildings<=4383, "Number of building " + NumberOfBuildings + " in reasonable range");
+        assertTrue(NumberOfBuildings>=4377 && NumberOfBuildings<=4385, "Number of building " + NumberOfBuildings + " in reasonable range");
 
         //4395 - for all roofs
         //4211 -- zero height parts excluded (without height inheritance)

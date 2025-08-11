@@ -9,74 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MesherLinearProfile extends  RoofGenerator {
-    public enum LinearProfiles {
-        GABLED(getGabled()),
-        ROUND(getRound()),
-        GAMBREL(getGambrel()),
-        SALTBOX(getSaltbox());
-
-        final List<Point2D> profile_data;
-
-        LinearProfiles(ArrayList<Point2D> profile_data){
-            this.profile_data = profile_data;
-        }
-
-        // Gabled. there is own mesher for gabled roof, but just in case.
-        private static ArrayList<Point2D> getGabled() {
-            ArrayList<Point2D> profile = new ArrayList<>();
-            profile.add(new Point2D(0.0000, 0.0000));
-            profile.add(new Point2D(0.2500, 0.7500));
-            profile.add(new Point2D(0.5000, 1.0000));
-            profile.add(new Point2D(0.7500, 0.7500));
-            profile.add(new Point2D(1.0000, 0.0000));
-            return profile;
-        }
-
-        // Gambrel
-        private static ArrayList<Point2D> getGambrel() {
-            ArrayList<Point2D> profile = new ArrayList<>();
-            profile.add(new Point2D(0.0000, 0.0000));
-            profile.add(new Point2D(0.2500, 0.7500));
-            profile.add(new Point2D(0.5000, 1.0000));
-            profile.add(new Point2D(0.7500, 0.7500));
-            profile.add(new Point2D(1.0000, 0.0000));
-            return profile;
-        }
-
-        // Round
-        private static ArrayList<Point2D> getRound() {
-            ArrayList<Point2D> profile = new ArrayList<>();
-            profile.add(new Point2D(0.0000,	0.0000));
-            profile.add(new Point2D(0.0381,	0.3827));
-            profile.add(new Point2D(0.1464,	0.7071));
-            profile.add(new Point2D(0.3087,	0.9239));
-            profile.add(new Point2D(0.5000,	1.0000));
-            profile.add(new Point2D(0.6913,	0.9239));
-            profile.add(new Point2D(0.8536,	0.7071));
-            profile.add(new Point2D(0.9619,	0.3827));
-            profile.add(new Point2D(1.0000,	0.0000));
-            return profile;
-        }
-
-        // or is it a double_saltbox? See https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table#Subtype_3
-        private static ArrayList<Point2D> getSaltbox() {
-            ArrayList<Point2D> profile = new ArrayList<>();
-            profile.add(new Point2D(0.0000, 0.0000));
-            profile.add(new Point2D(0.3333, 1.0000));
-            profile.add(new Point2D(0.6666, 1.0000));
-            profile.add(new Point2D(1.0000, 0.0000));
-            return profile;
-        }
 
 
-
-        public List<Point2D> getProfile() {
-            return profile_data;
-        }
-    }
-
-    private final LinearProfiles profile;
-    MesherLinearProfile(LinearProfiles profile){
+    private final MesherLinearProfile2.LinearProfiles profile;
+    MesherLinearProfile(MesherLinearProfile2.LinearProfiles profile){
         this.profile = profile;
     }
 
@@ -114,10 +50,23 @@ public class MesherLinearProfile extends  RoofGenerator {
                 longestSideIndex = i;
             }
         }
+        if (!building.roofOrientation.isEmpty()) {
+            if (building.roofOrientation.equals("across")) {
+                longestSideIndex = (longestSideIndex + 1) % 4;
+            }
+        }else if ( building.roofDirection!=null && !Double.isNaN(building.roofDirection)){
+            //process direction.
+            //direction specified in roof:direction is direction across the ridge.that's why acrossDirection is parallel to the longest side.
+            Point3D acrossDirection = new Point3D(basePoints.get(longestSideIndex).subtract(basePoints.get((longestSideIndex + 1) % 4))).normalize();
+            Point3D alongDirection = new Point3D(basePoints.get((longestSideIndex+1) % 4).subtract(basePoints.get((longestSideIndex + 2) % 4))).normalize();
 
-        if(building.roofOrientation.equals("across")){
-            longestSideIndex = (longestSideIndex + 1) % 4;
+            double d = Math.toRadians(building.roofDirection);
+            var orig_direction = new Point3D(Math.sin(d), Math.cos(d), 0.);
+            if( Math.abs(orig_direction.dot(alongDirection)) < Math.abs(orig_direction.dot(acrossDirection))){
+                longestSideIndex = (longestSideIndex + 1) % 4; //across!!
+            }
         }
+
 
         // 3. Переупорядочить точки контура
         List<Point2D> orderedPoints = new ArrayList<>();

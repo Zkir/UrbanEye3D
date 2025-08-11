@@ -31,7 +31,7 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 * Serious autotest fix: more accurate normals check, which work properly even for non-convex meshes.
 
 #### Performance tests:
-Scene #1, Сity center ( ~4200 parts):
+Scene #1, City center ( ~4200 parts):
 * GEOMETRY UPDATE TIME: 306 ms 
 * Render Time (Average 100 frames avg): 95 ms
 

@@ -19,13 +19,13 @@ import org.openstreetmap.josm.spi.preferences.Config;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RoofGeometryGeneratorTest {
+class RoofGeneratorTopologyTest {
 
     static {
         Config.setPreferencesInstance(new org.openstreetmap.josm.data.Preferences());
     }
 
-    private ArrayList<Point2D> createRectangularBase(double width, double depth) {
+    public static ArrayList<Point2D> createRectangularBase(double width, double depth) {
         ArrayList<Point2D> base = new ArrayList<>();
         base.add(new Point2D(-width / 2, -depth / 2));
         base.add(new Point2D(width / 2, -depth / 2));
@@ -34,13 +34,13 @@ class RoofGeometryGeneratorTest {
         return base;
     }
 
-    private ArrayList<Point2D> createPentagonalBase() {
+    public static ArrayList<Point2D> createPentagonalBase() {
         ArrayList<Point2D> base = new ArrayList<>();
-        base.add(new Point2D(120.70860290527344, -225.74282836914062));
-        base.add(new Point2D(64.7934341430664, 38.12529373168945));
-        base.add(new Point2D(129.06674194335938, 323.88177490234375));
-        base.add(new Point2D(-43.17829132080078, 325.7801513671875));
-        base.add(new Point2D(-51.55766296386719, -223.84390258789062));
+        base.add(new Point2D(120, -225));
+        base.add(new Point2D(64, 38));
+        base.add(new Point2D(129, 323));
+        base.add(new Point2D(-43, 325));
+        base.add(new Point2D(-51, -223));
         return base;
     }
 
@@ -63,7 +63,7 @@ class RoofGeometryGeneratorTest {
 
         return contour;
     }
-    private RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
+    public static RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
         return new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  height, minHeight, roofHeight,
@@ -199,6 +199,38 @@ class RoofGeometryGeneratorTest {
         }
     }
 
+    @Test
+    void testAllRoofShapesNonRectangular() {
+        ArrayList<Point2D> base = createPentagonalBase();
+        for (RoofShapes roof_shape: RoofShapes.values()) {
+            //some roofs still do not support arbitrary base
+            if (roof_shape == RoofShapes.HIPPED || roof_shape == RoofShapes.HALF_HIPPED ||
+                   roof_shape == RoofShapes.MANSARD|| roof_shape == RoofShapes.CROSS_GABLED ){
+                continue;
+            }
+            //if (roof_shape == RoofShapes.SALTBOX) continue;
+            RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 5, 10);
+            Mesh mesh = roof_shape.getMesher().generate(test_building);
+            AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape + ", pentagonal base");
+        }
+    }
+
+    @Test
+    void testAllRoofShapesNonRectangularNoWalls() {
+        ArrayList<Point2D> base = createPentagonalBase();
+        for (RoofShapes roof_shape: RoofShapes.values()) {
+            //some roofs still do not support arbitrary base
+            if (roof_shape == RoofShapes.HIPPED || roof_shape == RoofShapes.HALF_HIPPED ||
+                    roof_shape == RoofShapes.MANSARD|| roof_shape == RoofShapes.CROSS_GABLED ){
+                continue;
+            }
+            RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 10, 10);
+            Mesh mesh = roof_shape.getMesher().generate(test_building);
+            AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape + ", pentagonal base");
+        }
+    }
+
+
     //only SPECIAL cases should be added below.
     // For example, some specific parameter values different from default ones. roof:orientation=across, multipolygons with holes or smth like this.
     @Test
@@ -265,145 +297,6 @@ class RoofGeometryGeneratorTest {
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
-    }
-
-
-    @Test
-    //to do: test all the roofs with pentagonal base
-    void testRoundRoofNonRectangular() {
-        ArrayList<Point2D> base = createPentagonalBase();
-
-        RenderableBuildingElement test_building = createTestBuilding(base,  RoofShapes.ROUND, 0, 5, 10);
-
-        Mesh mesh = RoofShapes.ROUND.getMesher().generate(test_building);
-
-        // Common set of topology checks for a mesh.
-        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.ROUND.toString() + ", pentagonal base");
-    }
-
-    @Test
-    //to do: test all the roofs with pentagonal base
-    void testRoundRoofNonRectangularNoWalls() {
-        ArrayList<Point2D> base = createPentagonalBase();
-
-        RenderableBuildingElement test_building = createTestBuilding(base,  RoofShapes.ROUND, 0, 10, 10);
-
-        Mesh mesh = RoofShapes.ROUND.getMesher().generate(test_building);
-
-        // Common set of topology checks for a mesh.
-        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.ROUND.toString() + ", pentagonal base");
-    }
-
-    /* temporary disabled. DO NOT REMOVE!
-    @Test
-    void testGabledRoof_GoldenMaster() {
-        ArrayList<Point2D> base = createRectangularBase(20, 10);
-        RenderableBuildingElement test_building = createTestBuilding(base, RoofShapes.GABLED, 0, 5, 10);
-        Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
-        String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
-        String expected = "# Blender-compatible OBJ\n" +
-                "mtllib default.mtl\n\n" +
-                "v -10.000000 0.000000 -5.000000\n" +
-                "v 10.000000 0.000000 -5.000000\n" +
-                "v 10.000000 0.000000 5.000000\n" +
-                "v -10.000000 0.000000 5.000000\n" +
-                "v -10.000000 5.000000 -5.000000\n" +
-                "v 10.000000 5.000000 -5.000000\n" +
-                "v 10.000000 5.000000 5.000000\n" +
-                "v -10.000000 5.000000 5.000000\n" +
-                "v 10.000000 10.000000 0.000000\n" +
-                "v -10.000000 10.000000 0.000000\n" +
-                "\ng object_default\n" +
-                "usemtl default\n" +
-                "\n# Roof\n" +
-                "f 7 8 10 9\n" +
-                "f 5 6 9 10\n" +
-                "\n# Walls \n" +
-                "f 3 4 8 7\n" +
-                "f 1 2 6 5\n" +
-                "f 2 3 7 9 6\n" +
-                "f 4 1 5 10 8\n" +
-                "\n# Base\n" +
-                "f 4 3 2 1\n";
-
-        assertEquals(expected.trim().replaceAll("\\s+", " "), result.trim().replaceAll("\\s+", " "));
-    }
-    */
-
-    @Test
-    void testRoundRoof_GoldenMaster() {
-        ArrayList<Point2D> base = createRectangularBase(20, 10);
-        RenderableBuildingElement test_building = createTestBuilding(base, RoofShapes.ROUND, 0, 5, 10);
-        Mesh mesh = RoofShapes.ROUND.getMesher().generate(test_building);
-        String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
-        String expected = "# Blender-compatible OBJ\n" +
-                "mtllib default.mtl\n\n" +
-                "v -10.000000 0.000000 5.000000\n" +
-                "v 10.000000 0.000000 5.000000\n" +
-                "v 10.000000 0.000000 -5.000000\n" +
-                "v -10.000000 0.000000 -5.000000\n" +
-                "v 10.000000 5.000000 5.000000\n" +
-                "v -10.000000 5.000000 5.000000\n" +
-                "v -10.000000 5.000000 -5.000000\n" +
-                "v -10.000000 5.975000 -4.900000\n" +
-                "v -10.000000 6.915000 -4.620000\n" +
-                "v -10.000000 7.780000 -4.160000\n" +
-                "v -10.000000 8.535000 -3.540000\n" +
-                "v -10.000000 9.155000 -2.780000\n" +
-                "v -10.000000 9.620000 -1.910000\n" +
-                "v -10.000000 9.905000 -0.980000\n" +
-                "v -10.000000 10.000000 0.000000\n" +
-                "v -10.000000 9.905000 0.980000\n" +
-                "v -10.000000 9.620000 1.910000\n" +
-                "v -10.000000 9.155000 2.780000\n" +
-                "v -10.000000 8.535000 3.540000\n" +
-                "v -10.000000 7.780000 4.160000\n" +
-                "v -10.000000 6.915000 4.620000\n" +
-                "v -10.000000 5.975000 4.900000\n" +
-                "v 10.000000 5.000000 -5.000000\n" +
-                "v 10.000000 5.975000 4.900000\n" +
-                "v 10.000000 6.915000 4.620000\n" +
-                "v 10.000000 7.780000 4.160000\n" +
-                "v 10.000000 8.535000 3.540000\n" +
-                "v 10.000000 9.155000 2.780000\n" +
-                "v 10.000000 9.620000 1.910000\n" +
-                "v 10.000000 9.905000 0.980000\n" +
-                "v 10.000000 10.000000 0.000000\n" +
-                "v 10.000000 9.905000 -0.980000\n" +
-                "v 10.000000 9.620000 -1.910000\n" +
-                "v 10.000000 9.155000 -2.780000\n" +
-                "v 10.000000 8.535000 -3.540000\n" +
-                "v 10.000000 7.780000 -4.160000\n" +
-                "v 10.000000 6.915000 -4.620000\n" +
-                "v 10.000000 5.975000 -4.900000\n" +
-                "\ng object_default\n" +
-                "usemtl default\n" +
-                "\n# Roof\n" +
-                "f 24 5 6 22\n" +
-                "f 22 21 25 24\n" +
-                "f 21 20 26 25\n" +
-                "f 20 19 27 26\n" +
-                "f 19 18 28 27\n" +
-                "f 18 17 29 28\n" +
-                "f 17 16 30 29\n" +
-                "f 16 15 31 30\n" +
-                "f 15 14 32 31\n" +
-                "f 14 13 33 32\n" +
-                "f 13 12 34 33\n" +
-                "f 12 11 35 34\n" +
-                "f 11 10 36 35\n" +
-                "f 10 9 37 36\n" +
-                "f 9 8 38 37\n" +
-                "f 8 7 23 38\n" +
-                "\n# Walls \n" +
-                "f 2 1 6 5\n" +
-                "f 1 4 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 6\n" +
-                "f 4 3 23 7\n" +
-                "f 3 2 5 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 23\n" +
-                "\n# Base\n" +
-                "f 1 2 3 4\n";
-
-        assertEquals(expected.trim().replaceAll("\\s+", " "), result.trim().replaceAll("\\s+", " "));
     }
 
 }

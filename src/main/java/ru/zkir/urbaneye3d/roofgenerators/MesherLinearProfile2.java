@@ -52,7 +52,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
                     new Point2D(0.6666, 1.0000),
                     new Point2D(1.0000, 0.0000)
                 },
-                10, 0.5);
+                100, 0.5);
 
         final Point2D[] profile;
         final int numSamples;
@@ -63,6 +63,10 @@ public class MesherLinearProfile2 extends RoofGenerator {
             this.profile = points;
             this.numSamples = numSamples;
             this.angleToHeight = angleToHeight;
+        }
+
+        public List<Point2D> getProfile() {//get profile as list.
+            return Arrays.asList(this.profile);
         }
     }
 
@@ -78,9 +82,22 @@ public class MesherLinearProfile2 extends RoofGenerator {
     }
 
     //main method to be called
-    public Mesh generate(RenderableBuildingElement building)
-    {
+    public Mesh generate(RenderableBuildingElement building){
+        if (building.getContour().size() == 4) {
+            return generateR(building);
+        }else{
+            return generateQR(building);
+        }
+    }
+    //generate roof via "simple" mesher for rectangular roof;
+    public Mesh generateR(RenderableBuildingElement building){
+        var simpleMesher = new MesherLinearProfile(this.profile_data);
+        return simpleMesher.generate(building);
+    }
 
+    //generate roof via "complex" mesher for quasi-rectangular roof;
+    public Mesh generateQR(RenderableBuildingElement building)
+    {
         var mesherLinearProfileQR = new MesherLinearProfileQuasiRectangular(profile_data);
         try {
             mesherLinearProfileQR.init(building);
@@ -452,7 +469,6 @@ public class MesherLinearProfile2 extends RoofGenerator {
         List<Point3D> verts = new ArrayList<>();
         Polygon polygon;
         List<Double> projections = new ArrayList<>();
-        boolean hasRidge = true;
         double roofHeight;
         double polygonWidth;
         int minProjIndex;
@@ -832,24 +848,24 @@ public class MesherLinearProfile2 extends RoofGenerator {
             var alongDirection = this.polygon.getDefaultDirection();
             var acrossDirection = this.polygon.getAcrossDirection();
 
-            if ( building.roofDirection==null || Double.isNaN(building.roofDirection)){
-                if (this.hasRidge && "across".equals(building.roofOrientation)) {
+            this.direction = alongDirection;// default value is "along"
+
+            if (!building.roofOrientation.isEmpty()) {
+                if ("across".equals(building.roofOrientation)) {
                     // The roof ridge is across the longest side of the building outline,
                     // i.e. the profile direction is along the longest side
                     this.direction = acrossDirection;
                 }else{
                     this.direction = alongDirection;
                 }
-            } else{
-                Double d = Math.toRadians(building.roofDirection);
-                 var orig_direction = new Point3D(Math.sin(d), Math.cos(d), 0.);
+            } else if ( building.roofDirection!=null && !Double.isNaN(building.roofDirection)){
+                double d = Math.toRadians(building.roofDirection);
+                var orig_direction = new Point3D(Math.sin(d), Math.cos(d), 0.);
                 if( Math.abs(orig_direction.dot(alongDirection)) > Math.abs(orig_direction.dot(acrossDirection))){
                     this.direction = alongDirection;
                 }else{
                     this.direction = acrossDirection;
                 }
-
-
             }
 
             // For each vertex from <polygon.verts> calculate projection of the vertex
