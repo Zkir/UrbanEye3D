@@ -25,7 +25,7 @@ public class RenderableBuildingElement {
     public final @NotNull Color roofColor;
     public final @NotNull Color bottomColor;
     public final RoofShapes roofShape;
-    public final double roofDirection;
+    public final Double roofDirection;
     public final @NotNull String roofOrientation;
     private final Contour contour;
     public final LatLon origin;

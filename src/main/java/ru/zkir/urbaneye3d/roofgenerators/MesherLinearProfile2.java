@@ -825,20 +825,31 @@ public class MesherLinearProfile2 extends RoofGenerator {
         void processDirection() {
 
             // <d> stands for direction
+            // this actually differs from reference Blosm implementation
+            // ridge direction can be either along or across
+            // even if direction angle is specified, it only helps to choose orientation.
 
-            Double d = building.roofDirection;
+            var alongDirection = this.polygon.getDefaultDirection();
+            var acrossDirection = this.polygon.getAcrossDirection();
 
-            if ( d==null || Double.isNaN(d)){
+            if ( building.roofDirection==null || Double.isNaN(building.roofDirection)){
                 if (this.hasRidge && "across".equals(building.roofOrientation)) {
                     // The roof ridge is across the longest side of the building outline,
                     // i.e. the profile direction is along the longest side
-                    this.direction = this.polygon.getAcrossDirection();
+                    this.direction = acrossDirection;
                 }else{
-                    this.direction = this.polygon.getDefaultDirection();
+                    this.direction = alongDirection;
                 }
             } else{
-                d = Math.toRadians(d);
-                this.direction = new Point3D(Math.sin(d), Math.cos(d), 0.);
+                Double d = Math.toRadians(building.roofDirection);
+                 var orig_direction = new Point3D(Math.sin(d), Math.cos(d), 0.);
+                if( Math.abs(orig_direction.dot(alongDirection)) > Math.abs(orig_direction.dot(acrossDirection))){
+                    this.direction = alongDirection;
+                }else{
+                    this.direction = acrossDirection;
+                }
+
+
             }
 
             // For each vertex from <polygon.verts> calculate projection of the vertex
