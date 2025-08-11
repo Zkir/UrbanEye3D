@@ -106,7 +106,7 @@ src
 ```
 
 ## Operation instructions
-
+*   **JAVA version:** use JAVA 11
 *   **Definition of Done:** A task is considered DONE only when `mvn package` completes successfully without any errors.
 *   **Human testing required:** Do not proceed to next task, before previous one is confirmed by a human.
 *   **Do not suggest git commits**. Git commits in this project are allowed for protein-based developers only.

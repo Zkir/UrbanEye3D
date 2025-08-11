@@ -4,10 +4,74 @@ import ru.zkir.urbaneye3d.RenderableBuildingElement;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.*;
 
-import java.io.IOException;
 import java.util.*;
 
 public class MesherLinearProfile2 extends RoofGenerator {
+
+    // Профили крыш
+    enum LinearProfiles {
+        GABLED( new Point2D[]{
+                    new Point2D(0.0, 0.0),
+                    new Point2D(0.5, 1.0),
+                    new Point2D(1.0, 0.0)
+                },
+                10, 0.5),
+
+        ROUND(new Point2D[]{
+                    new Point2D(0.0, 0.0),
+                    new Point2D(0.01, 0.195),
+                    new Point2D(0.038, 0.383),
+                    new Point2D(0.084, 0.556),
+                    new Point2D(0.146, 0.707),
+                    new Point2D(0.222, 0.831),
+                    new Point2D(0.309, 0.924),
+                    new Point2D(0.402, 0.981),
+                    new Point2D(0.5, 1.0),
+                    new Point2D(0.598, 0.981),
+                    new Point2D(0.691, 0.924),
+                    new Point2D(0.778, 0.831),
+                    new Point2D(0.854, 0.707),
+                    new Point2D(0.916, 0.556),
+                    new Point2D(0.962, 0.383),
+                    new Point2D(0.99, 0.195),
+                    new Point2D(1.0, 0.0)
+                },
+                100, 0.1),
+
+        GAMBREL(new Point2D[]{
+                    new Point2D(0.0000, 0.0000),
+                    new Point2D(0.2500, 0.7500),
+                    new Point2D(0.5000, 1.0000),
+                    new Point2D(0.7500, 0.7500),
+                    new Point2D(1.0000, 0.0000)
+                }, 10, 0.5),
+
+        SALTBOX(new Point2D[]{// or is it a "double_saltbox"? See https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table#Subtype_3
+                    new Point2D(0.0000, 0.0000),
+                    new Point2D(0.3333, 1.0000),
+                    new Point2D(0.6666, 1.0000),
+                    new Point2D(1.0000, 0.0000)
+                },
+                10, 0.5);
+
+        final Point2D[] profile;
+        final int numSamples;
+        final double angleToHeight;
+
+        // constructor
+        LinearProfiles(Point2D[] points, int numSamples, double angleToHeight) {
+            this.profile = points;
+            this.numSamples = numSamples;
+            this.angleToHeight = angleToHeight;
+        }
+    }
+
+    private final LinearProfiles profile_data;
+
+    public MesherLinearProfile2(LinearProfiles profile_data) {
+        super();
+        this.profile_data =  profile_data;
+    }
 
     public static void debugMsg(String s){
         //System.err.println(s);
@@ -16,11 +80,11 @@ public class MesherLinearProfile2 extends RoofGenerator {
     //main method to be called
     public Mesh generate(RenderableBuildingElement building)
     {
-        var profile_data = ROUND_ROOF;
-        var roofProfile = new LinearProfileInner(profile_data);
+
+        var mesherLinearProfileQR = new MesherLinearProfileQuasiRectangular(profile_data);
         try {
-            roofProfile.init(building);
-            roofProfile.make();
+            mesherLinearProfileQR.init(building);
+            mesherLinearProfileQR.make();
         }
         catch (Exception e){
             UrbanEye3dPlugin.debugMsg("LinearProfile2 unable to create mesh, with message: " + e.getMessage() );
@@ -30,11 +94,11 @@ public class MesherLinearProfile2 extends RoofGenerator {
 
         Mesh mesh= new Mesh();
 
-        mesh.verts = roofProfile.verts;
+        mesh.verts = mesherLinearProfileQR.verts;
 
-        mesh.roofFaces = copyFaces(roofProfile.roofIndices);
-        mesh.wallFaces = copyFaces(roofProfile.wallIndices);
-        mesh.bottomFaces = copyFaces(roofProfile.bottomFaces);
+        mesh.roofFaces = copyFaces(mesherLinearProfileQR.roofIndices);
+        mesh.wallFaces = copyFaces(mesherLinearProfileQR.wallIndices);
+        mesh.bottomFaces = copyFaces(mesherLinearProfileQR.bottomFaces);
 
         debugMsg("DEBUG: MAKE COMPLETED!!!");
 
@@ -91,51 +155,6 @@ public class MesherLinearProfile2 extends RoofGenerator {
     }
 
     static final double ZERO = 1e-6;
-    
-    // Профили крыш
-
-    public final Object[] GABLED_ROOF = { //
-
-        new Point2D[]{
-            new Point2D(0.0, 0.0),
-            new Point2D(0.5, 1.0),
-            new Point2D(1.0, 0.0)
-        },
-        Map.of(
-            "numSamples", 10,
-            "angleToHeight", 0.5
-        )
-    };
-
-
-    public final Object[] ROUND_ROOF = { //ROUND_ROOF
-            new Point2D[]{
-                    new Point2D(0.0, 0.0),
-                    new Point2D(0.01, 0.195),
-                    new Point2D(0.038, 0.383),
-                    new Point2D(0.084, 0.556),
-                    new Point2D(0.146, 0.707),
-                    new Point2D(0.222, 0.831),
-                    new Point2D(0.309, 0.924),
-                    new Point2D(0.402, 0.981),
-                    new Point2D(0.5, 1.0),
-                    new Point2D(0.598, 0.981),
-                    new Point2D(0.691, 0.924),
-                    new Point2D(0.778, 0.831),
-                    new Point2D(0.854, 0.707),
-                    new Point2D(0.916, 0.556),
-                    new Point2D(0.962, 0.383),
-                    new Point2D(0.99, 0.195),
-                    new Point2D(1.0, 0.0)
-            },
-            Map.of(
-                    "numSamples", 1000,
-                    "angleToHeight", 0.1)
-
-    };
-
-
-    // Аналогично для других профилей: ROUND_ROOF,  GAMBREL_ROOF, SALTBOX_ROOF
 
     static class ProfiledVert {
         double x, y;
@@ -144,9 +163,9 @@ public class MesherLinearProfile2 extends RoofGenerator {
         int index;
         boolean onSlot;
         int vertIndex;
-        LinearProfileInner roof;
+        MesherLinearProfileQuasiRectangular roof;
 
-        public ProfiledVert(LinearProfileInner roof, int i, double roofVerticalPosition, boolean noWalls) {
+        public ProfiledVert(MesherLinearProfileQuasiRectangular roof, int i, double roofVerticalPosition, boolean noWalls) {
             debugMsg("\nDEBUG: ProfiledVert constructor entry");
             debugMsg("    Params: RoofProfile: " + roof + ", i=" + i +
                     ", roofVerticalPosition=" + roofVerticalPosition + ", noWalls=" + noWalls);
@@ -205,8 +224,6 @@ public class MesherLinearProfile2 extends RoofGenerator {
             }
             
             this.index = index;
-            this.onSlot = onSlot;
-            this.vertIndex = vertIndex;
         }
 
         @Override
@@ -429,13 +446,13 @@ public class MesherLinearProfile2 extends RoofGenerator {
         }
     }
 
-    static class Roof {
+
+    static class MesherLinearProfileQuasiRectangular {
         protected RenderableBuildingElement building;
         List<Point3D> verts = new ArrayList<>();
         Polygon polygon;
         List<Double> projections = new ArrayList<>();
         boolean hasRidge = true;
-        double defaultHeight = 3.0;
         double roofHeight;
         double polygonWidth;
         int minProjIndex;
@@ -447,81 +464,11 @@ public class MesherLinearProfile2 extends RoofGenerator {
         List<List<Integer>> wallIndices = new ArrayList<>();
         List<List<Integer>> bottomFaces = new ArrayList<>();
 
-        public void init(RenderableBuildingElement building) {
-
-            this.building = building;
-            this.noWalls = (building.wallHeight <= building.minHeight);
-            // Polygon contains just indices of the base vertices.
-            // since we removed unnecessary nodes, this initialization is very simple
-            //except order should be reversed
-            polygon = new Polygon(building.getContour());
-
-            //filling vertices
-            int n = building.getContour().size();
-            for (int i=0;i<n;i++){
-                var p2d = building.getContour().get(n-i-1);
-                verts.add( new Point3D(p2d.x, p2d.y, building.minHeight));
-            }
-            roofVerticalPosition = building.wallHeight;
-            roofHeight = building.roofHeight;
-
-        }
-
-        public boolean make() {
-            throw new RuntimeException("this should not be called!");
-            //return false;
-        }
-
-        public void makeBottom() {
-
-            ArrayList<Integer> bottomFace = new  ArrayList<>();
-
-            // We need to create faces with correct winding (counter-clockwise for bottom face when viewed from outside).
-            int n = polygon.indices.size();
-            for (int i = 0; i < n; i++) {
-                bottomFace.add(polygon.indices.get(n-i-1)); //in reverse order, to get proper normals
-            }
-            bottomFaces.add(bottomFace);
-        }
-
-        protected Point3D getDefaultDirection() {
-
-            // a perpendicular to the longest edge of the polygon
-            var edges =polygon.getEdges();
-            Point3D maxEdge=null;
-            double maxEdgeLength=-1;
-            for(var edge:edges){
-                if (edge.length()>maxEdgeLength){
-                    maxEdgeLength = edge.length();
-                    maxEdge = edge;
-                }
-            }
-            return maxEdge.cross(polygon.normal).normalize();
-        }
-
-        //parallel to the longest edge of the polygon
-        protected Point3D getAcrossDirection() {
-
-            //# a perpendicular to the longest edge of the polygon
-            var edges =polygon.getEdges();
-            Point3D maxEdge=null;
-            double maxEdgeLength=-1;
-            for(var edge:edges){
-                if (edge.length()>maxEdgeLength){
-                    maxEdgeLength = edge.length();
-                    maxEdge = edge;
-                }
-            }
-            return maxEdge.normalize();
-        }
-    }
-
-    static class LinearProfileInner extends Roof {
         Point2D[] profile;
         int numSlots;
         int lastProfileIndex;
         int numSamples;
-        Double angleToHeight;
+        double angleToHeight;
         boolean lEndZero;
         boolean rEndZero;
         int[] profileQ;
@@ -542,15 +489,14 @@ public class MesherLinearProfile2 extends RoofGenerator {
         }
 
 
-
-        public LinearProfileInner(Object[] profile_data) {
+        public MesherLinearProfileQuasiRectangular(LinearProfiles profile_data) {
             debugMsg("\nDEBUG: RoofProfile constructor entry");
-            debugMsg("    Params: data=" + Arrays.toString(profile_data));
+            debugMsg("    Params: data=" + profile_data);
             
-            this.profile = (Point2D[]) profile_data[0];
-            Map<String, Object> attributes = (Map<String, Object>) profile_data[1];
-            this.numSamples = (int) attributes.get("numSamples");
-            this.angleToHeight = (Double) attributes.get("angleToHeight");
+            this.profile = profile_data.profile;
+
+            this.numSamples = profile_data.numSamples;
+            this.angleToHeight = profile_data.angleToHeight;
             
             numSlots = profile.length;
             lastProfileIndex = numSlots - 1;
@@ -581,13 +527,27 @@ public class MesherLinearProfile2 extends RoofGenerator {
             profileQ[numSamples] = idx;
         }
 
-        @Override
+
         public void init(RenderableBuildingElement building) {
             debugMsg("\nDEBUG: RoofProfile.init() entry");
 
-            super.init(building);
+            this.building = building;
+            this.noWalls = (building.wallHeight <= building.minHeight);
+
+            polygon = new Polygon(building.getContour());
+
+            //filling vertices
+            int n = building.getContour().size();
+            for (int i=0;i<n;i++){
+                var p2d = building.getContour().get(n-i-1);
+                verts.add( new Point3D(p2d.x, p2d.y, building.minHeight));
+            }
+            roofVerticalPosition = building.wallHeight;
+            roofHeight = building.roofHeight;
+
             initProfile();
         }
+
 
         void initProfile() {
             debugMsg("\nDEBUG: RoofProfile.initProfile() entry");
@@ -596,27 +556,14 @@ public class MesherLinearProfile2 extends RoofGenerator {
             }
         }
 
-        @Override
+
         public boolean make() {
             debugMsg("\nDEBUG: RoofProfile.make() entry");
             debugMsg("    Params: ");
             if (projections.isEmpty()) {
                 processDirection();
             }
-            
-            _make();
-            //on this stage we should have
-            /*
-                - slots
-                - verts
-                - polygon, i.e. contour
-                - roofIndices
-                - projections
-                - roofHeight;
-                - minProjIndex;
-                - direction;
-                - roofVerticalPosition;
-            */
+
             debugMsg("        slots:  ");
             for (var s: this.slots) {
                 debugMsg("            " + s.toString());
@@ -673,24 +620,19 @@ public class MesherLinearProfile2 extends RoofGenerator {
             // Формирование граней крыши
             Slot slotR = slots[1];
             slotR.trackUp(roofIndices, null, null);
-            onRoofForSlotCompleted(0);
-            
+
             for (int j = 1; j < lastProfileIndex; j++) {
                 Slot slotL = slotR;
                 slotR = slots[j + 1];
                 slotR.trackUp(roofIndices, null, null);
                 slotL.trackDown(roofIndices, null, null);
-                onRoofForSlotCompleted(j);
             }
             
-            super.makeBottom();
+            makeBottom();
 
             return true;
         }
 
-        void _make() {
-            //Can be redefined if necessary.
-        }
 
         ProfiledVert getProfiledVert(int i, double roofVerticalPosition, boolean noWalls) {
             debugMsg("\nDEBUG: RoofProfile.getProfiledVert() entry");
@@ -699,6 +641,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
             
             return new ProfiledVert(this, i, roofVerticalPosition, noWalls);
         }
+
 
         void createProfileVertices(ProfiledVert pv1, ProfiledVert pv2, ProfiledVert _pv) {
             debugMsg("\nDEBUG: RoofProfile.createProfileVertices() entry");
@@ -823,6 +766,7 @@ public class MesherLinearProfile2 extends RoofGenerator {
             this.slot = slot;
         }
 
+
         Slot createVerticesBetween(Slot slot, ProfiledVert pv1, ProfiledVert pv2, 
                                  Point3D v1, Point3D v2, int start, int end, 
                                  int step, List<Integer> _wallIndices) {
@@ -865,7 +809,6 @@ public class MesherLinearProfile2 extends RoofGenerator {
                 double yCoord = pv1.y + factorSlots * (p[slotIndex].x - pv1.x);
 
                 slot.append(vertIndexForSlots, yCoord, originSlot, null);
-                onNewSlotVertex(slotIndex, vertIndexForSlots, yCoord);
                 slot.processWallFace(_wallIndices, pv1, pv2);
                 
                 vertIndex++;
@@ -878,15 +821,6 @@ public class MesherLinearProfile2 extends RoofGenerator {
             return slot;
         }
 
-        double getRoofHeight() {
-            debugMsg("\nDEBUG: RoofProfile.getRoofHeight() entry");
-            debugMsg("    Params: ");
-            
-            // Заглушка для парсинга тегов
-            double h = defaultHeight;
-            // Реальная реализация должна парсить теги OSM
-            return h;
-        }
 
         void processDirection() {
 
@@ -898,9 +832,9 @@ public class MesherLinearProfile2 extends RoofGenerator {
                 if (this.hasRidge && "across".equals(building.roofOrientation)) {
                     // The roof ridge is across the longest side of the building outline,
                     // i.e. the profile direction is along the longest side
-                    this.direction =getAcrossDirection();
+                    this.direction = this.polygon.getAcrossDirection();
                 }else{
-                    this.direction = this.getDefaultDirection();
+                    this.direction = this.polygon.getDefaultDirection();
                 }
             } else{
                 d = Math.toRadians(d);
@@ -935,22 +869,22 @@ public class MesherLinearProfile2 extends RoofGenerator {
                     maxIndex = i;
                 }
             }
-
             this.minProjIndex = minIndex;
             this.maxProjIndex = maxIndex;
             this.polygonWidth = maxProj - minProj;
-
         }
 
-        void onNewSlotVertex(int slotIndex, int vertIndex, double y) {
-            // this function is empty in blender-osm.
+
+        public void makeBottom() {
+            ArrayList<Integer> bottomFace = new  ArrayList<>();
+            // We need to create faces with correct winding (counter-clockwise for bottom face when viewed from outside).
+            int n = polygon.indices.size();
+            for (int i = 0; i < n; i++) {
+                bottomFace.add(polygon.indices.get(n-i-1)); //in reverse order, to get proper normals
+            }
+            bottomFaces.add(bottomFace);
         }
 
-        void onRoofForSlotCompleted(int slotIndex) {
-            debugMsg("\nDEBUG: RoofProfile.onRoofForSlotCompleted() entry");
-            debugMsg("    Params: slotIndex=" + slotIndex);
-            // Может быть переопределено
-        }
     }
 
     // Вспомогательные классы
@@ -990,6 +924,37 @@ public class MesherLinearProfile2 extends RoofGenerator {
             return result;
 
         }
+        protected Point3D getDefaultDirection() {
+
+            // a perpendicular to the longest edge of the polygon
+            var edges =this.getEdges();
+            Point3D maxEdge=null;
+            double maxEdgeLength=-1;
+            for(var edge:edges){
+                if (edge.length()>maxEdgeLength){
+                    maxEdgeLength = edge.length();
+                    maxEdge = edge;
+                }
+            }
+            return maxEdge.cross(this.normal).normalize();
+        }
+
+        //parallel to the longest edge of the polygon
+        protected Point3D getAcrossDirection() {
+
+            //# a perpendicular to the longest edge of the polygon
+            var edges =this.getEdges();
+            Point3D maxEdge=null;
+            double maxEdgeLength=-1;
+            for(var edge:edges){
+                if (edge.length()>maxEdgeLength){
+                    maxEdgeLength = edge.length();
+                    maxEdge = edge;
+                }
+            }
+            return maxEdge.normalize();
+        }
+
     }
 
 }

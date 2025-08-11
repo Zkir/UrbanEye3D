@@ -8,12 +8,12 @@ public enum RoofShapes {
     HALF_DOME("half-dome", new MesherConicProfile("half-dome")),
     ONION("onion", new MesherConicProfile("onion")),
     SKILLION("skillion", new MesherSkillion()),
-    GABLED("gabled", new MesherGabled()),
     HIPPED("hipped", new MesherHipped()),
     MANSARD("mansard", new MesherMansard()),
-    ROUND("round", new MesherLinearProfile2()),
-    GAMBREL("gambrel", new MesherLinearProfile(MesherLinearProfile.LinerProfiles.GAMBREL)),
-    SALTBOX("saltbox", new MesherLinearProfile(MesherLinearProfile.LinerProfiles.SALTBOX)),
+    GABLED("gabled", new MesherLinearProfile2(MesherLinearProfile2.LinearProfiles.GABLED)),
+    ROUND("round", new MesherLinearProfile2(MesherLinearProfile2.LinearProfiles.ROUND)),
+    GAMBREL("gambrel", new MesherLinearProfile2(MesherLinearProfile2.LinearProfiles.GAMBREL)),
+    SALTBOX("saltbox", new MesherLinearProfile2(MesherLinearProfile2.LinearProfiles.SALTBOX)),
     HALF_HIPPED("half-hipped", new MesherHalfHipped()),
     CROSS_GABLED("cross_gabled", new MesherCrossGabled());
 

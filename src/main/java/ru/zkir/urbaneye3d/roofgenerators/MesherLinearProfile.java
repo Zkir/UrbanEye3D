@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MesherLinearProfile extends  RoofGenerator {
-    public enum LinerProfiles{
+    public enum LinearProfiles {
         GABLED(getGabled()),
         ROUND(getRound()),
         GAMBREL(getGambrel()),
@@ -17,7 +17,7 @@ public class MesherLinearProfile extends  RoofGenerator {
 
         final List<Point2D> profile_data;
 
-        LinerProfiles(ArrayList<Point2D> profile_data){
+        LinearProfiles(ArrayList<Point2D> profile_data){
             this.profile_data = profile_data;
         }
 
@@ -75,8 +75,8 @@ public class MesherLinearProfile extends  RoofGenerator {
         }
     }
 
-    private final LinerProfiles profile;
-    MesherLinearProfile(LinerProfiles profile){
+    private final LinearProfiles profile;
+    MesherLinearProfile(LinearProfiles profile){
         this.profile = profile;
     }
 
