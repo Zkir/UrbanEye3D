@@ -1,8 +1,9 @@
 # Urban Eye 3D – JOSM 3D Viewer Plugin
 
-## Goal
+## Goals
 
-Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window.
+* Create a JOSM plugin that displays loaded buildings (including `building:part=*`) in a separate 3D window, making creation and editing of 3d building in OSM easier.
+* Make it possible to generate more realistic 3D buildings based on OSM data, including windows, cornices, doors, entrances and  building passages.
 
 ## Next Steps
 
@@ -10,18 +11,43 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 *  TG, none.
 
-### Ideas for the Further Development 
+### Ideas for the Further Development
+
+MoSCoW: 
+
+#### Must 
+* Support linear profile roofs for **arbitrary quasi-quadrangular bases**.
+    * This is necessary because our best 3d models use this feature extensivly (https://3dcheck.zkir.ru/RUS_TOP/W419266377#model). Without it plugin is incomplete. 
+	* See  Plan for roof:shape implementation section 
+	* Some development has been done in [LinearProfile2 branch](https://github.com/Zkir/UrbanEye3D/tree/LinearProfile2) 	 
+
+#### Should
+* Support [windows](https://wiki.openstreetmap.org/wiki/Key:window).
+    * Since this feature is present in osm2world, we also want that.
+* Implement rendering of building passages (`tunnel=building_passage`). 
+    * Definetely, this requires support of boolean operations with meshes: "difference"
+
+
+#### Could 
 * Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene. 
-* **Continue with roof:shape support.**
-    * support linear profile roofs for arbitrary quasi-quadrangular bases. seems to be very tricky.
-        * See  Plan for roof:shape implementation section   
-    * implement zakomar roof somehow. maybe boolean operation should be tried.    
-* **More efficient check** for building/building part belongings based on r-tree  
-* **Real Ambient Occlusion.** See "Plan for Screen-Space Ambient Occlusion (SSAO) Implementation" section below
-* **Support of materials** (tags building:material  and roof:material). Note: material does not affect color, it affects procedural texture and metalness. 
+    * Performance is not a big issue right now, but it may become important if more complex geometry (e.g. polygonal windows) is generated.
+* **More efficient check** for building/building part belongings based on r-tree.
+    * Same as above  	
+* **Real Ambient Occlusion.** 
+	* Current rendering engine is good enough for the editing plugin. 
+    * See [Plan for Screen-Space Ambient Occlusion (SSAO) Implementation](#plan-for-screen-space-ambient-occlusion-ssao-implementation) section below
+* **Support of materials** (tags building:material  and roof:material). 
+	* Note: material does not affect color, it affects procedural texture and metalness. 
     * Some more advanced shading is obviously required. 
-* **New Icons** We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
-* osm2world supports [windows](https://wiki.openstreetmap.org/wiki/Key:window). we also want that.
+* Implement `zakomar` roof somehow. 
+    * It was implemented in Blosm, but that implementation is not suitable for us (not watertight). Probably boolean operation should be tried.    
+	
+#### Would [Not]
+* **New Icons**
+	* Current icon is simple, but it does the job
+	* We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
+* render other objects, not only buildings. 
+    * Seems to be a topic for osm2world integration. 
 
 
 ## Recent Accomplishments 
@@ -371,6 +397,7 @@ This measures how long it takes to render an already prepared scene. This code i
 
 This plan will allow us to obtain clear, measurable data to make a decision.
 
+## Learnings
 
 *   **JOSM Plugin Lifecycle:** `UrbanEye3dPlugin` is the entry point. It initializes `DialogWindow3D`, which is a `ToggleDialog`. JOSM automatically handles the creation of the menu item and the visibility of the dialog.
 *   **Event Handling:** The plugin listens for changes in the OSM data (`DataSetListener`) and map view (`MapView.addZoomChangeListener`) to trigger scene updates and redraws.

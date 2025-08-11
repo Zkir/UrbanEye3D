@@ -10,7 +10,7 @@
     <description>A JOSM plugin to view buildings in 3D.</description>
 
     <properties>
-        <!-- We are targeting Java 8, which is the baseline for JOSM -->
+        <!-- We are targeting Java 11, which is the baseline for JOSM -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
