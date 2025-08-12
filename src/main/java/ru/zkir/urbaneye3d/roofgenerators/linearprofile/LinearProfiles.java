@@ -33,7 +33,7 @@ public enum LinearProfiles {
             new Point2D(0.99, 0.195),
             new Point2D(1.0, 0.0)
     },
-            100, 0.1),
+            1000, 0.1),
 
     GAMBREL(new Point2D[]{
             new Point2D(0.0000, 0.0000),
@@ -41,7 +41,7 @@ public enum LinearProfiles {
             new Point2D(0.5000, 1.0000),
             new Point2D(0.7500, 0.7500),
             new Point2D(1.0000, 0.0000)
-    }, 10, 0.5),
+    }, 100, 0.5),
 
     SALTBOX(new Point2D[]{// or is it a "double_saltbox"? See https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table#Subtype_3
             new Point2D(0.0000, 0.0000),
