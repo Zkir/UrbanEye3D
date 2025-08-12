@@ -35,7 +35,7 @@ public class Contour {
                     tempContour.add(new Point2D(node.lon(), node.lat()));
                 }
             }
-            this.outerRings.add(simplifyContour(tempContour));
+            this.outerRings.add(tempContour);
         } else { //relation
             Relation relation = (Relation) primitive;
             this.outerRings = new ArrayList<>();
@@ -65,7 +65,7 @@ public class Contour {
                     }
 
                 }
-                this.outerRings.add(simplifyContour(pointRing));
+                this.outerRings.add(pointRing);
             }
 
             List<List<Node>> innerNodeRings = assembleRings(innerWays);
@@ -78,7 +78,7 @@ public class Contour {
                         pointRing.add(new Point2D(node.lon(), node.lat()));
                     }
                 }
-                this.innerRings.add(simplifyContour(pointRing));
+                this.innerRings.add(pointRing);
             }
         }
     }
@@ -116,7 +116,7 @@ public class Contour {
 
                 // 2. All points of the part must be outside all of the building's inner rings (holes).
                 for (ArrayList<Point2D> buildingInnerRing : this.innerRings) {
-                    if (isPointInside(buildingInnerRing, point)) {
+                    if (isPointStrictlyInside(buildingInnerRing, point)) {
                         return false; // Part is inside a hole of the building.
                     }
                 }
@@ -127,8 +127,20 @@ public class Contour {
         return true;
     }
 
-    private boolean isPointInside(List<Point2D> polygon, Point2D point) {
+    private boolean isPointStrictlyInside(List<Point2D> polygon, Point2D point) {
         if (isPointOnBorder(polygon, point)) {
+            return false;
+        }
+        return isPointInside(polygon, point, false);
+    }
+
+    private boolean isPointInside(List<Point2D> polygon, Point2D point) {
+        return isPointInside(polygon, point, true);
+    }
+
+
+    private boolean isPointInside(List<Point2D> polygon, Point2D point, boolean includeBorder) {
+        if (includeBorder && isPointOnBorder(polygon, point)) {
             return true; // for our purposes we consider borders as part of a polygon
         }
 
@@ -245,7 +257,12 @@ public class Contour {
     }
 
 
-    static ArrayList<Point2D> simplifyContour(ArrayList<Point2D> originalContour) {
+    ArrayList<Point2D> simplifyContour(ArrayList<Point2D> originalContour) {
+
+        if (this.mode.equals("LatLon")){
+            throw new RuntimeException("Contour simplification does not work correct in LatLon mode");
+        }
+
         if (originalContour.size() < 3) {
             return originalContour; // Cannot simplify a line or a single point
         }
@@ -254,29 +271,24 @@ public class Contour {
         boolean isClosed = originalContour.get(0).x == originalContour.get(originalContour.size() - 1).x &&
                 originalContour.get(0).y == originalContour.get(originalContour.size() - 1).y;
 
-
         int start_index = 0;
+        int numPoints = originalContour.size() - 1; // Don't process the  last point. In closed loop it's duplicate. in open way it cannot be removed.
+        Point2D p_prev;
         if (!isClosed) {
             start_index = 1;
-            simplifiedContour.add(originalContour.get(0));
+            p_prev = originalContour.get(0);
+            simplifiedContour.add(p_prev); //in case of open way, we can add the first node immediately (since it cannot be removed)
+        }else{
+            p_prev = originalContour.get(numPoints - 1); //for node 0 previous is second to last :)
         }
-        int numPoints = originalContour.size() - 1; // Don't process the  last point. In closed loop it's duplicate. in open way it cannot be removed.
-
-        //special check for the first node
 
         for (int i = start_index; i < numPoints; i++) {
-            //special check for the first (#0) node
-            Point2D p_prev;
-            if (i == 0) {
-                p_prev = originalContour.get(numPoints - 1); //for node 0 previous is second to last :)
-            } else {
-                p_prev = originalContour.get(i - 1);
-            }
             Point2D p_current = originalContour.get(i);
             Point2D p_next = originalContour.get(i + 1);
 
             if (!isAntiCollinear(p_prev, p_current, p_next)) { // If not anti-collinear, keep the point
                 simplifiedContour.add(p_current);
+                p_prev = p_current; //if we added a node, we can use it as previous on next step
             }
         }
 
@@ -352,5 +364,25 @@ public class Contour {
                 ring.set(i, getLocalCoords(ring.get(i), origin));
             }
         }
+    }
+
+    public void removeRedundantNodes() {
+        List<ArrayList<Point2D>> simplifiedOuterRings = new ArrayList<>();
+        List<ArrayList<Point2D>> simplifiedInnerRings = new ArrayList<>();
+
+        for (var ring: outerRings){
+            simplifiedOuterRings.add( simplifyContour(ring));
+
+        }
+
+        for (var ring: innerRings){
+            simplifiedInnerRings.add( simplifyContour(ring));
+        }
+
+
+
+        outerRings = simplifiedOuterRings;
+        innerRings = simplifiedInnerRings;
+
     }
 }

@@ -52,6 +52,10 @@ MoSCoW:
 
 ## Recent Accomplishments 
 
+### August 12, 2025
+* More proper algorithm for building outline simplification (related to [github issue #12](https://github.com/Zkir/UrbanEye3D/issues/12))
+* More proper spatial containment check for multipolygons with holes (related to [github issue #12](https://github.com/Zkir/UrbanEye3D/issues/12))
+
 ### August 9, 2025
 * primitiveId  added to RenderableBuildingElement
 * Serious autotest fix: more accurate normals check, which work properly even for non-convex meshes.
@@ -71,7 +75,7 @@ Scene #2, Christ the Saviour (921 parts)
 * Version uplifted to 1.2.0
 * Small refactorings
 * [pythonic script](collect_tags.py) to collect actually used tags has been created. taginfo.json has been submited to taginfo projects.
-* Support of skillion roof for multipolygons.
+* Support of skillion roof for multipolygons with holes.
 
 ### Earlier
 See [Devblog page](DEVBLOG.md)

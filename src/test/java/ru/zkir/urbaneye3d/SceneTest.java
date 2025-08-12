@@ -83,6 +83,27 @@ class SceneTest {
         assertEquals(3, scene.renderableElements.size());
     }
 
+
+    @Test
+    /*
+        Even more complex multipolygon belonging topology test
+        this time with common nodes for both outer and inner rings.
+     */
+
+    void testMultipolygonBelonging2() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("multipolygons_belonging2.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        // We expect only the building:part to be rendered, not the parent building.
+        assertEquals(1, scene.renderableElements.size());
+    }
+
+
     @Test
     void roundRoofPentagon() throws Exception{
 
