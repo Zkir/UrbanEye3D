@@ -113,6 +113,9 @@ public class Scene {
             if (roofShape.isEmpty()){
                 roofShape="flat";
             }
+            if (roofShape.equals("cone")){
+                roofShape="pyramidal";
+            }
 
             final double DEFAULT_LEVELS_NUMBER=2;
             final double DEFAULT_LEVEL_HEIGHT=3;
