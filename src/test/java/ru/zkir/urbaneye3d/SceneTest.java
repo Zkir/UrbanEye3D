@@ -105,6 +105,20 @@ class SceneTest {
 
 
     @Test
+    void roundRoofPentagon() throws Exception{
+
+        DataSet dataSet = loadDataSetFromOsmFile("round_roof_pentagon.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        // We expect only the building:part to be rendered, not the parent building.
+        assertEquals(1, scene.renderableElements.size());
+    }
+
+    @Test
     /*
         Test various buildings just from raw osm data
      */
@@ -120,7 +134,7 @@ class SceneTest {
         //resulting number of  buildings is not so important.
         //Just to understan how picture changes.
         int NumberOfBuildings =scene.renderableElements.size();
-        assertTrue(NumberOfBuildings>=4377 && NumberOfBuildings<=4384, "Number of building " + NumberOfBuildings + " in reasonable range");
+        assertTrue(NumberOfBuildings>=4377 && NumberOfBuildings<=4385, "Number of building " + NumberOfBuildings + " in reasonable range");
 
         //4395 - for all roofs
         //4211 -- zero height parts excluded (without height inheritance)

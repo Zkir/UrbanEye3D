@@ -247,10 +247,13 @@ public class Contour {
     }
 
     static Point2D getLocalCoords(Point2D point, LatLon center) {
+        //final double GRAD_LENGTH_M =111320.0;
+        final double GRAD_LENGTH_M = 6378137.*2*Math.PI/360.;
+
         double dx = point.x - center.lon();
         double dy = point.y - center.lat();
-        return new Point2D(dx * Math.cos(Math.toRadians(center.lat())) * 111320.0,
-                dy * 111320.0);
+        return new Point2D(dx * Math.cos(Math.toRadians(center.lat())) * GRAD_LENGTH_M,
+                dy * GRAD_LENGTH_M);
     }
 
 

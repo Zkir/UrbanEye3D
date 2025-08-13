@@ -150,12 +150,21 @@ public class MesherFlat extends RoofGenerator{
 
                 for (int i = 0; i < n; i++) {
                     int next = (i + 1) % n;
-                    mesh.wallFaces.add(new int[]{
-                            baseStartIdx + i,
-                            baseStartIdx + next,
-                            wallTopStartIdx + next,
-                            wallTopStartIdx + i
-                    });
+                    if (c > 0) { // Inner contour, reverse winding
+                        mesh.wallFaces.add(new int[]{
+                                baseStartIdx + next,
+                                baseStartIdx + i,
+                                wallTopStartIdx + i,
+                                wallTopStartIdx + next
+                        });
+                    } else { // Outer contour
+                        mesh.wallFaces.add(new int[]{
+                                baseStartIdx + i,
+                                baseStartIdx + next,
+                                wallTopStartIdx + next,
+                                wallTopStartIdx + i
+                        });
+                    }
                 }
             }
         }
@@ -170,12 +179,21 @@ public class MesherFlat extends RoofGenerator{
 
                 for (int i = 0; i < n; i++) {
                     int next = (i + 1) % n;
-                    mesh.roofFaces.add(new int[]{ // Add to roofFaces for roof color
-                            wallTopStartIdx + i,
-                            wallTopStartIdx + next,
-                            roofTopStartIdx + next,
-                            roofTopStartIdx + i
-                    });
+                    if (c > 0) { // Inner contour, reverse winding
+                        mesh.roofFaces.add(new int[]{ // Add to roofFaces for roof color
+                                wallTopStartIdx + next,
+                                wallTopStartIdx + i,
+                                roofTopStartIdx + i,
+                                roofTopStartIdx + next
+                        });
+                    } else { // Outer contour
+                        mesh.roofFaces.add(new int[]{ // Add to roofFaces for roof color
+                                wallTopStartIdx + i,
+                                wallTopStartIdx + next,
+                                roofTopStartIdx + next,
+                                roofTopStartIdx + i
+                        });
+                    }
                 }
             }
         }

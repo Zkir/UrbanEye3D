@@ -1,5 +1,7 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
+import ru.zkir.urbaneye3d.roofgenerators.linearprofile.LinearProfiles;
+
 public enum RoofShapes {
     //supported roof shapes
     FLAT("flat", new MesherFlat()),
@@ -8,17 +10,16 @@ public enum RoofShapes {
     HALF_DOME("half-dome", new MesherConicProfile("half-dome")),
     ONION("onion", new MesherConicProfile("onion")),
     SKILLION("skillion", new MesherSkillion()),
-    GABLED("gabled", new MesherGabled()),
     HIPPED("hipped", new MesherHipped()),
     MANSARD("mansard", new MesherMansard()),
-    ROUND("round", new MesherLinearProfile(MesherLinearProfile.LinerProfiles.ROUND )),
-    GAMBREL("gambrel", new MesherLinearProfile(MesherLinearProfile.LinerProfiles.GAMBREL)),
-    SALTBOX("saltbox", new MesherLinearProfile(MesherLinearProfile.LinerProfiles.SALTBOX)),
+    GABLED("gabled", new MesherLinearProfile(LinearProfiles.GABLED)),
+    ROUND("round", new MesherLinearProfile(LinearProfiles.ROUND)),
+    GAMBREL("gambrel", new MesherLinearProfile(LinearProfiles.GAMBREL)),
+    SALTBOX("saltbox", new MesherLinearProfile(LinearProfiles.SALTBOX)),
     HALF_HIPPED("half-hipped", new MesherHalfHipped()),
     CROSS_GABLED("cross_gabled", new MesherCrossGabled());
 
     /* roof shapes yet to be supported.
-    CROSS_GABLED("cross_gabled"),
     ZAKOMAR("zakomar"),
     */
 
