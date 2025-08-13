@@ -13,17 +13,14 @@
 
 ### Ideas for the Further Development
 
-MoSCoW: 
+Prioritized via MoSCoW method: 
 
 #### Must 
-* Support linear profile roofs for **arbitrary quasi-quadrangular bases**.
-    * This is necessary because our best 3d models use this feature extensivly (https://3dcheck.zkir.ru/RUS_TOP/W419266377#model). Without it plugin is incomplete. 
-	* See  Plan for roof:shape implementation section 
-	* Some development has been done in [LinearProfile2 branch](https://github.com/Zkir/UrbanEye3D/tree/LinearProfile2) 	 
+*  TG, none.
 
 #### Should
-* Support [windows](https://wiki.openstreetmap.org/wiki/Key:window).
-    * Since this feature is present in osm2world, we also want that.
+* Support stairs (building:part=steps + roof:shape=skillion)
+* Support `roof:shape=hipped` via the Straight Skeleton algorithm 
 * Implement rendering of building passages (`tunnel=building_passage`). 
     * Definetely, this requires support of boolean operations with meshes: "difference"
 
@@ -39,46 +36,23 @@ MoSCoW:
 * **Support of materials** (tags building:material  and roof:material). 
 	* Note: material does not affect color, it affects procedural texture and metalness. 
     * Some more advanced shading is obviously required. 
+    
 * Implement `zakomar` roof somehow. 
     * It was implemented in Blosm, but that implementation is not suitable for us (not watertight). Probably boolean operation should be tried.    
+* Support of `roof:ridge=yes` as described in [ProposedRoofLines](https://wiki.openstreetmap.org/wiki/ProposedRoofLines)
+* Support [windows](https://wiki.openstreetmap.org/wiki/Key:window).
+    * Since this feature is present in osm2world, we also want that.
 	
 #### Would [Not]
 * **New Icons**
 	* Current icon is simple, but it does the job
 	* We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
-* render other objects, not only buildings. 
+* Render other objects, not only buildings. 
     * Seems to be a topic for osm2world integration. 
 
 
 ## Recent Accomplishments 
 
-### August 13, 2025
-* Support of roof:shape=cone added, as the synonym to pyramidal ([#15](https://github.com/Zkir/UrbanEye3D/issues/15))
-
-### August 12, 2025
-* More proper algorithm for building outline simplification (related to [github issue #12](https://github.com/Zkir/UrbanEye3D/issues/12))
-* More proper spatial containment check for multipolygons with holes (related to [github issue #12](https://github.com/Zkir/UrbanEye3D/issues/12))
-
-### August 9, 2025
-* primitiveId  added to RenderableBuildingElement
-* Serious autotest fix: more accurate normals check, which work properly even for non-convex meshes.
-
-#### Performance tests:
-Scene #1, City center ( ~4200 parts):
-* GEOMETRY UPDATE TIME: 306 ms 
-* Render Time (Average 100 frames avg): 95 ms
-
-Scene #2, Christ the Saviour (921 parts)
-* Render Time (100 frame average): 18 ms
-* GEOMETRY UPDATE TIME: 78 ms 
-
-Сonclusion: partial scene update is worth efforts
-
-### August 8, 2025
-* Version uplifted to 1.2.0
-* Small refactorings
-* [pythonic script](collect_tags.py) to collect actually used tags has been created. taginfo.json has been submited to taginfo projects.
-* Support of skillion roof for multipolygons with holes.
 
 ### Earlier
 See [Devblog page](DEVBLOG.md)
@@ -193,6 +167,10 @@ To add a test for a new shape (e.g., `hipped`):
 
 The `roof:shape` tag in OpenStreetMap is used to describe the shape of a building's roof. This plan outlines the steps to implement support for this tag in the 3D viewer plugin.
 
+See taginfo for known values of `roof:shape` tag:
+* https://taginfo.openstreetmap.org/keys/roof%3Ashape#values
+* https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table
+
 Already supported:
 * 'flat'
 * 'pyramidal' (synonym 'cone')
@@ -200,19 +178,20 @@ Already supported:
 * 'onion'
 * 'half-dome'
 * 'skillion'
-* 'gabled'  - for quadrilateral polygons.
+* 'gabled'  
+* 'round' 
+* 'gambrel' 
+* 'saltbox' -  There is no cosistent opionion about what this shape is.
 * 'hipped' - for quadrilateral polygons.
 * 'mansard' - for quadrilateral polygons.
-* 'round' - for quadrilateral polygons.
-* 'gambrel' - for quadrilateral polygons.
-* 'saltbox' - for quadrilateral polygons. Also, there is no cosistent opionion about what this shape is.
 * 'half-hipped' - for quadrilateral polygons.
 * 'cross_gabled' - for quadrilateral polygons.
 
 Yet to be implemented:
 
 * 'zakomar' -- no good implementation in in blosm (does not form watertight mesh)
-* Linear profile roof (`gabled`, `round`) for arbitrary polygons.  It is highly needed, since used in existing models from TOP-200.
+
+### Alternative algorithm for creation of roof shapes
 
 There is quite complex algorithm to create gabled roofs for n-gons in blosm, but it handles only rectangular-like buildings .
 A rectangular-like  means that the building is basically quadrangular(just with more verticies in contour), and the deviations from a quadrangle, although there are, are insignificant.
@@ -229,18 +208,14 @@ If we knew how to do Boolean operations on meshes, the algorithm would become tr
 5) that's it!
 
 
-See taginfo for known values of `roof:shape` tag:
-* https://taginfo.openstreetmap.org/keys/roof%3Ashape#values
-* https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table
-
 ### Reference implementation of roof:shapes
 
 Reference implementation from patched blosm blender addon should be reused whenewer possible, see:
 
-* d:\z3dViewer\ext_sources\blosm_source\building\renderer.py
-* d:\z3dViewer\ext_sources\blosm_source\building\roof\__init__.py
-* d:\z3dViewer\ext_sources\blosm_source\building\roof\zakomar.py
-* d:\z3dViewer\ext_sources\blosm_source\building\roof\profile.py
+* ..\ext_sources\blosm_source\building\renderer.py
+* ..\ext_sources\blosm_source\building\roof\__init__.py
+* ..\ext_sources\blosm_source\building\roof\zakomar.py
+* ..\ext_sources\blosm_source\building\roof\profile.py
 
 
 
@@ -403,6 +378,18 @@ This measures how long it takes to render an already prepared scene. This code i
 *   **If the update time is comparable to or less than the rendering time**, the problem is more likely in the complexity of the scene itself, and partial updates will have less effect.
 
 This plan will allow us to obtain clear, measurable data to make a decision.
+
+#### Performance test results:
+Scene #1, City center ( ~4200 parts):
+* GEOMETRY UPDATE TIME: 306 ms 
+* Render Time (Average 100 frames avg): 95 ms
+
+Scene #2, Christ the Saviour (921 parts)
+* Render Time (100 frame average): 18 ms
+* GEOMETRY UPDATE TIME: 78 ms 
+
+Сonclusion: partial scene update is worth efforts
+
 
 ## Learnings
 

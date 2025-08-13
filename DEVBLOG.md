@@ -1,5 +1,26 @@
 # Recent Accomplishments
 
+## Version 1.2.0
+
+### August 13, 2025
+* Support of roof:shape=cone added, as the synonym to pyramidal ([#15](https://github.com/Zkir/UrbanEye3D/issues/15))
+* Support of arbitrary (quasi-quadrangle) bases for Linear Profile roofs: gabled, gambrel, round and saltbox. (completed)
+
+### August 12, 2025
+* More proper algorithm for building outline simplification (related to [github issue #12](https://github.com/Zkir/UrbanEye3D/issues/12))
+* More proper spatial containment check for multipolygons with holes (related to [github issue #12](https://github.com/Zkir/UrbanEye3D/issues/12))
+
+### August 9, 2025
+* primitiveId  added to RenderableBuildingElement
+* Serious autotest fix: more accurate normals check, which work properly even for non-convex meshes.
+
+
+### August 8, 2025
+* Version uplifted to 1.2.0
+* Small refactorings
+* [pythonic script](collect_tags.py) to collect actually used tags has been created. taginfo.json has been submited to taginfo projects.
+* Support of skillion roof for multipolygons with holes.
+
 ## Version 1.1.0
 
 ### August 7, 2025
