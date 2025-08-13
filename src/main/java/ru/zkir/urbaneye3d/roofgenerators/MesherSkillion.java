@@ -11,6 +11,7 @@ import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MesherSkillion extends RoofGenerator {
@@ -79,6 +80,10 @@ public class MesherSkillion extends RoofGenerator {
 
     @Override
     public Mesh generate(RenderableBuildingElement building) {
+        if ("steps".equals(building.buildingPart)) {
+            return generateSteps(building);
+        }
+
         List<List<Point2D>> contours = new ArrayList<>();
         contours.addAll(building.getContourOuterRings());
         if (contours.isEmpty()) {
@@ -190,11 +195,9 @@ public class MesherSkillion extends RoofGenerator {
         }
 
         if (contours.size() == 1) {
-            // Simple case: one outer contour, no inner contours.
             List<Point2D> outerContour = contours.get(0);
             int n = outerContour.size();
 
-            // Create roof face as a single polygon
             int[] roofFace = new int[n];
             List<Integer> roofTopIdxs = contourRoofTopVertexIndices.get(0);
             for (int i = 0; i < n; i++) {
@@ -202,7 +205,6 @@ public class MesherSkillion extends RoofGenerator {
             }
             mesh.roofFaces.add(roofFace);
 
-            // Create bottom face as a single polygon (with reversed winding)
             int[] bottomFace = new int[n];
             int baseStartIdx = contourBaseVertexStartIndices.get(0);
             for (int i = 0; i < n; i++) {
@@ -210,7 +212,6 @@ public class MesherSkillion extends RoofGenerator {
             }
             mesh.bottomFaces.add(bottomFace);
         } else {
-            // Complex case: multiple contours (holes). Use tessellation.
             GLUtessellator tess = glu.gluNewTess();
             TessellatorCallback roofCallback = new TessellatorCallback(verts, mesh.roofFaces, building);
             setupTessellator(tess, roofCallback);
@@ -230,6 +231,179 @@ public class MesherSkillion extends RoofGenerator {
 
         return mesh;
     }
+
+    private Mesh generateSteps(RenderableBuildingElement building) {
+        if (building.hasComplexContour()) {
+            UrbanEye3dPlugin.debugMsg("Steps generation for complex contours is not yet supported. Building: " + building.primitiveId);
+            return null;
+        }
+        List<Point2D> contour = building.getContour();
+        if (contour.isEmpty()) return new Mesh();
+
+        double minHeight = building.minHeight;
+        double roofHeight = building.roofHeight;
+        double wallHeight = building.height - roofHeight;
+        double roofDirection = building.roofDirection;
+
+        Mesh mesh = new Mesh();
+        List<Point3D> verts = mesh.verts;
+
+        Point2D slopeVector = calculateSlopeVector(contour, roofDirection);
+
+        double maxProj = -Double.MAX_VALUE, minProj = Double.MAX_VALUE;
+        for (Point2D p : contour) {
+            double proj = p.x * slopeVector.x + p.y * slopeVector.y;
+            maxProj = Math.max(maxProj, proj);
+            minProj = Math.min(minProj, proj);
+        }
+
+        final double STEP_HEIGHT = 0.25;
+        int numSteps = (int) Math.max(1, Math.floor(roofHeight / STEP_HEIGHT));
+        double actualStepHeight = roofHeight / numSteps;
+        double projDiff = maxProj - minProj;
+        double stepDepth = (projDiff > 1e-9) ? projDiff / numSteps : 0;
+
+        // Add base vertices and bottom face
+        int baseStartIndex = verts.size();
+        contour.forEach(p -> verts.add(new Point3D(p.x, p.y, minHeight)));
+        int[] bottomFace = new int[contour.size()];
+        for (int i = 0; i < contour.size(); i++) bottomFace[i] = baseStartIndex + (contour.size() - 1 - i);
+        mesh.bottomFaces.add(bottomFace);
+
+        // --- Generate Steps (Risers and Treads) --- 
+        List<Point3D> frontIntersectionPoints = getIntersectionPoints(contour, slopeVector, minProj);
+        if (frontIntersectionPoints.size() < 2) return mesh; // Cannot form steps
+
+        // Initial vertices at the bottom of the first riser
+        int prev_v1_idx = verts.size();
+        verts.add(new Point3D(frontIntersectionPoints.get(0).x, frontIntersectionPoints.get(0).y, wallHeight));
+        int prev_v2_idx = verts.size();
+        verts.add(new Point3D(frontIntersectionPoints.get(1).x, frontIntersectionPoints.get(1).y, wallHeight));
+
+        // Store side vertices to build walls later
+        List<Integer> side1_indices = new ArrayList<>();
+        List<Integer> side2_indices = new ArrayList<>();
+        side1_indices.add(prev_v1_idx);
+        side2_indices.add(prev_v2_idx);
+
+        for (int s = 0; s < numSteps; s++) {
+            double z_top = wallHeight + (s + 1) * actualStepHeight;
+            double proj_back = minProj + (s + 1) * stepDepth;
+            List<Point3D> backIntersectionPoints = getIntersectionPoints(contour, slopeVector, proj_back);
+            if (backIntersectionPoints.size() < 2) continue;
+
+            // Create vertices for the top of the riser
+            int riser_v1_top_idx = verts.size();
+            verts.add(new Point3D(verts.get(prev_v1_idx).x, verts.get(prev_v1_idx).y, z_top));
+            int riser_v2_top_idx = verts.size();
+            verts.add(new Point3D(verts.get(prev_v2_idx).x, verts.get(prev_v2_idx).y, z_top));
+
+            // Create vertices for the back of the tread
+            int tread_v1_back_idx = verts.size();
+            verts.add(new Point3D(backIntersectionPoints.get(0).x, backIntersectionPoints.get(0).y, z_top));
+            int tread_v2_back_idx = verts.size();
+            verts.add(new Point3D(backIntersectionPoints.get(1).x, backIntersectionPoints.get(1).y, z_top));
+
+            // Add faces (winding is reversed to point normals outwards)
+            mesh.roofFaces.add(new int[]{riser_v1_top_idx, riser_v2_top_idx, prev_v2_idx, prev_v1_idx}); // Riser
+            mesh.roofFaces.add(new int[]{tread_v1_back_idx, tread_v2_back_idx, riser_v2_top_idx, riser_v1_top_idx}); // Tread
+
+            // Add to side wall profiles
+            side1_indices.add(riser_v1_top_idx);
+            side1_indices.add(tread_v1_back_idx);
+            side2_indices.add(riser_v2_top_idx);
+            side2_indices.add(tread_v2_back_idx);
+
+            // Update previous vertices for next step
+            prev_v1_idx = tread_v1_back_idx;
+            prev_v2_idx = tread_v2_back_idx;
+        }
+
+        // --- Wall Generation (for rectangular base) ---
+        int front_v1_base_idx = baseStartIndex + 0;
+        int front_v2_base_idx = baseStartIndex + 1;
+        int back_v1_base_idx = baseStartIndex + 3;
+        int back_v2_base_idx = baseStartIndex + 2;
+
+        // Front Wall
+        mesh.wallFaces.add(new int[]{front_v1_base_idx, front_v2_base_idx, side2_indices.get(side2_indices.size() - 1), side1_indices.get(side1_indices.size() - 1)});
+        // Back Wall
+        mesh.wallFaces.add(new int[]{back_v2_base_idx, back_v1_base_idx, side1_indices.get(0), side2_indices.get(0)});
+
+        // Side Wall 1
+        int[] wall1_face = new int[2 + side1_indices.size()];
+        wall1_face[0] = back_v1_base_idx;
+        wall1_face[1] = front_v1_base_idx;
+        for (int i = 0; i < side1_indices.size(); i++) {
+            wall1_face[2 + i] = side1_indices.get(side1_indices.size() - 1 - i);
+        }
+        mesh.wallFaces.add(wall1_face);
+
+        // Side Wall 2 (reversed winding)
+        int[] wall2_face = new int[2 + side2_indices.size()];
+        wall2_face[wall2_face.length - 1] = back_v2_base_idx;
+        wall2_face[wall2_face.length - 2] = front_v2_base_idx;
+        for (int i = 0; i < side2_indices.size(); i++) {
+            wall2_face[i] = side2_indices.get(i);
+        }
+        mesh.wallFaces.add(wall2_face);
+
+        return mesh;
+    }
+
+    private Point2D calculateSlopeVector(List<Point2D> contour, double roofDirection) {
+        Point2D slopeVector;
+        if (!Double.isNaN(roofDirection)) {
+            double angleRad = Math.toRadians(roofDirection);
+            slopeVector = new Point2D(-Math.sin(angleRad), -Math.cos(angleRad));
+        } else {
+            int[] longestEdgeIndices = findLongestEdge(contour);
+            Point2D p1 = contour.get(longestEdgeIndices[0]);
+            Point2D p2 = contour.get(longestEdgeIndices[1]);
+            slopeVector = new Point2D(-(p2.y - p1.y), p2.x - p1.x);
+        }
+        slopeVector.normalize();
+        return slopeVector;
+    }
+
+    private int findClosestVertexIndex(List<Point3D> vertices, Point3D target, int start, int count) {
+        int bestIdx = -1;
+        double minDst = Double.MAX_VALUE;
+        for (int i = 0; i < count; i++) {
+            double dst = vertices.get(start + i).distance(target);
+            if (dst < minDst) {
+                minDst = dst;
+                bestIdx = start + i;
+            }
+        }
+        return bestIdx;
+    }
+
+    private List<Point3D> getIntersectionPoints(List<Point2D> contour, Point2D slopeVector, double proj) {
+        List<Point3D> intersections = new ArrayList<>();
+        Point2D normal = new Point2D(-slopeVector.y, slopeVector.x);
+
+        for (int i = 0; i < contour.size(); i++) {
+            Point2D p1 = contour.get(i);
+            Point2D p2 = contour.get((i + 1) % contour.size());
+
+            double a1 = p2.y - p1.y, b1 = p1.x - p2.x, c1 = a1 * p1.x + b1 * p1.y;
+            double a2 = slopeVector.x, b2 = slopeVector.y, c2 = proj;
+            double det = a1 * b2 - a2 * b1;
+
+            if (Math.abs(det) > 1e-9) {
+                double x = (b2 * c1 - b1 * c2) / det;
+                double y = (a1 * c2 - a2 * c1) / det;
+                if (Math.min(p1.x, p2.x) <= x && x <= Math.max(p1.x, p2.x) &&
+                    Math.min(p1.y, p2.y) <= y && y <= Math.max(p1.y, p2.y)) {
+                    intersections.add(new Point3D(x, y, 0)); // Z is set later
+                }
+            }
+        }
+        intersections.sort(Comparator.comparingDouble(p -> p.x * normal.x + p.y * normal.y));
+        return intersections;
+    }
+
 
     private void setupTessellator(GLUtessellator tess, TessellatorCallback callback) {
         glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX_DATA, callback);

@@ -97,11 +97,10 @@
     <nd ref='-25405' />
     <nd ref='-25402' />
     <tag k='building:colour' v='purple' />
-    <tag k='building:part' v='yes' />
+    <tag k='building:part' v='steps' />
     <tag k='height' v='40' />
     <tag k='roof:colour' v='orange' />
     <tag k='roof:height' v='15' />
-    <tag k='roof:orientation' v='across' />
     <tag k='roof:shape' v='skillion' />
   </way>
   <way id='-7698' action='modify' visible='true'>
@@ -111,7 +110,7 @@
     <nd ref='-25409' />
     <nd ref='-25406' />
     <tag k='building:colour' v='purple' />
-    <tag k='building:part' v='yes' />
+    <tag k='building:part' v='steps' />
     <tag k='height' v='40' />
     <tag k='roof:colour' v='orange' />
     <tag k='roof:height' v='15' />

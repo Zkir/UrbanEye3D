@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openstreetmap.josm.spi.preferences.Config;
+import java.io.IOException;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -67,7 +69,7 @@ class RoofGeneratorTopologyTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
         return new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  height, minHeight, roofHeight,
-                "", "", roofShape.toString(), "", "" );
+                "", "", roofShape.toString(), "", "", "" );
     }
 
     private void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
@@ -240,7 +242,7 @@ class RoofGeneratorTopologyTest {
         Contour contour = new Contour(basePoints);
 
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 4,
-                "", "", RoofShapes.GABLED.toString(), "", "across" );
+                "", "", RoofShapes.GABLED.toString(), "", "across", "" );
 
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.GABLED.toString());
@@ -253,7 +255,7 @@ class RoofGeneratorTopologyTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.HIPPED.toString(), "", "across" );
+                "", "", RoofShapes.HIPPED.toString(), "", "across", "" );
 
         Mesh mesh = RoofShapes.HIPPED.getMesher().generate(test_building);
 
@@ -268,7 +270,7 @@ class RoofGeneratorTopologyTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.SKILLION.toString(), "45", "" );
+                "", "", RoofShapes.SKILLION.toString(), "45", "", "" );
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
 
@@ -280,9 +282,9 @@ class RoofGeneratorTopologyTest {
         Contour contour = createRectangularBaseWithHole(10, 10, 2, 2);
         LatLon origin = new LatLon(55,37);
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 3,
-                "", "", RoofShapes.FLAT.toString(), "", "" );
+                "", "", RoofShapes.FLAT.toString(), "", "", "" );
 
-        Mesh mesh = RoofShapes.FLAT.getMesher().generate(test_building); 
+        Mesh mesh = RoofShapes.FLAT.getMesher().generate(test_building);
 
         //common set of topology checks for a mesh.
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.FLAT.toString());
@@ -293,10 +295,30 @@ class RoofGeneratorTopologyTest {
         Contour contour = createRectangularBaseWithHole(12, 12, 4, 4);
         LatLon origin = new LatLon(55, 37);
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, 10, 0, 5,
-                "", "", RoofShapes.SKILLION.toString(), "30", "");
+                "", "", RoofShapes.SKILLION.toString(), "30", "", "");
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
+    }
+
+    @Test
+    void testSkillionRoofAsSteps() throws IOException {
+        ArrayList<Point2D> basePoints = createRectangularBase(5, 10);
+        LatLon origin = new LatLon(55,37);
+        Contour contour = new Contour(basePoints);
+        // Note: buildingPart is "steps"
+        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
+                "", "", RoofShapes.SKILLION.toString(), "0", "", "steps" );
+
+        Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
+
+        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "debug_steps.obj");
+
+        // The simplified wall generation in generateSteps might fail the watertight check for some shapes.
+        // For a simple rectangle, it should be okay.
+        // If it fails, I might need to relax the test for now and focus on the roof geometry.
+        // For now, let's keep the full check.
+        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, "SKILLION_STEPS");
     }
 
 }

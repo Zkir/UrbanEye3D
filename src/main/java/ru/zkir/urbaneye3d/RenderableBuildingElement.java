@@ -27,12 +27,14 @@ public class RenderableBuildingElement {
     public final RoofShapes roofShape;
     public final Double roofDirection;
     public final @NotNull String roofOrientation;
+    public final String buildingPart;
     private final Contour contour;
     public final LatLon origin;
     private Mesh mesh;
 
-    public RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation) {
+    public RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation, String buildingPart) {
         this.primitiveId = primitiveId;
+        this.buildingPart = buildingPart;
         if (contour==null){
             throw new RuntimeException("contour must be specified");
         }

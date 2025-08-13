@@ -190,6 +190,7 @@ public class Scene {
 
                 String roofDirection = getTagStr("roof:direction", primitive, parent);
                 String roofOrientation = getTagStr("roof:orientation", primitive, parent);
+                String buildingPart = getTagStr("building:part", primitive, parent);
 
                 LatLon primitiveOrigin = primitive.getBBox().getCenter();
                 Contour mainContour = primitiveContours.get(primitive);
@@ -202,13 +203,13 @@ public class Scene {
                             Contour partContour = new Contour(outerRing);
                             partContour.toLocalCoords(primitiveOrigin); //TODO: recalculate origin
                             partContour.removeRedundantNodes();
-                            renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(),  primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                            renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(),  primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation, buildingPart));
                         }
                     } else {
                         // Single outer ring, or multiple outer rings with inner rings, or a Way
                         mainContour.toLocalCoords(primitiveOrigin);
                         mainContour.removeRedundantNodes();
-                        renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                        renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation, buildingPart));
                     }
                 }
             }
