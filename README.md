@@ -11,23 +11,23 @@ While 3D visualization of OSM data has existed for years through external tools,
 Urban Eye 3D solves this problem! Mappers and 3D building enthusiasts can now preview their edits directly within JOSM before commiting changes to OpenStreetMap.
 
 ## Key Features
-* Support of the [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
+* Support for the [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
 * Visualization only  – no editing or export functionality
-* Intuitive navigation, simlar to modern 3d editors:  
+* Intuitive navigation, similar to modern 3D editors:  
   - Orbit (left mouse drag)  
   - Zoom (mouse wheel)
   - Pan (right mouse drag)
-* Basic color support for `building:colour` and `roof:colour` tags
+* Basic colour support for `building:colour` and `roof:colour` tags
 * Two modes: *solid* and *wireframe*. Press 'z' to switch between them
 * Real-time updates: Changes made in JOSM instantly reflect in the 3D view
 
 
 ### Limitations
-* Several roof shapes (`gabled`, `gambrel`, `hipped`, `round` and some others) are supported for quadrilateral polygons. 
-Support of those roof shapes for arbitrary non-convex polygons may be added in future versions.
+* Several roof shapes (`gabled`, `gambrel`, `hipped`, `round` and some others) are supported for quadrilateral polygons only. 
+Support for those roof shapes on arbitrary non-convex polygons may be added in future versions.
 
 ## How to install
-Please install the Urban Eyer 3D just like any other plugin in JOSM:
+Please install Urban Eye 3D just like any other plugin in JOSM:
 
 ![how to activate](docs/images/pic3_how_to_activate.png)
 

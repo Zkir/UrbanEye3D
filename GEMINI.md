@@ -52,6 +52,9 @@ MoSCoW:
 
 ## Recent Accomplishments 
 
+### August 13, 2025
+* Support of roof:shape=cone added, as the synonym to pyramidal ([#15](https://github.com/Zkir/UrbanEye3D/issues/15))
+
 ### August 12, 2025
 * More proper algorithm for building outline simplification (related to [github issue #12](https://github.com/Zkir/UrbanEye3D/issues/12))
 * More proper spatial containment check for multipolygons with holes (related to [github issue #12](https://github.com/Zkir/UrbanEye3D/issues/12))
@@ -192,7 +195,7 @@ The `roof:shape` tag in OpenStreetMap is used to describe the shape of a buildin
 
 Already supported:
 * 'flat'
-* 'pyramidal'
+* 'pyramidal' (synonym 'cone')
 * 'dome'
 * 'onion'
 * 'half-dome'
