@@ -22,7 +22,7 @@ Prioritized via MoSCoW method:
 * Support stairs (building:part=steps + roof:shape=skillion)
 * Support `roof:shape=hipped` via the Straight Skeleton algorithm 
 * Implement rendering of building passages (`tunnel=building_passage`). 
-    * Definetely, this requires support of boolean operations with meshes: "difference"
+    * Definitely, this requires support of boolean operations with meshes: "difference"
 
 
 #### Could 
@@ -52,7 +52,9 @@ Prioritized via MoSCoW method:
 
 
 ## Recent Accomplishments 
-
+### August 14, 2025
+* Version updated to 1.2.1
+* Minimize button in the 3D panel fixed.
 
 ### Earlier
 See [Devblog page](DEVBLOG.md)

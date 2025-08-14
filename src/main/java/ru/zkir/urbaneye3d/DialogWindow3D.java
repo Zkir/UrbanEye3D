@@ -30,9 +30,9 @@ public class DialogWindow3D extends ToggleDialog
     private OsmDataLayer listenedLayer;
 
     public DialogWindow3D(UrbanEye3dPlugin plugin) {
-        super("Urban Eye 3D", "urbaneye3d", "Urban Eye 3D", null, 150, true); //path for the icon is not required, JOSM picks it up by  automatically.
+        super("Urban Eye 3D", "urbaneye3d", "Urban Eye 3D", null, 250, true); //path for the icon is not required, JOSM picks it up by  automatically.
         renderer3D = new Renderer3D(scene3d);
-        add(renderer3D, BorderLayout.CENTER);
+        createLayout(renderer3D, false, null);
 
         // Register the action so the shortcut works, but don't create a menu item
         new ToggleWireframeAction(renderer3D);
@@ -60,9 +60,9 @@ public class DialogWindow3D extends ToggleDialog
         MainApplication.getLayerManager().addLayerChangeListener(this);
         MainApplication.getLayerManager().addActiveLayerChangeListener(this);
 
-
         updateListenedLayer();
         updateData();
+
     }
 
     @Override
