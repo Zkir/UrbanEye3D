@@ -257,7 +257,7 @@ public class MesherSkillion extends RoofGenerator {
             minProj = Math.min(minProj, proj);
         }
 
-        final double STEP_HEIGHT = 0.25;
+        final double STEP_HEIGHT = 0.16;
         int numSteps = (int) Math.max(1, Math.floor(roofHeight / STEP_HEIGHT));
         double actualStepHeight = roofHeight / numSteps;
         double projDiff = maxProj - minProj;
@@ -270,84 +270,64 @@ public class MesherSkillion extends RoofGenerator {
         for (int i = 0; i < contour.size(); i++) bottomFace[i] = baseStartIndex + (contour.size() - 1 - i);
         mesh.bottomFaces.add(bottomFace);
 
-        // --- Generate Steps (Risers and Treads) --- 
+        // --- Generate Steps (Risers and Treads) for potentially multiple segments ---
         List<Point3D> frontIntersectionPoints = getIntersectionPoints(contour, slopeVector, minProj);
-        if (frontIntersectionPoints.size() < 2) return mesh; // Cannot form steps
+        if (frontIntersectionPoints.size() % 2 != 0) {
+            UrbanEye3dPlugin.debugMsg("Odd number of intersections at steps start for " + building.primitiveId);
+            return mesh; // Return mesh with only a base
+        }
 
-        // Initial vertices at the bottom of the first riser
-        int prev_v1_idx = verts.size();
-        verts.add(new Point3D(frontIntersectionPoints.get(0).x, frontIntersectionPoints.get(0).y, wallHeight));
-        int prev_v2_idx = verts.size();
-        verts.add(new Point3D(frontIntersectionPoints.get(1).x, frontIntersectionPoints.get(1).y, wallHeight));
-
-        // Store side vertices to build walls later
-        List<Integer> side1_indices = new ArrayList<>();
-        List<Integer> side2_indices = new ArrayList<>();
-        side1_indices.add(prev_v1_idx);
-        side2_indices.add(prev_v2_idx);
+        // List of index pairs for the previous step's back edge { {v1, v2}, {v3, v4}, ... }
+        List<int[]> prev_edge_indices = new ArrayList<>();
+        for (int i = 0; i < frontIntersectionPoints.size(); i += 2) {
+            int v1_idx = verts.size();
+            verts.add(new Point3D(frontIntersectionPoints.get(i).x, frontIntersectionPoints.get(i).y, wallHeight));
+            int v2_idx = verts.size();
+            verts.add(new Point3D(frontIntersectionPoints.get(i + 1).x, frontIntersectionPoints.get(i + 1).y, wallHeight));
+            prev_edge_indices.add(new int[]{v1_idx, v2_idx});
+        }
 
         for (int s = 0; s < numSteps; s++) {
             double z_top = wallHeight + (s + 1) * actualStepHeight;
             double proj_back = minProj + (s + 1) * stepDepth;
             List<Point3D> backIntersectionPoints = getIntersectionPoints(contour, slopeVector, proj_back);
-            if (backIntersectionPoints.size() < 2) continue;
 
-            // Create vertices for the top of the riser
-            int riser_v1_top_idx = verts.size();
-            verts.add(new Point3D(verts.get(prev_v1_idx).x, verts.get(prev_v1_idx).y, z_top));
-            int riser_v2_top_idx = verts.size();
-            verts.add(new Point3D(verts.get(prev_v2_idx).x, verts.get(prev_v2_idx).y, z_top));
+            if (backIntersectionPoints.size() != prev_edge_indices.size() * 2) {
+                UrbanEye3dPlugin.debugMsg("Step topology changes mid-staircase for " + building.primitiveId + ". Aborting step generation.");
+                break; // Stop if the number of intersections changes, too complex to handle now.
+            }
 
-            // Create vertices for the back of the tread
-            int tread_v1_back_idx = verts.size();
-            verts.add(new Point3D(backIntersectionPoints.get(0).x, backIntersectionPoints.get(0).y, z_top));
-            int tread_v2_back_idx = verts.size();
-            verts.add(new Point3D(backIntersectionPoints.get(1).x, backIntersectionPoints.get(1).y, z_top));
+            List<int[]> current_back_edge_indices = new ArrayList<>();
+            int back_point_idx = 0;
 
-            // Add faces (winding is reversed to point normals outwards)
-            mesh.roofFaces.add(new int[]{riser_v1_top_idx, riser_v2_top_idx, prev_v2_idx, prev_v1_idx}); // Riser
-            mesh.roofFaces.add(new int[]{tread_v1_back_idx, tread_v2_back_idx, riser_v2_top_idx, riser_v1_top_idx}); // Tread
+            for (int[] prev_edge : prev_edge_indices) {
+                int prev_v1_idx = prev_edge[0];
+                int prev_v2_idx = prev_edge[1];
 
-            // Add to side wall profiles
-            side1_indices.add(riser_v1_top_idx);
-            side1_indices.add(tread_v1_back_idx);
-            side2_indices.add(riser_v2_top_idx);
-            side2_indices.add(tread_v2_back_idx);
+                // Create vertices for the top of the riser
+                int riser_v1_top_idx = verts.size();
+                verts.add(new Point3D(verts.get(prev_v1_idx).x, verts.get(prev_v1_idx).y, z_top));
+                int riser_v2_top_idx = verts.size();
+                verts.add(new Point3D(verts.get(prev_v2_idx).x, verts.get(prev_v2_idx).y, z_top));
 
-            // Update previous vertices for next step
-            prev_v1_idx = tread_v1_back_idx;
-            prev_v2_idx = tread_v2_back_idx;
+                // Create vertices for the back of the tread
+                Point3D back_p1 = backIntersectionPoints.get(back_point_idx++);
+                Point3D back_p2 = backIntersectionPoints.get(back_point_idx++);
+                int tread_v1_back_idx = verts.size();
+                verts.add(new Point3D(back_p1.x, back_p1.y, z_top));
+                int tread_v2_back_idx = verts.size();
+                verts.add(new Point3D(back_p2.x, back_p2.y, z_top));
+
+                current_back_edge_indices.add(new int[]{tread_v1_back_idx, tread_v2_back_idx});
+
+                // Add faces (winding is reversed to point normals outwards)
+                mesh.roofFaces.add(new int[]{riser_v1_top_idx, riser_v2_top_idx, prev_v2_idx, prev_v1_idx}); // Riser
+                mesh.roofFaces.add(new int[]{tread_v1_back_idx, tread_v2_back_idx, riser_v2_top_idx, riser_v1_top_idx}); // Tread
+            }
+            prev_edge_indices = current_back_edge_indices;
         }
 
-        // --- Wall Generation (for rectangular base) ---
-        int front_v1_base_idx = baseStartIndex + 0;
-        int front_v2_base_idx = baseStartIndex + 1;
-        int back_v1_base_idx = baseStartIndex + 3;
-        int back_v2_base_idx = baseStartIndex + 2;
-
-        // Front Wall
-        mesh.wallFaces.add(new int[]{front_v1_base_idx, front_v2_base_idx, side2_indices.get(side2_indices.size() - 1), side1_indices.get(side1_indices.size() - 1)});
-        // Back Wall
-        mesh.wallFaces.add(new int[]{back_v2_base_idx, back_v1_base_idx, side1_indices.get(0), side2_indices.get(0)});
-
-        // Side Wall 1
-        int[] wall1_face = new int[2 + side1_indices.size()];
-        wall1_face[0] = back_v1_base_idx;
-        wall1_face[1] = front_v1_base_idx;
-        for (int i = 0; i < side1_indices.size(); i++) {
-            wall1_face[2 + i] = side1_indices.get(side1_indices.size() - 1 - i);
-        }
-        mesh.wallFaces.add(wall1_face);
-
-        // Side Wall 2 (reversed winding)
-        int[] wall2_face = new int[2 + side2_indices.size()];
-        wall2_face[wall2_face.length - 1] = back_v2_base_idx;
-        wall2_face[wall2_face.length - 2] = front_v2_base_idx;
-        for (int i = 0; i < side2_indices.size(); i++) {
-            wall2_face[i] = side2_indices.get(i);
-        }
-        mesh.wallFaces.add(wall2_face);
-
+        // Wall generation is intentionally omitted.
         return mesh;
     }
 
@@ -394,14 +374,30 @@ public class MesherSkillion extends RoofGenerator {
             if (Math.abs(det) > 1e-9) {
                 double x = (b2 * c1 - b1 * c2) / det;
                 double y = (a1 * c2 - a2 * c1) / det;
-                if (Math.min(p1.x, p2.x) <= x && x <= Math.max(p1.x, p2.x) &&
-                    Math.min(p1.y, p2.y) <= y && y <= Math.max(p1.y, p2.y)) {
+                // Check if the intersection point is within the segment p1-p2 with a small tolerance
+                final double EPSILON = 1e-9;
+                if (x >= Math.min(p1.x, p2.x) - EPSILON && x <= Math.max(p1.x, p2.x) + EPSILON &&
+                    y >= Math.min(p1.y, p2.y) - EPSILON && y <= Math.max(p1.y, p2.y) + EPSILON) {
                     intersections.add(new Point3D(x, y, 0)); // Z is set later
                 }
             }
         }
         intersections.sort(Comparator.comparingDouble(p -> p.x * normal.x + p.y * normal.y));
-        return intersections;
+
+        // Remove duplicates that are too close to each other
+        if (intersections.size() < 2) {
+            return intersections;
+        }
+        final double DUPLICATE_EPSILON = 1e-6;
+        List<Point3D> uniqueIntersections = new ArrayList<>();
+        uniqueIntersections.add(intersections.get(0));
+        for (int i = 1; i < intersections.size(); i++) {
+            if (intersections.get(i).distance(intersections.get(i - 1)) > DUPLICATE_EPSILON) {
+                uniqueIntersections.add(intersections.get(i));
+            }
+        }
+
+        return uniqueIntersections;
     }
 
 

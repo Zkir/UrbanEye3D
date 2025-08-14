@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <node id='-25531' action='modify' visible='true' lat='55.05087203957' lon='37.05249783412' />
+  <node id='-25532' action='modify' visible='true' lat='55.05025255466' lon='37.05372910556' />
+  <node id='-25533' action='modify' visible='true' lat='55.04984023971' lon='37.05309696518' />
+  <node id='-25534' action='modify' visible='true' lat='55.050459731' lon='37.05186569374' />
+  <way id='-9491' action='modify' visible='true'>
+    <nd ref='-25531' />
+    <nd ref='-25532' />
+    <nd ref='-25533' />
+    <nd ref='-25534' />
+    <nd ref='-25531' />
+    <tag k='building:part' v='steps' />
+    <tag k='height' v='50' />
+    <tag k='roof:height' v='40' />
+    <tag k='roof:shape' v='skillion' />
+  </way>
+</osm>

@@ -72,7 +72,7 @@ class RoofGeneratorTopologyTest {
                 "", "", roofShape.toString(), "", "", "" );
     }
 
-    private void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
+    private static void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
         // A small tolerance for floating point comparisons
         final double Epsilon = 1e-6;
         List<Point3D> vertices = mesh.verts;
@@ -85,7 +85,7 @@ class RoofGeneratorTopologyTest {
     }
 
 
-    private void assertWatertight(Mesh mesh, String mesherName) {
+    private static void assertWatertight(Mesh mesh, String mesherName) {
         Map<String, Integer> edgeCounts = new HashMap<>();
         List<int[]> allFaces = new ArrayList<>();
         allFaces.addAll(mesh.wallFaces);
@@ -106,7 +106,7 @@ class RoofGeneratorTopologyTest {
         }
     }
 
-    private void assertNormalsAndConsistency(Mesh mesh, String mesherName) {
+    private static void assertNormalsAndConsistency(Mesh mesh, String mesherName) {
         // This map stores the first vertex of an edge traversal for the first face that uses it.
         Map<String, Integer> edgeTraversal = new HashMap<>();
         List<int[]> allFaces = new ArrayList<>();
@@ -146,7 +146,7 @@ class RoofGeneratorTopologyTest {
         assertTrue(normal.z < 0, "Roof shape " + mesherName + ": Bottom face normal is not pointing downwards. Overall mesh orientation is likely incorrect.");
     }
 
-    private Point3D calculateNormal(Point3D p1, Point3D p2, Point3D p3) {
+    private static Point3D calculateNormal(Point3D p1, Point3D p2, Point3D p3) {
         Point3D u = new Point3D(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
         Point3D v = new Point3D(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z);
         return new Point3D(
@@ -156,7 +156,7 @@ class RoofGeneratorTopologyTest {
         ).normalize();
     }
 
-    private void assertHeightConstraints(Mesh mesh, double minHeight, double height, String mesherName) {
+    private static void assertHeightConstraints(Mesh mesh, double minHeight, double height, String mesherName) {
         assertFalse(mesh.verts.isEmpty(), "Mesh has no vertices for " + mesherName);
 
         double minZ = Double.MAX_VALUE;
@@ -170,7 +170,7 @@ class RoofGeneratorTopologyTest {
         assertEquals(height, maxZ, 0.001, "Roof shape " + mesherName + ": Maximum Z does not match height.");
     }
 
-    void AssertMeshTopology(Mesh mesh, double minHeight, double height, String roofShape){
+    public static void AssertMeshTopology(Mesh mesh, double minHeight, double height, String roofShape){
         assertNotNull(mesh, "Mesh is null for the roof shape " + roofShape);
         assertHeightConstraints(mesh,  minHeight, height, roofShape);
         assertNoZeroLengthEdges(mesh, roofShape);
@@ -312,7 +312,7 @@ class RoofGeneratorTopologyTest {
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
 
-        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "debug_steps.obj");
+        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests\\output\\debug_steps.obj");
 
         // The simplified wall generation in generateSteps might fail the watertight check for some shapes.
         // For a simple rectangle, it should be okay.

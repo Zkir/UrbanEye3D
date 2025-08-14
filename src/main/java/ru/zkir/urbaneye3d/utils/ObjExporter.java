@@ -16,7 +16,7 @@ public class ObjExporter {
         try (BufferedWriter writer = new BufferedWriter(stringWriter)) {
             // Blender-compatible headers
             writer.write("# Blender-compatible OBJ\n");
-            writer.write("mtllib default.mtl\n\n");
+            //writer.write("mtllib default.mtl\n\n");
             DecimalFormat df = new DecimalFormat("0.000000", new DecimalFormatSymbols(Locale.US));
 
             // Vertices

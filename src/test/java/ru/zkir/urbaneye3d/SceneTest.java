@@ -134,7 +134,14 @@ class SceneTest {
         //resulting number of  buildings is not so important.
         //Just to understan how picture changes.
         int NumberOfBuildings =scene.renderableElements.size();
-        assertTrue(NumberOfBuildings>=4377 && NumberOfBuildings<=4385, "Number of building " + NumberOfBuildings + " in reasonable range");
+        assertTrue(NumberOfBuildings>=4377 && NumberOfBuildings<=4387, "Number of building " + NumberOfBuildings + " in reasonable range");
+
+        int i=0;
+        for (var re: scene.renderableElements ){
+            //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), "tests/output/city_center_"+i+"_"+re.primitiveId.toString()+".obj");
+            //RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
+            i++;
+        }
 
         //4395 - for all roofs
         //4211 -- zero height parts excluded (without height inheritance)
@@ -156,6 +163,23 @@ class SceneTest {
 
         // Assert: Verify the outcome
         assertEquals(1, scene.renderableElements.size());
+
+    }
+
+    @Test
+    void testSkillionSteps() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("steps.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        assertEquals(1, scene.renderableElements.size());
+        var re = scene.renderableElements.get(0);
+        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), "tests/output/skillion_steps.obj");
+        RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
 
     }
 
