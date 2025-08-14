@@ -117,8 +117,8 @@ src
 *   **Definition of Done:** A task is considered DONE only when `mvn package` completes successfully without any errors.
 *   **Human testing required:** Do not proceed to next task, before previous one is confirmed by a human.
 *   **Do not suggest git commits**. Git commits in this project are allowed for protein-based developers only.
-*   **JOSM source code** can be found in d:\z3dViewer\ext_sources\josm_source
-*   **Blosm (aka blender-osm) source code** can be found in d:\z3dViewer\ext_sources\blosm_source
+*   **JOSM source code** can be found in d:\UrbanEye3D\ext_sources\josm_source
+*   **Blosm (aka blender-osm) source code** can be found in d:\UrbanEye3D\ext_sources\blosm_source
 
 
 ## Unit Testing
