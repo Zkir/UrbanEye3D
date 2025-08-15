@@ -1,17 +1,144 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
+import org.twak.camp.Corner;
+import org.twak.camp.Edge;
+import org.twak.camp.Machine;
+import org.twak.camp.Output;
+import org.twak.camp.Skeleton;
+import org.twak.utils.collections.Loop;
+import org.twak.utils.collections.LoopL;
 import ru.zkir.urbaneye3d.RenderableBuildingElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
+import javax.vecmath.Point3d;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MesherHipped extends RoofGenerator {
     @Override
     public Mesh generate(RenderableBuildingElement building) {
 
+        List<Point2D> basePoints = building.getContour();
+        if (basePoints.size() <= 4) {
+            // Fallback to old implementation for quadrilaterals and triangles
+            return generateOriginal(building);
+        }
+
+        double minHeight = building.minHeight;
+        double wallHeight = building.wallHeight;
+        double roofHeight = building.roofHeight;
+
+        Mesh mesh = new Mesh();
+        // Base vertices
+        int baseIdx = 0;
+        for (Point2D p : basePoints) {
+            mesh.verts.add(new Point3D(p.x, p.y, minHeight));
+        }
+
+        // Wall top vertices
+        int wallIdx;
+        if (wallHeight > minHeight) {
+            wallIdx = mesh.verts.size();
+            for (Point2D p : basePoints) {
+                mesh.verts.add(new Point3D(p.x, p.y, wallHeight));
+            }
+        } else {
+            wallIdx = baseIdx;
+        }
+
+        // Walls
+        if (wallHeight > minHeight) {
+            for (int i = 0; i < basePoints.size(); i++) {
+                int j = (i + 1) % basePoints.size();
+                mesh.wallFaces.add(new int[]{baseIdx + i, baseIdx + j, wallIdx + j, wallIdx + i});
+            }
+        }
+
+        // Bottom face
+        int[] bottomFace = new int[basePoints.size()];
+        for (int i = 0; i < basePoints.size(); i++) {
+            bottomFace[i] = baseIdx + basePoints.size() - 1 - i;
+        }
+        mesh.bottomFaces.add(bottomFace);
+
+
+        // Roof via CampSkeleton
+        Loop<Edge> loop = new Loop<>();
+        Corner firstCorner = null;
+        Corner prevCorner = null;
+
+        Map<Point2D, Corner> cornerMap = new HashMap<>();
+        for (Point2D p : basePoints) {
+            cornerMap.put(p, new Corner(p.x, p.y));
+        }
+
+        for (int i = 0; i < basePoints.size(); i++) {
+            Point2D p1 = basePoints.get(i);
+            Point2D p2 = basePoints.get((i + 1) % basePoints.size());
+            Edge edge = new Edge(cornerMap.get(p1), cornerMap.get(p2));
+            // 45 degree roof slope. Should be configurable later.
+            edge.machine = new Machine(Math.PI / 4);
+            loop.append(edge);
+        }
+
+        LoopL<Edge> loopl = new LoopL<>();
+        loopl.add(loop);
+
+        Skeleton skel = new Skeleton(loopl, true);
+        skel.skeleton();
+
+        // Find max Z to scale the roof height correctly
+        double maxZ = 0;
+        for (Output.Face face : skel.output.faces.values()) {
+            for (Loop<Point3d> lp3 : face.points) {
+                for (Point3d pt : lp3) {
+                    if (pt.z > maxZ) {
+                        maxZ = pt.z;
+                    }
+                }
+            }
+        }
+
+        double roofScale = (maxZ > 0) ? roofHeight / maxZ : 0;
+
+        // Process skeleton output into our mesh
+        int roofVertsStartIndex = mesh.verts.size();
+        Map<Point3d, Integer> vertexIndexMap = new HashMap<>();
+
+        for (Output.Face face : skel.output.faces.values()) {
+            for (Loop<Point3d> lp3 : face.points) {
+                List<Integer> faceIndices = new ArrayList<>();
+                for (Point3d pt : lp3) {
+                    Integer existingIndex = vertexIndexMap.get(pt);
+                    if (existingIndex != null) {
+                        faceIndices.add(existingIndex);
+                    } else {
+                        double newZ = wallHeight + pt.z * roofScale;
+                        Point3D newVert = new Point3D(pt.x, pt.y, newZ);
+                        int newIndex = mesh.verts.size();
+                        mesh.verts.add(newVert);
+                        vertexIndexMap.put(pt, newIndex);
+                        faceIndices.add(newIndex);
+                    }
+                }
+
+                if (!faceIndices.isEmpty()) {
+                    int[] faceArray = new int[faceIndices.size()];
+                    for (int i = 0; i < faceIndices.size(); i++) {
+                        faceArray[i] = faceIndices.get(i);
+                    }
+                    mesh.roofFaces.add(faceArray);
+                }
+            }
+        }
+        return mesh;
+    }
+
+    private Mesh generateOriginal(RenderableBuildingElement building) {
         List<Point2D> basePoints = building.getContour();
         double minHeight = building.minHeight;
         double wallHeight = building.wallHeight;
@@ -19,8 +146,10 @@ public class MesherHipped extends RoofGenerator {
         String roofOrientation = building.roofOrientation;
 
         Mesh mesh = new Mesh();
+        if (basePoints.size() < 3) return null; // Cannot create a roof from less than 3 points
         if (basePoints.size() != 4) {
-            // Fallback to flat roof for non-quadrilaterals
+            // This original method is only for quads. For others, we should have used the new method.
+            // However, as a fallback, we can return a flat roof (or null to let the caller handle it).
             return null;
         }
 
