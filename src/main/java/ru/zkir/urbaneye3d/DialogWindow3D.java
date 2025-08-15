@@ -101,7 +101,6 @@ public class DialogWindow3D extends ToggleDialog
         if (this.updatableState == null || this.updatableState != this.isUpdateRequired()){
             updateData();
             this.updatableState = this.isUpdateRequired();
-            UrbanEye3dPlugin.debugMsg("ToggleDialog visibility state changed to " + this.updatableState);
         }
     }
 
