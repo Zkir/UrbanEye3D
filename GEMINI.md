@@ -53,8 +53,9 @@ Prioritized via MoSCoW method:
 
 ## Recent Accomplishments 
 ### August 14, 2025
-* Version updated to 1.2.1
+* Version updated to 1.3.0
 * Minimize button in the 3D panel fixed.
+* Performance optimization: when the 3D window is closed or minimized, there is no need to update data.
 
 ### Earlier
 See [Devblog page](DEVBLOG.md)

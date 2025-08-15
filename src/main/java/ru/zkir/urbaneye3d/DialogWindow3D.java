@@ -16,18 +16,21 @@ import org.openstreetmap.josm.gui.layer.MainLayerManager;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.gui.NavigatableComponent;
 
-import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class DialogWindow3D extends ToggleDialog
                              implements DataSetListener, NavigatableComponent.ZoomChangeListener,
-                                        LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener
+                                        LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener,
+                                        PropertyChangeListener
 {
     private final Renderer3D renderer3D;
     private final Scene scene3d = new Scene();
     private OsmDataLayer listenedLayer;
+    private Boolean updatableState = null;
 
     public DialogWindow3D(UrbanEye3dPlugin plugin) {
         super("Urban Eye 3D", "urbaneye3d", "Urban Eye 3D", null, 250, true); //path for the icon is not required, JOSM picks it up by  automatically.
@@ -59,11 +62,14 @@ public class DialogWindow3D extends ToggleDialog
         NavigatableComponent.addZoomChangeListener(this);
         MainApplication.getLayerManager().addLayerChangeListener(this);
         MainApplication.getLayerManager().addActiveLayerChangeListener(this);
+        addPropertyChangeListener(this);
 
         updateListenedLayer();
         updateData();
 
     }
+
+
 
     @Override
     public void destroy() {
@@ -85,14 +91,38 @@ public class DialogWindow3D extends ToggleDialog
         }
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        // we need to track, when our window becomes visible.
+        // when it becomes visible, data is updated.
+        //TODO: in JOSM version 19243 there is no simple way to track proper event.
+        //luckily, there is a bunch of events, which are triggered when the window is
+        //minimised/maximized and closed/ displayed anew.
+        if (this.updatableState == null || this.updatableState != this.isUpdateRequired()){
+            updateData();
+            this.updatableState = this.isUpdateRequired();
+            UrbanEye3dPlugin.debugMsg("ToggleDialog visibility state changed to " + this.updatableState);
+        }
+    }
+
 
     private void updateData() {
+
+        if (!this.isUpdateRequired() ){
+            //it seems that if 3d window is minimized or closed this is not necessary to update data.
+            return;
+        }
+
         if (listenedLayer != null) {
             scene3d.updateData(listenedLayer.getDataSet());
         } else {
             scene3d.updateData(null);
         }
         renderer3D.repaint();
+    }
+
+    private boolean isUpdateRequired() {
+        return !this.isCollapsed && this.isVisible();
     }
 
 
