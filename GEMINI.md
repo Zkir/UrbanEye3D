@@ -20,7 +20,6 @@ Prioritized via MoSCoW method:
 
 #### Should
 * Support stairs (building:part=steps + roof:shape=skillion)
-* Support `roof:shape=hipped` via the Straight Skeleton algorithm 
 * Implement rendering of building passages (`tunnel=building_passage`). 
     * Definitely, this requires support of boolean operations with meshes: "difference"
 
@@ -53,7 +52,8 @@ Prioritized via MoSCoW method:
 
 ## Recent Accomplishments 
 ### August 15, 2025
-*More traditional folder structure for resources
+* Implemented support for `roof:shape=hipped` on buildings with complex (non-rectangular) footprints using the `campskeleton` library (based on Straight Skeleton algorithm).
+* More traditional folder structure for resources
 
 ### August 14, 2025
 * Version updated to 1.3.0
@@ -125,6 +125,7 @@ src
 *   **Do not suggest git commits**. Git commits in this project are allowed for protein-based developers only.
 *   **JOSM source code** can be found in d:\UrbanEye3D\ext_sources\josm_source
 *   **Blosm (aka blender-osm) source code** can be found in d:\UrbanEye3D\ext_sources\blosm_source
+*   Use UrbanEye3dPlugin.debugMsg() for debug messages instead of System.out.println().
 
 
 ## Unit Testing
@@ -185,10 +186,10 @@ Already supported:
 * 'half-dome'
 * 'skillion'
 * 'gabled'  
+* 'hipped'
 * 'round' 
 * 'gambrel' 
 * 'saltbox' -  There is no cosistent opionion about what this shape is.
-* 'hipped' - for quadrilateral polygons.
 * 'mansard' - for quadrilateral polygons.
 * 'half-hipped' - for quadrilateral polygons.
 * 'cross_gabled' - for quadrilateral polygons.
