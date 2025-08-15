@@ -30,6 +30,13 @@
             <id>jogamp-test-repo</id>
             <url>https://jogamp.org/deployment/maven/</url> <!-- Основной URL -->
         </repository>
+		<repository>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/Zkir/campskeleton</url>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
     </repositories>
 
     <dependencies>
