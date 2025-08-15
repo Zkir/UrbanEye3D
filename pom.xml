@@ -76,12 +76,6 @@
     </distributionManagement>
 
     <build>
-        <resources>
-            <resource>
-                <directory>images</directory>
-                <targetPath>images</targetPath>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

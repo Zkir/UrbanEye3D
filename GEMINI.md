@@ -52,6 +52,9 @@ Prioritized via MoSCoW method:
 
 
 ## Recent Accomplishments 
+### August 15, 2025
+*More traditional folder structure for resources
+
 ### August 14, 2025
 * Version updated to 1.3.0
 * Minimize button in the 3D panel fixed.
