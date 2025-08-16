@@ -30,12 +30,12 @@
             <id>jogamp-test-repo</id>
             <url>https://jogamp.org/deployment/maven/</url> <!-- Основной URL -->
         </repository>
-		<repository>
-          <id>github</id>
-          <url>https://maven.pkg.github.com/Zkir/campskeleton</url>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/Zkir/campskeleton</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
@@ -47,7 +47,6 @@
             <version>${josm.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- JOGL (Java OpenGL) is provided by JOSM, so we mark it as 'provided' -->
         <dependency>
             <groupId>org.jogamp.jogl</groupId>
             <artifactId>jogl-all-main</artifactId>
