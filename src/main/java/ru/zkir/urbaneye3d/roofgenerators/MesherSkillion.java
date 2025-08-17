@@ -11,6 +11,7 @@ import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -268,67 +269,130 @@ public class MesherSkillion extends RoofGenerator {
         contour.forEach(p -> verts.add(new Point3D(p.x, p.y, minHeight)));
         int[] bottomFace = new int[contour.size()];
         for (int i = 0; i < contour.size(); i++) bottomFace[i] = baseStartIndex + (contour.size() - 1 - i);
-        mesh.bottomFaces.add(bottomFace);
+        //mesh.bottomFaces.add(bottomFace);
 
         // --- Generate Steps (Risers and Treads) for potentially multiple segments ---
         List<Point3D> frontIntersectionPoints = getIntersectionPoints(contour, slopeVector, minProj);
-        if (frontIntersectionPoints.size() % 2 != 0) {
-            UrbanEye3dPlugin.debugMsg("Odd number of intersections at steps start for " + building.primitiveId);
-            return mesh; // Return mesh with only a base
-        }
 
-        // List of index pairs for the previous step's back edge { {v1, v2}, {v3, v4}, ... }
-        List<int[]> prev_edge_indices = new ArrayList<>();
-        for (int i = 0; i < frontIntersectionPoints.size(); i += 2) {
+        // List of indices for the previous cut.
+        List<Integer> prev_edge_indices = new ArrayList<>();
+        for (int i = 0; i < frontIntersectionPoints.size(); i++ ) {
             int v1_idx = verts.size();
             verts.add(new Point3D(frontIntersectionPoints.get(i).x, frontIntersectionPoints.get(i).y, wallHeight));
-            int v2_idx = verts.size();
-            verts.add(new Point3D(frontIntersectionPoints.get(i + 1).x, frontIntersectionPoints.get(i + 1).y, wallHeight));
-            prev_edge_indices.add(new int[]{v1_idx, v2_idx});
+            prev_edge_indices.add(v1_idx);
         }
 
+        //steps
+        UrbanEye3dPlugin.debugMsg("-- steps!!");
         for (int s = 0; s < numSteps; s++) {
             double z_top = wallHeight + (s + 1) * actualStepHeight;
             double proj_back = minProj + (s + 1) * stepDepth;
-            List<Point3D> backIntersectionPoints = getIntersectionPoints(contour, slopeVector, proj_back);
+            List<Point3D> currentIntersectionPoints = getIntersectionPoints(contour, slopeVector, proj_back);
 
-            if (backIntersectionPoints.size() != prev_edge_indices.size() * 2) {
-                UrbanEye3dPlugin.debugMsg("Step topology changes mid-staircase for " + building.primitiveId + ". Aborting step generation.");
-                break; // Stop if the number of intersections changes, too complex to handle now.
+            List<Integer> current_edge_indices = new ArrayList<>();
+            int back_point_idx = 0;
+            //we need to create vertices for each intersection.
+            for (int i = 0; i < currentIntersectionPoints.size(); i++ ) {
+                int v_idx = verts.size();
+                verts.add(new Point3D(currentIntersectionPoints.get(i).x, currentIntersectionPoints.get(i).y, z_top));
+                current_edge_indices.add(v_idx);
+            }
+            if (current_edge_indices.size()==prev_edge_indices.size() && current_edge_indices.size() %2 ==0 ){
+                //there are pairs of vertices - simple case
+                for (int i=0; i<prev_edge_indices.size(); i+=2){
+                    var face = new int[]{prev_edge_indices.get(i+1), prev_edge_indices.get(i), current_edge_indices.get(i), current_edge_indices.get(i+1)  };
+                    mesh.roofFaces.add(face);
+                };
+            } else{
+                if (Math.abs(current_edge_indices.size()-prev_edge_indices.size())==1){
+                    List<Integer> face_idxs = new ArrayList<>();
+                    Collections.reverse(prev_edge_indices);
+                    face_idxs.addAll(prev_edge_indices);
+                    face_idxs.addAll(current_edge_indices);
+                    int[] face = face_idxs.stream()
+                            .mapToInt(i -> i)
+                            .toArray();
+                    mesh.roofFaces.add(face);
+
+                } else if (Math.abs(current_edge_indices.size()-prev_edge_indices.size())==2){
+
+                    //lets do another trick, since we have 2 less vertices in one edge, let's create only possible faces
+                    //create only one rectangular face
+                    //to do: find the nearest pair of nodes from the other side.
+
+                    if  (current_edge_indices.size()>prev_edge_indices.size()){
+                        UrbanEye3dPlugin.debugMsg("increase: "+ prev_edge_indices.size() + " " + current_edge_indices.size());
+                        for (int i=0; i<prev_edge_indices.size(); i+=2){
+                            int[] nearest_pair = getNearestPair(verts, prev_edge_indices, i , current_edge_indices );
+                            var face = new int[]{prev_edge_indices.get(i+1), prev_edge_indices.get(i), nearest_pair[0], nearest_pair[1]  };
+                            mesh.roofFaces.add(face);
+                        };
+                    } else if (current_edge_indices.size()<prev_edge_indices.size()){
+                        UrbanEye3dPlugin.debugMsg("decrease: "+ prev_edge_indices.size() + " " + current_edge_indices.size());
+
+                        for (int i=0; i<current_edge_indices.size(); i+=2) {
+                            int[] nearest_pair = getNearestPair(verts, current_edge_indices, i, prev_edge_indices);
+                            var face = new int[]{nearest_pair[1], nearest_pair[0], current_edge_indices.get(i), current_edge_indices.get(i + 1)};
+                            mesh.roofFaces.add(face);
+                            UrbanEye3dPlugin.debugMsg("face created" + face);
+                        }
+                    };
+
+
+                } /*else{
+                    UrbanEye3dPlugin.debugMsg("equal, but odd: " + prev_edge_indices.size() + " " + current_edge_indices.size());
+                }*/
+
+
             }
 
-            List<int[]> current_back_edge_indices = new ArrayList<>();
-            int back_point_idx = 0;
-
-            for (int[] prev_edge : prev_edge_indices) {
-                int prev_v1_idx = prev_edge[0];
-                int prev_v2_idx = prev_edge[1];
+            /* DO NOT REMOVE!
+            for (int prev_edge : prev_edge_indices) {
+                int prev_v1_idx = prev_edge;
 
                 // Create vertices for the top of the riser
                 int riser_v1_top_idx = verts.size();
                 verts.add(new Point3D(verts.get(prev_v1_idx).x, verts.get(prev_v1_idx).y, z_top));
-                int riser_v2_top_idx = verts.size();
-                verts.add(new Point3D(verts.get(prev_v2_idx).x, verts.get(prev_v2_idx).y, z_top));
+
 
                 // Create vertices for the back of the tread
-                Point3D back_p1 = backIntersectionPoints.get(back_point_idx++);
-                Point3D back_p2 = backIntersectionPoints.get(back_point_idx++);
+                Point3D back_p1 = currentIntersectionPoints.get(back_point_idx++);
+                Point3D back_p2 = currentIntersectionPoints.get(back_point_idx++);
                 int tread_v1_back_idx = verts.size();
                 verts.add(new Point3D(back_p1.x, back_p1.y, z_top));
                 int tread_v2_back_idx = verts.size();
                 verts.add(new Point3D(back_p2.x, back_p2.y, z_top));
 
-                current_back_edge_indices.add(new int[]{tread_v1_back_idx, tread_v2_back_idx});
+                current_edge_indices.add(new int[]{tread_v1_back_idx, tread_v2_back_idx});
 
                 // Add faces (winding is reversed to point normals outwards)
                 mesh.roofFaces.add(new int[]{riser_v1_top_idx, riser_v2_top_idx, prev_v2_idx, prev_v1_idx}); // Riser
                 mesh.roofFaces.add(new int[]{tread_v1_back_idx, tread_v2_back_idx, riser_v2_top_idx, riser_v1_top_idx}); // Tread
             }
-            prev_edge_indices = current_back_edge_indices;
+             */
+            prev_edge_indices = current_edge_indices;
         }
 
         // Wall generation is intentionally omitted.
         return mesh;
+    }
+
+    private int[] getNearestPair(List<Point3D> verts, List<Integer> currentIndices, int index, List<Integer> otherIndices) {
+        //let's find the pair of  vertices in other  nearest to current.
+        var v1= verts.get(currentIndices.get(index));
+        var v2= verts.get(currentIndices.get(index+1));
+        var min_i=-1;
+        var min_len = Double.MAX_VALUE;
+        for (int i =0; i<otherIndices.size(); i+=2 ){
+            var v3= verts.get(otherIndices.get(i));
+            var v4= verts.get(otherIndices.get(i+1));
+            var len = v1.add(v2).div(2.0).distance( v3.add(v4).div(2.0) );
+            if (len<min_len){
+                min_len = len;
+                min_i = i;
+            }
+        }
+        return new int[]{otherIndices.get(min_i),otherIndices.get(min_i+1) };
     }
 
     private Point2D calculateSlopeVector(List<Point2D> contour, double roofDirection) {
