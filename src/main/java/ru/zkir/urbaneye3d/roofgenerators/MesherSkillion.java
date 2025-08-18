@@ -318,7 +318,8 @@ public class MesherSkillion extends RoofGenerator {
 
                     //lets do another trick, since we have 2 less vertices in one edge, let's create only possible faces
                     //create only one rectangular face
-                    //to do: find the nearest pair of nodes from the other side.
+                    //find the nearest pair of nodes from the other side.
+                    //TODO: maybe we can join nodes which lie on the same edge.
 
                     if  (current_edge_indices.size()>prev_edge_indices.size()){
                         UrbanEye3dPlugin.debugMsg("increase: "+ prev_edge_indices.size() + " " + current_edge_indices.size());
