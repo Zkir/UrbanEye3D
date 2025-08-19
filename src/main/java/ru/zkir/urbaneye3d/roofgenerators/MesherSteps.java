@@ -23,23 +23,37 @@ import java.util.List;
  * @see MesherSkillion
  */
 public class MesherSteps extends  RoofGenerator {
-
-    private static class Intersection {
-        final Point3D point;
-        final int edgeIndex;
-
-        Intersection(Point3D point, int edgeIndex) {
-            this.point = point;
-            this.edgeIndex = edgeIndex;
-        }
-    }
+    final double STEP_HEIGHT = 0.16;
 
     @Override
     public Mesh generate(RenderableBuildingElement building) {
         if (building.hasComplexContour()) {
-            UrbanEye3dPlugin.debugMsg("Steps generation for complex contours is not yet supported. Building: " + building.primitiveId);
             return null;
         }
+        if (building.getContour().size() == 4){
+            return generateRectangular(building);
+        }else{
+            return generateNonConvex(building);
+        }
+    }
+
+    /**
+     *  Generates steps mesh for rectangular base
+     *  This allows simple implementation
+     */
+    public Mesh generateRectangular(RenderableBuildingElement building) {
+        if (building.getContour().size() != 4){
+            throw new RuntimeException("generateRectangular() supports only rectangular bases. This call should never occur");
+        }
+        //TODO: implement this method
+        return null;
+    }
+
+    /**
+     *  Generates steps mesh even for non-convex base
+     */
+    public Mesh generateNonConvex(RenderableBuildingElement building) {
+
         List<Point2D> contour = building.getContour();
         if (contour.isEmpty()) return new Mesh();
 
@@ -60,7 +74,6 @@ public class MesherSteps extends  RoofGenerator {
             minProj = Math.min(minProj, proj);
         }
 
-        final double STEP_HEIGHT = 0.16;
         int numSteps = (int) Math.max(1, Math.floor(roofHeight / STEP_HEIGHT));
         double actualStepHeight = roofHeight / numSteps;
         double projDiff = maxProj - minProj;
@@ -242,6 +255,19 @@ public class MesherSteps extends  RoofGenerator {
         }
         slopeVector.normalize();
         return slopeVector;
+    }
+
+    /**
+     *  Result data structure for getIntersectionPoints() method
+     */
+    private static class Intersection {
+        final Point3D point;
+        final int edgeIndex;
+
+        Intersection(Point3D point, int edgeIndex) {
+            this.point = point;
+            this.edgeIndex = edgeIndex;
+        }
     }
 
     private List<Intersection> getIntersectionPoints(List<Point2D> contour, Point2D slopeVector, double proj) {

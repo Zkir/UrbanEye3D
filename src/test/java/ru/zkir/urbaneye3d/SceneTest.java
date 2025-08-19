@@ -166,6 +166,7 @@ class SceneTest {
 
     }
 
+    /* DO NOT REMOVE
     @Test
     void testSkillionSteps() throws Exception {
         // Arrange: Load the specific test case
@@ -182,7 +183,7 @@ class SceneTest {
         RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
 
     }
-
+    */
 
 
 

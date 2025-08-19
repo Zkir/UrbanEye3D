@@ -7,9 +7,15 @@ import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.util.List;
 
+/**
+ *  Abstract predecessor for all Meshers.
+ *  Also contains useful common functions
+ */
 public abstract class RoofGenerator {
 
-    // main method for mesh creation
+    /**
+    * Main method for mesh creation. Should be implemented in all descendants.
+    */
     public abstract Mesh generate(RenderableBuildingElement building);
 
     //auxiliary functions, used by descendants are implemented here.
