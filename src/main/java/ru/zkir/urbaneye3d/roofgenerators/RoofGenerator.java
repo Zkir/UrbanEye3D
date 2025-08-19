@@ -137,6 +137,25 @@ public abstract class RoofGenerator {
         }
     }
 
+    public static int[] findLongestEdge(List<Point2D> points) {
+        if (points == null || points.size() < 2) return new int[]{-1, -1};
+        double maxDistSq = -1;
+        int[] edgeIndices = new int[2];
+        for (int i = 0; i < points.size(); i++) {
+            Point2D p1 = points.get(i);
+            Point2D p2 = points.get((i + 1) % points.size());
+            double dx = p2.x - p1.x;
+            double dy = p2.y - p1.y;
+            double distSq = dx * dx + dy * dy;
+            if (distSq > maxDistSq) {
+                maxDistSq = distSq;
+                edgeIndices[0] = i;
+                edgeIndices[1] = (i + 1) % points.size();
+            }
+        }
+        return edgeIndices;
+    }
+
     public static Point2D[] shortenSegment(Point2D p1, Point2D p2, double k) {
 
         // Вычисляем координаты центра отрезка
