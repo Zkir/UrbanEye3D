@@ -25,7 +25,7 @@ import java.util.Map;
  * @see MesherSkillion
  */
 public class MesherSteps extends  RoofGenerator {
-    final double STEP_HEIGHT = 0.16;
+    final double STEP_HEIGHT = 0.16*30.0;
 
     @Override
     public Mesh generate(RenderableBuildingElement building) {
@@ -115,9 +115,11 @@ public class MesherSteps extends  RoofGenerator {
                     t = Math.max(0, Math.min(1, t)); // Clamp t to [0,1]
                     Point2D ip = new Point2D(p1.x + t * (p2.x - p1.x), p1.y + t * (p2.y - p1.y));
                     if (s > 0) {
-                        topProfile.add(new Point3D(ip.x, ip.y, wallHeight + (s - 1) * actualStepHeight));
+                        topProfile.add(new Point3D(ip.x, ip.y, wallHeight + s * actualStepHeight));
                     }
-                    topProfile.add(new Point3D(ip.x, ip.y, wallHeight + s * actualStepHeight));
+                    if (s < numSteps) { // Add point for the top of the riser, prevent going over max height
+                        topProfile.add(new Point3D(ip.x, ip.y, wallHeight + (s + 1) * actualStepHeight));
+                    }
                 }
             }
             // Ensure start and end points are included
