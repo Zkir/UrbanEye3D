@@ -88,8 +88,9 @@ public class MesherSteps extends  RoofGenerator {
 
             List<Point3D> topProfile = new ArrayList<>();
 
+            double extra =  proj2<proj1 && proj1>minProj && proj1<maxProj  ? actualStepHeight: 0;
             topProfile.add((new Point3D(p1, minHeight)));
-            topProfile.add((new Point3D(p1, wallHeight + (proj1 - minProj) * tan  )));
+            topProfile.add((new Point3D(p1, wallHeight + (proj1 - minProj) * tan + extra  )));
 
            // Add all step-corners along the wall edge
             if (proj1<proj2){
@@ -115,22 +116,17 @@ public class MesherSteps extends  RoofGenerator {
                         double t = (Math.abs(proj2 - proj1) < 1e-9) ? 0 : (projS - proj1) / (proj2 - proj1);
                         t = Math.max(0, Math.min(1, t)); // Clamp t to [0,1]
                         Point2D ip = new Point2D(p1.x + t * (p2.x - p1.x), p1.y + t * (p2.y - p1.y));
-
                         if (s < numSteps) { // Add point for the top of the riser, prevent going over max height
                             topProfile.add(new Point3D(ip.x, ip.y, wallHeight + (s + 1) * actualStepHeight));
                         }
-
                         if (s > 0) {
                             topProfile.add(new Point3D(ip.x, ip.y, wallHeight + s * actualStepHeight));
                         }
                     }
                 }
             }
-
-
-
-
-            topProfile.add((new Point3D(p2, wallHeight + (proj2 - minProj) * tan )));
+            extra =  proj2<proj1 && proj2>minProj && proj2<maxProj  ? actualStepHeight: 0;
+            topProfile.add((new Point3D(p2, wallHeight + (proj2 - minProj) * tan + extra )));
             topProfile.add((new Point3D(p2, minHeight)));
 
             // Sort and remove duplicates
@@ -150,7 +146,7 @@ public class MesherSteps extends  RoofGenerator {
             // Add profile vertices to mesh and face list
             wallFace.addAll(topProfileIndices);
 
-            // --- DEBUG: Print wall face edge directions ---
+            /* DO NOT REMOVE, - DEBUG: Print wall face edge directions ---
             UrbanEye3dPlugin.debugMsg("--- Wall " + i + " ---");
             for (int k = 0; k < wallFace.size(); k++) {
                 int idx1 = wallFace.get(k);
@@ -160,7 +156,7 @@ public class MesherSteps extends  RoofGenerator {
                 Point3D direction = edge_p2.subtract(edge_p1).normalize();
                 UrbanEye3dPlugin.debugMsg("Edge " + k + ": " + idx1 + " -> " + idx2 + ", Dir: " + direction.toString());
             }
-            // --- END DEBUG ---
+            // --- END DEBUG --- */
 
             mesh.wallFaces.add(wallFace.stream().mapToInt(Integer::intValue).toArray());
         }
@@ -169,6 +165,24 @@ public class MesherSteps extends  RoofGenerator {
         List<Integer> prev_cut_indices = new ArrayList<>();
         for (Intersection intersection : getIntersectionPoints(contour, slopeVector, minProj)) {
             prev_cut_indices.add(mesh.addVertex(new Point3D(intersection.point.x, intersection.point.y, wallHeight)));
+        }
+        UrbanEye3dPlugin.debugMsg("first cut: " + prev_cut_indices);
+        if (prev_cut_indices.size()==1){
+            //we need to find contour vertex with minimal proj but still greater than minProj
+            Point2D nextVertex = null;
+            double minNextProj = Double.MAX_VALUE;
+
+            for (Point2D p : contour) {
+                double proj = p.x * slopeVector.x + p.y * slopeVector.y;
+                if (proj > minProj  && proj < minNextProj) {
+                    minNextProj = proj;
+                    nextVertex = p;
+                }
+            }
+
+            if (nextVertex != null) {
+                prev_cut_indices.add(mesh.addVertex(new Point3D(nextVertex.x, nextVertex.y, wallHeight)));
+            }
         }
 
         for (int s = 0; s < numSteps; s++) {
@@ -183,7 +197,7 @@ public class MesherSteps extends  RoofGenerator {
                 List<Integer> face = new ArrayList<>(riser_top_indices);
                 Collections.reverse(prev_cut_indices);
                 face.addAll(prev_cut_indices);
-                mesh.roofFaces.add(face.stream().mapToInt(Integer::intValue).toArray());
+                //mesh.roofFaces.add(face.stream().mapToInt(Integer::intValue).toArray());
             }
 
             double proj_back = minProj + (s + 1) * stepDepth;
@@ -196,15 +210,11 @@ public class MesherSteps extends  RoofGenerator {
             Collections.reverse(riser_top_indices);
             face.addAll(riser_top_indices);
             if (face.size() >= 3) {
-                mesh.roofFaces.add(face.stream().mapToInt(Integer::intValue).toArray());
+                //mesh.roofFaces.add(face.stream().mapToInt(Integer::intValue).toArray());
             }
             prev_cut_indices = current_cut_indices;
         }
-        try {
-            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests/output/skillion_steps_q.obj");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
         return mesh;
     }
 

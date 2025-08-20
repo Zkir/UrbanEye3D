@@ -17,6 +17,15 @@ public class Point2D {
         }
     }
 
+    public Point2D normalized() {
+        double length = Math.sqrt(x * x + y * y);
+        if (length != 0) {
+            return new Point2D(x /= length, y /= length);
+        }else{
+            return this;
+        }
+    }
+
     public double length(){
         return Math.sqrt(x * x + y * y);
     }
@@ -37,4 +46,9 @@ public class Point2D {
     public double distance(Point2D other) {
         return this.subtract(other).length();
     }
+
+    public double dot(Point2D other) {
+        return this.x * other.x + this.y * other.y ;
+    }
+
 }
