@@ -7,10 +7,7 @@ import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * This mesher is somewhat similar to MesherSkillion, but unlike it,
@@ -24,7 +21,7 @@ import java.util.List;
  * @see MesherSkillion
  */
 public class MesherSteps extends  RoofGenerator {
-    final double STEP_HEIGHT = 0.16*30.0;
+    final double STEP_HEIGHT = 0.16*1;
 
     @Override
     public Mesh generate(RenderableBuildingElement building) {
@@ -57,10 +54,19 @@ public class MesherSteps extends  RoofGenerator {
         // Part 1: Initial calculations
         Point2D slopeVector = calculateSlopeVector(contour, roofDirection);
         double maxProj = -Double.MAX_VALUE, minProj = Double.MAX_VALUE;
-        for (Point2D p : contour) {
+        int start_node_idx = -1, end_node_idx = -1;
+
+        for (int i = 0; i < contour.size(); i++) {
+            Point2D p = contour.get(i);
             double proj = p.x * slopeVector.x + p.y * slopeVector.y;
-            maxProj = Math.max(maxProj, proj);
-            minProj = Math.min(minProj, proj);
+            if (proj < minProj) {
+                minProj = proj;
+                start_node_idx = i;
+            }
+            if (proj > maxProj) {
+                maxProj = proj;
+                end_node_idx = i;
+            }
         }
 
         int numSteps = (int) Math.max(1, Math.floor(roofHeight / STEP_HEIGHT));
@@ -75,15 +81,26 @@ public class MesherSteps extends  RoofGenerator {
         for (int i = 0; i < 4; i++) {
             baseIndices[i] = mesh.addVertex(new Point3D(contour.get(i).x, contour.get(i).y, minHeight));
         }
-        //mesh.bottomFaces.add(new int[]{baseIndices[0], baseIndices[3], baseIndices[2], baseIndices[1]});
+
+        mesh.bottomFaces.add(new int[]{baseIndices[0], baseIndices[3], baseIndices[2], baseIndices[1]});
 
         // Part 3: Generate complex walls that follow the roof profile
+        List<List<Integer>> allWallFaces = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             Point2D p1 = contour.get(i);
             Point2D p2 = contour.get((i + 1) % 4);
 
             double proj1 = p1.x * slopeVector.x + p1.y * slopeVector.y;
             double proj2 = p2.x * slopeVector.x + p2.y * slopeVector.y;
+            if (proj1>proj2){
+                //"reverse" edge
+                var tmp_proj=proj1;
+                var tmp_p = p1;
+                proj1=proj2;
+                p1=p2;
+                proj2=tmp_proj;
+                p2=tmp_p;
+            }
 
 
             List<Point3D> topProfile = new ArrayList<>();
@@ -159,61 +176,103 @@ public class MesherSteps extends  RoofGenerator {
             // --- END DEBUG --- */
 
             mesh.wallFaces.add(wallFace.stream().mapToInt(Integer::intValue).toArray());
+            allWallFaces.add(wallFace);
         }
 
-        // Part 4: Generate Roof Faces (Treads and Risers)
-        List<Integer> prev_cut_indices = new ArrayList<>();
-        for (Intersection intersection : getIntersectionPoints(contour, slopeVector, minProj)) {
-            prev_cut_indices.add(mesh.addVertex(new Point3D(intersection.point.x, intersection.point.y, wallHeight)));
-        }
-        UrbanEye3dPlugin.debugMsg("first cut: " + prev_cut_indices);
-        if (prev_cut_indices.size()==1){
-            //we need to find contour vertex with minimal proj but still greater than minProj
-            Point2D nextVertex = null;
-            double minNextProj = Double.MAX_VALUE;
-
-            for (Point2D p : contour) {
-                double proj = p.x * slopeVector.x + p.y * slopeVector.y;
-                if (proj > minProj  && proj < minNextProj) {
-                    minNextProj = proj;
-                    nextVertex = p;
+        // Part 4: Generate Roof Faces by stitching wall profiles
+        List<List<Integer>> topEdges = new ArrayList<>();
+        for (List<Integer> wallFace : allWallFaces) {
+            List<Integer> topEdge = new ArrayList<>();
+            for (int index : wallFace) {
+                if (mesh.verts.get(index).z > minHeight + 1e-9) { // Use tolerance
+                    topEdge.add(index);
                 }
             }
-
-            if (nextVertex != null) {
-                prev_cut_indices.add(mesh.addVertex(new Point3D(nextVertex.x, nextVertex.y, wallHeight)));
-            }
+            topEdges.add(topEdge);
         }
 
-        for (int s = 0; s < numSteps; s++) {
-            double z_top = wallHeight + (s + 1) * actualStepHeight;
-            List<Integer> riser_top_indices = new ArrayList<>();
-            for (int prev_idx : prev_cut_indices) {
-                Point3D prev_pt = mesh.verts.get(prev_idx);
-                riser_top_indices.add(mesh.addVertex(new Point3D(prev_pt.x, prev_pt.y, z_top)));
-            }
-
-            if (prev_cut_indices.size() >= 2) {
-                List<Integer> face = new ArrayList<>(riser_top_indices);
-                Collections.reverse(prev_cut_indices);
-                face.addAll(prev_cut_indices);
-                //mesh.roofFaces.add(face.stream().mapToInt(Integer::intValue).toArray());
-            }
-
-            double proj_back = minProj + (s + 1) * stepDepth;
-            List<Integer> current_cut_indices = new ArrayList<>();
-            for (Intersection intersection : getIntersectionPoints(contour, slopeVector, proj_back)) {
-                current_cut_indices.add(mesh.addVertex(new Point3D(intersection.point.x, intersection.point.y, z_top)));
-            }
-
-            List<Integer> face = new ArrayList<>(current_cut_indices);
-            Collections.reverse(riser_top_indices);
-            face.addAll(riser_top_indices);
-            if (face.size() >= 3) {
-                //mesh.roofFaces.add(face.stream().mapToInt(Integer::intValue).toArray());
-            }
-            prev_cut_indices = current_cut_indices;
+        List<Integer> rail1 = new ArrayList<>();
+        int i = start_node_idx;
+        while (i != end_node_idx) {
+            rail1.addAll(topEdges.get(i));
+            i = (i + 1) % 4;
         }
+
+        List<Integer> rail2 = new ArrayList<>();
+        i = start_node_idx;
+        while (i != end_node_idx) {
+            int wall_idx = (i - 1 + 4) % 4;
+            rail2.addAll(topEdges.get(wall_idx));
+            i = (i - 1 + 4) % 4;
+        }
+
+        UrbanEye3dPlugin.debugMsg("rail1: " + rail1);
+        UrbanEye3dPlugin.debugMsg("rail2: " + rail2);
+
+        int ii=0;
+        int jj=0;
+        UrbanEye3dPlugin.debugMsg(" " + mesh.verts.get(rail1.get(0)));
+        UrbanEye3dPlugin.debugMsg(" " + mesh.verts.get(rail1.get(1)));
+
+
+        while (ii<rail1.size()-1 && jj<rail2.size()-1 ) {
+
+            int vi0 = rail1.get(ii);
+            int vi1 = rail1.get(ii + 1);
+            int vj0 = rail2.get(jj);
+            int vj1 = rail2.get(jj + 1);
+            if(vi0==vj0 && vi1==vj1 ){ //this is some strange glitch of wall profile creation algorithm. first raiser is included twice
+                ii++; jj++;
+                continue;
+            }
+
+            if (vi0==vi1){
+                UrbanEye3dPlugin.debugMsg("Rail 1 corner vertex : " + vi0);
+                //we need to create additional face
+                int vi2 = rail1.get(ii + 2);
+                var face = new int[]{vj0, vi1, vi2};
+                UrbanEye3dPlugin.debugMsg("face AC: "+ Arrays.toString(face));
+                mesh.roofFaces.add(face);
+                ii += 2;
+                continue;
+            }
+            if (vj0==vj1){
+                UrbanEye3dPlugin.debugMsg("Rail 2 corner vertex : " + vj0);
+                //we need to create additional face
+                int vj2 = rail2.get(jj + 2);
+                var face = new int[]{vi0, vj1, vj2};
+                UrbanEye3dPlugin.debugMsg("face BC: "+ Arrays.toString(face));
+                mesh.roofFaces.add(face);
+                jj +=2;
+                continue;
+            }
+
+            if (vi0==vj0){ // only expected at the start
+                var face = new int[]{vi0, vi1, vj1};
+                UrbanEye3dPlugin.debugMsg("face A0: "+ Arrays.toString(face));
+                mesh.roofFaces.add(face);
+            } else if(vi1==vj1){// only expected at the end
+                var face = new int[]{vi0, vi1, vj0};
+                UrbanEye3dPlugin.debugMsg("face A0: "+ Arrays.toString(face));
+                mesh.roofFaces.add(face);
+            }else {
+                var face =new int[]{vi0, vj0, vi1};
+                UrbanEye3dPlugin.debugMsg("face A: "+ Arrays.toString(face));
+                mesh.roofFaces.add(face);
+                face =new int[]{vj0, vj1, vi1};
+                UrbanEye3dPlugin.debugMsg("face B: "+ Arrays.toString(face));
+                mesh.roofFaces.add(face);
+            }
+            ii++; jj++;
+
+            /*
+            if (ii<jj){
+                ii++;
+            }else{
+                jj++;
+            }*/
+        }
+
 
         return mesh;
     }
