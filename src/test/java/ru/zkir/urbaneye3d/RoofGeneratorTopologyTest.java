@@ -2,19 +2,14 @@ package ru.zkir.urbaneye3d;
 
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.coor.LatLon;
-import ru.zkir.urbaneye3d.utils.Contour;
-import ru.zkir.urbaneye3d.utils.Mesh;
-import ru.zkir.urbaneye3d.utils.Point2D;
-import ru.zkir.urbaneye3d.utils.Point3D;
+import ru.zkir.urbaneye3d.utils.*;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
 import org.openstreetmap.josm.data.osm.OsmPrimitiveType;
 import org.openstreetmap.josm.data.osm.SimplePrimitiveId;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.openstreetmap.josm.spi.preferences.Config;
 import java.io.IOException;
 
@@ -170,13 +165,78 @@ class RoofGeneratorTopologyTest {
         assertEquals(height, maxZ, 0.001, "Roof shape " + mesherName + ": Maximum Z does not match height.");
     }
 
+
+    private static void assertNoSelfCrossing(Mesh mesh, String roofShape) {
+        //bottom
+        for (int[] face : mesh.bottomFaces) {
+            var face_v = new Point3D[face.length];
+            for (int i=0; i<face.length; i++ ){
+                face_v[i] = mesh.verts.get(face[i]);
+            }
+            assertTrue(PolygonSelfIntersection.isSimplePolygon(face_v), "Roof shape " + roofShape + ": bottom face "+ Arrays.toString(face) + " has self intersections");
+        }
+        //walls
+        for (int[] face : mesh.wallFaces) {
+            var face_v = new Point3D[face.length];
+            for (int i=0; i<face.length; i++ ){
+                face_v[i] = mesh.verts.get(face[i]);
+            }
+            assertTrue(PolygonSelfIntersection.isSimplePolygon(face_v), "Roof shape " + roofShape + ": wall face "+ Arrays.toString(face) + " has self intersections");
+        }
+
+        //roof
+        for (int[] face : mesh.roofFaces) {
+            var face_v = new Point3D[face.length];
+            for (int i=0; i<face.length; i++ ){
+                face_v[i] = mesh.verts.get(face[i]);
+            }
+            assertTrue(PolygonSelfIntersection.isSimplePolygon(face_v), "Roof shape " + roofShape + ": roof face "+ Arrays.toString(face) + " has self intersections");
+        }
+    }
+
+    private static boolean checkDuplicates(int[] face) {
+        for (int i=0;i<face.length;i++){
+            for (int j=i+1;j<face.length;j++){
+                if (face[i]==face[j]){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static void assertNoDuplicatesInFaces(Mesh mesh, String roofShape) {
+        //bottom
+        for (int[] face : mesh.bottomFaces) {
+
+            assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": bottom face "+ Arrays.toString(face) + " has duplicated node indices");
+        }
+        //walls
+        for (int[] face : mesh.wallFaces) {
+
+            assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": wall face "+ Arrays.toString(face) + " has duplicated node indices");
+        }
+
+        //roof
+        for (int[] face : mesh.roofFaces) {
+
+            assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": roof face "+ Arrays.toString(face) + " has duplicated node indices");
+        }
+    }
+
+
+
     public static void AssertMeshTopology(Mesh mesh, double minHeight, double height, String roofShape){
         assertNotNull(mesh, "Mesh is null for the roof shape " + roofShape);
         assertHeightConstraints(mesh,  minHeight, height, roofShape);
         assertNoZeroLengthEdges(mesh, roofShape);
+        assertNoDuplicatesInFaces(mesh, roofShape);
+        assertNoSelfCrossing(mesh, roofShape);
         assertWatertight(mesh, roofShape);
         assertNormalsAndConsistency(mesh, roofShape);
     }
+
+
 
     // all defined roof shapes are tested automatically for a typical building.
     // so we should not even worry about extending autotests, they are extended automatically.
@@ -301,7 +361,7 @@ class RoofGeneratorTopologyTest {
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
     }
 
-    /*
+
     @Test
     void testSkillionRoofAsSteps() throws IOException {
         ArrayList<Point2D> basePoints = createRectangularBase(5, 10);
@@ -309,7 +369,7 @@ class RoofGeneratorTopologyTest {
         Contour contour = new Contour(basePoints);
         // Note: buildingPart is "steps"
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.SKILLION.toString(), "0", "", "steps" );
+                "", "", RoofShapes.SKILLION.toString(), "40", "", "steps" );
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
 
@@ -321,5 +381,5 @@ class RoofGeneratorTopologyTest {
         // For now, let's keep the full check.
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, "SKILLION_STEPS");
     }
-    */
+
 }
