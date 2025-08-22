@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <osm version='0.6' generator='JOSM'>
-  <node id='-25531' action='modify' visible='true' lat='55.05087203957' lon='37.05249783412' />
-  <node id='-25532' action='modify' visible='true' lat='55.05025255466' lon='37.05372910556' />
-  <node id='-25533' action='modify' visible='true' lat='55.04984023971' lon='37.05309696518' />
-  <node id='-25534' action='modify' visible='true' lat='55.050459731' lon='37.05186569374' />
+  <node id='-25531' action='modify' visible='true' lat='55.05067372877' lon='37.05356773967' />
+  <node id='-25532' action='modify' visible='true' lat='55.04981579133' lon='37.05290251695' />
+  <node id='-25533' action='modify' visible='true' lat='55.05003855464' lon='37.05202705963' />
+  <node id='-25534' action='modify' visible='true' lat='55.0508964873' lon='37.05269228236' />
   <way id='-9491' action='modify' visible='true'>
     <nd ref='-25531' />
     <nd ref='-25532' />
@@ -12,6 +12,7 @@
     <nd ref='-25531' />
     <tag k='building:part' v='steps' />
     <tag k='height' v='50' />
+    <tag k='note' v='here we test the most simple case, but for some reason it can produce holes' />
     <tag k='roof:height' v='40' />
     <tag k='roof:shape' v='skillion' />
   </way>

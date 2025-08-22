@@ -160,7 +160,6 @@ public class MesherSteps extends  RoofGenerator {
                      lastPoint = p;
                  }
             }
-            UrbanEye3dPlugin.debugMsg("topProfileIndices " + topProfileIndices);
 
             List<Integer> wallFace = new ArrayList<>();
 
@@ -206,6 +205,7 @@ public class MesherSteps extends  RoofGenerator {
                     topEdge.add(index);
                 }
             }
+            UrbanEye3dPlugin.debugMsg("topEdge " + topEdge);
             topEdges.add(topEdge);
         }
 
@@ -503,6 +503,9 @@ public class MesherSteps extends  RoofGenerator {
             Point2D p1 = contour.get(longestEdgeIndices[0]);
             Point2D p2 = contour.get(longestEdgeIndices[1]);
             slopeVector = new Point2D(-(p2.y - p1.y), p2.x - p1.x);
+            //The existing algorithm does not work really well for collinear slope
+            // so let's add some nice distortion.
+            slopeVector=slopeVector.add(new Point2D(1e-4, -1e-4));
         }
         slopeVector.normalize();
         return slopeVector;
