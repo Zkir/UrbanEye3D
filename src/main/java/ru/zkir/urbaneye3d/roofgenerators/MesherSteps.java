@@ -1,12 +1,11 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
 import ru.zkir.urbaneye3d.RenderableBuildingElement;
-import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
+//import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -21,7 +20,7 @@ import java.util.*;
  * @see MesherSkillion
  */
 public class MesherSteps extends  RoofGenerator {
-    final double STEP_HEIGHT = 0.16*30;
+    final double STEP_HEIGHT = 0.16;
 
     @Override
     public Mesh generate(RenderableBuildingElement building) {
@@ -73,7 +72,6 @@ public class MesherSteps extends  RoofGenerator {
         double actualStepHeight = roofHeight / numSteps;
         double projDiff = maxProj - minProj;
         double stepDepth = (projDiff > 1e-9) ? projDiff / numSteps : 0;
-
         double tan = (projDiff > 1e-9) ? roofHeight / projDiff : 0;
 
         // Part 2: Generate Base
@@ -104,9 +102,7 @@ public class MesherSteps extends  RoofGenerator {
                 reversed_edge=true;
             }
 
-
             List<Point3D> topProfile = new ArrayList<>();
-
 
             topProfile.add((new Point3D(p1, minHeight)));
             double z = wallHeight + (proj1 - minProj) * tan;
@@ -166,19 +162,6 @@ public class MesherSteps extends  RoofGenerator {
             // Add profile vertices to mesh and face list
             wallFace.addAll(topProfileIndices);
 
-            /* DO NOT REMOVE, - DEBUG: Print wall face edge directions ---
-            UrbanEye3dPlugin.debugMsg("--- Wall " + i + " ---");
-            for (int k = 0; k < wallFace.size(); k++) {
-                int idx1 = wallFace.get(k);
-                int idx2 = wallFace.get((k + 1) % wallFace.size()); // Loop back to the start for the last edge
-                Point3D edge_p1 = mesh.verts.get(idx1);
-                Point3D edge_p2 = mesh.verts.get(idx2);
-                Point3D direction = edge_p2.subtract(edge_p1).normalize();
-                UrbanEye3dPlugin.debugMsg("Edge " + k + ": " + idx1 + " -> " + idx2 + ", Dir: " + direction.toString());
-            }
-            // --- END DEBUG --- */
-
-
             if (!reversed_edge){
                 List<Integer> wallFaceR = new ArrayList<>();
                 for (int k=wallFace.size()-1; k>=0; k--){
@@ -190,7 +173,6 @@ public class MesherSteps extends  RoofGenerator {
             }else{
                 mesh.wallFaces.add(wallFace.stream().mapToInt(Integer::intValue).toArray());
             }
-
 
             allWallFaces.add(wallFace);
         }
@@ -205,7 +187,6 @@ public class MesherSteps extends  RoofGenerator {
                     topEdge.add(index);
                 }
             }
-            UrbanEye3dPlugin.debugMsg("topEdge " + topEdge);
             topEdges.add(topEdge);
         }
 
@@ -224,9 +205,6 @@ public class MesherSteps extends  RoofGenerator {
             i = (i - 1 + 4) % 4;
         }
 
-        UrbanEye3dPlugin.debugMsg("rail1: (" + rail1.size() + ") " +  rail1);
-        UrbanEye3dPlugin.debugMsg("rail2: (" + rail2.size() + ") " +  rail2);
-
         int ii=0;
         int jj=0;
 
@@ -237,73 +215,48 @@ public class MesherSteps extends  RoofGenerator {
             int vj0 = rail2.get(jj);
             int vj1 = rail2.get(jj + 1);
 
-            double proj_i0 = mesh.verts.get(vi0).x * slopeVector.x + mesh.verts.get(vi0).y * slopeVector.y;
-            double proj_j0 = mesh.verts.get(vj0).x * slopeVector.x + mesh.verts.get(vj0).y * slopeVector.y;
-            double proj_i1 = mesh.verts.get(vi1).x * slopeVector.x + mesh.verts.get(vi1).y * slopeVector.y;
-            double proj_j1 = mesh.verts.get(vj1).x * slopeVector.x + mesh.verts.get(vj1).y * slopeVector.y;
-
             if(vi0==vj0 && vi1==vj1 ){ //this is some strange glitch of wall profile creation algorithm. first raiser is included twice
                 ii++; jj++;
                 continue;
             }
 
             if (vi0==vi1){
-                UrbanEye3dPlugin.debugMsg("Rail 1 corner vertex : " + vi0);
                 //we need to create additional face
                 int vi2 = rail1.get(ii + 2);
                 var face = new int[]{vj0, vi1, vi2};
-                UrbanEye3dPlugin.debugMsg("face AC: "+ Arrays.toString(face));
                 mesh.roofFaces.add(face);
                 ii += 2;
                 continue;
             }
             if (vj0==vj1){
-                UrbanEye3dPlugin.debugMsg("Rail 2 corner vertex : " + vj0);
                 //we need to create additional face
                 int vj2 = rail2.get(jj + 2);
                 var face = new int[]{vj2, vj1, vi0 };
-                UrbanEye3dPlugin.debugMsg("face BC: "+ Arrays.toString(face));
                 mesh.roofFaces.add(face);
                 jj +=2;
                 continue;
             }
 
             if (vi0==vj0){ // only expected at the start
-
-
                 var face = new int[]{vi0, vi1, vj1};
-                UrbanEye3dPlugin.debugMsg("face S: "+ Arrays.toString(face));
-                UrbanEye3dPlugin.debugMsg(proj_i0 + " " + proj_j0 + " " +  proj_i1 + " " + proj_j1 ) ;
                 mesh.roofFaces.add(face);
             } else if(vi1==vj1){// only expected at the end
                 var face = new int[]{vi0, vi1, vj0};
-                UrbanEye3dPlugin.debugMsg("face E: "+ Arrays.toString(face));
                 mesh.roofFaces.add(face);
             }else {
                 var face =new int[]{vi1, vj0, vi0};
-                UrbanEye3dPlugin.debugMsg("face A: "+ Arrays.toString(face));
                 mesh.roofFaces.add(face);
                 face =new int[]{vi1, vj1, vj0};
-                UrbanEye3dPlugin.debugMsg("face B: "+ Arrays.toString(face));
                 mesh.roofFaces.add(face);
             }
             ii++; jj++;
-
-            /*
-            if (ii<jj){
-                ii++;
-            }else{
-                jj++;
-            }*/
         }
-
-
         return mesh;
     }
 
     /**
-     *  Generates steps mesh even for non-convex base
-     */
+    *  Generates steps mesh for non-convex base (not finished yet)
+    */
     public Mesh generateNonConvex(RenderableBuildingElement building) {
 
         List<Point2D> contour = building.getContour();
@@ -352,7 +305,7 @@ public class MesherSteps extends  RoofGenerator {
         }
 
         //steps
-        UrbanEye3dPlugin.debugMsg("-- steps!!");
+        //debugMsg("-- steps!!");
         for (int s = 0; s < numSteps; s++) {
             double z_top = wallHeight + (s + 1) * actualStepHeight;
             double proj_back = minProj + (s + 1) * stepDepth;
@@ -390,21 +343,21 @@ public class MesherSteps extends  RoofGenerator {
                     // we can join nodes which lie on the same edge.
 
                     if  (current_cut_indices.size()>prev_cut_indices.size()){
-                        UrbanEye3dPlugin.debugMsg("increase: "+ prev_cut_indices.size() + " " + current_cut_indices.size());
+                        //debugMsg("increase: "+ prev_cut_indices.size() + " " + current_cut_indices.size());
                         for (int i=0; i<prev_cut_indices.size(); i+=2) {
                             var face = processChange2(i, prev_cut_indices, prev_cut_edges, current_cut_indices, current_cut_edges);
                             mesh.roofFaces.add(face);
                         }
 
                     } else{
-                        UrbanEye3dPlugin.debugMsg("decrease: "+ prev_cut_indices.size() + " " + current_cut_indices.size());
+                        //debugMsg("decrease: "+ prev_cut_indices.size() + " " + current_cut_indices.size());
                         for (int i=0; i<current_cut_indices.size(); i+=2) {
                             var face = processChange2(i, current_cut_indices, current_cut_edges, prev_cut_indices, prev_cut_edges);
                             mesh.roofFaces.add(face);
                         }
                     }
                 } else{
-                    UrbanEye3dPlugin.debugMsg("strange case: "+ prev_cut_indices.size() + " " + current_cut_indices.size());
+                    //debugMsg("strange case: "+ prev_cut_indices.size() + " " + current_cut_indices.size());
                 }
             }
             prev_cut_indices = current_cut_indices;
@@ -445,7 +398,7 @@ public class MesherSteps extends  RoofGenerator {
             j++;
         }
         if (j>=current_cut_indices.size()){
-            UrbanEye3dPlugin.debugMsg("   unable to find matching node!");
+            //debugMsg("   unable to find matching node!");
             j=0;
             face_idxs.add(current_cut_indices.get(j));
         }
@@ -472,25 +425,6 @@ public class MesherSteps extends  RoofGenerator {
                 .toArray();
 
     }
-
-    /* DO NOT REMOVE YET!
-    private int[] getNearestPair(List<Point3D> verts, List<Integer> currentIndices, int index, List<Integer> otherIndices) {
-        //let's find the pair of  vertices in other  nearest to current.
-        var v1= verts.get(currentIndices.get(index));
-        var v2= verts.get(currentIndices.get(index+1));
-        var min_i=-1;
-        var min_len = Double.MAX_VALUE;
-        for (int i =0; i<otherIndices.size(); i+=2 ){
-            var v3= verts.get(otherIndices.get(i));
-            var v4= verts.get(otherIndices.get(i+1));
-            var len = v1.add(v2).div(2.0).distance( v3.add(v4).div(2.0) );
-            if (len<min_len){
-                min_len = len;
-                min_i = i;
-            }
-        }
-        return new int[]{otherIndices.get(min_i),otherIndices.get(min_i+1) };
-    }  */
 
 
     private Point2D calculateSlopeVector(List<Point2D> contour, double roofDirection) {
