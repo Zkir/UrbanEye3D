@@ -21,7 +21,7 @@ import java.util.*;
  * @see MesherSkillion
  */
 public class MesherSteps extends  RoofGenerator {
-    final double STEP_HEIGHT = 0.16*5;
+    final double STEP_HEIGHT = 0.16*30;
 
     @Override
     public Mesh generate(RenderableBuildingElement building) {
@@ -107,9 +107,11 @@ public class MesherSteps extends  RoofGenerator {
 
             List<Point3D> topProfile = new ArrayList<>();
 
-            double extra =  proj2<proj1 && proj1>minProj && proj1<maxProj  ? actualStepHeight: 0;
+
             topProfile.add((new Point3D(p1, minHeight)));
-            topProfile.add((new Point3D(p1, wallHeight + (proj1 - minProj) * tan + extra  )));
+            double z = wallHeight + (proj1 - minProj) * tan;
+            z = Math.max(z, actualStepHeight);
+            topProfile.add((new Point3D(p1,  z )));
 
            // Add all step-corners along the wall edge
             if (proj1<proj2){
@@ -144,12 +146,11 @@ public class MesherSteps extends  RoofGenerator {
                     }
                 }
             }
-            extra =  proj2<proj1 && proj2>minProj && proj2<maxProj  ? actualStepHeight: 0;
-            topProfile.add((new Point3D(p2, wallHeight + (proj2 - minProj) * tan + extra )));
+            z =wallHeight + (proj2 - minProj) * tan;
+            z = Math.max(z, actualStepHeight);
+            topProfile.add((new Point3D(p2, z)));
             topProfile.add((new Point3D(p2, minHeight)));
 
-            // Sort and remove duplicates
-           //topProfile.sort(Comparator.comparingDouble(p -> p.distance(new Point3D(p2.x, p2.y, 0))));
             List<Integer> topProfileIndices = new ArrayList<>();
 
             Point3D lastPoint = null;
@@ -159,6 +160,7 @@ public class MesherSteps extends  RoofGenerator {
                      lastPoint = p;
                  }
             }
+            UrbanEye3dPlugin.debugMsg("topProfileIndices " + topProfileIndices);
 
             List<Integer> wallFace = new ArrayList<>();
 
@@ -197,9 +199,10 @@ public class MesherSteps extends  RoofGenerator {
         // Part 4: Generate Roof Faces by stitching wall profiles
         List<List<Integer>> topEdges = new ArrayList<>();
         for (List<Integer> wallFace : allWallFaces) {
+
             List<Integer> topEdge = new ArrayList<>();
             for (int index : wallFace) {
-                if (mesh.verts.get(index).z > minHeight + 1e-9) { // Use tolerance
+                if (mesh.verts.get(index).z > minHeight ) {
                     topEdge.add(index);
                 }
             }
@@ -233,6 +236,12 @@ public class MesherSteps extends  RoofGenerator {
             int vi1 = rail1.get(ii + 1);
             int vj0 = rail2.get(jj);
             int vj1 = rail2.get(jj + 1);
+
+            double proj_i0 = mesh.verts.get(vi0).x * slopeVector.x + mesh.verts.get(vi0).y * slopeVector.y;
+            double proj_j0 = mesh.verts.get(vj0).x * slopeVector.x + mesh.verts.get(vj0).y * slopeVector.y;
+            double proj_i1 = mesh.verts.get(vi1).x * slopeVector.x + mesh.verts.get(vi1).y * slopeVector.y;
+            double proj_j1 = mesh.verts.get(vj1).x * slopeVector.x + mesh.verts.get(vj1).y * slopeVector.y;
+
             if(vi0==vj0 && vi1==vj1 ){ //this is some strange glitch of wall profile creation algorithm. first raiser is included twice
                 ii++; jj++;
                 continue;
@@ -260,8 +269,11 @@ public class MesherSteps extends  RoofGenerator {
             }
 
             if (vi0==vj0){ // only expected at the start
+
+
                 var face = new int[]{vi0, vi1, vj1};
                 UrbanEye3dPlugin.debugMsg("face S: "+ Arrays.toString(face));
+                UrbanEye3dPlugin.debugMsg(proj_i0 + " " + proj_j0 + " " +  proj_i1 + " " + proj_j1 ) ;
                 mesh.roofFaces.add(face);
             } else if(vi1==vj1){// only expected at the end
                 var face = new int[]{vi0, vi1, vj0};

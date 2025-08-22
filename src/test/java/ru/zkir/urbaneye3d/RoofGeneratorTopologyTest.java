@@ -246,6 +246,7 @@ class RoofGeneratorTopologyTest {
         for (RoofShapes roof_shape: RoofShapes.values()){
             RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 15, 40);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
+            //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests\\output\\"+roof_shape+".obj");
             AssertMeshTopology(mesh, test_building.minHeight, test_building.height,  roof_shape.toString());
         }
     }
@@ -257,6 +258,7 @@ class RoofGeneratorTopologyTest {
         for (RoofShapes roof_shape: RoofShapes.values()){
             RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 2, 9, 11);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
+            //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests\\output\\"+roof_shape+"NoWalls.obj");
             AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape.toString());
         }
     }
@@ -359,11 +361,12 @@ class RoofGeneratorTopologyTest {
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
+       // ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests\\output\\SkillionRoofWithHole.obj");
     }
 
 
     @Test
-    void testSkillionRoofAsSteps() throws IOException {
+    void testSkillionRoofAsSteps(){
         ArrayList<Point2D> basePoints = createRectangularBase(5, 10);
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
@@ -373,7 +376,7 @@ class RoofGeneratorTopologyTest {
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
 
-        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests\\output\\debug_steps.obj");
+        //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests\\output\\SkillionRoofAsSteps.obj");
 
         // The simplified wall generation in generateSteps might fail the watertight check for some shapes.
         // For a simple rectangle, it should be okay.
