@@ -21,7 +21,7 @@ import java.util.*;
  * @see MesherSkillion
  */
 public class MesherSteps extends  RoofGenerator {
-    final double STEP_HEIGHT = 0.16*1;
+    final double STEP_HEIGHT = 0.16*5;
 
     @Override
     public Mesh generate(RenderableBuildingElement building) {
@@ -92,6 +92,7 @@ public class MesherSteps extends  RoofGenerator {
 
             double proj1 = p1.x * slopeVector.x + p1.y * slopeVector.y;
             double proj2 = p2.x * slopeVector.x + p2.y * slopeVector.y;
+            boolean reversed_edge=false;
             if (proj1>proj2){
                 //"reverse" edge
                 var tmp_proj=proj1;
@@ -100,6 +101,7 @@ public class MesherSteps extends  RoofGenerator {
                 p1=p2;
                 proj2=tmp_proj;
                 p2=tmp_p;
+                reversed_edge=true;
             }
 
 
@@ -175,7 +177,20 @@ public class MesherSteps extends  RoofGenerator {
             }
             // --- END DEBUG --- */
 
-            mesh.wallFaces.add(wallFace.stream().mapToInt(Integer::intValue).toArray());
+
+            if (!reversed_edge){
+                List<Integer> wallFaceR = new ArrayList<>();
+                for (int k=wallFace.size()-1; k>=0; k--){
+                    wallFaceR.add(wallFace.get(k));
+                }
+
+                mesh.wallFaces.add(wallFaceR.stream().mapToInt(Integer::intValue).toArray());
+
+            }else{
+                mesh.wallFaces.add(wallFace.stream().mapToInt(Integer::intValue).toArray());
+            }
+
+
             allWallFaces.add(wallFace);
         }
 
@@ -206,14 +221,11 @@ public class MesherSteps extends  RoofGenerator {
             i = (i - 1 + 4) % 4;
         }
 
-        UrbanEye3dPlugin.debugMsg("rail1: " + rail1);
-        UrbanEye3dPlugin.debugMsg("rail2: " + rail2);
+        UrbanEye3dPlugin.debugMsg("rail1: (" + rail1.size() + ") " +  rail1);
+        UrbanEye3dPlugin.debugMsg("rail2: (" + rail2.size() + ") " +  rail2);
 
         int ii=0;
         int jj=0;
-        UrbanEye3dPlugin.debugMsg(" " + mesh.verts.get(rail1.get(0)));
-        UrbanEye3dPlugin.debugMsg(" " + mesh.verts.get(rail1.get(1)));
-
 
         while (ii<rail1.size()-1 && jj<rail2.size()-1 ) {
 
@@ -240,7 +252,7 @@ public class MesherSteps extends  RoofGenerator {
                 UrbanEye3dPlugin.debugMsg("Rail 2 corner vertex : " + vj0);
                 //we need to create additional face
                 int vj2 = rail2.get(jj + 2);
-                var face = new int[]{vi0, vj1, vj2};
+                var face = new int[]{vj2, vj1, vi0 };
                 UrbanEye3dPlugin.debugMsg("face BC: "+ Arrays.toString(face));
                 mesh.roofFaces.add(face);
                 jj +=2;
@@ -249,17 +261,17 @@ public class MesherSteps extends  RoofGenerator {
 
             if (vi0==vj0){ // only expected at the start
                 var face = new int[]{vi0, vi1, vj1};
-                UrbanEye3dPlugin.debugMsg("face A0: "+ Arrays.toString(face));
+                UrbanEye3dPlugin.debugMsg("face S: "+ Arrays.toString(face));
                 mesh.roofFaces.add(face);
             } else if(vi1==vj1){// only expected at the end
                 var face = new int[]{vi0, vi1, vj0};
-                UrbanEye3dPlugin.debugMsg("face A0: "+ Arrays.toString(face));
+                UrbanEye3dPlugin.debugMsg("face E: "+ Arrays.toString(face));
                 mesh.roofFaces.add(face);
             }else {
-                var face =new int[]{vi0, vj0, vi1};
+                var face =new int[]{vi1, vj0, vi0};
                 UrbanEye3dPlugin.debugMsg("face A: "+ Arrays.toString(face));
                 mesh.roofFaces.add(face);
-                face =new int[]{vj0, vj1, vi1};
+                face =new int[]{vi1, vj1, vj0};
                 UrbanEye3dPlugin.debugMsg("face B: "+ Arrays.toString(face));
                 mesh.roofFaces.add(face);
             }
