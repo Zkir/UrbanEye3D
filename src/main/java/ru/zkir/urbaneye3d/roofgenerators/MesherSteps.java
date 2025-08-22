@@ -20,7 +20,6 @@ import java.util.*;
  * @see MesherSkillion
  */
 public class MesherSteps extends  RoofGenerator {
-    final double STEP_HEIGHT = 0.16;
 
     @Override
     public Mesh generate(RenderableBuildingElement building) {
@@ -68,7 +67,7 @@ public class MesherSteps extends  RoofGenerator {
             }
         }
 
-        int numSteps = (int) Math.max(1, Math.floor(roofHeight / STEP_HEIGHT));
+        int numSteps = (int) Math.max(1, Math.floor(roofHeight / building.stepHeight));
         double actualStepHeight = roofHeight / numSteps;
         double projDiff = maxProj - minProj;
         double stepDepth = (projDiff > 1e-9) ? projDiff / numSteps : 0;
@@ -278,7 +277,7 @@ public class MesherSteps extends  RoofGenerator {
             minProj = Math.min(minProj, proj);
         }
 
-        int numSteps = (int) Math.max(1, Math.floor(roofHeight / STEP_HEIGHT));
+        int numSteps = (int) Math.max(1, Math.floor(roofHeight / building.stepHeight));
         double actualStepHeight = roofHeight / numSteps;
         double projDiff = maxProj - minProj;
         double stepDepth = (projDiff > 1e-9) ? projDiff / numSteps : 0;

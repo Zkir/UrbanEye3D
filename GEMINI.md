@@ -51,6 +51,9 @@ Prioritized via MoSCoW method:
 
 
 ## Recent Accomplishments 
+### August 22, 2025
+* More or less proper implementation of `building:part=steps` for quadrangular bases.
+
 ### August 15, 2025
 * Implemented support for `roof:shape=hipped` on buildings with complex (non-rectangular) footprints using the `campskeleton` library (based on Straight Skeleton algorithm).
 * More traditional folder structure for resources

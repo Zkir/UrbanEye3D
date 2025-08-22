@@ -27,14 +27,15 @@ public class RenderableBuildingElement {
     public final RoofShapes roofShape;
     public final Double roofDirection;
     public final @NotNull String roofOrientation;
-    public final String buildingPart;
     private final Contour contour;
     public final LatLon origin;
+    public final double stepHeight;
     private Mesh mesh;
 
-    public RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation, String buildingPart) {
+    final double DEFAULT_STEP_HEIGHT = 0.16;
+
+    public RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation, Double stepHeight) {
         this.primitiveId = primitiveId;
-        this.buildingPart = buildingPart;
         if (contour==null){
             throw new RuntimeException("contour must be specified");
         }
@@ -85,7 +86,15 @@ public class RenderableBuildingElement {
         this.color = parseColor(wallColor, new Color(204, 204, 204));
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
         this.bottomColor = this.color.darker().darker(); //Fake AO LOL!
-        
+
+
+
+        if (stepHeight==null || stepHeight==0){
+            this.stepHeight = DEFAULT_STEP_HEIGHT;
+        }else{
+            this.stepHeight = stepHeight;
+        }
+
         //since we have all the data, we can compose building mesh right in constructor.
         composeMesh();
     }

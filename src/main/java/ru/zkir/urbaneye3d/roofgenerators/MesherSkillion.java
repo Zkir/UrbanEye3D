@@ -81,10 +81,6 @@ public class MesherSkillion extends RoofGenerator {
 
     @Override
     public Mesh generate(RenderableBuildingElement building) {
-        if ("steps".equals(building.buildingPart)) {
-            var mesherSteps = new MesherSteps();
-            return mesherSteps.generate(building);
-        }
 
         List<List<Point2D>> contours = new ArrayList<>();
         contours.addAll(building.getContourOuterRings());
