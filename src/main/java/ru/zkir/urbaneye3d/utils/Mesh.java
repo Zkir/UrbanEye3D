@@ -36,4 +36,20 @@ public class Mesh {
             return verts.size() - 1;
         });
     }
+
+    /**
+     * Checks whether the vertex with the given coordinates exists in the mesh
+     * @param p The Point3D to check.
+     * @return The index of the vertex, if it exists, and -1 if it does not.
+     */
+    public int getVertexId(Point3D p) {
+        // Round the point to a certain precision to use as a key in the cache.
+        double scale = 1e6;
+        Point3D roundedP = new Point3D(
+            Math.round(p.x * scale) / scale,
+            Math.round(p.y * scale) / scale,
+            Math.round(p.z * scale) / scale
+        );
+        return vertexCache.getOrDefault(roundedP, -1);
+    }
 }

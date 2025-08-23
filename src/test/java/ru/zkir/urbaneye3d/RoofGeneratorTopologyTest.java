@@ -208,22 +208,18 @@ class RoofGeneratorTopologyTest {
     private static void assertNoDuplicatesInFaces(Mesh mesh, String roofShape) {
         //bottom
         for (int[] face : mesh.bottomFaces) {
-
             assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": bottom face "+ Arrays.toString(face) + " has duplicated node indices");
         }
         //walls
         for (int[] face : mesh.wallFaces) {
-
             assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": wall face "+ Arrays.toString(face) + " has duplicated node indices");
         }
 
         //roof
         for (int[] face : mesh.roofFaces) {
-
             assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": roof face "+ Arrays.toString(face) + " has duplicated node indices");
         }
     }
-
 
 
     public static void AssertMeshTopology(Mesh mesh, double minHeight, double height, String roofShape){
@@ -268,13 +264,14 @@ class RoofGeneratorTopologyTest {
         ArrayList<Point2D> base = createPentagonalBase();
         for (RoofShapes roof_shape: RoofShapes.values()) {
             //some roofs still do not support arbitrary base
-            if (roof_shape == RoofShapes.HALF_HIPPED || roof_shape == RoofShapes.STEPS ||
+            if (roof_shape == RoofShapes.HALF_HIPPED || // roof_shape == RoofShapes.STEPS ||
                    roof_shape == RoofShapes.MANSARD|| roof_shape == RoofShapes.CROSS_GABLED ){
                 continue;
             }
             //if (roof_shape == RoofShapes.SALTBOX) continue;
             RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 5, 10);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
+            ObjExporter.saveMeshToObj(mesh, "tests\\output\\"+roof_shape+"NonRectangular.obj");
             AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape + ", pentagonal base");
         }
     }
@@ -284,12 +281,13 @@ class RoofGeneratorTopologyTest {
         ArrayList<Point2D> base = createPentagonalBase();
         for (RoofShapes roof_shape: RoofShapes.values()) {
             //some roofs still do not support arbitrary base
-            if (roof_shape == RoofShapes.HALF_HIPPED || roof_shape == RoofShapes.STEPS ||
+            if (roof_shape == RoofShapes.HALF_HIPPED || //roof_shape == RoofShapes.STEPS ||
                     roof_shape == RoofShapes.MANSARD|| roof_shape == RoofShapes.CROSS_GABLED ){
                 continue;
             }
             RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 10, 10);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
+            ObjExporter.saveMeshToObj(mesh, "tests\\output\\"+roof_shape+"NonRectangularNoWalls.obj");
             AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape + ", pentagonal base");
         }
     }

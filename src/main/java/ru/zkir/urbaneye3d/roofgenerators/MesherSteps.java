@@ -8,6 +8,8 @@ import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.util.*;
 
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
+
 /**
  * This mesher is somewhat similar to MesherSkillion, but unlike it,
  *  it creates not just one inclined surface for the roof,
@@ -253,9 +255,6 @@ public class MesherSteps extends  RoofGenerator {
         return mesh;
     }
 
-    /**
-    *  Generates steps mesh for non-convex base (not finished yet)
-    */
     public Mesh generateNonConvex(RenderableBuildingElement building) {
 
         List<Point2D> contour = building.getContour();
@@ -269,6 +268,7 @@ public class MesherSteps extends  RoofGenerator {
         Mesh mesh = new Mesh();
 
         Point2D slopeVector = calculateSlopeVector(contour, roofDirection);
+        final Point2D normal = new Point2D(-slopeVector.y, slopeVector.x);
 
         double maxProj = -Double.MAX_VALUE, minProj = Double.MAX_VALUE;
         for (Point2D p : contour) {
@@ -282,19 +282,9 @@ public class MesherSteps extends  RoofGenerator {
         double projDiff = maxProj - minProj;
         double stepDepth = (projDiff > 1e-9) ? projDiff / numSteps : 0;
 
-        // Add base vertices and bottom face
-        int baseStartIndex = mesh.verts.size();
-        for (Point2D p : contour) {
-            mesh.addVertex(new Point3D(p.x, p.y, minHeight));
-        }
-        int[] bottomFace = new int[contour.size()];
-        for (int i = 0; i < contour.size(); i++) bottomFace[i] = baseStartIndex + (contour.size() - 1 - i);
-        //mesh.bottomFaces.add(bottomFace);
-
         // --- Generate Steps (Risers and Treads) for potentially multiple segments ---
         List<Intersection> frontIntersectionPoints = getIntersectionPoints(contour, slopeVector, minProj);
 
-        // List of indices for the previous cut.
         List<Integer> prev_cut_indices = new ArrayList<>();
         List<Integer> prev_cut_edges = new ArrayList<>();
         for (int i = 0; i < frontIntersectionPoints.size(); i++ ) {
@@ -303,78 +293,96 @@ public class MesherSteps extends  RoofGenerator {
             prev_cut_edges.add(frontIntersectionPoints.get(i).edgeIndex);
         }
 
-        //steps
-        //debugMsg("-- steps!!");
         for (int s = 0; s < numSteps; s++) {
+            double z_bottom = wallHeight + s * actualStepHeight;
             double z_top = wallHeight + (s + 1) * actualStepHeight;
+
+            // 1. Create vertices for the Riser
+            List<Integer> riser_bottom_indices = new ArrayList<>();
+            List<Integer> riser_top_indices = new ArrayList<>();
+            if (s!=numSteps-1) {
+                for (int idx : prev_cut_indices) {
+                    Point3D p = mesh.verts.get(idx);
+                    riser_bottom_indices.add(mesh.addVertex(new Point3D(p.x, p.y, z_bottom)));
+                }
+
+                for (int idx : prev_cut_indices) {
+                    Point3D p_bottom = mesh.verts.get(idx);
+                    riser_top_indices.add(mesh.addVertex(new Point3D(p_bottom.x, p_bottom.y, z_top)));
+                }
+
+                // 2. Create Riser faces
+                for (int i = 0; i < riser_bottom_indices.size() / 2; i++) {
+                    var face = new int[]{  riser_top_indices.get(i * 2),
+                                           riser_top_indices.get(i * 2 + 1),
+                                           riser_bottom_indices.get(i * 2 + 1),
+                                           riser_bottom_indices.get(i * 2)
+                                        };
+                    mesh.roofFaces.add(face);
+                }
+            }
+
+            // 3. Create vertices for the Tread
             double proj_back = minProj + (s + 1) * stepDepth;
             List<Intersection> currentIntersectionPoints = getIntersectionPoints(contour, slopeVector, proj_back);
 
-            List<Integer> current_cut_indices = new ArrayList<>();
-            List<Integer> current_cut_edges = new ArrayList<>();
-
-            //we need to create vertices for each intersection.
-            for (int i = 0; i < currentIntersectionPoints.size(); i++ ) {
-                int v_idx = mesh.addVertex(new Point3D(currentIntersectionPoints.get(i).point.x, currentIntersectionPoints.get(i).point.y, z_top));
-                current_cut_indices.add(v_idx);
-                current_cut_edges.add(currentIntersectionPoints.get(i).edgeIndex);
+            if (currentIntersectionPoints.size() % 2 != 0) {
+                Intersection vertexIntersection = null;
+                for (Intersection inter : currentIntersectionPoints) {
+                    for (Point2D contourVert : contour) {
+                        if (inter.point.distance(new Point3D(contourVert.x, contourVert.y, 0)) < 1e-6) {
+                            vertexIntersection = inter;
+                            break;
+                        }
+                    }
+                    if (vertexIntersection != null) break;
+                }
+                if (vertexIntersection != null) {
+                    currentIntersectionPoints.add(vertexIntersection);
+                    currentIntersectionPoints.sort(Comparator.comparingDouble(p -> p.point.x * normal.x + p.point.y * normal.y));
+                }
             }
-            if (current_cut_indices.size()==prev_cut_indices.size() && current_cut_indices.size() %2 ==0 ){
-                //there are pairs of vertices - simple case
-                for (int i=0; i<prev_cut_indices.size(); i+=2){
-                    var face = new int[]{prev_cut_indices.get(i+1), prev_cut_indices.get(i), current_cut_indices.get(i), current_cut_indices.get(i+1)  };
+
+            List<Integer> tread_back_indices = new ArrayList<>();
+            List<Integer> tread_back_edges = new ArrayList<>();
+            for (Intersection inter : currentIntersectionPoints) {
+                tread_back_indices.add(mesh.addVertex(new Point3D(inter.point.x, inter.point.y, z_top)));
+                tread_back_edges.add(inter.edgeIndex);
+            }
+
+            // 4. Create Tread faces
+            if (riser_top_indices.size()==tread_back_indices.size() && riser_top_indices.size() %2 ==0 ){
+                for (int i=0; i<riser_top_indices.size(); i+=2){
+                    var face = new int[]{riser_top_indices.get(i+1), riser_top_indices.get(i), tread_back_indices.get(i), tread_back_indices.get(i+1)  };
                     mesh.roofFaces.add(face);
                 }
-            } else{
-                if (Math.abs(current_cut_indices.size()-prev_cut_indices.size())==1){
-                    List<Integer> face_idxs = new ArrayList<>();
-                    Collections.reverse(prev_cut_indices);
-                    face_idxs.addAll(prev_cut_indices);
-                    face_idxs.addAll(current_cut_indices);
-                    int[] face = face_idxs.stream()
-                            .mapToInt(i -> i)
-                            .toArray();
-                    mesh.roofFaces.add(face);
-
-                } else if (Math.abs(current_cut_indices.size()-prev_cut_indices.size())%2==0){
-
-                    // let's do another trick, since we have 2 less vertices in one edge, let's create only possible faces
-                    // we can join nodes which lie on the same edge.
-
-                    if  (current_cut_indices.size()>prev_cut_indices.size()){
-                        //debugMsg("increase: "+ prev_cut_indices.size() + " " + current_cut_indices.size());
-                        for (int i=0; i<prev_cut_indices.size(); i+=2) {
-                            var face = processChange2(i, prev_cut_indices, prev_cut_edges, current_cut_indices, current_cut_edges);
+            } else {
+                 if (Math.abs(riser_top_indices.size()-tread_back_indices.size())%2==0){
+                    if  (riser_top_indices.size() > tread_back_indices.size()){
+                        for (int i=0; i<tread_back_indices.size(); i+=2) {
+                            var face = processChange2(i, tread_back_indices, tread_back_edges, riser_top_indices, prev_cut_edges);
                             mesh.roofFaces.add(face);
                         }
 
                     } else{
-                        //debugMsg("decrease: "+ prev_cut_indices.size() + " " + current_cut_indices.size());
-                        for (int i=0; i<current_cut_indices.size(); i+=2) {
-                            var face = processChange2(i, current_cut_indices, current_cut_edges, prev_cut_indices, prev_cut_edges);
+                        for (int i=0; i<riser_top_indices.size(); i+=2) {
+                            var face = processChange2(i, riser_top_indices, prev_cut_edges, tread_back_indices, tread_back_edges);
                             mesh.roofFaces.add(face);
                         }
                     }
                 } else{
-                    //debugMsg("strange case: "+ prev_cut_indices.size() + " " + current_cut_indices.size());
+                    // special case, we can't do much here
                 }
             }
-            prev_cut_indices = current_cut_indices;
-            prev_cut_edges   = current_cut_edges;
+
+            // 5. Update state for next iteration
+            prev_cut_indices = tread_back_indices;
+            prev_cut_edges = tread_back_edges;
         }
-        //TODO: create bottom face(s)
-        //The base should be recreated because,
-        //  given that the wall tops vertices are created based on parallel cuts (see above),
-        //  the vertices of the original contour do not always lie on these cuts.
 
-
-        // Wall generation is intentionally omitted.
-        //TODO: create wall faces.
-
-
+        createWallsAndBottom(mesh, minHeight, actualStepHeight);
         return mesh;
     }
-
 
     int[] processChange2(int i,
                          List<Integer> prev_cut_indices, List<Integer> prev_cut_edges,
@@ -391,7 +399,9 @@ public class MesherSteps extends  RoofGenerator {
             int curr_edge = current_cut_edges.get(j);
 
             if (curr_edge== prev_edge) {
-                face_idxs.add(current_cut_indices.get(j));
+                if(!face_idxs.contains(current_cut_indices.get(j))) {
+                    face_idxs.add(current_cut_indices.get(j));
+                }
                 break;
             }
             j++;
@@ -399,7 +409,9 @@ public class MesherSteps extends  RoofGenerator {
         if (j>=current_cut_indices.size()){
             //debugMsg("   unable to find matching node!");
             j=0;
-            face_idxs.add(current_cut_indices.get(j));
+            if(!face_idxs.contains(current_cut_indices.get(j))) {
+                face_idxs.add(current_cut_indices.get(j));
+            }
         }
 
         //process the remaining nodes of the opposite edge.
@@ -407,7 +419,9 @@ public class MesherSteps extends  RoofGenerator {
             int prev_edge = prev_cut_edges.get(i+1);
             int curr_edge = current_cut_edges.get(j);
 
-            face_idxs.add(current_cut_indices.get(j)); //here the node is added unconditionally.
+            if(!face_idxs.contains(current_cut_indices.get(j))) {
+                face_idxs.add(current_cut_indices.get(j)); //here the node is added unconditionally.
+            }
             if (curr_edge== prev_edge) {
                 break; //it means that we gave found proper node.
             }
@@ -415,14 +429,90 @@ public class MesherSteps extends  RoofGenerator {
             j++;
         }
         //close the loop
-        face_idxs.add(prev_cut_indices.get(i+1));
+        if(!face_idxs.contains(prev_cut_indices.get(i+1))) {
+            face_idxs.add(prev_cut_indices.get(i + 1));
+        }
 
         //for some reason we need to reverse the windings
-        Collections.reverse(face_idxs);
+        //Collections.reverse(face_idxs);
         return face_idxs.stream()
                 .mapToInt(k -> k)
                 .toArray();
 
+    }
+
+    private void createWallsAndBottom(Mesh mesh, double minHeight, double actualStepHeight) {
+        Map<String, Integer> edgeCounts = new HashMap<>();
+        List<int[]> allFaces = new ArrayList<>(mesh.roofFaces);
+        allFaces.addAll(mesh.wallFaces);
+
+        for (int[] face : allFaces) {
+            for (int i = 0; i < face.length; i++) {
+                int v1 = face[i];
+                int v2 = face[(i + 1) % face.length];
+                String edge = Math.min(v1, v2) + "-" + Math.max(v1, v2);
+                edgeCounts.put(edge, edgeCounts.getOrDefault(edge, 0) + 1);
+            }
+        }
+
+        Map<Integer, Integer> topToBottomMap = new HashMap<>();
+
+        for (Map.Entry<String, Integer> entry : edgeCounts.entrySet()) {
+            if (entry.getValue() == 1) { // This is a boundary edge
+                String[] vertices = entry.getKey().split("-");
+                int v1_top_idx = Integer.parseInt(vertices[0]);
+                int v2_top_idx = Integer.parseInt(vertices[1]);
+
+                Point3D p1_top = mesh.verts.get(v1_top_idx);
+                Point3D p2_top = mesh.verts.get(v2_top_idx);
+
+                int raiser_idx = mesh.getVertexId( new Point3D(p1_top.x, p1_top.y, p1_top.z - actualStepHeight));
+
+                int v1_bottom_idx = topToBottomMap.computeIfAbsent(v1_top_idx, k -> mesh.addVertex(new Point3D(p1_top.x, p1_top.y, minHeight)));
+                int v2_bottom_idx = topToBottomMap.computeIfAbsent(v2_top_idx, k -> mesh.addVertex(new Point3D(p2_top.x, p2_top.y, minHeight)));
+
+                int[] wallFace;
+                if (raiser_idx!=-1 && raiser_idx!=v1_bottom_idx) {
+                    wallFace = new int[]{v1_bottom_idx, v2_bottom_idx, v2_top_idx, v1_top_idx, raiser_idx};
+                }else {
+                    wallFace = new int[]{v1_bottom_idx, v2_bottom_idx, v2_top_idx, v1_top_idx};
+                }
+                if (wallFace[0] != wallFace[1] && wallFace[0] != wallFace[2] && wallFace[0] != wallFace[3] &&
+                    wallFace[1] != wallFace[2] && wallFace[1] != wallFace[3] &&
+                    wallFace[2] != wallFace[3]) {
+                    mesh.wallFaces.add(wallFace);
+                }
+            }
+        }
+
+        // Create bottom faces by projecting horizontal roof faces (treads) down.
+        for (int[] roofFace : mesh.roofFaces) {
+            boolean isTread = true;
+            if (roofFace.length == 0) continue;
+            double z = mesh.verts.get(roofFace[0]).z;
+            if (z <= minHeight + 1e-6) continue; // Don't create bottom faces for risers on the ground
+
+            for (int i = 1; i < roofFace.length; i++) {
+                if (Math.abs(mesh.verts.get(roofFace[i]).z - z) > 1e-6) {
+                    isTread = false;
+                    break;
+                }
+            }
+
+            if (isTread) {
+                int[] bottomFace = new int[roofFace.length];
+                for (int i = 0; i < roofFace.length; i++) {
+                    Point3D topVert = mesh.verts.get(roofFace[i]);
+                    bottomFace[i] = topToBottomMap.computeIfAbsent(roofFace[i], k -> mesh.addVertex(new Point3D(topVert.x, topVert.y, minHeight)));
+                }
+                // Reverse winding for bottom face
+                int[] reversedBottomFace = new int[bottomFace.length];
+                for (int i = 0; i < bottomFace.length; i++) {
+                    reversedBottomFace[i] = bottomFace[bottomFace.length - 1 - i];
+                }
+                mesh.bottomFaces.add(reversedBottomFace);
+            }
+        }
     }
 
 

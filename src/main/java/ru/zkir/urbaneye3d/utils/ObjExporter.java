@@ -45,10 +45,14 @@ public class ObjExporter {
         return stringWriter.toString();
     }
 
-    public static void saveMeshToObj(Mesh mesh, String filePath) throws IOException {
+    public static void saveMeshToObj(Mesh mesh, String filePath)  {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(meshToString(mesh));
         }
+        catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
     private static void writeFaces(BufferedWriter writer, List<int[]> faces) throws IOException {
