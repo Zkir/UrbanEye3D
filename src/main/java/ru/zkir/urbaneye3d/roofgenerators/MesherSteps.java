@@ -450,19 +450,27 @@ public class MesherSteps extends  RoofGenerator {
             for (int i = 0; i < face.length; i++) {
                 int v1 = face[i];
                 int v2 = face[(i + 1) % face.length];
-                String edge = Math.min(v1, v2) + "-" + Math.max(v1, v2);
-                edgeCounts.put(edge, edgeCounts.getOrDefault(edge, 0) + 1);
+                String edge =  v1 + "-" + v2;
+                edgeCounts.put(edge, edgeCounts.getOrDefault(edge,  0) + 1);
             }
         }
 
         Map<Integer, Integer> topToBottomMap = new HashMap<>();
 
-        for (Map.Entry<String, Integer> entry : edgeCounts.entrySet()) {
-            if (entry.getValue() == 1) { // This is a boundary edge
-                String[] vertices = entry.getKey().split("-");
-                int v1_top_idx = Integer.parseInt(vertices[0]);
-                int v2_top_idx = Integer.parseInt(vertices[1]);
-
+        for (String edgeKey : edgeCounts.keySet() ) {
+            String[] vertices = edgeKey.split("-");
+            int v1_top_idx = Integer.parseInt(vertices[0]);
+            int v2_top_idx = Integer.parseInt(vertices[1]);
+            int countF= edgeCounts.get(edgeKey);
+            int countR= edgeCounts.getOrDefault(v2_top_idx + "-" + v1_top_idx ,0);
+            int count=  countF + countR;
+            if (count == 1) { // This is a boundary edge
+                boolean reverseRequired=false;
+                if (v1_top_idx>v2_top_idx){
+                    v1_top_idx = Integer.parseInt(vertices[1]);
+                    v2_top_idx = Integer.parseInt(vertices[0]);
+                    reverseRequired = true;
+                }
                 Point3D p1_top = mesh.verts.get(v1_top_idx);
                 Point3D p2_top = mesh.verts.get(v2_top_idx);
 
@@ -473,9 +481,17 @@ public class MesherSteps extends  RoofGenerator {
 
                 int[] wallFace;
                 if (raiser_idx!=-1 && raiser_idx!=v1_bottom_idx) {
-                    wallFace = new int[]{v1_bottom_idx, v2_bottom_idx, v2_top_idx, v1_top_idx, raiser_idx};
+                    if(!reverseRequired) {
+                        wallFace = new int[]{v1_bottom_idx, v2_bottom_idx, v2_top_idx, v1_top_idx, raiser_idx};
+                    }else {
+                        wallFace = new int[]{raiser_idx, v1_top_idx,v2_top_idx, v2_bottom_idx, v1_bottom_idx};
+                    }
                 }else {
-                    wallFace = new int[]{v1_bottom_idx, v2_bottom_idx, v2_top_idx, v1_top_idx};
+                    if(!reverseRequired) {
+                        wallFace = new int[]{v1_bottom_idx, v2_bottom_idx, v2_top_idx, v1_top_idx};
+                    }else{
+                        wallFace = new int[]{v1_top_idx, v2_top_idx, v2_bottom_idx,v1_bottom_idx};
+                    }
                 }
                 if (wallFace[0] != wallFace[1] && wallFace[0] != wallFace[2] && wallFace[0] != wallFace[3] &&
                     wallFace[1] != wallFace[2] && wallFace[1] != wallFace[3] &&
