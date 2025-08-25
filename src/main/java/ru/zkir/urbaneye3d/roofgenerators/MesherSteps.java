@@ -8,6 +8,7 @@ import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.util.*;
 
+import static java.lang.Math.abs;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
 
 /**
@@ -115,7 +116,7 @@ public class MesherSteps extends  RoofGenerator {
                 for (int s = 0; s <= numSteps; s++) {
                     double projS = minProj + s * stepDepth;
                     if (projS >= Math.min(proj1, proj2) - 1e-9 && projS <= Math.max(proj1, proj2) + 1e-9) {
-                        double t = (Math.abs(proj2 - proj1) < 1e-9) ? 0 : (projS - proj1) / (proj2 - proj1);
+                        double t = (abs(proj2 - proj1) < 1e-9) ? 0 : (projS - proj1) / (proj2 - proj1);
                         t = Math.max(0, Math.min(1, t)); // Clamp t to [0,1]
                         Point2D ip = new Point2D(p1.x + t * (p2.x - p1.x), p1.y + t * (p2.y - p1.y));
                         if (s > 0) {
@@ -131,7 +132,7 @@ public class MesherSteps extends  RoofGenerator {
                 for (int s = numSteps; s >= 0; s--) {
                     double projS = minProj + s * stepDepth;
                     if (projS >= Math.min(proj1, proj2) - 1e-9 && projS <= Math.max(proj1, proj2) + 1e-9) {
-                        double t = (Math.abs(proj2 - proj1) < 1e-9) ? 0 : (projS - proj1) / (proj2 - proj1);
+                        double t = (abs(proj2 - proj1) < 1e-9) ? 0 : (projS - proj1) / (proj2 - proj1);
                         t = Math.max(0, Math.min(1, t)); // Clamp t to [0,1]
                         Point2D ip = new Point2D(p1.x + t * (p2.x - p1.x), p1.y + t * (p2.y - p1.y));
                         if (s < numSteps) { // Add point for the top of the riser, prevent going over max height
@@ -284,9 +285,15 @@ public class MesherSteps extends  RoofGenerator {
 
         // --- Generate Steps (Risers and Treads) for potentially multiple segments ---
         List<Intersection> frontIntersectionPoints = getIntersectionPoints(contour, slopeVector, minProj);
+        if ( frontIntersectionPoints.size() == 1 ) {
+            addNearestContourVertexToIntersection(frontIntersectionPoints, contour, slopeVector, normal, stepDepth);
+        }
+
+        //debugMsg("frontIntersectionPoints: " + frontIntersectionPoints);
 
         List<Integer> prev_cut_indices = new ArrayList<>();
         List<Integer> prev_cut_edges = new ArrayList<>();
+        List<Intersection> prevIntersectionPoints=null;
         for (int i = 0; i < frontIntersectionPoints.size(); i++ ) {
             int v1_idx = mesh.addVertex(new Point3D(frontIntersectionPoints.get(i).point.x, frontIntersectionPoints.get(i).point.y, wallHeight));
             prev_cut_indices.add(v1_idx);
@@ -297,10 +304,25 @@ public class MesherSteps extends  RoofGenerator {
             double z_bottom = wallHeight + s * actualStepHeight;
             double z_top = wallHeight + (s + 1) * actualStepHeight;
 
+            double proj_back = minProj + (s + 1) * stepDepth;
+            List<Intersection> currentIntersectionPoints = getIntersectionPoints(contour, slopeVector, proj_back);
+
+            if ((currentIntersectionPoints.size() == 1) && (s == 0 || s == numSteps - 1)) {
+                addNearestContourVertexToIntersection(currentIntersectionPoints, contour, slopeVector, normal, stepDepth);
+            }
+
+            if (s==numSteps-1){
+                //debugMsg("prevIntersectionPoints: "+ prevIntersectionPoints);
+                //debugMsg("currentIntersectionPoints: "+currentIntersectionPoints);
+            }
+
             // 1. Create vertices for the Riser
             List<Integer> riser_bottom_indices = new ArrayList<>();
             List<Integer> riser_top_indices = new ArrayList<>();
-            if (s!=numSteps-1) {
+            //if (currentIntersectionPoints.size()>1) { //TODO: Do we need any condition here???
+            if (!((s==numSteps-1) && (currentIntersectionPoints.size() % 2 != 0))) { //TODO: this is some kind of remaining problem
+                //for the last (topmost) step we can create raisers, but we cannot create tread face, in case geometry differs,
+                //especially if one edge is created via intersections, and another just by single(?) contour vertex
                 for (int idx : prev_cut_indices) {
                     Point3D p = mesh.verts.get(idx);
                     riser_bottom_indices.add(mesh.addVertex(new Point3D(p.x, p.y, z_bottom)));
@@ -323,25 +345,6 @@ public class MesherSteps extends  RoofGenerator {
             }
 
             // 3. Create vertices for the Tread
-            double proj_back = minProj + (s + 1) * stepDepth;
-            List<Intersection> currentIntersectionPoints = getIntersectionPoints(contour, slopeVector, proj_back);
-
-            if (currentIntersectionPoints.size() % 2 != 0) {
-                Intersection vertexIntersection = null;
-                for (Intersection inter : currentIntersectionPoints) {
-                    for (Point2D contourVert : contour) {
-                        if (inter.point.distance(new Point3D(contourVert.x, contourVert.y, 0)) < 1e-6) {
-                            vertexIntersection = inter;
-                            break;
-                        }
-                    }
-                    if (vertexIntersection != null) break;
-                }
-                if (vertexIntersection != null) {
-                    currentIntersectionPoints.add(vertexIntersection);
-                    currentIntersectionPoints.sort(Comparator.comparingDouble(p -> p.point.x * normal.x + p.point.y * normal.y));
-                }
-            }
 
             List<Integer> tread_back_indices = new ArrayList<>();
             List<Integer> tread_back_edges = new ArrayList<>();
@@ -357,7 +360,7 @@ public class MesherSteps extends  RoofGenerator {
                     mesh.roofFaces.add(face);
                 }
             } else {
-                 if (Math.abs(riser_top_indices.size()-tread_back_indices.size())%2==0){
+                 if (abs(riser_top_indices.size()-tread_back_indices.size())%2==0){
                     if  (riser_top_indices.size() > tread_back_indices.size()){
                         for (int i=0; i<tread_back_indices.size(); i+=2) {
                             var face = processChange2(i, tread_back_indices, tread_back_edges, riser_top_indices, prev_cut_edges);
@@ -378,10 +381,60 @@ public class MesherSteps extends  RoofGenerator {
             // 5. Update state for next iteration
             prev_cut_indices = tread_back_indices;
             prev_cut_edges = tread_back_edges;
+            prevIntersectionPoints = currentIntersectionPoints;
         }
 
         createWallsAndBottom(mesh, minHeight, actualStepHeight);
         return mesh;
+    }
+
+    private static void addNearestContourVertexToIntersection(List<Intersection> currentIntersectionPoints, List<Point2D> contour, Point2D slopeVector, Point2D normal, double stepDepth) {
+        // This is a special case where the cutting line for the step's back edge results in a single intersection,
+        // likely at a tip of the building outline. We try to find a nearby contour vertex to form a pair,
+        // creating a very small edge for the step tread.
+        Intersection singleIntersection = currentIntersectionPoints.get(0);
+        Point2D intersectionPoint2D = new Point2D(singleIntersection.point.x, singleIntersection.point.y);
+
+        Point2D nearestContourVertex = null;
+        double minProjDistance = Double.MAX_VALUE;
+        int n = contour.size();
+
+        // Find the closest adjacent vertex on the main building contour.
+        for (int i=0; i<n; i++) {
+            Point2D v1 = contour.get((i+n-1)%n);
+            Point2D v2 = contour.get((i+1)%n );
+            if (contour.get(i).distance(intersectionPoint2D) <1e-6 ){
+                //we've found this vertex in a contour.
+                //check the ADJACENT vertices
+                double d1 = abs(v1.dot(slopeVector)-intersectionPoint2D.dot(slopeVector));
+                double d2 = abs(v2.dot(slopeVector)-intersectionPoint2D.dot(slopeVector));
+                if (d1<d2){
+                    nearestContourVertex = v1;
+                    minProjDistance = d1;
+                }else{
+                    nearestContourVertex = v2;
+                    minProjDistance = d2;
+                }
+                break;
+            }
+        }
+
+        // If a close-enough vertex is found, create a new intersection point from it.
+        if (nearestContourVertex != null && minProjDistance < stepDepth) {
+            int edgeIndex = -1;
+            for (int i = 0; i < contour.size(); i++) {
+                if (contour.get(i) == nearestContourVertex) {
+                    edgeIndex = i; // The edge is considered to start at this vertex.
+                    break;
+                }
+            }
+            if (edgeIndex != -1) {
+                Intersection newIntersection = new Intersection(new Point3D(nearestContourVertex.x, nearestContourVertex.y, 0), edgeIndex);
+                currentIntersectionPoints.add(newIntersection);
+                // Re-sort the intersections list as the order is important.
+                currentIntersectionPoints.sort(Comparator.comparingDouble(p -> p.point.x * normal.x + p.point.y * normal.y));
+            }
+        }
     }
 
     int[] processChange2(int i,
@@ -398,7 +451,7 @@ public class MesherSteps extends  RoofGenerator {
             int prev_edge = prev_cut_edges.get(i);
             int curr_edge = current_cut_edges.get(j);
 
-            if (curr_edge== prev_edge) {
+            if (curr_edge == prev_edge) {
                 if(!face_idxs.contains(current_cut_indices.get(j))) {
                     face_idxs.add(current_cut_indices.get(j));
                 }
@@ -422,7 +475,7 @@ public class MesherSteps extends  RoofGenerator {
             if(!face_idxs.contains(current_cut_indices.get(j))) {
                 face_idxs.add(current_cut_indices.get(j)); //here the node is added unconditionally.
             }
-            if (curr_edge== prev_edge) {
+            if (curr_edge == prev_edge) {
                 break; //it means that we gave found proper node.
             }
 
@@ -509,7 +562,7 @@ public class MesherSteps extends  RoofGenerator {
             if (z <= minHeight + 1e-6) continue; // Don't create bottom faces for risers on the ground
 
             for (int i = 1; i < roofFace.length; i++) {
-                if (Math.abs(mesh.verts.get(roofFace[i]).z - z) > 1e-6) {
+                if (abs(mesh.verts.get(roofFace[i]).z - z) > 1e-6) {
                     isTread = false;
                     break;
                 }
@@ -561,29 +614,60 @@ public class MesherSteps extends  RoofGenerator {
             this.point = point;
             this.edgeIndex = edgeIndex;
         }
+
+        @Override
+        public String toString(){
+            return "("+point +", "+edgeIndex+")";
+        }
     }
 
     private List<Intersection> getIntersectionPoints(List<Point2D> contour, Point2D slopeVector, double proj) {
+        final double EPSILON = 1e-6;
         List<Intersection> intersections = new ArrayList<>();
         Point2D normal = new Point2D(-slopeVector.y, slopeVector.x);
+        int n = contour.size();
 
-        for (int i = 0; i < contour.size(); i++) {
+        for (int i = 0; i < n; i++) {
             Point2D p1 = contour.get(i);
-            Point2D p2 = contour.get((i + 1) % contour.size());
+            Point2D p2 = contour.get((i + 1) % n);
 
             double a1 = p2.y - p1.y, b1 = p1.x - p2.x, c1 = a1 * p1.x + b1 * p1.y;
             double a2 = slopeVector.x, b2 = slopeVector.y, c2 = proj;
             double det = a1 * b2 - a2 * b1;
 
-            if (Math.abs(det) > 1e-9) {
-                double x = (b2 * c1 - b1 * c2) / det;
-                double y = (a1 * c2 - a2 * c1) / det;
-                // Check if the intersection point is within the segment p1-p2 with a small tolerance
-                final double EPSILON = 1e-9;
-                if (x >= Math.min(p1.x, p2.x) - EPSILON && x <= Math.max(p1.x, p2.x) + EPSILON &&
-                        y >= Math.min(p1.y, p2.y) - EPSILON && y <= Math.max(p1.y, p2.y) + EPSILON) {
-                    intersections.add(new Intersection(new Point3D(x, y, 0), i)); // Z is set later
-                }
+            if (abs(det) > EPSILON) {
+                //intersection point
+                Point2D pi = new Point2D((b2 * c1 - b1 * c2) / det,(a1 * c2 - a2 * c1) / det);
+                if (pi.distance(p1) < EPSILON ){
+                    //this is vertex exactly, we need no make more wise choice of the edge.
+                    //let's choose edge with biggest projection difference.
+                    int edge_idx;
+                    Point2D p0 = contour.get((i-1+n) % n);
+                    double d0 = abs(p0.dot(slopeVector) - p1.dot(slopeVector));
+                    double d2 = abs(p2.dot(slopeVector) - p1.dot(slopeVector));
+                    if (d0<d2) {
+                        edge_idx = (i-1+n) % n;
+                    } else{
+                        edge_idx = i;
+                    }
+                    intersections.add(new Intersection(new Point3D(pi, 0), edge_idx)); // Z is set later
+                }else if(pi.distance(p2)<EPSILON){
+                    int edge_idx;
+                    Point2D p3 = contour.get( (i+2) % n );
+                    double d1 = abs(p1.dot(slopeVector) - p2.dot(slopeVector));
+                    double d3 = abs(p3.dot(slopeVector) - p2.dot(slopeVector));
+                    if (d1<d3) {
+                        edge_idx = i;
+                    } else{
+                        edge_idx = (i+2) % n;
+                    }
+                    intersections.add(new Intersection(new Point3D(pi, 0), edge_idx)); // Z is set later
+                } else
+                    // Check if the intersection point is within the segment p1-p2 with a small tolerance
+                    if (pi.x >= Math.min(p1.x, p2.x) - EPSILON && pi.x <= Math.max(p1.x, p2.x) + EPSILON &&
+                            pi.y >= Math.min(p1.y, p2.y) - EPSILON && pi.y <= Math.max(p1.y, p2.y) + EPSILON) {
+                        intersections.add(new Intersection(new Point3D(pi, 0), i)); // Z is set later
+                    }
             }
         }
         intersections.sort(Comparator.comparingDouble(p -> p.point.x * normal.x + p.point.y * normal.y));

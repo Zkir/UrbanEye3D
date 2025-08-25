@@ -364,7 +364,7 @@ class RoofGeneratorTopologyTest {
 
 
     @Test
-    void testSkillionRoofAsSteps(){
+    void testStepsRoof(){
         ArrayList<Point2D> basePoints = createRectangularBase(5, 10);
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
