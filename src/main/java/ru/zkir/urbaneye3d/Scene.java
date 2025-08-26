@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Scene {
+    //default values
+    final double DEFAULT_LEVELS_NUMBER=2;
+    final double DEFAULT_LEVEL_HEIGHT=3;
+    final boolean INHERIT_HEIGHT_FROM_PARENT=false;
     //the list of elements that should be rendered.
     //renderable element can be either a building or a building part.
     final List<RenderableBuildingElement> renderableElements = new ArrayList<>();
@@ -117,9 +121,6 @@ public class Scene {
                 roofShape="pyramidal";
             }
 
-            final double DEFAULT_LEVELS_NUMBER=2;
-            final double DEFAULT_LEVEL_HEIGHT=3;
-
             //default values for minHeight. Tags order: min_height, minLevel
             if (minHeight ==null){
                 if (minLevel!=null) {
@@ -137,29 +138,42 @@ public class Scene {
                     if (roofShape.equals("flat")) {
                         roofHeight = 0.;
                     } else {
+                        //here we infer roof height from it's shape, because, say, gabled roof usually have some height.
+                        //F4 map also does that.
                         roofHeight = 1.0 * DEFAULT_LEVEL_HEIGHT;
                     }
                 }
             }
+
             //default values for height. Tags order: height, building:levels+roof:levels, default height or parent height
             if (height==null) {
-                if (source_key.equals("building") && levels == null) {
-                    levels = DEFAULT_LEVELS_NUMBER;
-                }
-                if (levels != null) {
+                if(INHERIT_HEIGHT_FROM_PARENT) {
+                    if (source_key.equals("building") && levels == null) {
+                        levels = DEFAULT_LEVELS_NUMBER;
+                    }
+                    if (levels != null) {
+                        height = levels * DEFAULT_LEVEL_HEIGHT;
+                        height += roofHeight; //roof:levels are not included into levels, so we can do this increment
+                    } else {
+                        //This is a very controversial feature. There are a lot of building parts without height,
+                        //which are not rendered in any 3D renderer. So they can look strange.
+                        height = buildingHeights.get(parent);
+                        if (height == null) {
+                            //this situation is possible in 2 cases:
+                            // * Building part is orphan
+                            // * Spatial containment check failed
+                            height = 0.0;
+                            //System.out.println("Height could not be determined for "+ primitive.getPrimitiveId()+ " (" + source_key+")");
+                        }
+                    }
+                }else{
+                    //buildings and buildings parts are processed uniformly:
+                    //Tags order: height, building:levels, default_level.
+                    if (levels == null) {
+                        levels = DEFAULT_LEVELS_NUMBER;
+                    }
                     height = levels * DEFAULT_LEVEL_HEIGHT;
                     height += roofHeight; //roof:levels are not included into levels, so we can do this increment
-                }else{
-                    //This is a very controversial feature. There are a lot of building parts without height,
-                    //which are not rendered in any 3D renderer. So they can look strange.
-                    height = buildingHeights.get(parent);
-                    if (height==null){
-                        //this situation is possible in 2 cases:
-                        // * Building part is orphan
-                        // * Spatial containment check failed
-                        height=0.0;
-                        //System.out.println("Height could not be determined for "+ primitive.getPrimitiveId()+ " (" + source_key+")");
-                    }
                 }
             }
 
