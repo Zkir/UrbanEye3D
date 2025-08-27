@@ -69,7 +69,10 @@ public class DialogWindow3D extends ToggleDialog
 
     }
 
-
+    @Override
+    public String helpTopic() {
+        return "/Plugin/UrbanEye3D";
+    }
 
     @Override
     public void destroy() {
