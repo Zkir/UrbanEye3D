@@ -256,6 +256,9 @@ public class MesherSteps extends  RoofGenerator {
         return mesh;
     }
 
+    /**
+    * Generate steps for an arbitrary non-convex base. Complex algorithm and still some bugs here.
+    */
     public Mesh generateNonConvex(RenderableBuildingElement building) {
 
         List<Point2D> contour = building.getContour();
@@ -437,6 +440,9 @@ public class MesherSteps extends  RoofGenerator {
         }
     }
 
+    /**
+     * The part of the algorithm that stitches together the vertices of the front and back cuts if both cuts have an even number of vertices.
+    */
     int[] processChange2(int i,
                          List<Integer> prev_cut_indices, List<Integer> prev_cut_edges,
                          List<Integer> current_cut_indices, List<Integer> current_cut_edges  ){
@@ -621,6 +627,10 @@ public class MesherSteps extends  RoofGenerator {
         }
     }
 
+    /**
+     * Finds intersection points of the contour edges and the current cut, specified via proj
+     * @return The list of intersection points, with coordinates and number of the edge
+     */
     private List<Intersection> getIntersectionPoints(List<Point2D> contour, Point2D slopeVector, double proj) {
         final double EPSILON = 1e-6;
         List<Intersection> intersections = new ArrayList<>();
