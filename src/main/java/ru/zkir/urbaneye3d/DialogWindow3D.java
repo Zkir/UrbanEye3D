@@ -33,7 +33,7 @@ public class DialogWindow3D extends ToggleDialog
     private Boolean updatableState = null;
 
     public DialogWindow3D(UrbanEye3dPlugin plugin) {
-        super("Urban Eye 3D", "urbaneye3d", "Urban Eye 3D", null, 250, true); //path for the icon is not required, JOSM picks it up by  automatically.
+        super("Urban Eye 3D", "urbaneye3d", "Urban Eye 3D", null, 250, true, UrbanEye3dPreferences.class); //path for the icon is not required, JOSM picks it up by  automatically.
         renderer3D = new Renderer3D(scene3d);
         createLayout(renderer3D, false, null);
 
