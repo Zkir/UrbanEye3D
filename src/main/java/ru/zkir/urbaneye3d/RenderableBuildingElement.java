@@ -57,10 +57,6 @@ public class RenderableBuildingElement {
             roofShape="flat";
         }
 
-        if (!roofShape.equals("flat") && roofHeight == 0) { //its a bug. original string value should be tested.
-            roofHeight = 3.0;
-        }
-
         if (roofHeight>height-minHeight){
             roofHeight=height-minHeight;
         }

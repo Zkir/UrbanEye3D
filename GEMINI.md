@@ -50,7 +50,13 @@ Prioritized via MoSCoW method:
     * Seems to be a topic for osm2world integration. 
 
 
-## Recent Accomplishments 
+
+## Recent Accomplishments
+### August 26, 2025
+* Bug with roof:levels=0 fixed ([gh #22](https://github.com/Zkir/UrbanEye3D/issues/22))
+* Inheritance of height from building to parts turned off, buildings and parts are now processed uniformly. ([gh #14](https://github.com/Zkir/UrbanEye3D/issues/14))
+* Support of `building:part=steps` for non-convex bases.   
+
 ### August 22, 2025
 * More or less proper implementation of `building:part=steps` for quadrangular bases.
 
