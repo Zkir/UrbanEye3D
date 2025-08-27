@@ -178,7 +178,7 @@ class SceneTest {
         // Assert: Verify the outcome
         assertEquals(1, scene.renderableElements.size());
         var re = scene.renderableElements.get(0);
-        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), "tests/output/skillion_steps.obj");
+        //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), "tests/output/skillion_steps.obj");
         RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
 
     }
