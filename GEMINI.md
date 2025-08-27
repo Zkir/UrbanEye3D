@@ -19,10 +19,8 @@ Prioritized via MoSCoW method:
 *  TG, none.
 
 #### Should
-* Support stairs (building:part=steps + roof:shape=skillion)
 * Implement rendering of building passages (`tunnel=building_passage`). 
     * Definitely, this requires support of boolean operations with meshes: "difference"
-
 
 #### Could 
 * Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene. 
@@ -48,7 +46,6 @@ Prioritized via MoSCoW method:
 	* We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
 * Render other objects, not only buildings. 
     * Seems to be a topic for osm2world integration. 
-
 
 
 ## Recent Accomplishments
