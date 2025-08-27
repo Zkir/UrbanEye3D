@@ -1,5 +1,27 @@
 # Recent Accomplishments
 
+## Version 1.3.0
+
+### August 27, 2025
+* Small "preferences" button added to the panel header ([gh #13](https://github.com/Zkir/UrbanEye3D/issues/13))
+
+### August 26, 2025
+* Bug with roof:levels=0 fixed ([gh #22](https://github.com/Zkir/UrbanEye3D/issues/22))
+* Inheritance of height from building to parts turned off, buildings and parts are now processed uniformly. ([gh #14](https://github.com/Zkir/UrbanEye3D/issues/14))
+* Support of `building:part=steps` for non-convex bases.   
+
+### August 22, 2025
+* More or less proper implementation of `building:part=steps` for quadrangular bases.
+
+### August 15, 2025
+* Implemented support for `roof:shape=hipped` on buildings with complex (non-rectangular) footprints using the `campskeleton` library (based on Straight Skeleton algorithm).
+* More traditional folder structure for resources
+
+### August 14, 2025
+* Version updated to 1.3.0
+* Minimize button in the 3D panel fixed.
+* Performance optimization: when the 3D window is closed or minimized, there is no need to update data.
+
 ## Version 1.2.0
 
 ### August 13, 2025

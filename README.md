@@ -23,7 +23,7 @@ Urban Eye 3D solves this problem! Mappers and 3D building enthusiasts can now pr
 
 
 ### Limitations
-* Several roof shapes (`gabled`, `gambrel`, `hipped`, `round` and some others) are supported for quadrilateral polygons only. 
+* Several roof shapes (`mansard`, `half-hipped` and `cross_gabled`) are supported for quadrilateral polygons only. 
 Support for those roof shapes on arbitrary non-convex polygons may be added in future versions.
 
 ## How to install

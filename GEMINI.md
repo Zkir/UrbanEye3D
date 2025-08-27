@@ -21,12 +21,14 @@ Prioritized via MoSCoW method:
 #### Should
 * Implement rendering of building passages (`tunnel=building_passage`). 
     * Definitely, this requires support of boolean operations with meshes: "difference"
+     
+* Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene.
+    * Performance is not a big issue right now, but it may become important if more complex geometry (e.g. polygonal windows) is generated.
 
 #### Could 
-* Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene. 
-    * Performance is not a big issue right now, but it may become important if more complex geometry (e.g. polygonal windows) is generated.
+
 * **More efficient check** for building/building part belongings based on r-tree.
-    * Same as above  	
+    * Same as above
 * **Real Ambient Occlusion.** 
 	* Current rendering engine is good enough for the editing plugin. 
     * See [Plan for Screen-Space Ambient Occlusion (SSAO) Implementation](#plan-for-screen-space-ambient-occlusion-ssao-implementation) section below
@@ -50,28 +52,11 @@ Prioritized via MoSCoW method:
 
 ## Recent Accomplishments
 
-### August 27, 2025
-* Small "preferences" button added to the panel header ([gh #13](https://github.com/Zkir/UrbanEye3D/issues/13))
-
-### August 26, 2025
-* Bug with roof:levels=0 fixed ([gh #22](https://github.com/Zkir/UrbanEye3D/issues/22))
-* Inheritance of height from building to parts turned off, buildings and parts are now processed uniformly. ([gh #14](https://github.com/Zkir/UrbanEye3D/issues/14))
-* Support of `building:part=steps` for non-convex bases.   
-
-### August 22, 2025
-* More or less proper implementation of `building:part=steps` for quadrangular bases.
-
-### August 15, 2025
-* Implemented support for `roof:shape=hipped` on buildings with complex (non-rectangular) footprints using the `campskeleton` library (based on Straight Skeleton algorithm).
-* More traditional folder structure for resources
-
-### August 14, 2025
-* Version updated to 1.3.0
-* Minimize button in the 3D panel fixed.
-* Performance optimization: when the 3D window is closed or minimized, there is no need to update data.
+### August 28, 2025
+* Version updated to 1.4.0
 
 ### Earlier
-See [Devblog page](DEVBLOG.md)
+See the [Devblog page](DEVBLOG.md)
 
 ## Architectural Notes
 
