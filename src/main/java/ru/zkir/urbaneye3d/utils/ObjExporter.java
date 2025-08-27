@@ -16,7 +16,7 @@ public class ObjExporter {
         try (BufferedWriter writer = new BufferedWriter(stringWriter)) {
             // Blender-compatible headers
             writer.write("# Blender-compatible OBJ\n");
-            writer.write("mtllib default.mtl\n\n");
+            //writer.write("mtllib default.mtl\n\n");
             DecimalFormat df = new DecimalFormat("0.000000", new DecimalFormatSymbols(Locale.US));
 
             // Vertices
@@ -45,10 +45,14 @@ public class ObjExporter {
         return stringWriter.toString();
     }
 
-    public static void saveMeshToObj(Mesh mesh, String filePath) throws IOException {
+    public static void saveMeshToObj(Mesh mesh, String filePath)  {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(meshToString(mesh));
         }
+        catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
     private static void writeFaces(BufferedWriter writer, List<int[]> faces) throws IOException {

@@ -16,6 +16,11 @@ public class Point3D {
         this.y = p2d.y;
         this.z = 0;
     }
+    public Point3D(Point2D p2d, double z) {
+        this.x = p2d.x;
+        this.y = p2d.y;
+        this.z = z;
+    }
 
     public Point3D normalize() {
         double length = Math.sqrt(x * x + y * y + z * z);

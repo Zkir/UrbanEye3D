@@ -50,11 +50,16 @@ Prioritized via MoSCoW method:
     * Seems to be a topic for osm2world integration. 
 
 
+
 ## Recent Accomplishments
 ### August 26, 2025
 * Bug with roof:levels=0 fixed ([gh #22](https://github.com/Zkir/UrbanEye3D/issues/22))
 * Inheritance of height from building to parts turned off, buildings and parts are now processed uniformly. ([gh #14](https://github.com/Zkir/UrbanEye3D/issues/14))
- 
+* Support of `building:part=steps` for non-convex bases.   
+
+### August 22, 2025
+* More or less proper implementation of `building:part=steps` for quadrangular bases.
+
 ### August 15, 2025
 * Implemented support for `roof:shape=hipped` on buildings with complex (non-rectangular) footprints using the `campskeleton` library (based on Straight Skeleton algorithm).
 * More traditional folder structure for resources
@@ -412,5 +417,8 @@ Scene #2, Christ the Saviour (921 parts)
 *   **Watertight Meshes:** A critical requirement for all generated geometry is that it must be "watertight" (i.e., have no holes). This is crucial for correct rendering and for future features like SSAO or Boolean operations. The `RoofGeometryGeneratorTest` includes checks to enforce this.
 *   **TDD for Geometry:** The `RoofGeometryGeneratorTest` is a good example of Test-Driven Development. By creating a test for a new roof shape first, the implementation can be guided by the test results, ensuring correctness from the start.
 *   **Coordinate Systems:** The plugin deals with multiple coordinate systems: Latitude/Longitude from OSM, East/North from JOSM's map projection, and the 3D Cartesian coordinates used for rendering. `RenderableBuildingElement` handles the conversion from OSM data to a renderable format.
+*   **Architectural Integrity over Local Fixes:** Attempting to patch symptoms of a flawed algorithm (e.g., preventing crashes from an incorrect number of vertices) is ineffective. The underlying architectural model must be correct. For instance, generating walls and a roof from two different, inconsistent footprints is a fundamental flaw that cannot be fixed with localized patches.
+*   **Complexity of Geometric Stitching:** Algorithms that connect or "stitch" geometric components (e.g., connecting polylines with varying numbers of vertices) are notoriously complex and require careful handling of topology changes. Naive implementations are insufficient for non-convex or degenerate cases.
+*   **Leverage Existing Dependencies:** Before implementing complex domain-specific algorithms (e.g., mesh generation, triangulation), thoroughly investigate existing project dependencies (`campskeleton`) that may already provide the required tools.
 
 

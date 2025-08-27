@@ -25,7 +25,7 @@ public class RoofGeneratorGoldenMasterTest {
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +
-                "mtllib default.mtl\n\n" +
+                //"mtllib default.mtl\n\n" +
                 "v -10.000000 5.000000 -5.000000\n" +
                 "v -10.000000 10.000000 0.000000\n" +
                 "v -10.000000 5.000000 5.000000\n" +
@@ -62,7 +62,7 @@ public class RoofGeneratorGoldenMasterTest {
         Mesh mesh = RoofShapes.ROUND.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +
-                "mtllib default.mtl\n\n" +
+                //"mtllib default.mtl\n\n" +
                 "v -10.000000 5.000000 -5.000000\n" +
                 "v -10.000000 5.975000 -4.900000\n" +
                 "v -10.000000 6.915000 -4.620000\n" +
@@ -140,7 +140,7 @@ public class RoofGeneratorGoldenMasterTest {
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +
-                "mtllib default.mtl\n\n" +
+                //"mtllib default.mtl\n\n" +
                 "v -51.000000 0.000000 -223.000000\n" +
                 "v -43.000000 0.000000 325.000000\n" +
                 "v 129.000000 0.000000 323.000000\n" +
@@ -178,7 +178,7 @@ public class RoofGeneratorGoldenMasterTest {
         Mesh mesh = RoofShapes.ROUND.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +
-                "mtllib default.mtl\n\n" +
+                //"mtllib default.mtl\n\n" +
                 "v -51.000000 0.000000 -223.000000\n" +
                 "v -43.000000 0.000000 325.000000\n" +
                 "v 129.000000 0.000000 323.000000\n" +

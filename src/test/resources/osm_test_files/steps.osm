@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <node id='-25647' action='modify' visible='true' lat='55.05064881309' lon='37.05359195123' />
+  <node id='-25648' action='modify' visible='true' lat='55.04981482031' lon='37.05283963851' />
+  <node id='-25649' action='modify' visible='true' lat='55.05006674739' lon='37.0519886151' />
+  <node id='-25650' action='modify' visible='true' lat='55.05090073491' lon='37.05274092783' />
+  <node id='-25655' action='modify' visible='true' lat='55.0506993195' lon='37.05305054738' />
+  <way id='-9491' action='modify' visible='true'>
+    <nd ref='-25647' />
+    <nd ref='-25648' />
+    <nd ref='-25649' />
+    <nd ref='-25650' />
+    <nd ref='-25655' />
+    <nd ref='-25647' />
+    <tag k='building:part' v='steps' />
+    <tag k='height' v='50' />
+    <tag k='note' v='here we test the most simple case, but for some reason it can produce holes' />
+    <tag k='roof:direction' v='207' />
+    <tag k='roof:height' v='40' />
+    <tag k='roof:shape' v='skillion' />
+    <tag k='step:height' v='2' />
+  </way>
+</osm>

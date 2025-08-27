@@ -114,11 +114,17 @@ public class Scene {
             Double roofHeight = getTagD("roof:height", primitive, parent);
             Double roofLevels =  getTagD("roof:levels", primitive, parent);
             String roofShape = getTagStr("roof:shape", primitive, parent);
+            Double stepHeight = getTagD("step:height", primitive, parent);
+
             if (roofShape.isEmpty()){
                 roofShape="flat";
             }
             if (roofShape.equals("cone")){
                 roofShape="pyramidal";
+            }
+
+            if (roofShape.equals("skillion") && getTagStr(source_key, primitive, null).equals("steps")) {
+                roofShape="steps";
             }
 
             //default values for minHeight. Tags order: min_height, minLevel
@@ -204,6 +210,7 @@ public class Scene {
 
                 String roofDirection = getTagStr("roof:direction", primitive, parent);
                 String roofOrientation = getTagStr("roof:orientation", primitive, parent);
+                String buildingPart = getTagStr("building:part", primitive, parent);
 
                 LatLon primitiveOrigin = primitive.getBBox().getCenter();
                 Contour mainContour = primitiveContours.get(primitive);
@@ -216,13 +223,13 @@ public class Scene {
                             Contour partContour = new Contour(outerRing);
                             partContour.toLocalCoords(primitiveOrigin); //TODO: recalculate origin
                             partContour.removeRedundantNodes();
-                            renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(),  primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                            renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(),  primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation, stepHeight));
                         }
                     } else {
                         // Single outer ring, or multiple outer rings with inner rings, or a Way
                         mainContour.toLocalCoords(primitiveOrigin);
                         mainContour.removeRedundantNodes();
-                        renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation));
+                        renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation, stepHeight));
                     }
                 }
             }

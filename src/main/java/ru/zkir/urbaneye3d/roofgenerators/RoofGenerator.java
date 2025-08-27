@@ -7,9 +7,15 @@ import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.util.List;
 
+/**
+ *  Abstract predecessor for all Meshers.
+ *  Also contains useful common functions
+ */
 public abstract class RoofGenerator {
 
-    // main method for mesh creation
+    /**
+    * Main method for mesh creation. Should be implemented in all descendants.
+    */
     public abstract Mesh generate(RenderableBuildingElement building);
 
     //auxiliary functions, used by descendants are implemented here.
@@ -135,6 +141,25 @@ public abstract class RoofGenerator {
         } else { // Opposite
             return new int[]{shortest1, shortest2};
         }
+    }
+
+    public static int[] findLongestEdge(List<Point2D> points) {
+        if (points == null || points.size() < 2) return new int[]{-1, -1};
+        double maxDistSq = -1;
+        int[] edgeIndices = new int[2];
+        for (int i = 0; i < points.size(); i++) {
+            Point2D p1 = points.get(i);
+            Point2D p2 = points.get((i + 1) % points.size());
+            double dx = p2.x - p1.x;
+            double dy = p2.y - p1.y;
+            double distSq = dx * dx + dy * dy;
+            if (distSq > maxDistSq) {
+                maxDistSq = distSq;
+                edgeIndices[0] = i;
+                edgeIndices[1] = (i + 1) % points.size();
+            }
+        }
+        return edgeIndices;
     }
 
     public static Point2D[] shortenSegment(Point2D p1, Point2D p2, double k) {

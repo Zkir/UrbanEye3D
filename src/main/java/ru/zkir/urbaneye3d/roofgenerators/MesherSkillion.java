@@ -11,11 +11,13 @@ import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MesherSkillion extends RoofGenerator {
 
-    private GLU glu = new GLU();
+    private final GLU glu = new GLU();
 
     private static class TessellatorCallback extends GLUtessellatorCallbackAdapter {
         private final List<Point3D> vertices;
@@ -79,6 +81,7 @@ public class MesherSkillion extends RoofGenerator {
 
     @Override
     public Mesh generate(RenderableBuildingElement building) {
+
         List<List<Point2D>> contours = new ArrayList<>();
         contours.addAll(building.getContourOuterRings());
         if (contours.isEmpty()) {
@@ -190,11 +193,9 @@ public class MesherSkillion extends RoofGenerator {
         }
 
         if (contours.size() == 1) {
-            // Simple case: one outer contour, no inner contours.
             List<Point2D> outerContour = contours.get(0);
             int n = outerContour.size();
 
-            // Create roof face as a single polygon
             int[] roofFace = new int[n];
             List<Integer> roofTopIdxs = contourRoofTopVertexIndices.get(0);
             for (int i = 0; i < n; i++) {
@@ -202,7 +203,6 @@ public class MesherSkillion extends RoofGenerator {
             }
             mesh.roofFaces.add(roofFace);
 
-            // Create bottom face as a single polygon (with reversed winding)
             int[] bottomFace = new int[n];
             int baseStartIdx = contourBaseVertexStartIndices.get(0);
             for (int i = 0; i < n; i++) {
@@ -210,7 +210,6 @@ public class MesherSkillion extends RoofGenerator {
             }
             mesh.bottomFaces.add(bottomFace);
         } else {
-            // Complex case: multiple contours (holes). Use tessellation.
             GLUtessellator tess = glu.gluNewTess();
             TessellatorCallback roofCallback = new TessellatorCallback(verts, mesh.roofFaces, building);
             setupTessellator(tess, roofCallback);
@@ -230,6 +229,24 @@ public class MesherSkillion extends RoofGenerator {
 
         return mesh;
     }
+
+
+
+
+
+    private int findClosestVertexIndex(List<Point3D> vertices, Point3D target, int start, int count) {
+        int bestIdx = -1;
+        double minDst = Double.MAX_VALUE;
+        for (int i = 0; i < count; i++) {
+            double dst = vertices.get(start + i).distance(target);
+            if (dst < minDst) {
+                minDst = dst;
+                bestIdx = start + i;
+            }
+        }
+        return bestIdx;
+    }
+
 
     private void setupTessellator(GLUtessellator tess, TessellatorCallback callback) {
         glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX_DATA, callback);
@@ -261,22 +278,4 @@ public class MesherSkillion extends RoofGenerator {
         }
     }
 
-    private static int[] findLongestEdge(List<Point2D> points) {
-        if (points == null || points.size() < 2) return new int[]{-1, -1};
-        double maxDistSq = -1;
-        int[] edgeIndices = new int[2];
-        for (int i = 0; i < points.size(); i++) {
-            Point2D p1 = points.get(i);
-            Point2D p2 = points.get((i + 1) % points.size());
-            double dx = p2.x - p1.x;
-            double dy = p2.y - p1.y;
-            double distSq = dx * dx + dy * dy;
-            if (distSq > maxDistSq) {
-                maxDistSq = distSq;
-                edgeIndices[0] = i;
-                edgeIndices[1] = (i + 1) % points.size();
-            }
-        }
-        return edgeIndices;
-    }
 }
