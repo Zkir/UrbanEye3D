@@ -49,6 +49,10 @@ Prioritized via MoSCoW method:
 
 
 ## Recent Accomplishments
+
+### August 27, 2025
+* Small "preferences" button added to the panel header ([gh #13](https://github.com/Zkir/UrbanEye3D/issues/13))
+
 ### August 26, 2025
 * Bug with roof:levels=0 fixed ([gh #22](https://github.com/Zkir/UrbanEye3D/issues/22))
 * Inheritance of height from building to parts turned off, buildings and parts are now processed uniformly. ([gh #14](https://github.com/Zkir/UrbanEye3D/issues/14))
