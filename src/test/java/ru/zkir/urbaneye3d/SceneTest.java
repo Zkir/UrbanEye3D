@@ -132,8 +132,8 @@ class SceneTest {
 
         // Assert: Verify the outcome
         //resulting number of  buildings is not so important.
-        //Just to understan how picture changes.
-        int NumberOfBuildings =scene.renderableElements.size();
+        //Just to understand how the picture changes.
+        int NumberOfBuildings = scene.renderableElements.size();
         int MIN_BUILDINGS=4377;
         int MAX_BUILDINGS=4390;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance)
         assertTrue(NumberOfBuildings>=MIN_BUILDINGS && NumberOfBuildings<=MAX_BUILDINGS, "Number of building " + NumberOfBuildings + " is NOT in the reasonable range " + MIN_BUILDINGS + ".." + MAX_BUILDINGS);

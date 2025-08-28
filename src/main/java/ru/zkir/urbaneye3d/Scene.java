@@ -123,6 +123,10 @@ public class Scene {
                 roofShape="pyramidal";
             }
 
+            if (roofShape.equals("equal_hipped")){
+                roofShape="hipped";
+            }
+
             if (roofShape.equals("skillion") && getTagStr(source_key, primitive, null).equals("steps")) {
                 roofShape="steps";
             }
@@ -139,7 +143,14 @@ public class Scene {
             //default value for roof:height
             if (roofHeight == null ) {
                 if (roofLevels != null) {
-                    roofHeight = roofLevels * DEFAULT_LEVEL_HEIGHT;
+                    if (roofLevels==0 && !roofShape.equals("flat")){
+                        // roof:levels=0 does not mean that the roof is flat,
+                        // especially in case it is explicitly specified that it does not.
+                        // it rather means that roof does not constitute habitable level
+                        roofHeight =  DEFAULT_LEVEL_HEIGHT * 0.5 ;
+                    }else {
+                        roofHeight = roofLevels * DEFAULT_LEVEL_HEIGHT;
+                    }
                 } else {
                     if (roofShape.equals("flat")) {
                         roofHeight = 0.;
