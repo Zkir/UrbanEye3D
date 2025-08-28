@@ -1,5 +1,12 @@
 # Recent Accomplishments
 
+## Version 1.3.1
+
+### August 28, 2025
+* Support for `roof:shape=equal_hipped` as a synonym for `roof:shape=hipped`
+* The tag `roof:levels=0` defaults rather for 'half a level' for non-flat roofs. ([gh #22](https://github.com/Zkir/UrbanEye3D/issues/22))
+* Version updated to 1.3.1
+
 ## Version 1.3.0
 
 ### August 27, 2025

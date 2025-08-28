@@ -9,7 +9,7 @@
 
 ### Musts for the Next Release 
 
-*  TG, none.
+*  Add support for `roof:shape=crosspitched`. Should be a synonym for `cross_gabled`
 
 ### Ideas for the Further Development
 
@@ -20,10 +20,20 @@ Prioritized via MoSCoW method:
 
 #### Should
 * Implement rendering of building passages (`tunnel=building_passage`). 
-    * Definitely, this requires support of boolean operations with meshes: "difference"
+    * Definitely, this requires support of boolean operations with meshes: "difference". for this purpose we have JCSG library (https://github.com/Zkir/JCSG)
+    and even example of this library usage: JCSG_test (no repository for it yet). How to preserve face colors while using it is  still the big unknown. 
+    Screenshots in JCSG readme.md suggest that it should be possible.
      
 * Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene.
     * Performance is not a big issue right now, but it may become important if more complex geometry (e.g. polygonal windows) is generated.
+    * the tricky part is to determine what objects are related. 
+        * First of all we need to process OSM primitive hierarchy: if a node is moved, then a parent way is affected. if the way is affected, parent relation is also affected.
+        * Secondly, objects may be only spatially related. if a building part is moved outside of it's parent building, the latter may become visible.
+        * are any other cases? It would be very embarrassing to miss something here!
+        * 
+* Explore further the integration with **Osm2World**. 
+    * What is a best way to use it? Can it be an alternative rendering engine in the plugin (considering it's limitations)?
+      Can it be a separate (manually updatable) window? 
 
 #### Could 
 
@@ -37,7 +47,8 @@ Prioritized via MoSCoW method:
     * Some more advanced shading is obviously required. 
     
 * Implement `zakomar` roof somehow. 
-    * It was implemented in Blosm, but that implementation is not suitable for us (not watertight). Probably boolean operation should be tried.    
+    * It was implemented in Blosm, but that implementation is not suitable for us (not watertight). Probably boolean operation should be tried.
+* Implement  `sawtooth`, `gabled_row` and `butterfly` roofs. They say that F4 Map supports them.  
 * Support of `roof:ridge=yes` as described in [ProposedRoofLines](https://wiki.openstreetmap.org/wiki/ProposedRoofLines)
 * Support [windows](https://wiki.openstreetmap.org/wiki/Key:window).
     * Since this feature is present in osm2world, we also want that.
@@ -51,11 +62,8 @@ Prioritized via MoSCoW method:
 
 
 ## Recent Accomplishments
-
-### August 28, 2025
-* Support for `roof:shape=equal_hipped` as a synonym for `roof:shape=hipped`
-* The tag `roof:levels=0` defaults rather for 'half a level' for non-flat roofs. ([gh #22](https://github.com/Zkir/UrbanEye3D/issues/22))
-* Version updated to 1.3.1
+### August 29, 2025
+* Version updated to 1.4.0
 
 ### Earlier
 See the [Devblog page](DEVBLOG.md)
