@@ -26,11 +26,12 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
      
 * Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene.
     * Performance is not a big issue right now, but it may become important if more complex geometry (e.g. polygonal windows) is generated.
-    * the tricky part is to determine what objects are related. 
+    * The tricky part is to determine what objects are related. 
         * First of all we need to process OSM primitive hierarchy: if a node is moved, then a parent way is affected. if the way is affected, parent relation is also affected.
         * Secondly, objects may be only spatially related. if a building part is moved outside of it's parent building, the latter may become visible.
         * are any other cases? It would be very embarrassing to miss something here!
-        * 
+    *  One more option is to update 3D view in a separate thread, thus not affecting editing experience. Proper update queue is required. 
+    
 * Explore further the integration with **Osm2World**. 
     * What is a best way to use it? Can it be an alternative rendering engine in the plugin (considering it's limitations)?
       Can it be a separate (manually updatable) window? 
@@ -48,7 +49,8 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
     
 * Implement `zakomar` roof somehow. 
     * It was implemented in Blosm, but that implementation is not suitable for us (not watertight). Probably boolean operation should be tried.
-* Implement  `sawtooth`, `gabled_row` and `butterfly` roofs. They say that F4 Map supports them.  
+* Implement  `sawtooth`, `gabled_row` roofs. They say that F4 Map supports them.  
+* Implement `butterfly`  roof. Note that the first attempt to implement it failed. Just a new profile is not enough. Some significan changes are required in MesherLinerProfile to support such 'inverse' geometry.
 * Support of `roof:ridge=yes` as described in [ProposedRoofLines](https://wiki.openstreetmap.org/wiki/ProposedRoofLines)
 * Support [windows](https://wiki.openstreetmap.org/wiki/Key:window).
     * Since this feature is present in osm2world, we also want that.
