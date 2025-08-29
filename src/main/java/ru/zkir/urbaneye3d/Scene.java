@@ -127,6 +127,10 @@ public class Scene {
                 roofShape="hipped";
             }
 
+            if (roofShape.equals("crosspitched")) {
+                roofShape = "cross_gabled";
+            }
+
             if (roofShape.equals("skillion") && getTagStr(source_key, primitive, null).equals("steps")) {
                 roofShape="steps";
             }

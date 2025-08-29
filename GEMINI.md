@@ -9,7 +9,7 @@
 
 ### Musts for the Next Release 
 
-*  Add support for `roof:shape=crosspitched`. Should be a synonym for `cross_gabled`
+*  TG, none.
 
 ### Ideas for the Further Development
 
@@ -21,7 +21,7 @@ Prioritized via MoSCoW method:
 #### Should
 * Implement rendering of building passages (`tunnel=building_passage`). 
     * Definitely, this requires support of boolean operations with meshes: "difference". for this purpose we have JCSG library (https://github.com/Zkir/JCSG)
-    and even example of this library usage: JCSG_test (no repository for it yet). How to preserve face colors while using it is  still the big unknown. 
+and even example of this library usage: JCSG_test (no repository for it yet). How to preserve face colors while using it is  still the big unknown. 
     Screenshots in JCSG readme.md suggest that it should be possible.
      
 * Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene.
@@ -63,6 +63,7 @@ Prioritized via MoSCoW method:
 
 ## Recent Accomplishments
 ### August 29, 2025
+* Added support for `roof:shape=crosspitched` as a synonym for `cross_gabled`.
 * Version updated to 1.4.0
 
 ### Earlier
@@ -416,5 +417,3 @@ Scene #2, Christ the Saviour (921 parts)
 *   **Architectural Integrity over Local Fixes:** Attempting to patch symptoms of a flawed algorithm (e.g., preventing crashes from an incorrect number of vertices) is ineffective. The underlying architectural model must be correct. For instance, generating walls and a roof from two different, inconsistent footprints is a fundamental flaw that cannot be fixed with localized patches.
 *   **Complexity of Geometric Stitching:** Algorithms that connect or "stitch" geometric components (e.g., connecting polylines with varying numbers of vertices) are notoriously complex and require careful handling of topology changes. Naive implementations are insufficient for non-convex or degenerate cases.
 *   **Leverage Existing Dependencies:** Before implementing complex domain-specific algorithms (e.g., mesh generation, triangulation), thoroughly investigate existing project dependencies (`campskeleton`) that may already provide the required tools.
-
-
