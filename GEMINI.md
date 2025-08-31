@@ -64,6 +64,9 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 
 
 ## Recent Accomplishments
+### August 31, 2025
+* Support for `roof:shape=apse_gabled` added.
+
 ### August 29, 2025
 * Added support for `roof:shape=crosspitched` as a synonym for `cross_gabled`.
 * Version updated to 1.4.0

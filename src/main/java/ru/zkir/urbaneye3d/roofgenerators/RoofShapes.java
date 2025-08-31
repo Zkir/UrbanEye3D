@@ -8,6 +8,7 @@ public enum RoofShapes {
     PYRAMIDAL("pyramidal", new MesherConicProfile("pyramidal")),
     DOME("dome", new MesherConicProfile("dome")),
     HALF_DOME("half-dome", new MesherConicProfile("half-dome")),
+    APSE_GABLED("apse_gabled", new MesherConicProfile("pyramidal")),
     ONION("onion", new MesherConicProfile("onion")),
     SKILLION("skillion", new MesherSkillion()),
     HIPPED("hipped", new MesherHipped()),
