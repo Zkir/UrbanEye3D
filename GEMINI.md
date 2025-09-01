@@ -64,6 +64,9 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 
 
 ## Recent Accomplishments
+### September 1, 2025
+* Infer building:colour and roof:colour from materials, if specified.
+
 ### August 31, 2025
 * Support for `roof:shape=apse_gabled` added.
 

@@ -220,12 +220,24 @@ public class Scene {
             }
 
             if (height > 0) {
-                String color = getTagStr("building:colour", primitive, parent);
+                String wallColor = getTagStr("building:colour", primitive, parent);
                 String roofColor = getTagStr("roof:colour", primitive, parent);
 
                 String roofDirection = getTagStr("roof:direction", primitive, parent);
                 String roofOrientation = getTagStr("roof:orientation", primitive, parent);
-                String buildingPart = getTagStr("building:part", primitive, parent);
+                //String buildingPart = getTagStr("building:part", primitive, parent);
+
+                //TODO: probably we need to create material, and inherit diffuse colour from xxx:colour tag
+                var roofMaterial = Materials.fromString(getTagStr("roof:material",     primitive, parent));
+                var wallMaterial = Materials.fromString(getTagStr("building:material", primitive, parent));
+
+                // get default values if material is specified
+                if (roofMaterial!=null && roofColor.isEmpty()){
+                    roofColor = roofMaterial.defaultColour;
+                }
+                if (wallMaterial!=null && wallColor.isEmpty()){
+                    wallColor = wallMaterial.defaultColour;
+                }
 
                 LatLon primitiveOrigin = primitive.getBBox().getCenter();
                 Contour mainContour = primitiveContours.get(primitive);
@@ -238,13 +250,13 @@ public class Scene {
                             Contour partContour = new Contour(outerRing);
                             partContour.toLocalCoords(primitiveOrigin); //TODO: recalculate origin
                             partContour.removeRedundantNodes();
-                            renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(),  primitiveOrigin, partContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation, stepHeight));
+                            renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(),  primitiveOrigin, partContour, height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation, stepHeight));
                         }
                     } else {
                         // Single outer ring, or multiple outer rings with inner rings, or a Way
                         mainContour.toLocalCoords(primitiveOrigin);
                         mainContour.removeRedundantNodes();
-                        renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, mainContour, height, minHeight, roofHeight, color, roofColor, roofShape, roofDirection, roofOrientation, stepHeight));
+                        renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, mainContour, height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation, stepHeight));
                     }
                 }
             }
