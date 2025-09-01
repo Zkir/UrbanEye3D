@@ -12,6 +12,7 @@ public enum RoofShapes {
     ONION("onion", new MesherConicProfile("onion")),
     SKILLION("skillion", new MesherSkillion()),
     HIPPED("hipped", new MesherHipped()),
+    SIDE_HIPPED("side_hipped", new MesherSideHipped()) ,
     MANSARD("mansard", new MesherMansard()),
     GABLED("gabled", new MesherLinearProfile(LinearProfiles.GABLED)),
     ROUND("round", new MesherLinearProfile(LinearProfiles.ROUND)),
@@ -37,7 +38,10 @@ public enum RoofShapes {
         return displayName;
     }
 
-    // Дополнительный метод для конвертации из строки
+    /*
+    * converts string, especially osm-tag, to roofShape object.
+    * Default value is flat.
+    */
     public static RoofShapes fromString(String text) {
         for (RoofShapes type : RoofShapes.values()) {
             if (type.displayName.equalsIgnoreCase(text)) {

@@ -51,4 +51,8 @@ public class Point2D {
         return this.x * other.x + this.y * other.y ;
     }
 
+    //for 2D vectors cross product is just a scalar, z coordinate if it would be 3D vectors.
+    public double cross(Point2D other) {
+        return this.x * other.y - this.y * other.x;
+    }
 }

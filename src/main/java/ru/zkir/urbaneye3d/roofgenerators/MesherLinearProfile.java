@@ -20,7 +20,9 @@ public class MesherLinearProfile extends RoofGenerator {
         this.profile_data = profile_data;
     }
 
-    //main method to be called
+    /**
+    * main method to be called
+    */
     public Mesh generate(RenderableBuildingElement building){
         if (building.getContour().size() == 4) {
             return generateR(building);
@@ -29,13 +31,17 @@ public class MesherLinearProfile extends RoofGenerator {
         }
     }
 
-    //generate roof via "simple" mesher for rectangular roof;
+    /**
+    * Generates roof via "simple" mesher for rectangular roof
+    */
     public Mesh generateR(RenderableBuildingElement building){
         var simpleMesher = new MesherLinearProfileRectangular(profile_data);
         return simpleMesher.generate(building);
     }
 
-    //generate roof via "complex" mesher for quasi-rectangular roof;
+    /**
+    * Generates roof via "complex" mesher for quasi-rectangular roof
+    */
     public Mesh generateQR(RenderableBuildingElement building)
     {
         var mesherLinearProfileQR = new MesherLinearProfileQuasiRectangular(profile_data);
