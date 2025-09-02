@@ -28,6 +28,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private final List<RenderableBuildingElement> buildings;
     private final GLU glu = new GLU();
     public boolean isWireframeMode;
+    public boolean isFakeAOEnabled;
 
     private double camX_angle = 35; //this is rather Z-angle (in vertical plane)
     private double camY_angle = -90; // x and y mixed, but it is not a problem yet.
@@ -132,9 +133,15 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 (int) (baseColor.getBlue() * factor)
         );
     }
+
     public void toggleWireframeMode() {
         isWireframeMode = !isWireframeMode;
         Config.getPref().putBoolean("urbaneye3d.wireframe.enabled", isWireframeMode);
+    }
+
+    public void toggleFakeAO() {
+        isFakeAOEnabled = !isFakeAOEnabled;
+        Config.getPref().putBoolean("urbaneye3d.fakeao.enabled", isFakeAOEnabled);
     }
 
 
@@ -143,6 +150,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         GL2 gl = glAutoDrawable.getGL().getGL2();
 
         isWireframeMode = Config.getPref().getBoolean("urbaneye3d.wireframe.enabled", false);
+        isFakeAOEnabled = Config.getPref().getBoolean("urbaneye3d.fakeao.enabled", true);
 
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
@@ -267,9 +275,19 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private void drawVertexWithFakeAO(GL2 gl, Point3D vertex, Color baseColor, RenderableBuildingElement building) {
         double totalHeight = building.height - building.minHeight;
         double vertexHeight = vertex.z - building.minHeight;
+        final float AO_STRENGTH;
+        if (isFakeAOEnabled) {
+            AO_STRENGTH=0.3f;
+            //Fake ambient occlusion is applied to each part individually.
+            //This way parts become more visible and interestingly looking.
+            //however, tiger stripes effect occurs, if parts are lying on each other
+        }else {
+            AO_STRENGTH=0.0f;
+        }
+
         float aoFactor = 1.0f;
         if (totalHeight > 0.1) { // Avoid division by zero
-            aoFactor = 0.6f + 0.4f * (float)(vertexHeight / totalHeight);
+            aoFactor = (1-AO_STRENGTH) + AO_STRENGTH * (float)(vertexHeight / totalHeight);
         }
 
         Color finalColor = new Color(
