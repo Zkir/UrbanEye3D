@@ -11,7 +11,7 @@ public class ToggleFakeAOAction extends JosmAction {
 
     public ToggleFakeAOAction(Renderer3D renderer3D) {
         super(tr("Fake AO"), "wireframe", tr("Toggle Fake AO mode"),
-                Shortcut.registerShortcut("view:fakeao", tr("View: {0}", tr("Toggle Fake AO")),
+                Shortcut.registerShortcut("urbaneye3d:fakeao", tr("UrbanEye3D: {0}", tr("Toggle Fake AO")),
                         KeyEvent.VK_Z , Shortcut.SHIFT), true);
         this.renderer3D = renderer3D;
     }

@@ -14,7 +14,7 @@ public class ToggleWireframeAction extends JosmAction {
 
     public ToggleWireframeAction(Renderer3D renderer3D) {
         super(tr("Wireframe"), "wireframe", tr("Toggle wireframe mode"),
-                Shortcut.registerShortcut("view:wireframe", tr("View: {0}", tr("Toggle Wireframe")),
+                Shortcut.registerShortcut("urbaneye3d:wireframe", tr("UrbanEye3D: {0}", tr("Toggle Wireframe")),
                         KeyEvent.VK_Z, Shortcut.DIRECT), true);
         this.renderer3D = renderer3D;
     }
