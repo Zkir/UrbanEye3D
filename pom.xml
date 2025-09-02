@@ -71,7 +71,7 @@
         <dependency>
             <groupId>com.github.tordanik.OSM2World</groupId>
             <artifactId>osm2world-core</artifactId>
-            <version>e12a315</version>
+            <version>28382cd</version>
              <scope>compile</scope>
         </dependency>
         
