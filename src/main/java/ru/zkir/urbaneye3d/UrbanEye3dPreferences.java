@@ -57,6 +57,11 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         if (fakeAoCheckBox != null) {
             Config.getPref().putBoolean("urbaneye3d.fakeao.enabled", fakeAoCheckBox.isSelected());
         }
+        // Force a redraw of the 3D view to apply changes immediately
+        DialogWindow3D dialog = UrbanEye3dPlugin.get3DWindow();
+        if (dialog != null) {
+            dialog.updateData();
+        }
         return false; // No restart required
     }
 

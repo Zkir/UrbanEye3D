@@ -109,7 +109,7 @@ public class DialogWindow3D extends ToggleDialog
     }
 
 
-    private void updateData() {
+    public void updateData() {
 
         if (!this.isUpdateRequired() ){
             //it seems that if 3d window is minimized or closed this is not necessary to update data.

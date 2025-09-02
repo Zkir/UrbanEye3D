@@ -66,6 +66,7 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 ## Recent Accomplishments
 ### September 2, 2025
 * Possibility to toggle "fake" Ambient Occlusion off and on.
+* New parameter in Preferences UI to control Ambien Occlusion mode.
 
 ### September 1, 2025
 * Infer building:colour and roof:colour from materials, if specified.
