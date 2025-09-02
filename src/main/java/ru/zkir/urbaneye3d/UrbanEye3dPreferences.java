@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 public class UrbanEye3dPreferences implements TabPreferenceSetting {
 
     private JCheckBox wireframeCheckBox;
+    private JCheckBox fakeAoCheckBox;
 
     @Override
     public void addGui(PreferenceTabbedPane gui) {
@@ -35,8 +36,14 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         wireframeCheckBox.setToolTipText(tr("If checked, buildings will be rendered as outlines instead of solid polygons."));
         panel.add(wireframeCheckBox, gbc);
 
+        gbc.gridy = 2;
+        fakeAoCheckBox = new JCheckBox(tr("Enable Ambient Occlusion Mode"));
+        fakeAoCheckBox.setSelected(Config.getPref().getBoolean("urbaneye3d.fakeao.enabled", true));
+        fakeAoCheckBox.setToolTipText(tr("If checked, a fake ambient occlusion effect will be applied."));
+        panel.add(fakeAoCheckBox, gbc);
+
         // Add vertical glue to push content to the top
-        gbc.gridy = 2; // Next row
+        gbc.gridy = 3; // Next row
         gbc.weighty = 1.0; // This component takes all remaining vertical space
         gbc.fill = GridBagConstraints.BOTH; // Fill both horizontally and vertically
         panel.add(new JPanel(), gbc); // Add an empty JPanel as glue
@@ -46,6 +53,9 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
     public boolean ok() {
         if (wireframeCheckBox != null) {
             Config.getPref().putBoolean("urbaneye3d.wireframe.enabled", wireframeCheckBox.isSelected());
+        }
+        if (fakeAoCheckBox != null) {
+            Config.getPref().putBoolean("urbaneye3d.fakeao.enabled", fakeAoCheckBox.isSelected());
         }
         return false; // No restart required
     }
