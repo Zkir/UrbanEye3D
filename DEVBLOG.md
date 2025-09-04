@@ -1,5 +1,23 @@
 # Recent Accomplishments
 
+## Version 1.4.0
+
+### September 2, 2025
+* Possibility to toggle "fake" Ambient Occlusion off and on.
+* New parameter in Preferences UI to control Ambien Occlusion mode.
+
+### September 1, 2025
+* Infer building:colour and roof:colour from materials, if specified.
+* Support for roof:shape=side_hipped (for quadrangular bases only!)
+ 
+
+### August 31, 2025
+* Support for `roof:shape=apse_gabled` added.
+
+### August 29, 2025
+* Added support for `roof:shape=crosspitched` as a synonym for `cross_gabled`.
+* Version updated to 1.4.0
+
 ## Version 1.3.1
 
 ### August 28, 2025
