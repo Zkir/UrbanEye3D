@@ -103,31 +103,45 @@ src
 │                   ├── Scene.java               // Manages the objects to be rendered
 │                   ├── RenderableBuildingElement.java // Data for a single building
 │                   ├── UrbanEye3dPreferences.java // Manages user preferences
+│                   ├── Materials.java           // Defines building material properties
+│                   ├── ToggleFakeAOAction.java  // UI Action for toggling fake AO
+│                   ├── ToggleWireframeAction.java // UI Action for toggling wireframe
 │                   │
 │                   ├── roofgenerators           // Logic for creating roof geometries
 │                   │   ├── RoofShapes.java      // Enum mapping roof tags to generators
 │                   │   ├── RoofGenerator.java   // Interface for all roof generators
 │                   │   ├── MesherFlat.java      // Generator for flat roofs
-│                   │   └── ...                  // Other roof generator implementations
+│                   │   ├── ...                  // Other roof generator implementations (Hipped, Gabled, etc.)
+│                   │   └── linearprofile        // Sub-package for roofs with linear profiles (Gambrel, Saltbox)
+│                   │       ├── LinearProfiles.java
+│                   │       └── ...
 │                   │
 │                   └── utils                    // Helper classes
-│                       ├── Contour.java         // data structure and utils for building 2D outline.   
+│                       ├── Contour.java         // Data structure and utils for building 2D outline.
 │                       ├── Mesh.java            // 3D mesh data structure
 │                       ├── Point2D.java         // 2D point
-│                       └── Point3D.java         // 3D point
+│                       ├── Point3D.java         // 3D point
+│                       ├── ColorUtils.java      // Color manipulation helpers
+│                       └── ObjExporter.java     // Exports mesh to .obj file for debugging
 │
 └── test
     └── java
         └── ru
             └── zkir
                 └── urbaneye3d
-                    └── RoofGeometryGeneratorTest.java // JUnit tests for roof geometry
+                    ├── RoofGeneratorTopologyTest.java     // Tests mesh topology (e.g., watertightness)
+                    ├── RoofGeneratorGoldenMasterTest.java // Golden master tests for roof shapes
+                    ├── SceneTest.java                     // Tests for scene creation logic
+                    └── utils
+                        └── PolygonSelfIntersection.java   // Tests for polygon helper functions
 ```
 
 ## Operation instructions
 *   **JAVA version:** use JAVA 11
-*   **Definition of Done:** A task is considered DONE only when `mvn package` completes successfully without any errors.
-*   **Human testing required:** Do not proceed to next task, before previous one is confirmed by a human.
+*   **Definition of Done:** A task is considered DONE only when:
+    * `mvn package` completes successfully without any errors.
+    * Successful execution of manual test confirmed by the human.
+    * GEMINI.md file is updated, including (but not limiting to) the following sections: *Recent Accomplishments*, *Learnings*, and if necessary, *Next Steps*.  
 *   **Do not suggest git commits**. Git commits in this project are allowed for protein-based developers only.
 *   **JOSM source code** can be found in d:\UrbanEye3D\ext_sources\josm_source
 *   **Blosm (aka blender-osm) source code** can be found in d:\UrbanEye3D\ext_sources\blosm_source
