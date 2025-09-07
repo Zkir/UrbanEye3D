@@ -21,6 +21,8 @@ Urban Eye 3D solves this problem! Mappers and 3D building enthusiasts can now pr
 * Two modes: *solid* and *wireframe*. Press 'z' to switch between them
 * Real-time updates: Changes made in JOSM instantly reflect in the 3D view
 
+See [features.md](docs/features.md) for the list of supported tags and roof shapes.
+
 
 ### Limitations
 * Several roof shapes (`mansard`, `half-hipped` and `cross_gabled`) are supported for quadrilateral polygons only. 
@@ -38,13 +40,17 @@ Please install Urban Eye 3D just like any other plugin in JOSM:
 5. Don’t forget to **check the box**,
 6. Enjoy!
 
+
+## Supported platforms
+As a JOSM plugin written in *pure Java*, it works perfectly on **Windows**, **Mac**, and **Linux**. 
+Some users have reported problems with graphics drivers on certain Linux distributions, but with Linux, you're on your own :)
+
 ## Licensing
 Inspired by the GNU GPL-licensed [Blosm](https://github.com/vvoovv/blosm) project and following JOSM's [plugin licensing recommendations](https://josm.openstreetmap.de/wiki/DevelopersGuide/DevelopingPlugins#LegalStuff), this code is licensed under [GNU GPL v3](LICENSE).
 
 ## Contributing
 Contributions are welcome! Please discuss significant code changes via issue tickets before submitting pull requests.
 
-### AI Development Notes
 As artificial intelligence reshapes development in 2025, [GEMINI.md](GEMINI.md) contains insights valuable to both silicon-based and protein-based programmers.
 
 ---
