@@ -35,10 +35,10 @@ The following tags are used to determine the dimensions of the building:
 
 ## Supported Roof Shapes (`roof:shape`)
 
-Below is a list of all supported `roof:shape` values. [S3DB standard](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) is supported, as well as several addition roof shapes.
+Below is a list of all supported `roof:shape` values. The [S3DB standard](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) is supported, as well as several additional roof shapes.
 
 ### `flat`
-A standard flat roof. if `roof:levels` or `roof:height` are specified, [fascia](https://en.wikipedia.org/wiki/Fascia_(architecture)) is created.
+A standard flat roof. If `roof:levels` or `roof:height` are specified, a [fascia](https://en.wikipedia.org/wiki/Fascia_(architecture)) is created.
 
 ![Image of a flat roof](images/roof_flat.png)
 
@@ -47,7 +47,7 @@ A single-sloped roof surface. The direction is controlled by `roof:direction`. `
 ![Image of a skillion roof](images/roof_skillion.png)
 
 ### `gabled`
-A classic roof with two sloping sides meeting at a ridge. The orientation (`along` or `across`) can be specified with `roof:orientation`. 
+A classic roof with two sloping sides meeting at a ridge. The orientation (`along` or `across`) can be specified with `roof:orientation`.
 `roof:direction` is also supported, but roof orientation snaps to the nearest along/across direction.
 
 ![Image of a gabled roof](images/roof_gabled.png)
@@ -58,12 +58,12 @@ A roof where all sides slope downwards to the walls.
 
 ![Image of a hipped roof](images/roof_hipped.png)
 
-Straight skeleton [algorithm](https://en.wikipedia.org/wiki/Straight_skeleton) is used. So in case of non-convex building footprints, interesting shapes are created.
-Lukily, they are quite close to real architecture. 
+A straight skeleton [algorithm](https://en.wikipedia.org/wiki/Straight_skeleton) is used. So in the case of non-convex building footprints, interesting shapes are created.
+Luckily, they are quite close to real architecture.
 
 ![hipped_roof_straight_skeleton](images/hipped_roof_straight_skeleton.png)
 
-Since this roof shape is completely automatic, neither `roof:direction` nor `roof:orientation` have effect.
+Since this roof shape is completely automatic, neither `roof:direction` nor `roof:orientation` have any effect.
 
 
 ### `half-hipped`
@@ -71,7 +71,7 @@ A combination of a gabled and a hipped roof.
 
 ![Image of a half-hipped roof](images/roof_half-hipped.png)
 
-The orientation (`along` or `across`) can be specified with `roof:orientation`. 
+The orientation (`along` or `across`) can be specified with `roof:orientation`.
 `roof:direction` is also supported, but roof orientation snaps to the nearest along/across direction.
 
 This roof shape is supported for quadrangular bases only.
@@ -82,15 +82,15 @@ A symmetrical two-sided roof with two slopes on each side.
 
 ![Image of a gambrel roof](images/roof_gambrel.png)
 
-The orientation (`along` or `across`) can be specified with `roof:orientation`. 
+The orientation (`along` or `across`) can be specified with `roof:orientation`.
 `roof:direction` is also supported, but roof orientation snaps to the nearest along/across direction.
 
 ### `round`
-A round, cemi-cylinder or hangar-like roof.
+A round, semi-cylinder or hangar-like roof.
 
 ![Image of a round roof](images/roof_round.png)
 
-The orientation (`along` or `across`) can be specified with `roof:orientation`. 
+The orientation (`along` or `across`) can be specified with `roof:orientation`.
 `roof:direction` is also supported, but roof orientation snaps to the nearest along/across direction.
 
 ### `mansard`
@@ -101,16 +101,16 @@ A four-sided gambrel-style hip roof characterized by two slopes on each of its s
 Only quadrangular bases are supported.
 
 ### `pyramidal` (or `cone`)
-A roof that rises to a single point. Suitable arbitrary bases. `roof:shape=pyramidal` and `roof:shape=cone` are considered to be complete synonyms.
-To get actual cone, you need a circular base with enough nodes.
+A roof that rises to a single point. Suitable for arbitrary bases. `roof:shape=pyramidal` and `roof:shape=cone` are considered to be complete synonyms.
+To get an actual cone, you need a circular base with enough nodes.
 
 ![Image of a pyramidal roof](images/roof_pyramidal.png)
 
 Keys `roof:orientation` and `roof:direction` have no effect for the obvious reason.
 
 ### `dome`
-A hemispherical roof. Like `pyramidal`, this roof shape is suitable for arbitrary bases. To get traditional dome, you need circular base with enough nodes. 
-In case of rectangular base, you will get modern-like dome.
+A hemispherical roof. Like `pyramidal`, this roof shape is suitable for arbitrary bases. To get a traditional dome, you need a circular base with enough nodes.
+In the case of a rectangular base, you will get a modern-like dome.
 
 ![Image of a dome roof](images/roof_dome.png)
 
@@ -119,53 +119,48 @@ An onion-shaped dome, often found on churches.
 
 ![Image of an onion roof](images/roof_onion.png)
 
-Currently, there are no addtional parameters to control onion shape. 
-Note: here we follow the F4 map approach, and an original osm way/relation define rather [tholobate](https://en.wikipedia.org/wiki/Tholobate), and the onion itself gets wider. 
+Currently, there are no additional parameters to control the onion shape.
+Note: here we follow the F4 map approach, and an original OSM way/relation defines a [tholobate](https://en.wikipedia.org/wiki/Tholobate), and the onion itself gets wider.
 
 
 ### `saltbox`
-There is no consensus in OSM  what `roof:shape=saltbox` should mean. Here we just follow F4 map interpretation.
+There is no consensus in OSM about what `roof:shape=saltbox` should mean. Here we just follow the F4 map interpretation.
 
 ![Image of a saltbox roof](images/roof_saltbox.png)
 
 The keys `roof:orientation` and `roof:direction` should work as for other similar roof shapes.
 
 ### `cross_gabled` (or `crosspitched`)
-Two gabled roof sections put together at right angles.
+Two gabled roof sections are put together at right angles.
 
 ![Image of a cross_gabled roof](images/roof_cross_gabled.png)
 
-Only quadrangular footprints are supported. Neither `roof:orientation` nor `roof:direction` has effect. 
+Only quadrangular footprints are supported. Neither `roof:orientation` nor `roof:direction` has any effect.
 
 ### `side_hipped`
-One-sided hipped roof: hipped from one side and gabled from another. Only quadrangular footprints are supported.  
+A one-sided hipped roof: hipped from one side and gabled from the other. Only quadrangular footprints are supported.
 
 ![Image of a side_hipped roof](images/roof_side_hipped.png) ![side_hipped_direction explanation](images/RoofOrientationForSideHippedExplaining.jpg)
 
-Roof orientation can be controlled via `roof:direction` tag. Direction value signifies direction from roof centroid to triangular face. `roof:direction=0` or `roof:direction=north` in this example.
+The roof orientation can be controlled via the `roof:direction` tag. The direction value signifies the direction from the roof centroid to the triangular face. `roof:direction=0` or `roof:direction=north` in this example.
 
 
-This roof shape is particularly useful for building parts, to easily create building like this:
+This roof shape is particularly useful for building parts, to easily create a building like this:
 
 ![side_hipped roof example](images/side_hipped_building_example.png)
 
 
 
 ### `half-dome`
-A half of a dome roof. Espesially useful for orthodox church architecture.
+Half of a dome roof. Especially useful for orthodox church architecture.
 
 ![Image of a half-dome roof](images/roof_half-dome.png)
 
-The top of the dome is located above the middle of the longest side of the base.
+The apex of the dome is located above the middle of the longest side of the base.
 
 ### `apse_gabled`
-A gabled roof with a semicircular apse at one end.
+This is a gabled roof with a semicircular apse at one end.
 
 ![Image of a apse_gabled roof](images/roof_apse_gabled.png)
 
-The top of the dome is located above the middle of the longest side of the base.
-
-
-
-
-
+The apex of the apse is located above the middle of the longest side of the base.
