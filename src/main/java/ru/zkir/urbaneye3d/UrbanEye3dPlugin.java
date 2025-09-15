@@ -20,7 +20,7 @@ public class UrbanEye3dPlugin extends Plugin {
     }
 
     public static void debugMsg(String s) {
-        System.out.println("[UrbanEye3D] "+s);
+        System.out.println("[" + java.time.Instant.now() + "][UrbanEye3D] "+s);
     }
 
     @Override

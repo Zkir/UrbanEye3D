@@ -19,13 +19,10 @@ import org.openstreetmap.josm.gui.NavigatableComponent;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class DialogWindow3D extends ToggleDialog
                              implements DataSetListener, NavigatableComponent.ZoomChangeListener,
-                                        LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener,
-                                        PropertyChangeListener
+                                        LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener
 {
     private final Renderer3D renderer3D;
     private final Scene scene3d = new Scene();
@@ -63,7 +60,6 @@ public class DialogWindow3D extends ToggleDialog
         NavigatableComponent.addZoomChangeListener(this);
         MainApplication.getLayerManager().addLayerChangeListener(this);
         MainApplication.getLayerManager().addActiveLayerChangeListener(this);
-        addPropertyChangeListener(this);
 
         updateListenedLayer();
         updateData();
@@ -95,13 +91,17 @@ public class DialogWindow3D extends ToggleDialog
         }
     }
 
+
+    /**
+     * This function is called when the window is:
+     * Turned on / turned off, via menu
+     * Collapsed / expanded
+     * Docked / undocked
+     */
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        // we need to track, when our window becomes visible.
+    public void stateChanged(){
+        // we need to track when our window becomes visible.
         // when it becomes visible, data is updated.
-        //TODO: in JOSM version 19243 there is no simple way to track proper event.
-        //luckily, there is a bunch of events, which are triggered when the window is
-        //minimised/maximized and closed/ displayed anew.
         if (this.updatableState == null || this.updatableState != this.isUpdateRequired()){
             updateData();
             this.updatableState = this.isUpdateRequired();
@@ -125,7 +125,7 @@ public class DialogWindow3D extends ToggleDialog
     }
 
     private boolean isUpdateRequired() {
-        return !this.isCollapsed && this.isVisible();
+        return (!this.isCollapsed || !this.isDocked) && this.isVisible();
     }
 
 
