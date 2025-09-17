@@ -1,5 +1,9 @@
 # Recent Accomplishments
 
+## Version 1.4.1
+### September 15, 2025
+* **Bugfix**:  3D window is updated when the _collapsed_ docked window is undocked.
+
 ## Version 1.4.0
 
 ### September 2, 2025

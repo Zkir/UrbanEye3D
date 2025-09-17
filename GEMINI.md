@@ -64,9 +64,6 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 
 
 ## Recent Accomplishments
-### September 15, 2025
-* **Bugfix**:  3D window is updated when the _collapsed_ docked window is undocked.
-
 
 ### Earlier
 See the [Devblog](DEVBLOG.md) page.
