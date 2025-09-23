@@ -1,8 +1,10 @@
 package ru.zkir.urbaneye3d.utils;
 
+import org.locationtech.jts.geom.*;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
-import ru.zkir.urbaneye3d.RenderableBuildingElement;
+
+import org.locationtech.jts.operation.buffer.BufferParameters;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +17,10 @@ public class Contour {
     private String mode = "XY";
     public List<ArrayList<Point2D>> outerRings;
     public List<ArrayList<Point2D>> innerRings;
-
+    
+    /**
+     * This constructor creates contour from POLYGONAL primitive (e.g. closed way or multipolygon relation)
+     */
     public Contour(OsmPrimitive primitive, LatLon center) {
         if (center == null) {
             this.mode = "LatLon";
@@ -79,6 +84,46 @@ public class Contour {
                     }
                 }
                 this.innerRings.add(pointRing);
+            }
+        }
+    }
+
+    /**
+     * This constructor creates contour from LINEAR primitive (e.g. barrier) applying BUFFER
+     */
+    public Contour(Way way, double width, LatLon center) {
+        this.mode = "XY";
+        this.outerRings = new ArrayList<>();
+        this.innerRings = new ArrayList<>();
+
+        List<Point2D> points = new ArrayList<>();
+        for (Node node : way.getNodes()) {
+            points.add(getNodeLocalCoords(node, center));
+        }
+
+        if (points.size() >= 2) {
+            GeometryFactory geometryFactory = new GeometryFactory();
+            Coordinate[] coords = new Coordinate[points.size()];
+            for (int i = 0; i < points.size(); i++) {
+                coords[i] = new Coordinate(points.get(i).x, points.get(i).y);
+            }
+
+            LineString line = geometryFactory.createLineString(coords);
+
+            Polygon polygon = (Polygon) line.buffer(width / 2, 1, BufferParameters.CAP_FLAT);
+
+            ArrayList<Point2D> polygonPoints1 = new ArrayList<>();
+            for (Coordinate coord : polygon.getExteriorRing().getCoordinates()) {
+                polygonPoints1.add(new Point2D(coord.x, coord.y));
+            }
+            this.outerRings.add(polygonPoints1);
+
+            for (int i=0; i<polygon.getNumInteriorRing(); i++){
+                ArrayList<Point2D> polygonPoints2 = new ArrayList<>();
+                for (Coordinate coord : polygon.getInteriorRingN(i).getCoordinates()) {
+                    polygonPoints2.add(new Point2D(coord.x, coord.y));
+                }
+                this.innerRings.add(polygonPoints2);
             }
         }
     }

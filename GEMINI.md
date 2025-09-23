@@ -66,6 +66,8 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 ## Recent Accomplishments
 
 ### Earlier
+* Implemented rendering of `barrier=*` tags, including `barrier=wall`, `barrier=hedge`, `barrier=fence`, and `barrier=city_wall`. This includes using the JTS buffer operation to create 3D meshes from linear OSM ways.
+
 See the [Devblog](DEVBLOG.md) page.
 
 ## Architectural Notes
@@ -429,7 +431,4 @@ Scene #2, Christ the Saviour (921 parts)
 *   **Roof Geometry Generation:** The `roofgenerators` package showcases a factory pattern. The `RoofShapes` enum acts as a factory, providing the correct `Mesher` instance for a given `roof:shape` tag. This makes it easy to add new roof shapes without changing the core rendering logic.
 *   **Watertight Meshes:** A critical requirement for all generated geometry is that it must be "watertight" (i.e., have no holes). This is crucial for correct rendering and for future features like SSAO or Boolean operations. The `RoofGeometryGeneratorTest` includes checks to enforce this.
 *   **TDD for Geometry:** The `RoofGeometryGeneratorTest` is a good example of Test-Driven Development. By creating a test for a new roof shape first, the implementation can be guided by the test results, ensuring correctness from the start.
-*   **Coordinate Systems:** The plugin deals with multiple coordinate systems: Latitude/Longitude from OSM, East/North from JOSM's map projection, and the 3D Cartesian coordinates used for rendering. `RenderableBuildingElement` handles the conversion from OSM data to a renderable format.
-*   **Architectural Integrity over Local Fixes:** Attempting to patch symptoms of a flawed algorithm (e.g., preventing crashes from an incorrect number of vertices) is ineffective. The underlying architectural model must be correct. For instance, generating walls and a roof from two different, inconsistent footprints is a fundamental flaw that cannot be fixed with localized patches.
-*   **Complexity of Geometric Stitching:** Algorithms that connect or "stitch" geometric components (e.g., connecting polylines with varying numbers of vertices) are notoriously complex and require careful handling of topology changes. Naive implementations are insufficient for non-convex or degenerate cases.
-*   **Leverage Existing Dependencies:** Before implementing complex domain-specific algorithms (e.g., mesh generation, triangulation), thoroughly investigate existing project dependencies (`campskeleton`) that may already provide the required tools.
+*   **Coordinate Systems:** There are several coodinate systems (or, more precisely, projections) in JOSM:  geographical Latitude/Longitude (LatLon class) from OSM data, and projected East/North (EastNorth class). However, the plugin uses only geographical LatLon coordinates and itself performs projection to the 3D Cartesian coordinates used for rendering. Coordinate conversion is done in Contour.getLocalCoords() method. EastNorth coordinates should be never used by the plugin, because they are distorted by projection and incomparable with height values.

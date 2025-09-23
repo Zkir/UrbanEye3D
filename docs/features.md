@@ -2,7 +2,7 @@
 
 This document outlines the OpenStreetMap tags supported by the UrbanEye3D plugin for rendering 3D buildings.
 
-## General Building Tags
+## Building
 
 The plugin visualizes objects tagged with `building` and `building:part`.
 
@@ -150,7 +150,6 @@ This roof shape is particularly useful for building parts, to easily create a bu
 ![side_hipped roof example](images/side_hipped_building_example.png)
 
 
-
 ### `half-dome`
 Half of a dome roof. Especially useful for orthodox church architecture.
 
@@ -164,3 +163,20 @@ This is a gabled roof with a semicircular apse at one end.
 ![Image of a apse_gabled roof](images/roof_apse_gabled.png)
 
 The apex of the apse is located above the middle of the longest side of the base.
+
+## Barriers
+
+The plugin also supports rendering of `barrier` objects (`barrier=*`)
+
+- `barrier=wall`: Rendered as a wall with a default width of 0.25m and height of 1.5m.
+- `barrier=hedge`: Rendered as a hedge with a default width of 0.5m and height of 1.5m.
+- `barrier=fence`: Rendered as a fence with a default width of 0.1m and height of 1.5m.
+- `barrier=city_wall`: Rendered as a wall with a default width of 1m and height of 5m.
+
+For all barrier types, the following tags can be used to override the default values:
+
+- `height`: The height of the barrier.
+- `width`: The width of the barrier.
+- `colour`: The color of the barrier.
+
+Note that in OSM `barrier=*` is considered to be a linear object, even if the way is closed. To override this, use the `area=yes` tag. In the later case the `width` tag is not applied. 

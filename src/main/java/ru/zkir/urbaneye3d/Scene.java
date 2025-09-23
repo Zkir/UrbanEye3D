@@ -60,7 +60,7 @@ public class Scene {
                 continue;
             }
 
-            if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !  getTagStr("building:part", primitive, null).equals("base") ) {
+            if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !  getTagStr("building:part", primitive, "").equals("base") ) {
                 boolean include_element = true;
                 // Create and cache the contour for the building, if not already present.
                 if (!primitiveContours.containsKey(primitive)) {
@@ -131,7 +131,7 @@ public class Scene {
                 roofShape = "cross_gabled";
             }
 
-            if (roofShape.equals("skillion") && getTagStr(source_key, primitive, null).equals("steps")) {
+            if (roofShape.equals("skillion") && getTagStr(source_key, primitive, "").equals("steps")) {
                 roofShape="steps";
             }
 
@@ -261,6 +261,55 @@ public class Scene {
                 }
             }
         }
+
+        for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+            if (primitive instanceof Way && primitive.hasKey("barrier")) {
+                Way way = (Way) primitive;
+                String barrierType = way.get("barrier");
+                double width;
+                double height;
+                String color =  getTagStr("colour", way, "lightgray");
+                switch (barrierType) {
+                    case "wall":
+                        width = getTagD("width", way, 0.25);
+                        height = getTagD("height",way, 1.5);
+                        break;
+                    case "hedge":
+                        width = getTagD("width", way, 0.5);
+                        height = getTagD("height", way, 1.5);
+                        break;
+                    case "fence":
+                        width = getTagD("width", way, 0.1);
+                        height = getTagD("height", way,  1.5);
+                        break;
+                    case "city_wall":
+                        width = getTagD("width", way, 1.0);
+                        height = getTagD("height", way, 5.0);
+                        break;
+                    default:
+                        continue; // Skip unsupported barrier types
+                }
+
+
+                Contour contour;
+                LatLon origin = way.getBBox().getCenter();
+                if ("yes".equals(way.get("area"))) {
+                    contour = new Contour(way, null);
+                    contour.toLocalCoords(origin);
+                } else {
+                    if (width > 0) {
+                        contour = new Contour(way, width, origin);
+                    } else {
+                        continue;
+                    }
+                }
+
+                if (contour != null && !contour.outerRings.isEmpty()) {
+                    contour.removeRedundantNodes();
+                    renderableElements.add(new RenderableBuildingElement(way.getPrimitiveId(), origin, contour, height, 0, 0, color, color, "flat", "", "", null));
+                }
+            }
+        }
     }
 
     private boolean isPrimitiveComplete(OsmPrimitive primitive) {
@@ -280,6 +329,13 @@ public class Scene {
 
         return isComplete;
     }
+    private @NotNull String getTagStr(String key, OsmPrimitive primitive, String defaultValue ){
+        String value = primitive.get(key);
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
+    }
 
     private @NotNull String getTagStr(String key, OsmPrimitive primitive, OsmPrimitive parent ){
 
@@ -292,6 +348,18 @@ public class Scene {
             value="";
         }
         return value;
+    }
+
+    private Double getTagD(String key, OsmPrimitive primitive, double defaultValue) {
+        String value = primitive.get(key);
+        if (value == null) {
+            return defaultValue;
+        }
+        try {
+            return Double.parseDouble(value.split(" ")[0]);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
     //we need to get a floating point value from an osm tag

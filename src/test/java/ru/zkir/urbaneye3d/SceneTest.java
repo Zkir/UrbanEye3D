@@ -135,7 +135,7 @@ class SceneTest {
         //Just to understand how the picture changes.
         int NumberOfBuildings = scene.renderableElements.size();
         int MIN_BUILDINGS=4377;
-        int MAX_BUILDINGS=4390;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance)
+        int MAX_BUILDINGS=4700;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance)
         assertTrue(NumberOfBuildings>=MIN_BUILDINGS && NumberOfBuildings<=MAX_BUILDINGS, "Number of building " + NumberOfBuildings + " is NOT in the reasonable range " + MIN_BUILDINGS + ".." + MAX_BUILDINGS);
 
         int i=0;
@@ -183,7 +183,20 @@ class SceneTest {
 
     }
 
+    @Test
+    void testBarriers() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("barriers.osm");
+        Scene scene = new Scene();
 
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
 
+        // Assert: Verify the outcome
+        assertEquals(4, scene.renderableElements.size(), "Expected 4 barrier, but got "+scene.renderableElements.size());
+        for (var re:scene.renderableElements) {
+            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, re.roofShape.toString());
+        }
+    }
 
 }
