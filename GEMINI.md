@@ -16,7 +16,7 @@
 Prioritized via MoSCoW method: 
 
 #### Must 
-*  TG, none.
+* Check whether roof:shape should be inherited from building 
 
 #### Should
 * Implement rendering of building passages (`tunnel=building_passage`). 
@@ -64,6 +64,15 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 
 
 ## Recent Accomplishments
+### September 27, 2025
+* Implemented a new validator that warns for case skillion and side_hipped roofs without roof:direction.
+* Implemented a new validator that checks for roof:direction and roof:orientation valid values.
+
+### September 19, 2025
+* Implemented a new validator that compares the height of a building with the maximum height of its parts and warns if the difference is more than 10%.
+
+### September 18, 2025
+* Implemented a new validator for buildings and building parts, that checks for height and coverage.
 
 ### Earlier
 * Implemented rendering of `barrier=*` tags, including `barrier=wall`, `barrier=hedge`, `barrier=fence`, and `barrier=city_wall`. This includes using the JTS buffer operation to create 3D meshes from linear OSM ways.
@@ -117,6 +126,10 @@ src
 │                   │       ├── LinearProfiles.java
 │                   │       └── ...
 │                   │
+│                   ├── validator                // JOSM validation tests
+│                   │   ├── SpatialConsistencyChecks.java
+│                   │   └── TagChecks.java
+│                   │
 │                   └── utils                    // Helper classes
 │                       ├── Contour.java         // Data structure and utils for building 2D outline.
 │                       ├── Mesh.java            // 3D mesh data structure
@@ -133,6 +146,7 @@ src
                     ├── RoofGeneratorTopologyTest.java     // Tests mesh topology (e.g., watertightness)
                     ├── RoofGeneratorGoldenMasterTest.java // Golden master tests for roof shapes
                     ├── SceneTest.java                     // Tests for scene creation logic
+                    ├── ValidatorTest.java                 // Tests for validator logic
                     └── utils
                         └── PolygonSelfIntersection.java   // Tests for polygon helper functions
 ```
@@ -431,4 +445,12 @@ Scene #2, Christ the Saviour (921 parts)
 *   **Roof Geometry Generation:** The `roofgenerators` package showcases a factory pattern. The `RoofShapes` enum acts as a factory, providing the correct `Mesher` instance for a given `roof:shape` tag. This makes it easy to add new roof shapes without changing the core rendering logic.
 *   **Watertight Meshes:** A critical requirement for all generated geometry is that it must be "watertight" (i.e., have no holes). This is crucial for correct rendering and for future features like SSAO or Boolean operations. The `RoofGeometryGeneratorTest` includes checks to enforce this.
 *   **TDD for Geometry:** The `RoofGeometryGeneratorTest` is a good example of Test-Driven Development. By creating a test for a new roof shape first, the implementation can be guided by the test results, ensuring correctness from the start.
-*   **Coordinate Systems:** There are several coodinate systems (or, more precisely, projections) in JOSM:  geographical Latitude/Longitude (LatLon class) from OSM data, and projected East/North (EastNorth class). However, the plugin uses only geographical LatLon coordinates and itself performs projection to the 3D Cartesian coordinates used for rendering. Coordinate conversion is done in Contour.getLocalCoords() method. EastNorth coordinates should be never used by the plugin, because they are distorted by projection and incomparable with height values.
+*   **Coordinate Systems:** There are several coodinate systems (or, more precisely, projections) in JOSM:  geographical Latitude/Longitude (`LatLon` class) from OSM data, and projected East/North (`EastNorth` class). However, the plugin uses only geographical LatLon coordinates and itself performs projection to the 3D Cartesian coordinates used for rendering. Coordinate conversion is done in `Contour.getLocalCoords()` method. EastNorth coordinates should be never used by the plugin, because they are distorted by projection and incomparable with height values.
+*   **JOSM Validation Framework:**
+    *   Custom validators can be created by extending `org.openstreetmap.josm.data.validation.Test`.
+    *   Tests are registered in the plugin's constructor using `OsmValidator.addTest()`.
+    *   The `startTest()` method is suitable for global checks that need to be performed on the entire dataset, while `visit()` methods are better for checks on individual primitives.
+    *   JOSM filters validation errors for primitives that have not been modified. This can be bypassed by overriding the `removeIrrelevantErrors()` method in the test class.
+*   **JOSM UI:**
+    *   A settings button can be added to a `ToggleDialog` by passing the preference class to its constructor.
+    *   A custom help topic can be set by overriding the `helpTopic()` method.

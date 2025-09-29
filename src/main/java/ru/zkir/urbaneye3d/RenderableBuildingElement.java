@@ -130,7 +130,7 @@ public class RenderableBuildingElement {
     }
 
 
-    public Double parseDirection(String direction) {
+    public  static Double parseDirection(String direction) {
         if (direction == null || direction.isEmpty()) {
             return Double.NaN; // Return NaN if direction is not specified
         }

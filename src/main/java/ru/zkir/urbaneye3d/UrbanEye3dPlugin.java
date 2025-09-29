@@ -1,9 +1,12 @@
 package ru.zkir.urbaneye3d;
 
+import org.openstreetmap.josm.data.validation.OsmValidator;
 import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
+import ru.zkir.urbaneye3d.validator.SpatialConsistencyChecks;
+import ru.zkir.urbaneye3d.validator.TagChecks;
 
 /**
  * This is the main class for the 3D Viewer plugin.
@@ -14,7 +17,10 @@ public class UrbanEye3dPlugin extends Plugin {
 
     public UrbanEye3dPlugin(PluginInformation info) {
         super(info);
+        OsmValidator.addTest(SpatialConsistencyChecks.class);
+        OsmValidator.addTest(TagChecks.class);
     }
+    
     public static DialogWindow3D get3DWindow() {
         return dialog;
     }
