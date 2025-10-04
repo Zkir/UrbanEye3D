@@ -27,6 +27,7 @@ import java.util.List;
 public class Renderer3D extends GLJPanel implements GLEventListener {
     private final List<RenderableBuildingElement> buildings;
     private final GLU glu = new GLU();
+    private final double CUTOFF_DISTANCE=5000.0;
     public boolean isWireframeMode;
     public boolean isFakeAOEnabled;
 
@@ -99,8 +100,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
-                cam_dist += e.getWheelRotation() * 50;
-                cam_dist = Math.max(50.0, cam_dist); // Prevent zooming too close
+                cam_dist += e.getWheelRotation() * cam_dist/10;
+                cam_dist = Math.max(25.0, cam_dist); // Prevent zooming too close
+                cam_dist = Math.min(CUTOFF_DISTANCE*0.9, cam_dist); // Prevent zooming too far (limited by cut-off distance).
                 repaint();
             }
         });
@@ -358,7 +360,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0, aspect, 10.0, 5000.0);
+        glu.gluPerspective(45.0, aspect, 10.0, CUTOFF_DISTANCE);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
     }
