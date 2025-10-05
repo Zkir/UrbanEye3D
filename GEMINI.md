@@ -64,18 +64,6 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 
 
 ## Recent Accomplishments
-### September 27, 2025
-* Implemented a new validator that warns for case skillion and side_hipped roofs without roof:direction.
-* Implemented a new validator that checks for roof:direction and roof:orientation valid values.
-
-### September 23, 2025
-* Implemented rendering of `barrier=*` tags, including `barrier=wall`, `barrier=hedge`, `barrier=fence`, and `barrier=city_wall`. This includes using the JTS buffer operation to create 3D meshes from linear OSM ways.
-
-### September 19, 2025
-* Implemented a new validator that compares the height of a building with the maximum height of its parts and warns if the difference is more than 10%.
-
-### September 18, 2025
-* Implemented a new validator for buildings and building parts, that checks for height and coverage.
 
 ### Earlier
 
