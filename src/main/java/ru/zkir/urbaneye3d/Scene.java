@@ -233,7 +233,6 @@ public class Scene {
 
                 String roofDirection = getTagStr("roof:direction", primitive, parent);
                 String roofOrientation = getTagStr("roof:orientation", primitive, parent);
-                //String buildingPart = getTagStr("building:part", primitive, parent);
 
                 //TODO: probably we need to create material, and inherit diffuse colour from xxx:colour tag
                 var roofMaterial = Materials.fromString(getTagStr("roof:material",     primitive, parent));
@@ -272,41 +271,56 @@ public class Scene {
 
         for (OsmPrimitive primitive : dataSet.allPrimitives()) {
             if (primitive instanceof Way && primitive.hasKey("barrier")) {
-                Way way = (Way) primitive;
-                String barrierType = way.get("barrier");
+                String barrierType = primitive.get("barrier");
                 double width;
                 double height;
-                String color =  getTagStr("colour", way, "lightgray");
+                String color =  getTagStr("colour", primitive, "");
+                //unlike buildings, for barrier just colour=* and material=* tags are used.
+                var material = Materials.fromString(getTagStr("material", primitive, (String) null));
+
+                // get default values if material is specified
+                if (material!=null && color.isEmpty()){
+                    color = material.defaultColour;
+                }
+                if (color.isEmpty()){
+                    if(barrierType.equals("hedge")){
+                        color = "#308030";
+                    }else {
+                        color = "lightgray";
+                    }
+                }
+
                 switch (barrierType) {
                     case "wall":
-                        width = getTagD("width", way, 0.25);
-                        height = getTagD("height",way, 1.5);
+                        width = getTagD("width", primitive, 0.25);
+                        height = getTagD("height",primitive, 1.5);
                         break;
                     case "hedge":
-                        width = getTagD("width", way, 0.5);
-                        height = getTagD("height", way, 1.5);
+                        width = getTagD("width", primitive, 0.5);
+                        height = getTagD("height", primitive, 1.5);
                         break;
                     case "fence":
-                        width = getTagD("width", way, 0.1);
-                        height = getTagD("height", way,  1.5);
+                        width = getTagD("width", primitive, 0.1);
+                        height = getTagD("height", primitive,  1.5);
                         break;
                     case "city_wall":
-                        width = getTagD("width", way, 1.0);
-                        height = getTagD("height", way, 5.0);
+                        width = getTagD("width", primitive, 1.0);
+                        height = getTagD("height", primitive, 5.0);
                         break;
                     default:
                         continue; // Skip unsupported barrier types
                 }
+                Double minHeight = getTagD("min_height", primitive, 0);
 
 
                 Contour contour;
-                LatLon origin = way.getBBox().getCenter();
-                if ("yes".equals(way.get("area"))) {
-                    contour = new Contour(way, null);
+                LatLon origin = primitive.getBBox().getCenter();
+                if ("yes".equals(primitive.get("area"))) {
+                    contour = new Contour(primitive, null);
                     contour.toLocalCoords(origin);
                 } else {
                     if (width > 0) {
-                        contour = new Contour(way, width, origin);
+                        contour = new Contour((Way)primitive, width, origin);
                     } else {
                         continue;
                     }
@@ -314,7 +328,7 @@ public class Scene {
 
                 if (contour != null && !contour.outerRings.isEmpty()) {
                     contour.removeRedundantNodes();
-                    renderableElements.add(new RenderableBuildingElement(way.getPrimitiveId(), origin, contour, height, 0, 0, color, color, "flat", "", "", null));
+                    renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), origin, contour, height, minHeight, 0, color, color, "flat", "", "", null));
                 }
             }
         }
