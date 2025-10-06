@@ -116,6 +116,14 @@ public class Scene {
             String roofShape = getTagStr("roof:shape", primitive, parent);
             Double stepHeight = getTagD("step:height", primitive, parent);
 
+            Double layer = getTagD("layer", primitive, 0);
+            String location = getTagStr("location", primitive, "");
+
+            if ((layer<0) || (location.equals("underground"))){
+                // we ignore such underground buildings/parts for now.
+                continue;
+            }
+
             if (roofShape.isEmpty()){
                 roofShape="flat";
             }
