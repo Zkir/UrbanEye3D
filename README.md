@@ -1,6 +1,7 @@
 # Urban Eye 3D – JOSM 3D Viewer Plugin
 [![release](https://img.shields.io/github/v/release/Zkir/UrbanEye3D)](https://github.com/Zkir/UrbanEye3D/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/Zkir/UrbanEye3D/latest/total.svg)](https://tooomm.github.io/github-release-stats/?username=Zkir&repository=UrbanEye3D)
+![Downloads](https://img.shields.io/github/stars/Zkir/UrbanEye3D)
 
 **Urban Eye 3D** is a JOSM plugin that provides a dedicated 3D view (dockable or floating) to visualize loaded buildings and building parts (`building=*` and `building:part=*`).
 
