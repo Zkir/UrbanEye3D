@@ -16,7 +16,8 @@
 Prioritized via MoSCoW method: 
 
 #### Must 
-* Check whether roof:shape should be inherited from building 
+* Check whether `roof:shape` should be inherited from building. Both F4 and osm2world inherits both roof:shape and roof:height from parent building. Should we also do that? 
+* Do something with `building:part=roof`. It is supported by the F4 and seems that it's usefull.It requires a new meshers however. 
 
 #### Should
 * Implement rendering of building passages (`tunnel=building_passage`). 
@@ -64,6 +65,11 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 
 
 ## Recent Accomplishments
+### October 6, 2025
+* Support for min_height and default colour/materilas for barriers has been added.
+
+### October 5, 2025
+* Underground buildings (with location=underground or layer<0) excluded from the rendering. 
 
 ### Earlier
 
