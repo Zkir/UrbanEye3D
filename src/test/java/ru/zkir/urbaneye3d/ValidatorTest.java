@@ -106,7 +106,7 @@ class ValidatorTest {
 
         // The resulting number of buildings is not so important.
         // we just need to understand how the picture changes.
-        int EXPECTED_NUMBER_OF_ERRORS = 811;
+        int EXPECTED_NUMBER_OF_ERRORS = 806;
         assertTrue(errors.size() == EXPECTED_NUMBER_OF_ERRORS,
                    "Number of errors  found by the Validator Spatial Test ("+errors.size()+") differs from  the expected number (" + EXPECTED_NUMBER_OF_ERRORS+")");
 

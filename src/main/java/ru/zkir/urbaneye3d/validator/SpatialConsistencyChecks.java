@@ -1,23 +1,29 @@
 package ru.zkir.urbaneye3d.validator;
 
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.LinearRing;
-import org.locationtech.jts.geom.Polygon;
-import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.*;
 import org.locationtech.jts.operation.union.UnaryUnionOp;
+import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
 import org.openstreetmap.josm.data.validation.Severity;
 import org.openstreetmap.josm.data.validation.Test;
 import org.openstreetmap.josm.data.validation.TestError;
 import org.openstreetmap.josm.gui.progress.ProgressMonitor;
+import org.openstreetmap.josm.io.OsmWriter;
+import org.openstreetmap.josm.io.OsmWriterFactory;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Point2D;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static org.openstreetmap.josm.tools.I18n.tr;
+import static ru.zkir.urbaneye3d.utils.Contour.GRAD_LENGTH_M;
 
 /**
  *  This class contains checks for building and building part spatial validity.
@@ -214,12 +220,16 @@ public class SpatialConsistencyChecks extends Test {
                     Contour buildingContour = new Contour(p, null);
                     Polygon buildingPolygon = toJtsPolygon(buildingContour);
                     if (buildingPolygon != null && !buildingPolygon.isEmpty()) {
-                        Geometry partsUnion = UnaryUnionOp.union(partPolygons);
+                        Geometry partsUnion = UnaryUnionOp.union(partPolygons); // unite parts.
+                        partsUnion = partsUnion.buffer(0.001/GRAD_LENGTH_M,1); // we need to do small buffer, to avoid JTS bugs.
                         if (!partsUnion.covers(buildingPolygon)) {
                             errors.add(TestError.builder(this, Severity.WARNING, BUILDING_NOT_COVERED_BY_PARTS)
                                     .message(tr("Building is not fully covered by its parts"))
                                     .primitives(p)
                                     .build());
+                            // DO NOT REMOVE: this useful for debug purposes.
+                            //saveAsOSMFile(buildingPolygon.difference(partsUnion));
+                            //saveAsOSMFile(p.getOsmPrimitiveId(), partsUnion);
                         }
                     }
                 }
@@ -256,6 +266,66 @@ public class SpatialConsistencyChecks extends Test {
             }
 
         }
+    }
+
+    /**
+     * Saves jts polygon as osm file, for debug purposes.
+     * @param geometry JTS geometry to be saved
+     */
+    private void saveAsOSMFile(PrimitiveId id, Geometry geometry) {
+        try (FileOutputStream fos = new FileOutputStream("tests\\validator\\"+id.toString()+".osm")) {
+            DataSet dataSet = new DataSet();
+
+            for (int i = 0; i < geometry.getNumGeometries(); i++) {
+                Geometry subGeometry = geometry.getGeometryN(i);
+                if (subGeometry instanceof Polygon) {
+                    Polygon polygon = (Polygon) subGeometry;
+
+                    if (polygon.getNumInteriorRing() > 0) {
+                        Relation multipolygon = new Relation();
+                        multipolygon.setKeys(new TagMap("type", "multipolygon"));
+                        dataSet.addPrimitive(multipolygon);
+
+                        // Outer ring
+                        Way outerWay = createWayFromLinearRing((LinearRing) polygon.getExteriorRing(), dataSet);
+                        multipolygon.addMember(new RelationMember("outer", outerWay));
+
+                        // Inner rings
+                        for (int j = 0; j < polygon.getNumInteriorRing(); j++) {
+                            Way innerWay = createWayFromLinearRing((LinearRing) polygon.getInteriorRingN(j), dataSet);
+                            multipolygon.addMember(new RelationMember("inner", innerWay));
+                        }
+                    } else {
+                        Way way = createWayFromLinearRing((LinearRing) polygon.getExteriorRing(), dataSet);
+                        way.setKeys(new TagMap("debug", "polygon"));
+                    }
+                }
+            }
+
+            PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
+            OsmWriter writer = OsmWriterFactory.createOsmWriter(printWriter, true, dataSet.getVersion());
+            writer.write(dataSet);
+            writer.flush();
+            printWriter.flush();
+        } catch (IOException e) {
+            // It's a debug method, so just print the stack trace
+            e.printStackTrace();
+        }
+    }
+
+    private Way createWayFromLinearRing(LinearRing ring, DataSet dataSet) {
+        Way way = new Way();
+        List<Node> nodes = new ArrayList<>();
+        for (Coordinate coord : ring.getCoordinates()) {
+            Node node = new Node(new LatLon(coord.y, coord.x));
+            // Let's not try to find duplicates for now, it will make things complicated.
+            // JOSM will merge nodes on read.
+            dataSet.addPrimitive(node);
+            nodes.add(node);
+        }
+        way.setNodes(nodes);
+        dataSet.addPrimitive(way);
+        return way;
     }
 
     /**

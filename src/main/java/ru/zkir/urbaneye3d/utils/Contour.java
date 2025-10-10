@@ -14,6 +14,7 @@ public class Contour {
     // Define a tolerance for the tangent of the angle. For example, 0.08 corresponds to ~175.5 degrees.
     // This allows for slight deviations in manually placed points.
     static final double STRAIGHT_ANGLE_TAN_TOLERANCE = 0.08;
+    public final static double GRAD_LENGTH_M = 6378137.*2*Math.PI/360.;
     private String mode = "XY";
     public List<ArrayList<Point2D>> outerRings;
     public List<ArrayList<Point2D>> innerRings;
@@ -292,9 +293,6 @@ public class Contour {
     }
 
     static Point2D getLocalCoords(Point2D point, LatLon center) {
-        //final double GRAD_LENGTH_M =111320.0;
-        final double GRAD_LENGTH_M = 6378137.*2*Math.PI/360.;
-
         double dx = point.x - center.lon();
         double dy = point.y - center.lat();
         return new Point2D(dx * Math.cos(Math.toRadians(center.lat())) * GRAD_LENGTH_M,
