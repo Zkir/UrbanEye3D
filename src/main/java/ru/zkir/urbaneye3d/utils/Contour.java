@@ -363,7 +363,7 @@ public class Contour {
         return simplifiedContour;
     }
 
-    private static boolean isClockwise(List<Point2D> polygon) {
+    public static boolean isClockwise(List<Point2D> polygon) {
         double sum = 0.0;
         for (int i = 0; i < polygon.size(); i++) {
             Point2D p1 = polygon.get(i);
