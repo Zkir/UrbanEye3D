@@ -65,6 +65,9 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 
 
 ## Recent Accomplishments
+### October 10, 2025
+* Implemented a "Fix" button for the `Missing tag: roof:shape=skillion without 'roof:direction'` validation error. The fix automatically calculates and applies a default direction based on the building's geometry.
+
 ### October 6, 2025
 * Support for min_height and default colour/materilas for barriers has been added.
 
@@ -446,7 +449,7 @@ Scene #2, Christ the Saviour (921 parts)
     *   Custom validators can be created by extending `org.openstreetmap.josm.data.validation.Test`.
     *   Tests are registered in the plugin's constructor using `OsmValidator.addTest()`.
     *   The `startTest()` method is suitable for global checks that need to be performed on the entire dataset, while `visit()` methods are better for checks on individual primitives.
-    *   JOSM filters validation errors for primitives that have not been modified. This can be bypassed by overriding the `removeIrrelevantErrors()` method in the test class.
+    *   To provide an automatic fix for a validation error, one can override the `isFixable(TestError)` and `fixError(TestError)` methods within the validation `Test` class. This provides a cleaner approach than using the `.addFix()` method on the `TestError` builder.
 *   **JOSM UI:**
     *   A settings button can be added to a `ToggleDialog` by passing the preference class to its constructor.
     *   A custom help topic can be set by overriding the `helpTopic()` method.
