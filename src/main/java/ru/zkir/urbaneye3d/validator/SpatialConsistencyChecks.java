@@ -212,7 +212,8 @@ public class SpatialConsistencyChecks extends Test {
                     }
                     Polygon partPolygon = toJtsPolygon(partContour);
                     if (partPolygon != null && !partPolygon.isEmpty()) {
-                        partPolygons.add(partPolygon);
+                        partPolygon = (Polygon)partPolygon.buffer(0); // zero buffer heals broken geometry.
+                        partPolygons.add( partPolygon);
                     }
                 }
 

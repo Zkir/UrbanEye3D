@@ -65,14 +65,8 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 
 
 ## Recent Accomplishments
-### October 10, 2025
-* Implemented a "Fix" button for the `Missing tag: roof:shape=skillion without 'roof:direction'` validation error. The fix automatically calculates and applies a default direction based on the building's geometry.
-
-### October 6, 2025
-* Support for min_height and default colour/materilas for barriers has been added.
-
-### October 5, 2025
-* Underground buildings (with location=underground or layer<0) excluded from the rendering. 
+### October 11, 2025
+* Crash fixed: validator no longer fails on self-crossing ways.
 
 ### Earlier
 

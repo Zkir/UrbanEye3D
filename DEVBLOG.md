@@ -1,4 +1,14 @@
 # Recent Accomplishments
+## Version 1.5.1
+
+### October 10, 2025
+* Implemented a "Fix" button for the `Missing tag: roof:shape=skillion without 'roof:direction'` validation error. The fix automatically calculates and applies a default direction based on the building's geometry.
+
+### October 6, 2025
+* Support for min_height and default colour/materilas for barriers has been added.
+
+### October 5, 2025
+* Underground buildings (with location=underground or layer<0) excluded from the rendering. 
 
 ## Version 1.5.0
 ### September 27, 2025

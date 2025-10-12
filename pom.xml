@@ -5,7 +5,7 @@
 
     <groupId>ru.zkir.josm.plugins</groupId>
     <artifactId>urbaneye3d</artifactId>
-    <version>1.5.1</version>
+    <version>1.5.2</version>
     <name>UrbanEye3D</name>
     <description>A JOSM plugin to view buildings in 3D.</description>
 
