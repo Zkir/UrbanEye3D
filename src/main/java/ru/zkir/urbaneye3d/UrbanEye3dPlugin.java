@@ -14,6 +14,7 @@ import ru.zkir.urbaneye3d.validator.TagChecks;
 public class UrbanEye3dPlugin extends Plugin {
 
     private static DialogWindow3D dialog;
+    private static boolean f4mapMenuInitialized = false;
 
     public UrbanEye3dPlugin(PluginInformation info) {
         super(info);
@@ -39,6 +40,13 @@ public class UrbanEye3dPlugin extends Plugin {
         if (newFrame != null) {
             dialog = new DialogWindow3D(this);
             newFrame.addToggleDialog(dialog);
+
+            if (!f4mapMenuInitialized) {
+                // Add "Open in F4Map" to the "View" menu
+                OpenF4MapAction openF4MapAction = new OpenF4MapAction();
+                org.openstreetmap.josm.gui.MainApplication.getMenu().viewMenu.add(openF4MapAction);
+                f4mapMenuInitialized = true;
+            }
         }
     }
 }

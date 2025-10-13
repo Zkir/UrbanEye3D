@@ -37,6 +37,18 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     private Point lastMousePoint;
 
+    public double getCamX_angle() {
+        return camX_angle;
+    }
+
+    public double getCamY_angle() {
+        return camY_angle;
+    }
+
+    public double getCam_dist() {
+        return cam_dist;
+    }
+
     // Sun direction (normalized)
     private final Point3D SUN_DIRECTION = new Point3D(0.5, 0.5, 1.0).normalize();
 
