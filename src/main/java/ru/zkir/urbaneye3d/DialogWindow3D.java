@@ -41,6 +41,7 @@ public class DialogWindow3D extends ToggleDialog
         // Register the action so the shortcut works, but don't create a menu item
         new ToggleWireframeAction(renderer3D);
         new ToggleFakeAOAction(renderer3D);
+        new ResetCameraAction(renderer3D);
 
         renderer3D.addMouseListener(new MouseAdapter() {
             @Override

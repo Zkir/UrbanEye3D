@@ -31,8 +31,11 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     public boolean isWireframeMode;
     public boolean isFakeAOEnabled;
 
-    private double camX_angle = 35; //this is rather Z-angle (in vertical plane)
-    private double camY_angle = -90; // x and y mixed, but it is not a problem yet.
+    private final double DEFAULT_CAM_VERT_ANGLE = 35;
+    private final double DEFAULT_CAM_HOR_ANGLE = -90;
+
+    private double camX_angle = DEFAULT_CAM_VERT_ANGLE; //this is rather Z-angle (in vertical plane)
+    private double camY_angle = DEFAULT_CAM_HOR_ANGLE; // x and y mixed, but it is not a problem yet.
     private double cam_dist = 500.0;
 
     private Point lastMousePoint;
@@ -156,6 +159,12 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     public void toggleFakeAO() {
         isFakeAOEnabled = !isFakeAOEnabled;
         Config.getPref().putBoolean("urbaneye3d.fakeao.enabled", isFakeAOEnabled);
+    }
+
+    public void resetCameraToNorth(){
+        camX_angle = DEFAULT_CAM_VERT_ANGLE;
+        camY_angle = DEFAULT_CAM_HOR_ANGLE;
+        repaint();
     }
 
 
