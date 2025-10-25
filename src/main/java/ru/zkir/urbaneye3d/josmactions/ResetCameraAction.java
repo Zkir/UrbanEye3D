@@ -1,7 +1,8 @@
-package ru.zkir.urbaneye3d;
+package ru.zkir.urbaneye3d.josmactions;
 
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.tools.Shortcut;
+import ru.zkir.urbaneye3d.Renderer3D;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

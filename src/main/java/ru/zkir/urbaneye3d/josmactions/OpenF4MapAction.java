@@ -1,4 +1,4 @@
-package ru.zkir.urbaneye3d;
+package ru.zkir.urbaneye3d.josmactions;
 
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.gui.MainApplication;
@@ -7,6 +7,7 @@ import org.openstreetmap.josm.data.coor.EastNorth;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.tools.OpenBrowser;
 import org.openstreetmap.josm.tools.Shortcut;
+import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 
 import java.awt.event.KeyEvent;
 

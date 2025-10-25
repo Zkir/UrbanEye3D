@@ -15,6 +15,9 @@ import org.openstreetmap.josm.gui.layer.LayerManager;
 import org.openstreetmap.josm.gui.layer.MainLayerManager;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.gui.NavigatableComponent;
+import ru.zkir.urbaneye3d.josmactions.ResetCameraAction;
+import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
+import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
 
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
