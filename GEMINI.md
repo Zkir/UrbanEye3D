@@ -65,8 +65,13 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 
 
 ## Recent Accomplishments
-### October 11, 2025
-* Crash fixed: validator no longer fails on self-crossing ways.
+### October 25, 2025
+* Added a keyboard shortcut (`Ctrl+Shift+N`) to reset the camera view to the default North-facing orientation.
+
+### October 14, 2025
+
+* Added menu item and keyboard shortcut to open current view in F4
+
 
 ### Earlier
 
@@ -107,8 +112,12 @@ src
 │                   ├── RenderableBuildingElement.java // Data for a single building
 │                   ├── UrbanEye3dPreferences.java // Manages user preferences
 │                   ├── Materials.java           // Defines building material properties
-│                   ├── ToggleFakeAOAction.java  // UI Action for toggling fake AO
-│                   ├── ToggleWireframeAction.java // UI Action for toggling wireframe
+│                   │
+│                   ├── josmactions              // UI Actions (menu items, keyboard shortcuts)
+│                   │   ├── OpenF4MapAction.java
+│                   │   ├── ResetCameraAction.java
+│                   │   ├── ToggleFakeAOAction.java
+│                   │   └── ToggleWireframeAction.java
 │                   │
 │                   ├── roofgenerators           // Logic for creating roof geometries
 │                   │   ├── RoofShapes.java      // Enum mapping roof tags to generators
@@ -447,3 +456,4 @@ Scene #2, Christ the Saviour (921 parts)
 *   **JOSM UI:**
     *   A settings button can be added to a `ToggleDialog` by passing the preference class to its constructor.
     *   A custom help topic can be set by overriding the `helpTopic()` method.
+    *   New keyboard shortcuts can be added by creating a class that extends `JosmAction` and instantiating it in the plugin's UI initialization.

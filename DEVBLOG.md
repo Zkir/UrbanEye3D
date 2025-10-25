@@ -1,4 +1,9 @@
-# Recent Accomplishments
+# Development History
+
+## Version 1.5.2
+### October 11, 2025
+* Crash fixed: validator no longer fails on self-crossing ways.
+
 ## Version 1.5.1
 
 ### October 10, 2025
