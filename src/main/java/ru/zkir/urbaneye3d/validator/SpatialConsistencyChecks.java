@@ -10,6 +10,7 @@ import org.openstreetmap.josm.data.validation.TestError;
 import org.openstreetmap.josm.gui.progress.ProgressMonitor;
 import org.openstreetmap.josm.io.OsmWriter;
 import org.openstreetmap.josm.io.OsmWriterFactory;
+import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Point2D;
 
@@ -212,8 +213,15 @@ public class SpatialConsistencyChecks extends Test {
                     }
                     Polygon partPolygon = toJtsPolygon(partContour);
                     if (partPolygon != null && !partPolygon.isEmpty()) {
-                        partPolygon = (Polygon)partPolygon.buffer(0); // zero buffer heals broken geometry.
-                        partPolygons.add( partPolygon);
+                        Geometry partGeom = partPolygon.buffer(0); // zero buffer heals broken geometry.
+                        if (!(partGeom instanceof Polygon) ) {
+                            UrbanEye3dPlugin.debugMsg("Unexpected topology problem with " + part.getOsmPrimitiveId() );
+                            /* we can just exit here, because topology problems like way self intersections and duplicated segments
+                               are checked by other JOSM validation rules. We do not need to worry about that here.
+                            */
+                            return;
+                        }
+                        partPolygons.add((Polygon)partGeom);
                     }
                 }
 
