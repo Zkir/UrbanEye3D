@@ -12,65 +12,77 @@
 *  TG, none.
 
 ### Ideas for the Further Development
+_In no particular order currently_
 
-Prioritized via MoSCoW method: 
+1. Support `building:part=roof`. It is supported by the F4 and seems that it's usefull. 
+    * It requires new meshers however. 
+	
+2. Add more objects, e.g. roads, rivers, street lights (probably via osm2world code). (#4)
 
-#### Must 
-* Check whether `roof:shape` should be inherited from building. Both F4 and osm2world inherits both roof:shape and roof:height from parent building. Should we also do that? 
-* Do something with `building:part=roof`. It is supported by the F4 and seems that it's usefull.It requires a new meshers however. 
+3. Support the [base:shape proposal](https://community.openstreetmap.org/t/rfc-feature-proposal-3d-tagging-for-building-base-shapes) (#35)
 
-#### Should
-* Implement rendering of building passages (`tunnel=building_passage`). 
+4. Implement rendering of building passages (`tunnel=building_passage`).  #6
     * Definitely, this requires support of boolean operations with meshes: "difference". for this purpose we have JCSG library (https://github.com/Zkir/JCSG)
 and even example of this library usage: JCSG_test (no repository for it yet). How to preserve face colors while using it is  still the big unknown. 
     Screenshots in JCSG readme.md suggest that it should be possible.
-     
-* Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene.
-    * Performance is not a big issue right now, but it may become important if more complex geometry (e.g. polygonal windows) is generated.
-    * The tricky part is to determine what objects are related. 
-        * First of all we need to process OSM primitive hierarchy: if a node is moved, then a parent way is affected. if the way is affected, parent relation is also affected.
-        * Secondly, objects may be only spatially related. if a building part is moved outside of it's parent building, the latter may become visible.
-        * are any other cases? It would be very embarrassing to miss something here!
-    *  One more option is to update 3D view in a separate thread, thus not affecting editing experience. Proper update queue is required. 
-    
+	
+5. Improve performance/responsiveness of editing in large scenes.
+    * Implement **partial scene update** .If a primitive is changed, geometry of only related objects should be updated, not of the whole scene, as now. 
+        * Performance is not a big issue right now, but it may become important if more complex geometry (e.g. polygonal windows) is generated.
+        * The tricky part is to determine what objects are related. 
+			* First of all we need to process OSM primitive hierarchy: if a node is moved, then a parent way is affected. if the way is affected, parent relation is also affected.
+			* Secondly, objects may be only spatially related. if a building part is moved outside of it's parent building, the latter may become visible.
+			* are any other cases? It would be very embarrassing to miss something here!
+    *  **Update 3D view in a separate thread**, thus not affecting editing experience. Proper update queue is required. 
+	
+6. Improve rendering, implement **real ambient occlusion** and/or **support materials** (e.g. metal and glass).	
+	* **Real Ambient Occlusion.** 
+		* Current rendering engine is good enough for the editing plugin. 
+		* See [Plan for Screen-Space Ambient Occlusion (SSAO) Implementation](#plan-for-screen-space-ambient-occlusion-ssao-implementation) section below
+	* **Support of materials** (tags building:material  and roof:material). 
+		* Note: material does not affect color, it affects procedural texture and metalness. 
+		* Some more advanced shading is obviously required. 
+		
+7. Support `roof:shape=saltbox` as well as `roof:shape=double_saltbox`, `roof:shape=quadruple_saltbox` (#28)
+	* There is no consistent opinion about what this shape is.		
+
+Some other wishes:
+
+* Check whether `roof:shape` should be inherited from building. Both F4 and osm2world inherits both roof:shape and roof:height from parent building. Should we also do that? 
 * Explore further the integration with **Osm2World**. 
     * What is a best way to use it? Can it be an alternative rendering engine in the plugin (considering it's limitations)?
       Can it be a separate (manually updatable) window? 
-
-#### Could 
-
-* **More efficient check** for building/building part belongings based on r-tree.
-    * Same as above
-* **Real Ambient Occlusion.** 
-	* Current rendering engine is good enough for the editing plugin. 
-    * See [Plan for Screen-Space Ambient Occlusion (SSAO) Implementation](#plan-for-screen-space-ambient-occlusion-ssao-implementation) section below
-* **Support of materials** (tags building:material  and roof:material). 
-	* Note: material does not affect color, it affects procedural texture and metalness. 
-    * Some more advanced shading is obviously required. 
-    
-* Implement `zakomar` roof somehow. 
-    * It was implemented in Blosm, but that implementation is not suitable for us (not watertight). Probably boolean operation should be tried.
-* Implement  `sawtooth`, `gabled_row` roofs. They say that F4 Map supports them.  
-* Implement `butterfly`  roof. Note that the first attempt to implement it failed. Just a new profile is not enough. Some significan changes are required in MesherLinerProfile to support such 'inverse' geometry.
-* Support of `roof:ridge=yes` as described in [ProposedRoofLines](https://wiki.openstreetmap.org/wiki/ProposedRoofLines)
+	  
 * Support [windows](https://wiki.openstreetmap.org/wiki/Key:window).
     * Since this feature is present in osm2world, we also want that.
+	
+* Implement other roof shapes:
+	* Implement `zakomar` roof somehow. 
+		* It was implemented in Blosm, but that implementation is not suitable for us (not watertight). Probably boolean operation should be tried.
+	* Implement  `sawtooth`, `gabled_row` roofs. They say that F4 Map supports them.  
+	* Implement `butterfly`  roof. Note that the first attempt to implement it failed. Just a new profile is not enough. Some significant changes are required in MesherLinerProfile to support such 'inverse' geometry.
+
+
+To be prioritized via MoSCoW method.
+
+#### Must 
+#### Should
+#### Could 
+
+    
+
+
 	
 #### Would [Not]
 * **New Icons**
 	* Current icon is simple, but it does the job
 	* We need to ask an artist to draw more interesting icons. Requirements: svg format, size 48x48px
-* Render other objects, not only buildings. 
-    * Seems to be a topic for osm2world integration. 
+	
+* Support of `roof:ridge=yes` as described in [ProposedRoofLines](https://wiki.openstreetmap.org/wiki/ProposedRoofLines)	
+	* seems it is not really feasible with existing mesher structure.
 
 
 ## Recent Accomplishments
-### October 25, 2025
-* Added a keyboard shortcut (`Ctrl+Shift+N`) to reset the camera view to the default North-facing orientation.
-
-### October 14, 2025
-
-* Added menu item and keyboard shortcut to open current view in F4
 
 
 ### Earlier
@@ -205,40 +217,10 @@ To add a test for a new shape (e.g., `hipped`):
     *   A failure in `assertNormalsOutward` indicates an incorrect vertex winding order for a face.
 4.  **Succeed:** Continue refining the implementation until all tests pass.
 
-## Plan for roof:shape implementation
-
-### Overview
-
-The `roof:shape` tag in OpenStreetMap is used to describe the shape of a building's roof. This plan outlines the steps to implement support for this tag in the 3D viewer plugin.
-
-See taginfo for known values of `roof:shape` tag:
-* https://taginfo.openstreetmap.org/keys/roof%3Ashape#values
-* https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table
-
-Already supported:
-* 'flat'
-* 'pyramidal' (synonym 'cone')
-* 'dome'
-* 'onion'
-* 'half-dome'
-* 'skillion'
-* 'gabled'  
-* 'hipped'
-* 'round' 
-* 'gambrel' 
-* 'saltbox' -  There is no cosistent opionion about what this shape is.
-* 'mansard' - for quadrilateral polygons.
-* 'half-hipped' - for quadrilateral polygons.
-* 'cross_gabled' - for quadrilateral polygons. (synonym - crosspitched)
-* 'side_hipped' (for quadrangular bases only!)
-* 'apse_gabled' 
 
 
-Yet to be implemented:
 
-* 'zakomar' -- no good implementation in in blosm (does not form watertight mesh)
-
-### Alternative algorithm for creation of roof shapes
+## Alternative algorithm for creation of roof shapes
 
 There is quite complex algorithm to create gabled roofs for n-gons in blosm, but it handles only rectangular-like buildings .
 A rectangular-like  means that the building is basically quadrangular(just with more verticies in contour), and the deviations from a quadrangle, although there are, are insignificant.
@@ -253,16 +235,6 @@ If we knew how to do Boolean operations on meshes, the algorithm would become tr
 3) find the INTERSECTION between the roof volume and the mass model of the building.
 4) find the UNION between the resulting volume and the lower part of the building.
 5) that's it!
-
-
-### Reference implementation of roof:shapes
-
-Reference implementation from patched blosm blender addon should be reused whenewer possible, see:
-
-* ..\ext_sources\blosm_source\building\renderer.py
-* ..\ext_sources\blosm_source\building\roof\__init__.py
-* ..\ext_sources\blosm_source\building\roof\zakomar.py
-* ..\ext_sources\blosm_source\building\roof\profile.py
 
 
 
