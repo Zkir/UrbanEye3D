@@ -313,6 +313,15 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             aoFactor = (1-AO_STRENGTH) + AO_STRENGTH * (float)(vertexHeight / totalHeight);
         }
 
+        if (aoFactor<0) {
+            aoFactor=0;
+            //TODO: this can happen when building height/min_height is not calculated properly. solution: use actual values from mesh.
+        }
+
+        if (aoFactor>1) {
+            aoFactor=1;
+        }
+
         Color finalColor = new Color(
                 (int)(baseColor.getRed() * aoFactor),
                 (int)(baseColor.getGreen() * aoFactor),

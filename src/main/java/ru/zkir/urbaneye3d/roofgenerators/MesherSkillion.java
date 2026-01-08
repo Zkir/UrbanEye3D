@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
+
 public class MesherSkillion extends RoofGenerator {
 
     private final GLU glu = new GLU();
@@ -225,6 +227,13 @@ public class MesherSkillion extends RoofGenerator {
             tessellateContours(tessBottom, contours, contourBaseVertexStartIndices, verts, true);
             glu.gluTessEndPolygon(tessBottom);
             glu.gluDeleteTess(tessBottom);
+        }
+
+        if ("roof".equals(building.buildingPart)) {
+            // Extract only the roof faces into a new clean mesh
+            Mesh roofShell = Mesh.extractFaces(mesh, mesh.roofFaces);
+            // Extrude the isolated roof shell
+            return roofShell.extrude(DEFAULT_ROOF_THICKNESS);
         }
 
         return mesh;

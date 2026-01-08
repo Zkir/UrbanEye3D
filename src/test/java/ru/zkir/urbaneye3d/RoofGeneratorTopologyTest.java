@@ -15,6 +15,7 @@ import java.io.IOException;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
 
 class RoofGeneratorTopologyTest {
 
@@ -64,7 +65,7 @@ class RoofGeneratorTopologyTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
         return new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  height, minHeight, roofHeight,
-                "", "", roofShape.toString(), "", "",null );
+                "", "", roofShape.toString(), "", "", null, null );
     }
 
     private static void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
@@ -301,7 +302,7 @@ class RoofGeneratorTopologyTest {
         Contour contour = new Contour(basePoints);
 
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 4,
-                "", "", RoofShapes.GABLED.toString(), "", "across", null );
+                "", "", RoofShapes.GABLED.toString(), "", "across", null, null );
 
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.GABLED.toString());
@@ -314,7 +315,7 @@ class RoofGeneratorTopologyTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.HIPPED.toString(), "", "across", null );
+                "", "", RoofShapes.HIPPED.toString(), "", "across", null, null );
 
         Mesh mesh = RoofShapes.HIPPED.getMesher().generate(test_building);
 
@@ -329,7 +330,7 @@ class RoofGeneratorTopologyTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints);
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.SKILLION.toString(), "45", "", null);
+                "", "", RoofShapes.SKILLION.toString(), "45", "", null, null);
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
 
@@ -341,7 +342,7 @@ class RoofGeneratorTopologyTest {
         Contour contour = createRectangularBaseWithHole(10, 10, 2, 2);
         LatLon origin = new LatLon(55,37);
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 3,
-                "", "", RoofShapes.FLAT.toString(), "", "", null );
+                "", "", RoofShapes.FLAT.toString(), "", "", null, null );
 
         Mesh mesh = RoofShapes.FLAT.getMesher().generate(test_building);
 
@@ -354,7 +355,7 @@ class RoofGeneratorTopologyTest {
         Contour contour = createRectangularBaseWithHole(12, 12, 4, 4);
         LatLon origin = new LatLon(55, 37);
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, 10, 0, 5,
-                "", "", RoofShapes.SKILLION.toString(), "30", "", null);
+                "", "", RoofShapes.SKILLION.toString(), "30", "", null, null);
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
@@ -369,7 +370,7 @@ class RoofGeneratorTopologyTest {
         Contour contour = new Contour(basePoints);
         // Note: buildingPart is "steps"
         RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.STEPS.toString(), "40", "", 0.2 );
+                "", "", RoofShapes.STEPS.toString(), "40", "", "steps", 0.2 );
 
         Mesh mesh = RoofShapes.STEPS.getMesher().generate(test_building);
 
@@ -378,4 +379,56 @@ class RoofGeneratorTopologyTest {
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, "STEPS");
     }
 
+    @Test
+    void testBuildingPartRoofExtrusion() {
+        ArrayList<Point2D> base = createRectangularBase(25, 10);
+        RoofShapes roofShape = RoofShapes.GABLED; // A linear profile shape
+        double minHeight = 10;
+        double height = 40;
+        double roofHeight = 15;
+
+        // Create a RenderableBuildingElement with buildingPart="roof"
+        LatLon origin = new LatLon(55, 37);
+        Contour contour = new Contour(base);
+        RenderableBuildingElement testBuilding = new RenderableBuildingElement(
+            new SimplePrimitiveId(-1, OsmPrimitiveType.WAY),
+            origin, contour, height, minHeight, roofHeight,
+            "", "", roofShape.toString(), "", "", "roof", null
+        );
+
+        // Generate the mesh
+        Mesh mesh = roofShape.getMesher().generate(testBuilding);
+
+        // The roof shell is generated relative to wallHeight (height - roofHeight).
+        // The extrusion is 0.5 units down from there.
+        double expectedMinZ = height - roofHeight - DEFAULT_ROOF_THICKNESS;
+
+        // Perform topology checks with the adjusted expected minimum height.
+
+        AssertMeshTopology(mesh, expectedMinZ, testBuilding.height, roofShape.toString()  + " + building:part=roof");
+    }
+
+    @Test
+    void testSkillionBuildingPartRoof() {
+        ArrayList<Point2D> base = createRectangularBase(20, 12);
+        RoofShapes roofShape = RoofShapes.SKILLION;
+        double minHeight = 5;
+        double height = 15;
+        double roofHeight = 4;
+
+        LatLon origin = new LatLon(55, 37);
+        Contour contour = new Contour(base);
+        RenderableBuildingElement testBuilding = new RenderableBuildingElement(
+                new SimplePrimitiveId(-1, OsmPrimitiveType.WAY),
+                origin, contour, height, minHeight, roofHeight,
+                "", "", roofShape.toString(), "90", "", "roof", null
+        );
+
+        Mesh mesh = roofShape.getMesher().generate(testBuilding);
+
+        double expectedMinZ = height - roofHeight - DEFAULT_ROOF_THICKNESS;
+
+        AssertMeshTopology(mesh, expectedMinZ, testBuilding.height, roofShape.toString()  + " + building:part=roof");
+
+    }
 }

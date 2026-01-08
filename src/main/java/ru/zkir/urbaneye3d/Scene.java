@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
+
 public class Scene {
     //default values
     final double DEFAULT_LEVELS_NUMBER=2;
@@ -220,7 +222,7 @@ public class Scene {
             //TODO: for gabled and profiled building:part=roof requires completely different mesher:
             //walls and bottom are not created, but roof polygons are extruded downwards slightly!
             if (primitive.get(source_key).equals("roof")){
-                minHeight = height - roofHeight;
+                minHeight = height - roofHeight - DEFAULT_ROOF_THICKNESS;
             }
 
             if (partParents.containsValue(primitive)){
@@ -257,13 +259,13 @@ public class Scene {
                             Contour partContour = new Contour(outerRing);
                             partContour.toLocalCoords(primitiveOrigin); //TODO: recalculate origin
                             partContour.removeRedundantNodes();
-                            renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, partContour, height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation, stepHeight));
+                            renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, partContour, height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation, primitive.get(source_key), stepHeight));
                         }
                     } else {
                         // Single outer ring, or multiple outer rings with inner rings, or a Way
                         mainContour.toLocalCoords(primitiveOrigin);
                         mainContour.removeRedundantNodes();
-                        renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, mainContour, height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation, stepHeight));
+                        renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), primitiveOrigin, mainContour, height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation, primitive.get(source_key), stepHeight));
                     }
                 }
             }
@@ -328,7 +330,7 @@ public class Scene {
 
                 if (contour != null && !contour.outerRings.isEmpty()) {
                     contour.removeRedundantNodes();
-                    renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), origin, contour, height, minHeight, 0, color, color, "flat", "", "", null));
+                    renderableElements.add(new RenderableBuildingElement(primitive.getPrimitiveId(), origin, contour, height, minHeight, 0, color, color, "flat", "", "", null, null));
                 }
             }
         }
