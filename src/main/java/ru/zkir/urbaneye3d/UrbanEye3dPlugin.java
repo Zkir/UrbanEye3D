@@ -16,6 +16,7 @@ public class UrbanEye3dPlugin extends Plugin {
 
     private static DialogWindow3D dialog;
     private static boolean f4mapMenuInitialized = false;
+    public static double DEFAULT_ROOF_THICKNESS = 0.25;
 
     public UrbanEye3dPlugin(PluginInformation info) {
         super(info);

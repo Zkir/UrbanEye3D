@@ -26,7 +26,8 @@ public class RenderableBuildingElement {
     public final @NotNull Color bottomColor;
     public final RoofShapes roofShape;
     public final Double roofDirection;
-    public final @NotNull String roofOrientation;
+    public final String roofOrientation;
+    public final String buildingPart;
     private final Contour contour;
     public final LatLon origin;
     public final double stepHeight;
@@ -34,7 +35,7 @@ public class RenderableBuildingElement {
 
     final double DEFAULT_STEP_HEIGHT = 0.16;
 
-    public RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation, Double stepHeight) {
+    public RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation, String buildingPart, Double stepHeight) {
         this.primitiveId = primitiveId;
         if (contour==null){
             throw new RuntimeException("contour must be specified");
@@ -75,6 +76,7 @@ public class RenderableBuildingElement {
             roofOrientation="";
         }
         this.roofOrientation = roofOrientation;
+        this.buildingPart = buildingPart;
 
         this.roofHeight = roofHeight;
         this.wallHeight = height - roofHeight;

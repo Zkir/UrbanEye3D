@@ -12,30 +12,24 @@
 *  TG, none.
 
 ### Ideas for the Further Development
-_In no particular order currently_
 
-1. Support `building:part=roof`. It is supported by the F4 and seems that it's usefull. 
-    * It requires new meshers however. 
+In order [voted](https://community.openstreetmap.org/t/urban-eye-3d-josm-3d-viewer-plugin/133674/240) by the community.
+
+1. Support the [base:shape proposal](https://community.openstreetmap.org/t/rfc-feature-proposal-3d-tagging-for-building-base-shapes) (#35)
 	
 2. Add more objects, e.g. roads, rivers, street lights (probably via osm2world code). (#4)
-
-3. Support the [base:shape proposal](https://community.openstreetmap.org/t/rfc-feature-proposal-3d-tagging-for-building-base-shapes) (#35)
-
-4. Implement rendering of building passages (`tunnel=building_passage`).  #6
-    * Definitely, this requires support of boolean operations with meshes: "difference". for this purpose we have JCSG library (https://github.com/Zkir/JCSG)
-and even example of this library usage: JCSG_test (no repository for it yet). How to preserve face colors while using it is  still the big unknown. 
-    Screenshots in JCSG readme.md suggest that it should be possible.
 	
-5. Improve performance/responsiveness of editing in large scenes.
-    * Implement **partial scene update** .If a primitive is changed, geometry of only related objects should be updated, not of the whole scene, as now. 
+3. Improve performance/responsiveness of editing in large scenes.
+    * Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene, as now. 
         * Performance is not a big issue right now, but it may become important if more complex geometry (e.g. polygonal windows) is generated.
         * The tricky part is to determine what objects are related. 
 			* First of all we need to process OSM primitive hierarchy: if a node is moved, then a parent way is affected. if the way is affected, parent relation is also affected.
 			* Secondly, objects may be only spatially related. if a building part is moved outside of it's parent building, the latter may become visible.
 			* are any other cases? It would be very embarrassing to miss something here!
+			
     *  **Update 3D view in a separate thread**, thus not affecting editing experience. Proper update queue is required. 
 	
-6. Improve rendering, implement **real ambient occlusion** and/or **support materials** (e.g. metal and glass).	
+4. Improve rendering, implement **real ambient occlusion** and/or **support materials** (e.g. metal and glass).	
 	* **Real Ambient Occlusion.** 
 		* Current rendering engine is good enough for the editing plugin. 
 		* See [Plan for Screen-Space Ambient Occlusion (SSAO) Implementation](#plan-for-screen-space-ambient-occlusion-ssao-implementation) section below
@@ -43,8 +37,14 @@ and even example of this library usage: JCSG_test (no repository for it yet). Ho
 		* Note: material does not affect color, it affects procedural texture and metalness. 
 		* Some more advanced shading is obviously required. 
 		
-7. Support `roof:shape=saltbox` as well as `roof:shape=double_saltbox`, `roof:shape=quadruple_saltbox` (#28)
+5. Support `roof:shape=saltbox` as well as `roof:shape=double_saltbox`, `roof:shape=quadruple_saltbox` (#28)
 	* There is no consistent opinion about what this shape is.		
+	
+6. Implement rendering of building passages (`tunnel=building_passage`).  #6
+    * Definitely, this requires support of boolean operations with meshes: "difference". for this purpose we have JCSG library (https://github.com/Zkir/JCSG)
+and even example of this library usage: JCSG_test (no repository for it yet). How to preserve face colors while using it is  still the big unknown. 
+    Screenshots in JCSG readme.md suggest that it should be possible.
+	
 
 Some other wishes:
 
@@ -69,9 +69,6 @@ To be prioritized via MoSCoW method.
 #### Should
 #### Could 
 
-    
-
-
 	
 #### Would [Not]
 * **New Icons**
@@ -84,6 +81,10 @@ To be prioritized via MoSCoW method.
 
 ## Recent Accomplishments
 
+### Jan 09, 2025
+
+*   **`building:part=roof` support:**  Buildings/building parts with `building:part=roof` and `roof:shape` = `gabled`, `round`, `gambrel` , `saltbox` and `skillion` are rendered in the same way as F4 map does it: side walls are not generated. 
+    However, such parts still remain solid bodies: the logic generates a full building mesh, then cleanly extracts only the roof faces into a new mesh, which is then "extruded" downwards to create a thin but complete solid body. 
 
 ### Earlier
 
@@ -95,6 +96,9 @@ See the [Devblog](DEVBLOG.md) page.
 *   **Normal Vector Validation:** Validating that normals face "outward" is complex for non-convex shapes (like buildings with courtyards or complex roofs like an onion dome). A naive check against the geometric center of the mesh will fail. The robust approach is a two-step process:
     1.  **Consistency Check:** Ensure the entire mesh has a consistent winding order. This can be verified by checking that for every edge, the two adjacent faces traverse the edge in opposite directions.
     2.  **Orientation Anchor:** After consistency is confirmed, check the absolute orientation of a single "anchor" face. A bottom face is ideal, as its normal should always point downwards (negative Z). If the anchor is correct and the mesh is consistent, the entire model is correctly oriented.
+*   **Mesh Manipulation:** The `Mesh.java` class contains key helper methods for creating complex geometry:
+    *   `Mesh.extractFaces(sourceMesh, faces)`: A static utility method to create a new, clean `Mesh` containing only a specific subset of faces from a source mesh. It handles the re-indexing of vertices, ensuring the new mesh is self-contained.
+    *   `mesh.extrude(depth)`: An instance method that creates a solid body from a 2D mesh shell (like a roof). It generates side walls and a bottom by extruding the boundary edges downwards. Correct vertex winding order is crucial for this operation to produce a watertight mesh.
 *   **Plugin Entry Point:** `UrbanEye3dPlugin.java` is the main entry point, responsible for initializing the 3D dialog window (`DialogWindow3D.java`).
 *   **3D Scene Management:** `DialogWindow3D.java` creates and manages the `Renderer3D` canvas and handles user input for navigation (orbit, pan, zoom).
 *   **Rendering:** `Renderer3D.java` is the core of the visualization. It uses JOGL (OpenGL for Java) to render the `Scene`. It manages the camera, lighting, and the main rendering loop. It also handles the switch between solid and wireframe modes.

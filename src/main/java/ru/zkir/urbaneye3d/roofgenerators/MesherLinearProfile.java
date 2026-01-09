@@ -9,6 +9,8 @@ import ru.zkir.urbaneye3d.utils.*;
 
 import java.util.*;
 
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
+
 public class MesherLinearProfile extends RoofGenerator {
     private final LinearProfiles profile_data;
 
@@ -21,14 +23,24 @@ public class MesherLinearProfile extends RoofGenerator {
     }
 
     /**
-    * main method to be called
+    * main method to be called to generate mesh, regardless of base shape
     */
     public Mesh generate(RenderableBuildingElement building){
+        Mesh fullMesh;
         if (building.getContour().size() == 4) {
-            return generateR(building);
-        }else{
-            return generateQR(building);
+            fullMesh = generateR(building);
+        } else {
+            fullMesh = generateQR(building);
         }
+
+        if (fullMesh != null && "roof".equals(building.buildingPart)) {
+            // Extract only the roof faces into a new clean mesh
+            Mesh roofShell = Mesh.extractFaces(fullMesh, fullMesh.roofFaces);
+            // Extrude the isolated roof shell
+            return roofShell.extrude(DEFAULT_ROOF_THICKNESS);
+        }
+
+        return fullMesh;
     }
 
     /**
