@@ -240,9 +240,6 @@ public class MesherSkillion extends RoofGenerator {
     }
 
 
-
-
-
     private int findClosestVertexIndex(List<Point3D> vertices, Point3D target, int start, int count) {
         int bestIdx = -1;
         double minDst = Double.MAX_VALUE;
