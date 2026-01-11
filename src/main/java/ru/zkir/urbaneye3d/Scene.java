@@ -216,11 +216,9 @@ public class Scene {
 
             buildingHeights.put(primitive, height);
 
-            // this is a dirty hack.
-            // since we do not have proper support for building:part=roof,
-            // we just set zero height for walls. It's better than nothing obviously.
-            //TODO: for gabled and profiled building:part=roof requires completely different mesher:
-            //walls and bottom are not created, but roof polygons are extruded downwards slightly!
+            // we have the proper support for building:part=roof now,
+            // in such case walls and bottom are extruded downwards, for certain roof shapes
+            //TODO: encapsulate logic of minHeight adjustment into RenderableBuildingElement() constructor
             if (primitive.get(source_key).equals("roof")){
                 minHeight = height - roofHeight - DEFAULT_ROOF_THICKNESS;
             }

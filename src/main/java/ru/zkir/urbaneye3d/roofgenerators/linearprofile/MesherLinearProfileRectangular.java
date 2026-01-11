@@ -29,10 +29,7 @@ public class MesherLinearProfileRectangular  { //extends RoofGenerator
            return  null;
         }
 
-        boolean nowalls=false;
-        if (wallHeight <= minHeight){
-            nowalls=true; //TODO: it's not really OSM nowalls=true. it's just degenerate walls!!!
-        }
+        boolean nowalls = (wallHeight <= minHeight); //Note that it's rather just degenerate walls. Triangle wall faces may still be generated
 
         // 1. Рассчитать длины сторон
         double[] sideLengths = new double[4];
