@@ -17,6 +17,9 @@ Create a JOSM plugin that displays loaded buildings (including `building:part=*`
 
 ## Recent Accomplishments 
 
+### January 18, 2026
+* Implemented F2 hotkey to switch between rendering engines (Urban Eye and Osm2World).
+
 ### August 2, 2025
 * Start of the new idea: integration with osm2world
 * New parameter add: Rendering engine

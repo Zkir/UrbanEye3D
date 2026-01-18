@@ -16,6 +16,7 @@ import org.openstreetmap.josm.gui.layer.MainLayerManager;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.gui.NavigatableComponent;
 import ru.zkir.urbaneye3d.josmactions.ResetCameraAction;
+import ru.zkir.urbaneye3d.josmactions.SwitchRenderEngineAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
 
@@ -45,6 +46,7 @@ public class DialogWindow3D extends ToggleDialog
         new ToggleWireframeAction(renderer3D);
         new ToggleFakeAOAction(renderer3D);
         new ResetCameraAction(renderer3D);
+        new SwitchRenderEngineAction(this);
 
         renderer3D.addMouseListener(new MouseAdapter() {
             @Override
