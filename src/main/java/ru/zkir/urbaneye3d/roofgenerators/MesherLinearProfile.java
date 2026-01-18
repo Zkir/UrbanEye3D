@@ -33,7 +33,7 @@ public class MesherLinearProfile extends RoofGenerator {
             fullMesh = generateQR(building);
         }
 
-        if (fullMesh != null && "roof".equals(building.buildingPart)) {
+        if (fullMesh != null && building.noWalls) {
             // Extract only the roof faces into a new clean mesh
             Mesh roofShell = Mesh.extractFaces(fullMesh, fullMesh.roofFaces);
             // Extrude the isolated roof shell

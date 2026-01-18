@@ -11,12 +11,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVELS_NUMBER;
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
 
 public class Scene {
     //default values
-    final double DEFAULT_LEVELS_NUMBER=2;
-    final double DEFAULT_LEVEL_HEIGHT=3;
+
     final boolean INHERIT_HEIGHT_FROM_PARENT=false;
     //the list of elements that should be rendered.
     //renderable element can be either a building or a building part.
@@ -219,6 +220,9 @@ public class Scene {
             // we have the proper support for building:part=roof now,
             // in such case walls and bottom are extruded downwards, for certain roof shapes
             //TODO: encapsulate logic of minHeight adjustment into RenderableBuildingElement() constructor
+            //TODO: should be coherent with .noWalls flag
+            //TODO: tag wall=no should be also checked
+            //TODO: this should be applied for parts only, not for buildings, because there are no flying buildings on earth.  
             if (primitive.get(source_key).equals("roof")){
                 minHeight = height - roofHeight - DEFAULT_ROOF_THICKNESS;
             }

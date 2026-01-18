@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openstreetmap.josm.data.osm.PrimitiveId;
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_STEP_HEIGHT;
 
 public class RenderableBuildingElement {
 
@@ -27,13 +28,13 @@ public class RenderableBuildingElement {
     public final RoofShapes roofShape;
     public final Double roofDirection;
     public final String roofOrientation;
-    public final String buildingPart;
+    private final String buildingPart;
+    public final boolean noWalls;
     private final Contour contour;
     public final LatLon origin;
     public final double stepHeight;
     private Mesh mesh;
 
-    final double DEFAULT_STEP_HEIGHT = 0.16;
 
     public RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation, String buildingPart, Double stepHeight) {
         this.primitiveId = primitiveId;
@@ -85,13 +86,13 @@ public class RenderableBuildingElement {
         this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
         this.bottomColor = this.color.darker().darker(); //Fake AO LOL!
 
-
-
         if (stepHeight==null || stepHeight==0){
             this.stepHeight = DEFAULT_STEP_HEIGHT;
         }else{
             this.stepHeight = stepHeight;
         }
+
+        noWalls = "roof".equals(this.buildingPart);
 
         //since we have all the data, we can compose building mesh right in constructor.
         composeMesh();
