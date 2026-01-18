@@ -1,8 +1,80 @@
-# Recent Accomplishments
+# Development History
 
-# Version 1.0.0
+## Version 1.6.1 (December 06, 2025)
+* Crash fixed: validator no longer fails on self-intersecting ways.
 
-### July 29, 2025
+## Version 1.6.0 (October 25, 2025) 
+* Added a keyboard shortcut (`Ctrl+Shift+N`) to reset the camera view to the default North-facing orientation.
+* Added menu item and keyboard shortcut to open current view in F4
+
+## Version 1.5.2 (October 11, 2025)
+* Crash fixed: validator no longer fails on self-crossing ways.
+
+## Version 1.5.1 (October 10, 2025)
+* Implemented a "Fix" button for the `Missing tag: roof:shape=skillion without 'roof:direction'` validation error. The fix automatically calculates and applies a default direction based on the building's geometry.
+* Support for min_height and default colour/materilas for barriers has been added.
+* Underground buildings (with location=underground or layer<0) excluded from the rendering. 
+
+## Version 1.5.0 ( September 27, 2025)
+* Implemented a new validator that warns for case skillion and side_hipped roofs without roof:direction.
+* Implemented a new validator that checks for roof:direction and roof:orientation valid values.
+* Implemented rendering of `barrier=*` tags, including `barrier=wall`, `barrier=hedge`, `barrier=fence`, and `barrier=city_wall`. This includes using the JTS buffer operation to create 3D meshes from linear OSM ways.
+* Implemented a new validator that compares the height of a building with the maximum height of its parts and warns if the difference is more than 10%.
+* Implemented a new validator for buildings and building parts, that checks for height and coverage.
+
+
+## Version 1.4.1 (September 15, 2025)
+* **Bugfix**:  3D window is updated when the _collapsed_ docked window is undocked.
+
+## Version 1.4.0 (September 2, 2025)
+* Possibility to toggle "fake" Ambient Occlusion off and on.
+* New parameter in Preferences UI to control Ambien Occlusion mode.
+* Infer building:colour and roof:colour from materials, if specified.
+* Support for roof:shape=side_hipped (for quadrangular bases only!)
+* Support for `roof:shape=apse_gabled` added.
+* Added support for `roof:shape=crosspitched` as a synonym for `cross_gabled`.
+
+
+## Version 1.3.1 (August 28, 2025)
+* Support for `roof:shape=equal_hipped` as a synonym for `roof:shape=hipped`
+* The tag `roof:levels=0` defaults rather for 'half a level' for non-flat roofs. ([gh #22](https://github.com/Zkir/UrbanEye3D/issues/22))
+* Version updated to 1.3.1
+
+## Version 1.3.0 (August 27, 2025)
+* Small "preferences" button added to the panel header ([gh #13](https://github.com/Zkir/UrbanEye3D/issues/13))
+* Bug with roof:levels=0 fixed ([gh #22](https://github.com/Zkir/UrbanEye3D/issues/22))
+* Inheritance of height from building to parts turned off, buildings and parts are now processed uniformly. ([gh #14](https://github.com/Zkir/UrbanEye3D/issues/14))
+* Support of `building:part=steps` for non-convex bases.   
+* More or less proper implementation of `building:part=steps` for quadrangular bases.
+* Implemented support for `roof:shape=hipped` on buildings with complex (non-rectangular) footprints using the `campskeleton` library (based on Straight Skeleton algorithm).
+* More traditional folder structure for resources
+* Minimize button in the 3D panel fixed.
+* Performance optimization: when the 3D window is closed or minimized, there is no need to update data.
+
+## Version 1.2.0 (August 13, 2025)
+* Support of roof:shape=cone added, as the synonym to pyramidal ([#15](https://github.com/Zkir/UrbanEye3D/issues/15))
+* Support of arbitrary (quasi-quadrangle) bases for Linear Profile roofs: gabled, gambrel, round and saltbox. (completed)
+* More proper algorithm for building outline simplification (related to [github issue #12](https://github.com/Zkir/UrbanEye3D/issues/12))
+* More proper spatial containment check for multipolygons with holes (related to [github issue #12](https://github.com/Zkir/UrbanEye3D/issues/12))
+* primitiveId  added to RenderableBuildingElement
+* Serious autotest fix: more accurate normals check, which work properly even for non-convex meshes.
+* Small refactorings
+* [pythonic script](collect_tags.py) to collect actually used tags has been created. taginfo.json has been submited to taginfo projects.
+* Support of skillion roof for multipolygons with holes.
+
+## Version 1.1.0 (August 7, 2025)
+
+* Building part now inherits height from parent building as a default value. Also it solves the problem with disappearing buildings (see gh. issue [#1](https://github.com/Zkir/UrbanEye3D/issues/1))
+* In case  height<min_height, height is set to min_height, to avoid upside-down buildings.
+* Support of missed tags `roof:levels` and `building:min_level`. Related to [issue #5](https://github.com/Zkir/UrbanEye3D/issues/5) and [issue #1](https://github.com/Zkir/UrbanEye3D/issues/1)
+* Refactoring: `Contour` class is now located in the `utils` package
+* Autotest for Scene.updateData() -- proved to be very usefull
+* Tags related to color and material (`building:colour`, `building:material`, `roof:colour`, `roof:material`) are inherited from building to parts. This improves colors significantly.
+* Check whether building part belongs to a building imporved. Actual contour is tested, not only bbox.
+* [enh] Support of **roof:shape=cross_gabled:** New mesher implemented.
+* [bugfix] Handling of defaults for height improved.
+
+## Version 1.0.0 (July 29, 2025)
 * Name has been decided: we will go with **"Urban Eye 3D"**
 * License has been decided: **GNU GPL v3**
 * Both buildings and building parts are rendered. The most simple algorithm is used to decide what to display is used: comparison by bbox.
@@ -75,4 +147,4 @@ right mouse button, it changes to crossed arrows (expressing the movement of the
     *   Removed the redundant, manually-created "Windows" menu item, relying on JOSM's native handling for toggle dialogs. This also fixed a startup crash when no data was loaded.
 
 ###  July 21, 2025
-* **Start of the project** : plugin is working and building parts are rendered  as extruded bodies via OpenGL (JOGL library) 
+* **Start of the project** : plugin is working and building parts are rendered as extruded bodies via OpenGL (JOGL library) 

@@ -73,7 +73,7 @@ public class MesherConicProfile extends RoofGenerator{
         List<Point2D> profile;
         if ((roofShape==RoofShapes.DOME) || (roofShape == RoofShapes.HALF_DOME)) {
             profile = domeProfile(7);
-        } else if (roofShape == RoofShapes.PYRAMIDAL){
+        } else if (roofShape == RoofShapes.PYRAMIDAL || roofShape == RoofShapes.APSE_GABLED){
             profile = pyramidalProfile();
         } else if (roofShape == RoofShapes.ONION) {
             profile = onionProfile();
@@ -86,7 +86,7 @@ public class MesherConicProfile extends RoofGenerator{
         double z2 = height;
 
         Point3D center;
-        if (roofShape== RoofShapes.HALF_DOME) {
+        if (roofShape== RoofShapes.HALF_DOME || roofShape == RoofShapes.APSE_GABLED ) {
             center = calculateMidpointOfLongestEdge(basePoints);
         } else {
             center = calculateCentroid(basePoints);

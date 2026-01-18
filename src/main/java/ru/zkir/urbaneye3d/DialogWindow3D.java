@@ -15,8 +15,10 @@ import org.openstreetmap.josm.gui.layer.LayerManager;
 import org.openstreetmap.josm.gui.layer.MainLayerManager;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.gui.NavigatableComponent;
+import ru.zkir.urbaneye3d.josmactions.ResetCameraAction;
+import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
+import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
 
-import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -28,14 +30,21 @@ public class DialogWindow3D extends ToggleDialog
     private final Renderer3D renderer3D;
     private final Scene scene3d = new Scene();
     private OsmDataLayer listenedLayer;
+    private Boolean updatableState = null;
+
+    public Renderer3D getRenderer3D() {
+        return renderer3D;
+    }
 
     public DialogWindow3D(UrbanEye3dPlugin plugin) {
-        super("Urban Eye 3D", "urbaneye3d", "Urban Eye 3D", null, 150, true); //path for the icon is not required, JOSM picks it up by  automatically.
+        super("Urban Eye 3D", "urbaneye3d", "Urban Eye 3D", null, 250, true, UrbanEye3dPreferences.class); //path for the icon is not required, JOSM picks it up by  automatically.
         renderer3D = new Renderer3D(scene3d);
-        add(renderer3D, BorderLayout.CENTER);
+        createLayout(renderer3D, false, null);
 
         // Register the action so the shortcut works, but don't create a menu item
         new ToggleWireframeAction(renderer3D);
+        new ToggleFakeAOAction(renderer3D);
+        new ResetCameraAction(renderer3D);
 
         renderer3D.addMouseListener(new MouseAdapter() {
             @Override
@@ -60,9 +69,14 @@ public class DialogWindow3D extends ToggleDialog
         MainApplication.getLayerManager().addLayerChangeListener(this);
         MainApplication.getLayerManager().addActiveLayerChangeListener(this);
 
-
         updateListenedLayer();
         updateData();
+
+    }
+
+    @Override
+    public String helpTopic() {
+        return "/Plugin/UrbanEye3D";
     }
 
     @Override
@@ -86,13 +100,40 @@ public class DialogWindow3D extends ToggleDialog
     }
 
 
+    /**
+     * This function is called when the window is:
+     * Turned on / turned off, via menu
+     * Collapsed / expanded
+     * Docked / undocked
+     */
+    @Override
+    public void stateChanged(){
+        // we need to track when our window becomes visible.
+        // when it becomes visible, data is updated.
+        if (this.updatableState == null || this.updatableState != this.isUpdateRequired()){
+            updateData();
+            this.updatableState = this.isUpdateRequired();
+        }
+    }
+
+
     public void updateData() {
+
+        if (!this.isUpdateRequired() ){
+            //it seems that if 3d window is minimized or closed this is not necessary to update data.
+            return;
+        }
+
         if (listenedLayer != null) {
             scene3d.updateData(listenedLayer.getDataSet());
         } else {
             scene3d.updateData(null);
         }
         renderer3D.repaint();
+    }
+
+    private boolean isUpdateRequired() {
+        return (!this.isCollapsed || !this.isDocked) && this.isVisible();
     }
 
 

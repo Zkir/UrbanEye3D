@@ -5,9 +5,20 @@ import java.util.Objects;
 public class Point3D {
     public double x, y, z;
 
-   public Point3D(double x, double y, double z) {
+    public Point3D(double x, double y, double z) {
         this.x = x;
         this.y = y;
+        this.z = z;
+    }
+
+    public Point3D(Point2D p2d) {
+        this.x = p2d.x;
+        this.y = p2d.y;
+        this.z = 0;
+    }
+    public Point3D(Point2D p2d, double z) {
+        this.x = p2d.x;
+        this.y = p2d.y;
         this.z = z;
     }
 
@@ -74,4 +85,8 @@ public class Point3D {
         return Objects.hash(x, y, z);
     }
 
+    @Override
+    public String toString() {
+        return "Vector(("+ x + ", " + y + ", " + z + "))";
+    }
 }

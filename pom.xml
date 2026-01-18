@@ -10,7 +10,7 @@
     <description>A JOSM plugin to view buildings in 3D.</description>
 
     <properties>
-        <!-- We are targeting Java 8, which is the baseline for JOSM -->
+        <!-- We are targeting Java 11, which is the baseline for JOSM -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -33,6 +33,13 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+		</repository>
+		<repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/Zkir/campskeleton</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
@@ -55,6 +62,16 @@
             <artifactId>gluegen-rt-main</artifactId>
             <version>${jogl.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.twak.campskeleton</groupId>
+            <artifactId>campskeleton</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.locationtech.jts</groupId>
+            <artifactId>jts-core</artifactId>
+            <version>1.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -86,12 +103,6 @@
     </distributionManagement>
 
     <build>
-        <resources>
-            <resource>
-                <directory>images</directory>
-                <targetPath>images</targetPath>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

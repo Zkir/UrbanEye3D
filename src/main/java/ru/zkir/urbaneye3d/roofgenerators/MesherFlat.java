@@ -5,6 +5,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUtessellator;
 import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
 import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -47,7 +48,7 @@ public class MesherFlat extends RoofGenerator{
 
         @Override
         public void error(int errnum) {
-            System.err.println("Tessellation Error (" + errnum + "): " + new GLU().gluErrorString(errnum) +
+            UrbanEye3dPlugin.debugMsg("Tessellation Error (" + errnum + "): " + new GLU().gluErrorString(errnum) +
                                " on building at " + building.origin.toString());
         }
 
@@ -149,12 +150,21 @@ public class MesherFlat extends RoofGenerator{
 
                 for (int i = 0; i < n; i++) {
                     int next = (i + 1) % n;
-                    mesh.wallFaces.add(new int[]{
-                            baseStartIdx + i,
-                            baseStartIdx + next,
-                            wallTopStartIdx + next,
-                            wallTopStartIdx + i
-                    });
+                    if (c > 0) { // Inner contour, reverse winding
+                        mesh.wallFaces.add(new int[]{
+                                baseStartIdx + next,
+                                baseStartIdx + i,
+                                wallTopStartIdx + i,
+                                wallTopStartIdx + next
+                        });
+                    } else { // Outer contour
+                        mesh.wallFaces.add(new int[]{
+                                baseStartIdx + i,
+                                baseStartIdx + next,
+                                wallTopStartIdx + next,
+                                wallTopStartIdx + i
+                        });
+                    }
                 }
             }
         }
@@ -169,12 +179,21 @@ public class MesherFlat extends RoofGenerator{
 
                 for (int i = 0; i < n; i++) {
                     int next = (i + 1) % n;
-                    mesh.roofFaces.add(new int[]{ // Add to roofFaces for roof color
-                            wallTopStartIdx + i,
-                            wallTopStartIdx + next,
-                            roofTopStartIdx + next,
-                            roofTopStartIdx + i
-                    });
+                    if (c > 0) { // Inner contour, reverse winding
+                        mesh.roofFaces.add(new int[]{ // Add to roofFaces for roof color
+                                wallTopStartIdx + next,
+                                wallTopStartIdx + i,
+                                roofTopStartIdx + i,
+                                roofTopStartIdx + next
+                        });
+                    } else { // Outer contour
+                        mesh.roofFaces.add(new int[]{ // Add to roofFaces for roof color
+                                wallTopStartIdx + i,
+                                wallTopStartIdx + next,
+                                roofTopStartIdx + next,
+                                roofTopStartIdx + i
+                        });
+                    }
                 }
             }
         }

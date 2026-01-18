@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <bounds minlat='55.04' minlon='37.04' maxlat='55.06' maxlon='37.06' origin='JOSM' />
+  <node id='-25505' action='modify' visible='true' lat='55.04724039068' lon='37.05212008067' />
+  <node id='-25506' action='modify' visible='true' lat='55.04797052975' lon='37.05212423705' />
+  <node id='-25508' action='modify' visible='true' lat='55.04723765962' lon='37.05358180986' />
+  <node id='-25517' action='modify' visible='true' lat='55.04724211593' lon='37.05119668546' />
+  <node id='-25518' action='modify' visible='true' lat='55.05324309632' lon='37.05123084882' />
+  <node id='-25519' action='modify' visible='true' lat='55.05323188785' lon='37.05723078501' />
+  <node id='-25520' action='modify' visible='true' lat='55.04723090578' lon='37.05719662165' />
+  <node id='-25522' action='modify' visible='true' lat='55.05224139733' lon='37.05214855086' />
+  <node id='-25523' action='modify' visible='true' lat='55.0522337802' lon='37.05622592683' />
+  <node id='-25524' action='modify' visible='true' lat='55.0479629118' lon='37.05620161302' />
+  <node id='-25593' action='modify' visible='true' lat='55.04796779873' lon='37.05358281302' />
+  <way id='-8162' action='modify' visible='true'>
+    <nd ref='-25505' />
+    <nd ref='-25506' />
+    <nd ref='-25593' />
+    <nd ref='-25508' />
+    <nd ref='-25505' />
+    <tag k='building:colour' v='purple' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='40' />
+    <tag k='roof:colour' v='orange' />
+    <tag k='roof:height' v='15' />
+    <tag k='roof:orientation' v='across' />
+    <tag k='roof:shape' v='gabled' />
+  </way>
+  <way id='-8167' action='modify' visible='true'>
+    <nd ref='-25517' />
+    <nd ref='-25518' />
+    <nd ref='-25519' />
+    <nd ref='-25520' />
+    <nd ref='-25508' />
+    <nd ref='-25505' />
+    <nd ref='-25517' />
+  </way>
+  <way id='-8168' action='modify' visible='true'>
+    <nd ref='-25506' />
+    <nd ref='-25522' />
+    <nd ref='-25523' />
+    <nd ref='-25524' />
+    <nd ref='-25593' />
+    <nd ref='-25506' />
+  </way>
+  <relation id='-208' action='modify' visible='true'>
+    <member type='way' ref='-8167' role='outer' />
+    <member type='way' ref='-8168' role='inner' />
+    <tag k='building' v='yes' />
+    <tag k='height' v='20' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+</osm>

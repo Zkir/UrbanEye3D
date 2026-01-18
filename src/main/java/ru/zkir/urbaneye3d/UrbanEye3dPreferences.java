@@ -23,6 +23,7 @@ public class UrbanEye3dPreferences extends DefaultTabPreferenceSetting {
     private final String[] renderingEngines = {tr("Urban Eye"), tr("Osm2World")};
     private final String[] lodLevels = {"1", "2", "3", "4"};
     private final JPanel panel = new JPanel(new GridBagLayout());
+    private JCheckBox fakeAoCheckBox;
 
     public UrbanEye3dPreferences() {
         super("urbaneye3d.svg", tr("Urban Eye 3D"), tr("Settings for the Urban Eye 3D plugin"));
@@ -72,11 +73,22 @@ public class UrbanEye3dPreferences extends DefaultTabPreferenceSetting {
         wireframeCheckBox = new JCheckBox(tr("Enable wireframe rendering mode"));
         wireframeCheckBox.setToolTipText(tr("If checked, buildings will be rendered as outlines instead of solid polygons."));
         panel.add(wireframeCheckBox, gbc);
+		
+		//Row 3: Fake AO Checkbox
+		gbc.gridy++;
+		gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1.0;
+		fakeAoCheckBox = new JCheckBox(tr("Enable Ambient Occlusion Mode"));
+        fakeAoCheckBox.setToolTipText(tr("If checked, a fake ambient occlusion effect will be applied."));
+        panel.add(fakeAoCheckBox, gbc);
+
 
         // Add vertical glue to push everything to the top
-        gbc.gridy++;
-        gbc.weighty = 1.0;
+        gbc.gridy++; // Next row
+        gbc.weighty = 1.0; // This component takes all remaining vertical space
         panel.add(Box.createVerticalGlue(), gbc);
+
     }
 
     public void loadPreferences() {
@@ -84,6 +96,7 @@ public class UrbanEye3dPreferences extends DefaultTabPreferenceSetting {
         String currentEngine = Config.getPref().get("urbaneye3d.rendering.engine", "Urban Eye");
         renderingEngineComboBox.setSelectedItem("Osm2World".equals(currentEngine) ? tr("Osm2World") : tr("Urban Eye"));
         lodComboBox.setSelectedItem(Config.getPref().get("urbaneye3d.osm2world.lod", "3"));
+		fakeAoCheckBox.setSelected(Config.getPref().getBoolean("urbaneye3d.fakeao.enabled", true));
     }
 
     public boolean savePreferences() {
@@ -98,6 +111,9 @@ public class UrbanEye3dPreferences extends DefaultTabPreferenceSetting {
         if (lodComboBox != null) {
             Config.getPref().put("urbaneye3d.osm2world.lod", (String) lodComboBox.getSelectedItem());
         }
+		if (fakeAoCheckBox != null) {
+            Config.getPref().putBoolean("urbaneye3d.fakeao.enabled", fakeAoCheckBox.isSelected());
+        }
         return false; // No restart required
     }
 
@@ -109,8 +125,9 @@ public class UrbanEye3dPreferences extends DefaultTabPreferenceSetting {
     @Override
     public boolean ok() {
         savePreferences();
+        
         // Force a redraw of the 3D view to apply changes immediately
-        DialogWindow3D dialog = UrbanEye3dPlugin.getDialog();
+        DialogWindow3D dialog = UrbanEye3dPlugin.get3DWindow();
         if (dialog != null) {
             dialog.updateData();
         }

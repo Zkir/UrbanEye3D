@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Taginfo",
+  "definitions": {
+    "Taginfo": {
+      "title": "Taginfo",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "data_format": {
+          "type": "integer",
+          "description": "data format version, currently always 1, will get updated if there are incompatible changes to the format"
+        },
+        "data_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "the URL under which this project file can be accessed"
+        },
+        "data_updated": {
+          "type": "string",
+          "pattern": "20\\d{2}\\d{2}\\d{2}T\\d{2}\\d{2}\\d{2}Z",
+          "description": "yyyymmddThhmmssZ timestamp when project file was updated"
+        },
+        "project": {
+          "$ref": "#/definitions/Project"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        }
+      },
+      "required": ["data_format", "project", "tags"]
+    },
+    "Project": {
+      "title": "Project",
+      "type": "object",
+      "description": "meta information about the project",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of the project"
+        },
+        "description": {
+          "type": "string",
+          "description": "short description of the project"
+        },
+        "project_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "homepage of the project with general information"
+        },
+        "doc_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "documentation of the project and especially the tags used"
+        },
+        "icon_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "project logo, should work in 16x16 pixels on white and light gray backgrounds"
+        },
+        "contact_name": {
+          "type": "string",
+          "description": "contact name (needed for taginfo maintainer)"
+        },
+        "contact_email": {
+          "type": "string",
+          "format": "email",
+          "description": "contact email (needed for taginfo maintainer)"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "project_url",
+        "contact_name",
+        "contact_email"
+      ]
+    },
+    "Tag": {
+      "title": "Tag",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "OSM tag key"
+        },
+        "value": {
+          "type": "string",
+          "description": "OSM tag value (if not supplied it means 'all values')"
+        },
+        "object_types": {
+          "type": "array",
+          "description": "OSM object types this key/tag can be used for",
+          "items": {
+            "$ref": "#/definitions/ObjectType"
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "how the key/tag is used in this project"
+        },
+        "doc_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "link to further documentation of the project about this specific key/tag"
+        },
+        "icon_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of an icon, should work in 16x16 pixels on white and light gray backgrounds"
+        }
+      },
+      "required": ["key"]
+    },
+    "ObjectType": {
+      "title": "ObjectType",
+      "type": "string",
+      "enum": ["node", "way", "relation", "area"]
+    }
+  }
+}

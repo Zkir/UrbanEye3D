@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <bounds minlat='56.30592' minlon='38.1741643' maxlat='56.310348' maxlon='38.1825972' origin='openstreetmap-cgimap 2.1.0 (4030715 spike-07.openstreetmap.org)' />
+  <node id='412882723' timestamp='2018-01-18T12:40:32Z' uid='100812' user='Zkir' visible='true' version='7' changeset='55548789' lat='56.3071406' lon='38.1779016' />
+  <node id='412882725' timestamp='2016-07-08T06:52:54Z' uid='3449037' user='Беня' visible='true' version='4' changeset='40561536' lat='56.3088168' lon='38.1795953' />
+  <node id='412882727' timestamp='2016-07-08T06:52:54Z' uid='3449037' user='Беня' visible='true' version='5' changeset='40561536' lat='56.3082497' lon='38.1814985' />
+  <node id='412882728' timestamp='2017-12-24T16:49:02Z' uid='2876364' user='andrewsem' visible='true' version='7' changeset='54891649' lat='56.3065691' lon='38.1797852' />
+  <node id='1972604424' timestamp='2017-12-24T16:49:01Z' uid='2876364' user='andrewsem' visible='true' version='3' changeset='54891649' lat='56.3079804' lon='38.1768552' />
+  <node id='1972604447' timestamp='2017-12-24T16:49:00Z' uid='2876364' user='andrewsem' visible='true' version='4' changeset='54891649' lat='56.3086387' lon='38.1752412' />
+  <node id='1972604472' timestamp='2017-12-24T16:49:01Z' uid='2876364' user='andrewsem' visible='true' version='3' changeset='54891649' lat='56.3091795' lon='38.1768781' />
+  <node id='2949107652' timestamp='2014-07-05T11:00:05Z' uid='135021' user='andriano' visible='true' version='1' changeset='23965084' lat='56.3089886' lon='38.175808' />
+  <node id='4290013972' timestamp='2018-10-04T20:24:29Z' uid='100812' user='Zkir' visible='true' version='4' changeset='63209139' lat='56.3066915' lon='38.1794013' />
+  <node id='4290024150' timestamp='2018-01-18T12:40:32Z' uid='100812' user='Zkir' visible='true' version='2' changeset='55548789' lat='56.3071087' lon='38.1780182' />
+  <node id='4290024154' timestamp='2018-10-04T20:19:23Z' uid='100812' user='Zkir' visible='true' version='6' changeset='63209031' lat='56.3070115' lon='38.1802755' />
+  <node id='4290024157' timestamp='2018-10-04T20:19:23Z' uid='100812' user='Zkir' visible='true' version='5' changeset='63209031' lat='56.3066983' lon='38.1799432' />
+  <node id='4290039256' timestamp='2017-12-24T16:49:01Z' uid='2876364' user='andrewsem' visible='true' version='2' changeset='54891649' lat='56.3091878' lon='38.1771759' />
+  <node id='4290115125' timestamp='2017-12-24T16:49:01Z' uid='2876364' user='andrewsem' visible='true' version='2' changeset='54891649' lat='56.3088284' lon='38.1761189' />
+  <node id='5302317886' timestamp='2017-12-24T16:49:00Z' uid='2876364' user='andrewsem' visible='true' version='1' changeset='54891649' lat='56.3086767' lon='38.1776408' />
+  <node id='5302317888' timestamp='2017-12-24T16:49:00Z' uid='2876364' user='andrewsem' visible='true' version='1' changeset='54891649' lat='56.3087259' lon='38.1775265' />
+  <node id='5302317889' timestamp='2017-12-24T16:49:00Z' uid='2876364' user='andrewsem' visible='true' version='1' changeset='54891649' lat='56.3090562' lon='38.1778301' />
+  <node id='5302317890' timestamp='2017-12-24T16:49:00Z' uid='2876364' user='andrewsem' visible='true' version='1' changeset='54891649' lat='56.3081557' lon='38.175989' />
+  <node id='5302317891' timestamp='2017-12-24T16:49:00Z' uid='2876364' user='andrewsem' visible='true' version='1' changeset='54891649' lat='56.3084038' lon='38.1754652' />
+  <node id='5302317892' timestamp='2017-12-24T16:49:00Z' uid='2876364' user='andrewsem' visible='true' version='1' changeset='54891649' lat='56.3082734' lon='38.1761383' />
+  <node id='11232479259' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='1' changeset='142002711' lat='56.3071178' lon='38.1802261' />
+  <node id='11232479260' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='1' changeset='142002711' lat='56.3071074' lon='38.1799927' />
+  <node id='11232479261' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='1' changeset='142002711' lat='56.3071654' lon='38.1797647' />
+  <node id='11232479262' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='1' changeset='142002711' lat='56.3071342' lon='38.1796387' />
+  <node id='11232479263' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='1' changeset='142002711' lat='56.3072086' lon='38.1794509' />
+  <node id='11232479264' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='1' changeset='142002711' lat='56.3073365' lon='38.1791398' />
+  <node id='11232479265' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='1' changeset='142002711' lat='56.3073975' lon='38.1788313' />
+  <node id='11232479266' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='1' changeset='142002711' lat='56.3073395' lon='38.1786007' />
+  <node id='11232479267' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='1' changeset='142002711' lat='56.3074139' lon='38.1783003' />
+  <way id='35211545' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='17' changeset='142002711'>
+    <nd ref='4290024150' />
+    <nd ref='412882723' />
+    <nd ref='412882725' />
+    <nd ref='412882727' />
+    <nd ref='4290024154' />
+    <tag k='barrier' v='wall' />
+    <tag k='colour' v='red' />
+    <tag k='height' v='4' />
+    <tag k='historic' v='yes' />
+    <tag k='material' v='brick' />
+    <tag k='two_sided' v='yes' />
+  </way>
+  <way id='186528702' timestamp='2023-09-16T23:58:51Z' uid='461130' user='Fizzie-DWG' visible='true' version='15' changeset='141362237'>
+    <nd ref='1972604472' />
+    <nd ref='4290115125' />
+    <nd ref='2949107652' />
+    <nd ref='1972604447' />
+    <nd ref='5302317891' />
+    <nd ref='5302317890' />
+    <nd ref='5302317892' />
+    <nd ref='1972604424' />
+    <nd ref='5302317886' />
+    <nd ref='5302317888' />
+    <nd ref='5302317889' />
+    <nd ref='4290039256' />
+    <nd ref='1972604472' />
+    <tag k='barrier' v='fence' />
+    <tag k='landuse' v='industrial' />
+    <tag k='name' v='ЭКО-РТИ-Холдинг' />
+  </way>
+  <way id='630763989' timestamp='2025-09-23T00:51:49Z' uid='100812' user='Zkir' visible='true' version='3' changeset='172319944'>
+    <nd ref='4290024157' />
+    <nd ref='412882728' />
+    <nd ref='4290013972' />
+    <tag k='barrier' v='city_wall' />
+    <tag k='colour' v='red' />
+    <tag k='height' v='4' />
+    <tag k='historic' v='yes' />
+    <tag k='two_sided' v='yes' />
+    <tag k='width' v='1' />
+  </way>
+  <way id='1212376979' timestamp='2023-10-01T19:51:00Z' uid='97139' user='zeon84-74' visible='true' version='1' changeset='142002711'>
+    <nd ref='11232479267' />
+    <nd ref='11232479266' />
+    <nd ref='11232479265' />
+    <nd ref='11232479264' />
+    <nd ref='11232479263' />
+    <nd ref='11232479262' />
+    <nd ref='11232479261' />
+    <nd ref='11232479260' />
+    <nd ref='11232479259' />
+    <tag k='barrier' v='fence' />
+  </way>
+</osm>

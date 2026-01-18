@@ -1,0 +1,17 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#333" stroke-width="1.5" stroke-linejoin="round">
+    <!-- Каркасная часть (левая) -->
+    <path d="M18 34 L12 30 L12 18 L18 14" fill="none"/>
+    <path d="M18 14 L24 10 L36 18 L30 22" fill="none"/>
+    <path d="M30 22 L30 34 L18 34" fill="none"/>
+    <path d="M18 34 L18 14 M12 30 L24 22 L36 30 M12 18 L24 10 L36 18" fill="none"/>
+    
+    <!-- Сплошная часть (правая) -->
+    <path d="M30 22 L30 34 L18 34 L18 22 Z" fill="#4A90E2" opacity="0.8"/>
+    <path d="M30 22 L36 18 L36 30 L30 34 Z" fill="#4A90E2" opacity="0.6"/>
+    <path d="M18 22 L24 18 L36 30 L30 34 Z" fill="#4A90E2" opacity="0.4"/>
+    
+    <!-- Разделительная линия -->
+    <path d="M18 14 L18 34" stroke="#666" stroke-width="2"/>
+  </g>
+</svg>

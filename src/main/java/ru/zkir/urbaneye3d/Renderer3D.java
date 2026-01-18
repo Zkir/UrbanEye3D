@@ -27,13 +27,30 @@ import java.util.List;
 public class Renderer3D extends GLJPanel implements GLEventListener {
     private final List<RenderableBuildingElement> buildings;
     private final GLU glu = new GLU();
+    private final double CUTOFF_DISTANCE=5000.0;
     public boolean isWireframeMode;
+    public boolean isFakeAOEnabled;
 
-    private double camX_angle = 35; //this is rather Z-angle (in vertical plane)
-    private double camY_angle = -90; // x and y mixed, but it is not a problem yet.
+    private final double DEFAULT_CAM_VERT_ANGLE = 35;
+    private final double DEFAULT_CAM_HOR_ANGLE = -90;
+
+    private double camX_angle = DEFAULT_CAM_VERT_ANGLE; //this is rather Z-angle (in vertical plane)
+    private double camY_angle = DEFAULT_CAM_HOR_ANGLE; // x and y mixed, but it is not a problem yet.
     private double cam_dist = 500.0;
 
     private Point lastMousePoint;
+
+    public double getCamX_angle() {
+        return camX_angle;
+    }
+
+    public double getCamY_angle() {
+        return camY_angle;
+    }
+
+    public double getCam_dist() {
+        return cam_dist;
+    }
 
     // Sun direction (normalized)
     private final Point3D SUN_DIRECTION = new Point3D(0.5, 0.5, 1.0).normalize();
@@ -98,8 +115,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
-                cam_dist += e.getWheelRotation() * 50;
-                cam_dist = Math.max(50.0, cam_dist); // Prevent zooming too close
+                cam_dist += e.getWheelRotation() * cam_dist/10;
+                cam_dist = Math.max(25.0, cam_dist); // Prevent zooming too close
+                cam_dist = Math.min(CUTOFF_DISTANCE*0.9, cam_dist); // Prevent zooming too far (limited by cut-off distance).
                 repaint();
             }
         });
@@ -132,9 +150,21 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 (int) (baseColor.getBlue() * factor)
         );
     }
+
     public void toggleWireframeMode() {
         isWireframeMode = !isWireframeMode;
         Config.getPref().putBoolean("urbaneye3d.wireframe.enabled", isWireframeMode);
+    }
+
+    public void toggleFakeAO() {
+        isFakeAOEnabled = !isFakeAOEnabled;
+        Config.getPref().putBoolean("urbaneye3d.fakeao.enabled", isFakeAOEnabled);
+    }
+
+    public void resetCameraToNorth(){
+        camX_angle = DEFAULT_CAM_VERT_ANGLE;
+        camY_angle = DEFAULT_CAM_HOR_ANGLE;
+        repaint();
     }
 
 
@@ -143,6 +173,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         GL2 gl = glAutoDrawable.getGL().getGL2();
 
         isWireframeMode = Config.getPref().getBoolean("urbaneye3d.wireframe.enabled", false);
+        isFakeAOEnabled = Config.getPref().getBoolean("urbaneye3d.fakeao.enabled", true);
 
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
@@ -267,9 +298,28 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private void drawVertexWithFakeAO(GL2 gl, Point3D vertex, Color baseColor, RenderableBuildingElement building) {
         double totalHeight = building.height - building.minHeight;
         double vertexHeight = vertex.z - building.minHeight;
+        final float AO_STRENGTH;
+        if (isFakeAOEnabled) {
+            AO_STRENGTH=0.3f;
+            //Fake ambient occlusion is applied to each part individually.
+            //This way parts become more visible and interestingly looking.
+            //however, tiger stripes effect occurs, if parts are lying on each other
+        }else {
+            AO_STRENGTH=0.0f;
+        }
+
         float aoFactor = 1.0f;
         if (totalHeight > 0.1) { // Avoid division by zero
-            aoFactor = 0.6f + 0.4f * (float)(vertexHeight / totalHeight);
+            aoFactor = (1-AO_STRENGTH) + AO_STRENGTH * (float)(vertexHeight / totalHeight);
+        }
+
+        if (aoFactor<0) {
+            aoFactor=0;
+            //TODO: this can happen when building height/min_height is not calculated properly. solution: use actual values from mesh.
+        }
+
+        if (aoFactor>1) {
+            aoFactor=1;
         }
         //TODO: dirty hack. No idea why AO factor is calculated differently for Osm2World, jsut to make things breathe.
         Color finalColor;
@@ -335,7 +385,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         @Override
         public void error(int errnum) {
             //TODO: uncomment when some way to output more specific error, including object id is found.
-            //System.err.println("Tessellation Error (" + errnum + "): " + glu.gluErrorString(errnum));
+            //UrbanEye3dPlugin.debugMsg("Tessellation Error (" + errnum + "): " + glu.gluErrorString(errnum));
         }
     }
     @Override
@@ -346,7 +396,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0, aspect, 1.0, 10000.0);
+        glu.gluPerspective(45.0, aspect, 10.0, CUTOFF_DISTANCE);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
     }

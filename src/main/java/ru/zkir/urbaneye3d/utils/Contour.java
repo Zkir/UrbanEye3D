@@ -1,8 +1,10 @@
 package ru.zkir.urbaneye3d.utils;
 
+import org.locationtech.jts.geom.*;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
-import ru.zkir.urbaneye3d.RenderableBuildingElement;
+
+import org.locationtech.jts.operation.buffer.BufferParameters;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,10 +14,14 @@ public class Contour {
     // Define a tolerance for the tangent of the angle. For example, 0.08 corresponds to ~175.5 degrees.
     // This allows for slight deviations in manually placed points.
     static final double STRAIGHT_ANGLE_TAN_TOLERANCE = 0.08;
+    public final static double GRAD_LENGTH_M = 6378137.*2*Math.PI/360.;
     private String mode = "XY";
     public List<ArrayList<Point2D>> outerRings;
     public List<ArrayList<Point2D>> innerRings;
-
+    
+    /**
+     * This constructor creates contour from POLYGONAL primitive (e.g. closed way or multipolygon relation)
+     */
     public Contour(OsmPrimitive primitive, LatLon center) {
         if (center == null) {
             this.mode = "LatLon";
@@ -35,7 +41,7 @@ public class Contour {
                     tempContour.add(new Point2D(node.lon(), node.lat()));
                 }
             }
-            this.outerRings.add(simplifyContour(tempContour));
+            this.outerRings.add(tempContour);
         } else { //relation
             Relation relation = (Relation) primitive;
             this.outerRings = new ArrayList<>();
@@ -65,7 +71,7 @@ public class Contour {
                     }
 
                 }
-                this.outerRings.add(simplifyContour(pointRing));
+                this.outerRings.add(pointRing);
             }
 
             List<List<Node>> innerNodeRings = assembleRings(innerWays);
@@ -78,7 +84,47 @@ public class Contour {
                         pointRing.add(new Point2D(node.lon(), node.lat()));
                     }
                 }
-                this.innerRings.add(simplifyContour(pointRing));
+                this.innerRings.add(pointRing);
+            }
+        }
+    }
+
+    /**
+     * This constructor creates contour from LINEAR primitive (e.g. barrier) applying BUFFER
+     */
+    public Contour(Way way, double width, LatLon center) {
+        this.mode = "XY";
+        this.outerRings = new ArrayList<>();
+        this.innerRings = new ArrayList<>();
+
+        List<Point2D> points = new ArrayList<>();
+        for (Node node : way.getNodes()) {
+            points.add(getNodeLocalCoords(node, center));
+        }
+
+        if (points.size() >= 2) {
+            GeometryFactory geometryFactory = new GeometryFactory();
+            Coordinate[] coords = new Coordinate[points.size()];
+            for (int i = 0; i < points.size(); i++) {
+                coords[i] = new Coordinate(points.get(i).x, points.get(i).y);
+            }
+
+            LineString line = geometryFactory.createLineString(coords);
+
+            Polygon polygon = (Polygon) line.buffer(width / 2, 1, BufferParameters.CAP_FLAT);
+
+            ArrayList<Point2D> polygonPoints1 = new ArrayList<>();
+            for (Coordinate coord : polygon.getExteriorRing().getCoordinates()) {
+                polygonPoints1.add(new Point2D(coord.x, coord.y));
+            }
+            this.outerRings.add(polygonPoints1);
+
+            for (int i=0; i<polygon.getNumInteriorRing(); i++){
+                ArrayList<Point2D> polygonPoints2 = new ArrayList<>();
+                for (Coordinate coord : polygon.getInteriorRingN(i).getCoordinates()) {
+                    polygonPoints2.add(new Point2D(coord.x, coord.y));
+                }
+                this.innerRings.add(polygonPoints2);
             }
         }
     }
@@ -116,7 +162,7 @@ public class Contour {
 
                 // 2. All points of the part must be outside all of the building's inner rings (holes).
                 for (ArrayList<Point2D> buildingInnerRing : this.innerRings) {
-                    if (isPointInside(buildingInnerRing, point)) {
+                    if (isPointStrictlyInside(buildingInnerRing, point)) {
                         return false; // Part is inside a hole of the building.
                     }
                 }
@@ -127,8 +173,20 @@ public class Contour {
         return true;
     }
 
-    private boolean isPointInside(List<Point2D> polygon, Point2D point) {
+    private boolean isPointStrictlyInside(List<Point2D> polygon, Point2D point) {
         if (isPointOnBorder(polygon, point)) {
+            return false;
+        }
+        return isPointInside(polygon, point, false);
+    }
+
+    private boolean isPointInside(List<Point2D> polygon, Point2D point) {
+        return isPointInside(polygon, point, true);
+    }
+
+
+    private boolean isPointInside(List<Point2D> polygon, Point2D point, boolean includeBorder) {
+        if (includeBorder && isPointOnBorder(polygon, point)) {
             return true; // for our purposes we consider borders as part of a polygon
         }
 
@@ -237,12 +295,17 @@ public class Contour {
     static Point2D getLocalCoords(Point2D point, LatLon center) {
         double dx = point.x - center.lon();
         double dy = point.y - center.lat();
-        return new Point2D(dx * Math.cos(Math.toRadians(center.lat())) * 111320.0,
-                dy * 111320.0);
+        return new Point2D(dx * Math.cos(Math.toRadians(center.lat())) * GRAD_LENGTH_M,
+                dy * GRAD_LENGTH_M);
     }
 
 
-    static ArrayList<Point2D> simplifyContour(ArrayList<Point2D> originalContour) {
+    ArrayList<Point2D> simplifyContour(ArrayList<Point2D> originalContour) {
+
+        if (this.mode.equals("LatLon")){
+            throw new RuntimeException("Contour simplification does not work correct in LatLon mode");
+        }
+
         if (originalContour.size() < 3) {
             return originalContour; // Cannot simplify a line or a single point
         }
@@ -251,29 +314,24 @@ public class Contour {
         boolean isClosed = originalContour.get(0).x == originalContour.get(originalContour.size() - 1).x &&
                 originalContour.get(0).y == originalContour.get(originalContour.size() - 1).y;
 
-
         int start_index = 0;
+        int numPoints = originalContour.size() - 1; // Don't process the  last point. In closed loop it's duplicate. in open way it cannot be removed.
+        Point2D p_prev;
         if (!isClosed) {
             start_index = 1;
-            simplifiedContour.add(originalContour.get(0));
+            p_prev = originalContour.get(0);
+            simplifiedContour.add(p_prev); //in case of open way, we can add the first node immediately (since it cannot be removed)
+        }else{
+            p_prev = originalContour.get(numPoints - 1); //for node 0 previous is second to last :)
         }
-        int numPoints = originalContour.size() - 1; // Don't process the  last point. In closed loop it's duplicate. in open way it cannot be removed.
-
-        //special check for the first node
 
         for (int i = start_index; i < numPoints; i++) {
-            //special check for the first (#0) node
-            Point2D p_prev;
-            if (i == 0) {
-                p_prev = originalContour.get(numPoints - 1); //for node 0 previous is second to last :)
-            } else {
-                p_prev = originalContour.get(i - 1);
-            }
             Point2D p_current = originalContour.get(i);
             Point2D p_next = originalContour.get(i + 1);
 
             if (!isAntiCollinear(p_prev, p_current, p_next)) { // If not anti-collinear, keep the point
                 simplifiedContour.add(p_current);
+                p_prev = p_current; //if we added a node, we can use it as previous on next step
             }
         }
 
@@ -305,7 +363,7 @@ public class Contour {
         return simplifiedContour;
     }
 
-    private static boolean isClockwise(List<Point2D> polygon) {
+    public static boolean isClockwise(List<Point2D> polygon) {
         double sum = 0.0;
         for (int i = 0; i < polygon.size(); i++) {
             Point2D p1 = polygon.get(i);
@@ -349,5 +407,25 @@ public class Contour {
                 ring.set(i, getLocalCoords(ring.get(i), origin));
             }
         }
+    }
+
+    public void removeRedundantNodes() {
+        List<ArrayList<Point2D>> simplifiedOuterRings = new ArrayList<>();
+        List<ArrayList<Point2D>> simplifiedInnerRings = new ArrayList<>();
+
+        for (var ring: outerRings){
+            simplifiedOuterRings.add( simplifyContour(ring));
+
+        }
+
+        for (var ring: innerRings){
+            simplifiedInnerRings.add( simplifyContour(ring));
+        }
+
+
+
+        outerRings = simplifiedOuterRings;
+        innerRings = simplifiedInnerRings;
+
     }
 }

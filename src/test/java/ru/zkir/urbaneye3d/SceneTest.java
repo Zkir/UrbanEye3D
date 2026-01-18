@@ -10,6 +10,7 @@ import org.openstreetmap.josm.spi.preferences.Config;
 import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SceneTest {
 
@@ -83,5 +84,119 @@ class SceneTest {
     }
 
 
+    @Test
+    /*
+        Even more complex multipolygon belonging topology test
+        this time with common nodes for both outer and inner rings.
+     */
+
+    void testMultipolygonBelonging2() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("multipolygons_belonging2.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        // We expect only the building:part to be rendered, not the parent building.
+        assertEquals(1, scene.renderableElements.size());
+    }
+
+
+    @Test
+    void roundRoofPentagon() throws Exception{
+
+        DataSet dataSet = loadDataSetFromOsmFile("round_roof_pentagon.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        // We expect only the building:part to be rendered, not the parent building.
+        assertEquals(1, scene.renderableElements.size());
+    }
+
+    @Test
+    /*
+        Test various buildings just from raw osm data
+     */
+    void testCityCenter() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("city_center.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        //resulting number of  buildings is not so important.
+        //Just to understand how the picture changes.
+        int NumberOfBuildings = scene.renderableElements.size();
+        int MIN_BUILDINGS=4377;
+        int MAX_BUILDINGS=4700;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance)
+        assertTrue(NumberOfBuildings>=MIN_BUILDINGS && NumberOfBuildings<=MAX_BUILDINGS, "Number of building " + NumberOfBuildings + " is NOT in the reasonable range " + MIN_BUILDINGS + ".." + MAX_BUILDINGS);
+
+        int i=0;
+        for (var re: scene.renderableElements ){
+            //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), "tests/output/city_center_"+i+"_"+re.primitiveId.toString()+".obj");
+            //RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
+            i++;
+        }
+
+    }
+
+    @Test
+    /*
+        Here we test that buildings and building parts do not disappear suddenly.
+        Building is rendered even without specified height, and a part should follow
+        the height of the parent.
+     */
+    void testPartWithoutHeight() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("part_without_height.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        assertEquals(1, scene.renderableElements.size());
+
+    }
+
+    @Test
+    void testSkillionSteps() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("steps.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        assertEquals(1, scene.renderableElements.size());
+        var re = scene.renderableElements.get(0);
+        //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), "tests/output/skillion_steps.obj");
+        RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
+
+    }
+
+    @Test
+    void testBarriers() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("barriers.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet);
+
+        // Assert: Verify the outcome
+        assertEquals(4, scene.renderableElements.size(), "Expected 4 barrier, but got "+scene.renderableElements.size());
+        for (var re:scene.renderableElements) {
+            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, re.roofShape.toString());
+        }
+    }
 
 }
