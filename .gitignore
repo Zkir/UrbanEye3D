@@ -1,4 +1,7 @@
 /.idea/
 /target/
-/tests/output/*.*
+/tests/output/*.obj
+/tests/output/city_center/*.obj
 
+/tests/output.good
+/tests/output.new

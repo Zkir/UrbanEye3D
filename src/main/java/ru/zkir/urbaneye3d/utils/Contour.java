@@ -5,6 +5,7 @@ import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
 
 import org.locationtech.jts.operation.buffer.BufferParameters;
+import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +16,7 @@ public class Contour {
     // This allows for slight deviations in manually placed points.
     static final double STRAIGHT_ANGLE_TAN_TOLERANCE = 0.08;
     public final static double GRAD_LENGTH_M = 6378137.*2*Math.PI/360.;
-    private String mode = "XY";
+    public String mode = "";
     public List<ArrayList<Point2D>> outerRings;
     public List<ArrayList<Point2D>> innerRings;
     
@@ -129,10 +130,11 @@ public class Contour {
         }
     }
 
-    public Contour(ArrayList<Point2D> outerRing) {
+    public Contour(ArrayList<Point2D> outerRing, String mode) {
         this.outerRings = new ArrayList<>();
         this.outerRings.add(outerRing);
         this.innerRings = new ArrayList<>();
+        this.mode = mode;
     }
 
     public boolean contains(Contour other) {
@@ -395,7 +397,14 @@ public class Contour {
     }
 
     public void toLocalCoords(LatLon origin) {
-        this.mode = "XY";
+        if (this.mode.equals("XY")){
+            //contour is already in local coords. nothing we can do
+            return;
+        }
+        if (!this.mode.equals("LatLon")){
+            throw new RuntimeException("Invalid coordinate system for conversion: '"+this.mode+"'");
+        }
+
         for (ArrayList<Point2D> ring : outerRings) {
             for (int i = 0; i < ring.size(); i++) {
                 ring.set(i, getLocalCoords(ring.get(i), origin));
@@ -407,6 +416,7 @@ public class Contour {
                 ring.set(i, getLocalCoords(ring.get(i), origin));
             }
         }
+        this.mode = "XY";
     }
 
     public void removeRedundantNodes() {

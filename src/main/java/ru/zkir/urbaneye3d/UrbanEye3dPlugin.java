@@ -16,10 +16,11 @@ public class UrbanEye3dPlugin extends Plugin {
 
     private static DialogWindow3D dialog;
 
-    public static final double DEFAULT_LEVELS_NUMBER=2;
-    public static final double DEFAULT_LEVEL_HEIGHT=3;
+    public static final double DEFAULT_LEVELS_NUMBER = 2;
+    public static final double DEFAULT_LEVEL_HEIGHT = 3;
     public static final double DEFAULT_ROOF_THICKNESS = 0.25;
     public static final double DEFAULT_STEP_HEIGHT = 0.16;
+    public static final boolean INHERIT_HEIGHT_FROM_PARENT = false;
 
     private static boolean f4mapMenuInitialized = false;
 

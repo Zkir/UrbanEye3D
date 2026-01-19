@@ -1,16 +1,20 @@
 package ru.zkir.urbaneye3d;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.io.OsmReader;
 import org.openstreetmap.josm.spi.preferences.Config;
+import ru.zkir.urbaneye3d.utils.Settings;
 
+import java.io.File;
 import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static ru.zkir.urbaneye3d.utils.Settings.SAVE_TEST_RESULTS_TO_FILE;
 
 class SceneTest {
 
@@ -123,6 +127,7 @@ class SceneTest {
         Test various buildings just from raw osm data
      */
     void testCityCenter() throws Exception {
+
         // Arrange: Load the specific test case
         DataSet dataSet = loadDataSetFromOsmFile("city_center.osm");
         Scene scene = new Scene();
@@ -138,13 +143,15 @@ class SceneTest {
         int MAX_BUILDINGS=4700;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance)
         assertTrue(NumberOfBuildings>=MIN_BUILDINGS && NumberOfBuildings<=MAX_BUILDINGS, "Number of building " + NumberOfBuildings + " is NOT in the reasonable range " + MIN_BUILDINGS + ".." + MAX_BUILDINGS);
 
-        int i=0;
-        for (var re: scene.renderableElements ){
-            //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), "tests/output/city_center_"+i+"_"+re.primitiveId.toString()+".obj");
-            //RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
-            i++;
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            int i = 0;
+            String outputFolder = Settings.prepareTestOutputFolder("city_center");
+            for (var re : scene.renderableElements) {
+                ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/city_center_"  + re.primitiveId.toString() + ".obj");
+                //RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
+                i++;
+            }
         }
-
     }
 
     @Test

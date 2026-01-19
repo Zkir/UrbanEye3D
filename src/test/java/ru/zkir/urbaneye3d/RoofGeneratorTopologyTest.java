@@ -56,16 +56,21 @@ class RoofGeneratorTopologyTest {
         inner.add(new Point2D(innerWidth / 2, innerDepth / 2));
         inner.add(new Point2D(-innerWidth / 2, innerDepth / 2));
 
-        Contour contour = new Contour(outer);
+        Contour contour = new Contour(outer, "XY");
         contour.innerRings.add(inner);
 
         return contour;
     }
     public static RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints);
-        return new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  height, minHeight, roofHeight,
-                "", "", roofShape.toString(), "", "", null, null );
+        Contour contour = new Contour(basePoints, "XY");
+        var tags = Map.of(
+                "building:part","yes",
+                "height", Double.toString(height),
+                "roof:height", Double.toString(roofHeight),
+                "min_height", Double.toString(minHeight),
+                "roof:shape", roofShape.toString());
+        return  RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
     }
 
     private static void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
@@ -310,13 +315,23 @@ class RoofGeneratorTopologyTest {
 
         // Create a RenderableBuildingElement with buildingPart="roof"
         LatLon origin = new LatLon(55, 37);
-        Contour contour = new Contour(base);
+        Contour contour = new Contour(base, "XY");
 
         for (RoofShapes roofShape: supportedRoofShapes ) {
-            RenderableBuildingElement testBuilding = new RenderableBuildingElement(
-                    new SimplePrimitiveId(-1, OsmPrimitiveType.WAY),
-                    origin, contour, height, minHeight, roofHeight,
-                    "", "", roofShape.toString(), "", "", "roof", null);
+            var tags = Map.of ("building:part", "roof",
+                               "height" , Double.toString(height),
+                               "min_height" , Double.toString(minHeight),
+                               "roof:height", Double.toString(roofHeight),
+                               "roof:shape",  roofShape.toString()
+                               );
+
+            RenderableBuildingElement testBuilding = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY),
+                    origin, contour, tags, null);
+
+            //RenderableBuildingElement testBuilding = new RenderableBuildingElement(
+            //        new SimplePrimitiveId(-1, OsmPrimitiveType.WAY),
+            //        origin, contour, height, minHeight, roofHeight,
+            //        "", "", roofShape.toString(), "", "", "roof", null);
 
             // Generate the mesh
             Mesh mesh = roofShape.getMesher().generate(testBuilding);
@@ -333,10 +348,17 @@ class RoofGeneratorTopologyTest {
     void testGabledRoofAcross() {
         ArrayList<Point2D> basePoints = createRectangularBase(10, 20);
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints);
+        Contour contour = new Contour(basePoints,"XY");
 
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 4,
-                "", "", RoofShapes.GABLED.toString(), "", "across", null, null );
+        var tags = Map.of("building:part","yes",
+                          "height", "10",
+                          "min_height", "0",
+                          "roof:height", "4",
+                          "roof:shape", RoofShapes.GABLED.toString(),
+                          "roof:orientation", "across"
+                        );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.GABLED.toString());
@@ -347,9 +369,21 @@ class RoofGeneratorTopologyTest {
     void testHippedRoofAcross() {
         ArrayList<Point2D> basePoints = createRectangularBase(10, 20);
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.HIPPED.toString(), "", "across", null, null );
+        Contour contour = new Contour(basePoints, "XY");
+
+        var tags = Map.of(
+                "building:part","yes",
+                "height", "10",
+                "min_height", "0",
+                "roof:height", "6",
+                "roof:shape", RoofShapes.HIPPED.toString(),
+                "roof:orientation", "across"
+                    );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
+
+        //new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
+        //"", "", RoofShapes.HIPPED.toString(), "", "across", null, null );
 
         Mesh mesh = RoofShapes.HIPPED.getMesher().generate(test_building);
 
@@ -362,9 +396,20 @@ class RoofGeneratorTopologyTest {
     void testSkillionRoof() {
         ArrayList<Point2D> basePoints = createRectangularBase(14, 10);
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.SKILLION.toString(), "45", "", null, null);
+        Contour contour = new Contour(basePoints, "XY");
+        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
+        //        "", "", RoofShapes.SKILLION.toString(), "45", "", null, null);
+
+        var tags = Map.of(
+                "building:part","yes",
+                "height", "10",
+                "min_height", "0",
+                "roof:height", "6",
+                "roof:shape", RoofShapes.SKILLION.toString(),
+                "roof:direction", "45"
+        );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
 
@@ -375,8 +420,18 @@ class RoofGeneratorTopologyTest {
     void testFlatRoofWithHole() {
         Contour contour = createRectangularBaseWithHole(10, 10, 2, 2);
         LatLon origin = new LatLon(55,37);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 3,
-                "", "", RoofShapes.FLAT.toString(), "", "", null, null );
+        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 3,
+        //        "", "", RoofShapes.FLAT.toString(), "", "", null, null );
+
+        var tags = Map.of(
+                          "building:part","yes",
+                          "height", "10",
+                          "min_height", "0",
+                          "roof:height", "3",
+                          "roof:shape", RoofShapes.FLAT.toString()
+                        );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.FLAT.getMesher().generate(test_building);
 
@@ -388,8 +443,19 @@ class RoofGeneratorTopologyTest {
     void testSkillionRoofWithHole() {
         Contour contour = createRectangularBaseWithHole(12, 12, 4, 4);
         LatLon origin = new LatLon(55, 37);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, 10, 0, 5,
-                "", "", RoofShapes.SKILLION.toString(), "30", "", null, null);
+        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, 10, 0, 5,
+        //        "", "", RoofShapes.SKILLION.toString(), "30", "", null, null);
+
+        var tags = Map.of(
+                "building:part","yes",
+                "height", "10",
+                "min_height", "0",
+                "roof:height", "5",
+                "roof:shape", RoofShapes.SKILLION.toString(),
+                "roof:direction", "30"
+        );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
@@ -401,10 +467,22 @@ class RoofGeneratorTopologyTest {
     void testStepsRoof(){
         ArrayList<Point2D> basePoints = createRectangularBase(5, 10);
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints);
+        Contour contour = new Contour(basePoints, "XY");
         // Note: buildingPart is "steps"
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.STEPS.toString(), "40", "", "steps", 0.2 );
+        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
+        //        "", "", RoofShapes.STEPS.toString(), "40", "", "steps", 0.2 );
+
+        var tags = Map.of(
+                "building:part", "steps",
+                "step:height", "0.2",
+                "height", "10",
+                "min_height", "0",
+                "roof:height", "6",
+                "roof:shape", RoofShapes.STEPS.toString(),
+                "roof:direction", "40"
+        );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.STEPS.getMesher().generate(test_building);
 
