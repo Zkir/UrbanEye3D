@@ -2,3 +2,5 @@
 /target/
 /tests_blosm
 /tests/output/*.*
+/tests/output.good
+/tests/output/city_center
