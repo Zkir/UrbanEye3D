@@ -2,3 +2,5 @@
 /target/
 /tests/output/*.*
 
+/tests/output.good
+/tests/output.new
