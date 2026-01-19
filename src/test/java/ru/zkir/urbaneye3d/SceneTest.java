@@ -147,7 +147,7 @@ class SceneTest {
             int i = 0;
             String outputFolder = Settings.prepareTestOutputFolder("city_center");
             for (var re : scene.renderableElements) {
-                ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/city_center_"  + re.primitiveId.toString() + ".obj");
+                ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/"  + re.primitiveId.toString() + ".obj");
                 //RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
                 i++;
             }
