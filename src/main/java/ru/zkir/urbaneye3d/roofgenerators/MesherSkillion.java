@@ -229,7 +229,7 @@ public class MesherSkillion extends RoofGenerator {
             glu.gluDeleteTess(tessBottom);
         }
 
-        if ("roof".equals(building.buildingPart)) {
+        if (building.noWalls) {
             // Extract only the roof faces into a new clean mesh
             Mesh roofShell = Mesh.extractFaces(mesh, mesh.roofFaces);
             // Extrude the isolated roof shell

@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
+import static ru.zkir.urbaneye3d.utils.Settings.SAVE_TEST_RESULTS_TO_FILE;
 
 class RoofGeneratorTopologyTest {
 
@@ -56,16 +57,21 @@ class RoofGeneratorTopologyTest {
         inner.add(new Point2D(innerWidth / 2, innerDepth / 2));
         inner.add(new Point2D(-innerWidth / 2, innerDepth / 2));
 
-        Contour contour = new Contour(outer);
+        Contour contour = new Contour(outer, "XY");
         contour.innerRings.add(inner);
 
         return contour;
     }
     public static RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints);
-        return new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  height, minHeight, roofHeight,
-                "", "", roofShape.toString(), "", "", new HashMap<>(),  null, null );
+        Contour contour = new Contour(basePoints, "XY");
+        var tags = Map.of(
+                "building:part","yes",
+                "height", Double.toString(height),
+                "roof:height", Double.toString(roofHeight),
+                "min_height", Double.toString(minHeight),
+                "roof:shape", roofShape.toString());
+        return  RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
     }
 
     private static void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
@@ -233,36 +239,50 @@ class RoofGeneratorTopologyTest {
         assertNormalsAndConsistency(mesh, roofShape);
     }
 
-
-
     // all defined roof shapes are tested automatically for a typical building.
     // so we should not even worry about extending autotests, they are extended automatically.
     @Test
-    void testAllRoofShapesGeneral(){
+    void testAllRoofShapesGeneral() throws IOException {
+        String outputFolder=null;
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            outputFolder = Settings.prepareTestOutputFolder("General");
+        }
         ArrayList<Point2D> base = createRectangularBase(25, 10);
         for (RoofShapes roof_shape: RoofShapes.values()){
             RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 15, 40);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
-            //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests\\output\\"+roof_shape+".obj");
+            if (SAVE_TEST_RESULTS_TO_FILE) {
+                ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roof_shape +".obj");
+            }
             AssertMeshTopology(mesh, test_building.minHeight, test_building.height,  roof_shape.toString());
         }
     }
 
     //the same test as above, for all known roof shapes, but with wallHeight=0, i.e. no walls (roof only) case.
     @Test
-    void testAllRoofShapesNoWalls(){
+    void testAllRoofShapesNoWalls() throws IOException {
+        String outputFolder=null;
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            outputFolder = Settings.prepareTestOutputFolder("NoWalls");
+        }
         ArrayList<Point2D> base = createRectangularBase(25, 10);
         for (RoofShapes roof_shape: RoofShapes.values()){
             RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 2, 9, 11);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
-            //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests\\output\\"+roof_shape+"NoWalls.obj");
+            if (SAVE_TEST_RESULTS_TO_FILE) {
+                ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roof_shape +".obj");
+            }
             AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape.toString());
         }
     }
 
     @Test
-    void testAllRoofShapesNonRectangular() {
+    void testAllRoofShapesNonRectangular() throws IOException {
         ArrayList<Point2D> base = createPentagonalBase();
+        String outputFolder=null;
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            outputFolder = Settings.prepareTestOutputFolder("NonRectangular");
+        }
         for (RoofShapes roof_shape: RoofShapes.values()) {
             //some roofs still do not support arbitrary bases
             if (roof_shape == RoofShapes.HALF_HIPPED ||
@@ -271,14 +291,20 @@ class RoofGeneratorTopologyTest {
             }
             RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 5, 10);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
-            //ObjExporter.saveMeshToObj(mesh, "tests\\output\\"+roof_shape+"NonRectangular.obj");
+            if (SAVE_TEST_RESULTS_TO_FILE) {
+                ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roof_shape +".obj");
+            }
             AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape + ", pentagonal base");
         }
     }
 
     @Test
-    void testAllRoofShapesNonRectangularNoWalls() {
+    void testAllRoofShapesNonRectangularNoWalls() throws IOException {
         ArrayList<Point2D> base = createPentagonalBase();
+        String outputFolder=null;
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            outputFolder = Settings.prepareTestOutputFolder("NonRectangularNoWalls");
+        }
         for (RoofShapes roof_shape: RoofShapes.values()) {
             //some roofs still do not support arbitrary base
             if (roof_shape == RoofShapes.HALF_HIPPED || //roof_shape == RoofShapes.STEPS ||
@@ -287,7 +313,9 @@ class RoofGeneratorTopologyTest {
             }
             RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 10, 10);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
-            //ObjExporter.saveMeshToObj(mesh, "tests\\output\\"+roof_shape+"NonRectangularNoWalls.obj");
+            if (SAVE_TEST_RESULTS_TO_FILE) {
+                ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roof_shape +".obj");
+            }
             AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape + ", pentagonal base");
         }
     }
@@ -297,7 +325,7 @@ class RoofGeneratorTopologyTest {
      *  for supported roof shapes only (linear profile + skillion).
      */
     @Test
-    void testAllRoofShapesBuildingPartRoof() {
+    void testAllRoofShapesBuildingPartRoof() throws IOException {
         ArrayList<Point2D> base = createRectangularBase(25, 10);
 
         double minHeight = 10;
@@ -310,16 +338,33 @@ class RoofGeneratorTopologyTest {
 
         // Create a RenderableBuildingElement with buildingPart="roof"
         LatLon origin = new LatLon(55, 37);
-        Contour contour = new Contour(base);
+        Contour contour = new Contour(base, "XY");
+        String outputFolder=null;
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            outputFolder = Settings.prepareTestOutputFolder("BuildingPartRoof");
+        }
 
         for (RoofShapes roofShape: supportedRoofShapes ) {
-            RenderableBuildingElement testBuilding = new RenderableBuildingElement(
-                    new SimplePrimitiveId(-1, OsmPrimitiveType.WAY),
-                    origin, contour, height, minHeight, roofHeight,
-                    "", "", roofShape.toString(), "", "", new HashMap<>(), "roof", null);
+            var tags = Map.of ("building:part", "roof",
+                               "height" , Double.toString(height),
+                               "min_height" , Double.toString(minHeight),
+                               "roof:height", Double.toString(roofHeight),
+                               "roof:shape",  roofShape.toString()
+                               );
+
+            RenderableBuildingElement testBuilding = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY),
+                    origin, contour, tags, null);
+
+            //RenderableBuildingElement testBuilding = new RenderableBuildingElement(
+            //        new SimplePrimitiveId(-1, OsmPrimitiveType.WAY),
+            //        origin, contour, height, minHeight, roofHeight,
+            //        "", "", roofShape.toString(), "", "", "roof", null);
 
             // Generate the mesh
             Mesh mesh = roofShape.getMesher().generate(testBuilding);
+            if (SAVE_TEST_RESULTS_TO_FILE) {
+                ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roofShape +".obj");
+            }
 
             // Perform topology checks with the adjusted expected minimum height.
             AssertMeshTopology(mesh, expectedMinZ, testBuilding.height, roofShape.toString() + " + building:part=roof");
@@ -330,28 +375,55 @@ class RoofGeneratorTopologyTest {
     //only SPECIAL cases should be added below.
     // For example, some specific parameter values different from default ones. roof:orientation=across, multipolygons with holes or smth like this.
     @Test
-    void testGabledRoofAcross() {
+    void testGabledRoofAcross() throws IOException {
         ArrayList<Point2D> basePoints = createRectangularBase(10, 20);
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints);
+        Contour contour = new Contour(basePoints,"XY");
 
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 4,
-                "", "", RoofShapes.GABLED.toString(), "", "across", new HashMap<>(), null, null );
+        var tags = Map.of("building:part","yes",
+                          "height", "10",
+                          "min_height", "0",
+                          "roof:height", "4",
+                          "roof:shape", RoofShapes.GABLED.toString(),
+                          "roof:orientation", "across"
+                        );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            String outputFolder = Settings.prepareTestOutputFolder("GabledRoofAcross");
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + "GabledRoofAcross.obj");
+        }
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.GABLED.toString());
     }
 
 
     @Test
-    void testHippedRoofAcross() {
+    void testHippedRoofAcross() throws IOException {
         ArrayList<Point2D> basePoints = createRectangularBase(10, 20);
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.HIPPED.toString(), "", "across", new HashMap<>(),null, null );
+        Contour contour = new Contour(basePoints, "XY");
+
+        var tags = Map.of(
+                "building:part","yes",
+                "height", "10",
+                "min_height", "0",
+                "roof:height", "6",
+                "roof:shape", RoofShapes.HIPPED.toString(),
+                "roof:orientation", "across"
+                    );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
+
+        //new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
+        //"", "", RoofShapes.HIPPED.toString(), "", "across", null, null );
 
         Mesh mesh = RoofShapes.HIPPED.getMesher().generate(test_building);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            String outputFolder = Settings.prepareTestOutputFolder("HippedRoofAcross");
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + "HippedRoofAcross.obj");
+        }
 
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.HIPPED.toString());
     }
@@ -359,56 +431,116 @@ class RoofGeneratorTopologyTest {
 
     // Additional test for skillion roof to test different direction
     @Test
-    void testSkillionRoof() {
+    void testSkillionRoof() throws IOException {
         ArrayList<Point2D> basePoints = createRectangularBase(14, 10);
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.SKILLION.toString(), "45", "", new HashMap<>(),null, null);
+        Contour contour = new Contour(basePoints, "XY");
+        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
+        //        "", "", RoofShapes.SKILLION.toString(), "45", "", null, null);
+
+        var tags = Map.of(
+                "building:part","yes",
+                "height", "10",
+                "min_height", "0",
+                "roof:height", "6",
+                "roof:shape", RoofShapes.SKILLION.toString(),
+                "roof:direction", "45"
+        );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            String outputFolder = Settings.prepareTestOutputFolder("SkillionRoof");
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + "SkillionRoof.obj");
+        }
 
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString());
     }
 
     @Test
-    void testFlatRoofWithHole() {
+    void testFlatRoofWithHole() throws IOException {
         Contour contour = createRectangularBaseWithHole(10, 10, 2, 2);
         LatLon origin = new LatLon(55,37);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 3,
-                "", "", RoofShapes.FLAT.toString(), "", "", new HashMap<>(),null, null );
+        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 3,
+        //        "", "", RoofShapes.FLAT.toString(), "", "", null, null );
+
+        var tags = Map.of(
+                          "building:part","yes",
+                          "height", "10",
+                          "min_height", "0",
+                          "roof:height", "3",
+                          "roof:shape", RoofShapes.FLAT.toString()
+                        );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.FLAT.getMesher().generate(test_building);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            String outputFolder = Settings.prepareTestOutputFolder("FlatRoofWithHole");
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + "FlatRoofWithHole.obj");
+        }
 
         //common set of topology checks for a mesh.
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.FLAT.toString());
+
     }
 
     @Test
-    void testSkillionRoofWithHole() {
+    void testSkillionRoofWithHole() throws IOException {
         Contour contour = createRectangularBaseWithHole(12, 12, 4, 4);
         LatLon origin = new LatLon(55, 37);
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, 10, 0, 5,
-                "", "", RoofShapes.SKILLION.toString(), "30", "", new HashMap<>(),null, null);
+        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, 10, 0, 5,
+        //        "", "", RoofShapes.SKILLION.toString(), "30", "", null, null);
+
+        var tags = Map.of(
+                "building:part","yes",
+                "height", "10",
+                "min_height", "0",
+                "roof:height", "5",
+                "roof:shape", RoofShapes.SKILLION.toString(),
+                "roof:direction", "30"
+        );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            String outputFolder = Settings.prepareTestOutputFolder("SkillionRoofWithHole");
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + "SkillionRoofWithHole.obj");
+        }
+
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
-       // ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests\\output\\SkillionRoofWithHole.obj");
     }
 
 
     @Test
-    void testStepsRoof(){
+    void testStepsRoof() throws IOException {
         ArrayList<Point2D> basePoints = createRectangularBase(5, 10);
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints);
+        Contour contour = new Contour(basePoints, "XY");
         // Note: buildingPart is "steps"
-        RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
-                "", "", RoofShapes.STEPS.toString(), "40", "", new HashMap<>(), "steps", 0.2 );
+        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
+        //        "", "", RoofShapes.STEPS.toString(), "40", "", "steps", 0.2 );
+
+        var tags = Map.of(
+                "building:part", "steps",
+                "step:height", "0.2",
+                "height", "10",
+                "min_height", "0",
+                "roof:height", "6",
+                "roof:shape", RoofShapes.STEPS.toString(),
+                "roof:direction", "40"
+        );
+
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.STEPS.getMesher().generate(test_building);
 
-        //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, "tests\\output\\SkillionRoofAsSteps.obj");
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            String outputFolder = Settings.prepareTestOutputFolder("SkillionRoofAsSteps");
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + "SkillionRoofAsSteps.obj");
+        }
 
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, "STEPS");
     }
