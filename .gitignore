@@ -1,7 +1,7 @@
 /.idea/
 /target/
 /tests/output/*.obj
-/tests/output/city_center/*.obj
+/tests/output/**/*.obj
 
 /tests/output.good
 /tests/output.new
