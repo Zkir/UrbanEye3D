@@ -38,7 +38,6 @@ public class RenderableBuildingElement {
     public final RoofShapes roofShape;
     public final Double roofDirection;
     public final String roofOrientation;
-    private final String buildingPart;
     public final boolean noWalls;
     private final Contour contour;
     public final LatLon origin;
@@ -56,12 +55,12 @@ public class RenderableBuildingElement {
     public static RenderableBuildingElement createBuildingOrPart(PrimitiveId primitiveId, LatLon primitiveOrigin, Contour contour,
                                                                  Map<String, String> primitiveTags, Map<String, String> parentTags ){
         String source_key="";
-        if (primitiveTags.containsKey("building")) {
+        if (primitiveTags.containsKey("building") && !primitiveTags.get("building").equals("no") ) {
             source_key = "building";
-        } else if (primitiveTags.containsKey("building:part")  ) {
+        } else if (primitiveTags.containsKey("building:part")  && !primitiveTags.get("building:part").equals("no") ) {
             source_key="building:part";
         } else {
-            throw new RuntimeException("This is neither building or building part");
+            throw new RuntimeException("This is neither building nor building part");
         }
 
         Double height =  getTagD("height", primitiveTags, parentTags);
@@ -175,16 +174,16 @@ public class RenderableBuildingElement {
             height=minHeight;
         }
 
-        //buildingHeights.put(primitive, height);
-
         // we have the proper support for building:part=roof now,
         // in such case walls and bottom are extruded downwards, for certain roof shapes
-        //TODO: encapsulate logic of minHeight adjustment into RenderableBuildingElement() constructor
-        //TODO: should be coherent with .noWalls flag
-        //TODO: tag wall=no should be also checked
-        //TODO: this should be applied for parts only, not for buildings, because there are no flying buildings on earth.
-        if (primitiveTags.get(source_key).equals("roof")){
-            minHeight = height - roofHeight - DEFAULT_ROOF_THICKNESS;
+        boolean noWalls = false;
+        if (source_key.equals("building:part")) {
+            // walls are not generated if wall=no OR building:part=roof. wall=yes overrides building:part=roof
+            if (("roof".equals(primitiveTags.get(source_key)) && !"yes".equals(primitiveTags.get("wall"))) ||
+                    "no".equals(primitiveTags.get("wall"))) {
+                minHeight = height - roofHeight - DEFAULT_ROOF_THICKNESS;
+                noWalls = true;
+            }
         }
 
         if (height <= 0) {
@@ -215,7 +214,9 @@ public class RenderableBuildingElement {
 
         contour.toLocalCoords(primitiveOrigin);
         contour.removeRedundantNodes();
-        return new RenderableBuildingElement(primitiveId, primitiveOrigin, contour, height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation, primitiveTags.get(source_key), stepHeight);
+        return new RenderableBuildingElement(primitiveId, primitiveOrigin, contour,
+                height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation,
+                stepHeight, noWalls, primitiveTags);
     }
 
     /**
@@ -289,14 +290,19 @@ public class RenderableBuildingElement {
 
         }
         contour.removeRedundantNodes();
-        return new RenderableBuildingElement(primitive.getPrimitiveId(), origin, contour, height, minHeight, 0, color, color, "flat", "", "", null, null);
+        return new RenderableBuildingElement(primitive.getPrimitiveId(), origin, contour,
+                height, minHeight, 0, color, color, "flat", "", "", null,
+                false, primitive.getInterestingTags());
     }
 
 
     /**
-     * This is a private constructor. createBuildingorPart() or createBarrier() should be used outside, especially in autotests
+     * This is a private constructor. createBuildingOrPart() or createBarrier() should be used outside, especially in autotests
      * */
-    private RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour, double height, double minHeight, double roofHeight, String wallColor, String roofColor, String roofShape, String roofDirectionStr, String roofOrientation, String buildingPart, Double stepHeight) {
+    private RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour,
+                                      double height, double minHeight, double roofHeight, String wallColor, String roofColor,
+                                      String roofShape, String roofDirectionStr, String roofOrientation, Double stepHeight,
+                                      boolean noWalls, Map<String, String> tags ) {
         this.primitiveId = primitiveId;
         if (contour==null){
             throw new RuntimeException("contour must be specified");
@@ -337,7 +343,6 @@ public class RenderableBuildingElement {
             roofOrientation="";
         }
         this.roofOrientation = roofOrientation;
-        this.buildingPart = buildingPart;
 
         this.roofHeight = roofHeight;
         this.wallHeight = height - roofHeight;
@@ -352,7 +357,7 @@ public class RenderableBuildingElement {
             this.stepHeight = stepHeight;
         }
 
-        noWalls = "roof".equals(this.buildingPart);
+        this.noWalls = noWalls;
 
         //since we have all the data, we can compose building mesh right in constructor.
         composeMesh();
