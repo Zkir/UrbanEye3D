@@ -44,7 +44,7 @@ public class RenderableBuildingElement {
     public final boolean noWalls;
     private final Contour contour;
     public final LatLon origin;
-	public HashMap<String, String> tags;
+	public Map<String, String> tags;
     public final double stepHeight;
     private Mesh mesh;
 
