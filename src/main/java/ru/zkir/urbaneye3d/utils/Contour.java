@@ -294,7 +294,7 @@ public class Contour {
         return getLocalCoords(new Point2D(node.lon(), node.lat()), center);
     }
 
-    static Point2D getLocalCoords(Point2D point, LatLon center) {
+    public static Point2D getLocalCoords(Point2D point, LatLon center) {
         double dx = point.x - center.lon();
         double dy = point.y - center.lat();
         return new Point2D(dx * Math.cos(Math.toRadians(center.lat())) * GRAD_LENGTH_M,

@@ -9,16 +9,24 @@ import java.util.*;
 
 
 public class Scene {
-
-    //the list of elements that should be rendered.
-    //renderable element can be either a building or a building part.
+    /** The list of scene "elements" that should be rendered.
+    * renderable element can be either a building or a building part. */
     final List<RenderableBuildingElement> renderableElements = new ArrayList<>();
+
+    /** ground plane represents earth surface with projected satellite image.
+     *  Currently, it's separated from other scene objects    */
+    final GroundPlane groundPlane = new GroundPlane();
+
+    public GroundPlane getGroundPlane() {
+        return groundPlane;
+    }
 
     public void updateData(DataSet dataSet) {
         renderableElements.clear();
         if (dataSet == null){
             return;
         }
+        this.getGroundPlane().update();
 
         // A map to cache the expensive-to-create Contour objects for each primitive.
         HashMap<OsmPrimitive, Contour> primitiveContours = new HashMap<>();

@@ -25,7 +25,7 @@ import java.awt.event.MouseWheelListener;
 import java.util.List;
 
 public class Renderer3D extends GLJPanel implements GLEventListener {
-    private final List<RenderableBuildingElement> buildings;
+    private final Scene scene;
     private final GLU glu = new GLU();
     private final double CUTOFF_DISTANCE=5000.0;
     public boolean isWireframeMode;
@@ -57,7 +57,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
 
     public Renderer3D( Scene scene) {
-        this.buildings = scene.renderableElements;
+        this.scene = scene;
         this.addGLEventListener(this);
 
         addMouseListener(new MouseAdapter() {
@@ -178,10 +178,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
-        if ( buildings == null || buildings.isEmpty()) {
-            return;
-        }
-
         // --- Camera Setup (Z-up) ---
         double camX_rad = Math.toRadians(camX_angle);
         double camY_rad = Math.toRadians(camY_angle);
@@ -192,8 +188,16 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 0, 1);
 
+        // --- Render Ground Plane ---
+        scene.getGroundPlane().render(gl);
+
+        if ( scene.renderableElements == null || scene.renderableElements.isEmpty()) {
+            gl.glFlush();
+            return;
+        }
+
         // --- Render buildings ---
-        for (RenderableBuildingElement building : buildings) {
+        for (RenderableBuildingElement building : scene.renderableElements) {
             gl.glPushMatrix();
             LatLon mapCenter = MainApplication.getMap().mapView.getProjection().eastNorth2latlon(MainApplication.getMap().mapView.getCenter());
             double dx = building.origin.lon() - mapCenter.lon();

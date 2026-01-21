@@ -1,5 +1,7 @@
 package ru.zkir.urbaneye3d;
 
+import org.openstreetmap.gui.jmapviewer.tilesources.TMSTileSource;
+import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import org.openstreetmap.josm.data.osm.event.AbstractDatasetChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataSetListener;
@@ -11,9 +13,7 @@ import org.openstreetmap.josm.data.osm.event.TagsChangedEvent;
 import org.openstreetmap.josm.data.osm.event.WayNodesChangedEvent;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
-import org.openstreetmap.josm.gui.layer.LayerManager;
-import org.openstreetmap.josm.gui.layer.MainLayerManager;
-import org.openstreetmap.josm.gui.layer.OsmDataLayer;
+import org.openstreetmap.josm.gui.layer.*;
 import org.openstreetmap.josm.gui.NavigatableComponent;
 import ru.zkir.urbaneye3d.josmactions.ResetCameraAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
@@ -22,10 +22,16 @@ import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class DialogWindow3D extends ToggleDialog
                              implements DataSetListener, NavigatableComponent.ZoomChangeListener,
-                                        LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener
+                                        LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener,
+                                        PropertyChangeListener
 {
     private final Renderer3D renderer3D;
     private final Scene scene3d = new Scene();
@@ -39,6 +45,7 @@ public class DialogWindow3D extends ToggleDialog
     public DialogWindow3D(UrbanEye3dPlugin plugin) {
         super("Urban Eye 3D", "urbaneye3d", "Urban Eye 3D", null, 250, true, UrbanEye3dPreferences.class); //path for the icon is not required, JOSM picks it up by  automatically.
         renderer3D = new Renderer3D(scene3d);
+        scene3d.getGroundPlane().setRenderer(renderer3D);
         createLayout(renderer3D, false, null);
 
         // Register the action so the shortcut works, but don't create a menu item
@@ -69,9 +76,14 @@ public class DialogWindow3D extends ToggleDialog
         MainApplication.getLayerManager().addLayerChangeListener(this);
         MainApplication.getLayerManager().addActiveLayerChangeListener(this);
 
+        //it's highly unlikely for layers to exist on this stage, just to be on a safe side
+        // we also add listeners to layers when they are added.
+        for (Layer layer : MainApplication.getLayerManager().getLayers()) {
+            layer.addPropertyChangeListener(this);
+        }
+
         updateListenedLayer();
         updateData();
-
     }
 
     @Override
@@ -81,6 +93,10 @@ public class DialogWindow3D extends ToggleDialog
 
     @Override
     public void destroy() {
+        NavigatableComponent.removeZoomChangeListener(this);
+        for (Layer layer : MainApplication.getLayerManager().getLayers()) {
+            layer.removePropertyChangeListener(this);
+        }
         updateListenedLayer(null);
         super.destroy();
     }
@@ -118,7 +134,6 @@ public class DialogWindow3D extends ToggleDialog
 
 
     public void updateData() {
-
         if (!this.isUpdateRequired() ){
             //it seems that if 3d window is minimized or closed this is not necessary to update data.
             return;
@@ -129,6 +144,7 @@ public class DialogWindow3D extends ToggleDialog
         } else {
             scene3d.updateData(null);
         }
+
         renderer3D.repaint();
     }
 
@@ -181,21 +197,31 @@ public class DialogWindow3D extends ToggleDialog
         updateData();
     }
 
+    /**
+     *  This event is triggered for both moving and panning.
+     *  We need to process it, because our camera always look to the center of the screen.  */
     @Override
     public void zoomChanged() {
-        //this event is triggered for both moving and panning
-        // we need to process this, because our camera always look to the center of the screen.
-        renderer3D.repaint();
+        if (isUpdateRequired()) {
+            /*
+            * Note the following: Building models do not depend on pan and zoom,
+            * but the ground plane currently does.
+            * */
+            scene3d.getGroundPlane().update();
+            renderer3D.repaint();
+        }
     }
 
     @Override
     public void layerAdded(LayerManager.LayerAddEvent e) {
+        e.getAddedLayer().addPropertyChangeListener(this);
         updateListenedLayer();
         updateData();
     }
 
     @Override
     public void layerRemoving(LayerManager.LayerRemoveEvent e) {
+        e.getRemovedLayer().removePropertyChangeListener(this);
         if (e.getRemovedLayer() == listenedLayer) {
             updateListenedLayer(null);
         }
@@ -211,5 +237,38 @@ public class DialogWindow3D extends ToggleDialog
     public void activeOrEditLayerChanged(MainLayerManager.ActiveLayerChangeEvent e) {
         updateListenedLayer();
         updateData();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        //TODO: it still not clear do we need all layer types here or just TMSLayer
+        if (evt.getSource() instanceof Layer) {
+            if (Layer.VISIBLE_PROP.equals(evt.getPropertyName())) {
+                scene3d.getGroundPlane().update(); //this should recreate texture for ground plane
+                renderer3D.repaint();
+
+                if (evt.getSource() instanceof TMSLayer) {
+                    TMSLayer l = (TMSLayer) evt.getSource();
+                    UrbanEye3dPlugin.debugMsg("LayerInfo: " + l.getInfo());
+                    UrbanEye3dPlugin.debugMsg("      id: " + l.getInfo().getId());
+                    UrbanEye3dPlugin.debugMsg("    name: " + l.getInfo().getName());
+                    UrbanEye3dPlugin.debugMsg("     url: " + l.getInfo().getUrl());
+                    UrbanEye3dPlugin.debugMsg(" ext url: " + l.getInfo().getExtendedUrl());
+                    UrbanEye3dPlugin.debugMsg("    type: " + l.getInfo().getImageryType());
+
+                    try {
+                        Method getTileSourceMethod = AbstractTileSourceLayer.class.getDeclaredMethod("getTileSource");
+                        getTileSourceMethod.setAccessible(true);
+                        TMSTileSource tileSource = (TMSTileSource) getTileSourceMethod.invoke(l);
+                        UrbanEye3dPlugin.debugMsg("    source: " + tileSource.getBaseUrl());
+                        UrbanEye3dPlugin.debugMsg("    source: " + tileSource.getTileUrl(10,1,1));
+                    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                        UrbanEye3dPlugin.debugMsg("    source: (failed to get via reflection: " + e.getMessage() + ")");
+                    } catch (Exception e) {
+                        UrbanEye3dPlugin.debugMsg(e.getMessage());
+                    }
+                }
+            }
+        }
     }
 }

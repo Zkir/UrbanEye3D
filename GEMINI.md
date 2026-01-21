@@ -81,11 +81,20 @@ To be prioritized via MoSCoW method.
 
 ## Recent Accomplishments
 
+### January 29, 2026
+
+*   **TMS URL `{switch}` Placeholder:** Implemented support for a `{switch:a,b,c,...}` placeholder in TMS imagery URL templates within `TileCache.java`. This feature allows JOSM to randomly pick from a list of subdomains (e.g., `a`, `b`, `c`), which is useful for services that use domain sharding for load balancing. The implementation was refactored to use a unified, regular-expression-based approach for both validating and resolving URL templates, making the logic more robust and extensible. A corresponding unit test was added to `TileCacheTest` to ensure the new functionality is working correctly and to prevent regressions.
+
 ### Jan 09, 2025
 
 *   **`building:part=roof` support:**  Buildings/building parts with `building:part=roof` and `roof:shape` = `gabled`, `round`, `gambrel` , `saltbox` and `skillion` are rendered in the same way as F4 map does it: side walls are not generated. 
     However, such parts still remain solid bodies: the logic generates a full building mesh, then cleanly extracts only the roof faces into a new mesh, which is then "extruded" downwards to create a thin but complete solid body. 
 
+### January 24, 2026
+* Implemented rendering of satellite imagery as a ground plane in the 3D viewer with correct scale and dynamic resolution. The `GroundPlane.java` class now correctly captures the current JOSM imagery layer into a `BufferedImage`, which is then used as a texture for the 3D ground plane. This process is independent of the 2D map view's zoom and resolution, as the texture's pixel size (`TEXTURE_SIZE_PIXELS`) and the `VirtualMapView`'s scale (`customScale`) are dynamically adjusted to match JOSM's discrete tile-based zoom levels. This resolves previous issues with incorrect scale, static texture during panning, and `NullPointerExceptions` during initialization.
+
+### January 21, 2026
+* Implemented rendering of satellite imagery as a ground plane in the 3D viewer. The `GroundPlane.java` class now correctly captures the current JOSM imagery layer into a `BufferedImage` using `MapView.paintLayer()`, which is then used as a texture for the 3D ground plane. This resolves the issue where the `debug.png` file remained gray and no imagery was displayed.
 ### Earlier
 
 See the [Devblog](DEVBLOG.md) page.
@@ -419,6 +428,16 @@ Scene #2, Christ the Saviour (921 parts)
 *   **JOSM Plugin Lifecycle:** `UrbanEye3dPlugin` is the entry point. It initializes `DialogWindow3D`, which is a `ToggleDialog`. JOSM automatically handles the creation of the menu item and the visibility of the dialog.
 *   **Event Handling:** The plugin listens for changes in the OSM data (`DataSetListener`) and map view (`MapView.addZoomChangeListener`) to trigger scene updates and redraws.
 *   **OpenGL with JOGL:** The rendering is done in `Renderer3D` using the JOGL library, which provides Java bindings for OpenGL. The rendering pipeline is currently a fixed-function pipeline (`glBegin`/`glEnd`), with plans to move to a modern shader-based pipeline for features like SSAO.
+*   **Imagery Ground Plane Rendering:**
+    *   Implementing an off-screen renderer for JOSM imagery is complex due to the tight coupling of the `MapView` with its state (`MapViewState`) and the rendering pipeline.
+    *   A `VirtualMapView` subclass was necessary to "trick" the imagery layer into rendering at a desired fixed meter-per-side dimension (e.g., 1000m) at a high resolution (e.g., 2048x2048px).
+    *   Reflection is required to swap the `TileCoordinateConverter` in `AbstractTileSourceLayer` to ensure the imagery is drawn according to the `VirtualMapView`'s scale and bounds.
+    *   **Crucial Insight: JOSM Scale and Mercator Projection:** The JOSM renderer operates in **EastNorth projection units per pixel**, not real-world meters per pixel. In the Mercator projection, the conversion factor between real meters and EastNorth units is `cos(latitude)`. Therefore, to accurately render imagery at a specific meter-per-pixel scale, it is essential to convert this to the equivalent EastNorth units per pixel (`scale_EN = scale_meters / cos(latitude)`). Failing to do so results in significant scale mismatches.
+    *   **Dynamic Texture Resolution:** JOSM imagery layers are fundamentally tile-based and quantized into discrete zoom levels. To ensure the ground plane texture renders sharply and at the correct scale without distortion, the `TEXTURE_SIZE_PIXELS` must be dynamically adjusted. This involves:
+        1.  Determining an `idealScale` (e.g., `PLANE_SIZE_METERS / 2048`).
+        2.  Finding the nearest `snappedScale` (EastNorth units/pixel) that JOSM would use for a discrete zoom level, using `NativeScaleLayer.ScaleList.getSnapScale()`.
+        3.  Calculating the `effectiveTextureSizePixels` based on `PLANE_SIZE_METERS / (snappedScale * cos(latitude))`.
+        4.  Providing this `effectiveTextureSizePixels` and `snappedScale` to the `VirtualMapView` for consistent rendering.
 *   **Immediate Mode Rendering:** The current rendering approach sends drawing commands to the GPU for each frame directly. While simple, it's less efficient than using Vertex Buffer Objects (VBOs), which would store geometry on the GPU.
 *   **Roof Geometry Generation:** The `roofgenerators` package showcases a factory pattern. The `RoofShapes` enum acts as a factory, providing the correct `Mesher` instance for a given `roof:shape` tag. This makes it easy to add new roof shapes without changing the core rendering logic.
 *   **Watertight Meshes:** A critical requirement for all generated geometry is that it must be "watertight" (i.e., have no holes). This is crucial for correct rendering and for future features like SSAO or Boolean operations. The `RoofGeometryGeneratorTest` includes checks to enforce this.
@@ -433,3 +452,4 @@ Scene #2, Christ the Saviour (921 parts)
     *   A settings button can be added to a `ToggleDialog` by passing the preference class to its constructor.
     *   A custom help topic can be set by overriding the `helpTopic()` method.
     *   New keyboard shortcuts can be added by creating a class that extends `JosmAction` and instantiating it in the plugin's UI initialization.
+*   **Test Data Factory Pattern:** When adding tests for the `{switch}` placeholder, an initial attempt to call the `ImageryInfo` constructor directly with `null` arguments resulted in a compilation failure. The issue was resolved by following the existing project pattern of using the `ImageryProvider` enum. This experience reinforces the importance of using established factory patterns for creating complex test data. It leads to cleaner, more maintainable tests and avoids brittle, direct constructor calls. Adhering to a project's established conventions is key to preventing errors and ensuring code quality.

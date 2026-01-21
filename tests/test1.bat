@@ -1,3 +1,4 @@
+@cls
 pushd d:\UrbanEye3D
 call mvn package
 if ERRORLEVEL 1 goto :err
