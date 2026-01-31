@@ -12,10 +12,16 @@ import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Math.cos;
@@ -62,15 +68,20 @@ public class GroundTile {
     private volatile BufferedImage imageData;
     private final Object imageDataLock = new Object();
 
-    private final AtomicBoolean isLoading = new AtomicBoolean(false);
     private final AtomicBoolean hasImageData = new AtomicBoolean(false);
     private final AtomicBoolean hasGlTexture = new AtomicBoolean(false);
 
     private TMSLayer imageryLayer;
     private static final int TILE_TEXTURE_SIZE_PIXELS = 2048;
+    private static final int THREAD_POOL_SIZE = 4;
 
-    public GroundTile(GroundTileXY coord, double tileLonSizeDeg, double tileLatSizeDeg) {
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+    private static final Map<String, Future<?>> pendingRequests = new ConcurrentHashMap<>();
+    private final Renderer3D renderer;
+
+    public GroundTile(GroundTileXY coord, double tileLonSizeDeg, double tileLatSizeDeg, Renderer3D renderer) {
         this.coord = Objects.requireNonNull(coord);
+        this.renderer = renderer;
 
         double minLon = coord.x * tileLonSizeDeg;
         double maxLon = (coord.x + 1) * tileLonSizeDeg;
@@ -130,22 +141,32 @@ public class GroundTile {
         }
         return optimalZoomLevel;
     }
-
     public void loadTextureAsync(MapRenderer tmsRenderer, boolean forced) {
-        if ((!forced && hasImageData.get() )  || imageryLayer == null) {
-            return;
+        String key = "#" + this.coord.x + "/" + this.coord.y;
+
+        Runnable task = () -> {
+            try {
+                loadTexture(tmsRenderer, forced);
+            } finally {
+                pendingRequests.remove(key);
+            }
+        };
+
+        Future<?> newTask = executorService.submit(task);
+        Future<?> oldTask = pendingRequests.put(key, newTask);
+        if (oldTask != null) {
+            oldTask.cancel(false);
         }
-        if (isLoading.get()){
-            //UrbanEye3dPlugin.debugMsg ("Denied request for redraw");
+    }
+
+    public void loadTexture(MapRenderer tmsRenderer, boolean forced) {
+        if ((!forced && hasImageData.get()) || imageryLayer == null) {
             return;
         }
 
-        //UrbanEye3dPlugin.debugMsg("loadTextureAsync");
-        isLoading.set(true);
-        //new TileCaptureWorker(tmsRenderer, imageryLayer, this.bounds).execute();
         BufferedImage result = null;
         try {
-            int textureWidth  = (int) Math.ceil(TILE_TEXTURE_SIZE_PIXELS * cos(toRadians(bounds.getCenter().lat())));
+            int textureWidth = (int) Math.ceil(TILE_TEXTURE_SIZE_PIXELS * cos(toRadians(bounds.getCenter().lat())));
             int textureHeight = TILE_TEXTURE_SIZE_PIXELS;
             tmsRenderer.setCurrentImagery(imageryLayer.getInfo());
             int zoomLevel = calculateOptimalZoomLevel(this.bounds, textureWidth);
@@ -154,67 +175,22 @@ public class GroundTile {
         } catch (Exception e) {
             debugMsg("TileCaptureWorker for " + coord + ": Failed to capture image: " + e.getMessage());
         }
-        try {
-            if (result != null) {
+
+        BufferedImage finalResult = result;
+        SwingUtilities.invokeLater(() -> {
+            if (finalResult != null) {
                 synchronized (imageDataLock) {
-                    imageData = result;
+                    imageData = finalResult;
                 }
                 hasImageData.set(true);
-                //since we have a new image, texture should be invalidated
                 hasGlTexture.set(false);
-            }
-        } catch (Exception e) {
-            debugMsg("TileCaptureWorker for " + coord + ": Error in done(): " + e.getMessage());
-        } finally {
-            isLoading.set(false);
-        }
-
-    }
-   /*
-    private class TileCaptureWorker extends SwingWorker<BufferedImage, Void> {
-        private final MapRenderer tmsRenderer;
-        private final TMSLayer layer;
-        private final Bounds captureBounds;
-
-        TileCaptureWorker(MapRenderer tmsRenderer, TMSLayer layer, Bounds captureBounds) {
-            this.tmsRenderer = tmsRenderer;
-            this.layer = layer;
-            this.captureBounds = captureBounds;
-        }
-
-        @Override
-        protected BufferedImage doInBackground() {
-            try {
-                tmsRenderer.setCurrentImagery(layer.getInfo());
-                int zoomLevel = calculateOptimalZoomLevel(captureBounds);
-                return tmsRenderer.renderMap(zoomLevel, captureBounds, TILE_TEXTURE_SIZE_PIXELS, TILE_TEXTURE_SIZE_PIXELS);
-            } catch (Exception e) {
-                debugMsg("TileCaptureWorker for " + coord + ": Failed to capture image: " + e.getMessage());
-                return null;
-            }
-        }
-
-        @Override
-        protected void done() {
-            try {
-                BufferedImage result = get();
-                if (result != null) {
-                    synchronized (imageDataLock) {
-                        imageData = result;
-                    }
-                    hasImageData.set(true);
-                    //since we have a new image, texture should be invalidated
-                    hasGlTexture.set(false);
+                if (renderer != null) {
+                    renderer.repaint();
                 }
-            } catch (Exception e) {
-                debugMsg("TileCaptureWorker for " + coord + ": Error in done(): " + e.getMessage());
-            } finally {
-                isLoading.set(false);
             }
-            UrbanEye3dPlugin.debugMsg("TileCaptureWorker completed for " + captureBounds);
-        }
+        });
     }
-    */
+
 
     public void uploadToGl(GL2 gl) {
         if (!hasImageData.get()) return;
@@ -230,7 +206,6 @@ public class GroundTile {
                 texture = AWTTextureIO.newTexture(gl.getGLProfile(), imageData, false);
                 imageData = null; // Free up system memory
                 hasGlTexture.set(true);
-                // debugMsg("GroundTile " + coord + ": GL Texture uploaded.");
             }
         }
     }
@@ -240,6 +215,7 @@ public class GroundTile {
             if (hasImageData()) {
                 uploadToGl(gl);
             } else {
+                renderAsEmptyTile(gl);
                 return;
             }
         }
@@ -261,6 +237,15 @@ public class GroundTile {
 
         gl.glDisable(GL2.GL_TEXTURE_2D);
     }
+    private void renderAsEmptyTile(GL2 gl){
+        gl.glBegin(GL2.GL_LINE_LOOP);
+        gl.glColor3f(0.0f, 0.0f, 0.0f);
+        for (int index : mesh.bottomFaces.get(0)) {
+            Point3D p = mesh.verts.get(index);
+            gl.glVertex3d(p.x, p.y, p.z);
+        }
+        gl.glEnd();
+    };
 
     public void destroy(GL2 gl) {
         if (texture != null) {
@@ -272,7 +257,6 @@ public class GroundTile {
         }
         hasGlTexture.set(false);
         hasImageData.set(false);
-        isLoading.set(false);
     }
 
     public boolean isReadyToRender() {

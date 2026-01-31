@@ -57,6 +57,14 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         return activeTiles.values();
     }
 
+    /** Returns alls the tiles, both active and cached*/
+    public Collection<GroundTile> getAllTiles(){
+        var allTiles = new ArrayList<GroundTile>();
+        allTiles.addAll(activeTiles.values());
+        allTiles.addAll(tileCache.values());
+        return allTiles;
+    }
+
     public void update() {
         if (!MainApplication.isDisplayingMapView()) return;
 
@@ -98,7 +106,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
             if (tile != null) {
                 activeTiles.put(coord, tile);
             } else {
-                GroundTile newTile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG);
+                GroundTile newTile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG, renderer);
                 newTile.setImageryLayer(currentImageryLayer);
                 newTile.loadTextureAsync(tmsRenderer, false);
                 activeTiles.put(coord, newTile);
@@ -167,9 +175,11 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         }
         return null;
     }
-    private void updateTilesTextures(Bounds bounds){
+
+    /** we need to update the textures of the ground tiles, within given bounds */
+    private void updateGroundTileTextures(Bounds bounds){
         int i = 0;
-        for(var tile: activeTiles.values()){
+        for(var tile: getAllTiles()){
             //we need to update only ground tiles related to downloaded tms tiles
             if(bounds.intersects( tile.bounds)) {
                 tile.loadTextureAsync(this.tmsRenderer, true);
@@ -178,20 +188,19 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         }
         if (i==0){
             UrbanEye3dPlugin.debugMsg( "!!! No tiles found for "+bounds + "!!");
-            for(var tile: activeTiles.values()){
-                UrbanEye3dPlugin.debugMsg( "  "+tile.bounds );
-            }
+            //for(var tile: getAllTiles()){
+            //    UrbanEye3dPlugin.debugMsg( "  "+tile.bounds );
+            //}
         }
 
     }
 
+    /** This is our response to the update of the original TMS tiles */
     @Override
     public void tileCacheUpdated(TileCache.TileCacheUpdateEvent event) {
-        //UrbanEye3dPlugin.debugMsg("tms tile downloaded: " + event);
-        this.updateTilesTextures( tmsRenderer.getTileBounds(event.getZoom(), event.getX(), event.getY()) );
+        this.updateGroundTileTextures( tmsRenderer.getTileBounds(event.getZoom(), event.getX(), event.getY()) );
         if (renderer != null) {
             SwingUtilities.invokeLater(() -> {
-                //UrbanEye3dPlugin.debugMsg("repaint called, EDT: "+SwingUtilities.isEventDispatchThread());
                 renderer.repaint();
             });
         }
