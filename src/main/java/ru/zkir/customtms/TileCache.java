@@ -58,6 +58,12 @@ public class TileCache {
         public int getY() {
             return y;
         }
+
+        @Override
+       public String toString(){
+            return "[" + zoom + ", " + x + ", "  + y + " (" + pendingTiles + ")]";
+        }
+
     }
 
     /** there can be only one instance of the tile cache, otherwise they will duplicate tiles in memory and fight for tiles on disk. */

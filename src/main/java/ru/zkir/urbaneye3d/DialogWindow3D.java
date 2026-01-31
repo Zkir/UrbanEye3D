@@ -1,7 +1,6 @@
 package ru.zkir.urbaneye3d;
 
 import org.openstreetmap.gui.jmapviewer.tilesources.TMSTileSource;
-import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import org.openstreetmap.josm.data.osm.event.AbstractDatasetChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataSetListener;
@@ -19,12 +18,12 @@ import ru.zkir.urbaneye3d.josmactions.ResetCameraAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
 
+import javax.swing.*;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -244,8 +243,12 @@ public class DialogWindow3D extends ToggleDialog
         //TODO: it still not clear do we need all layer types here or just TMSLayer
         if (evt.getSource() instanceof Layer) {
             if (Layer.VISIBLE_PROP.equals(evt.getPropertyName())) {
-                scene3d.getGroundPlane().update(); //this should recreate texture for ground plane
-                renderer3D.repaint();
+                //recreated groundplane geometries and texture
+                scene3d.getGroundPlane().update();
+                //this is some kind of back magic, otherwise repaint does not work.
+                SwingUtilities.invokeLater(() -> {
+                    this.getRenderer3D().repaint();
+                });
 
                 if (evt.getSource() instanceof TMSLayer) {
                     TMSLayer l = (TMSLayer) evt.getSource();

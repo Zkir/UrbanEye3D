@@ -7,6 +7,7 @@ import static java.lang.Math.*;
 import java.awt.image.BufferedImage;
 
 import org.openstreetmap.josm.data.Bounds;
+import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 
 /**
  *  This is a custom TMS renderer, developed specifically for the UrbanEye3D plugin, because JOSM class hierarchy
@@ -137,6 +138,12 @@ public class MapRenderer {
         return toDegrees(atan(sinh(n)));
     }
 
+    /** Calculates geographic boundaries of the given tile.*/
+    public Bounds getTileBounds(int zoom, int x, int y){
+        return new Bounds(tile2lat(y+1, zoom), tile2lon(x, zoom), tile2lat(y, zoom), tile2lon(x+1, zoom));
+    }
+
+    /** Sets and validates imagery for rending, based on JOSM {@link  ImageryInfo} data structure. */
     public void setCurrentImagery(ImageryInfo imageryInfo) {
         this.tileCache.validateImageryInfo(imageryInfo);
         this.currentImagery = imageryInfo;

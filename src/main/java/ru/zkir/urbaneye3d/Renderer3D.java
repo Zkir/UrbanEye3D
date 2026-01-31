@@ -166,7 +166,10 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         camY_angle = DEFAULT_CAM_HOR_ANGLE;
         repaint();
     }
-
+    public LatLon getCameraPosition() {
+        //return MainApplication.getMap().mapView.getProjection().eastNorth2latlon(MainApplication.getMap().mapView.getCenter());
+        return MainApplication.getMap().mapView.getRealBounds().getCenter();
+    }
 
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
@@ -188,8 +191,19 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 0, 1);
 
-        // --- Render Ground Plane ---
-        scene.getGroundPlane().render(gl);
+        // --- Render Ground Plane Tiles ---
+        LatLon mapCenter = getCameraPosition();
+        for (GroundTile tile : scene.getGroundPlane().getActiveTiles()) {
+            gl.glPushMatrix();
+            LatLon tileCenter = tile.bounds.getCenter();
+            double dx = tileCenter.lon() - mapCenter.lon();
+            double dy = tileCenter.lat() - mapCenter.lat();
+            double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+            double transY = dy * 111320.0;
+            gl.glTranslated(transX, transY, 0);
+            tile.render(gl);
+            gl.glPopMatrix();
+        }
 
         if ( scene.renderableElements == null || scene.renderableElements.isEmpty()) {
             gl.glFlush();
@@ -199,7 +213,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         // --- Render buildings ---
         for (RenderableBuildingElement building : scene.renderableElements) {
             gl.glPushMatrix();
-            LatLon mapCenter = MainApplication.getMap().mapView.getProjection().eastNorth2latlon(MainApplication.getMap().mapView.getCenter());
             double dx = building.origin.lon() - mapCenter.lon();
             double dy = building.origin.lat() - mapCenter.lat();
             double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
@@ -335,6 +348,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glColor3f(finalColor.getRed() / 255.0f, finalColor.getGreen() / 255.0f, finalColor.getBlue() / 255.0f);
         gl.glVertex3d(vertex.x, vertex.y, vertex.z);
     }
+
+
 
     // Tessellator callback inner class
     private class TessellatorCallback extends GLUtessellatorCallbackAdapter {
