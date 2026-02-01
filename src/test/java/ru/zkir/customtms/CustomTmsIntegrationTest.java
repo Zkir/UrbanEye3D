@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CustomTmsIntegrationTest{
 
     private static MapRenderer mapRenderer;
-    private static final String TEST_OUTPUT_DIR = "target/test-output/integrated";
+    private static final String TEST_OUTPUT_DIR = "target/test-output/custom-tms-integrated";
 
     @BeforeAll
     public static void InitTest() throws IOException {
@@ -69,7 +69,7 @@ public class CustomTmsIntegrationTest{
 
 
     /**
-     *  In this test we check that if tiles are not yest loaded, we get placeholders.
+     *  In this test we check that if tiles are not yet loaded, we get placeholders.
      */
     @Test public void testRenderMapWithoutPreload() throws IOException {
 
@@ -105,12 +105,21 @@ public class CustomTmsIntegrationTest{
     }
 
     /** Test how invalid TMS URL, e.g. with unknown placeholders is processed.
-     * If url cannot be parsed, exception is expected.
+     * Red tiles with error message are expected.
     */
-    @Test public void testInvalidTMSUrl(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            mapRenderer.setCurrentImagery(ImageryProvider.INVALID_PLACEHOLDERS.getImageryInfo());
-        });
+    @Test public void testInvalidTMSUrl() throws IOException {
+        // Bounding box for Moscow
+        Bounds bbox = new Bounds( 55.5,37.0, 56.0, 38.0);
+        int width =  729;
+        int height = 643;
+        int zoom =  10;
+
+        mapRenderer.setCurrentImagery(ImageryProvider.INVALID_PLACEHOLDERS.getImageryInfo());
+
+        // The first and only request for rendering
+        BufferedImage renderedImage = mapRenderer.renderMap(zoom, bbox, width, height);
+
+        verifyRenderedImage(renderedImage, "rendered-map-invalid-url.png", 3, false, width, height);
     }
 
 

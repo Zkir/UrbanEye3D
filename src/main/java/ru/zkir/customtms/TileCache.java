@@ -1,6 +1,7 @@
 package ru.zkir.customtms;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +21,13 @@ import java.util.regex.Pattern;
 
 import org.openstreetmap.josm.data.Version;
 import org.openstreetmap.josm.data.imagery.ImageryInfo;
+import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 
 /** Cache to store TMS tiles and fetch them via http. Relies on  {@link ImageryInfo} as layer properties
  * There can be only once instance of this class */
 public class TileCache {
+
+    private final static BufferedImage TILE_NOT_FOUND_DEFAULT_IMAGE = getTileNotFoundDefaultImage();
 
     @FunctionalInterface
     public interface CacheUpdateListener {
@@ -101,7 +105,7 @@ public class TileCache {
     }
 
     /** TileCache knows how to validate {@link ImageryInfo}, because this class uses it */
-    public void validateImageryInfo(ImageryInfo imageryInfo) {
+    public boolean validateImageryInfo(ImageryInfo imageryInfo) {
         // layer Id is necessary, because it is used as a key.
         if (imageryInfo.getId().isEmpty()){
             throw new IllegalArgumentException("Layer id is necessary");
@@ -110,14 +114,13 @@ public class TileCache {
         // For Bing, the URL is not a template in the same way, so we skip placeholder validation.
         // The type check in downloadTile is what matters.
         if (imageryInfo.getImageryType() == ImageryInfo.ImageryType.BING) {
-            return;
+            return true;
         }
 
         String urlTemplate = imageryInfo.getUrl();
         // Still need to check for mandatory placeholders for non-Bing TMS.
         if (!(urlTemplate.contains("{zoom}")  && urlTemplate.contains("{x}")  && urlTemplate.contains("{y}")) ){
-            throw new IllegalArgumentException("URL template "+ urlTemplate + " does not contain the required placeholders. " +
-                    "Placeholders {zoom}, {x}, {y}  are mandatory for non-Bing layers.");
+           return false;
         }
 
         // Now, let's "dry run" the resolver to validate all placeholders.
@@ -126,8 +129,9 @@ public class TileCache {
             resolveTileUrl(urlTemplate, 0, 0, 0);
         } catch (IllegalArgumentException e) {
             // If resolveTileUrl throws an error, the template is invalid.
-            throw new IllegalArgumentException("Invalid placeholder in URL template: " + urlTemplate, e);
+            return false;
         }
+        return true;
     }
 
     /** Cache is cleared and the ongoing downloads are canceled.
@@ -323,10 +327,11 @@ public class TileCache {
 
             if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 return ImageIO.read(conn.getInputStream());
-            } else{
-                //TODO: if we get 404 "not found" (HttpURLConnection.HTTP_NOT_FOUND), we probably should do something better
-                //  than just return null, e.g. create a png tile ourselves with "Tile not available" message
-                //  and a shorter expiry period
+            } else if (conn.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND){
+                //TODO: maybe we should set a shorter expiry period
+                return TILE_NOT_FOUND_DEFAULT_IMAGE;
+            } else {
+                UrbanEye3dPlugin.debugMsg("Unable to get tile "+urlString+". error code: " + conn.getResponseCode());
             }
         } catch (IOException e) {
             System.err.println("Failed to download tile: " + urlString);
@@ -334,6 +339,23 @@ public class TileCache {
         }
         return null;
     }
+
+    private static BufferedImage getTileNotFoundDefaultImage(){
+        //TODO: move this method from TileCache somewhere
+
+        final int TILE_SIZE = 256;
+        BufferedImage result = new BufferedImage(TILE_SIZE, TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
+        var g2d = result.createGraphics();
+        g2d.setColor(Color.PINK);
+        g2d.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        g2d.setColor(Color.WHITE);
+        String text =  "404: Tile not available"; //zoom + "/" + x + "/" + y;
+        FontMetrics fm = g2d.getFontMetrics();
+        int stringWidth = fm.stringWidth(text);
+        g2d.drawString(text, (TILE_SIZE - stringWidth) / 2,  TILE_SIZE / 2);
+        g2d.dispose();
+        return result;
+    };
 
     private Path getDiskCachePath(String layerId, int zoom, int x, int y) {
         return Paths.get(diskCachePath, layerId, String.valueOf(zoom), String.valueOf(x), y + ".png");

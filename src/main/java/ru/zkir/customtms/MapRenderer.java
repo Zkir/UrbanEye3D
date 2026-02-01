@@ -31,6 +31,7 @@ public class MapRenderer {
     private final TileCache tileCache = TileCache.getInstance();
     private static final int TILE_SIZE = 256;//TODO: move to ImageryInfo
     private ImageryInfo currentImagery; //no default, should be set explicitly and validated.
+    private boolean isImageryValid=false;
 
     /**
      *  Renders a satellite layer to a new image.
@@ -66,14 +67,17 @@ public class MapRenderer {
         Point position = calculateTilePosition(zoom, tileBounds.minX, tileBounds.minY, bounds, outputWidthExpected, outputHeightExpected);
         for (int x = tileBounds.minX; x <= tileBounds.maxX; x++) {
             for (int y = tileBounds.minY; y <= tileBounds.maxY; y++) {
-
-                BufferedImage tile = tileCache.getTile(currentImagery, zoom, x, y);
-                int tilePosX=position.x+TILE_SIZE*(x-tileBounds.minX);
-                int tilePosY=position.y+TILE_SIZE*(y-tileBounds.minY);
-                if (tile != null) {
-                    g2d.drawImage(tile, tilePosX , tilePosY, TILE_SIZE, TILE_SIZE, null);
-                } else {
-                    drawPlaceholder(g2d, zoom, x, y, tilePosX, tilePosY);
+                int tilePosX = position.x + TILE_SIZE * (x - tileBounds.minX);
+                int tilePosY = position.y + TILE_SIZE * (y - tileBounds.minY);
+                if  (this.isImageryValid) {
+                    BufferedImage tile = tileCache.getTile(currentImagery, zoom, x, y);
+                    if (tile != null) {
+                        g2d.drawImage(tile, tilePosX, tilePosY, TILE_SIZE, TILE_SIZE, null);
+                    } else {
+                        drawPlaceholder(g2d, zoom, x, y, tilePosX, tilePosY);
+                    }
+                }else{
+                    drawInvalid(g2d, zoom, x, y, tilePosX, tilePosY);
                 }
             }
         }
@@ -103,6 +107,20 @@ public class MapRenderer {
         FontMetrics fm = g.getFontMetrics();
         int stringWidth = fm.stringWidth(text);
         g.drawString(text, tilePosX + (TILE_SIZE - stringWidth) / 2, tilePosY + TILE_SIZE / 2);
+    }
+
+    private void drawInvalid(Graphics2D g, int zoom, int x, int y, int tilePosX, int tilePosY) {
+        g.setColor(Color.RED);
+        g.fillRect(tilePosX, tilePosY, TILE_SIZE, TILE_SIZE);
+        g.setColor(Color.WHITE);
+        g.drawRect(tilePosX, tilePosY, TILE_SIZE, TILE_SIZE);
+        String text = "LAYER NOT SUPPORTED";
+        FontMetrics fm = g.getFontMetrics();
+        int stringWidth = fm.stringWidth(text);
+        g.setColor(Color.BLACK);
+        g.drawString(text, tilePosX + (TILE_SIZE - stringWidth) / 2, tilePosY + TILE_SIZE / 2);
+        g.setColor(Color.WHITE);
+        g.drawString(text, tilePosX + (TILE_SIZE - stringWidth) / 2 + 2, tilePosY + TILE_SIZE / 2 + 2);
     }
 
     public TileBounds calculateTileBounds(int zoom, Bounds bbox) {
@@ -145,7 +163,7 @@ public class MapRenderer {
 
     /** Sets and validates imagery for rending, based on JOSM {@link  ImageryInfo} data structure. */
     public void setCurrentImagery(ImageryInfo imageryInfo) {
-        this.tileCache.validateImageryInfo(imageryInfo);
+        this.isImageryValid = this.tileCache.validateImageryInfo(imageryInfo);
         this.currentImagery = imageryInfo;
     }
 

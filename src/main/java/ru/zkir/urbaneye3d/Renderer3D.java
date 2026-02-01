@@ -23,6 +23,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.List;
+import java.util.Map;
 
 public class Renderer3D extends GLJPanel implements GLEventListener {
     private final Scene scene;
@@ -166,8 +167,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         camY_angle = DEFAULT_CAM_HOR_ANGLE;
         repaint();
     }
-    public LatLon getCameraPosition() {
-        //return MainApplication.getMap().mapView.getProjection().eastNorth2latlon(MainApplication.getMap().mapView.getCenter());
+    public static LatLon getCameraPosition() {
         return MainApplication.getMap().mapView.getRealBounds().getCenter();
     }
 

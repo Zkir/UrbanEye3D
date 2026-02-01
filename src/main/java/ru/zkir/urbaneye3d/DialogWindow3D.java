@@ -1,6 +1,7 @@
 package ru.zkir.urbaneye3d;
 
 import org.openstreetmap.gui.jmapviewer.tilesources.TMSTileSource;
+import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.event.AbstractDatasetChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataSetListener;
@@ -206,7 +207,10 @@ public class DialogWindow3D extends ToggleDialog
             * Note the following: Building models do not depend on pan and zoom,
             * but the ground plane currently does.
             * */
-            scene3d.getGroundPlane().update();
+            var tmsLayer =  scene3d.getGroundPlane().getTopmostImageryLayer();
+            LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
+
+            scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer);
             renderer3D.repaint();
         }
     }
@@ -243,33 +247,15 @@ public class DialogWindow3D extends ToggleDialog
         //TODO: it still not clear do we need all layer types here or just TMSLayer
         if (evt.getSource() instanceof Layer) {
             if (Layer.VISIBLE_PROP.equals(evt.getPropertyName())) {
-                //recreated groundplane geometries and texture
-                scene3d.getGroundPlane().update();
-                //this is some kind of back magic, otherwise repaint does not work.
-                SwingUtilities.invokeLater(() -> {
-                    this.getRenderer3D().repaint();
-                });
-
-                if (evt.getSource() instanceof TMSLayer) {
-                    TMSLayer l = (TMSLayer) evt.getSource();
-                    UrbanEye3dPlugin.debugMsg("LayerInfo: " + l.getInfo());
-                    UrbanEye3dPlugin.debugMsg("      id: " + l.getInfo().getId());
-                    UrbanEye3dPlugin.debugMsg("    name: " + l.getInfo().getName());
-                    UrbanEye3dPlugin.debugMsg("     url: " + l.getInfo().getUrl());
-                    UrbanEye3dPlugin.debugMsg(" ext url: " + l.getInfo().getExtendedUrl());
-                    UrbanEye3dPlugin.debugMsg("    type: " + l.getInfo().getImageryType());
-
-                    try {
-                        Method getTileSourceMethod = AbstractTileSourceLayer.class.getDeclaredMethod("getTileSource");
-                        getTileSourceMethod.setAccessible(true);
-                        TMSTileSource tileSource = (TMSTileSource) getTileSourceMethod.invoke(l);
-                        UrbanEye3dPlugin.debugMsg("    source: " + tileSource.getBaseUrl());
-                        UrbanEye3dPlugin.debugMsg("    source: " + tileSource.getTileUrl(10,1,1));
-                    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                        UrbanEye3dPlugin.debugMsg("    source: (failed to get via reflection: " + e.getMessage() + ")");
-                    } catch (Exception e) {
-                        UrbanEye3dPlugin.debugMsg(e.getMessage());
-                    }
+                //recreated ground plane geometries and texture
+                if(isUpdateRequired()) {
+                    var tmsLayer =  scene3d.getGroundPlane().getTopmostImageryLayer();
+                    LatLon visibleAreaCenter = this.renderer3D.getCameraPosition();
+                    scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer);
+                    //this is some kind of back magic, otherwise repaint does not work.
+                    SwingUtilities.invokeLater(() -> {
+                        this.getRenderer3D().repaint();
+                    });
                 }
             }
         }

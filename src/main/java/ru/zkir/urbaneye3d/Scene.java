@@ -2,6 +2,7 @@ package ru.zkir.urbaneye3d;
 
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
+import org.openstreetmap.josm.gui.MainApplication;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Point2D;
 
@@ -26,7 +27,14 @@ public class Scene {
         if (dataSet == null){
             return;
         }
-        this.getGroundPlane().update();
+
+        if (MainApplication.isDisplayingMapView()) {
+            //TODO: it's a dirty hack.
+            // If the main map window is not visible, we cannot neither obtain map center nor active satellite layer
+            var tmsLayer = this.getGroundPlane().getTopmostImageryLayer();
+            var visibleAreaCenter = Renderer3D.getCameraPosition();
+            this.groundPlane.update(visibleAreaCenter, tmsLayer);
+        }
 
         // A map to cache the expensive-to-create Contour objects for each primitive.
         HashMap<OsmPrimitive, Contour> primitiveContours = new HashMap<>();

@@ -5,7 +5,7 @@ import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
-import org.openstreetmap.josm.gui.layer.TMSLayer;
+import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import ru.zkir.customtms.MapRenderer;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
@@ -71,7 +71,7 @@ public class GroundTile {
     private final AtomicBoolean hasImageData = new AtomicBoolean(false);
     private final AtomicBoolean hasGlTexture = new AtomicBoolean(false);
 
-    private TMSLayer imageryLayer;
+    private ImageryInfo imageryLayer;
     private static final int TILE_TEXTURE_SIZE_PIXELS = 2048;
     private static final int THREAD_POOL_SIZE = 4;
 
@@ -110,7 +110,7 @@ public class GroundTile {
         mesh.bottomFaces.add(new int[]{0, 1, 2, 3});
     }
 
-    public void setImageryLayer(TMSLayer layer) {
+    public void setImageryLayer(ImageryInfo layer) {
         if (!Objects.equals(this.imageryLayer, layer)) {
             this.imageryLayer = layer;
             if (hasImageData.get()) {
@@ -168,7 +168,7 @@ public class GroundTile {
         try {
             int textureWidth = (int) Math.ceil(TILE_TEXTURE_SIZE_PIXELS * cos(toRadians(bounds.getCenter().lat())));
             int textureHeight = TILE_TEXTURE_SIZE_PIXELS;
-            tmsRenderer.setCurrentImagery(imageryLayer.getInfo());
+            tmsRenderer.setCurrentImagery(imageryLayer);
             int zoomLevel = calculateOptimalZoomLevel(this.bounds, textureWidth);
             result = tmsRenderer.renderMap(zoomLevel, this.bounds, textureWidth, textureHeight);
 
@@ -263,4 +263,8 @@ public class GroundTile {
         return hasGlTexture.get();
     }
     public boolean hasImageData() { return hasImageData.get(); }
+    
+    public BufferedImage getImage(){
+        return this.imageData;
+    }
 }

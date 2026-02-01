@@ -3,8 +3,9 @@ package ru.zkir.urbaneye3d;
 import com.jogamp.opengl.GL2;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
-import org.openstreetmap.josm.gui.MainApplication;
-import org.openstreetmap.josm.gui.MapView;
+import org.openstreetmap.josm.data.imagery.ImageryInfo;
+import org.openstreetmap.josm.gui.MainApplication; //TODO: to be removed
+import org.openstreetmap.josm.gui.MapView; //TODO: to be removed
 import org.openstreetmap.josm.gui.layer.Layer;
 import org.openstreetmap.josm.gui.layer.TMSLayer;
 import ru.zkir.customtms.MapRenderer;
@@ -40,7 +41,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     };
 
     private Renderer3D renderer;
-    private TMSLayer currentImageryLayer;
+    private ImageryInfo currentImageryLayer;
     private final MapRenderer tmsRenderer = new MapRenderer();
 
     private static final double TILE_SIZE_DEG = 0.01;
@@ -65,11 +66,8 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         return allTiles;
     }
 
-    public void update() {
-        if (!MainApplication.isDisplayingMapView()) return;
+    public void update(LatLon visibleAreaCenter, ImageryInfo newImageryLayer) {
 
-        MapView mv = MainApplication.getMap().mapView;
-        TMSLayer newImageryLayer = getTopmostImageryLayer(mv);
         if (!Objects.equals(currentImageryLayer, newImageryLayer)) {
             currentImageryLayer = newImageryLayer;
             // When layer changes, clear everything. Simpler than trying to update.
@@ -84,7 +82,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         }
         //We need to determine the visible area. For now just a constant.
         // TODO: link with cut-off distance.
-        Bounds viewBounds = getVisibleArea();
+        Bounds viewBounds = getVisibleArea(visibleAreaCenter);
 
         Set<GroundTile.GroundTileXY> requiredCoords = calculateRequiredTiles(viewBounds);
 
@@ -112,7 +110,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
                 activeTiles.put(coord, newTile);
             }
         }
-        renderer.repaint(5);
+        renderer.repaint();
     }
 
     private Set<GroundTile.GroundTileXY> calculateRequiredTiles(Bounds viewBounds) {
@@ -133,7 +131,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         return required;
     }
     
-    private void clearAllTiles() {
+    public void clearAllTiles() {
         if (renderer != null) {
             renderer.invoke(false, glAutoDrawable -> {
                 GL2 gl = glAutoDrawable.getGL().getGL2();
@@ -150,9 +148,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         tileCache.clear();
     }
 
-    private Bounds getVisibleArea(){
-        LatLon center = this.renderer.getCameraPosition();
-
+    private Bounds getVisibleArea(LatLon center){
         final double N = 0.75;
         double dLat = TILE_SIZE_DEG*N;
         double dLon = TILE_SIZE_DEG*N / cos(toRadians(center.lat()));
@@ -161,13 +157,14 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
 
     }
 
-    private TMSLayer getTopmostImageryLayer(MapView mv) {
+    ImageryInfo getTopmostImageryLayer() {
+        MapView mv = MainApplication.getMap().mapView;
         for (Layer layer : mv.getLayerManager().getLayers()) {
             if (layer instanceof TMSLayer && layer.isVisible()) {
                 TMSLayer tmsLayer = (TMSLayer) layer;
                 try {
                     tmsRenderer.setCurrentImagery(tmsLayer.getInfo());
-                    return tmsLayer;
+                    return tmsLayer.getInfo();
                 } catch (IllegalArgumentException e) {
                     // Skip incompatible layers
                 }
@@ -187,7 +184,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
             }
         }
         if (i==0){
-            UrbanEye3dPlugin.debugMsg( "!!! No tiles found for "+bounds + "!!");
+            UrbanEye3dPlugin.debugMsg("No ground tiles found for " + bounds + "!");
             //for(var tile: getAllTiles()){
             //    UrbanEye3dPlugin.debugMsg( "  "+tile.bounds );
             //}
@@ -204,6 +201,10 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
                 renderer.repaint();
             });
         }
+    }
+
+    public int getPendingTileUpdateRequests() {
+        return tmsRenderer.getPendingRequestsCount();
     }
 }
 

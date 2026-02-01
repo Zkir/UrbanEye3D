@@ -15,7 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class TileCacheTest {
-    private static final String TEST_OUTPUT_DIR = "target/test-output/race-condition";
+    private static final String TEST_OUTPUT_DIR = "target/test-output/custom-tms-race-condition";
 
     @BeforeAll
     public static void InitTest() throws IOException {
