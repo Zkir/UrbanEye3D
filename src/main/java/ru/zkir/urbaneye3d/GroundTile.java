@@ -80,6 +80,26 @@ public class GroundTile {
     private static final Map<String, Future<?>> pendingRequests = new ConcurrentHashMap<>();
     private final Renderer3D renderer;
 
+    public static int getPendingRequestsCount() {
+        return pendingRequests.size();
+    }
+
+    public static void cancelAllPendingRequests() {
+        for (Future<?> future : pendingRequests.values()) {
+            future.cancel(true);
+        }
+        pendingRequests.clear();
+    }
+
+    public void cancelLoadRequest() {
+        String key = "#" + this.coord.x + "/" + this.coord.y;
+        Future<?> future = pendingRequests.get(key);
+        if (future != null) {
+            future.cancel(true);
+            pendingRequests.remove(key);
+        }
+    }
+
     public GroundTile(GroundTileXY coord, double tileLonSizeDeg, double tileLatSizeDeg, Renderer3D renderer) {
         this.coord = Objects.requireNonNull(coord);
         this.renderer = renderer;
@@ -279,4 +299,8 @@ public class GroundTile {
     public BufferedImage getImage(){
         return this.imageData;
     }
+    public static int getPendingGroundTilePaintRequests() {
+        return pendingRequests.size();
+    }
+
 }

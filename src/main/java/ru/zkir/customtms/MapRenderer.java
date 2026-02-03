@@ -174,12 +174,21 @@ public class MapRenderer {
 
     /** Sets and validates imagery for rending, based on JOSM {@link  ImageryInfo} data structure. */
     public void setCurrentImagery(ImageryInfo imageryInfo) {
+        if (imageryInfo == null) {
+            this.isImageryValid = false;
+            this.currentImagery = null;
+            return;
+        }
         this.isImageryValid = this.tileCache.validateImageryInfo(imageryInfo);
         this.currentImagery = imageryInfo;
     }
 
     public void clearCache() {
         this.tileCache.clearCache();
+    }
+
+    public void cancelAllPendingRequests() {
+        this.tileCache.cancelAllPendingRequests();
     }
 
     public int getPendingRequestsCount() {

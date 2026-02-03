@@ -28,6 +28,7 @@ import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 public class TileCache {
 
     private final static BufferedImage TILE_NOT_FOUND_DEFAULT_IMAGE = getTileNotFoundDefaultImage();
+    private static final String TILE_CACHE_FOLDER = ".UrbanEye3D";
 
     @FunctionalInterface
     public interface CacheUpdateListener {
@@ -96,7 +97,7 @@ public class TileCache {
         if (created) {
             throw new RuntimeException("Only one instance of TileCash is allowed");
         }
-        this.diskCachePath = System.getProperty("user.home") + File.separator + ".tms_renderer" + File.separator + "tile_cache";
+        this.diskCachePath = System.getProperty("user.home") + File.separator + TILE_CACHE_FOLDER  + File.separator + "tile_cache";
         new File(diskCachePath).mkdirs();
         created = true;
     }
@@ -138,10 +139,7 @@ public class TileCache {
      * This ensures that cache remains clear */
     public void clearCache() {
         // Cancel and clear pending requests
-        for (Future<BufferedImage> future : pendingRequests.values()) {
-            future.cancel(true); // Interrupt if running
-        }
-        pendingRequests.clear();
+        cancelAllPendingRequests();
 
         // Clear memory cache
         synchronized (memoryCache) {
@@ -163,6 +161,13 @@ public class TileCache {
         }
         // Re-create the root directory
         new File(diskCachePath).mkdirs();
+    }
+
+    public void cancelAllPendingRequests() {
+        for (Future<BufferedImage> future : pendingRequests.values()) {
+            future.cancel(true); // Interrupt if running
+        }
+        pendingRequests.clear();
     }
 
     private String getTileKey(String layerId, int zoom, int x, int y) {

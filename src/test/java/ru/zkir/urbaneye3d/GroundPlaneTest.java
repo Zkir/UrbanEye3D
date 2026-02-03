@@ -19,6 +19,8 @@ import org.openstreetmap.josm.data.Preferences;
 import ru.zkir.customtms.ImageryProvider;
 
 import org.junit.jupiter.api.*;
+import ru.zkir.customtms.TileCache;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -34,6 +36,12 @@ public class GroundPlaneTest {
 
         // 2. Setup directories for test output
         Files.createDirectories(Paths.get(TEST_OUTPUT_DIR));
+
+        System.setProperty("urbaneye3d.unittest", "true");
+    }
+
+    @BeforeEach void prepare(){
+        TileCache.getInstance().clearCache();
     }
 
     @AfterAll
@@ -41,6 +49,9 @@ public class GroundPlaneTest {
 
     }
 
+    /**
+     * In this test we check that ground plane tiles are created and get sane textures
+     */
     @Test
     public void testGroundPlaneCreation() throws InterruptedException, IOException {
         // 1. Configure the environment
@@ -96,6 +107,80 @@ public class GroundPlaneTest {
         // Cleanup after the test
         groundPlane.clearAllTiles();
     }
+
+    /**
+     *  We would like to prevent the unpleasant situation when ground plane tiles are disposed,
+     *  but the download still continues
+     */
+    @Test
+    public void testGroundPlaneDisposeTiles() throws InterruptedException, IOException {
+        // 1. Configure the environment
+        var scene = new Scene();
+        var renderer = new Renderer3D(scene);
+        var groundPlane = scene.getGroundPlane();
+        groundPlane.setRenderer(renderer);
+
+        ImageryInfo testLayer = ImageryProvider.OSM_CARTO.getImageryInfo();
+
+        // 2. Trigger tile creation and loading
+        LatLon visibleAreaCenter = new LatLon(55.753960, 37.620393);
+        groundPlane.update(visibleAreaCenter, testLayer);
+        //wait a little bit until the download process starts.
+        TimeUnit.MILLISECONDS.sleep(100);
+        assertTrue(groundPlane.getPendingTileUpdateRequests() > 0, "To continue test, we need some pending tile requests");
+
+        //3. Imagery layer is turned off. Nothing to draw or request from tms tile cache.
+        groundPlane.update(visibleAreaCenter, null);
+
+        //4. Assertions
+        // we would like to test that:
+        // 1) There are no ground tiles
+        // 2) There are no pending tile requests
+
+        assertEquals(0, groundPlane.getActiveTiles().size(), "Since tiles are cleared, no active tiles expected");
+        //delayed updates for ground "big" tiles
+        assertEquals(0, groundPlane.getPendingGroundTilePaintRequests() , "There are no tiles after layer removal, so there should be no texture paint requests");
+        //delayed updates for TMS "small" tiles
+        assertEquals(0, groundPlane.getPendingTileUpdateRequests() , "There are no tiles after layer removal, so there should be no tms download requests");
+
+    }
+    @Test
+    public void testGroundPlaneSpeedPan() throws InterruptedException, IOException {
+        // 1. Configure the environment
+        var scene = new Scene();
+        var renderer = new Renderer3D(scene);
+        var groundPlane = scene.getGroundPlane();
+        groundPlane.setRenderer(renderer);
+
+        ImageryInfo testLayer = ImageryProvider.OSM_CARTO.getImageryInfo();
+
+        // 2. Trigger tile creation and loading
+        for (int i=-179; i<=179; i++) {
+            LatLon visibleAreaCenter = new LatLon(55.75, i);
+            groundPlane.update(visibleAreaCenter, testLayer);
+            //wait a little bit until the download process starts.
+            TimeUnit.MILLISECONDS.sleep(5);
+            //assertTrue(groundPlane.getPendingTileUpdateRequests() > 0, "To continue test, we need some pending tile requests");
+        }
+        System.out.println("Pending ground tile paint requests: " + groundPlane.getPendingGroundTilePaintRequests());
+        System.out.println("Pending tms tile download request: " + groundPlane.getPendingTileUpdateRequests());
+
+        //4. Assertions
+        // we would like to test that:
+        // 1) There are no ground tiles
+        // 2) There are no pending tile requests
+
+        assertEquals(8, groundPlane.getActiveTiles().size(), "Normal number of ground tiles should be present");
+        //delayed updates for ground "big" tiles
+        assertTrue(groundPlane.getPendingGroundTilePaintRequests() <= groundPlane.getAllTiles().size() , "There is limited number of ground tiles, active and cache, so number of pending paint requests should be also limited");
+        //delayed updates for TMS "small" tiles
+        assertTrue( groundPlane.getPendingTileUpdateRequests() < 256, "There is limited number of ground tiles, active and cache, so number of pending download requests should be also limited");
+
+        // Cleanup after the test
+        groundPlane.clearAllTiles();
+
+    }
+
 
     private int countUniqueColors(BufferedImage image) {
         if (image == null) return 0;

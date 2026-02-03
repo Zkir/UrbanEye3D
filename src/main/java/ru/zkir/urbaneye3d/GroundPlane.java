@@ -21,11 +21,13 @@ import static java.lang.Math.toRadians;
 public class GroundPlane implements TileCache.CacheUpdateListener {
 
     private final Map<GroundTile.GroundTileXY, GroundTile> activeTiles = new ConcurrentHashMap<>();
-    private static final int MAX_CACHE_SIZE = 200;
+    private static final int MAX_CACHE_SIZE = 20;
     private final Map<GroundTile.GroundTileXY, GroundTile> tileCache = new LinkedHashMap<>(16, 0.75f, true) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<GroundTile.GroundTileXY, GroundTile> eldest) {
             if (size() > MAX_CACHE_SIZE) {
+                GroundTile evictedTile = eldest.getValue();
+                evictedTile.cancelLoadRequest();
                 // This part requires a GL context to destroy the texture.
                 // We'll queue it for destruction on the renderer thread.
                 if (renderer != null) {
@@ -67,9 +69,11 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     }
 
     public void update(LatLon visibleAreaCenter, ImageryInfo newImageryLayer) {
+        tmsRenderer.cancelAllPendingRequests();
 
         if (!Objects.equals(currentImageryLayer, newImageryLayer)) {
             currentImageryLayer = newImageryLayer;
+            tmsRenderer.setCurrentImagery(newImageryLayer);
             // When layer changes, clear everything. Simpler than trying to update.
             clearAllTiles();
         }
@@ -132,6 +136,8 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     }
     
     public void clearAllTiles() {
+        tmsRenderer.cancelAllPendingRequests();
+        GroundTile.cancelAllPendingRequests();
         if (renderer != null) {
             renderer.invoke(false, glAutoDrawable -> {
                 GL2 gl = glAutoDrawable.getGL().getGL2();
@@ -183,11 +189,10 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
                 i++;
             }
         }
-        if (i==0){
-            UrbanEye3dPlugin.debugMsg("No ground tiles found for " + bounds + "!");
-            //for(var tile: getAllTiles()){
-            //    UrbanEye3dPlugin.debugMsg( "  "+tile.bounds );
-            //}
+        if (System.getProperty("urbaneye3d.unittest") == null) {
+            if (i == 0) {
+                UrbanEye3dPlugin.debugMsg("No ground tiles found for " + bounds + "!");
+            }
         }
 
     }
@@ -203,8 +208,19 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         }
     }
 
+    /**
+     * This method returns the number of pending TMS tiles download requests.
+     * */
     public int getPendingTileUpdateRequests() {
         return tmsRenderer.getPendingRequestsCount();
     }
+
+    /**
+     * This method returns the number of pending ground tiles paint requests.
+     * */
+    public int getPendingGroundTilePaintRequests() {
+        return GroundTile.getPendingRequestsCount();
+    }
+
 }
 

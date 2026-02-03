@@ -81,6 +81,15 @@ To be prioritized via MoSCoW method.
 
 ## Recent Accomplishments
 
+### February 3, 2026
+
+*   **Asynchronous Tile Request Management & Conditional Logging:** Addressed several issues related to the asynchronous loading and cancellation of ground tile textures (`GroundTile` and `TileCache`).
+    *   **Fixed `testGroundPlaneDisposeTiles` failure:** Implemented comprehensive cancellation of pending TMS tile download requests (`TileCache`) and ground tile texture generation requests (`GroundTile`) when the `GroundPlane`'s tiles are cleared via `clearAllTiles()`.
+    *   **Fixed `NullPointerException` in `MapRenderer.setCurrentImagery`:** Added a null check to gracefully handle cases where a null `ImageryInfo` is passed, preventing crashes when imagery layers are removed.
+    *   **Fixed `testGroundPlaneSpeedPan` failure:** Introduced preemptive cancellation of all pending TMS tile requests (`tmsRenderer.cancelAllPendingRequests()`) at the very beginning of every `GroundPlane.update()` call. This strategy effectively keeps the download queue small and relevant during rapid map panning, as it discards obsolete requests from previous, fleeting views.
+    *   **Granular `GroundTile` cancellation:** Implemented selective cancellation of individual `GroundTile` texture generation requests (`evictedTile.cancelLoadRequest()`) when tiles are evicted from the cache due to `MAX_CACHE_SIZE` limits. This prevents requests for textures that are no longer in use from completing.
+    *   **Conditional Logging:** Modified the "No ground tiles found" debug message to be suppressed during automated test runs (using `System.getProperty("josm.unittest") == null`) while remaining active for interactive debugging. This provides clearer test output without losing valuable debugging information for manual testing.
+
 ### January 29, 2026
 
 *   **TMS URL `{switch}` Placeholder:** Implemented support for a `{switch:a,b,c,...}` placeholder in TMS imagery URL templates within `TileCache.java`. This feature allows JOSM to randomly pick from a list of subdomains (e.g., `a`, `b`, `c`), which is useful for services that use domain sharding for load balancing. The implementation was refactored to use a unified, regular-expression-based approach for both validating and resolving URL templates, making the logic more robust and extensible. A corresponding unit test was added to `TileCacheTest` to ensure the new functionality is working correctly and to prevent regressions.
@@ -453,3 +462,8 @@ Scene #2, Christ the Saviour (921 parts)
     *   A custom help topic can be set by overriding the `helpTopic()` method.
     *   New keyboard shortcuts can be added by creating a class that extends `JosmAction` and instantiating it in the plugin's UI initialization.
 *   **Test Data Factory Pattern:** When adding tests for the `{switch}` placeholder, an initial attempt to call the `ImageryInfo` constructor directly with `null` arguments resulted in a compilation failure. The issue was resolved by following the existing project pattern of using the `ImageryProvider` enum. This experience reinforces the importance of using established factory patterns for creating complex test data. It leads to cleaner, more maintainable tests and avoids brittle, direct constructor calls. Adhering to a project's established conventions is key to preventing errors and ensuring code quality.
+*   **Managing Asynchronous Operations and Race Conditions (Imagery Loading):** When dealing with UI updates that trigger asynchronous background tasks (like tile downloads) and where the UI state can change rapidly (e.g., during map panning), race conditions are prevalent.
+    *   **Multiple Queues:** It's crucial to identify all affected asynchronous queues. In this case, `TileCache` (for small TMS tiles) and `GroundTile` (for stitching/painting large textures from smaller tiles) each maintained their own `ExecutorService` and `pendingRequests` maps. Effective cancellation requires addressing all relevant queues.
+    *   **"Aggressive" Cancellation for UI Responsiveness:** For highly dynamic UI elements like map imagery during panning, a "sledgehammer" approach of cancelling all pending requests for a given type of update when a new update is triggered is often simpler and more effective than attempting granular, context-aware cancellation. This ensures that only requests relevant to the *current* view are active, preventing queues from exploding and improving perceived responsiveness. This method relies on the fact that older requests quickly become obsolete.
+    *   **Granular Cancellation for Resource Management:** While "aggressive" cancellation is good for UI flow, specific resource management (e.g., preventing a single, large texture generation from completing for an evicted tile) benefits from targeted, granular cancellation. The decision of *when* to cancel (on deactivation vs. on destruction) significantly impacts efficiency.
+
