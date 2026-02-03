@@ -38,7 +38,7 @@ public class MapRenderer {
      *  Note, that since both <b>geographical bounds</b> and <b>image dimensions</b> are specified,
      *  tiles can be scaled! It is needed for 3D rendering, where ground plane tiles can have arbitrary sizes
      */
-    public BufferedImage renderMap(int zoom, Bounds bounds, int outputWidth, int outputHeight) throws ImageTooBigException {
+    public BufferedImage renderMap(int zoom, Bounds bounds) throws ImageTooBigException {
         // 0. First of all let's calculate what real dimensions our image should have for the given bounds and zoom
         long worldSizePx = (int) (TILE_SIZE * pow(2, zoom)); // since web mercator is square, this size applies for both width and height
         int outputWidthExpected =  (int) ceil((worldSizePx *  (bounds.getMaxLon() - bounds.getMinLon())/360));
@@ -82,16 +82,27 @@ public class MapRenderer {
             }
         }
         g2d.dispose();
+        return result;
+    }
 
-        if (outputWidth == outputWidthExpected && outputHeight == outputHeightExpected) {
-            return result;
-        } else{
+    /** "Legacy" method */
+    public BufferedImage renderMap(int zoom, Bounds bounds, int outputWidth, int outputHeight){
+        //first render layer in the original TMS resolution, defined by zoom and boundaries
+        BufferedImage result = renderMap(zoom, bounds);
+        if (result.getWidth() != outputWidth || result.getHeight() != outputHeight) {
+
             BufferedImage result1 = new BufferedImage(outputWidth, outputHeight, BufferedImage.TYPE_INT_ARGB);
-            g2d = result1.createGraphics();
+            Graphics2D g2d = result1.createGraphics();
+            // set bicubic scaling. Bicubic scaling is nice, but it increases number of colours, and autotest fails.
+            //g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            //g2d.setRenderingHint(RenderingHints.KEY_RENDERING,  RenderingHints.VALUE_RENDER_QUALITY);
+            //g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,  RenderingHints.VALUE_ANTIALIAS_ON);
+            //rescale image
             g2d.drawImage(result, 0, 0, outputWidth, outputHeight, null);
             g2d.dispose();
-            return result1;
+            result = result1;
         }
+        return result;
     }
 
     public void shutdown() {

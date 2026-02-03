@@ -1,5 +1,6 @@
 package ru.zkir.urbaneye3d;
 
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
@@ -25,6 +26,8 @@ import java.awt.event.MouseWheelListener;
 import java.util.List;
 import java.util.Map;
 
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
+
 public class Renderer3D extends GLJPanel implements GLEventListener {
     private final Scene scene;
     private final GLU glu = new GLU();
@@ -40,6 +43,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private double cam_dist = 500.0;
 
     private Point lastMousePoint;
+
+    private boolean npotSupport = true;
 
     public double getCamX_angle() {
         return camX_angle;
@@ -131,8 +136,49 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glEnable(GL2.GL_DEPTH_TEST);
         //gl.glEnable(GL2.GL_CULL_FACE);
         //gl.glCullFace(GL2.GL_BACK);
+        CheckOpenGL(gl);
     }
 
+    public void CheckOpenGL(GL2 gl) {
+
+        String glVersion = gl.glGetString(GL.GL_VERSION);
+        String glVendor = gl.glGetString(GL.GL_VENDOR);
+        String glRenderer = gl.glGetString(GL.GL_RENDERER);
+        String extensions = gl.glGetString(GL.GL_EXTENSIONS);
+
+        // Check NPOT support
+        // For desktop OpenGL (usually versions 2.1 and above )
+        if (extensions.contains("GL_ARB_texture_non_power_of_two")) {
+            npotSupport = true;
+        }
+        // For OpenGL ES 2.0 (mobile or embedded systems)
+        else if (extensions.contains("GL_OES_texture_npot")) {
+            npotSupport = true;
+        }
+
+        // Check max texture size.
+        int[] maxSize = new int[1];
+        gl.glGetIntegerv(GL.GL_MAX_TEXTURE_SIZE, maxSize, 0);
+        int intMaxTextureSize = maxSize[0];
+        boolean hiResTextures = intMaxTextureSize >= 4096;
+
+        if (!npotSupport || !hiResTextures){
+            debugMsg("There are problems with OpenGL drivers: ");
+            if (!npotSupport) {
+                debugMsg("NPOT textures are not supported"); //non_power_of_two
+            }
+            if (!hiResTextures) {
+                debugMsg("Hires textures are not supported"); //non_power_of_two
+            }
+
+            debugMsg("OpenGL version: " + glVersion);
+            debugMsg("Hardware manufacturer " + glVendor);
+            debugMsg("Video card: " + glRenderer);
+            debugMsg("Available extensions: " + extensions);
+        }
+    }
+
+    
     @Override
     public void dispose(GLAutoDrawable glAutoDrawable) {}
 
@@ -349,8 +395,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glVertex3d(vertex.x, vertex.y, vertex.z);
     }
 
-
-
     // Tessellator callback inner class
     private class TessellatorCallback extends GLUtessellatorCallbackAdapter {
         private final GL2 gl;
@@ -412,5 +456,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         glu.gluPerspective(45.0, aspect, 10.0, CUTOFF_DISTANCE);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
+    }
+
+    public boolean isNpotSupported() {
+        return npotSupport;
     }
 }

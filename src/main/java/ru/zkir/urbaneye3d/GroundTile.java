@@ -13,6 +13,7 @@ import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -170,7 +171,14 @@ public class GroundTile {
             int textureHeight = TILE_TEXTURE_SIZE_PIXELS;
             tmsRenderer.setCurrentImagery(imageryLayer);
             int zoomLevel = calculateOptimalZoomLevel(this.bounds, textureWidth);
-            result = tmsRenderer.renderMap(zoomLevel, this.bounds, textureWidth, textureHeight);
+            if (renderer.isNpotSupported()) {
+                result = tmsRenderer.renderMap(zoomLevel, this.bounds);
+            }else{
+                //It seems that for modern hardware texture size should not be a power of 2
+                //but we can still resize the image, if we would like to.
+                result = tmsRenderer.renderMap(zoomLevel, this.bounds, getPOT(textureWidth), getPOT(textureHeight));
+            }
+
 
         } catch (Exception e) {
             debugMsg("TileCaptureWorker for " + coord + ": Failed to capture image: " + e.getMessage());
@@ -189,6 +197,10 @@ public class GroundTile {
                 }
             }
         });
+    }
+    private int getPOT(int x){
+        int result = Integer.highestOneBit(x);
+        return result;
     }
 
 
