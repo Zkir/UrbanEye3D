@@ -12,6 +12,7 @@ import org.openstreetmap.josm.io.OsmWriter;
 import org.openstreetmap.josm.io.OsmWriterFactory;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Contour;
+import ru.zkir.urbaneye3d.utils.FlatEarth;
 import ru.zkir.urbaneye3d.utils.Point2D;
 
 import java.io.FileOutputStream;
@@ -24,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
-import static ru.zkir.urbaneye3d.utils.Contour.GRAD_LENGTH_M;
 
 /**
  *  This class contains checks for building and building part spatial validity.
@@ -230,7 +230,7 @@ public class SpatialConsistencyChecks extends Test {
                     Polygon buildingPolygon = toJtsPolygon(buildingContour);
                     if (buildingPolygon != null && !buildingPolygon.isEmpty()) {
                         Geometry partsUnion = UnaryUnionOp.union(partPolygons); // unite parts.
-                        partsUnion = partsUnion.buffer(0.001/GRAD_LENGTH_M,1); // we need to do small buffer, to avoid JTS bugs.
+                        partsUnion = partsUnion.buffer(0.001/ FlatEarth.GRAD_LENGTH_M,1); // we need to do small buffer, to avoid JTS bugs.
                         if (!partsUnion.covers(buildingPolygon)) {
                             errors.add(TestError.builder(this, Severity.WARNING, BUILDING_NOT_COVERED_BY_PARTS)
                                     .message(tr("Building is not fully covered by its parts"))

@@ -41,7 +41,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        scene.updateData(dataSet);
+        scene.updateData(dataSet, null);
 
         // Assert: Verify the outcome
         // We expect only the building:part to be rendered, not the parent building.
@@ -61,7 +61,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        scene.updateData(dataSet);
+        scene.updateData(dataSet, null);
 
         // Assert: Verify the outcome
         // We expect only the building:part to be rendered, not the parent building.
@@ -80,7 +80,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        scene.updateData(dataSet);
+        scene.updateData(dataSet, null);
 
         // Assert: Verify the outcome
         // We expect only the building:part to be rendered, not the parent building.
@@ -100,7 +100,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        scene.updateData(dataSet);
+        scene.updateData(dataSet, null);
 
         // Assert: Verify the outcome
         // We expect only the building:part to be rendered, not the parent building.
@@ -115,7 +115,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        scene.updateData(dataSet);
+        scene.updateData(dataSet, null);
 
         // Assert: Verify the outcome
         // We expect only the building:part to be rendered, not the parent building.
@@ -133,7 +133,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        scene.updateData(dataSet);
+        scene.updateData(dataSet, null);
 
         // Assert: Verify the outcome
         //resulting number of  buildings is not so important.
@@ -166,7 +166,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        scene.updateData(dataSet);
+        scene.updateData(dataSet, null);
 
         // Assert: Verify the outcome
         assertEquals(1, scene.renderableElements.size());
@@ -180,7 +180,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        scene.updateData(dataSet);
+        scene.updateData(dataSet, null);
 
         // Assert: Verify the outcome
         assertEquals(1, scene.renderableElements.size());
@@ -197,7 +197,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        scene.updateData(dataSet);
+        scene.updateData(dataSet, null);
 
         // Assert: Verify the outcome
         assertEquals(4, scene.renderableElements.size(), "Expected 4 barrier, but got "+scene.renderableElements.size());

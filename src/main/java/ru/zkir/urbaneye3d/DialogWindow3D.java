@@ -2,6 +2,7 @@ package ru.zkir.urbaneye3d;
 
 import org.openstreetmap.gui.jmapviewer.tilesources.TMSTileSource;
 import org.openstreetmap.josm.data.coor.LatLon;
+import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import org.openstreetmap.josm.data.osm.event.AbstractDatasetChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataSetListener;
@@ -12,6 +13,7 @@ import org.openstreetmap.josm.data.osm.event.RelationMembersChangedEvent;
 import org.openstreetmap.josm.data.osm.event.TagsChangedEvent;
 import org.openstreetmap.josm.data.osm.event.WayNodesChangedEvent;
 import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.gui.MapView;
 import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
 import org.openstreetmap.josm.gui.layer.*;
 import org.openstreetmap.josm.gui.NavigatableComponent;
@@ -140,9 +142,9 @@ public class DialogWindow3D extends ToggleDialog
         }
 
         if (listenedLayer != null) {
-            scene3d.updateData(listenedLayer.getDataSet());
+            scene3d.updateData(listenedLayer.getDataSet(), getTopmostImageryLayer());
         } else {
-            scene3d.updateData(null);
+            scene3d.updateData(null, getTopmostImageryLayer());
         }
 
         renderer3D.repaint();
@@ -207,7 +209,7 @@ public class DialogWindow3D extends ToggleDialog
             * Note the following: Building models do not depend on pan and zoom,
             * but the ground plane currently does.
             * */
-            var tmsLayer =  scene3d.getGroundPlane().getTopmostImageryLayer();
+            var tmsLayer = getTopmostImageryLayer();
             LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
 
             scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer);
@@ -249,7 +251,7 @@ public class DialogWindow3D extends ToggleDialog
             if (Layer.VISIBLE_PROP.equals(evt.getPropertyName())) {
                 //recreated ground plane geometries and texture
                 if(isUpdateRequired()) {
-                    var tmsLayer =  scene3d.getGroundPlane().getTopmostImageryLayer();
+                    var tmsLayer = getTopmostImageryLayer();
                     LatLon visibleAreaCenter = this.renderer3D.getCameraPosition();
                     scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer);
                     //this is some kind of back magic, otherwise repaint does not work.
@@ -260,4 +262,20 @@ public class DialogWindow3D extends ToggleDialog
             }
         }
     }
+
+    private ImageryInfo getTopmostImageryLayer() {
+        MapView mv = MainApplication.getMap().mapView;
+        for (Layer layer : mv.getLayerManager().getLayers()) {
+            if (layer instanceof TMSLayer && layer.isVisible()) {
+                TMSLayer tmsLayer = (TMSLayer) layer;
+                try {
+                    return tmsLayer.getInfo();
+                } catch (IllegalArgumentException e) {
+                    // Skip incompatible layers
+                }
+            }
+        }
+        return null;
+    }
+
 }

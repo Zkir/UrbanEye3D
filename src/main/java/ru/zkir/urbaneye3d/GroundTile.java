@@ -7,10 +7,7 @@ import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import ru.zkir.customtms.MapRenderer;
-import ru.zkir.urbaneye3d.utils.Contour;
-import ru.zkir.urbaneye3d.utils.Mesh;
-import ru.zkir.urbaneye3d.utils.Point2D;
-import ru.zkir.urbaneye3d.utils.Point3D;
+import ru.zkir.urbaneye3d.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -116,10 +113,10 @@ public class GroundTile {
     private void createLocalMesh() {
         // Create a mesh in local coordinates, centered around (0,0)
         LatLon center = this.bounds.getCenter();
-        Point2D v1_local = Contour.getLocalCoords(new Point2D(bounds.getMin().lon(), bounds.getMin().lat()), center);
-        Point2D v2_local = Contour.getLocalCoords(new Point2D(bounds.getMax().lon(), bounds.getMin().lat()), center);
-        Point2D v3_local = Contour.getLocalCoords(new Point2D(bounds.getMax().lon(), bounds.getMax().lat()), center);
-        Point2D v4_local = Contour.getLocalCoords(new Point2D(bounds.getMin().lon(), bounds.getMax().lat()), center);
+        Point2D v1_local = FlatEarth.getLocalCoords(bounds.getMin().lat(), bounds.getMin().lon(), center);
+        Point2D v2_local = FlatEarth.getLocalCoords(bounds.getMin().lat(), bounds.getMax().lon(), center);
+        Point2D v3_local = FlatEarth.getLocalCoords(bounds.getMax().lat(), bounds.getMax().lon(), center);
+        Point2D v4_local = FlatEarth.getLocalCoords(bounds.getMax().lat(), bounds.getMin().lon(), center);
 
         mesh = new Mesh();
         mesh.verts = new ArrayList<>(List.of(
@@ -145,15 +142,15 @@ public class GroundTile {
         }
     }
     private int calculateOptimalZoomLevel(Bounds tileBounds, int tileTextureSizePixels) {
-        double tileWidthMeters = Contour.getLocalCoords(new Point2D(tileBounds.getMax().lon(), tileBounds.getCenter().lat()), tileBounds.getCenter()).x -
-                Contour.getLocalCoords(new Point2D(tileBounds.getMin().lon(), tileBounds.getCenter().lat()), tileBounds.getCenter()).x;
+        double tileWidthMeters = FlatEarth.getLocalCoords(tileBounds.getCenter().lat(), tileBounds.getMax().lon(), tileBounds.getCenter()).x -
+                FlatEarth.getLocalCoords(tileBounds.getCenter().lat() , tileBounds.getMin().lon(),  tileBounds.getCenter()).x;
 
         double idealResolution = tileWidthMeters / tileTextureSizePixels;
         int optimalZoomLevel = 18;
         double minDiff = Double.MAX_VALUE;
 
         for (int zl = 15; zl <= 22; zl++) {
-            double res = (cos(tileBounds.getCenter().lat() * Math.PI/180) * 2 * Math.PI * 6378137) / (256 * Math.pow(2, zl));
+            double res = (cos(toRadians(tileBounds.getCenter().lat()) ) * FlatEarth.EQUATOR_LENGTH_M) / (256 * Math.pow(2, zl));
             double diff = Math.abs(res - idealResolution);
             if (diff < minDiff) {
                 minDiff = diff;

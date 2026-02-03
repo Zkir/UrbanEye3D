@@ -1,6 +1,7 @@
 package ru.zkir.urbaneye3d;
 
 import org.openstreetmap.josm.data.coor.LatLon;
+import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import org.openstreetmap.josm.data.osm.*;
 import org.openstreetmap.josm.gui.MainApplication;
 import ru.zkir.urbaneye3d.utils.Contour;
@@ -22,7 +23,7 @@ public class Scene {
         return groundPlane;
     }
 
-    public void updateData(DataSet dataSet) {
+    public void updateData(DataSet dataSet, ImageryInfo tmsLayer) {
         renderableElements.clear();
         if (dataSet == null){
             return;
@@ -31,7 +32,6 @@ public class Scene {
         if (MainApplication.isDisplayingMapView()) {
             //TODO: it's a dirty hack.
             // If the main map window is not visible, we cannot neither obtain map center nor active satellite layer
-            var tmsLayer = this.getGroundPlane().getTopmostImageryLayer();
             var visibleAreaCenter = Renderer3D.getCameraPosition();
             this.groundPlane.update(visibleAreaCenter, tmsLayer);
         }

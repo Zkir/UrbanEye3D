@@ -4,10 +4,6 @@ import com.jogamp.opengl.GL2;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.imagery.ImageryInfo;
-import org.openstreetmap.josm.gui.MainApplication; //TODO: to be removed
-import org.openstreetmap.josm.gui.MapView; //TODO: to be removed
-import org.openstreetmap.josm.gui.layer.Layer;
-import org.openstreetmap.josm.gui.layer.TMSLayer;
 import ru.zkir.customtms.MapRenderer;
 import ru.zkir.customtms.TileCache;
 
@@ -161,22 +157,6 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         return new Bounds( center.lat() - dLat, center.lon()  - dLon,
                 center.lat() + dLat, center.lon() + dLon);
 
-    }
-
-    ImageryInfo getTopmostImageryLayer() {
-        MapView mv = MainApplication.getMap().mapView;
-        for (Layer layer : mv.getLayerManager().getLayers()) {
-            if (layer instanceof TMSLayer && layer.isVisible()) {
-                TMSLayer tmsLayer = (TMSLayer) layer;
-                try {
-                    tmsRenderer.setCurrentImagery(tmsLayer.getInfo());
-                    return tmsLayer.getInfo();
-                } catch (IllegalArgumentException e) {
-                    // Skip incompatible layers
-                }
-            }
-        }
-        return null;
     }
 
     /** we need to update the textures of the ground tiles, within given bounds */
