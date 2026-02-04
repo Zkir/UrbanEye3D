@@ -13,7 +13,9 @@ public enum ImageryProvider {
     BING("bing", "Bing aerial imagery", "https://bing.com/maps/", ImageryType.BING),
     GOOGLE_SATELLITE("google-satellite", "Google Satellite", "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={zoom}", ImageryType.TMS),
     SWITCH_VALID("switch-valid", "Imagery with valid switch", "https://{switch:a,b,c}.example.com/map/{zoom}/{x}/{y}", ImageryType.TMS),
-    INVALID_PLACEHOLDERS("invalid-placeholders", "URL with invalid placeholders", "https://tile.openstreetmap.org/{z}/{a}/{b}.png", ImageryType.TMS); //for stability tests
+    INVALID_PLACEHOLDERS("invalid-placeholders", "URL with invalid placeholders", "https://tile.openstreetmap.org/{z}/{a}/{b}.png", ImageryType.TMS), //for stability tests
+    STUB_NO_HTTP("fake-layer", "Stub with fake tiles for autotest", "https://tile.bogus.org/{zoom}/{x}/{y}.png", ImageryType.TMS); //for DDOS attacks!
+
 
     private final ImageryInfo imageryInfo;
 

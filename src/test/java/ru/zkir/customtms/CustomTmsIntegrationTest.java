@@ -29,7 +29,7 @@ public class CustomTmsIntegrationTest{
     @BeforeEach
     public void setUp() {
         mapRenderer.clearCache(); // Clear cache before each test to ensure fresh downloads
-        mapRenderer.setCurrentImagery(ImageryProvider.OSM_CARTO.getImageryInfo());
+        mapRenderer.setCurrentImagery(ImageryProvider.STUB_NO_HTTP.getImageryInfo());
     }
 
     @AfterAll

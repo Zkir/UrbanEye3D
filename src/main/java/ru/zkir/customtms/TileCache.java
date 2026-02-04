@@ -210,7 +210,12 @@ public class TileCache {
         String key = getTileKey(layer.getId(), zoom, x, y);
         pendingRequests.computeIfAbsent(key, k -> executorService.submit(() -> {
             try {
-                BufferedImage tile = downloadTile(layer, zoom, x, y);
+                BufferedImage tile;
+                if (!layer.getId().equals("fake-layer")) {
+                    tile = downloadTile(layer, zoom, x, y);
+                }else{
+                    tile = fakeTile(layer, zoom, x, y);
+                }
                 if (tile != null) {
                     synchronized (memoryCache) {
                         memoryCache.put(key, tile);
@@ -344,6 +349,59 @@ public class TileCache {
         }
         return null;
     }
+    private BufferedImage fakeTile(ImageryInfo layer, int zoom, int x, int y) throws InterruptedException {
+        int t=10 +(int) (Math.random() * 50);
+        TimeUnit.MILLISECONDS.sleep(t);
+        final int TILE_SIZE = 256;
+        BufferedImage result = new BufferedImage(TILE_SIZE, TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
+
+        Random rand = new Random();
+
+
+        for (int j = 0; j < TILE_SIZE; j++) {
+            for (int i = 0; i < TILE_SIZE; i++) {
+                int r = rand.nextInt(256);
+                int g = rand.nextInt(256);
+                int b = rand.nextInt(256);
+                Color color = new Color(r, g, b);
+                result.setRGB(i, j, color.getRGB());
+            }
+        }
+
+        var g2d = result.createGraphics();
+
+        g2d.setColor(Color.WHITE);
+        g2d.drawRect(0, 0, TILE_SIZE, TILE_SIZE);
+        g2d.setColor(Color.GRAY);
+        g2d.drawRect(1, 1, TILE_SIZE-1, TILE_SIZE-1);
+
+
+        String text =  "Just a fake tile"; //zoom + "/" + x + "/" + y;
+        g2d.setFont(new Font("Arial", Font.BOLD, 24));
+
+        FontMetrics fm = g2d.getFontMetrics();
+        int stringWidth = fm.stringWidth(text);
+        int stringHeight = (int) Math.floor(fm.getHeight()*1.5);
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect((TILE_SIZE - stringWidth) / 2 - stringHeight,  TILE_SIZE/2-stringHeight/2, stringWidth+2*stringHeight, stringHeight);
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(text, (TILE_SIZE - stringWidth) / 2,  TILE_SIZE / 2);
+
+
+        text =  zoom + "/" + x + "/" + y;
+        stringWidth = fm.stringWidth(text);
+        //g2d.setColor(Color.PINK);
+        //g2d.fillRect((TILE_SIZE - stringWidth) / 2 - stringHeight,  TILE_SIZE/2 + 100 , stringWidth+2*stringHeight, stringHeight);
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(text, (TILE_SIZE - stringWidth) / 2,  TILE_SIZE / 2+ 75) ;
+
+
+        g2d.dispose();
+
+
+        return result;
+    }
+
 
     private static BufferedImage getTileNotFoundDefaultImage(){
         //TODO: move this method from TileCache somewhere

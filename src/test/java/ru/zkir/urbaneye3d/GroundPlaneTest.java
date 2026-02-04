@@ -63,7 +63,7 @@ public class GroundPlaneTest {
         var groundPlane = scene.getGroundPlane();
         groundPlane.setRenderer(renderer);
 
-        ImageryInfo testLayer = ImageryProvider.OSM_CARTO.getImageryInfo();
+        ImageryInfo testLayer = ImageryProvider.STUB_NO_HTTP.getImageryInfo();
 
         // 2. Trigger tile creation and loading
         LatLon visibleAreaCenter = new LatLon(55.753960, 37.620393);
@@ -120,7 +120,7 @@ public class GroundPlaneTest {
         var groundPlane = scene.getGroundPlane();
         groundPlane.setRenderer(renderer);
 
-        ImageryInfo testLayer = ImageryProvider.OSM_CARTO.getImageryInfo();
+        ImageryInfo testLayer = ImageryProvider.STUB_NO_HTTP.getImageryInfo();
 
         // 2. Trigger tile creation and loading
         LatLon visibleAreaCenter = new LatLon(55.753960, 37.620393);
@@ -152,7 +152,7 @@ public class GroundPlaneTest {
         var groundPlane = scene.getGroundPlane();
         groundPlane.setRenderer(renderer);
 
-        ImageryInfo testLayer = ImageryProvider.OSM_CARTO.getImageryInfo();
+        ImageryInfo testLayer = ImageryProvider.STUB_NO_HTTP.getImageryInfo();
 
         // 2. Trigger tile creation and loading
         for (int i=-179; i<=179; i++) {
