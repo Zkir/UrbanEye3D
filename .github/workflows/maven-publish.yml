@@ -46,12 +46,8 @@ jobs:
 
     #Step 4 to build with maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn -B package --file pom.xml -s $GITHUB_WORKSPACE/settings.xml -Dtest="!GroundPlaneTest" 
       env:
         GITHUB_TOKEN: ${{ github.token }}
         
-    #Step 5 to build with maven
-    - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+   

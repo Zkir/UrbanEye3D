@@ -81,30 +81,9 @@ To be prioritized via MoSCoW method.
 
 ## Recent Accomplishments
 
-### February 3, 2026
+### February 4, 2026
+* Implemented rendering of satellite imagery as a ground plane in the 3D viewer. Limited set of JOSM layers is supported: public TMS layers and BING. Other layers is not feasible to support now, due to comlpicated JOSM API.
 
-*   **Asynchronous Tile Request Management & Conditional Logging:** Addressed several issues related to the asynchronous loading and cancellation of ground tile textures (`GroundTile` and `TileCache`).
-    *   **Fixed `testGroundPlaneDisposeTiles` failure:** Implemented comprehensive cancellation of pending TMS tile download requests (`TileCache`) and ground tile texture generation requests (`GroundTile`) when the `GroundPlane`'s tiles are cleared via `clearAllTiles()`.
-    *   **Fixed `NullPointerException` in `MapRenderer.setCurrentImagery`:** Added a null check to gracefully handle cases where a null `ImageryInfo` is passed, preventing crashes when imagery layers are removed.
-    *   **Fixed `testGroundPlaneSpeedPan` failure:** Introduced preemptive cancellation of all pending TMS tile requests (`tmsRenderer.cancelAllPendingRequests()`) at the very beginning of every `GroundPlane.update()` call. This strategy effectively keeps the download queue small and relevant during rapid map panning, as it discards obsolete requests from previous, fleeting views.
-    *   **Granular `GroundTile` cancellation:** Implemented selective cancellation of individual `GroundTile` texture generation requests (`evictedTile.cancelLoadRequest()`) when tiles are evicted from the cache due to `MAX_CACHE_SIZE` limits. This prevents requests for textures that are no longer in use from completing.
-    *   **Conditional Logging:** Modified the "No ground tiles found" debug message to be suppressed during automated test runs (using `System.getProperty("josm.unittest") == null`) while remaining active for interactive debugging. This provides clearer test output without losing valuable debugging information for manual testing.
-
-### January 29, 2026
-
-*   **TMS URL `{switch}` Placeholder:** Implemented support for a `{switch:a,b,c,...}` placeholder in TMS imagery URL templates within `TileCache.java`. This feature allows JOSM to randomly pick from a list of subdomains (e.g., `a`, `b`, `c`), which is useful for services that use domain sharding for load balancing. The implementation was refactored to use a unified, regular-expression-based approach for both validating and resolving URL templates, making the logic more robust and extensible. A corresponding unit test was added to `TileCacheTest` to ensure the new functionality is working correctly and to prevent regressions.
-
-### Jan 09, 2025
-
-*   **`building:part=roof` support:**  Buildings/building parts with `building:part=roof` and `roof:shape` = `gabled`, `round`, `gambrel` , `saltbox` and `skillion` are rendered in the same way as F4 map does it: side walls are not generated. 
-    However, such parts still remain solid bodies: the logic generates a full building mesh, then cleanly extracts only the roof faces into a new mesh, which is then "extruded" downwards to create a thin but complete solid body. 
-
-### January 24, 2026
-* Implemented rendering of satellite imagery as a ground plane in the 3D viewer with correct scale and dynamic resolution. The `GroundPlane.java` class now correctly captures the current JOSM imagery layer into a `BufferedImage`, which is then used as a texture for the 3D ground plane. This process is independent of the 2D map view's zoom and resolution, as the texture's pixel size (`TEXTURE_SIZE_PIXELS`) and the `VirtualMapView`'s scale (`customScale`) are dynamically adjusted to match JOSM's discrete tile-based zoom levels. This resolves previous issues with incorrect scale, static texture during panning, and `NullPointerExceptions` during initialization.
-
-### January 21, 2026
-* Implemented rendering of satellite imagery as a ground plane in the 3D viewer. The `GroundPlane.java` class now correctly captures the current JOSM imagery layer into a `BufferedImage` using `MapView.paintLayer()`, which is then used as a texture for the 3D ground plane. This resolves the issue where the `debug.png` file remained gray and no imagery was displayed.
-### Earlier
 
 See the [Devblog](DEVBLOG.md) page.
 

@@ -1,5 +1,8 @@
 # Development History
 
+## Version 1.7.0 (January 21, 2026)
+* Building parts with building:part=roof tag are rendered in the same way as in F4: for building parts with building:part=roof and roof shapes gabled, round, gambrel , saltbox and skillion walls are not generated.
+
 ## Version 1.6.1 (December 06, 2025)
 * Crash fixed: validator no longer fails on self-intersecting ways.
 
