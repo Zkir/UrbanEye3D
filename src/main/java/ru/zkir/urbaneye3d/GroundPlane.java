@@ -26,12 +26,8 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
                 evictedTile.cancelLoadRequest();
                 // This part requires a GL context to destroy the texture.
                 // We'll queue it for destruction on the renderer thread.
-                if (renderer != null) {
-                    renderer.invoke(false, glAutoDrawable -> {
-                        eldest.getValue().destroy(glAutoDrawable.getGL().getGL2());
-                        return true;
-                    });
-                }
+                requestTileGLTextureDestruction(eldest.getValue());
+
                 return true;
             }
             return false;
@@ -104,13 +100,13 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
             if (tile != null) {
                 activeTiles.put(coord, tile);
             } else {
-                GroundTile newTile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG, renderer);
+                GroundTile newTile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG, this);
                 newTile.setImageryLayer(currentImageryLayer);
                 newTile.loadTextureAsync(tmsRenderer, false);
                 activeTiles.put(coord, newTile);
             }
         }
-        renderer.repaint();
+        raiseUpdatedEvent();
     }
 
     private Set<GroundTile.GroundTileXY> calculateRequiredTiles(Bounds viewBounds) {
@@ -134,18 +130,14 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     public void clearAllTiles() {
         tmsRenderer.cancelAllPendingRequests();
         GroundTile.cancelAllPendingRequests();
-        if (renderer != null) {
-            renderer.invoke(false, glAutoDrawable -> {
-                GL2 gl = glAutoDrawable.getGL().getGL2();
-                for (GroundTile tile : activeTiles.values()) {
-                    tile.destroy(gl);
-                }
-                for (GroundTile tile : tileCache.values()) {
-                    tile.destroy(gl);
-                }
-                return true;
-            });
+
+        for (GroundTile tile : activeTiles.values()) {
+            requestTileGLTextureDestruction(tile);
         }
+        for (GroundTile tile : tileCache.values()) {
+            requestTileGLTextureDestruction(tile);
+        }
+
         activeTiles.clear();
         tileCache.clear();
     }
@@ -181,11 +173,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     @Override
     public void tileCacheUpdated(TileCache.TileCacheUpdateEvent event) {
         this.updateGroundTileTextures( tmsRenderer.getTileBounds(event.getZoom(), event.getX(), event.getY()) );
-        if (renderer != null) {
-            SwingUtilities.invokeLater(() -> {
-                renderer.repaint();
-            });
-        }
+        raiseUpdatedEvent();
     }
 
     /**
@@ -202,5 +190,34 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         return GroundTile.getPendingRequestsCount();
     }
 
+    /**
+     * Should be called when ground plane i.e. any tile is updated and related renderer should be repainted
+     * */
+    void raiseUpdatedEvent(){
+        if (renderer!=null){
+            renderer.repaint();
+        }
+    }
+
+    /**
+    * when tile is deleted, it's GL texture should be disposed, to save video memory.
+     */
+    void requestTileGLTextureDestruction(GroundTile tile) {
+        if (renderer != null) {
+            renderer.invoke(false, glAutoDrawable -> {
+                tile.destroy(glAutoDrawable.getGL().getGL2());
+                return true;
+            });
+        }
+    }
+
+    /** we have to ask GL context about npot texture support */
+    boolean isNpotSupported() {
+        boolean npotSupported=true;
+        if (renderer != null){
+            npotSupported = renderer.isNpotSupported();
+        }
+        return npotSupported;
+    }
 }
 

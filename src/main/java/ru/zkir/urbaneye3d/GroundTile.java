@@ -75,7 +75,7 @@ public class GroundTile {
 
     private static final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     private static final Map<String, Future<?>> pendingRequests = new ConcurrentHashMap<>();
-    private final Renderer3D renderer;
+    private final GroundPlane groundPlane;
 
     public static int getPendingRequestsCount() {
         return pendingRequests.size();
@@ -97,9 +97,9 @@ public class GroundTile {
         }
     }
 
-    public GroundTile(GroundTileXY coord, double tileLonSizeDeg, double tileLatSizeDeg, Renderer3D renderer) {
+    public GroundTile(GroundTileXY coord, double tileLonSizeDeg, double tileLatSizeDeg, GroundPlane groundPlane) {
         this.coord = Objects.requireNonNull(coord);
-        this.renderer = renderer;
+        this.groundPlane = groundPlane;
 
         double minLon = coord.x * tileLonSizeDeg;
         double maxLon = (coord.x + 1) * tileLonSizeDeg;
@@ -188,7 +188,9 @@ public class GroundTile {
             int textureHeight = TILE_TEXTURE_SIZE_PIXELS;
             tmsRenderer.setCurrentImagery(imageryLayer);
             int zoomLevel = calculateOptimalZoomLevel(this.bounds, textureWidth);
-            if (renderer.isNpotSupported()) {
+            boolean npotSupported=groundPlane.isNpotSupported();
+
+            if (npotSupported) {
                 result = tmsRenderer.renderMap(zoomLevel, this.bounds);
             }else{
                 //It seems that for modern hardware texture size should not be a power of 2
@@ -209,9 +211,8 @@ public class GroundTile {
                 }
                 hasImageData.set(true);
                 hasGlTexture.set(false);
-                if (renderer != null) {
-                    renderer.repaint();
-                }
+                this.groundPlane.raiseUpdatedEvent();
+
             }
         });
     }

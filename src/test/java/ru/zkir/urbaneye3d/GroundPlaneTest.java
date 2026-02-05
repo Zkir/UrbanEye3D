@@ -56,12 +56,8 @@ public class GroundPlaneTest {
     public void testGroundPlaneCreation() throws InterruptedException, IOException {
         // 1. Configure the environment
 
-        //TODO: get rid of Scene and Renderer3D -- they are not really needed in this test
-
-        var scene = new Scene();
-        var renderer = new Renderer3D(scene);
-        var groundPlane = scene.getGroundPlane();
-        groundPlane.setRenderer(renderer);
+        var groundPlane = new GroundPlane();
+        groundPlane.setRenderer(null);
 
         ImageryInfo testLayer = ImageryProvider.STUB_NO_HTTP.getImageryInfo();
 
@@ -114,11 +110,10 @@ public class GroundPlaneTest {
      */
     @Test
     public void testGroundPlaneDisposeTiles() throws InterruptedException, IOException {
+
         // 1. Configure the environment
-        var scene = new Scene();
-        var renderer = new Renderer3D(scene);
-        var groundPlane = scene.getGroundPlane();
-        groundPlane.setRenderer(renderer);
+        var groundPlane = new GroundPlane();
+        groundPlane.setRenderer(null);
 
         ImageryInfo testLayer = ImageryProvider.STUB_NO_HTTP.getImageryInfo();
 
@@ -144,13 +139,17 @@ public class GroundPlaneTest {
         assertEquals(0, groundPlane.getPendingTileUpdateRequests() , "There are no tiles after layer removal, so there should be no tms download requests");
 
     }
+
+    /**
+     *  Here we imitate some kind of DDOS attack for the tms server.
+     *  if map is panned quickly, tens of thousands tile requests can be created.
+     *  obviously, when view point changed, all those requests become obsolete
+     */
     @Test
-    public void testGroundPlaneSpeedPan() throws InterruptedException, IOException {
+    public void testGroundPlaneSpeedPan() throws InterruptedException {
         // 1. Configure the environment
-        var scene = new Scene();
-        var renderer = new Renderer3D(scene);
-        var groundPlane = scene.getGroundPlane();
-        groundPlane.setRenderer(renderer);
+        var groundPlane = new GroundPlane();
+        groundPlane.setRenderer(null);
 
         ImageryInfo testLayer = ImageryProvider.STUB_NO_HTTP.getImageryInfo();
 
