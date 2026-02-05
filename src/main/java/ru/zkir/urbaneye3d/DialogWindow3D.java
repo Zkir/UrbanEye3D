@@ -22,13 +22,11 @@ import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
 
 import javax.swing.*;
-import java.awt.Cursor;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class DialogWindow3D extends ToggleDialog
                              implements DataSetListener, NavigatableComponent.ZoomChangeListener,
@@ -38,7 +36,7 @@ public class DialogWindow3D extends ToggleDialog
     private final Renderer3D renderer3D;
     private final Scene scene3d = new Scene();
     private OsmDataLayer listenedLayer;
-    private Boolean updatableState = null;
+    // private Boolean updatableState = null; // Removed as no longer needed for state tracking
 
     public Renderer3D getRenderer3D() {
         return renderer3D;
@@ -126,12 +124,12 @@ public class DialogWindow3D extends ToggleDialog
      */
     @Override
     public void stateChanged(){
-        // we need to track when our window becomes visible.
-        // when it becomes visible, data is updated.
-        if (this.updatableState == null || this.updatableState != this.isUpdateRequired()){
-            updateData();
-            this.updatableState = this.isUpdateRequired();
-        }
+        // When the window state changes (visibility, collapsed, docked/undocked),
+        // related GL context is recreated, so all loaded textures becomes invalid.
+        // That's why we need to clear all existing tiles and force re-creation
+        // of ground plane and its textures in the new GL context.
+        scene3d.groundPlane.clearAllTiles();
+        updateData();
     }
 
 
@@ -146,7 +144,6 @@ public class DialogWindow3D extends ToggleDialog
         } else {
             scene3d.updateData(null, getTopmostImageryLayer());
         }
-
         renderer3D.repaint();
     }
 

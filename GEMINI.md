@@ -81,13 +81,15 @@ To be prioritized via MoSCoW method.
 
 ## Recent Accomplishments
 
+### February 5, 2026
+* Fixed an issue where the GroundPlane (satellite imagery) would disappear in the 3D viewer when the window was docked or undocked. This was caused by the OpenGL context being reinitialized, invalidating previously loaded textures. 
+
 ### February 4, 2026
 * Implemented rendering of satellite imagery as a ground plane in the 3D viewer. Limited set of JOSM layers is supported: public TMS layers and BING. Other layers is not feasible to support now, due to comlpicated JOSM API.
 
 
-See the [Devblog](DEVBLOG.md) page.
-
 ## Architectural Notes
+
 
 *   **Core Principle:** All meshes for all roof shapes must be generated as **watertight** bodies with correct **outward-facing normals**. This is enforced by the `assertWatertight` and `assertNormalsAndConsistency` checks in the `RoofGeometryGeneratorTest`.
 *   **Normal Vector Validation:** Validating that normals face "outward" is complex for non-convex shapes (like buildings with courtyards or complex roofs like an onion dome). A naive check against the geometric center of the mesh will fail. The robust approach is a two-step process:

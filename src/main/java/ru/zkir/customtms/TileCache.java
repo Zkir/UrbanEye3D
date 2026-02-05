@@ -344,8 +344,8 @@ public class TileCache {
                 UrbanEye3dPlugin.debugMsg("Unable to get tile "+urlString+". error code: " + conn.getResponseCode());
             }
         } catch (IOException e) {
-            System.err.println("Failed to download tile: " + urlString);
-            // Don't print stack trace for common network errors like timeouts
+            UrbanEye3dPlugin.debugMsg("Failed to download tile: " + urlString);
+            UrbanEye3dPlugin.debugMsg(e.getMessage());
         }
         return null;
     }
