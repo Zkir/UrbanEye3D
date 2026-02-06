@@ -22,6 +22,7 @@ import org.junit.jupiter.api.*;
 import ru.zkir.customtms.TileCache;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ru.zkir.urbaneye3d.utils.Settings.countUniqueColors;
 
 
 public class GroundPlaneTest {
@@ -180,15 +181,4 @@ public class GroundPlaneTest {
 
     }
 
-
-    private int countUniqueColors(BufferedImage image) {
-        if (image == null) return 0;
-        Set<Integer> colors = new HashSet<>();
-        for (int y = 0; y < image.getHeight(); y++) {
-            for (int x = 0; x < image.getWidth(); x++) {
-                colors.add(image.getRGB(x, y));
-            }
-        }
-        return colors.size();
-    }
 }
