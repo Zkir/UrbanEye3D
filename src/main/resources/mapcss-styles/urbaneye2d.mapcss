@@ -21,9 +21,6 @@ area:closed {
 }
 
 *::* {
-    text-halo-color: white;
-    text-anchor-horizontal: center;
-    text-anchor-vertical: center;
 }
 
 /**
@@ -150,11 +147,11 @@ area|z10-[leisure=golf_course] {
 }
 
 area|z10-13[landuse=allotments] {
-    fill-color: #e5c7ab;
+    fill-color: #cfeca8
 }
 
 area|z14-[landuse=allotments] {
-    fill-image: "symbols/allotments.png";
+	fill-color: #cfeca8
 }
 
 area|z8-13[landuse=forest] {
@@ -336,19 +333,7 @@ area|z10-[leisure=pitch] {
  * Style 'water-lines-casing'
  */
 
-way|z13-14[waterway=stream][!tunnel]::water_lines-casing,
-way|z13-14[waterway=ditch][!tunnel]::water_lines-casing,
-way|z13-14[waterway=drain][!tunnel]::water_lines-casing {
-    color: white;
-    width: 1.5;
-    z-index: -1;
-}
 
-way|z15-[waterway=stream][!tunnel]::water_lines-casing {
-    color: white;
-    width: 2.5;
-    z-index: -1;
-}
 
 /**
  * Layer 'water_areas'
@@ -389,7 +374,7 @@ area|z6-[landuse=reservoir],
 area|z6-[waterway=riverbank],
 area|z6-[landuse=water],
 area|z6-[natural=bay] {
-    fill-color: #b5d0d0;
+    fill-color: #4060C0;
     z-index: -999;
 }
 
@@ -421,17 +406,17 @@ area|z13-[natural=wetland] {
  */
 
 way|z8[waterway=river][!tunnel] {
-    color: #b5d0d0;
+    color: #4060C0;
     width: 0.7;
 }
 
 way|z9[waterway=river][!tunnel] {
-    color: #b5d0d0;
+    color: #4060C0;
     width: 1.2;
 }
 
 way|z10-11[waterway=river][!tunnel] {
-    color: #b5d0d0;
+    color: #4060C0;
     width: 1.6;
 }
 
@@ -475,69 +460,34 @@ way|z13[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
     linecap: round;
     linejoin: round;
     width: 3;
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 400;
 }
 
 way|z14[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #b5d0d0;
+    color: #4060C0;
     linecap: round;
     linejoin: round;
     width: 5;
-    font-family: "DejaVu Sans Book";
-    font-size: 10;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 400;
 }
 
 way|z15-16[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #b5d0d0;
+    color: #4060C0;
     linecap: round;
     linejoin: round;
     width: 6;
-    font-family: "DejaVu Sans Book";
-    font-size: 10;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 400;
 }
 
 way|z17[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #b5d0d0;
+    color: #4060C0;
     linecap: round;
     linejoin: round;
     width: 10;
-    font-family: "DejaVu Sans Book";
-    font-size: 10;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 400;
 }
 
 way|z18-[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #b5d0d0;
+    color: #4060C0;
     linecap: round;
     linejoin: round;
     width: 12;
-    font-family: "DejaVu Sans Book";
-    font-size: 10;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 400;
 }
 
 way|z12[waterway=canal][disused!=yes][!bridge?][bridge!=aqueduct] {
@@ -552,34 +502,22 @@ way|z13[waterway=canal][disused!=yes][!bridge?][bridge!=aqueduct] {
     linecap: round;
     linejoin: round;
     width: 4;
-    font-family: "DejaVu Sans Book";
-    font-size: 8;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 way|z13-14[waterway=stream][!tunnel][!bridge?][bridge!=aqueduct],
 way|z13-14[waterway=ditch][!tunnel][!bridge?][bridge!=aqueduct],
 way|z13-14[waterway=drain][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #b5d0d0;
+    color: #4060C0;
     width: 1;
 }
 
 
 
 way|z14-16[waterway=canal][!tunnel?][disused!=yes][!bridge?][bridge!=aqueduct] {
-    color: #b5d0d0;
+    color: #4060C0;
     linecap: round;
     linejoin: round;
     width: 7;
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 
@@ -588,12 +526,6 @@ way|z17-[waterway=canal][!tunnel?][disused!=yes][lock!=yes][!bridge?][bridge!=aq
     linecap: round;
     linejoin: round;
     width: 11;
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 way|z17-[waterway=canal][!tunnel?][disused!=yes][lock=yes][!bridge?][bridge!=aqueduct] {
@@ -601,12 +533,6 @@ way|z17-[waterway=canal][!tunnel?][disused!=yes][lock=yes][!bridge?][bridge!=aqu
     linecap: round;
     linejoin: round;
     width: 7;
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-wrap-width: 20;
 }
 
 way|z12[waterway=derelict_canal][!bridge?][bridge!=aqueduct],
@@ -627,13 +553,6 @@ way|z13[waterway=canal][disused=yes][!bridge?][bridge!=aqueduct] {
     linejoin: round;
     opacity: 0.5;
     width: 2.5;
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: #80d1ae;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 600;
 }
 
 way|z14-[waterway=derelict_canal][!bridge?][bridge!=aqueduct],
@@ -644,40 +563,19 @@ way|z14-[waterway=canal][disused=yes][!bridge?][bridge!=aqueduct] {
     linejoin: round;
     opacity: 0.5;
     width: 4.5;
-    font-family: "DejaVu Sans Book";
-    font-size: 10;
-    text: "name";
-    text-color: #80d1ae;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 600;
 }
 
 
 
 way|z15-[waterway=stream][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #b5d0d0;
+    color: #4060C0;
     width: 2;
-    font-family: "DejaVu Sans Book";
-    font-size: 8;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 600;
 }
 
 way|z15-[waterway=drain][!tunnel?][!bridge?][bridge!=aqueduct],
 way|z15-[waterway=ditch][!tunnel?][!bridge?][bridge!=aqueduct] {
     color: #b5d0d0;
     width: 1;
-    font-family: "DejaVu Sans Book";
-    font-size: 8;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 600;
 }
 
 /**
@@ -3329,12 +3227,6 @@ way|z14-16[waterway=canal][bridge=aqueduct]::over1 {
     linecap: round;
     linejoin: round;
     width: 6;
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
     z-index: 0.1;
 }
 
@@ -3344,18 +3236,13 @@ way|z17-[waterway=canal][bridge=aqueduct] {
     linejoin: round;
     width: 11;
 }
+
 way|z17-[waterway=canal][bridge?]::over1,
 way|z17-[waterway=canal][bridge=aqueduct]::over1 {
     color: #b5d0d0;
     linecap: round;
     linejoin: round;
     width: 10;
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: #6699cc;
-    text-halo-radius: 1;
-    text-position: line;
     z-index: 0.1;
 }
 
@@ -4837,51 +4724,20 @@ way|z9-11[admin_level][admin_level>8] {
 
 area|z16-[aeroway=helipad] {
     icon-image: "symbols/helipad.p.16.png";
-    font-family: "DejaVu Sans Bold";
-    font-size: 8;
-    text: "name";
-    text-anchor-vertical: above;
-    text-color: #6692da;
-    text-halo-radius: 1;
-    text-offset-y: 0;
 }
 
 area|z9-10[aeroway=airport] {
     icon-image: "symbols/airport.p.16.png";
-    font-family: "DejaVu Sans Bold";
-    font-size: 8;
-    text: "name";
-    text-anchor-vertical: above;
-    text-color: #6692da;
-    text-halo-radius: 1;
-    text-offset-y: 2;
 }
 
 area|z11-12[aeroway=airport] {
-    font-family: "DejaVu Sans Bold";
-    font-size: 9;
-    text: "name";
-    text-color: #6692da;
-    text-halo-radius: 1;
 }
 
 area|z10[aeroway=aerodrome] {
     icon-image: "symbols/aerodrome.p.16.png";
-    font-family: "DejaVu Sans Oblique";
-    font-size: 8;
-    text: "name";
-    text-anchor-vertical: above;
-    text-color: #6692da;
-    text-halo-radius: 1;
-    text-offset-y: 2;
 }
 
 area|z11-12[aeroway=aerodrome] {
-    font-family: "DejaVu Sans Oblique";
-    font-size: 8;
-    text: "name";
-    text-color: #6692da;
-    text-halo-radius: 1;
 }
 
 area|z14-15[railway=level_crossing] {
@@ -4935,53 +4791,17 @@ way|z16-[power=minor_line] {
  */
 
 node|z11[highway=motorway_junction] {
-    font-family: "DejaVu Sans Oblique";
-    font-size: 9;
-    text: "ref";
-    text-color: #6666ff;
-    text-halo-radius: 1;
-    text-wrap-width: 12;
 }
 
 node|z12-14[highway=motorway_junction] {
-    font-family: "DejaVu Sans Oblique";
-    font-size: 9;
-    text: "ref";
-    text-color: #6666ff;
-    text-halo-radius: 1;
-    text-wrap-width: 12;
 }
 node|z12-14[highway=motorway_junction]::over1 {
-    font-family: "DejaVu Sans Oblique";
-    font-size: 8;
-    text: "name";
-    text-anchor-vertical: above;
-    text-color: #6666ff;
-    text-halo-radius: 1;
-    text-offset-y: 2;
-    text-wrap-character: ";";
-    text-wrap-width: 2;
     z-index: 0.1;
 }
 
 node|z15-[highway=motorway_junction] {
-    font-family: "DejaVu Sans Oblique";
-    font-size: 12;
-    text: "ref";
-    text-color: #6666ff;
-    text-halo-radius: 1;
-    text-wrap-width: 12;
 }
 node|z15-[highway=motorway_junction]::over1 {
-    font-family: "DejaVu Sans Oblique";
-    font-size: 11;
-    text: "name";
-    text-anchor-vertical: above;
-    text-color: #6666ff;
-    text-halo-radius: 1;
-    text-offset-y: 4;
-    text-wrap-character: ";";
-    text-wrap-width: 2;
     z-index: 0.1;
 }
 
@@ -5112,171 +4932,65 @@ way|z13-[highway=tertiary][length=8][!bridge?] {
 
 way|z15-[highway=unclassified][!bridge?],
 way|z15-[highway=residential][!bridge?] {
-    font-family: "DejaVu Sans Bold";
-    font-size: 10;
-    text: "ref";
-    text-color: black;
-    text-halo-radius: 1;
-    text-spacing: 750;
 }
 
 way|z15-[aeroway=runway][!bridge?],
 way|z15-[aeroway=taxiway][!bridge?] {
-    font-family: "DejaVu Sans Book";
-    font-size: 10;
-    text: "ref";
-    text-color: #333333;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 750;
 }
 
 way|z13[highway=trunk],
 way|z13[highway=primary] {
-    font-family: "DejaVu Sans Book";
-    font-size: 8;
-    text: "name";
-    text-color: black;
-    text-position: line;
 }
 
 way|z13[highway=secondary] {
-    font-family: "DejaVu Sans Book";
-    font-size: 8;
-    text: "name";
-    text-color: black;
-    text-halo-color: #fed7a5;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 way|z14[highway=trunk],
 way|z14[highway=primary] {
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: black;
-    text-position: line;
 }
 
 way|z15-[highway=trunk],
 way|z15-[highway=primary] {
-    font-family: "DejaVu Sans Book";
-    font-size: 10;
-    text: "name";
-    text-color: black;
-    text-position: line;
 }
 
 way|z14[highway=secondary] {
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: black;
-    text-halo-color: #fed7a5;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 way|z15-[highway=secondary] {
-    font-family: "DejaVu Sans Book";
-    font-size: 10;
-    text: "name";
-    text-color: black;
-    text-halo-color: #fed7a5;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 way|z15-16[highway=tertiary] {
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: black;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 way|z17-[highway=tertiary] {
-    font-family: "DejaVu Sans Book";
-    font-size: 11;
-    text: "name";
-    text-color: black;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 way|z13-15[highway=proposed],
 way|z13-15[highway=construction] {
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: black;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 way|z16-[highway=proposed],
 way|z16-[highway=construction] {
-    font-family: "DejaVu Sans Book";
-    font-size: 11;
-    text: "name";
-    text-color: black;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 way|z15[highway=unclassified],
 way|z15[highway=residential] {
-    font-family: "DejaVu Sans Book";
-    font-size: 8;
-    text: "name";
-    text-color: black;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 300;
 }
 
 way|z16[highway=unclassified],
 way|z16[highway=residential] {
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: black;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 300;
 }
 
 way|z17-[highway=unclassified],
 way|z17-[highway=residential] {
-    font-family: "DejaVu Sans Book";
-    font-size: 11;
-    text: "name";
-    text-color: black;
-    text-halo-radius: 1;
-    text-position: line;
-    text-spacing: 400;
 }
 
 way|z15-16[highway][highway!=motorway][highway!=trunk][highway!=primary][highway!=secondary][highway!=tertiary][highway!=unclassified][highway!=residential][highway!=proposed][highway!=construction],
 way|z15-16[aeroway][aeroway!=runway][aeroway!=taxiway] {
-    font-family: "DejaVu Sans Book";
-    font-size: 9;
-    text: "name";
-    text-color: black;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 way|z17-[highway][highway!=motorway][highway!=trunk][highway!=primary][highway!=secondary][highway!=tertiary][highway!=unclassified][highway!=residential][highway!=proposed][highway!=construction],
 way|z17-[aeroway][aeroway!=runway][aeroway!=taxiway] {
-    font-family: "DejaVu Sans Book";
-    font-size: 11;
-    text: "name";
-    text-color: black;
-    text-halo-radius: 1;
-    text-position: line;
 }
 
 

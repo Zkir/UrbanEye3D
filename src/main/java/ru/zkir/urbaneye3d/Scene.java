@@ -33,7 +33,7 @@ public class Scene {
             //TODO: it's a dirty hack.
             // If the main map window is not visible, we cannot neither obtain map center nor active satellite layer
             var visibleAreaCenter = Renderer3D.getCameraPosition();
-            this.groundPlane.update(visibleAreaCenter, tmsLayer);
+            this.groundPlane.update(visibleAreaCenter, tmsLayer, dataSet);
         }
 
         // A map to cache the expensive-to-create Contour objects for each primitive.

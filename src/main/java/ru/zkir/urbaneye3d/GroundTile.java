@@ -6,7 +6,10 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.imagery.ImageryInfo;
+import org.openstreetmap.josm.data.osm.DataSet;
+import org.openstreetmap.josm.gui.mappaint.RenderingHelper;
 import ru.zkir.customtms.MapRenderer;
+import ru.zkir.urbaneye3d.mapcssproxy.MapCssProxy;
 import ru.zkir.urbaneye3d.utils.*;
 
 import javax.swing.*;
@@ -76,6 +79,7 @@ public class GroundTile {
     private static final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     private static final Map<String, Future<?>> pendingRequests = new ConcurrentHashMap<>();
     private final GroundPlane groundPlane;
+    private final DataSet dataSet;
 
     public static int getPendingRequestsCount() {
         return pendingRequests.size();
@@ -97,9 +101,10 @@ public class GroundTile {
         }
     }
 
-    public GroundTile(GroundTileXY coord, double tileLonSizeDeg, double tileLatSizeDeg, GroundPlane groundPlane) {
+    public GroundTile(GroundTileXY coord, double tileLonSizeDeg, double tileLatSizeDeg, GroundPlane groundPlane, DataSet dataSet) {
         this.coord = Objects.requireNonNull(coord);
         this.groundPlane = groundPlane;
+        this.dataSet = dataSet;
 
         double minLon = coord.x * tileLonSizeDeg;
         double maxLon = (coord.x + 1) * tileLonSizeDeg;
@@ -159,12 +164,18 @@ public class GroundTile {
         }
         return optimalZoomLevel;
     }
+
     public void loadTextureAsync(MapRenderer tmsRenderer, boolean forced) {
         String key = "#" + this.coord.x + "/" + this.coord.y;
 
         Runnable task = () -> {
             try {
-                loadTexture(tmsRenderer, forced);
+                if (this.dataSet!=null){
+                    loadMapCSSTexture(forced);
+                }else{
+                    loadTMSTexture(tmsRenderer, forced);
+                }
+
             } finally {
                 pendingRequests.remove(key);
             }
@@ -177,7 +188,7 @@ public class GroundTile {
         }
     }
 
-    public void loadTexture(MapRenderer tmsRenderer, boolean forced) {
+    public void loadTMSTexture(MapRenderer tmsRenderer, boolean forced) {
         if ((!forced && hasImageData.get()) || imageryLayer == null) {
             return;
         }
@@ -216,9 +227,47 @@ public class GroundTile {
             }
         });
     }
+    public void loadMapCSSTexture(boolean forced) {
+        if ((!forced && hasImageData.get()) || dataSet == null) {
+            return;
+        }
+        BufferedImage result=null;
+        List<RenderingHelper.StyleData> mapCSSStyles = new ArrayList<>();
+        var currentStyle = new RenderingHelper.StyleData();
+        currentStyle.styleUrl = "resource://mapcss-styles/urbaneye2d.mapcss";
+        //currentStyle.styleUrl ="d:\\UrbanEye3D\\src\\main\\resources\\mapcss-styles\\urbaneye2d.mapcss";
+        mapCSSStyles.add(currentStyle);
+
+        try {
+            var mapCssProxy = new MapCssProxy();
+
+            boolean npotSupported = groundPlane.isNpotSupported();
+
+            if (npotSupported) {
+                result =  mapCssProxy.render(dataSet, bounds, 1, mapCSSStyles);
+            } else {
+                throw new RuntimeException("Support for NPOT textures is not implemented yet!");
+            }
+
+        } catch (Exception e) {
+            debugMsg("MapCSSRenderer for " + coord + ": Failed to render MapCSS: " + e.getMessage());
+        }
+
+        BufferedImage finalResult = result;
+        SwingUtilities.invokeLater(() -> {
+            if (finalResult != null) {
+                synchronized (imageDataLock) {
+                    imageData = finalResult;
+                }
+                hasImageData.set(true);
+                hasGlTexture.set(false);
+                this.groundPlane.raiseUpdatedEvent();
+            }
+        });
+    }
+
     private int getPOT(int x){
-        int result = Integer.highestOneBit(x);
-        return result;
+        return Integer.highestOneBit(x);
     }
 
 

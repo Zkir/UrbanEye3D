@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL2;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.imagery.ImageryInfo;
+import org.openstreetmap.josm.data.osm.DataSet;
 import ru.zkir.customtms.MapRenderer;
 import ru.zkir.customtms.TileCache;
 
@@ -60,7 +61,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         return allTiles;
     }
 
-    public void update(LatLon visibleAreaCenter, ImageryInfo newImageryLayer) {
+    public void update(LatLon visibleAreaCenter, ImageryInfo newImageryLayer, DataSet dataSet) {
         tmsRenderer.cancelAllPendingRequests();
 
         if (!Objects.equals(currentImageryLayer, newImageryLayer)) {
@@ -100,7 +101,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
             if (tile != null) {
                 activeTiles.put(coord, tile);
             } else {
-                GroundTile newTile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG, this);
+                GroundTile newTile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG, this, dataSet);
                 newTile.setImageryLayer(currentImageryLayer);
                 newTile.loadTextureAsync(tmsRenderer, false);
                 activeTiles.put(coord, newTile);

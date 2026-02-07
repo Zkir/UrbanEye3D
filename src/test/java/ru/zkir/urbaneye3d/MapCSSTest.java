@@ -3,18 +3,21 @@ package ru.zkir.urbaneye3d;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.Bounds;
+import org.openstreetmap.josm.data.coor.LatLon;
+import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.preferences.JosmBaseDirectories;
 import org.openstreetmap.josm.data.preferences.JosmUrls;
 import org.openstreetmap.josm.data.projection.ProjectionRegistry;
 import org.openstreetmap.josm.data.projection.Projections;
-import org.openstreetmap.josm.gui.mappaint.RenderingCLI;
 import org.openstreetmap.josm.gui.mappaint.RenderingHelper;
 import org.openstreetmap.josm.io.IllegalDataException;
 import org.openstreetmap.josm.io.OsmReader;
 import org.openstreetmap.josm.spi.preferences.Config;
 import org.openstreetmap.josm.spi.preferences.MemoryPreferences;
 import org.openstreetmap.josm.tools.*;
+import ru.zkir.customtms.ImageryProvider;
+import ru.zkir.urbaneye3d.mapcssproxy.MapCssProxy;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -24,6 +27,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.zkir.urbaneye3d.utils.Settings.countUniqueColors;
@@ -31,16 +35,17 @@ import static ru.zkir.urbaneye3d.utils.Settings.countUniqueColors;
 
 public class MapCSSTest {
     private static final String TEST_OUTPUT_DIR = "target/test-output/map-css";
+    private final DataSet dataSet =  loadDataSetFromOsmFile("city_center.osm");
+    private final Bounds bounds = new Bounds(55.747526, 37.6072523, 55.759571,37.6278517 );
+
+    public MapCSSTest() throws IllegalDataException {
+    }
 
 
     @BeforeAll
     public static void setup() throws IOException {
-
-
         Files.createDirectories(Paths.get(TEST_OUTPUT_DIR));
         initialize();
-
-
     }
 
     /**
@@ -53,16 +58,13 @@ public class MapCSSTest {
         argStyles = new ArrayList<>();
         var argCurrentStyle = new RenderingHelper.StyleData();
         argCurrentStyle.styleUrl = "resource://mapcss-styles/urbaneye2d.mapcss";
-
         argStyles.add(argCurrentStyle);
 
-        DataSet ds =  loadDataSetFromOsmFile("city_center.osm");
-        Bounds bounds = new Bounds(55.747526, 37.6072523, 55.759571,37.6278517 );
         double scale = 1;
 
-        RenderingHelper rh = new RenderingHelper(ds, bounds, scale, argStyles);
-        //checkPreconditions(rh);
-        BufferedImage image = rh.render();
+        var mapCssProxy = new MapCssProxy();
+        BufferedImage image=mapCssProxy.render(dataSet, bounds, scale, argStyles);
+
 
         writeImageToFile(image);
 
@@ -72,6 +74,59 @@ public class MapCSSTest {
         assertTrue(countUniqueColors(image) > 50000, "Rendered image does not seem to contain a map texture (too few colors).");
 
     }
+    /**
+     * In this test we check that ground plane tiles are created and get sane textures
+     */
+    @Test
+    public void testGroundPlaneCreation() throws InterruptedException, IOException {
+        // 1. Configure the environment
+        var groundPlane = new GroundPlane();
+        groundPlane.setRenderer(null);
+        ImageryInfo testLayer = ImageryProvider.URBAN_EYE_2D.getImageryInfo();
+
+        LatLon visibleAreaCenter = bounds.getCenter();
+        groundPlane.update(visibleAreaCenter, testLayer, dataSet);
+
+        // 3. Wait for tiles to be ready
+        boolean allReady = false;
+        // Give it up to 20 seconds to download tiles and render
+        for (int i = 0; i < 200; i++) {
+
+            boolean allTilesHaveData = !groundPlane.getActiveTiles().isEmpty() &&
+                    groundPlane.getActiveTiles().stream().allMatch(GroundTile::hasImageData);
+
+            if (allTilesHaveData && groundPlane.getPendingTileUpdateRequests()==0) {
+                allReady = true;
+                System.out.println("All active tiles are ready to render after " + (i * 100) + " ms.");
+                break;
+            }
+            TimeUnit.MILLISECONDS.sleep(100);
+        }
+        //Assertions.
+        // we would like to test that:
+        // 1) Expected number of tiles are created
+        // 2) those tiles have image texture.
+        // 3) Those tiles are motley enough, so we would consider them to be filled with map data.
+
+        assertTrue(allReady, "Timeout: Not all ground tiles became ready to render in time.");
+
+        assertEquals(12, groundPlane.getActiveTiles().size());
+        for(var tile : groundPlane.getActiveTiles()){
+            BufferedImage image = tile.getImage();
+            assertNotNull(image, "Rendered image is null for tile " + tile.coord);
+            File outputFile = new File(TEST_OUTPUT_DIR, "rendered-ground-plane" + tile.coord + ".png");
+            ImageIO.write(image, "png", outputFile);
+
+            int uniqueColors = countUniqueColors(image);
+
+            //assertTrue(uniqueColors > 1000, "Rendered image does not seem to contain a map texture (too few colors).");
+        }
+        System.out.println("Images saved to: " + new File(TEST_OUTPUT_DIR).getAbsolutePath());
+
+        // Cleanup after the test
+        groundPlane.clearAllTiles();
+    }
+
 
     private void writeImageToFile(BufferedImage image) throws IOException {
         File outputFile = new File(TEST_OUTPUT_DIR, "rendered image" + ".png");

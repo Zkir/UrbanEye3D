@@ -64,7 +64,7 @@ public class GroundPlaneTest {
 
         // 2. Trigger tile creation and loading
         LatLon visibleAreaCenter = new LatLon(55.753960, 37.620393);
-        groundPlane.update(visibleAreaCenter, testLayer);
+        groundPlane.update(visibleAreaCenter, testLayer, null);
 
         // 3. Wait for tiles to be ready
         boolean allReady = false;
@@ -120,13 +120,13 @@ public class GroundPlaneTest {
 
         // 2. Trigger tile creation and loading
         LatLon visibleAreaCenter = new LatLon(55.753960, 37.620393);
-        groundPlane.update(visibleAreaCenter, testLayer);
+        groundPlane.update(visibleAreaCenter, testLayer, null);
         //wait a little bit until the download process starts.
         TimeUnit.MILLISECONDS.sleep(100);
         assertTrue(groundPlane.getPendingTileUpdateRequests() > 0, "To continue test, we need some pending tile requests");
 
         //3. Imagery layer is turned off. Nothing to draw or request from tms tile cache.
-        groundPlane.update(visibleAreaCenter, null);
+        groundPlane.update(visibleAreaCenter, null, null);
 
         //4. Assertions
         // we would like to test that:
@@ -157,7 +157,7 @@ public class GroundPlaneTest {
         // 2. Trigger tile creation and loading
         for (int i=-179; i<=179; i++) {
             LatLon visibleAreaCenter = new LatLon(55.75, i);
-            groundPlane.update(visibleAreaCenter, testLayer);
+            groundPlane.update(visibleAreaCenter, testLayer, null);
             //wait a little bit until the download process starts.
             TimeUnit.MILLISECONDS.sleep(5);
             //assertTrue(groundPlane.getPendingTileUpdateRequests() > 0, "To continue test, we need some pending tile requests");

@@ -209,7 +209,7 @@ public class DialogWindow3D extends ToggleDialog
             var tmsLayer = getTopmostImageryLayer();
             LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
 
-            scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer);
+            scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null);
             renderer3D.repaint();
         }
     }
@@ -250,7 +250,7 @@ public class DialogWindow3D extends ToggleDialog
                 if(isUpdateRequired()) {
                     var tmsLayer = getTopmostImageryLayer();
                     LatLon visibleAreaCenter = this.renderer3D.getCameraPosition();
-                    scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer);
+                    scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null);
                     //this is some kind of back magic, otherwise repaint does not work.
                     SwingUtilities.invokeLater(() -> {
                         this.getRenderer3D().repaint();
