@@ -22,6 +22,8 @@ import org.junit.jupiter.api.*;
 import ru.zkir.customtms.TileCache;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ru.zkir.customtms.ImageryProvider.STUB_NO_HTTP;
+import static ru.zkir.urbaneye3d.GroundPlane.ImageryType.TMS;
 import static ru.zkir.urbaneye3d.utils.Settings.countUniqueColors;
 
 
@@ -60,11 +62,11 @@ public class GroundPlaneTest {
         var groundPlane = new GroundPlane();
         groundPlane.setRenderer(null);
 
-        ImageryInfo testLayer = ImageryProvider.STUB_NO_HTTP.getImageryInfo();
+        var testLayer = new GroundPlane.Layer2dInfo(STUB_NO_HTTP.getImageryInfo());
 
         // 2. Trigger tile creation and loading
         LatLon visibleAreaCenter = new LatLon(55.753960, 37.620393);
-        groundPlane.update(visibleAreaCenter, testLayer, null);
+        groundPlane.update(visibleAreaCenter, testLayer, null, false);
 
         // 3. Wait for tiles to be ready
         boolean allReady = false;
@@ -116,17 +118,17 @@ public class GroundPlaneTest {
         var groundPlane = new GroundPlane();
         groundPlane.setRenderer(null);
 
-        ImageryInfo testLayer = ImageryProvider.STUB_NO_HTTP.getImageryInfo();
+        var testLayer = new GroundPlane.Layer2dInfo(STUB_NO_HTTP.getImageryInfo());
 
         // 2. Trigger tile creation and loading
         LatLon visibleAreaCenter = new LatLon(55.753960, 37.620393);
-        groundPlane.update(visibleAreaCenter, testLayer, null);
+        groundPlane.update(visibleAreaCenter, testLayer, null, false);
         //wait a little bit until the download process starts.
         TimeUnit.MILLISECONDS.sleep(100);
         assertTrue(groundPlane.getPendingTileUpdateRequests() > 0, "To continue test, we need some pending tile requests");
 
         //3. Imagery layer is turned off. Nothing to draw or request from tms tile cache.
-        groundPlane.update(visibleAreaCenter, null, null);
+        groundPlane.update(visibleAreaCenter, null, null, false);
 
         //4. Assertions
         // we would like to test that:
@@ -152,12 +154,12 @@ public class GroundPlaneTest {
         var groundPlane = new GroundPlane();
         groundPlane.setRenderer(null);
 
-        ImageryInfo testLayer = ImageryProvider.STUB_NO_HTTP.getImageryInfo();
+        var testLayer = new GroundPlane.Layer2dInfo(STUB_NO_HTTP.getImageryInfo());
 
         // 2. Trigger tile creation and loading
         for (int i=-179; i<=179; i++) {
             LatLon visibleAreaCenter = new LatLon(55.75, i);
-            groundPlane.update(visibleAreaCenter, testLayer, null);
+            groundPlane.update(visibleAreaCenter, testLayer, null, false);
             //wait a little bit until the download process starts.
             TimeUnit.MILLISECONDS.sleep(5);
             //assertTrue(groundPlane.getPendingTileUpdateRequests() > 0, "To continue test, we need some pending tile requests");

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
-import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.preferences.JosmBaseDirectories;
 import org.openstreetmap.josm.data.preferences.JosmUrls;
@@ -16,7 +15,6 @@ import org.openstreetmap.josm.io.OsmReader;
 import org.openstreetmap.josm.spi.preferences.Config;
 import org.openstreetmap.josm.spi.preferences.MemoryPreferences;
 import org.openstreetmap.josm.tools.*;
-import ru.zkir.customtms.ImageryProvider;
 import ru.zkir.urbaneye3d.mapcssproxy.MapCssProxy;
 
 import javax.imageio.ImageIO;
@@ -30,6 +28,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ru.zkir.urbaneye3d.GroundPlane.ImageryType.MapCSS;
 import static ru.zkir.urbaneye3d.utils.Settings.countUniqueColors;
 
 
@@ -54,16 +53,10 @@ public class MapCSSTest {
      */
     @Test public void testJMapCssStyle() throws Exception {
 
-        List<RenderingHelper.StyleData> argStyles;
-        argStyles = new ArrayList<>();
-        var argCurrentStyle = new RenderingHelper.StyleData();
-        argCurrentStyle.styleUrl = "resource://mapcss-styles/urbaneye2d.mapcss";
-        argStyles.add(argCurrentStyle);
-
         double scale = 1;
 
         var mapCssProxy = new MapCssProxy();
-        BufferedImage image=mapCssProxy.render(dataSet, bounds, scale, argStyles);
+        BufferedImage image=mapCssProxy.render(dataSet, bounds, scale, "resource://mapcss-styles/urbaneye2d.mapcss");
 
 
         writeImageToFile(image);
@@ -82,10 +75,10 @@ public class MapCSSTest {
         // 1. Configure the environment
         var groundPlane = new GroundPlane();
         groundPlane.setRenderer(null);
-        ImageryInfo testLayer = ImageryProvider.URBAN_EYE_2D.getImageryInfo();
+        var testLayer = new GroundPlane.Layer2dInfo(MapCSS, null);
 
         LatLon visibleAreaCenter = bounds.getCenter();
-        groundPlane.update(visibleAreaCenter, testLayer, dataSet);
+        groundPlane.update(visibleAreaCenter, testLayer, dataSet, false);
 
         // 3. Wait for tiles to be ready
         boolean allReady = false;

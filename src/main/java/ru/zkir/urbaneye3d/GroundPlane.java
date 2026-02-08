@@ -1,6 +1,5 @@
 package ru.zkir.urbaneye3d;
 
-import com.jogamp.opengl.GL2;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.imagery.ImageryInfo;
@@ -8,7 +7,6 @@ import org.openstreetmap.josm.data.osm.DataSet;
 import ru.zkir.customtms.MapRenderer;
 import ru.zkir.customtms.TileCache;
 
-import javax.swing.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,6 +14,61 @@ import static java.lang.Math.cos;
 import static java.lang.Math.toRadians;
 
 public class GroundPlane implements TileCache.CacheUpdateListener {
+
+    public enum ImageryType {
+        TMS,
+        MapCSS
+    }
+    public static class Layer2dInfo{
+        private final ImageryType type;
+        private final ImageryInfo imageryInfo;
+
+        public Layer2dInfo(ImageryType type, ImageryInfo imageryInfo){
+            this.type = type;
+            this.imageryInfo = imageryInfo;
+        }
+        public Layer2dInfo(ImageryInfo imageryInfo){
+            this.type = ImageryType.TMS;
+            this.imageryInfo = imageryInfo;
+        }
+
+        public ImageryInfo getImageryInfo() {
+            if(type==ImageryType.TMS){
+                return this.imageryInfo;
+            }else{
+                return null;
+            }
+        }
+
+        public ImageryType getType(){
+            return this.type;
+        }
+
+        public boolean equals (Layer2dInfo other){
+            if (other==null) {return false;}
+            return this.type==other.type && this.imageryInfo==other.imageryInfo;
+        }
+        public static boolean equal(Layer2dInfo one, Layer2dInfo another){
+            boolean result = true;
+            if (one!=another){
+                if (one!=null){
+                    result = one.equals(another);
+                }else {
+                    result = false;
+                }
+            }
+            return result;
+        }
+        public String toString(){
+            if (this.imageryInfo!=null){
+                return "Layer2dInfo[" + this.type.toString() + ", " + this.imageryInfo.getId() + "]";
+            }else {
+                return "Layer2dInfo[" +this.type.toString() + ", null" + "]"  ;
+            }
+
+        }
+
+    }
 
     private final Map<GroundTile.GroundTileXY, GroundTile> activeTiles = new ConcurrentHashMap<>();
     private static final int MAX_CACHE_SIZE = 20;
@@ -36,7 +89,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     };
 
     private Renderer3D renderer;
-    private ImageryInfo currentImageryLayer;
+    private Layer2dInfo currentImageryLayer;
     private final MapRenderer tmsRenderer = new MapRenderer();
 
     private static final double TILE_SIZE_DEG = 0.01;
@@ -61,22 +114,24 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         return allTiles;
     }
 
-    public void update(LatLon visibleAreaCenter, ImageryInfo newImageryLayer, DataSet dataSet) {
+    public void update(LatLon visibleAreaCenter, Layer2dInfo newImageryLayer, DataSet dataSet, boolean forced) {
         tmsRenderer.cancelAllPendingRequests();
 
-        if (!Objects.equals(currentImageryLayer, newImageryLayer)) {
-            currentImageryLayer = newImageryLayer;
-            tmsRenderer.setCurrentImagery(newImageryLayer);
-            // When layer changes, clear everything. Simpler than trying to update.
-            clearAllTiles();
-        }
-
-        if (currentImageryLayer == null) {
+        if (newImageryLayer == null) {
+            currentImageryLayer = null;
             if (!activeTiles.isEmpty() || !tileCache.isEmpty()) {
                 clearAllTiles();
             }
             return;
         }
+
+        if (! Layer2dInfo.equal(currentImageryLayer, newImageryLayer)) {
+            currentImageryLayer = newImageryLayer;
+            tmsRenderer.setCurrentImagery(newImageryLayer.getImageryInfo());
+            // When layer changes, clear everything. Simpler than trying to update.
+            clearAllTiles();
+        }
+
         //We need to determine the visible area. For now just a constant.
         // TODO: link with cut-off distance.
         Bounds viewBounds = getVisibleArea(visibleAreaCenter);
@@ -95,7 +150,14 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
 
         // Activate or create newly required tiles
         for (GroundTile.GroundTileXY coord : requiredCoords) {
-            if (activeTiles.containsKey(coord)) continue;
+            if (activeTiles.containsKey(coord)){
+                if (forced){
+                    GroundTile tile = activeTiles.get(coord);
+                    tile.loadTextureAsync(tmsRenderer, true);
+                }
+                //tile exists already, do nothing.
+                continue;
+            }
 
             GroundTile tile = tileCache.remove(coord);
             if (tile != null) {
@@ -103,7 +165,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
             } else {
                 GroundTile newTile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG, this, dataSet);
                 newTile.setImageryLayer(currentImageryLayer);
-                newTile.loadTextureAsync(tmsRenderer, false);
+                newTile.loadTextureAsync(tmsRenderer, forced);
                 activeTiles.put(coord, newTile);
             }
         }

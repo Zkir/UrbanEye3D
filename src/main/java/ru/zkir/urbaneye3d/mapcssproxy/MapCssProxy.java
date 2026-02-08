@@ -7,12 +7,21 @@ import org.openstreetmap.josm.io.IllegalDataException;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+/** Since we do not have our own MapCSS engine, and are not likely to have one in a near future,
+ *  we have to use one, built in JOSM. It's buggy in unusual ways, but better than nothing.  */
 public class MapCssProxy
 {
 
-    public BufferedImage render(DataSet dataSet, Bounds bounds, double scale, List<RenderingHelper.StyleData> argStyles) throws IOException, IllegalDataException {
+    public BufferedImage render(DataSet dataSet, Bounds bounds, double scale, String styleUrl) throws IOException, IllegalDataException {
+        List<RenderingHelper.StyleData> argStyles = new ArrayList<>();
+
+        var argCurrentStyle = new RenderingHelper.StyleData();
+        argCurrentStyle.styleUrl = styleUrl;
+        argStyles.add(argCurrentStyle);
+
         RenderingHelper rh = new RenderingHelper(dataSet, bounds, scale, argStyles);
         BufferedImage image = rh.render();
         return  image;

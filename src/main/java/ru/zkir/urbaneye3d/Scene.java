@@ -23,7 +23,7 @@ public class Scene {
         return groundPlane;
     }
 
-    public void updateData(DataSet dataSet, ImageryInfo tmsLayer) {
+    public void updateData(DataSet dataSet, GroundPlane.Layer2dInfo layer2Dinfo) {
         renderableElements.clear();
         if (dataSet == null){
             return;
@@ -33,7 +33,10 @@ public class Scene {
             //TODO: it's a dirty hack.
             // If the main map window is not visible, we cannot neither obtain map center nor active satellite layer
             var visibleAreaCenter = Renderer3D.getCameraPosition();
-            this.groundPlane.update(visibleAreaCenter, tmsLayer, dataSet);
+            //if 2d layer is generated one, it depends on Dataset.
+            //Since we recalculate buildings, we should also update 2d layer
+            boolean forcedUpdate = (layer2Dinfo.getType() == GroundPlane.ImageryType.MapCSS);
+            this.groundPlane.update(visibleAreaCenter, layer2Dinfo, dataSet, forcedUpdate);
         }
 
         // A map to cache the expensive-to-create Contour objects for each primitive.

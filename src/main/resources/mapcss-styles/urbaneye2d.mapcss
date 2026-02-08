@@ -20,8 +20,10 @@ area:closed {
     fill-opacity: 1.0;
 }
 
+/*
 *::* {
 }
+*/
 
 /**
  * Layer 'landcover'
@@ -2282,7 +2284,7 @@ way|z16-[highway=construction][construction=trunk_link] {
     color: #a9dba9;
     width: 8;
 }
-way|z16-[highway=proposed][construction=trunk]::over1,
+way|z16-[highway=proposed][construction=trunk]::over1, 
 way|z16-[highway=proposed][construction=trunk_link]::over1,
 way|z16-[highway=construction][construction=trunk]::over1,
 way|z16-[highway=construction][construction=trunk_link]::over1 {

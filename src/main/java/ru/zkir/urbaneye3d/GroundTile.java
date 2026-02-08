@@ -5,9 +5,7 @@ import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
-import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import org.openstreetmap.josm.data.osm.DataSet;
-import org.openstreetmap.josm.gui.mappaint.RenderingHelper;
 import ru.zkir.customtms.MapRenderer;
 import ru.zkir.urbaneye3d.mapcssproxy.MapCssProxy;
 import ru.zkir.urbaneye3d.utils.*;
@@ -27,6 +25,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.toRadians;
+import static ru.zkir.urbaneye3d.GroundPlane.ImageryType.MapCSS;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
 
 public class GroundTile {
@@ -72,7 +71,7 @@ public class GroundTile {
     private final AtomicBoolean hasImageData = new AtomicBoolean(false);
     private final AtomicBoolean hasGlTexture = new AtomicBoolean(false);
 
-    private ImageryInfo imageryLayer;
+    private GroundPlane.Layer2dInfo imageryLayer;
     private static final int TILE_TEXTURE_SIZE_PIXELS = 2048;
     private static final int THREAD_POOL_SIZE = 4;
 
@@ -133,7 +132,7 @@ public class GroundTile {
         mesh.bottomFaces.add(new int[]{0, 1, 2, 3});
     }
 
-    public void setImageryLayer(ImageryInfo layer) {
+    public void setImageryLayer(GroundPlane.Layer2dInfo layer) {
         if (!Objects.equals(this.imageryLayer, layer)) {
             this.imageryLayer = layer;
             if (hasImageData.get()) {
@@ -170,8 +169,10 @@ public class GroundTile {
 
         Runnable task = () -> {
             try {
-                if (this.dataSet!=null){
-                    loadMapCSSTexture(forced);
+                if (this.imageryLayer.getType() == MapCSS ){
+                    if (dataSet!=null) {
+                        loadMapCSSTexture(forced);
+                    }
                 }else{
                     loadTMSTexture(tmsRenderer, forced);
                 }
@@ -197,7 +198,7 @@ public class GroundTile {
         try {
             int textureWidth = (int) Math.ceil(TILE_TEXTURE_SIZE_PIXELS * cos(toRadians(bounds.getCenter().lat())));
             int textureHeight = TILE_TEXTURE_SIZE_PIXELS;
-            tmsRenderer.setCurrentImagery(imageryLayer);
+            tmsRenderer.setCurrentImagery(imageryLayer.getImageryInfo() );
             int zoomLevel = calculateOptimalZoomLevel(this.bounds, textureWidth);
             boolean npotSupported=groundPlane.isNpotSupported();
 
@@ -232,11 +233,9 @@ public class GroundTile {
             return;
         }
         BufferedImage result=null;
-        List<RenderingHelper.StyleData> mapCSSStyles = new ArrayList<>();
-        var currentStyle = new RenderingHelper.StyleData();
-        currentStyle.styleUrl = "resource://mapcss-styles/urbaneye2d.mapcss";
-        //currentStyle.styleUrl ="d:\\UrbanEye3D\\src\\main\\resources\\mapcss-styles\\urbaneye2d.mapcss";
-        mapCSSStyles.add(currentStyle);
+
+         String styleUrl = "resource://mapcss-styles/urbaneye2d.mapcss";
+        //String styleUrl ="d:\\UrbanEye3D\\src\\main\\resources\\mapcss-styles\\urbaneye2d.mapcss";
 
         try {
             var mapCssProxy = new MapCssProxy();
@@ -244,7 +243,7 @@ public class GroundTile {
             boolean npotSupported = groundPlane.isNpotSupported();
 
             if (npotSupported) {
-                result =  mapCssProxy.render(dataSet, bounds, 1, mapCSSStyles);
+                result =  mapCssProxy.render(dataSet, bounds, 1, styleUrl);
             } else {
                 throw new RuntimeException("Support for NPOT textures is not implemented yet!");
             }

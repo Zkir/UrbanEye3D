@@ -206,10 +206,10 @@ public class DialogWindow3D extends ToggleDialog
             * Note the following: Building models do not depend on pan and zoom,
             * but the ground plane currently does.
             * */
-            var tmsLayer = getTopmostImageryLayer();
+            var layer2dInfo = getTopmostImageryLayer();
             LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
 
-            scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null);
+            scene3d.getGroundPlane().update(visibleAreaCenter, layer2dInfo, listenedLayer != null ? listenedLayer.getDataSet() : null, false);
             renderer3D.repaint();
         }
     }
@@ -250,7 +250,7 @@ public class DialogWindow3D extends ToggleDialog
                 if(isUpdateRequired()) {
                     var tmsLayer = getTopmostImageryLayer();
                     LatLon visibleAreaCenter = this.renderer3D.getCameraPosition();
-                    scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null);
+                    scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null, false);
                     //this is some kind of back magic, otherwise repaint does not work.
                     SwingUtilities.invokeLater(() -> {
                         this.getRenderer3D().repaint();
@@ -260,19 +260,19 @@ public class DialogWindow3D extends ToggleDialog
         }
     }
 
-    private ImageryInfo getTopmostImageryLayer() {
+    private GroundPlane.Layer2dInfo getTopmostImageryLayer() {
         MapView mv = MainApplication.getMap().mapView;
         for (Layer layer : mv.getLayerManager().getLayers()) {
             if (layer instanceof TMSLayer && layer.isVisible()) {
                 TMSLayer tmsLayer = (TMSLayer) layer;
                 try {
-                    return tmsLayer.getInfo();
+                    return  new GroundPlane.Layer2dInfo(GroundPlane.ImageryType.TMS, tmsLayer.getInfo());
                 } catch (IllegalArgumentException e) {
                     // Skip incompatible layers
                 }
             }
         }
-        return null;
+        return new GroundPlane.Layer2dInfo(GroundPlane.ImageryType.MapCSS, null);
     }
 
 }
