@@ -9,7 +9,10 @@
 
 ### Musts for the Next Release 
 
-*  TG, none.
+* Strange bug (probably in JOSM) -- JOSM draws own things, not specified by the given mapcss stylesheet. 
+* For some reason JOSM ignores specified stylesheet url, and draws styles selected in preferences. Those user settings should not affect 3D window.
+* Make UI more responsive, because it seems that ful redrawal of 2d layer after primitive EDIT impacts performance badly.
+* Submit JOSM patch, othewise mapcss tile repaint crash.
 
 ### Ideas for the Further Development
 
@@ -81,11 +84,9 @@ To be prioritized via MoSCoW method.
 
 ## Recent Accomplishments
 
-### February 5, 2026
-* Fixed an issue where the GroundPlane (satellite imagery) would disappear in the 3D viewer when the window was docked or undocked. This was caused by the OpenGL context being reinitialized, invalidating previously loaded textures. 
 
-### February 4, 2026
-* Implemented rendering of satellite imagery as a ground plane in the 3D viewer. Limited set of JOSM layers is supported: public TMS layers and BING. Other layers is not feasible to support now, due to comlpicated JOSM API.
+### February 8, 2026
+* Ownm, self-rendered MapCSS-based 2D layer is displayed by default, if no satellite imagery is selected
 
 
 ## Architectural Notes
