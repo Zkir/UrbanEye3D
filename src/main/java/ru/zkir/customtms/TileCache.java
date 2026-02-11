@@ -108,8 +108,10 @@ public class TileCache {
     /** TileCache knows how to validate {@link ImageryInfo}, because this class uses it */
     public boolean validateImageryInfo(ImageryInfo imageryInfo) {
         // layer Id is necessary, because it is used as a key.
-        if (imageryInfo.getId().isEmpty()){
-            throw new IllegalArgumentException("Layer id is necessary");
+        String layerID = imageryInfo.getId();
+        if (layerID==null || layerID.isEmpty()){
+            UrbanEye3dPlugin.debugMsg("Satellite layer without id is not supported");
+            return false;
         }
 
         // For Bing, the URL is not a template in the same way, so we skip placeholder validation.
