@@ -3,6 +3,7 @@ package ru.zkir.urbaneye3d;
 import org.openstreetmap.gui.jmapviewer.tilesources.TMSTileSource;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.imagery.ImageryInfo;
+import org.openstreetmap.josm.data.osm.DataSelectionListener;
 import org.openstreetmap.josm.data.osm.event.AbstractDatasetChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataSetListener;
@@ -31,7 +32,7 @@ import java.beans.PropertyChangeListener;
 public class DialogWindow3D extends ToggleDialog
                              implements DataSetListener, NavigatableComponent.ZoomChangeListener,
                                         LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener,
-                                        PropertyChangeListener
+                                        PropertyChangeListener, DataSelectionListener
 {
     private final Renderer3D renderer3D;
     private final Scene scene3d = new Scene();
@@ -108,10 +109,12 @@ public class DialogWindow3D extends ToggleDialog
     private void updateListenedLayer(OsmDataLayer newLayer) {
         if (listenedLayer != null) {
             listenedLayer.getDataSet().removeDataSetListener(this);
+            listenedLayer.getDataSet().removeSelectionListener(this);
         }
         listenedLayer = newLayer;
         if (listenedLayer != null) {
             listenedLayer.getDataSet().addDataSetListener(this);
+            listenedLayer.getDataSet().addSelectionListener(this);
         }
     }
 
@@ -249,12 +252,10 @@ public class DialogWindow3D extends ToggleDialog
                 //recreated ground plane geometries and texture
                 if(isUpdateRequired()) {
                     var tmsLayer = getTopmostImageryLayer();
-                    LatLon visibleAreaCenter = this.renderer3D.getCameraPosition();
+                    LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
                     scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null, false);
                     //this is some kind of back magic, otherwise repaint does not work.
-                    SwingUtilities.invokeLater(() -> {
-                        this.getRenderer3D().repaint();
-                    });
+                    SwingUtilities.invokeLater(() -> this.getRenderer3D().repaint());
                 }
             }
         }
@@ -275,4 +276,18 @@ public class DialogWindow3D extends ToggleDialog
         return new GroundPlane.Layer2dInfo(GroundPlane.ImageryType.MapCSS, null);
     }
 
+    //TODO: since josm has special styles for selected objects, we need to redraw ground plane when selection changes.
+    //  in future we should get rid of that.
+    @Override
+    public void selectionChanged(SelectionChangeEvent event) {
+        UrbanEye3dPlugin.debugMsg("!!!SelectionChangeEvent!!!");
+        if(isUpdateRequired()) {
+            var tmsLayer = getTopmostImageryLayer();
+            LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
+            scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null, true);
+            //this is some kind of back magic, otherwise repaint does not work.
+            SwingUtilities.invokeLater(() -> this.getRenderer3D().repaint());
+        }
+
+    }
 }

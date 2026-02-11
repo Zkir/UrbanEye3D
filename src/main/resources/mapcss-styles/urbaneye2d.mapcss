@@ -16,7 +16,7 @@ way::* {
     linecap: none;
 }
 
-area:closed {
+area[!highway]:closed {
     fill-opacity: 1.0;
 }
 
