@@ -11,14 +11,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.drew.lang.annotations.NotNull;
 import org.openstreetmap.josm.data.Version;
 import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
@@ -107,12 +105,7 @@ public class TileCache {
 
     /** TileCache knows how to validate {@link ImageryInfo}, because this class uses it */
     public boolean validateImageryInfo(ImageryInfo imageryInfo) {
-        // layer Id is necessary, because it is used as a key.
-        String layerID = imageryInfo.getId();
-        if (layerID==null || layerID.isEmpty()){
-            UrbanEye3dPlugin.debugMsg("Satellite layer without id is not supported");
-            return false;
-        }
+
 
         // For Bing, the URL is not a template in the same way, so we skip placeholder validation.
         // The type check in downloadTile is what matters.
@@ -172,8 +165,24 @@ public class TileCache {
         pendingRequests.clear();
     }
 
+    @NotNull
     private String getTileKey(String layerId, int zoom, int x, int y) {
         return layerId + "/" + zoom + "/" + x + "/" + y; // Add layer ID to key for uniqueness
+    }
+
+    @NotNull
+    private String getLayerId(ImageryInfo layer){
+        String layerID=layer.getId();
+        if (layerID!=null && !layerID.isEmpty()){
+            return layerID;
+        }
+
+        String url=layer.getUrl();
+        if (url==null || url.isEmpty()){
+            throw new IllegalArgumentException("Layer url is necessary");
+        }
+
+        return UUID.nameUUIDFromBytes(url.getBytes()).toString();
     }
 
     /**
@@ -186,7 +195,7 @@ public class TileCache {
      * @return tile as {link BufferedImage} or null if tile is absent in the cache
      */
     public BufferedImage getTile(ImageryInfo layer, int zoom, int x, int y) {
-        String key = getTileKey(layer.getId(), zoom, x, y);
+        String key = getTileKey(getLayerId(layer), zoom, x, y);
         // 1. Check memory cache
         synchronized (memoryCache) {
             if (memoryCache.containsKey(key)) {
@@ -195,7 +204,7 @@ public class TileCache {
         }
 
         // 2. Check disk cache
-        BufferedImage tile = loadFromDisk(layer.getId(), zoom, x, y);
+        BufferedImage tile = loadFromDisk(getLayerId(layer), zoom, x, y);
         if (tile != null) {
             synchronized (memoryCache) {
                 memoryCache.put(key, tile);
@@ -209,11 +218,11 @@ public class TileCache {
     }
 
     private void submitLoadRequest(ImageryInfo layer, int zoom, int x, int y) {
-        String key = getTileKey(layer.getId(), zoom, x, y);
+        String key = getTileKey(getLayerId(layer), zoom, x, y);
         pendingRequests.computeIfAbsent(key, k -> executorService.submit(() -> {
             try {
                 BufferedImage tile;
-                if (!layer.getId().equals("fake-layer")) {
+                if (!getLayerId(layer).equals("fake-layer")) {
                     tile = downloadTile(layer, zoom, x, y);
                 }else{
                     tile = fakeTile(layer, zoom, x, y);
@@ -222,7 +231,7 @@ public class TileCache {
                     synchronized (memoryCache) {
                         memoryCache.put(key, tile);
                     }
-                    saveToDisk(tile, layer.getId(), zoom, x, y);
+                    saveToDisk(tile, getLayerId(layer), zoom, x, y);
                     raiseCacheUpdatedEvent(zoom, x, y);
                 }
                 return tile;
