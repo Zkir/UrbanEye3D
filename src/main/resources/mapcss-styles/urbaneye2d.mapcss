@@ -404,17 +404,17 @@ area|z13-[natural=wetland] {
  */
 
 way|z8[waterway=river][!tunnel] {
-    color: #4060C0;
+    color: #4050C0;
     width: 0.7;
 }
 
 way|z9[waterway=river][!tunnel] {
-    color: #4060C0;
+    color: #4050C0;
     width: 1.2;
 }
 
 way|z10-11[waterway=river][!tunnel] {
-    color: #4060C0;
+    color: #4050C0;
     width: 1.6;
 }
 
@@ -447,42 +447,42 @@ way|z16-[waterway=wadi][!bridge?][bridge!=aqueduct] {
 }
 
 way|z12[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #b5d0d0;
+    color: #4050C0;
     linecap: round;
     linejoin: round;
     width: 2;
 }
 
 way|z13[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #b5d0d0;
+    color: #4050C0;
     linecap: round;
     linejoin: round;
     width: 3;
 }
 
 way|z14[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #4060C0;
+    color: #4050C0;
     linecap: round;
     linejoin: round;
     width: 5;
 }
 
 way|z15-16[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #4060C0;
+    color: #4050C0;
     linecap: round;
     linejoin: round;
     width: 6;
 }
 
 way|z17[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #4060C0;
+    color: #4050C0;
     linecap: round;
     linejoin: round;
     width: 10;
 }
 
 way|z18-[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #4060C0;
+    color: #4050C0;
     linecap: round;
     linejoin: round;
     width: 12;
@@ -505,14 +505,14 @@ way|z13[waterway=canal][disused!=yes][!bridge?][bridge!=aqueduct] {
 way|z13-14[waterway=stream][!tunnel][!bridge?][bridge!=aqueduct],
 way|z13-14[waterway=ditch][!tunnel][!bridge?][bridge!=aqueduct],
 way|z13-14[waterway=drain][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #4060C0;
+    color: #4050C0;
     width: 1;
 }
 
 
 
 way|z14-16[waterway=canal][!tunnel?][disused!=yes][!bridge?][bridge!=aqueduct] {
-    color: #4060C0;
+    color: #4050C0;
     linecap: round;
     linejoin: round;
     width: 7;
@@ -566,7 +566,7 @@ way|z14-[waterway=canal][disused=yes][!bridge?][bridge!=aqueduct] {
 
 
 way|z15-[waterway=stream][!tunnel][!bridge?][bridge!=aqueduct] {
-    color: #4060C0;
+    color: #4050C0;
     width: 2;
 }
 
