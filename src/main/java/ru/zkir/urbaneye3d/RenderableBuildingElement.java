@@ -230,6 +230,15 @@ public class RenderableBuildingElement {
     @Nullable
     public static RenderableBuildingElement createBarrier(OsmPrimitive primitive){
 
+        var primitiveTags = primitive.getInterestingTags();
+        Double layer = getTagD("layer", primitiveTags, 0);
+        String location = getTagStr("location", primitiveTags, "");
+
+        if ((layer<0) || (location.equals("underground"))){
+            // we ignore such underground barriers for now.
+            return null;
+        }
+
         String barrierType = primitive.get("barrier");
 
         double width;

@@ -84,6 +84,9 @@ To be prioritized via MoSCoW method.
 
 ## Recent Accomplishments
 
+### February 13, 2026
+
+* Underground barriers (layer<0 or location=underground) are excluded from rendering.
 
 ### February 8, 2026
 * Own, self-rendered MapCSS-based 2D layer is displayed by default, if no satellite imagery is selected
