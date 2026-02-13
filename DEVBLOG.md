@@ -1,5 +1,11 @@
 # Development History
 
+## Version 1.8.1 (February 12, 2026)
+* User defined TMS/BING layers (which do not have own ID) are now also supported. ([JOSM ticket #24630](https://josm.openstreetmap.de/ticket/24630))
+
+## Version 1.8.0 (February 1, 2026)
+* Implemented rendering of satellite imagery as a ground plane in the 3D viewer. Limited set of JOSM layers is supported: public TMS layers and BING. Other layers is not feasible to support now, due to comlpicated JOSM API.
+
 ## Version 1.7.0 (January 21, 2026)
 * Building parts with building:part=roof tag are rendered in the same way as in F4: for building parts with building:part=roof and roof shapes gabled, round, gambrel , saltbox and skillion walls are not generated.
 
