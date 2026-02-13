@@ -86,7 +86,10 @@ To be prioritized via MoSCoW method.
 
 
 ### February 8, 2026
-* Ownm, self-rendered MapCSS-based 2D layer is displayed by default, if no satellite imagery is selected
+* Own, self-rendered MapCSS-based 2D layer is displayed by default, if no satellite imagery is selected
+
+### Earlier
+See [Devblog](DEVBLOG.md)
 
 
 ## Architectural Notes
