@@ -280,7 +280,6 @@ public class DialogWindow3D extends ToggleDialog
     //  in future we should get rid of that.
     @Override
     public void selectionChanged(SelectionChangeEvent event) {
-        UrbanEye3dPlugin.debugMsg("!!!SelectionChangeEvent!!!");
         if(isUpdateRequired()) {
             var tmsLayer = getTopmostImageryLayer();
             LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
