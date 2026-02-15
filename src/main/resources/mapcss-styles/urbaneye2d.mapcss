@@ -131,6 +131,7 @@ area|z10-[leisure=park],
 area|z10-[leisure=recreation_ground] {
     fill-color: #b6fdb6;
     fill-opacity: 0.6;
+	z-index: -999;
 }
 
 area|z10-[tourism=zoo] {
@@ -258,11 +259,11 @@ area|z14-[natural=scrub] {
     fill-image: "symbols/scrub.png";
 }
 
-area|z10-[amenity=parking][!building] {
+area|z10-[amenity=parking][!building][parking!=underground][location!=underground] {
     fill-color: #fad8d2;
 }
 
-area|z15-[amenity=parking][!building] {
+area|z15-[amenity=parking][!building][parking!=underground][location!=underground] {
     color: #fad8d2;
     width: 0.3;
 }
@@ -715,15 +716,6 @@ area|z14-[leisure=nature_reserve] {
     color: #66cc33;
     width: 1;
 }
-
-
-
-
-/**
- * Layer 'footbikecycle-tunnels'
- * Style 'footbikecycle-tunnels'
- */
-
 
 /**
  * Layer 'line features'
@@ -1192,9 +1184,9 @@ way|z16-[highway=service][service!=parking_aisle][service!=drive-through][servic
 }
 
 
-way|z16-[highway=service][service=parking_aisle]::roads-casing,
-way|z16-[highway=service][service=drive-through]::roads-casing,
-way|z16-[highway=service][service=driveway]::roads-casing {
+way|z16-[highway=service][service=parking_aisle][location!=underground]::roads-casing,
+way|z16-[highway=service][service=drive-through][location!=underground]::roads-casing,
+way|z16-[highway=service][service=driveway][location!=underground]::roads-casing {
     color: #999999;
     linecap: round;
     linejoin: round;
@@ -2366,9 +2358,9 @@ way|z16-[highway=service][service!=parking_aisle][service!=drive-through][servic
     width: 6;
 }
 
-way|z16-[highway=service][service=parking_aisle],
-way|z16-[highway=service][service=drive-through],
-way|z16-[highway=service][service=driveway] {
+way|z16-[highway=service][service=parking_aisle][location!=underground],
+way|z16-[highway=service][service=drive-through][location!=underground],
+way|z16-[highway=service][service=driveway][location!=underground] {
     color: white;
     linecap: round;
     linejoin: round;
@@ -4439,3 +4431,19 @@ area|z15-[tourism=theme_park] {
     opacity: 0.6;
     width: 2.5;
 }
+
+
+
+way[location=underground],
+way[level<0] {
+    opacity: 0.4;
+	fill-opacity: 0.4;
+} 
+
+/*
+area[location=underground],
+area[level<0] {
+    opacity: 0.0;
+	fill-opacity: 0.0;
+*/
+
