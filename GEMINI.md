@@ -9,18 +9,31 @@
 
 ### Musts for the Next Release 
 
-* Strange bug (probably in JOSM) -- JOSM draws own things, not specified by the given mapcss stylesheet. 
-* For some reason JOSM ignores specified stylesheet url, and draws styles selected in preferences. Those user settings should not affect 3D window.
+* Submit JOSM patch, othewise mapcss tile repaint crash - or fix it in the plugin
+(2026-02-14 03:27:35.601 SEVERE: Exception raised in EDT: java.lang.InterruptedException
+        at org.openstreetmap.josm.gui.util.GuiHelper.runInEDTAndWait(GuiHelper.java:228)
+        at org.openstreetmap.josm.gui.NavigatableComponent.fireZoomChanged(NavigatableComponent.java:152))
+* JOSM parameters (e.g. draw oneway arrows) override MapCSS styles in 3D window.  Probably josm patch should be created.
+* Restrict drawing area for buildings -- the same area as for ground tiles.
+* make ground tiles to pan more nicely (less flashing, maybe cut by visible area).		
+* "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
+* Download multipolygons as a whole + parameter
 * Make UI more responsive, because it seems that ful redrawal of 2d layer after primitive EDIT impacts performance badly.
-* Submit JOSM patch, othewise mapcss tile repaint crash.
+* Return the highlight selected object functionality!!!
+* Uplift required JOSM version to 19528 (we cannot do it right now though)
+
+#### Patches to monitor
+
+*  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637).
 
 ### Ideas for the Further Development
 
 In order [voted](https://community.openstreetmap.org/t/urban-eye-3d-josm-3d-viewer-plugin/133674/240) by the community.
 
-1. Support the [base:shape proposal](https://community.openstreetmap.org/t/rfc-feature-proposal-3d-tagging-for-building-base-shapes) (#35)
-	
-2. Add more objects, e.g. roads, rivers, street lights (probably via osm2world code). (#4)
+
+1. Add more objects, e.g. roads, rivers, street lights (probably via osm2world code). (#4)  -- by 2D style! 
+
+2. Support the [base:shape proposal](https://community.openstreetmap.org/t/rfc-feature-proposal-3d-tagging-for-building-base-shapes) (#35)
 	
 3. Improve performance/responsiveness of editing in large scenes.
     * Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene, as now. 
@@ -83,6 +96,11 @@ To be prioritized via MoSCoW method.
 
 
 ## Recent Accomplishments
+
+### February 14, 2026
+
+* Patch for JOSM API (which fixes the problem with singleton MapCSS style cache) has been created and accepted by the upstream. 
+Mapillary and MapRoulette plugins have been also fixed. See [Josm ticket #24637](https://josm.openstreetmap.de/ticket/24637)
 
 ### February 13, 2026
 
