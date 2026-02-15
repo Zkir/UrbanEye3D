@@ -16,7 +16,7 @@
 * JOSM parameters (e.g. draw oneway arrows) override MapCSS styles in 3D window.  Probably josm patch should be created.
 * Restrict drawing area for buildings -- the same area as for ground tiles.
 * make ground tiles to pan more nicely (less flashing, maybe cut by visible area).		
-* "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
+* **[50%]** "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
 * Download multipolygons as a whole + parameter
 * Make UI more responsive, because it seems that ful redrawal of 2d layer after primitive EDIT impacts performance badly.
 * Return the highlight selected object functionality!!!
@@ -24,7 +24,7 @@
 
 #### Patches to monitor
 
-*  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637).
+*  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637). -- **DONE.**
 
 ### Ideas for the Further Development
 
@@ -96,6 +96,10 @@ To be prioritized via MoSCoW method.
 
 
 ## Recent Accomplishments
+
+### February 15, 2026
+
+* Initial implementation for "realistic" 2d road styles: [urbaneye2d.roads.mapcss](src/main/resources/mapcss-styles/urbaneye2d.roads.mapcss) has been created. Roads are rendered in gray asphalt colour. Lanes and width tags are ignored for now. Non-ugly implementation for lanes maybe impossible with current MapCSS capabilities.
 
 ### February 14, 2026
 

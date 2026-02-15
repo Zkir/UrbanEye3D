@@ -15,12 +15,14 @@ import java.util.List;
 public class MapCssProxy
 {
 
-    public BufferedImage render(DataSet dataSet, Bounds bounds, double scale, String styleUrl) throws IOException, IllegalDataException {
+    public BufferedImage render(DataSet dataSet, Bounds bounds, double scale, ArrayList<String> styleUrls) throws IOException, IllegalDataException {
         List<RenderingHelper.StyleData> argStyles = new ArrayList<>();
 
-        var argCurrentStyle = new RenderingHelper.StyleData();
-        argCurrentStyle.styleUrl = styleUrl;
-        argStyles.add(argCurrentStyle);
+        for (var styleUrl:styleUrls) {
+            var argCurrentStyle = new RenderingHelper.StyleData();
+            argCurrentStyle.styleUrl = styleUrl;
+            argStyles.add(argCurrentStyle);
+        }
 
         RenderingHelper rh = new RenderingHelper(dataSet, bounds, scale, argStyles);
         BufferedImage image = rh.render();

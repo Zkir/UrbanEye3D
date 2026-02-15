@@ -51,20 +51,24 @@ public class MapCSSTest {
      *   This test checks rather our built-in MapCSS style itself.
      *   We just invoke Josm MapCSS engine directly.
      */
-    @Test public void testJMapCssStyle() throws Exception {
+    @Test public void testMapCssStyle() throws Exception {
 
         double scale = 1;
 
         var mapCssProxy = new MapCssProxy();
-        BufferedImage image=mapCssProxy.render(dataSet, bounds, scale, "resource://mapcss-styles/urbaneye2d.mapcss");
+        var styleUrls= new ArrayList<String>();
+        styleUrls.add("resource://mapcss-styles/urbaneye2d.general.mapcss");
+        styleUrls.add("resource://mapcss-styles/urbaneye2d.roads.mapcss");
 
-
+        BufferedImage image=mapCssProxy.render(dataSet, bounds, scale, styleUrls);
         writeImageToFile(image);
+
+        var colourCount=countUniqueColors(image);
 
         //The image is created, has expected resolution, and sane colours
         assertNotNull(image);
         assertTrue(image.getWidth()==2293 && image.getHeight()==2383);
-        assertTrue(countUniqueColors(image) > 50000, "Rendered image does not seem to contain a map texture (too few colors).");
+        assertTrue( colourCount> 25000, "Rendered image does not seem to contain a map texture (too few colors: "+colourCount+").");
 
     }
     /**

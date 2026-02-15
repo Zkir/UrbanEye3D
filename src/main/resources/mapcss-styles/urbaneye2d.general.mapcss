@@ -1,0 +1,1715 @@
+meta {
+    title: "UrbanEye2D";
+    version: "0.1";
+    description: "Similar to  Mapnik (true)  MapCSS variant of the OSM Mapnik style, but adjusted to the needs of UrbanEye3D rendering";
+    acknowledgement: "Based on Mapnik MapCSS adaptation (various authors)";
+}
+
+canvas {
+    fill-color: #f1eee8;
+    default-lines: false;
+    default-points: false;
+}
+
+way::* {
+    linejoin: miter;
+    linecap: none;
+}
+
+area[!highway]:closed {
+    fill-opacity: 1.0;
+}
+
+/*
+*::* {
+}
+*/
+
+/**
+ * Layer 'landcover'
+ * Style 'landcover'
+ */
+
+area|z14-[leisure=swimming_pool] {
+    fill-color: #b5d0d0;
+    color: blue;
+    width: 0.5;
+}
+
+area|z13-[leisure=playground] {
+    fill-color: #ccfff1;
+    color: #666666;
+    width: 0.3;
+}
+
+area|z13-[tourism=camp_site],
+area|z13-[tourism=caravan_site],
+area|z13-[tourism=picnic_site] {
+    fill-color: #ccff99;
+    fill-opacity: 0.5;
+    color: #666666;
+    width: 0.3;
+}
+
+area|z11-[landuse=quarry] {
+    fill-image: "symbols/quarry2.png";
+    color: grey;
+    width: 0.5;
+}
+
+area|z10-12[landuse=vineyard] {
+    fill-color: #abdf96;
+}
+
+area|z10-[landuse=orchard] {
+    fill-image: "symbols/orchard.png";
+}
+
+area|z13-[landuse=vineyard] {
+    fill-image: "symbols/vineyard.png";
+}
+
+area|z10-14[landuse=cemetery],
+area|z10-14[landuse=grave_yard],
+area|z10-14[amenity=grave_yard] {
+    fill-color: #aacbaf;
+}
+
+/*
+area|z10-[landuse=residential] {
+    fill-color: #dddddd;
+}
+*/
+
+area|z12-[landuse=garages] {
+    fill-color: #999966;
+    fill-opacity: 0.2;
+}
+
+
+area|z10-13[landuse=field],
+area|z10-13[natural=field] {
+    fill-color: #666600;
+    fill-opacity: 0.2;
+}
+
+area|z14-[landuse=field],
+area|z14-[natural=field] {
+    fill-color: #666600;
+    fill-opacity: 0.2;
+    color: #666600;
+    opacity: 0.4;
+    width: 0.3;
+}
+
+
+area|z14-[landuse=cemetery][religion=jewish],
+area|z14-[landuse=grave_yard][religion=jewish],
+area|z14-[amenity=grave_yard][religion=jewish] {
+    fill-image: "symbols/cemetery_jewish.18.png";
+}
+
+area|z14-[landuse=cemetery][religion=christian],
+area|z14-[landuse=grave_yard][religion=christian],
+area|z14-[amenity=grave_yard][religion=christian] {
+    fill-image: "symbols/grave_yard.png";
+}
+
+area|z14-[landuse=cemetery][religion!=christian][religion!=jewish],
+area|z14-[landuse=grave_yard][religion!=christian][religion!=jewish],
+area|z14-[amenity=grave_yard][religion!=christian][religion!=jewish] {
+    fill-image: "symbols/grave_yard_generic.png";
+}
+
+area|z10-[landuse=flowerbed],
+area|z10-[landuse=meadow],
+area|z10-[landuse=grass] {
+    fill-color: #cfeca8;
+}
+
+area|z10-[leisure=park],
+area|z10-[leisure=recreation_ground] {
+    fill-color: #b6fdb6;
+    fill-opacity: 0.6;
+	z-index: -999;
+}
+
+area|z10-[tourism=zoo] {
+    fill-image: "symbols/zoo.png";
+}
+
+area|z10-[leisure=common] {
+    fill-color: #cfeca8;
+}
+
+area|z10-[leisure=garden] {
+    fill-color: #cfeca8;
+}
+
+area|z10-[leisure=golf_course] {
+    fill-color: #b5e3b5;
+}
+
+area|z10-13[landuse=allotments] {
+    fill-color: #cfeca8
+}
+
+area|z14-[landuse=allotments] {
+	fill-color: #cfeca8
+}
+
+area|z8-13[landuse=forest] {
+    fill-color: #8dc56c;
+}
+
+area|z14-[landuse=forest] {
+    fill-image: "symbols/forest.png";
+}
+
+area|z9-[landuse=farmyard] {
+    fill-color: #ddbf92;
+}
+
+area|z9-[landuse=farm],
+area|z9-[landuse=farmland] {
+    fill-color: #ead8bd;
+}
+
+area|z10-[landuse=recreation_ground],
+area|z10-[landuse=conservation] {
+    fill-color: #cfeca8;
+}
+
+area|z11-[landuse=village_green] {
+    fill-color: #cfeca8;
+}
+
+/*
+area|z10-[landuse=retail] {
+    fill-color: #f1dada;
+}
+
+area|z15-[landuse=retail] {
+    color: red;
+    width: 0.3;
+}
+ */
+
+/*
+area|z10-[landuse=industrial],
+area|z10-[landuse=railway] {
+    fill-color: #dfd1d6;
+}
+*/
+
+area|z10-11[power=station],
+area|z10-11[power=generator] {
+    fill-color: #bbbbbb;
+}
+
+area|z12-[power=station],
+area|z12-[power=generator] {
+    fill-color: #bbbbbb;
+    color: #555555;
+    width: 0.4;
+}
+
+area|z13-[power=sub_station] {
+    fill-color: #bbbbbb;
+    color: #555555;
+    width: 0.4;
+}
+
+/*
+area|z10-[landuse=commercial] {
+    fill-color: #efc8c8;
+}
+*/
+
+area|z10-[landuse=brownfield],
+area|z10-[landuse=landfill],
+area|z10-[landuse=greenfield],
+area|z10-[landuse=construction] {
+    fill-color: #9d9d6c;
+    fill-opacity: 0.7;
+}
+
+area|z8-[natural=wood],
+area|z8-[landuse=wood] {
+    fill-color: #aed1a0;
+}
+
+area|z8-[natural=desert] {
+    fill-color: #e3b57a;
+}
+
+area|z10-[natural=sand] {
+    fill-color: #ffdf88;
+}
+
+area|z10-[natural=heath] {
+    fill-color: #d6d99f;
+}
+
+area|z10-13[natural=scrub] {
+    fill-color: #b5e3b5;
+}
+
+area|z14-[natural=scrub] {
+    fill-image: "symbols/scrub.png";
+}
+
+area|z10-[amenity=parking][!building][parking!=underground][location!=underground] {
+    fill-color: #fad8d2;
+}
+
+area|z15-[amenity=parking][!building][parking!=underground][location!=underground] {
+    color: #fad8d2;
+    width: 0.3;
+}
+
+area|z12-[aeroway=apron] {
+    fill-color: #e9d1ff;
+}
+
+area|z12-[aeroway=aerodrome] {
+    fill-color: #cccccc;
+    fill-opacity: 0.2;
+    color: #555555;
+    width: 0.2;
+}
+
+area|z13-[natural=beach] {
+    fill-image: "symbols/beach.png";
+}
+
+area|z14-[highway=services],
+area|z14-[highway=rest_area] {
+    fill-color: #efc8c8;
+}
+
+/**
+ * Layer 'landcover_line'
+ * Style 'landcover_line'
+ */
+
+way|z14-15[man_made=cutline] {
+    color: #f2efe9;
+    linecap: square;
+    linejoin: round;
+    width: 3;
+}
+
+way|z16-[man_made=cutline] {
+    color: #f2efe9;
+    linecap: square;
+    linejoin: round;
+    width: 6;
+}
+
+/**
+ * Layer 'sports_grounds'
+ * Style 'sports_grounds'
+ */
+
+area|z10-[leisure=sports_centre],
+area|z10-[leisure=stadium] {
+    fill-color: #33cc99;
+    z-index: -999;
+}
+
+area|z10-[leisure=track] {
+    fill-color: #74dcba;
+    color: #888888;
+    width: 0.5;
+    z-index: -998;
+}
+
+area|z10-[leisure=pitch] {
+    fill-color: #8ad3af;
+    color: #888888;
+    width: 0.5;
+    z-index: -997;
+}
+
+
+
+/**
+ * Layer 'water_areas'
+ * Style 'water_areas'
+ */
+
+area|z6-7[natural=glacier] {
+    fill-image: "symbols/glacier.png";
+    color: #99ccff;
+    dashes: 4,2;
+    width: 1.5;
+    z-index: -999;
+}
+
+area|z8-[natural=glacier] {
+    fill-image: "symbols/glacier2.png";
+    color: #99ccff;
+    dashes: 4,2;
+    width: 1.5;
+    z-index: -999;
+}
+
+area|z9-[waterway=dock],
+area|z9-[waterway=mill_pond],
+area|z9-[waterway=canal] {
+    fill-color: #4050C0;
+    z-index: -999;
+}
+
+area|z7-[landuse=basin] {
+    fill-color: #b5d0d0;
+    z-index: -999;
+}
+
+area|z6-[natural=lake],
+area|z6-[natural=water],
+area|z6-[landuse=reservoir],
+area|z6-[waterway=riverbank],
+area|z6-[landuse=water],
+area|z6-[natural=bay] {
+    fill-color: #4050C0;
+    z-index: -999;
+}
+
+area|z13-[natural=mud] {
+    fill-image: "symbols/mud.png";
+    z-index: -999;
+}
+
+area|z10-[natural=land] {
+    fill-color: #f2efe9;
+    z-index: -999;
+}
+
+/**
+ * Layer 'water-areas-overlay'
+ * Style 'water-areas-overlay'
+ */
+
+area|z13-[natural=marsh],
+area|z13-[natural=wetland] {
+    fill-image: "symbols/marsh.png";
+    z-index: -998;
+}
+
+
+/**
+ * Layer 'water-lines-low-zoom'
+ * Style 'water-lines-low-zoom'
+ */
+
+way|z8[waterway=river][!tunnel] {
+    color: #4050C0;
+    width: 0.7;
+}
+
+way|z9[waterway=river][!tunnel] {
+    color: #4050C0;
+    width: 1.2;
+}
+
+way|z10-11[waterway=river][!tunnel] {
+    color: #4050C0;
+    width: 1.6;
+}
+
+/**
+ * Layer 'water_lines'
+ * Style 'water_lines'
+ */
+
+way|z15-[waterway=weir][!bridge?][bridge!=aqueduct] {
+    color: #aaaaaa;
+    linecap: round;
+    linejoin: round;
+    width: 2;
+}
+
+way|z13-15[waterway=wadi][!bridge?][bridge!=aqueduct] {
+    color: #b5d0d0;
+    dashes: 4,4;
+    linecap: round;
+    linejoin: round;
+    width: 1;
+}
+
+way|z16-[waterway=wadi][!bridge?][bridge!=aqueduct] {
+    color: #b5d0d0;
+    dashes: 4,4;
+    linecap: round;
+    linejoin: round;
+    width: 2;
+}
+
+way|z12[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 2;
+}
+
+way|z13[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 3;
+}
+
+way|z14[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 5;
+}
+
+way|z15-16[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 6;
+}
+
+way|z17[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 10;
+}
+
+way|z18-[waterway=river][!tunnel][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 12;
+}
+
+way|z12[waterway=canal][disused!=yes][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 3;
+}
+
+way|z13[waterway=canal][disused!=yes][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 4;
+}
+
+way|z13-14[waterway=stream][!tunnel][!bridge?][bridge!=aqueduct],
+way|z13-14[waterway=ditch][!tunnel][!bridge?][bridge!=aqueduct],
+way|z13-14[waterway=drain][!tunnel][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    width: 1;
+}
+
+
+
+way|z14-16[waterway=canal][!tunnel?][disused!=yes][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 7;
+}
+
+
+way|z17-[waterway=canal][!tunnel?][disused!=yes][lock!=yes][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 11;
+}
+
+way|z17-[waterway=canal][!tunnel?][disused!=yes][lock=yes][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    linecap: round;
+    linejoin: round;
+    width: 7;
+}
+
+way|z12[waterway=derelict_canal][!bridge?][bridge!=aqueduct],
+way|z12[waterway=canal][disused=yes][!bridge?][bridge!=aqueduct] {
+    color: #b5e4d0;
+    dashes: 4,4;
+    linecap: round;
+    linejoin: round;
+    opacity: 0.5;
+    width: 1.5;
+}
+
+way|z13[waterway=derelict_canal][!bridge?][bridge!=aqueduct],
+way|z13[waterway=canal][disused=yes][!bridge?][bridge!=aqueduct] {
+    color: #b5e4d0;
+    dashes: 4,6;
+    linecap: round;
+    linejoin: round;
+    opacity: 0.5;
+    width: 2.5;
+}
+
+way|z14-[waterway=derelict_canal][!bridge?][bridge!=aqueduct],
+way|z14-[waterway=canal][disused=yes][!bridge?][bridge!=aqueduct] {
+    color: #b5e4d0;
+    dashes: 4,8;
+    linecap: round;
+    linejoin: round;
+    opacity: 0.5;
+    width: 4.5;
+}
+
+
+
+way|z15-[waterway=stream][!tunnel][!bridge?][bridge!=aqueduct] {
+    color: #4050C0;
+    width: 2;
+}
+
+way|z15-[waterway=drain][!tunnel?][!bridge?][bridge!=aqueduct],
+way|z15-[waterway=ditch][!tunnel?][!bridge?][bridge!=aqueduct] {
+    color: #b5d0d0;
+    width: 1;
+}
+
+/**
+ * Layer 'dam'
+ * Style 'dam'
+ */
+
+way|z13-[waterway=dam] {
+    color: #444444;
+    linecap: round;
+    linejoin: round;
+    width: 2;
+}
+
+
+/**
+ * Layer 'marinas-area'
+ * Style 'marinas-area'
+ */
+
+area|z14-15[leisure=marina] {
+    color: blue;
+    dashes: 6,2;
+    opacity: 0.5;
+    width: 1;
+}
+
+area|z16-[leisure=marina] {
+    color: blue;
+    dashes: 6,2;
+    opacity: 0.5;
+    width: 2;
+}
+
+/**
+ * Layer 'piers-area'
+ * Style 'piers-area'
+ */
+
+area|z12-[man_made=pier],
+area|z12-[man_made=breakwater],
+area|z12-[man_made=groyne] {
+    fill-color: #f2efe9;
+}
+
+/**
+ * Layer 'piers'
+ * Style 'piers'
+ */
+
+way|z11-12[man_made=breakwater],
+way|z11-12[man_made=groyne] {
+    color: #aaaaaa;
+    width: 1;
+}
+
+way|z11-12[man_made=pier] {
+    color: #f2efe9;
+    width: 1.5;
+}
+
+way|z13-15[man_made=breakwater],
+way|z13-15[man_made=groyne] {
+    color: #aaaaaa;
+    width: 2;
+}
+
+way|z13-15[man_made=pier] {
+    color: #f2efe9;
+    width: 3;
+}
+
+way|z16-[man_made=breakwater],
+way|z16-[man_made=groyne] {
+    color: #aaaaaa;
+    width: 4;
+}
+
+way|z16-[man_made=pier] {
+    color: #f2efe9;
+    width: 7;
+}
+
+
+/**
+ * Layer 'citywalls'
+ * Style 'citywalls'
+ */
+
+way|z14[historic=citywalls] {
+    color: grey;
+    linejoin: round;
+    opacity: 0.8;
+    width: 4;
+}
+
+way|z15[historic=citywalls] {
+    color: grey;
+    linejoin: round;
+    opacity: 0.8;
+    width: 6;
+}
+
+way|z16-[historic=citywalls] {
+    color: grey;
+    linejoin: round;
+    opacity: 0.8;
+    width: 9;
+}
+
+/**
+ * Layer 'castle_walls'
+ * Style 'castle_walls'
+ */
+
+area|z14-15[historic=castle_walls] {
+    color: #999999;
+    width: 1;
+}
+
+area|z16-[historic=castle_walls] {
+    color: #888888;
+    width: 2;
+}
+
+/**
+ * Layer 'landuse_overlay'
+ * Style 'landuse_overlay'
+ */
+
+area|z10-13[leisure=nature_reserve] {
+    fill-image: "symbols/nature_reserve5.png";
+    color: #66cc33;
+    width: 0.5;
+}
+
+area|z14-[leisure=nature_reserve] {
+    fill-image: "symbols/nature_reserve6.png";
+    color: #66cc33;
+    width: 1;
+}
+
+/**
+ * Layer 'line features'
+ * Style 'cliffs'
+ */
+
+way|z13-14[natural=cliff] {
+    pattern-image: "symbols/cliff.png";
+}
+
+way|z15-[natural=cliff] {
+    pattern-image: "symbols/cliff2.png";
+}
+
+way|z15-[man_made=embankment] {
+    pattern-image: "symbols/cliff.png";
+}
+
+/* Style 'barriers' */
+
+way|z14-[barrier=embankment][location!=underground] {
+    color: #444444;
+    width: 0.4;
+}
+
+way|z16-[natural=hedge][location!=underground],
+way|z16-[barrier=hedge][location!=underground] {
+    color: #aed1a0;
+    width: 3;
+}
+
+way|z16-[barrier][barrier!=hedge][barrier!=embankment][location!=underground] {
+    color: #444444;
+    width: 0.4;
+}
+
+/**
+ * Layer 'polygon barriers'
+ * Style 'barriers_area'
+ */
+
+area|z16-[natural=hedge][location!=underground],
+area|z16-[barrier=hedge][location!=underground] {
+    fill-color: #aed1a0;
+}
+
+area|z16-[barrier][barrier!=hedge][location!=underground] {
+    color: #444444;
+    width: 0.4;
+}
+
+/**
+ * Layer 'highway-area-casing'
+ * Style 'highway-area-casing'
+ */
+
+area|z14-[highway=residential]:closed,
+area|z14-[highway=unclassified]:closed {
+    color: #999999;
+    width: 1;
+}
+
+area|z14-[highway=pedestrian][!tunnel]:closed,
+area|z14-[highway=service][!tunnel]:closed,
+area|z14-[highway=footway][!tunnel]:closed,
+area|z14-[highway=path][!tunnel]:closed {
+    color: grey;
+    width: 1;
+}
+
+area|z14-[highway=track]:closed {
+    color: #996600;
+    width: 2;
+}
+
+area|z16-[highway=platform][location!=underground]:closed,
+area|z16-[railway=platform][location!=underground]:closed {
+    color: grey;
+    linecap: round;
+    linejoin: round;
+    width: 2;
+}
+
+/**
+ * Layer 'highway-area-fill'
+ * Style 'highway-area-fill'
+ */
+
+area|z14-[highway=living_street]:closed {
+    fill-color: #cccccc;
+}
+
+area|z14-[highway=residential]:closed,
+area|z14-[highway=unclassified]:closed,
+area|z14-[highway=service]:closed {
+    fill-color: white;
+}
+
+area|z14-[highway=pedestrian][!tunnel]:closed,
+area|z14-[highway=footway][!tunnel]:closed,
+area|z14-[highway=path][!tunnel]:closed {
+    fill-color: #ededed;
+}
+
+area|z14-[highway=track]:closed {
+    fill-color: #dfcc66;
+}
+
+area|z16-[highway=platform][location!=underground]:closed,
+area|z16-[railway=platform][location!=underground]:closed {
+    fill-color: #bbbbbb;
+}
+
+area|z11-[aeroway=runway]:closed {
+    fill-color: #bbbbcc;
+}
+
+area|z13-[aeroway=taxiway]:closed {
+    fill-color: #bbbbcc;
+}
+
+area|z16-[aeroway=helipad]:closed {
+    fill-color: #bbbbcc;
+}
+
+/**
+ * Layer 'buildings-lz'
+ * Style 'buildings-lz'
+ */
+
+area|z10-[railway=station][!building]{
+    fill-color: #d4aaaa;
+}
+
+
+area|z10-14[amenity=place_of_worship][!building] {
+    fill-color: #777777;
+    fill-opacity: 0.5;
+}
+
+area|z15-[amenity=place_of_worship][!building] {
+    fill-color: #aaaaaa;
+    fill-opacity: 0.9;
+    color: #111111;
+    width: 0.3;
+}
+
+/**
+ * Layer 'buildings'
+ * Style 'buildings'
+ * Note: we do not need any classificaiton of buildings
+ * Rather we would like to disply buildings in natural colours
+ */
+  
+
+area|z12-[building][location!=underground]{
+	fill-color: any(tag("roof:colour"), "#bca9a9");
+    fill-opacity: 0.9;
+    z-index: 900;
+	
+}
+
+
+/* Style 'minor-roads-fill' */
+
+
+way|z13-[railway=disused][!highway],
+way|z13-[railway=abandoned][!highway],
+way|z13-[railway=construction][!highway] {
+    color: grey;
+    dashes: 2,4;
+    linejoin: round;
+    width: 2;
+}
+
+way|z13[railway=rail][!tunnel?]::casing1 {
+    color: #999999;
+    linejoin: round;
+    width: 3;
+    z-index: -0.1;
+}
+way|z13[railway=rail][!tunnel?] {
+    color: white;
+    dashes: 8,12;
+    linejoin: round;
+    width: 1;
+    z-index: 0;
+}
+
+way|z14-[railway=rail][!tunnel?]::casing1 {
+    color: #999999;
+    linejoin: round;
+    width: 3;
+    z-index: -0.1;
+}
+way|z14-[railway=rail][!tunnel?] {
+    color: white;
+    dashes: 0,11,8,1;
+    linejoin: round;
+    width: 1;
+    z-index: 0;
+}
+
+way|z11-12[railway=spur],
+way|z11-12[railway=siding],
+way|z11-12[railway=rail][service=spur],
+way|z11-12[railway=rail][service=siding],
+way|z11-12[railway=rail][service=yard] {
+    color: #aaaaaa;
+    linejoin: round;
+    width: 1;
+}
+
+way|z13-[railway=spur][!tunnel?],
+way|z13-[railway=siding][!tunnel?],
+way|z13-[railway=rail][service=spur][!tunnel?],
+way|z13-[railway=rail][service=siding][!tunnel?],
+way|z13-[railway=rail][service=yard][!tunnel?] {
+    color: #999999;
+    linejoin: round;
+    width: 2;
+}
+way|z13-[railway=spur][!tunnel?]::over1,
+way|z13-[railway=siding][!tunnel?]::over1,
+way|z13-[railway=rail][service=spur][!tunnel?]::over1,
+way|z13-[railway=rail][service=siding][!tunnel?]::over1,
+way|z13-[railway=rail][service=yard][!tunnel?]::over1 {
+    color: white;
+    dashes: 0,8,11,1;
+    linejoin: round;
+    width: 0.8;
+    z-index: 0.1;
+}
+
+way|z13-[railway=narrow_gauge][!tunnel?],
+way|z13-[railway=funicular][!tunnel?] {
+    color: #666666;
+    width: 2;
+}
+
+
+way|z15-[railway=miniature] {
+    color: #999999;
+    width: 1.2;
+}
+way|z15-[railway=miniature]::over1 {
+    color: #999999;
+    dashes: 1,10;
+    width: 3;
+    z-index: 0.1;
+}
+
+
+way|z13-[railway=light_rail][!tunnel?] {
+    color: #666666;
+    width: 2;
+}
+
+
+way|z12-[railway=subway][!tunnel?] {
+    color: #999999;
+    width: 2;
+}
+
+
+way|z16-[highway=platform][location!=underground],
+way|z16-[railway=platform][location!=underground] {
+    color: grey;
+    linecap: round;
+    linejoin: round;
+    width: 6;
+}
+
+way|z16-[highway=platform][location!=underground],
+way|z16-[railway=platform][location!=underground] {
+    color: #bbbbbb;
+    linecap: round;
+    linejoin: round;
+    width: 4;
+}
+
+
+way|z11[aeroway=runway] {
+    color: #bbbbcc;
+    width: 2;
+}
+
+way|z12[aeroway=runway] {
+    color: #bbbbcc;
+    width: 4;
+}
+
+way|z13[aeroway=runway] {
+    color: #bbbbcc;
+    width: 7;
+}
+
+way|z14-[aeroway=runway][!bridge?][bridge!=viaduct] {
+    color: #bbbbcc;
+    width: 18;
+}
+
+way|z11-13[aeroway=taxiway] {
+    color: #bbbbcc;
+    width: 1;
+}
+
+way|z14[aeroway=taxiway][!bridge?][bridge!=viaduct] {
+    color: #bbbbcc;
+    width: 4;
+}
+
+way|z15-[aeroway=taxiway][!bridge?][bridge!=viaduct] {
+    color: #bbbbcc;
+    width: 6;
+}
+
+
+/**
+ * Layer 'aerialways'
+ * Style 'aerialways'
+ */
+
+way|z12-[aerialway=cable_car],
+way|z12-[aerialway=gondola],
+way|z12-[aerialway=goods] {
+    pattern-image: "symbols/cable_car.png";
+}
+
+way|z12-[aerialway=chair_lift],
+way|z12-[aerialway=drag_lift],
+way|z12-[aerialway=t-bar],
+way|z12-[aerialway=j-bar],
+way|z12-[aerialway=platter],
+way|z12-[aerialway=rope_tow] {
+    pattern-image: "symbols/chair_lift.png";
+}
+
+/**
+ * Layer 'roads'
+ * Style 'roads'
+ */
+
+
+way|z6-8[railway=rail][service!=spur][service!=siding][service!=yard] {
+    color: #aaaaaa;
+    width: 0.6;
+}
+
+way|z9[railway=rail][service!=spur][service!=siding][service!=yard][!tunnel?] {
+    color: #aaaaaa;
+    width: 1;
+}
+
+way|z8-9[railway=tram][service!=spur][service!=siding][service!=yard],
+way|z8-9[railway=light_rail][service!=spur][service!=siding][service!=yard],
+way|z8-9[railway=narrow_gauge][service!=spur][service!=siding][service!=yard],
+way|z8-9[railway=funicular][service!=spur][service!=siding][service!=yard] {
+    color: #cccccc;
+    width: 1;
+}
+
+way|z10-12[railway=rail][service!=spur][service!=siding][service!=yard][!tunnel?] {
+    color: #aaaaaa;
+    width: 2;
+}
+
+
+way|z10-12[railway=tram][service!=spur][service!=siding][service!=yard],
+way|z10-12[railway=light_rail][service!=spur][service!=siding][service!=yard],
+way|z10-12[railway=narrow_gauge][service!=spur][service!=siding][service!=yard],
+way|z10-12[railway=funicular][service!=spur][service!=siding][service!=yard] {
+    color: #aaaaaa;
+    width: 1;
+}
+
+way|z12[railway=preserved][service!=spur][service!=siding][service!=yard] {
+    color: #aaaaaa;
+    linejoin: round;
+    width: 1.5;
+}
+
+way|z13-[railway=preserved][service!=spur][service!=siding][service!=yard] {
+    color: #999999;
+    linejoin: round;
+    width: 3;
+}
+way|z13-[railway=preserved][service!=spur][service!=siding][service!=yard]::over1 {
+    color: white;
+    dashes: 0,1,8,1;
+    linejoin: round;
+    width: 1;
+    z-index: 0.1;
+}
+
+way|z12[railway=preserved][service=spur],
+way|z12[railway=preserved][service=siding],
+way|z12[railway=preserved][service=yard] {
+    color: #aaaaaa;
+    linejoin: round;
+    width: 1;
+}
+
+way|z13-[railway=preserved][service=spur],
+way|z13-[railway=preserved][service=siding],
+way|z13-[railway=preserved][service=yard] {
+    color: #999999;
+    linejoin: round;
+    width: 2;
+}
+way|z13-[railway=preserved][service=spur]::over1,
+way|z13-[railway=preserved][service=siding]::over1,
+way|z13-[railway=preserved][service=yard]::over1 {
+    color: white;
+    dashes: 0,1,8,1;
+    linejoin: round;
+    width: 0.8;
+    z-index: 0.1;
+}
+
+way|z14-[railway=monorail][service!=spur][service!=siding][service!=yard] {
+    color: white;
+    linecap: round;
+    linejoin: round;
+    opacity: 0.4;
+    width: 4;
+}
+way|z14-[railway=monorail][service!=spur][service!=siding][service!=yard]::over1 {
+    color: #777777;
+    dashes: 2,3;
+    linecap: round;
+    linejoin: round;
+    width: 3;
+    z-index: 0.1;
+}
+
+/**
+ * Layer 'waterway-bridges'
+ * Style 'waterway-bridges'
+ */
+
+way|z14-16[waterway=canal][bridge?],
+way|z14-16[waterway=canal][bridge=aqueduct] {
+    color: black;
+    linejoin: round;
+    width: 7;
+}
+way|z14-16[waterway=canal][bridge?]::over1,
+way|z14-16[waterway=canal][bridge=aqueduct]::over1 {
+    color: #b5d0d0;
+    linecap: round;
+    linejoin: round;
+    width: 6;
+    z-index: 0.1;
+}
+
+way|z17-[waterway=canal][bridge?],
+way|z17-[waterway=canal][bridge=aqueduct] {
+    color: black;
+    linejoin: round;
+    width: 11;
+}
+
+way|z17-[waterway=canal][bridge?]::over1,
+way|z17-[waterway=canal][bridge=aqueduct]::over1 {
+    color: #b5d0d0;
+    linecap: round;
+    linejoin: round;
+    width: 10;
+    z-index: 0.1;
+}
+
+
+/**
+ * Layer 'bridges_layer0'
+ * Style 'bridges_casing'
+ */
+
+way|z14-[aeroway=runway][bridge?]::bridge-casing1,
+way|z14-[aeroway=runway][bridge=viaduct]::bridge-casing1 {
+    color: black;
+    width: 19;
+    z-index: 2;
+}
+
+way|z14[aeroway=taxiway][bridge?]::bridge-casing1,
+way|z14[aeroway=taxiway][bridge=viaduct]::bridge-casing1 {
+    color: black;
+    width: 5;
+    z-index: 2;
+}
+
+way|z15-[aeroway=taxiway][bridge?]::bridge-casing1,
+way|z15-[aeroway=taxiway][bridge=viaduct]::bridge-casing1 {
+    color: black;
+    width: 7;
+    z-index: 2;
+}
+
+way|z14-[railway=subway][bridge?]::bridge-casing1,
+way|z14-[railway=subway][bridge=viaduct]::bridge-casing1 {
+    color: black;
+    width: 5.5;
+    z-index: 2;
+}
+
+way|z14-[railway=light_rail][bridge?]::bridge-casing1,
+way|z14-[railway=light_rail][bridge=viaduct]::bridge-casing1,
+way|z14-[railway=narrow_gauge][bridge?]::bridge-casing1,
+way|z14-[railway=narrow_gauge][bridge=viaduct]::bridge-casing1 {
+    color: #555555;
+    width: 5.5;
+    z-index: 2;
+}
+
+way|z13-[railway=rail][bridge?]::bridge-casing1,
+way|z13-[railway=rail][bridge=viaduct]::bridge-casing1 {
+    color: black;
+    linejoin: round;
+    width: 6.5;
+    z-index: 2;
+}
+
+way|z13-[railway=spur][bridge?]::bridge-casing1,
+way|z13-[railway=spur][bridge=viaduct]::bridge-casing1,
+way|z13-[railway=siding][bridge?]::bridge-casing1,
+way|z13-[railway=siding][bridge=viaduct]::bridge-casing1,
+way|z13-[railway=rail][service=spur][bridge?]::bridge-casing1,
+way|z13-[railway=rail][service=siding][bridge?]::bridge-casing1,
+way|z13-[railway=rail][service=yard][bridge?]::bridge-casing1,
+way|z13-[railway=rail][service=spur][bridge=viaduct]::bridge-casing1,
+way|z13-[railway=rail][service=siding][bridge=viaduct]::bridge-casing1,
+way|z13-[railway=rail][service=yard][bridge=viaduct]::bridge-casing1 {
+    color: black;
+    linejoin: round;
+    width: 5.7;
+    z-index: 2;
+}
+
+way|z13-[railway=disused][!highway][bridge?]::bridge-casing1,
+way|z13-[railway=abandoned][!highway][bridge?]::bridge-casing1,
+way|z13-[railway=disused][!highway][bridge=viaduct]::bridge-casing1,
+way|z13-[railway=abandoned][!highway][bridge=viaduct]::bridge-casing1,
+way|z13-[railway=construction][!highway][bridge?]::bridge-casing1,
+way|z13-[railway=construction][!highway][bridge=viaduct]::bridge-casing1 {
+    color: black;
+    width: 6;
+    z-index: 2;
+}
+
+
+/* Style 'bridges_casing2' */
+
+way|z14-[railway=subway][bridge?]::bridge-casing2,
+way|z14-[railway=subway][bridge=viaduct]::bridge-casing2 {
+    color: white;
+    width: 4;
+    z-index: 3;
+}
+
+way|z14-[railway=light_rail][bridge?]::bridge-casing2,
+way|z14-[railway=light_rail][bridge=viaduct]::bridge-casing2,
+way|z14-[railway=narrow_gauge][bridge?]::bridge-casing2,
+way|z14-[railway=narrow_gauge][bridge=viaduct]::bridge-casing2 {
+    color: white;
+    width: 4;
+    z-index: 3;
+}
+
+way|z13-[railway=rail][bridge?]::bridge-casing2,
+way|z13-[railway=rail][bridge=viaduct]::bridge-casing2 {
+    color: white;
+    linejoin: round;
+    width: 5;
+    z-index: 3;
+}
+
+way|z13-[railway=spur][bridge?]::bridge-casing2,
+way|z13-[railway=spur][bridge=viaduct]::bridge-casing2,
+way|z13-[railway=siding][bridge?]::bridge-casing2,
+way|z13-[railway=siding][bridge=viaduct]::bridge-casing2,
+way|z13-[railway=rail][service=spur][bridge?]::bridge-casing2,
+way|z13-[railway=rail][service=siding][bridge?]::bridge-casing2,
+way|z13-[railway=rail][service=yard][bridge?]::bridge-casing2,
+way|z13-[railway=rail][service=spur][bridge=viaduct]::bridge-casing2,
+way|z13-[railway=rail][service=siding][bridge=viaduct]::bridge-casing2,
+way|z13-[railway=rail][service=yard][bridge=viaduct]::bridge-casing2 {
+    color: white;
+    linejoin: round;
+    width: 4;
+    z-index: 3;
+}
+
+way|z13-[railway=disused][!highway][bridge?]::bridge-casing2,
+way|z13-[railway=abandoned][!highway][bridge?]::bridge-casing2,
+way|z13-[railway=disused][!highway][bridge=viaduct]::bridge-casing2,
+way|z13-[railway=abandoned][!highway][bridge=viaduct]::bridge-casing2,
+way|z13-[railway=construction][!highway][bridge?]::bridge-casing2,
+way|z13-[railway=construction][!highway][bridge=viaduct]::bridge-casing2 {
+    color: white;
+    linecap: round;
+    linejoin: round;
+    width: 4.5;
+    z-index: 3;
+}
+
+
+/* Style 'bridges_fill' */
+
+way|z14-[aeroway=runway][bridge?],
+way|z14-[aeroway=runway][bridge=viaduct] {
+    color: #bbbbcc;
+    width: 18;
+    z-index: 4;
+}
+
+way|z14[aeroway=taxiway][bridge?],
+way|z14[aeroway=taxiway][bridge=viaduct] {
+    color: #bbbbcc;
+    width: 4;
+    z-index: 4;
+}
+
+way|z15-[aeroway=taxiway][bridge?],
+way|z15-[aeroway=taxiway][bridge=viaduct] {
+    color: #bbbbcc;
+    width: 6;
+    z-index: 4;
+}
+
+way|z14-[railway=subway][bridge?],
+way|z14-[railway=subway][bridge=viaduct] {
+    color: #999999;
+    width: 2;
+    z-index: 4;
+}
+
+way|z14-[railway=light_rail][bridge?],
+way|z14-[railway=light_rail][bridge=viaduct],
+way|z14-[railway=narrow_gauge][bridge?],
+way|z14-[railway=narrow_gauge][bridge=viaduct] {
+    color: #666666;
+    width: 2;
+    z-index: 4;
+}
+
+
+way|z13[railway=rail][bridge?]::casing1,
+way|z13[railway=rail][bridge=viaduct]::casing1 {
+    color: #999999;
+    linejoin: round;
+    width: 3;
+    z-index: 3.9;
+}
+way|z13[railway=rail][bridge?],
+way|z13[railway=rail][bridge=viaduct] {
+    color: white;
+    dashes: 8,12;
+    linejoin: round;
+    width: 1;
+    z-index: 4;
+}
+
+way|z14-[railway=rail][bridge?]::casing1,
+way|z14-[railway=rail][bridge=viaduct]::casing1 {
+    color: #999999;
+    linejoin: round;
+    width: 3;
+    z-index: 3.9;
+}
+way|z14-[railway=rail][bridge?],
+way|z14-[railway=rail][bridge=viaduct] {
+    color: white;
+    dashes: 0,11,8,1;
+    linejoin: round;
+    width: 1;
+    z-index: 4;
+}
+
+way|z13-[railway=spur][bridge?],
+way|z13-[railway=spur][bridge=viaduct],
+way|z13-[railway=siding][bridge?],
+way|z13-[railway=siding][bridge=viaduct],
+way|z13-[railway=rail][service=spur][bridge?],
+way|z13-[railway=rail][service=siding][bridge?],
+way|z13-[railway=rail][service=yard][bridge?],
+way|z13-[railway=rail][service=spur][bridge=viaduct],
+way|z13-[railway=rail][service=siding][bridge=viaduct],
+way|z13-[railway=rail][service=yard][bridge=viaduct] {
+    color: #999999;
+    linejoin: round;
+    width: 2;
+    z-index: 4;
+}
+way|z13-[railway=spur][bridge?]::over1,
+way|z13-[railway=spur][bridge=viaduct]::over1,
+way|z13-[railway=siding][bridge?]::over1,
+way|z13-[railway=siding][bridge=viaduct]::over1,
+way|z13-[railway=rail][service=spur][bridge?]::over1,
+way|z13-[railway=rail][service=siding][bridge?]::over1,
+way|z13-[railway=rail][service=yard][bridge?]::over1,
+way|z13-[railway=rail][service=spur][bridge=viaduct]::over1,
+way|z13-[railway=rail][service=siding][bridge=viaduct]::over1,
+way|z13-[railway=rail][service=yard][bridge=viaduct]::over1 {
+    color: white;
+    dashes: 0,8,11,1;
+    linejoin: round;
+    width: 0.8;
+    z-index: 4.1;
+}
+
+way|z13-[railway=disused][!highway][bridge?],
+way|z13-[railway=abandoned][!highway][bridge?],
+way|z13-[railway=disused][!highway][bridge=viaduct],
+way|z13-[railway=abandoned][!highway][bridge=viaduct],
+way|z13-[railway=construction][!highway][bridge?],
+way|z13-[railway=construction][!highway][bridge=viaduct] {
+    color: grey;
+    dashes: 2,4;
+    linejoin: round;
+    width: 2;
+    z-index: 4;
+}
+
+
+/**
+ * Layer 'bridges_access0'
+ * Style 'access'
+ */
+
+
+/**
+ * Layer 'trams'
+ * Style 'trams'
+ */
+
+way|z13-14[railway=tram][!tunnel?]::tram {
+    color: #444444;
+    width: 1;
+    z-index: 17;
+}
+
+way|z15-[railway=tram][bridge!=yes][!tunnel?]::tram {
+    color: #444444;
+    width: 2;
+    z-index: 17;
+}
+
+way|z15-[railway=tram][bridge=yes][!tunnel?]::tram_under3 {
+    color: black;
+    width: 5;
+    z-index: 16.8;
+}
+way|z15-[railway=tram][bridge=yes][!tunnel?]::tram_under2 {
+    color: white;
+    width: 4;
+    z-index: 16.9;
+}
+way|z15-[railway=tram][bridge=yes][!tunnel?]::tram {
+    color: #444444;
+    width: 2;
+    z-index: 17;
+}
+
+
+/**
+ * Layer 'admin-01234'
+ * Style 'admin-01234'
+ */
+
+way|z4-6[admin_level=2]::admin-01234,
+way|z4-6[admin_level=3]::admin-01234 {
+    color: purple;
+    opacity: 0.2;
+    width: 0.6;
+}
+
+way|z7-9[admin_level=2]::admin-01234,
+way|z7-9[admin_level=3]::admin-01234 {
+    color: purple;
+    opacity: 0.2;
+    width: 2;
+}
+
+way|z10-[admin_level=2]::admin-01234 {
+    color: purple;
+    opacity: 0.1;
+    width: 6;
+}
+
+way|z10-[admin_level=3]::admin-01234 {
+    color: purple;
+    dashes: 4,2;
+    opacity: 0.1;
+    width: 5;
+}
+
+way|z4-6[admin_level=4]::admin-01234 {
+    color: purple;
+    dashes: 4,3;
+    opacity: 0.2;
+    width: 0.6;
+}
+
+way|z7-10[admin_level=4]::admin-01234 {
+    color: purple;
+    dashes: 4,3;
+    opacity: 0.2;
+    width: 1;
+}
+
+way|z11-[admin_level=4]::admin-01234 {
+    color: purple;
+    dashes: 4,3;
+    opacity: 0.2;
+    width: 3;
+}
+
+/**
+ * Layer 'admin-5678'
+ * Style 'admin-5678'
+ */
+
+way|z11-[admin_level=5]::admin-5678 {
+    color: purple;
+    dashes: 6,3,2,3,2,3;
+    opacity: 0.3;
+    width: 2;
+}
+
+way|z11-[admin_level=6]::admin-5678 {
+    color: purple;
+    dashes: 6,3,2,3;
+    opacity: 0.3;
+    width: 2;
+}
+
+way|z12-[admin_level=8]::admin-5678,
+way|z12-[admin_level=7]::admin-5678 {
+    color: purple;
+    dashes: 5,2;
+    opacity: 0.3;
+    width: 1.5;
+}
+
+/**
+ * Layer 'admin-other'
+ * Style 'admin-other'
+ */
+
+way|z13-[admin_level=10]::admin-other,
+way|z13-[admin_level=9]::admin-other {
+    color: purple;
+    dashes: 2,3;
+    opacity: 0.3;
+    width: 2;
+}
+
+way|z9-11[admin_level][admin_level>8] {
+    color: purple;
+    opacity: 0.2;
+    width: 1;
+}
+
+
+/**
+ * Layer 'amenity-symbols-poly'
+ * Style 'symbols'
+ */
+
+area|z16-[aeroway=helipad] {
+    icon-image: "symbols/helipad.p.16.png";
+}
+
+area|z9-10[aeroway=airport] {
+    icon-image: "symbols/airport.p.16.png";
+}
+
+area|z11-12[aeroway=airport] {
+}
+
+area|z10[aeroway=aerodrome] {
+    icon-image: "symbols/aerodrome.p.16.png";
+}
+
+area|z11-12[aeroway=aerodrome] {
+}
+
+area|z14-15[railway=level_crossing] {
+    icon-image: "symbols/level_crossing.png";
+}
+
+area|z16-[railway=level_crossing] {
+    icon-image: "symbols/level_crossing2.png";
+}
+
+
+area|z16[natural=tree] {
+    icon-image: "symbols/tree.png";
+}
+
+area|z17-[natural=tree] {
+    icon-image: "symbols/tree2.png";
+}
+
+
+/**
+ * Layer 'power_line'
+ * Style 'power_line'
+ */
+
+way|z14-15[power=line] {
+    color: #777777;
+    width: 1;
+}
+
+way|z16-[power=line] {
+    color: #777777;
+    width: 1.5;
+}
+
+/**
+ * Layer 'power_minorline'
+ * Style 'power_minorline'
+ */
+
+way|z16-[power=minor_line] {
+    color: #777777;
+    width: 0.5;
+}
+
+
+/**
+ * Layer 'misc_boundaries'
+ * Style 'boundary'
+ */
+
+area|z7-9[boundary=national_park] {
+    fill-color: green;
+    fill-opacity: 0.05;
+    color: green;
+    dashes: 4,2;
+    opacity: 0.15;
+    width: 1.5;
+}
+
+area|z10-12[boundary=national_park] {
+    fill-color: green;
+    fill-opacity: 0.05;
+    color: green;
+    dashes: 6,2;
+    opacity: 0.15;
+    width: 3;
+}
+
+area|z13-[boundary=national_park] {
+    color: green;
+    dashes: 6,2;
+    opacity: 0.15;
+    width: 3;
+}
+
+
+/**
+ * Layer 'theme_park'
+ * Style 'theme_park'
+ */
+
+area|z13-14[tourism=theme_park] {
+    color: #734a08;
+    dashes: 9,3;
+    opacity: 0.6;
+    width: 1.5;
+}
+
+area|z15-[tourism=theme_park] {
+    color: #734a08;
+    dashes: 9,3;
+    opacity: 0.6;
+    width: 2.5;
+}
+
+
+
+way[location=underground],
+way[level<0] {
+    opacity: 0.4;
+	fill-opacity: 0.4;
+} 
+
+/*
+area[location=underground],
+area[level<0] {
+    opacity: 0.0;
+	fill-opacity: 0.0;
+*/
+

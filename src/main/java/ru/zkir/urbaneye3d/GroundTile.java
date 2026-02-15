@@ -234,8 +234,9 @@ public class GroundTile {
         }
         BufferedImage result=null;
 
-         String styleUrl = "resource://mapcss-styles/urbaneye2d.mapcss";
-        //String styleUrl ="d:\\UrbanEye3D\\src\\main\\resources\\mapcss-styles\\urbaneye2d.mapcss";
+        var styles= new ArrayList<String>();
+        styles.add("resource://mapcss-styles/urbaneye2d.general.mapcss");
+        styles.add("resource://mapcss-styles/urbaneye2d.roads.mapcss");
 
         try {
             var mapCssProxy = new MapCssProxy();
@@ -243,7 +244,7 @@ public class GroundTile {
             boolean npotSupported = groundPlane.isNpotSupported();
 
             if (npotSupported) {
-                result =  mapCssProxy.render(dataSet, bounds, 1, styleUrl);
+                result =  mapCssProxy.render(dataSet, bounds, 1, styles);
             } else {
                 throw new RuntimeException("Support for NPOT textures is not implemented yet!");
             }
