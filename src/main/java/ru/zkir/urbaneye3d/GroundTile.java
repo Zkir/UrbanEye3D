@@ -86,7 +86,10 @@ public class GroundTile {
 
     public static void cancelAllPendingRequests() {
         for (Future<?> future : pendingRequests.values()) {
-            future.cancel(true);
+            // TODO: (JOSM-fix-ticket) Once JOSM's GuiHelper.runInEDTAndWait is fixed to not log InterruptedException
+            // as a SEVERE error (or InterruptedException is re-thrown), change this back to 'true'
+            // to allow for aggressive cancellation of running tasks and better performance.
+            future.cancel(false); // Prevents task from starting, but doesn't interrupt running tasks.
         }
         pendingRequests.clear();
     }
@@ -95,7 +98,10 @@ public class GroundTile {
         String key = "#" + this.coord.x + "/" + this.coord.y;
         Future<?> future = pendingRequests.get(key);
         if (future != null) {
-            future.cancel(true);
+            // TODO: (JOSM-fix-ticket) Once JOSM's GuiHelper.runInEDTAndWait is fixed to not log InterruptedException
+            // as a SEVERE error (or InterruptedException is re-thrown), change this back to 'true'
+            // to allow for aggressive cancellation of running tasks and better performance.
+            future.cancel(false); // Prevents task from starting, but doesn't interrupt running tasks.
             pendingRequests.remove(key);
         }
     }
