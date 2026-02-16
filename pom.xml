@@ -106,7 +106,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Plugin-Mainversion>19423</Plugin-Mainversion>
+                            <Plugin-Mainversion>19528</Plugin-Mainversion>
                             <Plugin-Version>${project.version}</Plugin-Version>
                             <Plugin-Class>ru.zkir.urbaneye3d.UrbanEye3dPlugin</Plugin-Class>
                             <Plugin-Description>${project.description}</Plugin-Description>

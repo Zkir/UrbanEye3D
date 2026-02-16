@@ -22,7 +22,6 @@
 * Download multipolygons as a whole + parameter
 * Make UI more responsive, because it seems that ful redrawal of 2d layer after primitive EDIT impacts performance badly.
 * Return the highlight selected object functionality!!!
-* Uplift required JOSM version to 19528 (we cannot do it right now though)
 * Support `shape=hyperboloid`/`man_made=cooling_tower`.
 
 #### Patches to monitor
@@ -99,6 +98,9 @@ To be prioritized via MoSCoW method.
 
 
 ## Recent Accomplishments
+
+### February 16, 2026
+* Required JOSM version uplifted to 19528 (expected release March 26)
 
 ### February 15, 2026
 
