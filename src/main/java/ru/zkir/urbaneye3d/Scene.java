@@ -1,5 +1,6 @@
 package ru.zkir.urbaneye3d;
 
+import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import org.openstreetmap.josm.data.osm.*;
@@ -160,4 +161,22 @@ public class Scene {
 
         return isComplete;
     }
+
+    /**
+     *  Returns the bounds of visible area based on active GROUND TILES.
+     *  It is assumed that ground tiles have been created and activated already based on camera position and other settings
+     */
+    public Bounds getVisibleArea() {
+        var tiles=this.groundPlane.getActiveTiles();
+        Bounds bounds = null;
+        for (var tile:tiles){
+            if (bounds==null){
+                bounds = new Bounds(tile.bounds);
+            }else {
+                bounds.extend(tile.bounds);
+            }
+        }
+        return bounds;
+    }
+
 }

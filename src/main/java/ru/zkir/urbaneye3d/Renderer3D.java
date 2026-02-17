@@ -8,6 +8,7 @@ import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUtessellator;
 import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
+import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.EastNorth;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.NavigatableComponent;
@@ -24,7 +25,6 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.List;
-import java.util.Map;
 
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
 
@@ -256,8 +256,15 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             return;
         }
 
+        //this may seem to be a circular definition, but what we actually want
+        // is to render buildings in the same area as ground tiles.
+        Bounds visibleArea = this.scene.getVisibleArea();
+
         // --- Render buildings ---
         for (RenderableBuildingElement building : scene.renderableElements) {
+            if (!visibleArea.contains(building.origin)){
+                continue;
+            }
             gl.glPushMatrix();
             double dx = building.origin.lon() - mapCenter.lon();
             double dy = building.origin.lat() - mapCenter.lat();
