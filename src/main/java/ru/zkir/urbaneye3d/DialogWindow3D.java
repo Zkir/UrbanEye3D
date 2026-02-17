@@ -1,8 +1,6 @@
 package ru.zkir.urbaneye3d;
 
-import org.openstreetmap.gui.jmapviewer.tilesources.TMSTileSource;
 import org.openstreetmap.josm.data.coor.LatLon;
-import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import org.openstreetmap.josm.data.osm.DataSelectionListener;
 import org.openstreetmap.josm.data.osm.event.AbstractDatasetChangedEvent;
 import org.openstreetmap.josm.data.osm.event.DataChangedEvent;
@@ -18,9 +16,15 @@ import org.openstreetmap.josm.gui.MapView;
 import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
 import org.openstreetmap.josm.gui.layer.*;
 import org.openstreetmap.josm.gui.NavigatableComponent;
+import org.openstreetmap.josm.spi.preferences.Config;
 import ru.zkir.urbaneye3d.josmactions.ResetCameraAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
+
+import org.openstreetmap.josm.data.osm.DataSet;
+import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import org.openstreetmap.josm.data.osm.Relation;
+import org.openstreetmap.josm.gui.dialogs.relation.DownloadRelationMemberTask;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +32,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DialogWindow3D extends ToggleDialog
                              implements DataSetListener, NavigatableComponent.ZoomChangeListener,
@@ -37,6 +43,7 @@ public class DialogWindow3D extends ToggleDialog
     private final Renderer3D renderer3D;
     private final Scene scene3d = new Scene();
     private OsmDataLayer listenedLayer;
+    private boolean isDestroyed = false;
     // private Boolean updatableState = null; // Removed as no longer needed for state tracking
 
     public Renderer3D getRenderer3D() {
@@ -94,11 +101,17 @@ public class DialogWindow3D extends ToggleDialog
 
     @Override
     public void destroy() {
+        if(isDestroyed){
+            return;
+        }
         NavigatableComponent.removeZoomChangeListener(this);
+        MainApplication.getLayerManager().removeLayerChangeListener(this);
+        MainApplication.getLayerManager().removeActiveLayerChangeListener(this);
         for (Layer layer : MainApplication.getLayerManager().getLayers()) {
             layer.removePropertyChangeListener(this);
         }
         updateListenedLayer(null);
+        isDestroyed=true;
         super.destroy();
     }
 
@@ -159,6 +172,7 @@ public class DialogWindow3D extends ToggleDialog
     @Override
     public void dataChanged(DataChangedEvent event) {
         updateData();
+        downloadIncompleteMultipolygons();
     }
 
     @Override
@@ -240,8 +254,12 @@ public class DialogWindow3D extends ToggleDialog
 
     @Override
     public void activeOrEditLayerChanged(MainLayerManager.ActiveLayerChangeEvent e) {
+        boolean editLayerChanged = listenedLayer != MainApplication.getLayerManager().getEditLayer();
         updateListenedLayer();
         updateData();
+        if (editLayerChanged) {
+            downloadIncompleteMultipolygons();
+        }
     }
 
     @Override
@@ -262,18 +280,63 @@ public class DialogWindow3D extends ToggleDialog
     }
 
     private GroundPlane.Layer2dInfo getTopmostImageryLayer() {
-        MapView mv = MainApplication.getMap().mapView;
-        for (Layer layer : mv.getLayerManager().getLayers()) {
-            if (layer instanceof TMSLayer && layer.isVisible()) {
-                TMSLayer tmsLayer = (TMSLayer) layer;
-                try {
-                    return  new GroundPlane.Layer2dInfo(GroundPlane.ImageryType.TMS, tmsLayer.getInfo());
-                } catch (IllegalArgumentException e) {
-                    // Skip incompatible layers
+        if (MainApplication.getMap()!=null) {
+            MapView mv = MainApplication.getMap().mapView;
+            for (Layer layer : mv.getLayerManager().getLayers()) {
+                if (layer instanceof TMSLayer && layer.isVisible()) {
+                    TMSLayer tmsLayer = (TMSLayer) layer;
+                    try {
+                        return new GroundPlane.Layer2dInfo(GroundPlane.ImageryType.TMS, tmsLayer.getInfo());
+                    } catch (IllegalArgumentException e) {
+                        // Skip incompatible layers
+                    }
                 }
             }
         }
         return new GroundPlane.Layer2dInfo(GroundPlane.ImageryType.MapCSS, null);
+    }
+
+    /**
+     *  This method downloads incomplete multipolygons and incomplete building relation members
+     */
+    private void downloadIncompleteMultipolygons() {
+
+        boolean downloadWholeMultipolygons = Config.getPref().getBoolean("urbaneye3d.download-incomplete.enabled", false);
+        if (!downloadWholeMultipolygons) {
+            return;
+        }
+
+        if (listenedLayer == null || listenedLayer.getDataSet() == null) {
+            return;
+        }
+
+        if (isDestroyed){
+            throw new RuntimeException("this instance is already destroyed, it cannot download anything");
+            //NOTE: if you get this error, probably listeners are not properly freed in destroy method
+        }
+
+        DataSet dataSet = listenedLayer.getDataSet();
+        Set<Relation> incompleteMultipolygons = new HashSet<>();
+        Set<OsmPrimitive> primitivesToDownload = new HashSet<>();
+
+        for (Relation relation : dataSet.getRelations()) {
+            // Check if it's a multipolygon relation or building relation and has incomplete members
+            String relationType = relation.get("type");
+            if (relationType !=null &&  (relationType.equals ("multipolygon") || relationType.equals("building")) && relation.hasIncompleteMembers()) {
+                incompleteMultipolygons.add(relation);
+                primitivesToDownload.addAll(relation.getIncompleteMembers());
+            }
+        }
+
+        if (!primitivesToDownload.isEmpty()) {
+            UrbanEye3dPlugin.debugMsg("Downloading " + primitivesToDownload.size() + " incomplete members for " + incompleteMultipolygons.size() + " multipolygons.");
+            DownloadRelationMemberTask downloadTask = new DownloadRelationMemberTask(
+                    incompleteMultipolygons,
+                    primitivesToDownload,
+                    listenedLayer
+            );
+            MainApplication.worker.submit(downloadTask);
+        }
     }
 
     //TODO: since josm has special styles for selected objects, we need to redraw ground plane when selection changes.

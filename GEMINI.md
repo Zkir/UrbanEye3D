@@ -19,7 +19,6 @@
 * make ground tiles to pan more nicely (less flashing, maybe cut by visible area).		
 * **[50%]** "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
     * check possibity to support the surface tag 
-* Download multipolygons as a whole + parameter
 * Make UI more responsive, because it seems that ful redrawal of 2d layer after primitive EDIT impacts performance badly.
 * Return the highlight selected object functionality!!!
 * Support `shape=hyperboloid`/`man_made=cooling_tower`.
@@ -100,6 +99,10 @@ To be prioritized via MoSCoW method.
 ## Recent Accomplishments
 
 ### February 16, 2026
+* **Fixed a major lifecycle bug** that caused multiple "ghost" instances of the 3D dialog to be created. This resolves long-standing issues with event handlers firing multiple times and improves overall stability.
+    * Implemented the canonical JOSM pattern for managing dialogs by correctly using `mapFrameInitialized` to destroy old dialog instances before creating new ones.
+    * As a major benefit, this fix significantly reduces redundant calls to expensive operations like geometry recalculation (`updateData`), improving plugin responsiveness.
+* The **automatic download of incomplete multipolygons** (and building relation members) has been implemented. Without this feature, the rendered 3D map can appear as if a natural disaster has struck, with buildings destroyed and water overflowing, due to missing geometric components.  The feature is controllable via a new "Automatically download incomplete multipolygons" checkbox in the plugin settings panel.
 * Required JOSM version uplifted to 19528 (expected release March 26)
 
 ### February 15, 2026
@@ -455,8 +458,14 @@ Scene #2, Christ the Saviour (921 parts)
 
 ## Learnings
 
-*   **JOSM Plugin Lifecycle:** `UrbanEye3dPlugin` is the entry point. It initializes `DialogWindow3D`, which is a `ToggleDialog`. JOSM automatically handles the creation of the menu item and the visibility of the dialog.
+*   **JOSM Plugin Lifecycle and `mapFrameInitialized`:**
+    * `UrbanEye3dPlugin` is the entry point. It initializes `DialogWindow3D`, which is a `ToggleDialog`. JOSM automatically handles the creation of the menu item and the visibility of the dialog.
+    *   The `mapFrameInitialized(oldFrame, newFrame)` method is a dual-purpose callback for both setup (`newFrame != null`) and teardown (`oldFrame != null`). It can be called multiple times during a JOSM session, especially when all data layers are removed and a new `MapFrame` is created.
+    *   Failure to properly manage object lifecycles within this method can lead to "zombie" objects. Specifically, if a `ToggleDialog` is created but not explicitly destroyed when the `oldFrame` is discarded, it remains in memory and continues to receive global events. This causes bugs that are extremely difficult to diagnose, such as event handlers firing multiple times or variables appearing to "reset" magically (which is actually the state of a different "ghost" instance).
+    *   The correct pattern is to call `destroy()` on any existing dialog instance when `oldFrame` is not null. This ensures all global listeners are unregistered.
+    *   Furthermore, `destroy()` methods should be made idempotent (safe to be called more than once), for example by using a boolean flag. This provides a robust defense against unexpected, repeated lifecycle events from the framework, preventing `IllegalArgumentException`s when trying to remove an already-removed listener.
 *   **Event Handling:** The plugin listens for changes in the OSM data (`DataSetListener`) and map view (`MapView.addZoomChangeListener`) to trigger scene updates and redraws.
+    *   The `dataChanged` event on a `DataSet` is a "rollup" event. When a large number of primitives are added or modified within a `beginUpdate()`/`endUpdate()` block (as happens when loading a file or merging an API download), JOSM fires a single, generic `dataChanged` event instead of many specific ones (e.g., `primitivesAdded`). This makes it a reliable and efficient trigger for actions that should run once after a significant data load.
 *   **OpenGL with JOGL:** The rendering is done in `Renderer3D` using the JOGL library, which provides Java bindings for OpenGL. The rendering pipeline is currently a fixed-function pipeline (`glBegin`/`glEnd`), with plans to move to a modern shader-based pipeline for features like SSAO.
 *   **Imagery Ground Plane Rendering:**
     *   Implementing an off-screen renderer for JOSM imagery is complex due to the tight coupling of the `MapView` with its state (`MapViewState`) and the rendering pipeline.
