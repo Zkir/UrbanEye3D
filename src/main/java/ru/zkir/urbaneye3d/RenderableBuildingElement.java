@@ -28,6 +28,7 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_STEP_HEIGHT;
 public class RenderableBuildingElement {
 
     public final PrimitiveId primitiveId;
+    public boolean isSelected = false;
     public final double roofHeight;
     public final double minHeight;  // z0 -- z-coordinate of building bottom
     public final double wallHeight; // z1 -- z coordinate of walls top
@@ -52,7 +53,7 @@ public class RenderableBuildingElement {
      * @return RenderableBuildingElement
      */
     @Nullable
-    public static RenderableBuildingElement createBuildingOrPart(PrimitiveId primitiveId, LatLon primitiveOrigin, Contour contour,
+    public static RenderableBuildingElement createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
                                                                  Map<String, String> primitiveTags, Map<String, String> parentTags ){
         String source_key="";
         if (primitiveTags.containsKey("building") && !primitiveTags.get("building").equals("no") ) {
@@ -214,7 +215,7 @@ public class RenderableBuildingElement {
 
         contour.toLocalCoords(primitiveOrigin);
         contour.removeRedundantNodes();
-        return new RenderableBuildingElement(primitiveId, primitiveOrigin, contour,
+        return new RenderableBuildingElement(primitive, primitiveOrigin, contour,
                 height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation,
                 stepHeight, noWalls, primitiveTags);
     }
@@ -290,7 +291,7 @@ public class RenderableBuildingElement {
 
         }
         contour.removeRedundantNodes();
-        return new RenderableBuildingElement(primitive.getPrimitiveId(), origin, contour,
+        return new RenderableBuildingElement(primitive, origin, contour,
                 height, minHeight, 0, color, color, "flat", "", "", null,
                 false, primitive.getInterestingTags());
     }
@@ -299,11 +300,11 @@ public class RenderableBuildingElement {
     /**
      * This is a private constructor. createBuildingOrPart() or createBarrier() should be used outside, especially in autotests
      * */
-    private RenderableBuildingElement(PrimitiveId primitiveId, LatLon origin, Contour contour,
+    private RenderableBuildingElement(OsmPrimitive primitive, LatLon origin, Contour contour,
                                       double height, double minHeight, double roofHeight, String wallColor, String roofColor,
                                       String roofShape, String roofDirectionStr, String roofOrientation, Double stepHeight,
                                       boolean noWalls, Map<String, String> tags ) {
-        this.primitiveId = primitiveId;
+        this.primitiveId = primitive.getPrimitiveId();
         if (contour==null){
             throw new RuntimeException("contour must be specified");
         }
@@ -361,6 +362,7 @@ public class RenderableBuildingElement {
 
         //since we have all the data, we can compose building mesh right in constructor.
         composeMesh();
+        this.isSelected = primitive.isSelected();
     }
 
     public boolean hasComplexContour() {

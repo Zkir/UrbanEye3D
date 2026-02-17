@@ -2,6 +2,7 @@ package ru.zkir.urbaneye3d;
 
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.coor.LatLon;
+import org.openstreetmap.josm.data.osm.Way;
 import ru.zkir.urbaneye3d.utils.*;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
@@ -71,7 +72,7 @@ class RoofGeneratorTopologyTest {
                 "roof:height", Double.toString(roofHeight),
                 "min_height", Double.toString(minHeight),
                 "roof:shape", roofShape.toString());
-        return  RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
+        return  RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
     }
 
     private static void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
@@ -352,7 +353,7 @@ class RoofGeneratorTopologyTest {
                                "roof:shape",  roofShape.toString()
                                );
 
-            RenderableBuildingElement testBuilding = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY),
+            RenderableBuildingElement testBuilding = RenderableBuildingElement.createBuildingOrPart(new Way(),
                     origin, contour, tags, null);
 
             //RenderableBuildingElement testBuilding = new RenderableBuildingElement(
@@ -388,7 +389,7 @@ class RoofGeneratorTopologyTest {
                           "roof:orientation", "across"
                         );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         if (SAVE_TEST_RESULTS_TO_FILE) {
@@ -414,7 +415,7 @@ class RoofGeneratorTopologyTest {
                 "roof:orientation", "across"
                     );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         //new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
         //"", "", RoofShapes.HIPPED.toString(), "", "across", null, null );
@@ -447,7 +448,7 @@ class RoofGeneratorTopologyTest {
                 "roof:direction", "45"
         );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
         if (SAVE_TEST_RESULTS_TO_FILE) {
@@ -473,7 +474,7 @@ class RoofGeneratorTopologyTest {
                           "roof:shape", RoofShapes.FLAT.toString()
                         );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.FLAT.getMesher().generate(test_building);
         if (SAVE_TEST_RESULTS_TO_FILE) {
@@ -502,7 +503,7 @@ class RoofGeneratorTopologyTest {
                 "roof:direction", "30"
         );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
         if (SAVE_TEST_RESULTS_TO_FILE) {
@@ -533,7 +534,7 @@ class RoofGeneratorTopologyTest {
                 "roof:direction", "40"
         );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, tags, null);
+        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.STEPS.getMesher().generate(test_building);
 

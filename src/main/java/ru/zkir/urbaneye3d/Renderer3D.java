@@ -295,6 +295,21 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private void drawPolygon(GL2 gl, RenderableBuildingElement building, int[] faceIndices, Color color) {
         if (faceIndices.length < 3) return;
         List<Point3D> vertices = building.getMesh().verts;
+
+        // --- Draw selection outline (red, thick wireframe) ---
+        if (building.isSelected) {
+            gl.glLineWidth(3.0f); // Make the line thick
+            gl.glColor3f(1.0f, 0.0f, 0.0f); // Red color for selection
+
+            gl.glBegin(GL2.GL_LINE_LOOP);
+            for (int index : faceIndices) {
+                Point3D p = vertices.get(index);
+                gl.glVertex3d(p.x, p.y, p.z);
+            }
+            gl.glEnd();
+            gl.glLineWidth(1.0f); // Make the line thin again
+        }
+        
         // Calculate face normal for lighting
         Point3D p1 = vertices.get(faceIndices[0]);
         Point3D p2 = vertices.get(faceIndices[1]);
@@ -312,13 +327,15 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         Color litColor = applyLighting(color, dotProduct);
 
         if (isWireframeMode) {
-            gl.glBegin(GL2.GL_LINE_LOOP);
-            gl.glColor3f(litColor.getRed() / 255.0f, litColor.getGreen() / 255.0f, litColor.getBlue() / 255.0f);
-            for (int index : faceIndices) {
-                Point3D p = vertices.get(index);
-                gl.glVertex3d(p.x, p.y, p.z);
+            if (!building.isSelected) {
+                gl.glBegin(GL2.GL_LINE_LOOP);
+                gl.glColor3f(litColor.getRed() / 255.0f, litColor.getGreen() / 255.0f, litColor.getBlue() / 255.0f);
+                for (int index : faceIndices) {
+                    Point3D p = vertices.get(index);
+                    gl.glVertex3d(p.x, p.y, p.z);
+                }
+                gl.glEnd();
             }
-            gl.glEnd();
         } else if (faceIndices.length == 4) {
             gl.glBegin(GL2.GL_QUADS);
             Point3D p4 = vertices.get(faceIndices[3]);

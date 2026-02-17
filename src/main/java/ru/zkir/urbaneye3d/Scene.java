@@ -15,6 +15,12 @@ public class Scene {
     * renderable element can be either a building or a building part. */
     final List<RenderableBuildingElement> renderableElements = new ArrayList<>();
 
+    public void updateSelection(Collection<PrimitiveId> selectedPrimitivesIds) {
+        for (RenderableBuildingElement element : renderableElements) {
+            element.isSelected = selectedPrimitivesIds.contains(element.primitiveId);
+        }
+    }
+
     /** ground plane represents earth surface with projected satellite image.
      *  Currently, it's separated from other scene objects    */
     final GroundPlane groundPlane = new GroundPlane();
@@ -114,16 +120,18 @@ public class Scene {
                         //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
                         Contour partContour = new Contour(outerRing, mainContour.mode);
 
-                        var element = RenderableBuildingElement.createBuildingOrPart(primitive.getPrimitiveId(), primitiveOrigin, partContour, primitive.getInterestingTags(), parentTags);
+                        var element = RenderableBuildingElement.createBuildingOrPart(primitive, primitiveOrigin, partContour, primitive.getInterestingTags(), parentTags);
                         if (element != null) {
                             renderableElements.add(element);
+                            element.isSelected = primitive.isSelected();
                         }
                     }
                 } else {
                     // Single outer ring, or multiple outer rings with inner rings, or a Way
-                    var element = RenderableBuildingElement.createBuildingOrPart(primitive.getPrimitiveId(), primitiveOrigin, mainContour, primitive.getInterestingTags(), parentTags);
+                    var element = RenderableBuildingElement.createBuildingOrPart(primitive, primitiveOrigin, mainContour, primitive.getInterestingTags(), parentTags);
                     if (element != null) {
                         renderableElements.add(element);
+                        element.isSelected = primitive.isSelected();
                     }
                 }
             }

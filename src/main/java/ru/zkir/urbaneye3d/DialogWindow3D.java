@@ -17,9 +17,14 @@ import org.openstreetmap.josm.gui.MapView;
 import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
 import org.openstreetmap.josm.gui.layer.*;
 import org.openstreetmap.josm.gui.NavigatableComponent;
+import org.openstreetmap.josm.data.osm.event.SelectionEventManager;
 import ru.zkir.urbaneye3d.josmactions.ResetCameraAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
+import org.openstreetmap.josm.data.osm.DataSelectionListener;
+import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import org.openstreetmap.josm.data.osm.PrimitiveId;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,16 +32,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class DialogWindow3D extends ToggleDialog
                              implements DataSetListener, NavigatableComponent.ZoomChangeListener,
                                         LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener,
-                                        PropertyChangeListener
+                                        PropertyChangeListener, DataSelectionListener
 {
     private final Renderer3D renderer3D;
     private final Scene scene3d = new Scene();
     private OsmDataLayer listenedLayer;
-    // private Boolean updatableState = null; // Removed as no longer needed for state tracking
 
     public Renderer3D getRenderer3D() {
         return renderer3D;
@@ -108,10 +114,12 @@ public class DialogWindow3D extends ToggleDialog
     private void updateListenedLayer(OsmDataLayer newLayer) {
         if (listenedLayer != null) {
             listenedLayer.getDataSet().removeDataSetListener(this);
+            listenedLayer.getDataSet().removeSelectionListener(this);
         }
         listenedLayer = newLayer;
         if (listenedLayer != null) {
             listenedLayer.getDataSet().addDataSetListener(this);
+            listenedLayer.getDataSet().addSelectionListener(this);
         }
     }
 
@@ -273,6 +281,15 @@ public class DialogWindow3D extends ToggleDialog
             }
         }
         return null;
+    }
+
+    @Override
+    public void selectionChanged(SelectionChangeEvent event) {
+        Collection<PrimitiveId> selectedPrimitiveIds = event.getSelection().stream()
+                .map(OsmPrimitive::getPrimitiveId)
+                .collect(Collectors.toList());
+        scene3d.updateSelection(selectedPrimitiveIds);
+        renderer3D.repaint();
     }
 
 }

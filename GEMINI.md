@@ -81,6 +81,10 @@ To be prioritized via MoSCoW method.
 
 ## Recent Accomplishments
 
+### Feb 17, 2026
+
+*   Re-implemented highlighting of selected OSM primitives in the 3D view using a red, thick wireframe.
+
 ### Earlier
 See [Devblog](DEVBLOG.md)
 
