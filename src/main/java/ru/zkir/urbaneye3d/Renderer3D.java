@@ -262,7 +262,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         // --- Render buildings ---
         for (RenderableBuildingElement building : scene.renderableElements) {
-            if (!visibleArea.contains(building.origin)){
+            if (visibleArea==null || !visibleArea.contains(building.origin)){
                 continue;
             }
             gl.glPushMatrix();
