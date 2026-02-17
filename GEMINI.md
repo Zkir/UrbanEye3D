@@ -15,14 +15,15 @@
         at org.openstreetmap.josm.gui.util.GuiHelper.runInEDTAndWait(GuiHelper.java:228)
         at org.openstreetmap.josm.gui.NavigatableComponent.fireZoomChanged(NavigatableComponent.java:152))
 		
-    * Termination of a worker process is quite a normal thing, e.g. when a camera is moved and the ground tile is no longer needed. However, josm *prints* (sic!) exception, even without raising it forward. The issue seems to be rather cosmetic (no real harm except dirty log). Workaround found: do not terminate a process, if it is already running, just cancell task if it have not yet started. This workaround negatevly affects performance.  It is still not clear how a proper fix in josm could look like. NavigatableComponent has STATIC global listeners. 
+    * Termination of a worker process is quite a normal thing, e.g. when the camera is moved and the ground tile is no longer needed. However, josm *prints* (sic!) exception, even without raising it forward. The issue seems to be rather cosmetic (no real harm except dirty log). 
+	* Workaround found: do not terminate a process, if it is already running, just cancell task if it have not yet started. This workaround negatevly affects performance.  It is still not clear how a proper fix in josm could look like. NavigatableComponent has STATIC global listeners. 
 * JOSM parameters (e.g. draw oneway arrows) override MapCSS styles in 3D window.  Probably josm patch should be created.
 * make ground tiles to pan more nicely (less flashing, maybe cut by visible area).		
 * **[50%]** "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
     * check possibity to support the `surface=*` tag 
 	* add style for `highway=track`
 	* support `man_mane=bridge` (funny bug: liner waterway is painted above area bridge!)
-* Make UI more responsive, because it seems that ful redrawal of 2d layer after primitive EDIT impacts performance badly.
+* Make UI more responsive, because it seems that full redrawal of 2d layer after primitive EDIT impacts performance badly.
 * Return the highlight selected object functionality!!!
 * Support `shape=hyperboloid`/`man_made=cooling_tower`.
 
