@@ -1,5 +1,4 @@
-# This workflow will build a package using Maven and then publish it to GitHub packages when a commit is pushed to master
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+# This workflow builds plugin package (jar) and runs autotest. This is used to test commits
 
 name: Maven Package
 
@@ -37,14 +36,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-       
           
-    #Step 3 to set version
-    - name: Set version to SNAPSHOT
-      run: |
-        CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        BASE_VERSION=$(echo $CURRENT_VERSION | sed 's/-SNAPSHOT//')
-        mvn versions:set -DnewVersion=${BASE_VERSION}-SNAPSHOT -DgenerateBackupPoms=false
-
-    #Step 4 to build with maven
+    #Step 3 to build with maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml -s $GITHUB_WORKSPACE/settings.xml -Dtest="!GroundPlaneTest" 
       env:

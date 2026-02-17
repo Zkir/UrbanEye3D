@@ -5,11 +5,12 @@
 
     <groupId>ru.zkir.josm.plugins</groupId>
     <artifactId>urbaneye3d</artifactId>
-    <version>2.0.0</version>
+    <version>${revision}</version>
     <name>UrbanEye3D</name>
     <description>A JOSM plugin to view buildings in 3D.</description>
 
     <properties>
+        <revision>2-SNAPSHOT</revision>
         <!-- We are targeting Java 11, which is the baseline for JOSM -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
