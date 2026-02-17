@@ -1703,10 +1703,11 @@ way[level<0] {
 	fill-opacity: 0.4;
 } 
 
-/*
-area[location=underground],
-area[level<0] {
-    opacity: 0.0;
-	fill-opacity: 0.0;
-*/
 
+area|z15-[man_made=bridge] {
+	fill-color: lightgray;
+    /*color: gray;
+    width: 2.5;*/
+}
+
+ 
