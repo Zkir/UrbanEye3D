@@ -108,6 +108,7 @@ To be prioritized via MoSCoW method.
 
 ### February 17, 2026
 * Drawing area for buildings has been restricted. Buildings are only rendered within the visible ground plane.
+* Re-implemented highlighting of selected OSM primitives in the 3D view using a red, thick wireframe.
 
 ### February 16, 2026
 * **Fixed a major lifecycle bug** that caused multiple "ghost" instances of the 3D dialog to be created. This resolves long-standing issues with event handlers firing multiple times and improves overall stability.

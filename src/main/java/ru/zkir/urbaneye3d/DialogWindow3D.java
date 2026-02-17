@@ -20,6 +20,10 @@ import org.openstreetmap.josm.spi.preferences.Config;
 import ru.zkir.urbaneye3d.josmactions.ResetCameraAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
+import org.openstreetmap.josm.data.osm.DataSelectionListener;
+import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import org.openstreetmap.josm.data.osm.PrimitiveId;
+
 
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
@@ -34,6 +38,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class DialogWindow3D extends ToggleDialog
                              implements DataSetListener, NavigatableComponent.ZoomChangeListener,
@@ -44,7 +50,6 @@ public class DialogWindow3D extends ToggleDialog
     private final Scene scene3d = new Scene();
     private OsmDataLayer listenedLayer;
     private boolean isDestroyed = false;
-    // private Boolean updatableState = null; // Removed as no longer needed for state tracking
 
     public Renderer3D getRenderer3D() {
         return renderer3D;
@@ -339,17 +344,22 @@ public class DialogWindow3D extends ToggleDialog
         }
     }
 
-    //TODO: since josm has special styles for selected objects, we need to redraw ground plane when selection changes.
-    //  in future we should get rid of that.
+
     @Override
     public void selectionChanged(SelectionChangeEvent event) {
+		Collection<PrimitiveId> selectedPrimitiveIds = event.getSelection().stream()
+                .map(OsmPrimitive::getPrimitiveId)
+                .collect(Collectors.toList());
+        scene3d.updateSelection(selectedPrimitiveIds);
+		
         if(isUpdateRequired()) {
+			//TODO: since josm has special styles for selected objects, we need to redraw ground plane when selection changes.
+            //  in future we should get rid of that.
             var tmsLayer = getTopmostImageryLayer();
             LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
             scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null, true);
             //this is some kind of back magic, otherwise repaint does not work.
             SwingUtilities.invokeLater(() -> this.getRenderer3D().repaint());
         }
-
     }
 }
