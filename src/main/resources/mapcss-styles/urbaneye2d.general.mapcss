@@ -16,14 +16,10 @@ way::* {
     linecap: none;
 }
 
+
 area[!highway]:closed {
     fill-opacity: 1.0;
 }
-
-/*
-*::* {
-}
-*/
 
 /**
  * Layer 'landcover'
@@ -355,12 +351,13 @@ area|z8-[natural=glacier] {
     z-index: -999;
 }
 
+/* seems to be a glitch: waterway are NOT area objects. */
 area|z9-[waterway=dock],
-area|z9-[waterway=mill_pond],
-area|z9-[waterway=canal] {
+area|z9-[waterway=mill_pond]{
     fill-color: #4050C0;
     z-index: -999;
 }
+
 
 area|z7-[landuse=basin] {
     fill-color: #b5d0d0;

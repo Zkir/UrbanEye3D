@@ -1,3 +1,5 @@
+@echo off
+cls
 pushd d:\UrbanEye3D
 call mvn clean package -DskipTests
 if ERRORLEVEL 1 goto :err
