@@ -872,7 +872,6 @@ area|z12-[building][location!=underground]{
 	fill-color: any(tag("roof:colour"), "#bca9a9");
     fill-opacity: 0.9;
     z-index: 900;
-	
 }
 
 
@@ -1703,11 +1702,17 @@ way[level<0] {
 	fill-opacity: 0.4;
 } 
 
-
 area|z15-[man_made=bridge] {
 	fill-color: lightgray;
     /*color: gray;
     width: 2.5;*/
 }
 
- 
+/* same as for building, but with just color tag instead of roof:colour */
+area|z15-[man_made=tower][!building],
+area|z15-[man_made=tower][building=no]{
+    fill-color: any(tag("colour"), "#bca9a9");
+    fill-opacity: 0.9;
+    z-index: 900;
+}
+
