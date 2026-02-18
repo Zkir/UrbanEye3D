@@ -24,7 +24,6 @@
 	* add style for `highway=track`
 	* support `man_mane=bridge` (funny bug: liner waterway is painted above area bridge!)
 * Make UI more responsive, because it seems that full redrawal of 2d layer after primitive EDIT impacts performance badly.
-* Return the highlight selected object functionality!!!
 * Support `shape=hyperboloid`/`man_made=cooling_tower`.
 
 #### Patches to monitor
