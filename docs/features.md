@@ -2,7 +2,7 @@
 
 This document outlines the OpenStreetMap tags supported by the UrbanEye3D plugin for rendering 3D buildings.
 
-## Building
+## Buildings
 
 The plugin visualizes objects tagged with `building` and `building:part`.
 
@@ -32,25 +32,6 @@ The following tags are used to determine the dimensions of the building:
 
 - `roof:direction`: Specifies the direction for certain roof types, like `skillion`. Can be a numerical value (0-360) or a cardinal direction (N, E, S, W as well as NE, SW, etc.).
 - `roof:orientation`: Defines the orientation for roofs like `gabled` and `saltbox` (e.g., `along` or `across`).
-
-### Special `building:part` values
-
-Certain values for the `building:part` tag have a special meaning and affect how the geometry is generated.
-
-#### `building:part=roof`
-
-This tag is intended for parts of a building that consist only of a roof structure, such as canopies, awnings, or visors.
-
--   When this tag is used, no vertical walls are generated for the object. The model will consist of the roof volume only.
--   The object is positioned at its correct height level, appearing as a floating roof.
--   This behavior can be overridden by explicitly adding the `wall=yes` tag, which will force the walls to be rendered.
-
-#### `building:part=steps`
-
-This value is used to model flights of stairs. It does not have an effect on its own, but works in combination with other tags:
-
--   This tag works in conjunction with `roof:shape=skillion`. This approach ensures backward compatibility, as other 3D applications will render a sloped ramp, which is a good fallback for stairs. Use `roof:direction` to set the direction of the flight of stairs.
--   The height of each individual step can be controlled with the `step:height` tag. If not provided, a default value of **0.16 meters** is used.
 
 ## Supported Roof Shapes (`roof:shape`)
 
@@ -182,6 +163,25 @@ This is a gabled roof with a semicircular apse at one end.
 ![Image of a apse_gabled roof](images/roof_apse_gabled.png)
 
 The apex of the apse is located above the middle of the longest side of the base.
+
+### Special `building:part` values
+
+Certain values for the `building:part` tag have a special meaning and affect how the geometry is generated.
+
+#### `building:part=roof`
+
+This tag is intended for parts of a building that consist only of a roof structure, such as canopies, awnings, or visors.
+
+-   When this tag is used, no vertical walls are generated for the object. The model will consist of the roof volume only.
+-   The object is positioned at its correct height level, appearing as a floating roof.
+-   This behavior can be overridden by explicitly adding the `wall=yes` tag, which will force the walls to be rendered.
+
+#### `building:part=steps`
+
+This value is used to model flights of stairs. It does not have an effect on its own, but works in combination with other tags:
+
+-   This tag works in conjunction with `roof:shape=skillion`. This approach ensures backward compatibility, as other 3D applications will render a sloped ramp, which is a good fallback for stairs. Use `roof:direction` to set the direction of the flight of stairs.
+-   The height of each individual step can be controlled with the `step:height` tag. If not provided, a default value of **0.16 meters** is used.
 
 ## Supported Building Shapes (`shape`)
 
