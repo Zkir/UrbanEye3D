@@ -81,8 +81,13 @@ To be prioritized via MoSCoW method.
 
 ## Recent Accomplishments
 
-### Feb 17, 2026
+### Feb 18, 2026
+*   Implemented support for experimental `shape=hyperboloid` tag.
+    *   Added `MesherHyperboloid` to generate 3D meshes for hyperboloid-shaped buildings and man_mades.
+    *   Utilized precise mathematical parametric equations for hyperboloids of revolution, incorporating `hyperboloid:top_rate` and `hyperboloid:middle_rate` to define top and middle radii (scaling factors).
+    *   Added specific topology tests for the new shape in `RoofGeneratorTopologyTest.java` to verify correctness under various parameter configurations.
 
+### Feb 17, 2026
 *   Re-implemented highlighting of selected OSM primitives in the 3D view using a red, thick wireframe.
 
 ### Earlier

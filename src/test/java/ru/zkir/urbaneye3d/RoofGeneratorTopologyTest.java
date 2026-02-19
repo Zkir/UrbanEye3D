@@ -63,16 +63,26 @@ class RoofGeneratorTopologyTest {
 
         return contour;
     }
-    public static RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
+    public static RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height, Double hyperboloidTopRate, Double hyperboloidMiddleRate) {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints, "XY");
-        var tags = Map.of(
-                "building:part","yes",
-                "height", Double.toString(height),
-                "roof:height", Double.toString(roofHeight),
-                "min_height", Double.toString(minHeight),
-                "roof:shape", roofShape.toString());
+        Map<String, String> tags = new HashMap<>();
+        tags.put("building:part","yes");
+        tags.put("height", Double.toString(height));
+        tags.put("roof:height", Double.toString(roofHeight));
+        tags.put("min_height", Double.toString(minHeight));
+        tags.put("roof:shape", roofShape.toString());
+        if (hyperboloidTopRate != null) {
+            tags.put("hyperboloid:top_rate", Double.toString(hyperboloidTopRate));
+        }
+        if (hyperboloidMiddleRate != null) {
+            tags.put("hyperboloid:middle_rate", Double.toString(hyperboloidMiddleRate));
+        }
         return  RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
+    }
+
+    public static RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
+        return createTestBuilding(basePoints, roofShape, minHeight, roofHeight, height, null, null);
     }
 
     private static void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
@@ -545,4 +555,47 @@ class RoofGeneratorTopologyTest {
 
         AssertMeshTopology(mesh, test_building.minHeight, test_building.height, "STEPS");
     }
+
+    @Test
+    void testHyperboloidShapeSpecific() throws IOException {
+        ArrayList<Point2D> basePoints = createRectangularBase(10, 10);
+        String outputFolder = null;
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            outputFolder = Settings.prepareTestOutputFolder("Hyperboloid");
+        }
+
+        // Test 1: Default hyperboloid (topRate=1.0, middleRate=1.0) - should be a simple cylinder
+        RenderableBuildingElement test_building_default = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 1.0, 1.0);
+        Mesh mesh_default = RoofShapes.HYPERBOLOID.getMesher().generate(test_building_default);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_default, outputFolder + "/" + "Hyperboloid_Default.obj");
+        }
+        AssertMeshTopology(mesh_default, test_building_default.minHeight, test_building_default.height, "Hyperboloid_Default");
+
+        // Test 2: Hyperboloid with wider top (topRate=1.5, middleRate=0.8)
+        RenderableBuildingElement test_building_wider_top = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 1.5, 0.8);
+        Mesh mesh_wider_top = RoofShapes.HYPERBOLOID.getMesher().generate(test_building_wider_top);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_wider_top, outputFolder + "/" + "Hyperboloid_WiderTop.obj");
+        }
+        AssertMeshTopology(mesh_wider_top, test_building_wider_top.minHeight, test_building_wider_top.height, "Hyperboloid_WiderTop");
+
+        // Test 3: Hyperboloid with narrower top (topRate=0.5, middleRate=0.4)
+        RenderableBuildingElement test_building_narrow_top = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 0.5, 0.4);
+        Mesh mesh_narrow_top = RoofShapes.HYPERBOLOID.getMesher().generate(test_building_narrow_top);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_narrow_top, outputFolder + "/" + "Hyperboloid_NarrowTop.obj");
+        }
+        AssertMeshTopology(mesh_narrow_top, test_building_narrow_top.minHeight, test_building_narrow_top.height, "Hyperboloid_NarrowTop");
+
+        // Test 4: Hyperboloid with "inverted" shape (topRate=0.8, middleRate=1.2) - not really supported, but should not crach
+        // middleRate should be the minimal coefficient.
+        RenderableBuildingElement test_building_bulge = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 0.8, 1.2);
+        Mesh mesh_bulge = RoofShapes.HYPERBOLOID.getMesher().generate(test_building_bulge);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_bulge, outputFolder + "/" + "Hyperboloid_Bulge.obj");
+        }
+        AssertMeshTopology(mesh_bulge, test_building_bulge.minHeight, test_building_bulge.height, "Hyperboloid_Bulge");
+    }
+
 }

@@ -43,6 +43,8 @@ public class RenderableBuildingElement {
     private final Contour contour;
     public final LatLon origin;
     public final double stepHeight;
+    public final Double hyperboloidTopRate;
+    public final Double hyperboloidMiddleRate;
     private Mesh mesh;
 
     /** Unlike F4, we inherit only some keys from building to parts, not all */
@@ -75,7 +77,13 @@ public class RenderableBuildingElement {
         Double roofHeight = getTagD("roof:height", primitiveTags, parentTags);
         Double roofLevels =  getTagD("roof:levels", primitiveTags, parentTags);
         String roofShape = getTagStr("roof:shape", primitiveTags, parentTags);
+        String buildingShape = getTagStr("shape", primitiveTags, parentTags);
+
         Double stepHeight = getTagD("step:height", primitiveTags, parentTags);
+
+        // Hyperboloid specific tags
+        Double hyperboloidTopRate = getTagD("hyperboloid:top_rate", primitiveTags, parentTags);
+        Double hyperboloidMiddleRate = getTagD("hyperboloid:middle_rate", primitiveTags, parentTags);
 
         Double layer = getTagD("layer", primitiveTags, 0);
         String location = getTagStr("location", primitiveTags, "");
@@ -83,6 +91,14 @@ public class RenderableBuildingElement {
         if ((layer<0) || (location.equals("underground"))){
             // we ignore such underground buildings/parts for now.
             return null;
+        }
+
+        // New: Prioritize building:shape over roof:shape for specific cases like hyperboloid
+        if (!buildingShape.isEmpty()){
+            if (buildingShape.equals("hyperboloid")) {
+                roofShape = "hyperboloid";
+            }
+            // Add other building:shape types here as needed in the future
         }
 
         if (roofShape.isEmpty()){
@@ -217,7 +233,7 @@ public class RenderableBuildingElement {
         contour.removeRedundantNodes();
         return new RenderableBuildingElement(primitive, primitiveOrigin, contour,
                 height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation,
-                stepHeight, noWalls, primitiveTags);
+                stepHeight, noWalls, hyperboloidTopRate, hyperboloidMiddleRate);
     }
 
     /**
@@ -293,7 +309,36 @@ public class RenderableBuildingElement {
         contour.removeRedundantNodes();
         return new RenderableBuildingElement(primitive, origin, contour,
                 height, minHeight, 0, color, color, "flat", "", "", null,
-                false, primitive.getInterestingTags());
+                false, null, null);
+    }
+
+    //similar to buildings, but with fewer options
+    public static RenderableBuildingElement createManMade(OsmPrimitive primitive){
+        var tag = primitive.get("man_made");
+        if( !List.of("tower", "water_tower", "communications_tower", "cooling_tower").contains(tag)){
+            return null;
+        }
+        Contour contour = new Contour(primitive, null);;
+        LatLon origin = primitive.getBBox().getCenter();
+        String color =  getTagStr("colour", primitive, "");
+        double minHeight = getTagD("min_height", primitive, 0);
+        //TODO: here we got value  for height should be different for towers!
+        double height = getTagD("height", primitive, DEFAULT_LEVEL_HEIGHT*DEFAULT_LEVELS_NUMBER*2 );
+        // Hyperboloid specific tags
+        Double hyperboloidTopRate = getTagD("hyperboloid:top_rate", primitive.getInterestingTags(), null);
+        Double hyperboloidMiddleRate = getTagD("hyperboloid:middle_rate", primitive.getInterestingTags(), null);
+        String roofShape="flat";
+        double roofHeight =0;
+        if ("hyperboloid".equals(primitive.get("shape"))){
+            roofShape="hyperboloid";
+            roofHeight = 0.1; //hack: otherwise roof becomes flat and shape is not applied!!
+        }
+
+        contour.toLocalCoords(origin);
+        contour.removeRedundantNodes();
+        return new RenderableBuildingElement(primitive, origin, contour,
+                height, minHeight, roofHeight, color, color, roofShape, "", "", null,
+                false, hyperboloidTopRate, hyperboloidMiddleRate);
     }
 
 
@@ -303,7 +348,7 @@ public class RenderableBuildingElement {
     private RenderableBuildingElement(OsmPrimitive primitive, LatLon origin, Contour contour,
                                       double height, double minHeight, double roofHeight, String wallColor, String roofColor,
                                       String roofShape, String roofDirectionStr, String roofOrientation, Double stepHeight,
-                                      boolean noWalls, Map<String, String> tags ) {
+                                      boolean noWalls, Double hyperboloidTopRate, Double hyperboloidMiddleRate ) {
         this.primitiveId = primitive.getPrimitiveId();
         if (contour==null){
             throw new RuntimeException("contour must be specified");
@@ -359,6 +404,8 @@ public class RenderableBuildingElement {
         }
 
         this.noWalls = noWalls;
+        this.hyperboloidTopRate = hyperboloidTopRate != null ? hyperboloidTopRate : 0.6;
+        this.hyperboloidMiddleRate = hyperboloidMiddleRate != null ? hyperboloidMiddleRate : this.hyperboloidTopRate;
 
         //since we have all the data, we can compose building mesh right in constructor.
         composeMesh();

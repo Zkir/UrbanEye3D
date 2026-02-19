@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.data.osm.DataSet;
+import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.io.OsmReader;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.gui.MainApplication;
@@ -91,6 +92,22 @@ class ValidatorTest {
     }
 
     @Test
+    void testValidatorFalsePositives2() throws Exception {
+        // Arrange
+        DataSet dataSet = loadDataSetFromOsmFile("shukhov_tower.osm");
+        MainApplication.getLayerManager().addLayer(new OsmDataLayer(dataSet, "test", null));
+        SpatialConsistencyChecks validator = new SpatialConsistencyChecks();
+
+        //First test -- Spatial Consistency
+        validator.startTest(null);
+        validator.visit(dataSet.allPrimitives());
+        validator.endTest();
+
+        // Assert
+        assertEquals(0, validator.getErrors().size());
+    }
+
+    @Test
     void testCityCenter() throws Exception {
         // Arrange
         DataSet dataSet = loadDataSetFromOsmFile("city_center.osm");
@@ -122,7 +139,6 @@ class ValidatorTest {
         EXPECTED_NUMBER_OF_ERRORS = 180;
         assertTrue(errors.size() == EXPECTED_NUMBER_OF_ERRORS,
                    "Number of errors  found by the Validator Tag Test ("+errors.size()+") differs from  the expected number (" + EXPECTED_NUMBER_OF_ERRORS+")");
-
-
     }
+
 }

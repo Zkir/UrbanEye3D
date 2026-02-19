@@ -29,6 +29,11 @@ public class Scene {
         return groundPlane;
     }
 
+    /**
+     * This method analyzes dataset and creates 3D objects
+     * It also updates ground plane tiles, which may be or may be not dataset dependent,
+     * depending on presence of imagery layer
+     */
     public void updateData(DataSet dataSet, ImageryInfo tmsLayer) {
         renderableElements.clear();
         if (dataSet == null){
@@ -72,10 +77,10 @@ public class Scene {
                 continue;
             }
 
-            if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !  RenderableBuildingElement.getTagStr("building:part", primitive, "").equals("base") ) {
+            if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !(primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no"))   ) {
                 // Create and cache the contour for the building, if not already present.
                 if (!primitiveContours.containsKey(primitive)) {
-                    primitiveContours.put(primitive, new Contour(primitive, null )); //primitive.getBBox().getCenter()
+                    primitiveContours.put(primitive, new Contour(primitive, null ));
                 }
                 Contour buildingContour = primitiveContours.get(primitive);
 
@@ -99,45 +104,47 @@ public class Scene {
         allCandidates.addAll(buildingParts);
 
         for (OsmPrimitive primitive : allCandidates) {
+            if (partParents.containsValue(primitive)){
+                continue; //we just skip building if it is a parent for some building parts.
+            }
 
-            if (primitive.hasKey("building") || primitive.hasKey("building:part") ) {
+            OsmPrimitive parent = partParents.get(primitive);
+            Contour mainContour = primitiveContours.get(primitive);
+            LatLon primitiveOrigin = primitive.getBBox().getCenter();
+            Map<String, String> parentTags=null;
+            if (parent!=null){
+                parentTags=parent.getInterestingTags();
+            }
 
-                if (partParents.containsValue(primitive)){
-                    continue; //we just skip building if it is a parent for some building parts.
-                }
+            if (primitive instanceof Relation && mainContour.outerRings.size() > 1 && mainContour.innerRings.isEmpty()) {
+                // Split multipolygon with multiple outer rings and no inner rings
+                for (ArrayList<Point2D> outerRing : mainContour.outerRings) {
+                    //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
+                    Contour partContour = new Contour(outerRing, mainContour.mode);
 
-                OsmPrimitive parent = partParents.get(primitive);
-                Contour mainContour = primitiveContours.get(primitive);
-                LatLon primitiveOrigin = primitive.getBBox().getCenter();
-                Map<String, String> parentTags=null;
-                if (parent!=null){
-                    parentTags=parent.getInterestingTags();
-                }
-
-                if (primitive instanceof Relation && mainContour.outerRings.size() > 1 && mainContour.innerRings.isEmpty()) {
-                    // Split multipolygon with multiple outer rings and no inner rings
-                    for (ArrayList<Point2D> outerRing : mainContour.outerRings) {
-                        //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
-                        Contour partContour = new Contour(outerRing, mainContour.mode);
-
-                        var element = RenderableBuildingElement.createBuildingOrPart(primitive, primitiveOrigin, partContour, primitive.getInterestingTags(), parentTags);
-                        if (element != null) {
-                            renderableElements.add(element);
-                            element.isSelected = primitive.isSelected();
-                        }
-                    }
-                } else {
-                    // Single outer ring, or multiple outer rings with inner rings, or a Way
-                    var element = RenderableBuildingElement.createBuildingOrPart(primitive, primitiveOrigin, mainContour, primitive.getInterestingTags(), parentTags);
+                    var element = RenderableBuildingElement.createBuildingOrPart(primitive, primitiveOrigin, partContour, primitive.getInterestingTags(), parentTags);
                     if (element != null) {
                         renderableElements.add(element);
                         element.isSelected = primitive.isSelected();
                     }
                 }
+            } else {
+                // Single outer ring, or multiple outer rings with inner rings, or a Way
+                var element = RenderableBuildingElement.createBuildingOrPart(primitive, primitiveOrigin, mainContour, primitive.getInterestingTags(), parentTags);
+                if (element != null) {
+                    renderableElements.add(element);
+                    element.isSelected = primitive.isSelected();
+                }
             }
         }
 
+        /*
+        * Barriers
+        */
         for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+            if (isBuildingOrPart(primitive)){
+                continue;
+            }
             if (primitive instanceof Way && primitive.hasKey("barrier")) {
                 var element = RenderableBuildingElement.createBarrier(primitive);
                 if (element != null){
@@ -145,6 +152,44 @@ public class Scene {
                 }
             }
         }
+
+        /*
+         * Experimental feature: man_made=tower.
+         * TODO: extend with other man_made's
+         */
+        for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+            if (!(primitive instanceof Node) && primitive.hasKey("man_made")) {
+                if (isBuildingOrPart(primitive)){
+                    continue;
+                }
+                var element = RenderableBuildingElement.createManMade(primitive);
+                if (element != null){
+                    renderableElements.add(element);
+                }
+            }
+        }
+    }
+
+    /**
+     * primitive can be considered building or building part in case it has appropriate tags
+     * or is a member of a Building relation
+     * This actually means that man_made=something can be a parent for parts even without building tag,
+     * if it has the *outline* role.
+     */
+    private boolean isBuildingOrPart(OsmPrimitive primitive){
+        return ( (primitive.hasKey("building") && !primitive.get("building").equals("no")) ||
+                 (primitive.hasKey("building:part") && !primitive.get("building:part").equals("no")) ||
+                  isBuildingRelationMember(primitive));
+    }
+
+    private boolean isBuildingRelationMember(OsmPrimitive primitive) {
+        boolean member_of_building_relation = false;
+        for (var r: primitive.getReferrers()) {
+            if( "building".equals(r.get("type"))){
+                member_of_building_relation =true;
+            }
+        }
+        return member_of_building_relation;
     }
 
 

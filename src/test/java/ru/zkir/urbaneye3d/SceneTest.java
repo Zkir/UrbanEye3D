@@ -206,4 +206,23 @@ class SceneTest {
         }
     }
 
+    @Test
+    //This test checks to things:
+    // 1. Man made should not be rendered, if specified as an outline role in building relation.
+    // 2. Hyperboloids are generated correctly.
+    void testMixedManMadeAndPart() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("shukhov_tower.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet, null);
+
+        // Assert: Verify the outcome
+        assertEquals(6, scene.renderableElements.size(), "Expected 6 building parts rendered, but fot "+scene.renderableElements.size());
+        for (var re:scene.renderableElements) {
+            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, re.roofShape.toString());
+        }
+    }
+
 }
