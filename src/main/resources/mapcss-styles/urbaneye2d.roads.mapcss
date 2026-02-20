@@ -25,14 +25,14 @@ canvas {
  */
  
 /* main public roads */
- 
-way[highway=motorway], way[highway=motorway_link], 
-way[highway=trunk], way[highway=trunk_link], 
-way[highway=primary], way[highway=primary_link], 
-way[highway=secondary], way[highway=secondary_link], 
-way[highway=tertiary],  way[highway=tertiary_link], 
+
+way[highway=motorway],     way[highway=motorway_link], 
+way[highway=trunk],        way[highway=trunk_link], 
+way[highway=primary],      way[highway=primary_link], 
+way[highway=secondary],    way[highway=secondary_link], 
+way[highway=tertiary],     way[highway=tertiary_link], 
 way[highway=unclassified], 
-way[highway=residential] {
+way[highway=residential],  way[highway=living_street] {
   set .carway;
 } 
 
@@ -62,10 +62,8 @@ way[highway=tertiary_link][oneway!=no]
  */
 
 way[highway=pedestrian],
-way[highway=living_street],
 way[highway=raceway],
 way[highway=bridleway],
-way[highway=track],
 way[highway=road],
 way[highway=proposed],
 way[highway=construction] {
@@ -170,10 +168,28 @@ way|z15-[is_prop_set("carway", "default")][!is_prop_set("oneway", "default")][!a
     offset: -0.7;
     z-index: 3;
 }
-way|z15-[highway][highway!=footway][highway!=service][!is_prop_set("oneway", "default")][!area]::centerline_right {
+way|z15-[is_prop_set("carway", "default")][!is_prop_set("oneway", "default")][!area]::centerline_right {
     width: 0.5;
     color: white;
     offset: 0.7;
+    z-index: 3;
+}
+
+
+/* highway=track */
+
+way|z15-[highway=track][!area]::left_wheel{
+    width: 0.5;
+    color: gray;
+    offset: -1.5;
+	dashes: 2,3;
+    z-index: 3;
+}
+way|z15-[highway=track][!area]::right_wheel {
+    width: 0.5;
+    color: gray;
+    offset: 1.5;
+	dashes: 2,3;
     z-index: 3;
 }
 

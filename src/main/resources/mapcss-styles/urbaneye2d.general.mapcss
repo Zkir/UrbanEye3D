@@ -1694,25 +1694,45 @@ area|z15-[tourism=theme_park] {
     width: 2.5;
 }
 
-
-
+/*
 way[location=underground],
 way[level<0] {
     opacity: 0.4;
 	fill-opacity: 0.4;
 } 
+*/
 
-area|z15-[man_made=bridge] {
+/*
+ * man_made=* 
+ * There are A LOT of man_made's currently in OSM,
+ * but here we should consider only those which are NOT buildings
+ * because buildings we have considered already.
+ */
+
+area[man_made][man_made!=no][!building],
+area[man_made][man_made!=no][building=no]{
+    set .man_made;
+}
+
+area|z15-[man_made=bridge].man_made {
 	fill-color: lightgray;
-    /*color: gray;
-    width: 2.5;*/
 }
 
-/* same as for building, but with just color tag instead of roof:colour */
-area|z15-[man_made=tower][!building],
-area|z15-[man_made=tower][building=no]{
-    fill-color: any(tag("colour"), "#bca9a9");
+
+/* 
+ * We accept popular known objects, but also any object with height (because it can be rendered on 3d map
+ * Style is same as for building, but with just color tag instead of roof:colour 
+ */
+ 
+area|z15-[man_made=storage_tank].man_made,
+area|z15-[man_made=mast].man_made,
+area|z15-[man_made=tower].man_made,
+area|z15-[man_made=utility_pole].man_made,
+area|z15-[man_made=flagpole].man_made,
+area|z15-[man_made=water_tower].man_made,
+area|z15-[man_made=chimney].man_made, 
+area|z15-[height>0].man_made{
+    fill-color: any(tag("colour"), "#bca9a9"); 
     fill-opacity: 0.9;
-    z-index: 900;
+    z-index: 900; 
 }
-
