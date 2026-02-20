@@ -20,7 +20,8 @@ public enum RoofShapes {
     SALTBOX("saltbox", new MesherLinearProfile(LinearProfiles.SALTBOX)),
     HALF_HIPPED("half-hipped", new MesherHalfHipped()),
     CROSS_GABLED("cross_gabled", new MesherCrossGabled()),
-    STEPS("steps", new MesherSteps());
+    STEPS("steps", new MesherSteps()),
+    HYPERBOLOID("hyperboloid", new MesherHyperboloid());
     /* roof shapes yet to be supported.
     ZAKOMAR("zakomar"),
     */

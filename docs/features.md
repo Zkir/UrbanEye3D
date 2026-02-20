@@ -2,7 +2,7 @@
 
 This document outlines the OpenStreetMap tags supported by the UrbanEye3D plugin for rendering 3D buildings.
 
-## Building
+## Buildings
 
 The plugin visualizes objects tagged with `building` and `building:part`.
 
@@ -163,6 +163,43 @@ This is a gabled roof with a semicircular apse at one end.
 ![Image of a apse_gabled roof](images/roof_apse_gabled.png)
 
 The apex of the apse is located above the middle of the longest side of the base.
+
+### Special `building:part` values
+
+Certain values for the `building:part` tag have a special meaning and affect how the geometry is generated.
+
+#### `building:part=roof`
+
+This tag is intended for parts of a building that consist only of a roof structure, such as canopies, awnings, or visors.
+
+-   When this tag is used, no vertical walls are generated for the object. The model will consist of the roof volume only.
+-   The object is positioned at its correct height level, appearing as a floating roof.
+-   This behavior can be overridden by explicitly adding the `wall=yes` tag, which will force the walls to be rendered.
+
+#### `building:part=steps`
+
+This value is used to model flights of stairs. It does not have an effect on its own, but works in combination with other tags:
+
+-   This tag works in conjunction with `roof:shape=skillion`. This approach ensures backward compatibility, as other 3D applications will render a sloped ramp, which is a good fallback for stairs. Use `roof:direction` to set the direction of the flight of stairs.
+-   The height of each individual step can be controlled with the `step:height` tag. If not provided, a default value of **0.16 meters** is used.
+
+## Supported Building Shapes (`shape`)
+
+The plugin also supports the `shape` tag to define the overall geometry of a building or structure. Note that this is a custom feature and is not part of the [S3DB standard](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings).
+
+### `hyperboloid`
+This shape is used to model hyperboloid structures, common in cooling towers, observation towers, and other architectural designs.
+
+![Tags for hyperboloid shape](release_notes/hyperboloid_tags.png)
+
+This tag can be applied to `building=*`, `building:part=*`, and the following `man_made` features: `tower`, `water_tower`, `communications_tower`, and `cooling_tower`. It works on closed ways and multipolygons without inner rings.
+
+The geometry of the hyperboloid is controlled by two additional tags:
+
+- `hyperboloid:top_rate`: Defines the relative width of the top of the structure compared to its base. A value greater than 1 makes the top wider than the base, while a value less than 1 makes it narrower.
+- `hyperboloid:middle_rate`: Defines the relative width of the narrowest part (the "waist") of the structure, as a ratio of the base width. It ranges from 0 (a single point) to 1 (no narrowing). `hyperboloid:middle_rate` cannot be greater than `hyperboloid:top_rate`.
+
+Unlike F4Map, the plugin does not *assume* a hyperboloid shape for any object, even for cooling towers; the `shape=hyperboloid` tag must be set manually.
 
 ## Barriers
 

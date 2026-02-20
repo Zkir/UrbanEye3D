@@ -1,5 +1,14 @@
 # Development History
 
+## Version 1.9.0 (February 19, 2026)
+*   Implemented support for experimental `shape=hyperboloid` tag.
+    *   Added `MesherHyperboloid` to generate 3D meshes for hyperboloid-shaped buildings and man_mades.
+    *   Utilized precise mathematical parametric equations for hyperboloids of revolution, incorporating `hyperboloid:top_rate` and `hyperboloid:middle_rate` to define top and middle radii (scaling factors).
+    *   Added specific topology tests for the new shape in `RoofGeneratorTopologyTest.java` to verify correctness under various parameter configurations.
+*   Re-implemented highlighting of selected OSM primitives in the 3D view using a red, thick wireframe.
+
+See the release notes: https://github.com/Zkir/UrbanEye3D/releases/tag/v1.9.0, they are nice!
+
 ## Version 1.8.1 (February 12, 2026)
 * User defined TMS/BING layers (which do not have own ID) are now also supported. ([JOSM ticket #24630](https://josm.openstreetmap.de/ticket/24630))
 

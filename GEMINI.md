@@ -84,7 +84,7 @@ Some other wishes:
 	* Implement `zakomar` roof somehow. 
 		* It was implemented in Blosm, but that implementation is not suitable for us (not watertight). Probably boolean operation should be tried.
 	* Implement  `sawtooth`, `gabled_row` roofs. They say that F4 Map supports them.  
-	* Implement `butterfly`  roof. Note that the first attempt to implement it failed. Just a new profile is not enough. Some significant changes are required in MesherLinerProfile to support such 'inverse' geometry.
+	* Implement `butterfly`  roof. Note that the first attempt to implement it has failed. Just a new profile is not enough. Some significant changes are required in MesherLinerProfile to support such 'inverse' geometry.
 
 
 To be prioritized via MoSCoW method.
@@ -143,7 +143,6 @@ See [Devblog](DEVBLOG.md)
 
 
 ## Architectural Notes
-
 
 *   **Core Principle:** All meshes for all roof shapes must be generated as **watertight** bodies with correct **outward-facing normals**. This is enforced by the `assertWatertight` and `assertNormalsAndConsistency` checks in the `RoofGeometryGeneratorTest`.
 *   **Normal Vector Validation:** Validating that normals face "outward" is complex for non-convex shapes (like buildings with courtyards or complex roofs like an onion dome). A naive check against the geometric center of the mesh will fail. The robust approach is a two-step process:

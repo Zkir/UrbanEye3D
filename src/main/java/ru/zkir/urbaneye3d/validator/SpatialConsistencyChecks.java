@@ -66,7 +66,11 @@ public class SpatialConsistencyChecks extends Test {
                 if (primitive.hasKey("building:part") && !primitive.get("building:part").equals("no")) {
                     buildingParts.add(primitive);
                     primitiveContours.put(primitive, new Contour(primitive, null));
-                } else if (primitive.hasKey("building")) {
+                } else if (primitive.hasKey("building") && !primitive.get("building").equals("no")) {
+                    buildings.add(primitive);
+                    primitiveContours.put(primitive, new Contour(primitive, null));
+                }else if (primitive.hasKey("man_made") && hasOutlineRole(primitive)) {
+                    //we cannot accept any object as parent, because there is a bad practice of adding just unclosed was as building relation members
                     buildings.add(primitive);
                     primitiveContours.put(primitive, new Contour(primitive, null));
                 }
@@ -354,13 +358,22 @@ public class SpatialConsistencyChecks extends Test {
         }else {
             return false; // always false for nodes
         }
-
     }
 
-    /* It seems that this hack is no longer necessary. DO NOT UNCOMMENT!!!
-    @Override
-    public void removeIrrelevantErrors(java.util.Collection<? extends OsmPrimitive> given) {
-        // Do nothing to prevent JOSM from filtering our errors
+    private boolean hasOutlineRole(OsmPrimitive primitive) {
+        boolean member_of_building_relation = false;
+        for (var r: primitive.getReferrers()) {
+            if (r instanceof  Relation) {
+                var rr = (Relation)r;
+                if ("building".equals(rr.get("type"))) {
+                    var outlines=rr.findRelationMembers("outline");
+                    if (outlines.contains(primitive)) {
+                        member_of_building_relation = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return member_of_building_relation;
     }
-    */
 }
