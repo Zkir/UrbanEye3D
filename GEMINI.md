@@ -103,6 +103,11 @@ To be prioritized via MoSCoW method.
 
 
 ## Recent Accomplishments
+### February 21, 2026
+*   **Implemented a MapCSS validation autotest.** This test ensures:
+    *   All `.mapcss` files are syntactically valid using JOSM's internal MapCSS parser.
+    *   All image resources (e.g., `.png` files referenced via `url(...)`) within the MapCSS files exist in the project's resources.
+
 ### February 20, 2026
 * Added support for `surface=unpaved` (and some other unpaved roads). They are rendered in gray in our 2d style.
 
