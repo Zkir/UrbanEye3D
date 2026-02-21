@@ -9,6 +9,9 @@
 
 ### Musts for the Next Release 
 
+* JOSM parameters (e.g. draw oneway arrows and feature labels) override MapCSS styles in 3D window.  Probably josm patch should be created.
+* make ground tiles to pan more nicely (less flashing, maybe cut by visible area).		
+* Make UI more responsive, because it seems that full redrawal of 2d layer after primitive EDIT impacts performance badly.
 * [**50%** -- workaround found] Fix the **InterruptedException crash**. Exception occures in the josm mapcss engine when a worker thread is terminated. 
 
        (2026-02-14 03:27:35.601 SEVERE: Exception raised in EDT: java.lang.InterruptedException
@@ -17,15 +20,10 @@
 		
     * Termination of a worker process is quite a normal thing, e.g. when the camera is moved and the ground tile is no longer needed. However, josm *prints* (sic!) exception, even without raising it forward. The issue seems to be rather cosmetic (no real harm except dirty log). 
 	* Workaround found: do not terminate a process, if it is already running, just cancell task if it have not yet started. This workaround negatevly affects performance.  It is still not clear how a proper fix in josm could look like. NavigatableComponent has STATIC global listeners. 
-* JOSM parameters (e.g. draw oneway arrows) override MapCSS styles in 3D window.  Probably josm patch should be created.
-* make ground tiles to pan more nicely (less flashing, maybe cut by visible area).		
-* **[50%]** "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
-    * check possibity to support the `surface=*` tag 
-	* add style for `highway=track`
-	* support `man_mane=bridge` (funny bug: liner waterway is painted above area bridge!)
-* Make UI more responsive, because it seems that full redrawal of 2d layer after primitive EDIT impacts performance badly.
-* Support `shape=hyperboloid`/`man_made=cooling_tower`.
-
+* **[75%]** "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
+    * check possibity to support the `surface=*` tag  (espesially surface=unpaved).
+	* Fix a funny bug with `man_mane=bridge`: a linear waterway is painted above area bridge!	
+	
 #### Patches to monitor
 
 *  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637). -- **DONE.**
@@ -36,8 +34,9 @@
 
 ### Ideas for the Further Development
 
-In order [voted](https://community.openstreetmap.org/t/urban-eye-3d-josm-3d-viewer-plugin/133674/240) by the community.
+0. Automate creation of taginfo.json. Can we include it into maven build?
 
+In order [voted](https://community.openstreetmap.org/t/urban-eye-3d-josm-3d-viewer-plugin/133674/240) by the community.
 
 1. Add more objects, e.g. roads, rivers, street lights (probably via osm2world code). (#4)  -- by 2D style! 
 
