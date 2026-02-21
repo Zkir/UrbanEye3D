@@ -324,8 +324,15 @@ public class RenderableBuildingElement {
     //similar to buildings, but with fewer options
     public static RenderableBuildingElement createManMade(OsmPrimitive primitive){
         var tag = primitive.get("man_made");
-        if( !List.of("tower", "water_tower", "communications_tower", "cooling_tower").contains(tag)){
-            return null;
+        if (tag==null){
+            throw new RuntimeException("The object should have man_made tag to be processed by this method");
+        }
+        //We gladly accept any object, as long as it has height.
+        //if it does not, we accept it if it of the known type
+        if (!primitive.hasKey("height")) {
+            if (!List.of("tower", "water_tower", "communications_tower", "cooling_tower").contains(tag)) {
+                return null;
+            }
         }
         Contour contour = new Contour(primitive, null);;
         LatLon origin = primitive.getBBox().getCenter();
