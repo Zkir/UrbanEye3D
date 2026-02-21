@@ -20,8 +20,7 @@
 		
     * Termination of a worker process is quite a normal thing, e.g. when the camera is moved and the ground tile is no longer needed. However, josm *prints* (sic!) exception, even without raising it forward. The issue seems to be rather cosmetic (no real harm except dirty log). 
 	* Workaround found: do not terminate a process, if it is already running, just cancell task if it have not yet started. This workaround negatevly affects performance.  It is still not clear how a proper fix in josm could look like. NavigatableComponent has STATIC global listeners. 
-* **[75%]** "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
-    * check possibity to support the `surface=*` tag  (espesially surface=unpaved).
+* **[80%]** "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
 	* Fix a funny bug with `man_mane=bridge`: a linear waterway is painted above area bridge!	
 	
 #### Patches to monitor
@@ -103,6 +102,8 @@ To be prioritized via MoSCoW method.
 
 
 ## Recent Accomplishments
+### February 20, 2026
+* Added support for `surface=unpaved` (and some other unpaved roads). They are rendered in gray in our 2d style.
 
 ### February 17, 2026
 * Drawing area for buildings has been restricted. Buildings are only rendered within the visible ground plane.

@@ -56,6 +56,16 @@ way[highway=tertiary_link][oneway!=no]
     set .oneway;
 }
 
+/* unpaved roads */
+way[surface=unpaved],
+way[surface=dirt],
+way[surface=ground],
+way[surface=sand],
+way[surface=grass]
+{
+  set .unpaved;
+}
+
 
 /*
  * TODO: add some rendering for this types of roads
@@ -88,26 +98,75 @@ way[highway=construction] {
 
 /* --- Layer 2: Edge Lines (Bottom Layer) --- */
 /* A single, wide white line is drawn first to create the outer edges. */
-way|z14[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!area]::edge  { width: 5; color: white; z-index: 1; }
-way|z15[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!area]::edge  { width: 8; color: white; z-index: 1; }
-way|z16-[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!area]::edge { width: 11; color: white; z-index: 1; }
+way|z14[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::edge  { width: 5; color: white; z-index: 1; }
+way|z15[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::edge  { width: 8; color: white; z-index: 1; }
+way|z16-[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::edge { width: 11; color: white; z-index: 1; }
  
  
  /* --- Layer 1: Asphalt Fill (Middle Layer) --- */
 /* A slightly narrower dark grey line is drawn on top of the edges. */
 /* main public roads */
-way|z14[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!area]::fill  {
+way|z14[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::fill  {
     width: 4; color: #444444; z-index: 2;      linecap: rectangular;
 }
 
-way|z15[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!area]::fill  {
+way|z15[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::fill  {
     width: 7; color: #444444; z-index: 2;     linecap: rectangular;
 }
-way|z16-[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!area]::fill {
+way|z16-[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::fill {
     width: 10; color: #444444; z-index: 2;     linecap: rectangular;
 }
 
-/* service roads */
+
+/* --- Layer 3: Centerlines (Top Layer, from z15+) --- */
+
+/**
+ * Style for One-Way Roads
+ *
+ * This applies to:
+ * - highway=motorway (and links)
+ * - junction=roundabout
+ * - any road with oneway=yes, oneway=1, or oneway=-1
+ *
+ * A single dashed white line is drawn in the center.
+ */
+
+way|z15-[is_prop_set("carway", "default")][is_prop_set("oneway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::centerline 
+{
+    width: 0.7;
+    color: white;
+    dashes: 6, 8;
+    z-index: 3;
+}
+
+
+/**
+ * Style for Two-Way Roads
+ *
+ * This applies to:
+ * - any road with oneway=no
+ * - any road with no 'oneway' tag (and is not implicitly one-way)
+ *
+ * A double solid white line is faked by drawing two solid lines
+ * with a small 'offset' from the center.
+ */
+way|z15-[is_prop_set("carway", "default")][!is_prop_set("oneway", "default")][!is_prop_set("unpaved", "default")][!area]::centerline_left{
+    width: 0.5;
+    color: white;
+    offset: -0.7;
+    z-index: 3;
+}
+way|z15-[is_prop_set("carway", "default")][!is_prop_set("oneway", "default")][!is_prop_set("unpaved", "default")][!area]::centerline_right {
+    width: 0.5;
+    color: white;
+    offset: 0.7;
+    z-index: 3;
+}
+
+/* 
+ * service roads
+ * Luckily, service roads does not not have any markings
+ */
 way|z14[highway=service][!is_prop_set("underground", "default")][!area]::fill  {
     width: 2;
 	color: #444444;
@@ -129,50 +188,40 @@ way|z16-[highway=service][!is_prop_set("underground", "default")][!area]::fill {
 	linecap: none;
 }
 
-
-/* --- Layer 3: Centerlines (Top Layer, from z15+) --- */
-
-/**
- * Style for One-Way Roads
- *
- * This applies to:
- * - highway=motorway (and links)
- * - junction=roundabout
- * - any road with oneway=yes, oneway=1, or oneway=-1
- *
- * A single dashed white line is drawn in the center.
+/* 
+ * unpaved roads 
  */
-
-way|z15-[is_prop_set("carway", "default")][is_prop_set("oneway", "default")][!is_prop_set("underground", "default")][!area]::centerline 
-{
-    width: 0.7;
-    color: white;
-    dashes: 6, 8;
-    z-index: 3;
+/* transit roads*/ 
+way|z14[is_prop_set("carway", "default")][is_prop_set("unpaved", "default")][!is_prop_set("underground", "default")][!area]::fill  {
+    width: 4; color: #9d6c6c; z-index: 2;      linecap: rectangular;
+}
+way|z15[is_prop_set("carway", "default")][is_prop_set("unpaved", "default")][!is_prop_set("underground", "default")][!area]::fill  {
+    width: 7; color: #9d6c6c; z-index: 2;     linecap: rectangular;
+}
+way|z16-[is_prop_set("carway", "default")][is_prop_set("unpaved", "default")][!is_prop_set("underground", "default")][!area]::fill {
+    width: 10; color: #9d6c6c; z-index: 2;     linecap: rectangular;
 }
 
-
-/**
- * Style for Two-Way Roads
- *
- * This applies to:
- * - any road with oneway=no
- * - any road with no 'oneway' tag (and is not implicitly one-way)
- *
- * A double solid white line is faked by drawing two solid lines
- * with a small 'offset' from the center.
- */
-way|z15-[is_prop_set("carway", "default")][!is_prop_set("oneway", "default")][!area]::centerline_left{
-    width: 0.5;
-    color: white;
-    offset: -0.7;
-    z-index: 3;
+/* service roads*/ 
+way|z14[highway=service][is_prop_set("unpaved", "default")][!is_prop_set("underground", "default")][!area]::fill  {
+    width: 2;
+	color: #9d6c6c;
+	linecap: rectangular;
+	z-index: 2; 
 }
-way|z15-[is_prop_set("carway", "default")][!is_prop_set("oneway", "default")][!area]::centerline_right {
-    width: 0.5;
-    color: white;
-    offset: 0.7;
-    z-index: 3;
+
+way|z15[highway=service][is_prop_set("unpaved", "default")][!is_prop_set("underground", "default")][!area]::fill  {
+    width: 3;
+	color: #9d6c6c;
+	z-index: 2;
+	linecap: none;
+}
+
+way|z16-[highway=service][is_prop_set("unpaved", "default")][!is_prop_set("underground", "default")][!area]::fill {
+    width: 5;
+	color: #9d6c6c;
+	z-index: 2;
+	linecap: none;
 }
 
 
