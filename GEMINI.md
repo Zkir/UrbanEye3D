@@ -144,6 +144,13 @@ Mapillary and MapRoulette plugins have been also fixed. See [Josm ticket #24637]
 ### February 8, 2026
 * Own, self-rendered MapCSS-based 2D layer is displayed by default, if no satellite imagery is selected
 
+### February 21, 2026
+
+* Creation of `taginfo.json` is updated. It is now a part of the Maven build process and ensures tags from both Java source code and [features.md](docs/features.md) are synchronized and documented. Changes:
+    * Code rewritten from Python to Java. 
+    * The file is updated only if there are some changes in tags, not just file creation date. 
+
+
 ### Earlier
 See [Devblog](DEVBLOG.md)
 

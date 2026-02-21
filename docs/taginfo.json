@@ -1,79 +1,213 @@
 {
-    "data_format": 1,
-    "data_updated": "20250808T125652Z",
-    "project": {
-        "name": "Urban Eye 3D",
-        "description": "JOSM plugin for 3D visualization of buildings",
-        "project_url": "https://github.com/Zkir/UrbanEye3D",
-        "doc_url": "https://github.com/Zkir/UrbanEye3D/blob/master/README.md",
-        "icon_url": "https://raw.githubusercontent.com/Zkir/UrbanEye3D/refs/heads/master/docs/images/urbaneye3d.svg",
-        "contact_name": "Zkir",
-        "contact_email": "zkir@zkir.ru"
-    },
-    "tags": [
-        {
-            "key": "building",
-            "description": "The main tag for identifying a building outline."
-        },
-        {
-            "key": "building:colour",
-            "description": "Specifies the color of the building's walls."
-        },
-        {
-            "key": "building:height",
-            "description": "An alternative tag for the total height of the building, including the roof, in meters."
-        },
-        {
-            "key": "building:levels",
-            "description": "The number of floors (levels) in the main part of the building. Used to calculate height if not specified explicitly."
-        },
-        {
-            "key": "building:material",
-            "description": "Specifies the material of the building's walls. Used for texturing and shading."
-        },
-        {
-            "key": "building:min_level",
-            "description": "The number of floors to offset the building from the ground. Used to calculate min_height if not specified explicitly."
-        },
-        {
-            "key": "building:part",
-            "description": "Identifies a part of a building, which is rendered as a separate 3D element."
-        },
-        {
-            "key": "height",
-            "description": "The total height of the building, including the roof, in meters."
-        },
-        {
-            "key": "min_height",
-            "description": "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes."
-        },
-        {
-            "key": "roof:colour",
-            "description": "Specifies the color of the roof."
-        },
-        {
-            "key": "roof:direction",
-            "description": "Specifies the direction or orientation of the roof, typically in degrees. Used for directional roof shapes like 'skillion'."
-        },
-        {
-            "key": "roof:height",
-            "description": "The height of the roof section of the building, in meters."
-        },
-        {
-            "key": "roof:levels",
-            "description": "The number of floors (levels) within the roof structure. Used to calculate roof:height if not specified explicitly."
-        },
-        {
-            "key": "roof:material",
-            "description": "Specifies the material of the roof. Used for texturing and shading."
-        },
-        {
-            "key": "roof:orientation",
-            "description": "Specifies the orientation of the roof ridge, typically 'along' or 'across' the longer axis of the building."
-        },
-        {
-            "key": "roof:shape",
-            "description": "Defines the shape of the roof, which determines the geometry generation algorithm."
-        }
-    ]
+  "data_format" : 1,
+  "data_updated" : "20260221T203734Z",
+  "project" : {
+    "name" : "Urban Eye 3D",
+    "description" : "JOSM plugin for 3D visualization of buildings",
+    "project_url" : "https://github.com/Zkir/UrbanEye3D",
+    "doc_url" : "https://github.com/Zkir/UrbanEye3D/blob/master/README.md",
+    "icon_url" : "https://raw.githubusercontent.com/Zkir/UrbanEye3D/refs/heads/master/docs/images/urbaneye3d.svg",
+    "contact_name" : "Zkir",
+    "contact_email" : "zkir@zkir.ru"
+  },
+  "tags" : [ {
+    "key" : "area",
+    "value" : "yes",
+    "description" : "This tag causes a feature that would otherwise be considered linear to be considered polygonal."
+  }, {
+    "key" : "barrier",
+    "description" : "The feature is interpreted as barrier, in case it does not have the building tag."
+  }, {
+    "key" : "building",
+    "description" : "The main tag for identifying a building outline."
+  }, {
+    "key" : "building:colour",
+    "description" : "Specifies the color of the building's walls."
+  }, {
+    "key" : "building:height",
+    "description" : "An alternative tag for the total height of the building, including the roof, in meters."
+  }, {
+    "key" : "building:levels",
+    "description" : "The number of floors (levels) in the main part of the building. Used to calculate height if not specified explicitly."
+  }, {
+    "key" : "building:material",
+    "description" : "Specifies the material of the building's walls. Used for texturing and shading."
+  }, {
+    "key" : "building:min_level",
+    "description" : "The number of floors to offset the building from the ground. Used to calculate min_height if not specified explicitly."
+  }, {
+    "key" : "building:part",
+    "description" : "Identifies a part of a building, which is rendered as a separate 3D element."
+  }, {
+    "key" : "building:part",
+    "value" : "roof",
+    "description" : "Produces a floating roof without walls. Could be used to model canopies, awnings, or visors."
+  }, {
+    "key" : "building:part",
+    "value" : "steps",
+    "description" : "Produces steps-shaped structure or a flight of stairs. Should be used together with roof:shape=skillion"
+  }, {
+    "key" : "colour",
+    "description" : "Specifies the color of the object, especially barrier or man-made."
+  }, {
+    "key" : "height",
+    "description" : "The total height of the building, including the roof, in meters."
+  }, {
+    "key" : "hyperboloid:middle_rate",
+    "description" : "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width"
+  }, {
+    "key" : "hyperboloid:top_rate",
+    "description" : "Defines the relative width of the top of the structure compared to its base"
+  }, {
+    "key" : "layer",
+    "description" : "Objects with layer<0 are considered to be located underground -- and are not displayed"
+  }, {
+    "key" : "location",
+    "value" : "underground",
+    "description" : "An object is located underground. Can be ignored for 3D rendering"
+  }, {
+    "key" : "man_made",
+    "description" : "Used to identify man-made objects"
+  }, {
+    "key" : "man_made",
+    "value" : "communications_tower",
+    "description" : "Can be rendered as 3D object"
+  }, {
+    "key" : "man_made",
+    "value" : "cooling_tower",
+    "description" : "Can be rendered as 3D object"
+  }, {
+    "key" : "man_made",
+    "value" : "tower",
+    "description" : "Can be rendered as 3D object"
+  }, {
+    "key" : "man_made",
+    "value" : "water_tower",
+    "description" : "Can be rendered as 3D object"
+  }, {
+    "key" : "material",
+    "description" : "Material for barrier or man-made object. This can influence the default color. "
+  }, {
+    "key" : "min_height",
+    "description" : "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes."
+  }, {
+    "key" : "roof:colour",
+    "description" : "Specifies the color of the roof."
+  }, {
+    "key" : "roof:direction",
+    "description" : "Specifies the direction or orientation of the roof, typically in degrees. Used for directional roof shapes like 'skillion'."
+  }, {
+    "key" : "roof:height",
+    "description" : "The height of the roof section of the building, in meters."
+  }, {
+    "key" : "roof:levels",
+    "description" : "The number of floors (levels) within the roof structure. Used to calculate roof:height if not specified explicitly."
+  }, {
+    "key" : "roof:material",
+    "description" : "Specifies the material of the roof. Used for texturing and shading."
+  }, {
+    "key" : "roof:orientation",
+    "description" : "Specifies the orientation of the roof ridge, typically 'along' or 'across' the longer axis of the building."
+  }, {
+    "key" : "roof:orientation",
+    "value" : "across",
+    "description" : "Roof is oriented across the longest side of the building."
+  }, {
+    "key" : "roof:orientation",
+    "value" : "along",
+    "description" : "Roof is oriented along the longest side of the building. This is default value"
+  }, {
+    "key" : "roof:shape",
+    "value" : "apse_gabled",
+    "description" : "A gabled roof with a semicircular apse at one end. The apex of the apse is located above the middle of the longest side of the base."
+  }, {
+    "key" : "roof:shape",
+    "value" : "cone",
+    "description" : "A synonym for pyramidal. Rises to a single point. To generate a smooth cone, the building outline should be a circle with a sufficient number of nodes."
+  }, {
+    "key" : "roof:shape",
+    "value" : "cross_gabled",
+    "description" : "Two gabled roof sections at right angles. Only supported for quadrangular footprints. `roof:orientation` and `roof:direction` have no effect."
+  }, {
+    "key" : "roof:shape",
+    "value" : "crosspitched",
+    "description" : "A synonym for cross_gabled. Two gabled roof sections put together at right angles. Only quadrangular footprints are supported."
+  }, {
+    "key" : "roof:shape",
+    "value" : "dome",
+    "description" : "A hemispherical roof suitable for any base shape. A circular base produces a traditional dome, while a rectangular base produces a modern, elongated dome."
+  }, {
+    "key" : "roof:shape",
+    "value" : "flat",
+    "description" : "A standard flat roof. A fascia (vertical decorative band) is created if `roof:height` or `roof:levels` are specified."
+  }, {
+    "key" : "roof:shape",
+    "value" : "gabled",
+    "description" : "Classic pitched roof. Orientation can be controlled with `roof:orientation=along|across`. `roof:direction` is also supported but snaps to the nearest axis."
+  }, {
+    "key" : "roof:shape",
+    "value" : "gambrel",
+    "description" : "A symmetrical two-sided roof with two slopes on each side. The orientation can be specified with the `roof:orientation` tag."
+  }, {
+    "key" : "roof:shape",
+    "value" : "half-dome",
+    "description" : "Half of a dome, with the apex located above the middle of the longest side of the base. Useful for orthodox church apses."
+  }, {
+    "key" : "roof:shape",
+    "value" : "half-hipped",
+    "description" : "A mix of gabled and hipped styles. Orientation can be set with `roof:orientation`. Only supported for quadrangular building outlines."
+  }, {
+    "key" : "roof:shape",
+    "value" : "hipped",
+    "description" : "All sides slope down to the walls. Generated using a straight skeleton algorithm, which can create complex shapes for non-convex buildings."
+  }, {
+    "key" : "roof:shape",
+    "value" : "mansard",
+    "description" : "A four-sided gambrel-style hip roof with two slopes on each side. Currently only supported for quadrangular building outlines."
+  }, {
+    "key" : "roof:shape",
+    "value" : "onion",
+    "description" : "An onion-shaped dome. The building outline defines the tholobate (drum), and the onion dome is generated on top of it, getting wider than the base."
+  }, {
+    "key" : "roof:shape",
+    "value" : "pyramidal",
+    "description" : "A roof that rises to a single point, generated from an arbitrary base outline. `roof:orientation` and `roof:direction` have no effect."
+  }, {
+    "key" : "roof:shape",
+    "value" : "round",
+    "description" : "A semi-cylindrical or hangar-like roof. Its orientation can be controlled with the `roof:orientation` tag."
+  }, {
+    "key" : "roof:shape",
+    "value" : "saltbox",
+    "description" : "Generates a roof with an off-center flat top. This implementation follows the F4 map interpretation, which may differ from a classic single-ridge saltbox roof."
+  }, {
+    "key" : "roof:shape",
+    "value" : "side_hipped",
+    "description" : "A roof hipped from one side and gabled from the other. Orientation is controlled by `roof:direction`. Supported for quadrangular footprints only."
+  }, {
+    "key" : "roof:shape",
+    "value" : "skillion",
+    "description" : "A single-sloped roof surface (a lean-to). The slope direction is controlled by the `roof:direction` tag, which can be set to any angle."
+  }, {
+    "key" : "shape",
+    "value" : "hyperboloid",
+    "description" : "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
+  }, {
+    "key" : "step:height",
+    "description" : "Defines the height of each individual step for building:part=steps. 0.16 is used as default "
+  }, {
+    "key" : "type",
+    "description" : "Relation type is checked mainly to download whole multipolygons and buildings"
+  }, {
+    "key" : "wall",
+    "value" : "no",
+    "description" : "Alternative for building:part=roof. In case of building:part=yes + wall=no walls are not generated and roof floats"
+  }, {
+    "key" : "wall",
+    "value" : "yes",
+    "description" : "Used to override building:part=roof. For building:part=roof + wall=yes walls are still created"
+  }, {
+    "key" : "width",
+    "description" : "Width of the feature. Primarily used for barriers"
+  } ]
 }
