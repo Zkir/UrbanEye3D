@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260221T180130Z",
+  "data_updated" : "20260221T203734Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -116,9 +116,6 @@
     "key" : "roof:orientation",
     "value" : "along",
     "description" : "Roof is oriented along the longest side of the building. This is default value"
-  }, {
-    "key" : "roof:shape",
-    "description" : "Defines the shape of the roof, which determines the geometry generation algorithm."
   }, {
     "key" : "roof:shape",
     "value" : "apse_gabled",

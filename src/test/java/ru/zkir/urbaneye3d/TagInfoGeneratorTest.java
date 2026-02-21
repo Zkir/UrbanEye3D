@@ -98,8 +98,6 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("building:part=roof", "Produces a floating roof without walls. Could be used to model canopies, awnings, or visors." );
         TAG_DESCRIPTIONS.put("building:part=steps", "Produces steps-shaped structure or a flight of stairs. Should be used together with roof:shape=skillion" );
 
-        TAG_DESCRIPTIONS.put("roof:shape", "Defines the shape of the roof, which determines the geometry generation algorithm.");
-
         TAG_DESCRIPTIONS.put("roof:shape=apse_gabled", "A gabled roof with a semicircular apse at one end. The apex of the apse is located above the middle of the longest side of the base.");
         TAG_DESCRIPTIONS.put("roof:shape=cone", "A synonym for pyramidal. Rises to a single point. To generate a smooth cone, the building outline should be a circle with a sufficient number of nodes.");
         TAG_DESCRIPTIONS.put("roof:shape=cross_gabled" , "Two gabled roof sections at right angles. Only supported for quadrangular footprints. `roof:orientation` and `roof:direction` have no effect.");
