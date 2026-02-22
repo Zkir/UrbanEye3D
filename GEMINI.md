@@ -10,7 +10,7 @@
 ### Musts for the Next Release 
 
 * JOSM parameters (e.g. draw oneway arrows and feature labels) override MapCSS styles in 3D window.  Probably josm patch should be created.
-* make ground tiles to pan more nicely (less flashing, maybe cut by visible area).		
+* Make ground tiles to pan more nicely (less flashing, maybe cut by visible area).		
 * Make UI more responsive, because it seems that full redrawal of 2d layer after primitive EDIT impacts performance badly.
 * [**50%** -- workaround found] Fix the **InterruptedException crash**. Exception occures in the josm mapcss engine when a worker thread is terminated. 
 
@@ -20,9 +20,9 @@
 		
     * Termination of a worker process is quite a normal thing, e.g. when the camera is moved and the ground tile is no longer needed. However, josm *prints* (sic!) exception, even without raising it forward. The issue seems to be rather cosmetic (no real harm except dirty log). 
 	* Workaround found: do not terminate a process, if it is already running, just cancell task if it have not yet started. This workaround negatevly affects performance.  It is still not clear how a proper fix in josm could look like. NavigatableComponent has STATIC global listeners. 
-* **[80%]** "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
-    * Make sure that all required png images are present. Currently 17 are missing (probably some of them should be excluded!)
-    * Fix a funny bug with `man_mane=bridge`: a linear waterway is painted above area bridge!	
+* **[85%]** "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
+    * Now all refereced png images are present in jar resources. Maybe some could be excluded as non-3D?
+    * Fix a funny bug with `man_mane=bridge`: a linear waterway is painted above area bridge! -- is it fixable at all? lines are drawn over polygons!	
 	
 #### Patches to monitor
 
@@ -103,10 +103,13 @@ To be prioritized via MoSCoW method.
 
 
 ## Recent Accomplishments
+### February 22, 2026
+* 2D style `urbaneye2d.general.mapcss` has been reviewed, "non-3d" icons have been excluded.
+
 ### February 21, 2026
 *   **Implemented a MapCSS validation autotest.** This test ensures:
-    *   All `.mapcss` files are syntactically valid using JOSM's internal MapCSS parser.
-    *   All image resources (e.g., `.png` files referenced via `url(...)`) within the MapCSS files exist in the project's resources.
+    * All image resources (e.g., `.png` files referenced within the MapCSS files) exist in the project's resources.
+	* It does NOT really check syntactical correctness of MapCSS files -- JOSM's internal MapCSS parser eats the exceptions!
 
 ### February 20, 2026
 * Added support for `surface=unpaved` (and some other unpaved roads). They are rendered in gray in our 2d style.

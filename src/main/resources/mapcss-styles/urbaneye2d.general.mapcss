@@ -53,16 +53,13 @@ area|z11-[landuse=quarry] {
     width: 0.5;
 }
 
-area|z10-12[landuse=vineyard] {
-    fill-color: #abdf96;
-}
 
 area|z10-[landuse=orchard] {
     fill-image: "symbols/orchard.png";
 }
 
 area|z13-[landuse=vineyard] {
-    fill-image: "symbols/vineyard.png";
+    fill-color: #bbe0ab;
 }
 
 area|z10-14[landuse=cemetery],
@@ -131,7 +128,8 @@ area|z10-[leisure=recreation_ground] {
 }
 
 area|z10-[tourism=zoo] {
-    fill-image: "symbols/zoo.png";
+    fill-color: #cfeca8;
+	z-index: -999;
 }
 
 area|z10-[leisure=common] {
@@ -255,6 +253,10 @@ area|z14-[natural=scrub] {
     fill-image: "symbols/scrub.png";
 }
 
+area|z10-[natural=grassland] {
+    fill-color: #cfeca8;
+}
+
 area|z10-[amenity=parking][!building][parking!=underground][location!=underground] {
     fill-color: #fad8d2;
 }
@@ -335,33 +337,23 @@ area|z10-[leisure=pitch] {
  * Style 'water_areas'
  */
 
-area|z6-7[natural=glacier] {
-    fill-image: "symbols/glacier.png";
-    color: #99ccff;
-    dashes: 4,2;
-    width: 1.5;
-    z-index: -999;
-}
 
 area|z8-[natural=glacier] {
-    fill-image: "symbols/glacier2.png";
-    color: #99ccff;
-    dashes: 4,2;
-    width: 1.5;
-    z-index: -999;
+    fill-color: #dfeced;
+    z-index: -990;
 }
 
 /* seems to be a glitch: waterway are NOT area objects. */
 area|z9-[waterway=dock],
 area|z9-[waterway=mill_pond]{
     fill-color: #4050C0;
-    z-index: -999;
+    z-index: -990;
 }
 
 
 area|z7-[landuse=basin] {
     fill-color: #b5d0d0;
-    z-index: -999;
+    z-index: -990;
 }
 
 area|z6-[natural=lake],
@@ -371,12 +363,12 @@ area|z6-[waterway=riverbank],
 area|z6-[landuse=water],
 area|z6-[natural=bay] {
     fill-color: #4050C0;
-    z-index: -999;
+    z-index: -990;
 }
 
 area|z13-[natural=mud] {
-    fill-image: "symbols/mud.png";
-    z-index: -999;
+	fill-color: #e6ddd3;
+    z-index: -990;
 }
 
 area|z10-[natural=land] {
@@ -697,39 +689,6 @@ area|z16-[historic=castle_walls] {
     width: 2;
 }
 
-/**
- * Layer 'landuse_overlay'
- * Style 'landuse_overlay'
- */
-
-area|z10-13[leisure=nature_reserve] {
-    fill-image: "symbols/nature_reserve5.png";
-    color: #66cc33;
-    width: 0.5;
-}
-
-area|z14-[leisure=nature_reserve] {
-    fill-image: "symbols/nature_reserve6.png";
-    color: #66cc33;
-    width: 1;
-}
-
-/**
- * Layer 'line features'
- * Style 'cliffs'
- */
-
-way|z13-14[natural=cliff] {
-    pattern-image: "symbols/cliff.png";
-}
-
-way|z15-[natural=cliff] {
-    pattern-image: "symbols/cliff2.png";
-}
-
-way|z15-[man_made=embankment] {
-    pattern-image: "symbols/cliff.png";
-}
 
 /* Style 'barriers' */
 
@@ -1039,6 +998,8 @@ way|z12-[aerialway=cable_car],
 way|z12-[aerialway=gondola],
 way|z12-[aerialway=goods] {
     pattern-image: "symbols/cable_car.png";
+	color: black;
+	width:1;
 }
 
 way|z12-[aerialway=chair_lift],
@@ -1586,37 +1547,14 @@ area|z16-[aeroway=helipad] {
     icon-image: "symbols/helipad.p.16.png";
 }
 
-area|z9-10[aeroway=airport] {
-    icon-image: "symbols/airport.p.16.png";
+node|z16-[natural=tree] {
+	symbol-shape: circle;
+	symbol-size: 8;
+	symbol-fill-color: #aed1a0;
 }
-
-area|z11-12[aeroway=airport] {
+area|z16-[natural=tree] {
+    fill-color: #aed1a0;
 }
-
-area|z10[aeroway=aerodrome] {
-    icon-image: "symbols/aerodrome.p.16.png";
-}
-
-area|z11-12[aeroway=aerodrome] {
-}
-
-area|z14-15[railway=level_crossing] {
-    icon-image: "symbols/level_crossing.png";
-}
-
-area|z16-[railway=level_crossing] {
-    icon-image: "symbols/level_crossing2.png";
-}
-
-
-area|z16[natural=tree] {
-    icon-image: "symbols/tree.png";
-}
-
-area|z17-[natural=tree] {
-    icon-image: "symbols/tree2.png";
-}
-
 
 /**
  * Layer 'power_line'
