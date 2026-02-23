@@ -56,6 +56,14 @@ Contributions are welcome! Please discuss significant code changes via issue tic
 
 As artificial intelligence reshapes development in 2025, [GEMINI.md](GEMINI.md) contains insights valuable to both silicon-based and protein-based programmers.
 
+You can also contribute to this project by giving us a star :)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Zkir/UrbanEye3D&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Zkir/UrbanEye3D&type=Date" />
+  <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Zkir/UrbanEye3D&type=Date" />
+</picture>
+
 ---
 
 The Urban Eye is watching!  

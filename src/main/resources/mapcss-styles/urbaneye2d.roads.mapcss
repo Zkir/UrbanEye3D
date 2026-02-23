@@ -71,7 +71,6 @@ way[surface=grass]
  * TODO: add some rendering for this types of roads
  */
 
-way[highway=pedestrian],
 way[highway=raceway],
 way[highway=bridleway],
 way[highway=road],
@@ -243,6 +242,11 @@ way|z15-[highway=track][!area]::right_wheel {
 }
 
 /* Footways and other non-car roads*/
+
+way|z14-[highway=pedestrian][!is_prop_set("underground", "default")]::fill {
+    color: #706060;  
+	width: 6;
+}
 
 way|z14-[highway=footway][!is_prop_set("underground", "default")]::fill,
 way|z14-[highway=path][!is_prop_set("underground", "default")]::fill,
