@@ -19,11 +19,7 @@ import java.nio.file.Paths;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,6 +52,19 @@ public class TagInfoGeneratorTest {
         public String originalKey() {
             return originalKey;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ParsedTag parsedTag = (ParsedTag) o;
+            return Objects.equals(key, parsedTag.key) && Objects.equals(value, parsedTag.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(key, value);
+        }
     }
 
     /** This is our dictionary for tag (key=value) documentation */
@@ -83,8 +92,10 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("roof:orientation=along", "Roof is oriented along the longest side of the building. This is default value");
         TAG_DESCRIPTIONS.put("roof:orientation=across", "Roof is oriented across the longest side of the building.");
 
-        TAG_DESCRIPTIONS.put("step:height","Defines the height of each individual step for building:part=steps. 0.16 is used as default ");
-        TAG_DESCRIPTIONS.put("type", "Relation type is checked mainly to download whole multipolygons and buildings");
+        TAG_DESCRIPTIONS.put("step:height", "Defines the height of each individual step for building:part=steps. 0.16 is used as default ");
+        TAG_DESCRIPTIONS.put("type=multipolygon", "Members of a multipolygon relation can be downloaded automatically to prevent broken geometry");
+        TAG_DESCRIPTIONS.put("type=building", "Members of building relation can be downloaded automatically, to prevent incomplete buildings");
+
         TAG_DESCRIPTIONS.put("width", "Width of the feature. Primarily used for barriers");
         TAG_DESCRIPTIONS.put("hyperboloid:top_rate", "Defines the relative width of the top of the structure compared to its base");
         TAG_DESCRIPTIONS.put("hyperboloid:middle_rate", "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width");
@@ -118,13 +129,11 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("roof:shape=skillion" , "A single-sloped roof surface (a lean-to). The slope direction is controlled by the `roof:direction` tag, which can be set to any angle.");
 
         TAG_DESCRIPTIONS.put("man_made", "Used to identify man-made objects");
-
         TAG_DESCRIPTIONS.put("man_made=communications_tower", "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=cooling_tower",        "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=tower",                "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=water_tower",          "Can be rendered as 3D object");
-
-
+        TAG_DESCRIPTIONS.put("place", "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance");
     }
 
     /** This list contains keys for which reporting of each particular value is not required.*/
@@ -132,27 +141,47 @@ public class TagInfoGeneratorTest {
 
     @Test
     void testGenerateAndValidateTagInfo() throws IOException {
-        // 1. Find all unique tag keys used in the source code
-        Set<String> usedTags = findTagsInSourceCode();
 
-        // 2. Parse the documented tags from the TAG_DESCRIPTIONS map
-        Set<ParsedTag> parsedDescriptions = TAG_DESCRIPTIONS.keySet().stream()
+        Set<String> errorMessages = new HashSet<>();
+
+        // 1. Find all unique tags used in the source code
+        Set<ParsedTag> usedTags = findTagsInSourceCode();
+        Set<ParsedTag> describedTags = TAG_DESCRIPTIONS.keySet().stream()
                 .map(this::parseDescriptionKey)
                 .collect(Collectors.toSet());
 
-        Map<String, ParsedTag> describedKeys = parsedDescriptions.stream()
-                .collect(Collectors.toMap(ParsedTag::key, Function.identity(), (tag1, tag2) -> tag1)); // Keep first in case of duplicate keys
+        // For faster lookups, create a set of all key parts that have descriptions
+        Set<String> allDescribedKeyParts = describedTags.stream()
+                .map(ParsedTag::key)
+                .collect(Collectors.toSet());
 
         // 3. Validation
         // Assert that all tags used in the code have a description
-        for (String usedTag : usedTags) {
-            assertTrue(describedKeys.containsKey(usedTag), "Tag '" + usedTag + "' is used in code but lacks a description in TAG_DESCRIPTIONS.");
+        for (ParsedTag usedTag : usedTags) {
+            boolean isDocumented;
+            if (usedTag.value() != null) {
+                // For key-value pairs, check for a specific match first, then a generic key match
+                isDocumented = TAG_DESCRIPTIONS.containsKey(usedTag.originalKey()) ||
+                               TAG_DESCRIPTIONS.containsKey(usedTag.key());
+            } else {
+                // For generic keys, check if the key itself is described OR if any specific value for that key is described
+                isDocumented = TAG_DESCRIPTIONS.containsKey(usedTag.key()) ||
+                               allDescribedKeyParts.contains(usedTag.key());
+            }
+            if (!isDocumented){
+                errorMessages.add( "Tag '" + usedTag.originalKey() + "' is used in code but lacks a specific or generic description.");
+            }
+
         }
 
         // Assert that all described tags are actually used in the code (no obsolete tags)
-        for (String describedKey : describedKeys.keySet()) {
-            assertTrue(usedTags.contains(describedKey), "Tag '" + describedKey + "' is described in TAG_DESCRIPTIONS but is not used in the code.");
+        Set<String> usedKeys = usedTags.stream().map(ParsedTag::key).collect(Collectors.toSet());
+        for (ParsedTag describedTag : describedTags) {
+            if(!usedKeys.contains(describedTag.key())) {
+                errorMessages.add("Tag '" + describedTag.originalKey() + "' is described in TAG_DESCRIPTIONS but its key is not used in the code.");
+            }
         }
+        assertEquals(0, errorMessages.size(), String.join("\n", errorMessages));
 
         // 4. Generate the JSON content
         ObjectMapper mapper = new ObjectMapper();
@@ -171,7 +200,7 @@ public class TagInfoGeneratorTest {
         root.set("project", project);
 
         ArrayNode tagsNode = root.putArray("tags");
-        parsedDescriptions.stream()
+        describedTags.stream()
                 .sorted(Comparator.comparing(ParsedTag::originalKey))
                 .forEach(parsedTag -> {
                     ObjectNode tagNode = mapper.createObjectNode();
@@ -192,10 +221,10 @@ public class TagInfoGeneratorTest {
             JsonNode jsonNode = mapper.readTree(newJsonContent);
             Set<ValidationMessage> errors = schema.validate(jsonNode);
             if (!errors.isEmpty()) {
-                String errorMessages = errors.stream()
+                String errorsMessages1 = errors.stream()
                         .map(ValidationMessage::toString)
                         .collect(Collectors.joining("\n"));
-                fail("JSON schema validation failed:\n" + errorMessages);
+                fail("JSON schema validation failed:\n" + errorsMessages1);
             }
         }
 
@@ -228,10 +257,11 @@ public class TagInfoGeneratorTest {
         return new ParsedTag(key, null, key);
     }
 
-    private Set<String> findTagsInSourceCode() throws IOException {
-        Set<String> tags = new TreeSet<>();
-        Pattern pattern1 = Pattern.compile("(?:getTagStr|getTagD|get|hasKey)\\s*\\(\\s*\"([a-zA-Z0-9:_.-]+)\"\\s*[,\\)]");
+    private Set<ParsedTag> findTagsInSourceCode() throws IOException {
+        Set<ParsedTag> tags = new HashSet<>();
+        Pattern pattern1 = Pattern.compile("(?:getTagStr|getTagD|get|hasKey|hasTag)\\s*\\(\\s*\"([a-zA-Z0-9:_.-]+)\"\\s*[,\\)]");
         Pattern pattern2 = Pattern.compile("inheritableKeys\\s*=\\s*Arrays\\.asList\\(([^)]+)\\)");
+        Pattern pattern3 = Pattern.compile("hasTag\\s*\\(\\s*\"([^\"]+)\"\\s*,\\s*\"([^\"]+)\"\\s*\\)");
 
         try (Stream<Path> paths = Files.walk(Paths.get("src/main/java"))) {
             paths.filter(Files::isRegularFile)
@@ -242,7 +272,7 @@ public class TagInfoGeneratorTest {
 
                             Matcher matcher1 = pattern1.matcher(content);
                             while (matcher1.find()) {
-                                tags.add(matcher1.group(1));
+                                tags.add(new ParsedTag(matcher1.group(1), null, matcher1.group(1)));
                             }
 
                             Matcher matcher2 = pattern2.matcher(content);
@@ -251,8 +281,15 @@ public class TagInfoGeneratorTest {
                                 Pattern stringLiteralPattern = Pattern.compile("\"([a-zA-Z0-9:_.-]+)\"");
                                 Matcher stringMatcher = stringLiteralPattern.matcher(block);
                                 while (stringMatcher.find()) {
-                                    tags.add(stringMatcher.group(1));
+                                    tags.add(new ParsedTag(stringMatcher.group(1), null, stringMatcher.group(1)));
                                 }
+                            }
+                            
+                            Matcher matcher3 = pattern3.matcher(content);
+                            while (matcher3.find()) {
+                                String key = matcher3.group(1);
+                                String value = matcher3.group(2);
+                                tags.add(new ParsedTag(key, value, key + "=" + value));
                             }
 
                         } catch (IOException e) {

@@ -326,8 +326,9 @@ public class DialogWindow3D extends ToggleDialog
 
         for (Relation relation : dataSet.getRelations()) {
             // Check if it's a multipolygon relation or building relation and has incomplete members
-            String relationType = relation.get("type");
-            if (relationType !=null &&  (relationType.equals ("multipolygon") || relationType.equals("building")) && relation.hasIncompleteMembers()) {
+
+            if (relation.hasIncompleteMembers() &&
+                    (relation.hasTag("type", "multipolygon") || relation.hasTag("type", "building")) && !relation.hasKey("place")) {
                 incompleteMultipolygons.add(relation);
                 primitivesToDownload.addAll(relation.getIncompleteMembers());
             }

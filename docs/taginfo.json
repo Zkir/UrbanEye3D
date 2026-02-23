@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260221T203734Z",
+  "data_updated" : "20260223T023616Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -90,6 +90,9 @@
   }, {
     "key" : "min_height",
     "description" : "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes."
+  }, {
+    "key" : "place",
+    "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"
   }, {
     "key" : "roof:colour",
     "description" : "Specifies the color of the roof."
@@ -197,7 +200,12 @@
     "description" : "Defines the height of each individual step for building:part=steps. 0.16 is used as default "
   }, {
     "key" : "type",
-    "description" : "Relation type is checked mainly to download whole multipolygons and buildings"
+    "value" : "building",
+    "description" : "Members of building relation can be downloaded automatically, to prevent incomplete buildings"
+  }, {
+    "key" : "type",
+    "value" : "multipolygon",
+    "description" : "Members of a multipolygon relation can be downloaded automatically to prevent broken geometry"
   }, {
     "key" : "wall",
     "value" : "no",

@@ -103,6 +103,9 @@ To be prioritized via MoSCoW method.
 
 
 ## Recent Accomplishments
+### February 23, 2026
+* Creation of `taginfo.json` has been improved. It turned out that there is .hasTag(key, value) method in JOSM, so we can find exact tags (key=value) in the source code.
+
 ### February 22, 2026
 * 2D style `urbaneye2d.general.mapcss` has been reviewed, "non-3d" icons have been excluded.
 
