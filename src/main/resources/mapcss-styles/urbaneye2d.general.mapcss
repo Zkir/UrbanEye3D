@@ -1674,3 +1674,14 @@ area|z15-[height>0].man_made{
     fill-opacity: 0.9;
     z-index: 900; 
 }
+
+
+/*
+ * We cannot render oceans, so let's at least render coastline
+*/
+
+way|z10-[natural=coastline] {
+    color: blue;
+    width: 2;
+    z-index: -1; 
+}
