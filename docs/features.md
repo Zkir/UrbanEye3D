@@ -172,6 +172,8 @@ Certain values for the `building:part` tag have a special meaning and affect how
 
 This tag is intended for parts of a building that consist only of a roof structure, such as canopies, awnings, or visors.
 
+![roof without walls](images/building_part_roof.jpeg)
+
 -   When this tag is used, no vertical walls are generated for the object. The model will consist of the roof volume only.
 -   The object is positioned at its correct height level, appearing as a floating roof.
 -   This behavior can be overridden by explicitly adding the `wall=yes` tag, which will force the walls to be rendered.
