@@ -31,13 +31,12 @@ public class MesherSideHipped extends RoofGenerator {
         double height = building.height;
         String roofOrientation = building.roofOrientation;
 
-        Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
         if (basePoints.size() < 3) return null;
         if (basePoints.size() != 4) {
             return null;
         }
 
-        List<Point3D> verts = new ArrayList<>();
         int n = basePoints.size();
 
         int[] gableEdgeIndices;
@@ -60,16 +59,16 @@ public class MesherSideHipped extends RoofGenerator {
         int g2_idx0 = gableEdgeIndices[1];
         int g2_idx1 = (g2_idx0 + 1) % n;
 
-        int baseIdx = verts.size();
+        int baseIdx = mesh.verts.size();
         for (Point2D p : basePoints) {
-            verts.add(new Point3D(p.x, p.y, minHeight));
+            mesh.verts.add(new Point3D(p.x, p.y, minHeight));
         }
 
         int wallIdx;
         if (wallHeight > minHeight) {
-            wallIdx = verts.size();
+            wallIdx = mesh.verts.size();
             for (Point2D p : basePoints) {
-                verts.add(new Point3D(p.x, p.y, wallHeight));
+                mesh.verts.add(new Point3D(p.x, p.y, wallHeight));
             }
         } else {
             wallIdx = baseIdx;
@@ -93,15 +92,12 @@ public class MesherSideHipped extends RoofGenerator {
         }
         double c = a - ridge_length;
 
-
         Point2D[] shortened_ridge = {mid1.add(mid2.subtract(mid1).normalized().mult(c)), mid2}; //shortenSegment(mid1, mid2,ridge_length/a);
 
-        int ridge1Idx = verts.size();
-        verts.add(new Point3D(shortened_ridge[0].x, shortened_ridge[0].y, height));
-        int ridge2Idx = verts.size();
-        verts.add(new Point3D(shortened_ridge[1].x, shortened_ridge[1].y, height));
-
-        mesh.verts = verts;
+        int ridge1Idx = mesh.verts.size();
+        mesh.verts.add(new Point3D(shortened_ridge[0].x, shortened_ridge[0].y, height));
+        int ridge2Idx = mesh.verts.size();
+        mesh.verts.add(new Point3D(shortened_ridge[1].x, shortened_ridge[1].y, height));
 
         int eave1_idx0 = g1_idx1;
         int eave1_idx1 = g2_idx0;
@@ -109,24 +105,24 @@ public class MesherSideHipped extends RoofGenerator {
         int eave2_idx1 = g1_idx0;
 
         if (wallHeight > minHeight) {
-            mesh.wallFaces.add(new int[]{baseIdx + eave1_idx0, baseIdx + eave1_idx1, wallIdx + eave1_idx1, wallIdx + eave1_idx0});
-            mesh.wallFaces.add(new int[]{baseIdx + eave2_idx0, baseIdx + eave2_idx1, wallIdx + eave2_idx1, wallIdx + eave2_idx0});
+            mesh.addWallFace(new int[]{baseIdx + eave1_idx0, baseIdx + eave1_idx1, wallIdx + eave1_idx1, wallIdx + eave1_idx0});
+            mesh.addWallFace(new int[]{baseIdx + eave2_idx0, baseIdx + eave2_idx1, wallIdx + eave2_idx1, wallIdx + eave2_idx0});
 
-            mesh.wallFaces.add(new int[]{baseIdx + g1_idx0, baseIdx + g1_idx1, wallIdx + g1_idx1,  wallIdx + g1_idx0});
-            mesh.wallFaces.add(new int[]{baseIdx + g2_idx0, baseIdx + g2_idx1, wallIdx + g2_idx1,  wallIdx + g2_idx0});
+            mesh.addWallFace(new int[]{baseIdx + g1_idx0, baseIdx + g1_idx1, wallIdx + g1_idx1,  wallIdx + g1_idx0});
+            mesh.addWallFace(new int[]{baseIdx + g2_idx0, baseIdx + g2_idx1, wallIdx + g2_idx1,  wallIdx + g2_idx0});
         }
 
-        mesh.roofFaces.add(new int[]{ wallIdx + g1_idx1, ridge1Idx, wallIdx + g1_idx0});
-        mesh.roofFaces.add(new int[]{ wallIdx + g2_idx1, ridge2Idx, wallIdx + g2_idx0});
+        mesh.addRoofFace(new int[]{ wallIdx + g1_idx1, ridge1Idx, wallIdx + g1_idx0});
+        mesh.addRoofFace(new int[]{ wallIdx + g2_idx1, ridge2Idx, wallIdx + g2_idx0});
 
-        mesh.roofFaces.add(new int[]{wallIdx + eave1_idx0, wallIdx + eave1_idx1, ridge2Idx, ridge1Idx});
-        mesh.roofFaces.add(new int[]{wallIdx + eave2_idx0, wallIdx + eave2_idx1, ridge1Idx, ridge2Idx});
+        mesh.addRoofFace(new int[]{wallIdx + eave1_idx0, wallIdx + eave1_idx1, ridge2Idx, ridge1Idx});
+        mesh.addRoofFace(new int[]{wallIdx + eave2_idx0, wallIdx + eave2_idx1, ridge1Idx, ridge2Idx});
 
         int[] bottomFaceRect = new int[n];
         for (int i = 0; i < n; i++) {
             bottomFaceRect[i] = baseIdx + n - 1 - i;
         }
-        mesh.bottomFaces.add(bottomFaceRect);
+        mesh.addBottomFace(bottomFaceRect);
 
         return mesh;
     }

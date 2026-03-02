@@ -6,9 +6,6 @@ import org.openstreetmap.josm.data.osm.Way;
 import ru.zkir.urbaneye3d.utils.*;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
-import org.openstreetmap.josm.data.osm.OsmPrimitiveType;
-import org.openstreetmap.josm.data.osm.SimplePrimitiveId;
-
 import java.util.*;
 
 import org.openstreetmap.josm.spi.preferences.Config;
@@ -100,12 +97,7 @@ class RoofGeneratorTopologyTest {
 
     private static void assertWatertight(Mesh mesh, String mesherName) {
         Map<String, Integer> edgeCounts = new HashMap<>();
-        List<int[]> allFaces = new ArrayList<>();
-        allFaces.addAll(mesh.wallFaces);
-        allFaces.addAll(mesh.roofFaces);
-        allFaces.addAll(mesh.bottomFaces);
-
-        for (int[] face : allFaces) {
+        for (int[] face :  mesh.faces) {
             for (int i = 0; i < face.length; i++) {
                 int v1 = face[i];
                 int v2 = face[(i + 1) % face.length];
@@ -122,12 +114,8 @@ class RoofGeneratorTopologyTest {
     private static void assertNormalsAndConsistency(Mesh mesh, String mesherName) {
         // This map stores the first vertex of an edge traversal for the first face that uses it.
         Map<String, Integer> edgeTraversal = new HashMap<>();
-        List<int[]> allFaces = new ArrayList<>();
-        allFaces.addAll(mesh.wallFaces);
-        allFaces.addAll(mesh.roofFaces);
-        allFaces.addAll(mesh.bottomFaces);
 
-        for (int[] face : allFaces) {
+        for (int[] face : mesh.faces) {
             for (int i = 0; i < face.length; i++) {
                 int v1 = face[i];
                 int v2 = face[(i + 1) % face.length];
@@ -148,9 +136,9 @@ class RoofGeneratorTopologyTest {
 
         // After confirming consistency, check the absolute orientation of one face.
         // A bottom face normal must point down (negative Z).
-        assertTrue(mesh.bottomFaces.size() > 0, "Roof shape " + mesherName + ": Mesh has no bottom faces to check for orientation.");
+        assertTrue(!mesh.getBottomFaces().isEmpty(), "Roof shape " + mesherName + ": Mesh has no bottom faces to check for orientation.");
 
-        int[] anyBottomFace = mesh.bottomFaces.get(0);
+        int[] anyBottomFace = mesh.getBottomFaces().get(0);
         Point3D v0 = mesh.verts.get(anyBottomFace[0]);
         Point3D v1 = mesh.verts.get(anyBottomFace[1]);
         Point3D v2 = mesh.verts.get(anyBottomFace[2]);
@@ -183,32 +171,15 @@ class RoofGeneratorTopologyTest {
         assertEquals(height, maxZ, 0.001, "Roof shape " + mesherName + ": Maximum Z does not match height.");
     }
 
-
+    /** Here we check that edges in faces do not intersect */
     private static void assertNoSelfCrossing(Mesh mesh, String roofShape) {
-        //bottom
-        for (int[] face : mesh.bottomFaces) {
-            var face_v = new Point3D[face.length];
-            for (int i=0; i<face.length; i++ ){
-                face_v[i] = mesh.verts.get(face[i]);
-            }
-            assertTrue(PolygonSelfIntersection.isSimplePolygon(face_v), "Roof shape " + roofShape + ": bottom face "+ Arrays.toString(face) + " has self intersections");
-        }
-        //walls
-        for (int[] face : mesh.wallFaces) {
-            var face_v = new Point3D[face.length];
-            for (int i=0; i<face.length; i++ ){
-                face_v[i] = mesh.verts.get(face[i]);
-            }
-            assertTrue(PolygonSelfIntersection.isSimplePolygon(face_v), "Roof shape " + roofShape + ": wall face "+ Arrays.toString(face) + " has self intersections");
-        }
 
-        //roof
-        for (int[] face : mesh.roofFaces) {
+        for (int[] face : mesh.faces) {
             var face_v = new Point3D[face.length];
             for (int i=0; i<face.length; i++ ){
                 face_v[i] = mesh.verts.get(face[i]);
             }
-            assertTrue(PolygonSelfIntersection.isSimplePolygon(face_v), "Roof shape " + roofShape + ": roof face "+ Arrays.toString(face) + " has self intersections");
+            assertTrue(PolygonSelfIntersection.isSimplePolygon(face_v), "Roof shape " + roofShape + ": face "+ Arrays.toString(face) + " has self intersections");
         }
     }
 
@@ -224,19 +195,30 @@ class RoofGeneratorTopologyTest {
     }
 
     private static void assertNoDuplicatesInFaces(Mesh mesh, String roofShape) {
-        //bottom
-        for (int[] face : mesh.bottomFaces) {
-            assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": bottom face "+ Arrays.toString(face) + " has duplicated node indices");
+        for (int[] face : mesh.faces) {
+            assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": face "+ Arrays.toString(face) + " has duplicated node indices");
         }
-        //walls
-        for (int[] face : mesh.wallFaces) {
-            assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": wall face "+ Arrays.toString(face) + " has duplicated node indices");
+    }
+
+    private static void assertFaceListEquity(Mesh mesh, String roofShape){
+        assertEquals(mesh.faces.size(), mesh.faceMaterials.size(), "Roof shape " + roofShape + ": mesh has inconsistent colors array");
+        assertEquals(mesh.faces.size(), mesh.faceUVs.size(),  "Roof shape " + roofShape + ": mesh has inconsistent uvs array");
+        //let's test that the referenced objects are indeed present.
+
+        for(int[] faceUV: mesh.faceUVs){
+            if (faceUV==null){
+                continue;
+            }
+            for (var i: faceUV){
+                assertTrue(i<mesh.uvs.size(), "Roof shape " + roofShape + ": mesh does not have uv node with index " + i );
+            }
+
         }
 
-        //roof
-        for (int[] face : mesh.roofFaces) {
-            assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": roof face "+ Arrays.toString(face) + " has duplicated node indices");
+        for(int color_idx: mesh.faceMaterials){
+            assertTrue(color_idx<mesh.materials.size(), "Roof shape " + roofShape + ": mesh does not have material with index " + color_idx );
         }
+
     }
 
 
@@ -248,6 +230,7 @@ class RoofGeneratorTopologyTest {
         assertNoSelfCrossing(mesh, roofShape);
         assertWatertight(mesh, roofShape);
         assertNormalsAndConsistency(mesh, roofShape);
+        assertFaceListEquity(mesh, roofShape);
     }
 
     // all defined roof shapes are tested automatically for a typical building.

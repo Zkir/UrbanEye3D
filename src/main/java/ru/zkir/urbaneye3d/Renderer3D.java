@@ -8,6 +8,7 @@ import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUtessellator;
 import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
+import com.jogamp.opengl.util.texture.Texture;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.EastNorth;
 import org.openstreetmap.josm.gui.MainApplication;
@@ -15,6 +16,7 @@ import org.openstreetmap.josm.gui.NavigatableComponent;
 import org.openstreetmap.josm.spi.preferences.Config;
 import org.openstreetmap.josm.data.coor.LatLon;
 import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.awt.Color;
@@ -24,6 +26,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+
 import java.util.List;
 
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
@@ -247,7 +250,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
             double transY = dy * 111320.0;
             gl.glTranslated(transX, transY, 0);
-            tile.render(gl);
+            Texture texture = tile.render(gl);
+            drawMesh(gl, tile.getMesh(), false, 0, 0, texture);
+
             gl.glPopMatrix();
         }
 
@@ -277,20 +282,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             if (buildingMesh != null ){
                 //in normal circumstances we should be able to compose mesh for building.
                 //so we can render mesh directly.
-
-                // Draw wall faces
-                for (int[] face : buildingMesh.wallFaces) {
-                    drawPolygon(gl, building, face, building.color);
-                }
-
-                // Draw roof faces
-                for (int[] face : buildingMesh.roofFaces) {
-                    drawPolygon(gl, building, face, building.roofColor);
-                }
-                // Draw bottom faces
-                for (int[] face : buildingMesh.bottomFaces) {
-                    drawPolygon(gl, building, face, building.bottomColor );
-                }
+                drawMesh(gl, buildingMesh, building.isSelected, building.height, building.minHeight, null);
             }
 
             gl.glPopMatrix();
@@ -298,13 +290,55 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glFlush();
     }
 
+    private void drawMesh(GL2 gl, Mesh mesh, boolean isSelected, double maxHeightForAO, double minHeightForAO, Texture texture){
+        // Draw all faces
+        for(int i=0; i<mesh.faces.size(); i++){
+            var face = mesh.faces.get(i);
+            var color = mesh.materials.get(mesh.faceMaterials.get(i));
+            if (color == null){
+                color = Color.decode("#f1eee8");
+            }
+            var faceUV = mesh.faceUVs.get(i);
+            if (faceUV == null || texture == null) {
+                drawPolygon(gl, face, mesh.verts, color, isSelected, maxHeightForAO, minHeightForAO);
+            }else{
+                drawPolygonUV(gl, face, faceUV,  mesh.verts, mesh.uvs, texture);
+                //TODO: empty ground tile should be rendered rather as wireframe.
+                // Also wireframe mode could be applied to ground tiles, it looked cool
+            }
 
-    private void drawPolygon(GL2 gl, RenderableBuildingElement building, int[] faceIndices, Color color) {
+        }
+    }
+
+    private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture ) {
+
+        if (face.length!=4){
+            throw new RuntimeException("Only quads are supported currently for textured faces");
+        }
+
+        texture.bind(gl);
+        gl.glEnable(GL2.GL_TEXTURE_2D);
+        gl.glColor4d(1.0, 1.0, 1.0, 1.0);
+
+        gl.glBegin(GL2.GL_QUADS);
+        for (int i=0; i<face.length; i++){
+            Point3D vert = verts.get(face[i]);
+            Point2D uv = uvs.get(faceUV[i]);
+            gl.glTexCoord2d(uv.x, uv.y);
+            gl.glVertex3d(vert.x, vert.y, vert.z);
+        }
+
+        gl.glEnd();
+        gl.glDisable(GL2.GL_TEXTURE_2D);
+    }
+
+
+    private void drawPolygon(GL2 gl, int[] faceIndices, List<Point3D> vertices, Color color, boolean isSelected, double maxHeightForAO, double minHeightForAO) {
         if (faceIndices.length < 3) return;
-        List<Point3D> vertices = building.getMesh().verts;
+
 
         // --- Draw selection outline (red, thick wireframe) ---
-        if (building.isSelected) {
+        if (isSelected) {
             gl.glLineWidth(3.0f); // Make the line thick
             gl.glColor3f(1.0f, 0.0f, 0.0f); // Red color for selection
 
@@ -334,7 +368,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         Color litColor = applyLighting(color, dotProduct);
 
         if (isWireframeMode) {
-            if (!building.isSelected) {
+            if (!isSelected) {
                 gl.glBegin(GL2.GL_LINE_LOOP);
                 gl.glColor3f(litColor.getRed() / 255.0f, litColor.getGreen() / 255.0f, litColor.getBlue() / 255.0f);
                 for (int index : faceIndices) {
@@ -347,17 +381,17 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             gl.glBegin(GL2.GL_QUADS);
             Point3D p4 = vertices.get(faceIndices[3]);
 
-            drawVertexWithFakeAO(gl, p1, litColor, building);
-            drawVertexWithFakeAO(gl, p2, litColor, building);
-            drawVertexWithFakeAO(gl, p3, litColor, building);
-            drawVertexWithFakeAO(gl, p4, litColor, building);
+            drawVertexWithFakeAO(gl, p1, litColor, maxHeightForAO, minHeightForAO);
+            drawVertexWithFakeAO(gl, p2, litColor, maxHeightForAO, minHeightForAO);
+            drawVertexWithFakeAO(gl, p3, litColor, maxHeightForAO, minHeightForAO);
+            drawVertexWithFakeAO(gl, p4, litColor, maxHeightForAO, minHeightForAO);
 
             gl.glEnd();
 
         } else {
             // Use tessellator for all polygons to handle non-convex cases correctly.
             GLUtessellator tess = glu.gluNewTess();
-            TessellatorCallback callback = new TessellatorCallback(gl, glu, litColor, building);
+            TessellatorCallback callback = new TessellatorCallback(gl, glu, litColor, maxHeightForAO, minHeightForAO);
 
             glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX_DATA, callback);
             glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, callback);
@@ -382,9 +416,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         }
     }
 
-    private void drawVertexWithFakeAO(GL2 gl, Point3D vertex, Color baseColor, RenderableBuildingElement building) {
-        double totalHeight = building.height - building.minHeight;
-        double vertexHeight = vertex.z - building.minHeight;
+    private void drawVertexWithFakeAO(GL2 gl, Point3D vertex, Color baseColor, double maxHeightForAO, double minHeightForAO) {
+        double totalHeight = maxHeightForAO - minHeightForAO;
+        double vertexHeight = vertex.z - minHeightForAO;
         final float AO_STRENGTH;
         if (isFakeAOEnabled) {
             AO_STRENGTH=0.3f;
@@ -424,13 +458,16 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         private final GL2 gl;
         private final GLU glu;
         private final Color baseColor;
-        private final RenderableBuildingElement building;
+        double maxHeightForAO;
+        double minHeightForAO;
 
-        public TessellatorCallback(GL2 gl, GLU glu, Color baseColor, RenderableBuildingElement building) {
+
+        public TessellatorCallback(GL2 gl, GLU glu, Color baseColor, double maxHeightForAO, double minHeightForAO) {
             this.gl = gl;
             this.glu = glu;
             this.baseColor = baseColor;
-            this.building = building;
+            this.maxHeightForAO = maxHeightForAO;
+            this.minHeightForAO = minHeightForAO;
         }
 
         @Override
@@ -446,7 +483,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         @Override
         public void vertex(Object vertexData) {
             if (vertexData instanceof Point3D) {
-                drawVertexWithFakeAO(gl, (Point3D) vertexData, baseColor, building);
+                drawVertexWithFakeAO(gl, (Point3D) vertexData, baseColor, maxHeightForAO, minHeightForAO);
             }
         }
 
@@ -459,7 +496,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         @Override
         public void vertexData(Object vertexData, Object polygonData) {
             if (vertexData instanceof Point3D) {
-                drawVertexWithFakeAO(gl, (Point3D) vertexData, baseColor, building);
+                drawVertexWithFakeAO(gl, (Point3D) vertexData, baseColor, maxHeightForAO, minHeightForAO);
             }
         }
 

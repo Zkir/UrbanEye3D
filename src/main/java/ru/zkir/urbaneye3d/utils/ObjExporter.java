@@ -30,13 +30,13 @@ public class ObjExporter {
 
             // Faces
             writer.write("\n# Roof\n");
-            writeFaces(writer, mesh.roofFaces);
+            writeFaces(writer, mesh.getRoofFaces());
 
             writer.write("\n# Walls \n");
-            writeFaces(writer, mesh.wallFaces);
+            writeFaces(writer, mesh.getWallFaces());
 
             writer.write("\n# Base\n");
-            writeFaces(writer, mesh.bottomFaces);
+            writeFaces(writer, mesh.getBottomFaces());
 
         } catch (IOException e) {
             // StringWriter does not throw IOException

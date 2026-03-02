@@ -1,24 +1,64 @@
 package ru.zkir.urbaneye3d.utils;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Collections;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-
-
 public class Mesh {
-    public List<Point3D> verts = new ArrayList<>();
-    public List<int[]> roofFaces = new ArrayList<>();
-    public List<int[]> wallFaces = new ArrayList<>();
-    public List<int[]> bottomFaces = new ArrayList<>();
 
-    // Cache to store unique vertices and avoid duplicates.
-    private transient Map<Point3D, Integer> vertexCache = new HashMap<>();
+    public final List<Point3D> verts;   //vertex coordinates (3D)
+    public final List<Point2D> uvs;     //UV coordinates  (2D)
+    public final List<Color> materials; //currently we have Color only.
+
+    /** Main array for faces. Contains Vertex indices*/
+    public final List<int[]> faces;
+
+    /**  Contains uvs indices for each face vertex */
+    public final List<int[]> faceUVs;
+
+    /**  Contains color indices for each face  */
+    public final List<Integer> faceMaterials;
+
+
+    //face groups for "backward compatibility" with mesher logic.
+    private final List<Integer> roofFaces;
+    private final List<Integer> wallFaces;
+    private final List<Integer> bottomFaces;
+
+    private static final int BOTTOM_COLOUR_IDX = 0;
+    private static final int WALL_COLOUR_IDX = 1;
+    private static final int ROOF_COLOUR_IDX = 2;
+
+    /** Cache to store unique vertices and avoid duplicates. */
+    private final transient Map<Point3D, Integer> vertexCache = new HashMap<>();
+
+    /** The default (and private) constructor. Empty arrays are initialized for vertices and faces */
+    private Mesh() {
+        this.verts = new ArrayList<>();
+        this.uvs = new ArrayList<>();
+        this.materials = new ArrayList<>();
+
+        this.faces = new ArrayList<>();
+        this.faceUVs = new ArrayList<>();
+        this.faceMaterials = new ArrayList<>();
+
+        this.bottomFaces = new ArrayList<>();
+        this.wallFaces = new ArrayList<>();
+        this.roofFaces = new ArrayList<>();
+    }
+
+    /** For buildings, colors should be specified */
+    public Mesh(Color bottomColor, Color wallColor, Color roofColor){
+        this();
+        this.materials.add(bottomColor);
+        this.materials.add(wallColor);
+        this.materials.add(roofColor);
+    }
 
     /**
      * Adds a vertex to the mesh, ensuring uniqueness to avoid duplicates.
@@ -41,6 +81,42 @@ public class Mesh {
             verts.add(p);
             return verts.size() - 1;
         });
+    }
+
+    public int addUV(double u, double v){
+        uvs.add(new Point2D(u,v));
+        return uvs.size() - 1;
+    }
+
+    /** Adds face to "bottom" group. */
+    public void addBottomFace(int[] indices) {
+        faces.add(indices);
+        faceMaterials.add(BOTTOM_COLOUR_IDX);
+        faceUVs.add(null);
+        bottomFaces.add(faces.size()-1);
+    }
+
+    /** Adds face to "wall" group */
+    public void addWallFace(int[] indices) {
+        faces.add(indices);
+        faceMaterials.add(WALL_COLOUR_IDX);
+        faceUVs.add(null);
+        wallFaces.add(faces.size()-1);
+    }
+
+    /** Adds face to "roof" group */
+    public void addRoofFace(int[] indices) {
+        faces.add(indices);
+        faceMaterials.add(ROOF_COLOUR_IDX);
+        faceUVs.add(null);
+        roofFaces.add(faces.size()-1);
+    }
+
+    /*Adds face to general group. UV texture is used instead of material  */
+    public void addFace(int[] vertIndices, int[] uvIndices){
+        faces.add(vertIndices);
+        faceMaterials.add(0); //TODO: it should be rather NULL
+        faceUVs.add(uvIndices);
     }
 
     /**
@@ -90,8 +166,9 @@ public class Mesh {
                 newFace[i] = oldToNewIndexMap.get(face[i]);
             }
             // Assuming all extracted faces are roof faces for this new mesh context
-            newMesh.roofFaces.add(newFace);
+            newMesh.addRoofFace(newFace);
         }
+        newMesh.materials.addAll(sourceMesh.materials);
 
         return newMesh;
     }
@@ -107,15 +184,15 @@ public class Mesh {
             throw new IllegalArgumentException("Cannot extrude a mesh that already contains bottom or wall faces.");
         }
 
-        List<int[]> allRoofFaces = new ArrayList<>();
-        allRoofFaces.addAll(this.roofFaces);
-        allRoofFaces.addAll(this.wallFaces);
+        List<int[]> allRoofFaces = this.getRoofFaces();
 
         Mesh newMesh = new Mesh();
+        newMesh.materials.addAll(this.materials);
+
         newMesh.verts.addAll(this.verts);
-        newMesh.roofFaces.addAll(this.roofFaces);
-        // Copy original wall faces (gables) to the new mesh's wall faces
-        newMesh.wallFaces.addAll(this.wallFaces);
+        for (int[] face: allRoofFaces) {
+            newMesh.addRoofFace(face);
+        }
 
         Map<Integer, Integer> extrudedVertsMap = new HashMap<>();
         Set<Integer> uniqueVertIndices = new HashSet<>();
@@ -155,7 +232,7 @@ public class Mesh {
             int v2_orig = edge[1];
             int v1_new = extrudedVertsMap.get(v1_orig);
             int v2_new = extrudedVertsMap.get(v2_orig);
-            newMesh.wallFaces.add(new int[]{v2_orig, v1_orig, v1_new, v2_new});
+            newMesh.addWallFace(new int[]{v2_orig, v1_orig, v1_new, v2_new});
         }
 
         // Create bottom faces
@@ -178,10 +255,36 @@ public class Mesh {
                     newFace[i] = newFace[newFace.length - 1 - i];
                     newFace[newFace.length - 1 - i] = temp;
                 }
-                newMesh.bottomFaces.add(newFace);
+                newMesh.addBottomFace(newFace);
             }
         }
 
         return newMesh;
     }
+
+    // Getters for face groups are still needed for special operations, like roof extrusion for building=roof
+    //TODO: reduce usage of those getters.
+    public final List<int[]> getRoofFaces(){
+        List<int[]> result = new ArrayList<>(roofFaces.size());
+        for (int index : roofFaces) {
+            result.add(faces.get(index));
+        }
+        return result;
+    }
+    public final List<int[]> getWallFaces() {
+        List<int[]> result = new ArrayList<>(wallFaces.size());
+        for (int index : wallFaces) {
+            result.add(faces.get(index));
+        }
+        return result;
+    }
+
+    public final List<int[]> getBottomFaces() {
+        List<int[]> result = new ArrayList<>(bottomFaces.size());
+        for (int index : bottomFaces) {
+            result.add(faces.get(index));
+        }
+        return result;
+    }
+
 }

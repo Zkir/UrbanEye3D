@@ -28,10 +28,14 @@ public class MesherSkillion extends RoofGenerator {
         private final RenderableBuildingElement building;
         private List<Integer> currentContourVertices = new ArrayList<>();
 
-        public TessellatorCallback(List<Point3D> vertices, List<int[]> faces, RenderableBuildingElement building) {
+        public TessellatorCallback(List<Point3D> vertices, RenderableBuildingElement building) {
             this.vertices = vertices;
-            this.faces = faces;
+            this.faces = new ArrayList<>();
             this.building = building;
+        }
+
+        public List<int[]> getFaces() {
+            return faces;
         }
 
         @Override
@@ -87,7 +91,7 @@ public class MesherSkillion extends RoofGenerator {
         List<List<Point2D>> contours = new ArrayList<>();
         contours.addAll(building.getContourOuterRings());
         if (contours.isEmpty()) {
-            return new Mesh();
+            return null;
         }
         contours.addAll(building.getContourInnerRings());
 
@@ -96,7 +100,7 @@ public class MesherSkillion extends RoofGenerator {
         double wallHeight = building.height - building.roofHeight;
         double roofDirection = building.roofDirection;
 
-        Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
         List<Point3D> verts = mesh.verts;
 
         Point2D slopeVector;
@@ -174,21 +178,21 @@ public class MesherSkillion extends RoofGenerator {
 
                 if (p1_base != p1_roof && p2_base != p2_roof) {
                     if (isInnerContour) {
-                        mesh.wallFaces.add(new int[]{p2_base, p1_base, p1_roof, p2_roof});
+                        mesh.addWallFace(new int[]{p2_base, p1_base, p1_roof, p2_roof});
                     } else {
-                        mesh.wallFaces.add(new int[]{p1_base, p2_base, p2_roof, p1_roof});
+                        mesh.addWallFace(new int[]{p1_base, p2_base, p2_roof, p1_roof});
                     }
                 } else if (p1_base == p1_roof) {
                     if (isInnerContour) {
-                        mesh.wallFaces.add(new int[]{p2_roof, p2_base, p1_base});
+                        mesh.addWallFace(new int[]{p2_roof, p2_base, p1_base});
                     } else {
-                        mesh.wallFaces.add(new int[]{p2_base, p2_roof, p1_base});
+                        mesh.addWallFace(new int[]{p2_base, p2_roof, p1_base});
                     }
                 } else { // p2_base == p2_roof
                     if (isInnerContour) {
-                        mesh.wallFaces.add(new int[]{p2_base, p1_base, p1_roof});
+                        mesh.addWallFace(new int[]{p2_base, p1_base, p1_roof});
                     } else {
-                        mesh.wallFaces.add(new int[]{p1_base, p2_base, p1_roof});
+                        mesh.addWallFace(new int[]{p1_base, p2_base, p1_roof});
                     }
                 }
             }
@@ -203,35 +207,41 @@ public class MesherSkillion extends RoofGenerator {
             for (int i = 0; i < n; i++) {
                 roofFace[i] = roofTopIdxs.get(i);
             }
-            mesh.roofFaces.add(roofFace);
+            mesh.addRoofFace(roofFace);
 
             int[] bottomFace = new int[n];
             int baseStartIdx = contourBaseVertexStartIndices.get(0);
             for (int i = 0; i < n; i++) {
                 bottomFace[i] = baseStartIdx + (n - 1 - i);
             }
-            mesh.bottomFaces.add(bottomFace);
+            mesh.addBottomFace(bottomFace);
         } else {
             GLUtessellator tess = glu.gluNewTess();
-            TessellatorCallback roofCallback = new TessellatorCallback(verts, mesh.roofFaces, building);
+            TessellatorCallback roofCallback = new TessellatorCallback(verts, building);
             setupTessellator(tess, roofCallback);
             glu.gluTessBeginPolygon(tess, null);
             tessellateContours(tess, contours, contourRoofTopVertexIndices, verts, false);
             glu.gluTessEndPolygon(tess);
             glu.gluDeleteTess(tess);
+            for (int[] face : roofCallback.getFaces()) {
+                mesh.addRoofFace(face);
+            }
 
             GLUtessellator tessBottom = glu.gluNewTess();
-            TessellatorCallback bottomCallback = new TessellatorCallback(verts, mesh.bottomFaces, building);
+            TessellatorCallback bottomCallback = new TessellatorCallback(verts, building);
             setupTessellator(tessBottom, bottomCallback);
             glu.gluTessBeginPolygon(tessBottom, null);
             tessellateContours(tessBottom, contours, contourBaseVertexStartIndices, verts, true);
             glu.gluTessEndPolygon(tessBottom);
             glu.gluDeleteTess(tessBottom);
+            for (int[] face : bottomCallback.getFaces()) {
+                mesh.addBottomFace(face);
+            }
         }
 
         if (building.noWalls) {
             // Extract only the roof faces into a new clean mesh
-            Mesh roofShell = Mesh.extractFaces(mesh, mesh.roofFaces);
+            Mesh roofShell = Mesh.extractFaces(mesh, mesh.getRoofFaces());
             // Extrude the isolated roof shell
             return roofShell.extrude(DEFAULT_ROOF_THICKNESS);
         }

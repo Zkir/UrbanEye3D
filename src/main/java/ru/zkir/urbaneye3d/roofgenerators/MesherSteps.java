@@ -50,7 +50,7 @@ public class MesherSteps extends  RoofGenerator {
         double wallHeight = building.height - roofHeight;
         double roofDirection = building.roofDirection;
 
-        Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
 
         // Part 1: Initial calculations
         Point2D slopeVector = calculateSlopeVector(contour, roofDirection);
@@ -82,7 +82,7 @@ public class MesherSteps extends  RoofGenerator {
             baseIndices[i] = mesh.addVertex(new Point3D(contour.get(i).x, contour.get(i).y, minHeight));
         }
 
-        mesh.bottomFaces.add(new int[]{baseIndices[0], baseIndices[3], baseIndices[2], baseIndices[1]});
+        mesh.addBottomFace(new int[]{baseIndices[0], baseIndices[3], baseIndices[2], baseIndices[1]});
 
         // Part 3: Generate complex walls that follow the roof profile
         List<List<Integer>> allWallFaces = new ArrayList<>();
@@ -170,10 +170,10 @@ public class MesherSteps extends  RoofGenerator {
                     wallFaceR.add(wallFace.get(k));
                 }
 
-                mesh.wallFaces.add(wallFaceR.stream().mapToInt(Integer::intValue).toArray());
+                mesh.addWallFace(wallFaceR.stream().mapToInt(Integer::intValue).toArray());
 
             }else{
-                mesh.wallFaces.add(wallFace.stream().mapToInt(Integer::intValue).toArray());
+                mesh.addWallFace(wallFace.stream().mapToInt(Integer::intValue).toArray());
             }
 
             allWallFaces.add(wallFace);
@@ -226,7 +226,7 @@ public class MesherSteps extends  RoofGenerator {
                 //we need to create additional face
                 int vi2 = rail1.get(ii + 2);
                 var face = new int[]{vj0, vi1, vi2};
-                mesh.roofFaces.add(face);
+                mesh.addRoofFace(face);
                 ii += 2;
                 continue;
             }
@@ -234,22 +234,22 @@ public class MesherSteps extends  RoofGenerator {
                 //we need to create additional face
                 int vj2 = rail2.get(jj + 2);
                 var face = new int[]{vj2, vj1, vi0 };
-                mesh.roofFaces.add(face);
+                mesh.addRoofFace(face);
                 jj +=2;
                 continue;
             }
 
             if (vi0==vj0){ // only expected at the start
                 var face = new int[]{vi0, vi1, vj1};
-                mesh.roofFaces.add(face);
+                mesh.addRoofFace(face);
             } else if(vi1==vj1){// only expected at the end
                 var face = new int[]{vi0, vi1, vj0};
-                mesh.roofFaces.add(face);
+                mesh.addRoofFace(face);
             }else {
                 var face =new int[]{vi1, vj0, vi0};
-                mesh.roofFaces.add(face);
+                mesh.addRoofFace(face);
                 face =new int[]{vi1, vj1, vj0};
-                mesh.roofFaces.add(face);
+                mesh.addRoofFace(face);
             }
             ii++; jj++;
         }
@@ -262,14 +262,14 @@ public class MesherSteps extends  RoofGenerator {
     public Mesh generateNonConvex(RenderableBuildingElement building) {
 
         List<Point2D> contour = building.getContour();
-        if (contour.isEmpty()) return new Mesh();
+        if (contour.isEmpty()) return null;
 
         double minHeight = building.minHeight;
         double roofHeight = building.roofHeight;
         double wallHeight = building.height - roofHeight;
         double roofDirection = building.roofDirection;
 
-        Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
 
         Point2D slopeVector = calculateSlopeVector(contour, roofDirection);
         final Point2D normal = new Point2D(-slopeVector.y, slopeVector.x);
@@ -343,7 +343,7 @@ public class MesherSteps extends  RoofGenerator {
                                            riser_bottom_indices.get(i * 2 + 1),
                                            riser_bottom_indices.get(i * 2)
                                         };
-                    mesh.roofFaces.add(face);
+                    mesh.addRoofFace(face);
                 }
             }
 
@@ -360,20 +360,20 @@ public class MesherSteps extends  RoofGenerator {
             if (riser_top_indices.size()==tread_back_indices.size() && riser_top_indices.size() %2 ==0 ){
                 for (int i=0; i<riser_top_indices.size(); i+=2){
                     var face = new int[]{riser_top_indices.get(i+1), riser_top_indices.get(i), tread_back_indices.get(i), tread_back_indices.get(i+1)  };
-                    mesh.roofFaces.add(face);
+                    mesh.addRoofFace(face);
                 }
             } else {
                  if (abs(riser_top_indices.size()-tread_back_indices.size())%2==0){
                     if  (riser_top_indices.size() > tread_back_indices.size()){
                         for (int i=0; i<tread_back_indices.size(); i+=2) {
                             var face = processChange2(i, tread_back_indices, tread_back_edges, riser_top_indices, prev_cut_edges);
-                            mesh.roofFaces.add(face);
+                            mesh.addRoofFace(face);
                         }
 
                     } else{
                         for (int i=0; i<riser_top_indices.size(); i+=2) {
                             var face = processChange2(i, riser_top_indices, prev_cut_edges, tread_back_indices, tread_back_edges);
-                            mesh.roofFaces.add(face);
+                            mesh.addRoofFace(face);
                         }
                     }
                 } else{
@@ -502,10 +502,8 @@ public class MesherSteps extends  RoofGenerator {
 
     private void createWallsAndBottom(Mesh mesh, double minHeight, double actualStepHeight) {
         Map<String, Integer> edgeCounts = new HashMap<>();
-        List<int[]> allFaces = new ArrayList<>(mesh.roofFaces);
-        allFaces.addAll(mesh.wallFaces);
 
-        for (int[] face : allFaces) {
+        for (int[] face : mesh.faces) {
             for (int i = 0; i < face.length; i++) {
                 int v1 = face[i];
                 int v2 = face[(i + 1) % face.length];
@@ -555,13 +553,13 @@ public class MesherSteps extends  RoofGenerator {
                 if (wallFace[0] != wallFace[1] && wallFace[0] != wallFace[2] && wallFace[0] != wallFace[3] &&
                     wallFace[1] != wallFace[2] && wallFace[1] != wallFace[3] &&
                     wallFace[2] != wallFace[3]) {
-                    mesh.wallFaces.add(wallFace);
+                    mesh.addWallFace(wallFace);
                 }
             }
         }
 
         // Create bottom faces by projecting horizontal roof faces (treads) down.
-        for (int[] roofFace : mesh.roofFaces) {
+        for (int[] roofFace : mesh.getRoofFaces()) {
             boolean isTread = true;
             if (roofFace.length == 0) continue;
             double z = mesh.verts.get(roofFace[0]).z;
@@ -585,7 +583,7 @@ public class MesherSteps extends  RoofGenerator {
                 for (int i = 0; i < bottomFace.length; i++) {
                     reversedBottomFace[i] = bottomFace[bottomFace.length - 1 - i];
                 }
-                mesh.bottomFaces.add(reversedBottomFace);
+                mesh.addBottomFace(reversedBottomFace);
             }
         }
     }

@@ -35,7 +35,7 @@ public class MesherLinearProfile extends RoofGenerator {
 
         if (fullMesh != null && building.noWalls) {
             // Extract only the roof faces into a new clean mesh
-            Mesh roofShell = Mesh.extractFaces(fullMesh, fullMesh.roofFaces);
+            Mesh roofShell = Mesh.extractFaces(fullMesh, fullMesh.getRoofFaces());
             // Extrude the isolated roof shell
             return roofShell.extrude(DEFAULT_ROOF_THICKNESS);
         }
@@ -67,13 +67,19 @@ public class MesherLinearProfile extends RoofGenerator {
             return null;
         }
 
-        Mesh mesh= new Mesh();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
+        mesh.verts.addAll(mesherLinearProfileQR.verts);
 
-        mesh.verts = mesherLinearProfileQR.verts;
+        for (var face: copyFaces(mesherLinearProfileQR.bottomFaces)){
+            mesh.addBottomFace(face);
+        }
+        for (var face: copyFaces(mesherLinearProfileQR.wallIndices)){
+            mesh.addWallFace(face);
 
-        mesh.roofFaces = copyFaces(mesherLinearProfileQR.roofIndices);
-        mesh.wallFaces = copyFaces(mesherLinearProfileQR.wallIndices);
-        mesh.bottomFaces = copyFaces(mesherLinearProfileQR.bottomFaces);
+        }
+        for (var face: copyFaces(mesherLinearProfileQR.roofIndices)){
+            mesh.addRoofFace(face);
+        }
 
         /* uncomment if debugging of the mesh is needed !! do not remove !!
         try {

@@ -7,6 +7,9 @@
 
 ## Next Steps
 
+### Immediate Next Step
+* **Implement `natural=tree` rendering:** Using the new universal, data-driven mesh architecture, create a `MesherTree` to generate billboard-style trees and integrate them into the scene.
+
 ### Musts for the Next Release 
 
 * JOSM parameters (e.g. draw oneway arrows and feature labels) override MapCSS styles in 3D window.  Probably josm patch should be created.
@@ -29,7 +32,6 @@
 *  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637). -- **DONE.**
 
 ### Features needed to catch up with f4map
-* natural=tree
 * man_made=chimney
 
 ### Ideas for the Further Development
@@ -103,6 +105,13 @@ To be prioritized via MoSCoW method.
 
 
 ## Recent Accomplishments
+### March 3, 2026
+*   **Completed a major refactoring** of the core geometry and rendering pipeline.
+    *   The `Mesh` class now supports a universal data-driven structure with separate material (color) and texture coordinate (UV) attributes for each face.
+    *   The `Renderer3D` has been updated with a universal `drawMesh()` method that can render both colored (buildings) and textured objects.
+    *   `GroundTile` rendering has been successfully migrated to this new universal mechanism, removing special-case code from the renderer.
+    *   This work lays a complete foundation for adding new textured objects. The immediate next step is to implement `natural=tree`.
+
 ### February 23, 2026
 * Creation of `taginfo.json` has been improved. It turned out that there is .hasTag(key, value) method in JOSM, so we can find exact tags (key=value) in the source code.
 
@@ -352,7 +361,7 @@ This pass computes the ambient occlusion factor for each pixel using the G-Buffe
         *   Project each sample back to screen space and compare its depth with the value in the position/depth texture.
         *   If a sample is behind the stored fragment, it contributes to the occlusion factor.
         *   The final occlusion value (0.0 to 1.0) is written to the SSAO texture.
-4.  **Render:** Bind the SSAO FBO and render a full-screen quad using the SSAO shader.
+4.  **Render:** Bind the SSAO FBO and render a full-screen quad with the SSAO shader.
 
 #### Step 3: Blur Pass
 The raw SSAO output is noisy and requires smoothing.

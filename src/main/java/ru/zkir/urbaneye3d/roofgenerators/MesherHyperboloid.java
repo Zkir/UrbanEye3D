@@ -28,8 +28,7 @@ public class MesherHyperboloid extends RoofGenerator {
         if (middleRate <= 0) middleRate = 1.0;
 
 
-        Mesh mesh = new Mesh();
-        List<Point3D> verts = new ArrayList<>();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
 
         Point3D centroid = calculateCentroid(basePoints);
 
@@ -54,7 +53,7 @@ public class MesherHyperboloid extends RoofGenerator {
                 // Scale around centroid
                 double scaledX = centroid.x + (p.x - centroid.x) * currentScale;
                 double scaledY = centroid.y + (p.y - centroid.y) * currentScale;
-                verts.add(new Point3D(scaledX, scaledY, currentZ));
+                mesh.verts.add(new Point3D(scaledX, scaledY, currentZ));
             }
         }
 
@@ -68,7 +67,7 @@ public class MesherHyperboloid extends RoofGenerator {
                 int p2 = currentLayerStartIdx + (j + 1) % numPointsPerLayer;
                 int p3 = nextLayerStartIdx + (j + 1) % numPointsPerLayer;
                 int p4 = nextLayerStartIdx + j;
-                mesh.wallFaces.add(new int[]{p1, p2, p3, p4});
+                mesh.addWallFace(new int[]{p1, p2, p3, p4});
             }
         }
 
@@ -77,7 +76,7 @@ public class MesherHyperboloid extends RoofGenerator {
         for (int i = 0; i < numPointsPerLayer; i++) {
             bottomFace[i] = numPointsPerLayer - 1 - i; // Reverse order for correct normal
         }
-        mesh.bottomFaces.add(bottomFace);
+        mesh.addBottomFace(bottomFace);
 
         // Create top face (roof)
         int[] topFace = new int[numPointsPerLayer];
@@ -85,9 +84,8 @@ public class MesherHyperboloid extends RoofGenerator {
         for (int i = 0; i < numPointsPerLayer; i++) {
             topFace[i] = lastLayerStartIdx + i;
         }
-        mesh.roofFaces.add(topFace);
+        mesh.addRoofFace(topFace);
 
-        mesh.verts = verts;
         return mesh;
     }
 

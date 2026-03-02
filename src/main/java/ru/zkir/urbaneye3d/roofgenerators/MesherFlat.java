@@ -22,9 +22,13 @@ public class MesherFlat extends RoofGenerator{
         private int currentPrimitiveType; // To store the type from beginData
         private final RenderableBuildingElement building; // Reference to the building
 
-        public TessellatorCallback(List<Point3D> vertices, List<int[]> faces, RenderableBuildingElement building) {
+        public List<int[]> getNewFaces() {
+            return faces;
+        }
+
+        public TessellatorCallback(List<Point3D> vertices, RenderableBuildingElement building) {
             this.vertices = vertices;
-            this.faces = faces;
+            this.faces = new ArrayList<>();
             this.building = building;
         }
 
@@ -104,7 +108,7 @@ public class MesherFlat extends RoofGenerator{
         double minHeight = building.minHeight;
         double wallHeight = building.height - building.roofHeight;
 
-        Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
         List<Point3D> verts = mesh.verts;
 
         List<Integer> contourBaseVertexStartIndices = new ArrayList<>(); // Start index of minHeight vertices for each contour
@@ -151,14 +155,14 @@ public class MesherFlat extends RoofGenerator{
                 for (int i = 0; i < n; i++) {
                     int next = (i + 1) % n;
                     if (c > 0) { // Inner contour, reverse winding
-                        mesh.wallFaces.add(new int[]{
+                        mesh.addWallFace(new int[]{
                                 baseStartIdx + next,
                                 baseStartIdx + i,
                                 wallTopStartIdx + i,
                                 wallTopStartIdx + next
                         });
                     } else { // Outer contour
-                        mesh.wallFaces.add(new int[]{
+                        mesh.addWallFace(new int[]{
                                 baseStartIdx + i,
                                 baseStartIdx + next,
                                 wallTopStartIdx + next,
@@ -180,14 +184,14 @@ public class MesherFlat extends RoofGenerator{
                 for (int i = 0; i < n; i++) {
                     int next = (i + 1) % n;
                     if (c > 0) { // Inner contour, reverse winding
-                        mesh.roofFaces.add(new int[]{ // Add to roofFaces for roof color
+                        mesh.addRoofFace(new int[]{ // Add to roofFaces for roof color
                                 wallTopStartIdx + next,
                                 wallTopStartIdx + i,
                                 roofTopStartIdx + i,
                                 roofTopStartIdx + next
                         });
                     } else { // Outer contour
-                        mesh.roofFaces.add(new int[]{ // Add to roofFaces for roof color
+                        mesh.addRoofFace(new int[]{ // Add to roofFaces for roof color
                                 wallTopStartIdx + i,
                                 wallTopStartIdx + next,
                                 roofTopStartIdx + next,
@@ -208,7 +212,7 @@ public class MesherFlat extends RoofGenerator{
             for (int i = 0; i < n; i++) {
                 roofFace[i] = roofTopStartIdx + i;
             }
-            mesh.roofFaces.add(roofFace);
+            mesh.addRoofFace(roofFace);
 
             // Create bottom face as a single polygon (with reversed winding)
             int[] bottomFace = new int[n];
@@ -216,12 +220,12 @@ public class MesherFlat extends RoofGenerator{
             for (int i = 0; i < n; i++) {
                 bottomFace[i] = baseStartIdx + (n - 1 - i);
             }
-            mesh.bottomFaces.add(bottomFace);
+            mesh.addBottomFace(bottomFace);
         } else {
             // Complex case: multiple contours (holes). Use tessellation.
             GLU glu = new GLU();
             GLUtessellator tess = glu.gluNewTess();
-            TessellatorCallback roofCallback = new TessellatorCallback(verts, mesh.roofFaces, building);
+            TessellatorCallback roofCallback = new TessellatorCallback(verts, building);
 
             glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX_DATA, roofCallback);
             glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN_DATA, roofCallback);
@@ -258,10 +262,15 @@ public class MesherFlat extends RoofGenerator{
 
             glu.gluTessEndPolygon(tess);
             glu.gluDeleteTess(tess);
+            
+            // Add the newly created faces from the callback to the mesh
+            for (int[] face : roofCallback.getNewFaces()) {
+                mesh.addRoofFace(face);
+            }
 
             // Create bottom face using tessellation (using vertices at 'minHeight')
             GLUtessellator tessBottom = glu.gluNewTess();
-            TessellatorCallback bottomCallback = new TessellatorCallback(verts, mesh.bottomFaces, building);
+            TessellatorCallback bottomCallback = new TessellatorCallback(verts, building);
 
             glu.gluTessCallback(tessBottom, GLU.GLU_TESS_VERTEX_DATA, bottomCallback);
             glu.gluTessCallback(tessBottom, GLU.GLU_TESS_BEGIN_DATA, bottomCallback);
@@ -298,6 +307,11 @@ public class MesherFlat extends RoofGenerator{
 
             glu.gluTessEndPolygon(tessBottom);
             glu.gluDeleteTess(tessBottom);
+
+            // Add the newly created faces from the callback to the mesh
+            for (int[] face : bottomCallback.getNewFaces()) {
+                mesh.addBottomFace(face);
+            }
         }
 
         return mesh;

@@ -19,13 +19,12 @@ public class MesherHalfHipped extends RoofGenerator {
         double roofHeight= building.roofHeight;
         String roofOrientation = building.roofOrientation;
 
-        Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
         if (basePoints.size() != 4) {
             // Fallback to flat roof for non-quadrilaterals
             return null;
         }
 
-        List<Point3D> verts = new ArrayList<>();
         int n = basePoints.size();
 
         // --- Find the two edges which will form the gables ---
@@ -43,17 +42,17 @@ public class MesherHalfHipped extends RoofGenerator {
 
         // --- Create Vertices ---
         // 1. Base vertices (at the bottom of the walls)
-        int baseIdx = verts.size();
+        int baseIdx = mesh.verts.size();
         for (Point2D p : basePoints) {
-            verts.add(new Point3D(p.x, p.y, minHeight));
+            mesh.verts.add(new Point3D(p.x, p.y, minHeight));
         }
 
         // 2. Wall top vertices (at the height of the eaves)
         int wallIdx;
         if (wallHeight > minHeight) {
-            wallIdx = verts.size();
+            wallIdx = mesh.verts.size();
             for (Point2D p : basePoints) {
-                verts.add(new Point3D(p.x, p.y, wallHeight));
+                mesh.verts.add(new Point3D(p.x, p.y, wallHeight));
             }
         } else {
             wallIdx = baseIdx; // Reuse base vertices if no walls
@@ -91,24 +90,22 @@ public class MesherHalfHipped extends RoofGenerator {
 
 
         Point2D[] shortened_ridge = shortenSegment(mid1, mid2,ridge_length/a);
-        int ridge1Idx = verts.size();
-        verts.add(new Point3D(shortened_ridge[0].x, shortened_ridge[0].y, height));
-        int ridge2Idx = verts.size();
-        verts.add(new Point3D(shortened_ridge[1].x, shortened_ridge[1].y, height));
+        int ridge1Idx = mesh.verts.size();
+        mesh.verts.add(new Point3D(shortened_ridge[0].x, shortened_ridge[0].y, height));
+        int ridge2Idx = mesh.verts.size();
+        mesh.verts.add(new Point3D(shortened_ridge[1].x, shortened_ridge[1].y, height));
 
-        int mid1A_idx=verts.size();
-        verts.add(new Point3D( mid1A.x, mid1A.y, wallHeight+ roofHeight/2));
+        int mid1A_idx=mesh.verts.size();
+        mesh.verts.add(new Point3D( mid1A.x, mid1A.y, wallHeight+ roofHeight/2));
 
-        int mid1B_idx=verts.size();
-        verts.add(new Point3D( mid1B.x, mid1B.y, wallHeight+ roofHeight/2));
+        int mid1B_idx=mesh.verts.size();
+        mesh.verts.add(new Point3D( mid1B.x, mid1B.y, wallHeight+ roofHeight/2));
 
-        int mid2A_idx=verts.size();
-        verts.add(new Point3D( mid2A.x, mid2A.y, wallHeight+ roofHeight/2));
+        int mid2A_idx=mesh.verts.size();
+        mesh.verts.add(new Point3D( mid2A.x, mid2A.y, wallHeight+ roofHeight/2));
 
-        int mid2B_idx=verts.size();
-        verts.add(new Point3D( mid2B.x, mid2B.y, wallHeight+ roofHeight/2));
-
-        mesh.verts = verts;
+        int mid2B_idx=mesh.verts.size();
+        mesh.verts.add(new Point3D( mid2B.x, mid2B.y, wallHeight+ roofHeight/2));
 
         // --- Create Faces ---
         // Find the indices of the vertices that form the eave walls
@@ -116,34 +113,34 @@ public class MesherHalfHipped extends RoofGenerator {
         // Create Walls only if they have height
         if (wallHeight > minHeight) {
             // Create Eave Walls (Quads)
-            mesh.wallFaces.add(new int[]{baseIdx + g1_idx1, baseIdx + g2_idx0, wallIdx + g2_idx0, wallIdx + g1_idx1});
-            mesh.wallFaces.add(new int[]{baseIdx + g2_idx1, baseIdx + g1_idx0, wallIdx + g1_idx0, wallIdx + g2_idx1});
+            mesh.addWallFace(new int[]{baseIdx + g1_idx1, baseIdx + g2_idx0, wallIdx + g2_idx0, wallIdx + g1_idx1});
+            mesh.addWallFace(new int[]{baseIdx + g2_idx1, baseIdx + g1_idx0, wallIdx + g1_idx0, wallIdx + g2_idx1});
 
             // Create Gable Walls (also Quads for half-hipped)
-            mesh.wallFaces.add(new int[]{baseIdx + g1_idx0, baseIdx + g1_idx1, wallIdx + g1_idx1,  wallIdx + g1_idx0});
-            mesh.wallFaces.add(new int[]{baseIdx + g2_idx0, baseIdx + g2_idx1, wallIdx + g2_idx1,  wallIdx + g2_idx0});
+            mesh.addWallFace(new int[]{baseIdx + g1_idx0, baseIdx + g1_idx1, wallIdx + g1_idx1,  wallIdx + g1_idx0});
+            mesh.addWallFace(new int[]{baseIdx + g2_idx0, baseIdx + g2_idx1, wallIdx + g2_idx1,  wallIdx + g2_idx0});
 
         }
         
         // And one more pair of walls -- trapezoids. those walls are above z1=wallHeight, so they are created always.
-        mesh.wallFaces.add(ra(new int[]{ wallIdx + g1_idx1,  wallIdx + g1_idx0, mid1A_idx, mid1B_idx}));
-        mesh.wallFaces.add(ra(new int[]{ wallIdx + g2_idx1,  wallIdx + g2_idx0, mid2A_idx, mid2B_idx}));
+        mesh.addWallFace(ra(new int[]{ wallIdx + g1_idx1,  wallIdx + g1_idx0, mid1A_idx, mid1B_idx}));
+        mesh.addWallFace(ra(new int[]{ wallIdx + g2_idx1,  wallIdx + g2_idx0, mid2A_idx, mid2B_idx}));
 
         //Create Roof Planes (Triangles)
-        mesh.roofFaces.add(new int[]{ mid1B_idx, ridge1Idx, mid1A_idx});
-        mesh.roofFaces.add(new int[]{ mid2B_idx, ridge2Idx, mid2A_idx});
+        mesh.addRoofFace(new int[]{ mid1B_idx, ridge1Idx, mid1A_idx});
+        mesh.addRoofFace(new int[]{ mid2B_idx, ridge2Idx, mid2A_idx});
 
 
         // Create Roof Planes (Hexagons?)
-        mesh.roofFaces.add(new int[]{wallIdx + g1_idx1, wallIdx + g2_idx0, mid2A_idx, ridge2Idx, ridge1Idx, mid1B_idx});
-        mesh.roofFaces.add(new int[]{wallIdx + g2_idx1, wallIdx + g1_idx0, mid1A_idx, ridge1Idx, ridge2Idx, mid2B_idx});
+        mesh.addRoofFace(new int[]{wallIdx + g1_idx1, wallIdx + g2_idx0, mid2A_idx, ridge2Idx, ridge1Idx, mid1B_idx});
+        mesh.addRoofFace(new int[]{wallIdx + g2_idx1, wallIdx + g1_idx0, mid1A_idx, ridge1Idx, ridge2Idx, mid2B_idx});
 
         // Create bottom face
         int[] bottomFace = new int[n];
         for (int i = 0; i < n; i++) {
             bottomFace[i] = baseIdx + n - 1 - i; // Reverse order for correct normal
         }
-        mesh.bottomFaces.add(bottomFace);
+        mesh.addBottomFace(bottomFace);
 
         return mesh;
     }
