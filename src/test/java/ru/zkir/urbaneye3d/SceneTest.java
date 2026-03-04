@@ -7,13 +7,20 @@ import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.io.OsmReader;
 import org.openstreetmap.josm.spi.preferences.Config;
+import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.utils.Settings;
+
+import org.openstreetmap.josm.data.osm.Node;
+import org.openstreetmap.josm.data.coor.LatLon;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static ru.zkir.urbaneye3d.RoofGeneratorTopologyTest.*;
 import static ru.zkir.urbaneye3d.utils.Settings.SAVE_TEST_RESULTS_TO_FILE;
 
 class SceneTest {
@@ -225,4 +232,67 @@ class SceneTest {
         }
     }
 
+    @Test
+    void testSingleTree() {
+        // Arrange
+        DataSet dataSet = new DataSet();
+        Node treeNode = new Node(new LatLon(55.75, 37.61));
+        treeNode.put("natural", "tree");
+        treeNode.put("height", "15");
+        dataSet.addPrimitive(treeNode);
+
+        Scene scene = new Scene();
+
+        // Act
+        scene.updateData(dataSet, null);
+
+        // Assert
+        assertEquals(1, scene.renderableElements.size(), "Should have exactly one renderable element for the tree.");
+
+        RenderableElement treeElement = scene.renderableElements.get(0);
+        assertEquals("default_tree", treeElement.textureName, "The texture name should be set for the tree.");
+
+        Mesh treeMesh = treeElement.getMesh();
+        assertNotNull(treeMesh, "Tree mesh should not be null.");
+
+        // More detailed topology assertions
+        assertBillboardTopology(treeMesh);
+    }
+
+    private void assertBillboardTopology(Mesh mesh) {
+        assertNotNull(mesh, "Mesh should not be null for a billboard.");
+        assertEquals(8, mesh.verts.size(), "Billboard mesh should have 8 vertices.");
+        assertEquals(2, mesh.faces.size(), "Billboard mesh should have 2 faces.");
+        assertEquals(4, mesh.uvs.size(), "Billboard mesh should have 4 UV coordinates.");
+
+        assertNoZeroLengthEdges(mesh, "BillboardTree");
+        assertNoDuplicatesInFaces(mesh, "BillboardTree");
+        assertFaceListEquity(mesh, "BillboardTree");
+        assertBillboardNormals(mesh);
+    }
+
+    private void assertBillboardNormals(Mesh mesh) {
+        assertEquals(2, mesh.faces.size(), "Billboard normal check requires exactly 2 faces.");
+
+        // Calculate normal for the first face
+        int[] face1 = mesh.faces.get(0);
+        Point3D v0 = mesh.verts.get(face1[0]);
+        Point3D v1 = mesh.verts.get(face1[1]);
+        Point3D v2 = mesh.verts.get(face1[2]);
+        Point3D normal1 = calculateNormal(v0, v1, v2);
+
+        // Calculate normal for the second face
+        int[] face2 = mesh.faces.get(1);
+        v0 = mesh.verts.get(face2[0]);
+        v1 = mesh.verts.get(face2[1]);
+        v2 = mesh.verts.get(face2[2]);
+        Point3D normal2 = calculateNormal(v0, v1, v2);
+
+        // Assert that normals are perpendicular (dot product is close to zero)
+        assertEquals(0, normal1.dot(normal2), 1e-6, "Normals of billboard planes should be perpendicular.");
+
+        // Assert that normals are horizontal (Z component is zero)
+        assertEquals(0, normal1.z, 1e-6, "Normal of the first plane should be horizontal (Z=0).");
+        assertEquals(0, normal2.z, 1e-6, "Normal of the second plane should be horizontal (Z=0).");
+    }
 }

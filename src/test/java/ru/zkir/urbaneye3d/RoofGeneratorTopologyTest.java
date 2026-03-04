@@ -82,7 +82,7 @@ class RoofGeneratorTopologyTest {
         return createTestBuilding(basePoints, roofShape, minHeight, roofHeight, height, null, null);
     }
 
-    private static void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
+    public static void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
         // A small tolerance for floating point comparisons
         final double Epsilon = 1e-6;
         List<Point3D> vertices = mesh.verts;
@@ -95,7 +95,7 @@ class RoofGeneratorTopologyTest {
     }
 
 
-    private static void assertWatertight(Mesh mesh, String mesherName) {
+    public static void assertWatertight(Mesh mesh, String mesherName) {
         Map<String, Integer> edgeCounts = new HashMap<>();
         for (int[] face :  mesh.faces) {
             for (int i = 0; i < face.length; i++) {
@@ -111,7 +111,7 @@ class RoofGeneratorTopologyTest {
         }
     }
 
-    private static void assertNormalsAndConsistency(Mesh mesh, String mesherName) {
+    public static void assertNormalsAndConsistency(Mesh mesh, String mesherName) {
         // This map stores the first vertex of an edge traversal for the first face that uses it.
         Map<String, Integer> edgeTraversal = new HashMap<>();
 
@@ -147,7 +147,7 @@ class RoofGeneratorTopologyTest {
         assertTrue(normal.z < 0, "Roof shape " + mesherName + ": Bottom face normal is not pointing downwards. Overall mesh orientation is likely incorrect.");
     }
 
-    private static Point3D calculateNormal(Point3D p1, Point3D p2, Point3D p3) {
+    public static Point3D calculateNormal(Point3D p1, Point3D p2, Point3D p3) {
         Point3D u = new Point3D(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
         Point3D v = new Point3D(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z);
         return new Point3D(
@@ -157,7 +157,7 @@ class RoofGeneratorTopologyTest {
         ).normalize();
     }
 
-    private static void assertHeightConstraints(Mesh mesh, double minHeight, double height, String mesherName) {
+    public static void assertHeightConstraints(Mesh mesh, double minHeight, double height, String mesherName) {
         assertFalse(mesh.verts.isEmpty(), "Mesh has no vertices for " + mesherName);
 
         double minZ = Double.MAX_VALUE;
@@ -172,7 +172,7 @@ class RoofGeneratorTopologyTest {
     }
 
     /** Here we check that edges in faces do not intersect */
-    private static void assertNoSelfCrossing(Mesh mesh, String roofShape) {
+    public static void assertNoSelfCrossing(Mesh mesh, String roofShape) {
 
         for (int[] face : mesh.faces) {
             var face_v = new Point3D[face.length];
@@ -183,7 +183,7 @@ class RoofGeneratorTopologyTest {
         }
     }
 
-    private static boolean checkDuplicates(int[] face) {
+    public static boolean checkDuplicates(int[] face) {
         for (int i=0;i<face.length;i++){
             for (int j=i+1;j<face.length;j++){
                 if (face[i]==face[j]){
@@ -194,13 +194,13 @@ class RoofGeneratorTopologyTest {
         return false;
     }
 
-    private static void assertNoDuplicatesInFaces(Mesh mesh, String roofShape) {
+    public static void assertNoDuplicatesInFaces(Mesh mesh, String roofShape) {
         for (int[] face : mesh.faces) {
             assertTrue(!checkDuplicates(face), "Roof shape " + roofShape + ": face "+ Arrays.toString(face) + " has duplicated node indices");
         }
     }
 
-    private static void assertFaceListEquity(Mesh mesh, String roofShape){
+    public static void assertFaceListEquity(Mesh mesh, String roofShape){
         assertEquals(mesh.faces.size(), mesh.faceMaterials.size(), "Roof shape " + roofShape + ": mesh has inconsistent colors array");
         assertEquals(mesh.faces.size(), mesh.faceUVs.size(),  "Roof shape " + roofShape + ": mesh has inconsistent uvs array");
         //let's test that the referenced objects are indeed present.
