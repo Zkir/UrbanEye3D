@@ -171,6 +171,18 @@ public class Scene {
                 }
             }
         }
+
+        /*
+         * Trees
+         */
+        for (Node node : dataSet.getNodes()) {
+            if (node.hasTag("natural", "tree")) {
+                var element = RenderableElement.createTree(node);
+                if (element != null){
+                    renderableElements.add(element);
+                }
+            }
+        }
     }
 
     /**

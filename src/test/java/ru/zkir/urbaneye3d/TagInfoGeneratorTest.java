@@ -83,6 +83,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("layer", "Objects with layer<0 are considered to be located underground -- and are not displayed");
         TAG_DESCRIPTIONS.put("material","Material for barrier or man-made object. This can influence the default color. ");
         TAG_DESCRIPTIONS.put("min_height", "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes.");
+        TAG_DESCRIPTIONS.put("natural=tree", "A single tree, rendered as a 3D billboard model.");
         TAG_DESCRIPTIONS.put("roof:colour", "Specifies the color of the roof.");
         TAG_DESCRIPTIONS.put("roof:direction", "Specifies the direction or orientation of the roof, typically in degrees. Used for directional roof shapes like 'skillion'.");
         TAG_DESCRIPTIONS.put("roof:height", "The height of the roof section of the building, in meters.");

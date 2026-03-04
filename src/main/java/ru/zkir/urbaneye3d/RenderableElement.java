@@ -3,8 +3,10 @@ package ru.zkir.urbaneye3d;
 import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import org.openstreetmap.josm.data.coor.LatLon;
+import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Way;
+import ru.zkir.urbaneye3d.generators.MesherTree;
 import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
@@ -46,6 +48,7 @@ public class RenderableElement {
     public final Double hyperboloidTopRate;
     public final Double hyperboloidMiddleRate;
     private Mesh mesh;
+    public final String textureName;
 
     /** Unlike F4, we inherit only some keys from building to parts, not all */
     final static List<String> inheritableKeys = Arrays.asList("building:colour", "building:material", "roof:colour", "roof:material");
@@ -56,7 +59,7 @@ public class RenderableElement {
      */
     @Nullable
     public static RenderableElement createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
-                                                         Map<String, String> primitiveTags, Map<String, String> parentTags ){
+                                                            Map<String, String> primitiveTags, Map<String, String> parentTags ){
         String source_key="";
         if (primitiveTags.containsKey("building") && !primitiveTags.get("building").equals("no") ) {
             source_key = "building";
@@ -357,6 +360,23 @@ public class RenderableElement {
                 false, hyperboloidTopRate, hyperboloidMiddleRate);
     }
 
+    /** Create a tree*/
+    public static RenderableElement createTree(Node node) {
+
+        double treeHeight = getTagD("height", node, 8.0);
+        double treeWidth = treeHeight * 0.9; // Make width proportional to height TODO: textures should be square!
+        String textureName = "default_tree"; // Hardcoded for now, can be based on genus etc.
+
+        // The origin of the tree object is the node itself.
+        // The mesher creates geometry around (0,0,0).
+        // The renderer will translate it to the correct world position.
+        if (node.getCoor() == null) return null;
+
+        Mesh treeMesh = MesherTree.generate(treeWidth, treeHeight);
+
+        return new RenderableElement(node, treeMesh, textureName);
+    }
+
 
     /**
      * This is a private constructor. createBuildingOrPart() or createBarrier() should be used outside, especially in autotests
@@ -378,7 +398,7 @@ public class RenderableElement {
                                     );
         }
         this.contour = contour;
-
+        this.textureName = null;
         this.height = height;
         this.minHeight = minHeight;
 
@@ -427,6 +447,34 @@ public class RenderableElement {
         composeMesh();
         this.isSelected = primitive.isSelected();
     }
+    
+    // Конструктор для текстурированных объектов, таких как деревья
+    public RenderableElement(OsmPrimitive primitive, Mesh mesh, String textureName) {
+        this.primitiveId = primitive.getPrimitiveId();
+        this.mesh = mesh;
+        this.textureName = textureName;
+        this.isSelected = primitive.isSelected();
+
+        // Все остальные "строительные" поля инициализируются значениями по умолчанию или null
+        this.origin = primitive.getBBox().getCenter();
+        this.roofHeight = 0;
+        this.minHeight = 0;
+        this.wallHeight = 0;
+        this.height = 0;
+        this.color = Color.WHITE;
+        this.roofColor = Color.WHITE;
+        this.bottomColor = Color.WHITE;
+        this.roofShape = RoofShapes.FLAT;
+        this.roofDirection = Double.NaN;
+        this.roofOrientation = "";
+        this.noWalls = true;
+        this.stepHeight = 0;
+        this.hyperboloidTopRate = null;
+        this.hyperboloidMiddleRate = null;
+        // Поле contour остается null, так как оно не нужно для простых объектов
+        this.contour = null;
+    }
+
 
     public boolean hasComplexContour() {
         return this.getContourOuterRings().size() > 1 || !this.getContourInnerRings().isEmpty();

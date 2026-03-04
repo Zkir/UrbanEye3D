@@ -7,9 +7,6 @@
 
 ## Next Steps
 
-### Immediate Next Step
-* **Implement `natural=tree` rendering:** Using the new universal, data-driven mesh architecture, create a `MesherTree` to generate billboard-style trees and integrate them into the scene.
-
 ### Musts for the Next Release 
 
 * JOSM parameters (e.g. draw oneway arrows and feature labels) override MapCSS styles in 3D window.  Probably josm patch should be created.
@@ -105,6 +102,14 @@ To be prioritized via MoSCoW method.
 
 
 ## Recent Accomplishments
+### March 4, 2026
+*   **Successfully implemented `natural=tree` rendering.**
+    *   Refactored `RenderableBuildingElement` into a universal `RenderableElement` class to handle various object types.
+    *   Created `TextureManager` for centralized loading and caching of textures.
+    *   `Renderer3D` now processes both colored (buildings) and textured (trees) objects from a single list.
+    *   Fixed transparency issues for tree billboards by enabling `GL_ALPHA_TEST`.
+    *   A series of build errors were fixed along the way, including a private constructor access, test failures due to new objects, undocumented tags, and an `IndexOutOfBoundsException` in the rendering loop.
+
 ### March 3, 2026
 *   **Completed a major refactoring** of the core geometry and rendering pipeline.
     *   The `Mesh` class now supports a universal data-driven structure with separate material (color) and texture coordinate (UV) attributes for each face.

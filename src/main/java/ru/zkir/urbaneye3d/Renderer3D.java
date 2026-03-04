@@ -183,7 +183,10 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     
     @Override
-    public void dispose(GLAutoDrawable glAutoDrawable) {}
+    public void dispose(GLAutoDrawable glAutoDrawable) {
+        GL2 gl = glAutoDrawable.getGL().getGL2();
+        TextureManager.getInstance().disposeAll(gl);
+    }
 
     private Color applyLighting(Color baseColor, double dotProduct) {
         // 70% ambient light + 30% diffuse light from the sun
@@ -265,24 +268,31 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         // is to render buildings in the same area as ground tiles.
         Bounds visibleArea = this.scene.getVisibleArea();
 
-        // --- Render buildings ---
-        for (RenderableElement building : scene.renderableElements) {
-            if (visibleArea==null || !visibleArea.contains(building.origin)){
+        // --- Render All Elements (Buildings, Trees, etc.) ---
+        for (RenderableElement element : scene.renderableElements) {
+            if (visibleArea==null || !visibleArea.contains(element.origin)){
                 continue;
             }
             gl.glPushMatrix();
-            double dx = building.origin.lon() - mapCenter.lon();
-            double dy = building.origin.lat() - mapCenter.lat();
+            double dx = element.origin.lon() - mapCenter.lon();
+            double dy = element.origin.lat() - mapCenter.lat();
             double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
             double transY = dy * 111320.0;
             gl.glTranslated(transX, transY, 0);
 
-            Mesh buildingMesh = building.getMesh();
+            Mesh mesh = element.getMesh();
 
-            if (buildingMesh != null ){
-                //in normal circumstances we should be able to compose mesh for building.
-                //so we can render mesh directly.
-                drawMesh(gl, buildingMesh, building.isSelected, building.height, building.minHeight, null);
+            if (mesh != null ){
+                if (element.textureName != null) {
+                    // It's a textured object (like a tree)
+                    Texture texture = TextureManager.getInstance().get(gl, element.textureName);
+                    if (texture != null) {
+                        drawMesh(gl, mesh, element.isSelected, 0, 0, texture);
+                    }
+                } else {
+                    // It's a colored object (like a building)
+                    drawMesh(gl, mesh, element.isSelected, element.height, element.minHeight, null);
+                }
             }
 
             gl.glPopMatrix();
@@ -294,31 +304,55 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         // Draw all faces
         for(int i=0; i<mesh.faces.size(); i++){
             var face = mesh.faces.get(i);
-            var color = mesh.materials.get(mesh.faceMaterials.get(i));
-            if (color == null){
-                color = Color.decode("#f1eee8");
-            }
             var faceUV = mesh.faceUVs.get(i);
-            if (faceUV == null || texture == null) {
-                drawPolygon(gl, face, mesh.verts, color, isSelected, maxHeightForAO, minHeightForAO);
-            }else{
-                drawPolygonUV(gl, face, faceUV,  mesh.verts, mesh.uvs, texture);
-                //TODO: empty ground tile should be rendered rather as wireframe.
-                // Also wireframe mode could be applied to ground tiles, it looked cool
-            }
 
+            if (faceUV != null && texture != null && !isWireframeMode) {
+                // It's a textured face
+                drawPolygonUV(gl, face, faceUV,  mesh.verts, mesh.uvs, texture, isSelected);
+                //TODO: empty ground tile should be rendered rather as wireframe.
+            } else {
+                // It's a colored face
+                var color = mesh.materials.get(mesh.faceMaterials.get(i));
+                if (color == null){
+                    color = Color.decode("#f1eee8");
+                }
+                drawPolygon(gl, face, mesh.verts, color, isSelected, maxHeightForAO, minHeightForAO);
+            }
         }
     }
 
-    private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture ) {
+    private void drawSelectedOutline(GL2 gl, int[] faceIndices, List<Point3D> vertices){
+        gl.glLineWidth(3.0f); // Make the line thick
+        gl.glColor3f(1.0f, 0.0f, 0.0f); // Red color for selection
+
+        gl.glBegin(GL2.GL_LINE_LOOP);
+        for (int index : faceIndices) {
+            Point3D p = vertices.get(index);
+            gl.glVertex3d(p.x, p.y, p.z);
+        }
+        gl.glEnd();
+        gl.glLineWidth(1.0f); // Make the line thin again
+
+    }
+
+    private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture, boolean isSelected ) {
 
         if (face.length!=4){
             throw new RuntimeException("Only quads are supported currently for textured faces");
         }
 
+        // --- Draw selection outline (red, thick wireframe) ---
+        if (isSelected) {
+            drawSelectedOutline(gl, face, verts);
+        }
+
         texture.bind(gl);
         gl.glEnable(GL2.GL_TEXTURE_2D);
         gl.glColor4d(1.0, 1.0, 1.0, 1.0);
+
+        // Enable alpha testing to handle transparency in tree textures
+        gl.glEnable(GL2.GL_ALPHA_TEST);
+        gl.glAlphaFunc(GL2.GL_GREATER, 0.5f); // Discard fragments with alpha <= 0.5
 
         gl.glBegin(GL2.GL_QUADS);
         for (int i=0; i<face.length; i++){
@@ -327,28 +361,20 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             gl.glTexCoord2d(uv.x, uv.y);
             gl.glVertex3d(vert.x, vert.y, vert.z);
         }
-
         gl.glEnd();
+        // Disable states
+        gl.glDisable(GL2.GL_ALPHA_TEST);
         gl.glDisable(GL2.GL_TEXTURE_2D);
     }
+
 
 
     private void drawPolygon(GL2 gl, int[] faceIndices, List<Point3D> vertices, Color color, boolean isSelected, double maxHeightForAO, double minHeightForAO) {
         if (faceIndices.length < 3) return;
 
-
         // --- Draw selection outline (red, thick wireframe) ---
         if (isSelected) {
-            gl.glLineWidth(3.0f); // Make the line thick
-            gl.glColor3f(1.0f, 0.0f, 0.0f); // Red color for selection
-
-            gl.glBegin(GL2.GL_LINE_LOOP);
-            for (int index : faceIndices) {
-                Point3D p = vertices.get(index);
-                gl.glVertex3d(p.x, p.y, p.z);
-            }
-            gl.glEnd();
-            gl.glLineWidth(1.0f); // Make the line thin again
+            drawSelectedOutline(gl,faceIndices, vertices);
         }
         
         // Calculate face normal for lighting
