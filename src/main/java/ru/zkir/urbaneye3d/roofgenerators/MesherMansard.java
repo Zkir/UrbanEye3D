@@ -1,6 +1,6 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
-import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MesherMansard extends RoofGenerator {
     @Override
-    public Mesh generate(RenderableBuildingElement building) {
+    public Mesh generate(RenderableElement building) {
         List<Point2D> basePoints = building.getContour();
         if (basePoints.size() != 4) {
             return null; // Fallback for non-quadrilaterals

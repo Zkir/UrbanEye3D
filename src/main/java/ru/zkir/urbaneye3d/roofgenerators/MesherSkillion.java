@@ -4,15 +4,13 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUtessellator;
 import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
-import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
@@ -25,10 +23,10 @@ public class MesherSkillion extends RoofGenerator {
         private final List<Point3D> vertices;
         private final List<int[]> faces;
         private int currentPrimitiveType;
-        private final RenderableBuildingElement building;
+        private final RenderableElement building;
         private List<Integer> currentContourVertices = new ArrayList<>();
 
-        public TessellatorCallback(List<Point3D> vertices, RenderableBuildingElement building) {
+        public TessellatorCallback(List<Point3D> vertices, RenderableElement building) {
             this.vertices = vertices;
             this.faces = new ArrayList<>();
             this.building = building;
@@ -86,7 +84,7 @@ public class MesherSkillion extends RoofGenerator {
     }
 
     @Override
-    public Mesh generate(RenderableBuildingElement building) {
+    public Mesh generate(RenderableElement building) {
 
         List<List<Point2D>> contours = new ArrayList<>();
         contours.addAll(building.getContourOuterRings());

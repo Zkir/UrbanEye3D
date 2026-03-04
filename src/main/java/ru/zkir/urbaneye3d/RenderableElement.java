@@ -25,7 +25,7 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.INHERIT_HEIGHT_FROM_PARENT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_STEP_HEIGHT;
 
-public class RenderableBuildingElement {
+public class RenderableElement {
 
     public final PrimitiveId primitiveId;
     public boolean isSelected = false;
@@ -52,11 +52,11 @@ public class RenderableBuildingElement {
 
     /**
      * Creates Renderable Element from basic parameters. May return null if object is not creatable.
-     * @return RenderableBuildingElement
+     * @return RenderableElement
      */
     @Nullable
-    public static RenderableBuildingElement createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
-                                                                 Map<String, String> primitiveTags, Map<String, String> parentTags ){
+    public static RenderableElement createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
+                                                         Map<String, String> primitiveTags, Map<String, String> parentTags ){
         String source_key="";
         if (primitiveTags.containsKey("building") && !primitiveTags.get("building").equals("no") ) {
             source_key = "building";
@@ -231,7 +231,7 @@ public class RenderableBuildingElement {
 
         contour.toLocalCoords(primitiveOrigin);
         contour.removeRedundantNodes();
-        return new RenderableBuildingElement(primitive, primitiveOrigin, contour,
+        return new RenderableElement(primitive, primitiveOrigin, contour,
                 height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation,
                 stepHeight, noWalls, hyperboloidTopRate, hyperboloidMiddleRate);
     }
@@ -242,10 +242,10 @@ public class RenderableBuildingElement {
      * so we cannot create contour beforehand.
      * May return null if object is not creatable
      * @param  primitive - OSM primitive (should be way)
-     * @return RenderableBuildingElement
+     * @return RenderableElement
      */
     @Nullable
-    public static RenderableBuildingElement createBarrier(OsmPrimitive primitive){
+    public static RenderableElement createBarrier(OsmPrimitive primitive){
 
         var primitiveTags = primitive.getInterestingTags();
         Double layer = getTagD("layer", primitiveTags, 0);
@@ -316,13 +316,13 @@ public class RenderableBuildingElement {
 
         }
         contour.removeRedundantNodes();
-        return new RenderableBuildingElement(primitive, origin, contour,
+        return new RenderableElement(primitive, origin, contour,
                 height, minHeight, 0, color, color, "flat", "", "", null,
                 false, null, null);
     }
 
     //similar to buildings, but with fewer options
-    public static RenderableBuildingElement createManMade(OsmPrimitive primitive){
+    public static RenderableElement createManMade(OsmPrimitive primitive){
         var tag = primitive.get("man_made");
         if (tag==null){
             throw new RuntimeException("The object should have man_made tag to be processed by this method");
@@ -352,7 +352,7 @@ public class RenderableBuildingElement {
 
         contour.toLocalCoords(origin);
         contour.removeRedundantNodes();
-        return new RenderableBuildingElement(primitive, origin, contour,
+        return new RenderableElement(primitive, origin, contour,
                 height, minHeight, roofHeight, color, color, roofShape, "", "", null,
                 false, hyperboloidTopRate, hyperboloidMiddleRate);
     }
@@ -361,10 +361,10 @@ public class RenderableBuildingElement {
     /**
      * This is a private constructor. createBuildingOrPart() or createBarrier() should be used outside, especially in autotests
      * */
-    private RenderableBuildingElement(OsmPrimitive primitive, LatLon origin, Contour contour,
-                                      double height, double minHeight, double roofHeight, String wallColor, String roofColor,
-                                      String roofShape, String roofDirectionStr, String roofOrientation, Double stepHeight,
-                                      boolean noWalls, Double hyperboloidTopRate, Double hyperboloidMiddleRate ) {
+    private RenderableElement(OsmPrimitive primitive, LatLon origin, Contour contour,
+                              double height, double minHeight, double roofHeight, String wallColor, String roofColor,
+                              String roofShape, String roofDirectionStr, String roofOrientation, Double stepHeight,
+                              boolean noWalls, Double hyperboloidTopRate, Double hyperboloidMiddleRate ) {
         this.primitiveId = primitive.getPrimitiveId();
         if (contour==null){
             throw new RuntimeException("contour must be specified");

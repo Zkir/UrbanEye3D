@@ -266,7 +266,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         Bounds visibleArea = this.scene.getVisibleArea();
 
         // --- Render buildings ---
-        for (RenderableBuildingElement building : scene.renderableElements) {
+        for (RenderableElement building : scene.renderableElements) {
             if (visibleArea==null || !visibleArea.contains(building.origin)){
                 continue;
             }

@@ -4,7 +4,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUtessellator;
 import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
-import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
@@ -20,13 +20,13 @@ public class MesherFlat extends RoofGenerator{
         private final List<Point3D> vertices;
         private final List<int[]> faces;
         private int currentPrimitiveType; // To store the type from beginData
-        private final RenderableBuildingElement building; // Reference to the building
+        private final RenderableElement building; // Reference to the building
 
         public List<int[]> getNewFaces() {
             return faces;
         }
 
-        public TessellatorCallback(List<Point3D> vertices, RenderableBuildingElement building) {
+        public TessellatorCallback(List<Point3D> vertices, RenderableElement building) {
             this.vertices = vertices;
             this.faces = new ArrayList<>();
             this.building = building;
@@ -99,7 +99,7 @@ public class MesherFlat extends RoofGenerator{
     }
 
     @Override
-    public Mesh generate(RenderableBuildingElement building) {
+    public Mesh generate(RenderableElement building) {
         List<List<Point2D>> contours = new ArrayList<>();
         contours.addAll(building.getContourOuterRings());
         contours.addAll(building.getContourInnerRings());

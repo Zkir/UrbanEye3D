@@ -1,11 +1,10 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
-import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
  */
 public class MesherSideHipped extends RoofGenerator {
     @Override
-    public Mesh generate(RenderableBuildingElement building) {
+    public Mesh generate(RenderableElement building) {
         if (building.getContour().size() <= 4) {
             return generateRectangular(building);
         } else{
@@ -24,7 +23,7 @@ public class MesherSideHipped extends RoofGenerator {
         }
     }
 
-    private Mesh generateRectangular(RenderableBuildingElement building) {
+    private Mesh generateRectangular(RenderableElement building) {
         List<Point2D> basePoints = building.getContour();
         double minHeight = building.minHeight;
         double wallHeight = building.wallHeight;

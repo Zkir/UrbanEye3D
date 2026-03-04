@@ -60,7 +60,7 @@ class RoofGeneratorTopologyTest {
 
         return contour;
     }
-    public static RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height, Double hyperboloidTopRate, Double hyperboloidMiddleRate) {
+    public static RenderableElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height, Double hyperboloidTopRate, Double hyperboloidMiddleRate) {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints, "XY");
         Map<String, String> tags = new HashMap<>();
@@ -75,10 +75,10 @@ class RoofGeneratorTopologyTest {
         if (hyperboloidMiddleRate != null) {
             tags.put("hyperboloid:middle_rate", Double.toString(hyperboloidMiddleRate));
         }
-        return  RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
+        return  RenderableElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
     }
 
-    public static RenderableBuildingElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
+    public static RenderableElement createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
         return createTestBuilding(basePoints, roofShape, minHeight, roofHeight, height, null, null);
     }
 
@@ -243,7 +243,7 @@ class RoofGeneratorTopologyTest {
         }
         ArrayList<Point2D> base = createRectangularBase(25, 10);
         for (RoofShapes roof_shape: RoofShapes.values()){
-            RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 15, 40);
+            RenderableElement test_building = createTestBuilding(base, roof_shape, 0, 15, 40);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
             if (SAVE_TEST_RESULTS_TO_FILE) {
                 ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roof_shape +".obj");
@@ -261,7 +261,7 @@ class RoofGeneratorTopologyTest {
         }
         ArrayList<Point2D> base = createRectangularBase(25, 10);
         for (RoofShapes roof_shape: RoofShapes.values()){
-            RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 2, 9, 11);
+            RenderableElement test_building = createTestBuilding(base, roof_shape, 2, 9, 11);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
             if (SAVE_TEST_RESULTS_TO_FILE) {
                 ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roof_shape +".obj");
@@ -283,7 +283,7 @@ class RoofGeneratorTopologyTest {
                    roof_shape == RoofShapes.MANSARD|| roof_shape == RoofShapes.CROSS_GABLED ){
                 continue;
             }
-            RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 5, 10);
+            RenderableElement test_building = createTestBuilding(base, roof_shape, 0, 5, 10);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
             if (SAVE_TEST_RESULTS_TO_FILE) {
                 ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roof_shape +".obj");
@@ -305,7 +305,7 @@ class RoofGeneratorTopologyTest {
                     roof_shape == RoofShapes.MANSARD|| roof_shape == RoofShapes.CROSS_GABLED ){
                 continue;
             }
-            RenderableBuildingElement test_building = createTestBuilding(base, roof_shape, 0, 10, 10);
+            RenderableElement test_building = createTestBuilding(base, roof_shape, 0, 10, 10);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
             if (SAVE_TEST_RESULTS_TO_FILE) {
                 ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roof_shape +".obj");
@@ -327,10 +327,10 @@ class RoofGeneratorTopologyTest {
         double roofHeight = 15;
         double expectedMinZ = height - roofHeight - DEFAULT_ROOF_THICKNESS;
 
-        //TODO: support ALL the roof shapes. It requires some refactoring of Scene/RenderableBuildingElement to adjust min_height in the proper place
+        //TODO: support ALL the roof shapes. It requires some refactoring of Scene/RenderableElement to adjust min_height in the proper place
         var supportedRoofShapes = EnumSet.of ( RoofShapes.GABLED, RoofShapes.GAMBREL, RoofShapes.ROUND, RoofShapes.SALTBOX,  RoofShapes.SKILLION) ; //RoofShapes.FLAT
 
-        // Create a RenderableBuildingElement with buildingPart="roof"
+        // Create a RenderableElement with buildingPart="roof"
         LatLon origin = new LatLon(55, 37);
         Contour contour = new Contour(base, "XY");
         String outputFolder=null;
@@ -346,10 +346,10 @@ class RoofGeneratorTopologyTest {
                                "roof:shape",  roofShape.toString()
                                );
 
-            RenderableBuildingElement testBuilding = RenderableBuildingElement.createBuildingOrPart(new Way(),
+            RenderableElement testBuilding = RenderableElement.createBuildingOrPart(new Way(),
                     origin, contour, tags, null);
 
-            //RenderableBuildingElement testBuilding = new RenderableBuildingElement(
+            //RenderableElement testBuilding = new RenderableElement(
             //        new SimplePrimitiveId(-1, OsmPrimitiveType.WAY),
             //        origin, contour, height, minHeight, roofHeight,
             //        "", "", roofShape.toString(), "", "", "roof", null);
@@ -382,7 +382,7 @@ class RoofGeneratorTopologyTest {
                           "roof:orientation", "across"
                         );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
+        var test_building = RenderableElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         if (SAVE_TEST_RESULTS_TO_FILE) {
@@ -408,9 +408,9 @@ class RoofGeneratorTopologyTest {
                 "roof:orientation", "across"
                     );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
+        var test_building = RenderableElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
-        //new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
+        //new RenderableElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
         //"", "", RoofShapes.HIPPED.toString(), "", "across", null, null );
 
         Mesh mesh = RoofShapes.HIPPED.getMesher().generate(test_building);
@@ -429,7 +429,7 @@ class RoofGeneratorTopologyTest {
         ArrayList<Point2D> basePoints = createRectangularBase(14, 10);
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints, "XY");
-        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
+        //RenderableElement test_building = new RenderableElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
         //        "", "", RoofShapes.SKILLION.toString(), "45", "", null, null);
 
         var tags = Map.of(
@@ -441,7 +441,7 @@ class RoofGeneratorTopologyTest {
                 "roof:direction", "45"
         );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
+        var test_building = RenderableElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
         if (SAVE_TEST_RESULTS_TO_FILE) {
@@ -456,7 +456,7 @@ class RoofGeneratorTopologyTest {
     void testFlatRoofWithHole() throws IOException {
         Contour contour = createRectangularBaseWithHole(10, 10, 2, 2);
         LatLon origin = new LatLon(55,37);
-        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 3,
+        //RenderableElement test_building = new RenderableElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 3,
         //        "", "", RoofShapes.FLAT.toString(), "", "", null, null );
 
         var tags = Map.of(
@@ -467,7 +467,7 @@ class RoofGeneratorTopologyTest {
                           "roof:shape", RoofShapes.FLAT.toString()
                         );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
+        var test_building = RenderableElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.FLAT.getMesher().generate(test_building);
         if (SAVE_TEST_RESULTS_TO_FILE) {
@@ -484,7 +484,7 @@ class RoofGeneratorTopologyTest {
     void testSkillionRoofWithHole() throws IOException {
         Contour contour = createRectangularBaseWithHole(12, 12, 4, 4);
         LatLon origin = new LatLon(55, 37);
-        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, 10, 0, 5,
+        //RenderableElement test_building = new RenderableElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, 10, 0, 5,
         //        "", "", RoofShapes.SKILLION.toString(), "30", "", null, null);
 
         var tags = Map.of(
@@ -496,7 +496,7 @@ class RoofGeneratorTopologyTest {
                 "roof:direction", "30"
         );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
+        var test_building = RenderableElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
         if (SAVE_TEST_RESULTS_TO_FILE) {
@@ -514,7 +514,7 @@ class RoofGeneratorTopologyTest {
         LatLon origin = new LatLon(55,37);
         Contour contour = new Contour(basePoints, "XY");
         // Note: buildingPart is "steps"
-        //RenderableBuildingElement test_building = new RenderableBuildingElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
+        //RenderableElement test_building = new RenderableElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour,  10, 0, 6,
         //        "", "", RoofShapes.STEPS.toString(), "40", "", "steps", 0.2 );
 
         var tags = Map.of(
@@ -527,7 +527,7 @@ class RoofGeneratorTopologyTest {
                 "roof:direction", "40"
         );
 
-        var test_building = RenderableBuildingElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
+        var test_building = RenderableElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
 
         Mesh mesh = RoofShapes.STEPS.getMesher().generate(test_building);
 
@@ -548,7 +548,7 @@ class RoofGeneratorTopologyTest {
         }
 
         // Test 1: Default hyperboloid (topRate=1.0, middleRate=1.0) - should be a simple cylinder
-        RenderableBuildingElement test_building_default = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 1.0, 1.0);
+        RenderableElement test_building_default = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 1.0, 1.0);
         Mesh mesh_default = RoofShapes.HYPERBOLOID.getMesher().generate(test_building_default);
         if (SAVE_TEST_RESULTS_TO_FILE) {
             ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_default, outputFolder + "/" + "Hyperboloid_Default.obj");
@@ -556,7 +556,7 @@ class RoofGeneratorTopologyTest {
         AssertMeshTopology(mesh_default, test_building_default.minHeight, test_building_default.height, "Hyperboloid_Default");
 
         // Test 2: Hyperboloid with wider top (topRate=1.5, middleRate=0.8)
-        RenderableBuildingElement test_building_wider_top = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 1.5, 0.8);
+        RenderableElement test_building_wider_top = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 1.5, 0.8);
         Mesh mesh_wider_top = RoofShapes.HYPERBOLOID.getMesher().generate(test_building_wider_top);
         if (SAVE_TEST_RESULTS_TO_FILE) {
             ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_wider_top, outputFolder + "/" + "Hyperboloid_WiderTop.obj");
@@ -564,7 +564,7 @@ class RoofGeneratorTopologyTest {
         AssertMeshTopology(mesh_wider_top, test_building_wider_top.minHeight, test_building_wider_top.height, "Hyperboloid_WiderTop");
 
         // Test 3: Hyperboloid with narrower top (topRate=0.5, middleRate=0.4)
-        RenderableBuildingElement test_building_narrow_top = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 0.5, 0.4);
+        RenderableElement test_building_narrow_top = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 0.5, 0.4);
         Mesh mesh_narrow_top = RoofShapes.HYPERBOLOID.getMesher().generate(test_building_narrow_top);
         if (SAVE_TEST_RESULTS_TO_FILE) {
             ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_narrow_top, outputFolder + "/" + "Hyperboloid_NarrowTop.obj");
@@ -573,7 +573,7 @@ class RoofGeneratorTopologyTest {
 
         // Test 4: Hyperboloid with "inverted" shape (topRate=0.8, middleRate=1.2) - not really supported, but should not crach
         // middleRate should be the minimal coefficient.
-        RenderableBuildingElement test_building_bulge = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 0.8, 1.2);
+        RenderableElement test_building_bulge = createTestBuilding(basePoints, RoofShapes.HYPERBOLOID, 0, 0, 10, 0.8, 1.2);
         Mesh mesh_bulge = RoofShapes.HYPERBOLOID.getMesher().generate(test_building_bulge);
         if (SAVE_TEST_RESULTS_TO_FILE) {
             ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_bulge, outputFolder + "/" + "Hyperboloid_Bulge.obj");
