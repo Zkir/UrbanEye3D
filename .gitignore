@@ -5,3 +5,5 @@
 
 /tests/output.good
 /tests/output.new
+/misc/data
+/misc/__pycache__
