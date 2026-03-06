@@ -228,4 +228,5 @@ The plugin renders some natural features to provide more context to the 3D scene
 
 -   Nodes tagged with `natural=tree` are rendered as 3D models.
 -   The `height` tag can be used to specify the height of the tree. If not present, a default height is used.
+-   The `leaf_type` tag can be used to select a specific "type" of tree. Supported values are `broadleaved` and `needleleaved`.
 -   The rendering uses a simple "billboard" or "cross-plane" technique with a tree texture.
