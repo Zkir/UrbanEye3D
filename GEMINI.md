@@ -100,8 +100,12 @@ To be prioritized via MoSCoW method.
 * Support of `roof:ridge=yes` as described in [ProposedRoofLines](https://wiki.openstreetmap.org/wiki/ProposedRoofLines)	
 	* seems it is not really feasible with existing mesher structure.
 
-
 ## Recent Accomplishments
+### March 6, 2026
+*   **Refactored Tree Texture Handling to be Data-Driven.**
+    *   `TextureManager` no longer uses hardcoded paths. It now parses a configuration file (`/textures/textures.cfg`) to load a list of available texture definitions, each with its own set of tags.
+    *   Implemented a new method `findTextureName()` which selects the best texture for an object by scoring how well the object's OSM tags match the tags of each texture definition. This creates a flexible, data-driven system.
+
 ### March 4, 2026
 *   **Successfully implemented `natural=tree` rendering.**
     *   Refactored `RenderableBuildingElement` into a universal `RenderableElement` class to handle various object types.
@@ -501,6 +505,7 @@ Scene #2, Christ the Saviour (921 parts)
 
 ## Learnings
 
+*   **Maven Resource Paths:** It's crucial to be mindful of how resource paths are resolved. The config file was correctly loaded using a path relative to the resources root (`/textures/textures.cfg`), not the full file system path.
 *   **JOSM Plugin Lifecycle and `mapFrameInitialized`:**
     * `UrbanEye3dPlugin` is the entry point. It initializes `DialogWindow3D`, which is a `ToggleDialog`. JOSM automatically handles the creation of the menu item and the visibility of the dialog.
     *   The `mapFrameInitialized(oldFrame, newFrame)` method is a dual-purpose callback for both setup (`newFrame != null`) and teardown (`oldFrame != null`). It can be called multiple times during a JOSM session, especially when all data layers are removed and a new `MapFrame` is created.

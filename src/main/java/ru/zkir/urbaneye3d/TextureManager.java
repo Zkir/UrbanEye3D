@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class TextureManager {
     private static TextureManager instance;
@@ -189,5 +191,15 @@ public class TextureManager {
             texture.destroy(gl);
         }
         textureCache.clear();
+    }
+
+    /**
+     * Gets a set of all unique key-value tags used across all texture definitions.
+     * @return A set of map entries representing all unique tags.
+     */
+    public Set<Map.Entry<String, String>> getAllTags() {
+        return textureDefinitions.stream()
+                .flatMap(def -> def.tags.entrySet().stream())
+                .collect(Collectors.toSet());
     }
 }

@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260304T025508Z",
+  "data_updated" : "20260306T205809Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -61,6 +61,14 @@
   }, {
     "key" : "layer",
     "description" : "Objects with layer<0 are considered to be located underground -- and are not displayed"
+  }, {
+    "key" : "leaf_type",
+    "value" : "broadleaved",
+    "description" : "Used to select an appropriate texture/model for trees."
+  }, {
+    "key" : "leaf_type",
+    "value" : "needleleaved",
+    "description" : "Used to select an appropriate texture/model for trees."
   }, {
     "key" : "location",
     "value" : "underground",
