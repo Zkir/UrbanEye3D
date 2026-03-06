@@ -362,16 +362,21 @@ public class RenderableElement {
 
     /** Create a tree*/
     public static RenderableElement createTree(Node node) {
+        if (node.getCoor() == null) {
+            return null;
+        }
 
         double treeHeight = getTagD("height", node, 8.0);
-        double treeWidth = treeHeight * 0.9; // Make width proportional to height TODO: textures should be square!
-        String textureName = "default_tree"; // Hardcoded for now, can be based on genus etc.
+        double treeWidth = treeHeight * 0.9; // Make width proportional to height
+        String textureName = TextureManager.getInstance().findTextureName(node.getInterestingTags());
+        if (textureName == null){
+            UrbanEye3dPlugin.debugMsg("failed to assign texture to object with tags " + node.getInterestingTags());
+            return null;
+        }
 
         // The origin of the tree object is the node itself.
         // The mesher creates geometry around (0,0,0).
         // The renderer will translate it to the correct world position.
-        if (node.getCoor() == null) return null;
-
         Mesh treeMesh = MesherTree.generate(treeWidth, treeHeight);
 
         return new RenderableElement(node, treeMesh, textureName);

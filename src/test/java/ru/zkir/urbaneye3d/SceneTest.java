@@ -250,7 +250,8 @@ class SceneTest {
         assertEquals(1, scene.renderableElements.size(), "Should have exactly one renderable element for the tree.");
 
         RenderableElement treeElement = scene.renderableElements.get(0);
-        assertEquals("default_tree", treeElement.textureName, "The texture name should be set for the tree.");
+        assertNotNull(treeElement.textureName, "The texture name should be set for the tree.");
+        assertTrue(treeElement.textureName.startsWith("tree_") , "The texture name should start with 'tree_'.");
 
         Mesh treeMesh = treeElement.getMesh();
         assertNotNull(treeMesh, "Tree mesh should not be null.");
