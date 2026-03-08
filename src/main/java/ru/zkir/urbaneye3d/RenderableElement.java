@@ -366,7 +366,18 @@ public class RenderableElement {
             return null;
         }
 
-        double treeHeight = getTagD("height", node, 8.0);
+        double treeHeight = 0;
+        if (node.hasTag("height")){
+            treeHeight = getTagD("height", node, 0);
+        }
+        if ((treeHeight == 0) && node.hasTag("circumference")){
+            double treeCircumference = getTagD("circumference", node, 1);
+                treeHeight = Math.pow((Math.log(treeCircumference)/Math.log(2) *0.33+3),2);
+        }
+        if (treeHeight == 0){
+            treeHeight = 8;
+        }
+
         double treeWidth = treeHeight * 0.9; // Make width proportional to height
         String textureName = TextureManager.getInstance().findTextureName(node.getInterestingTags());
         if (textureName == null){

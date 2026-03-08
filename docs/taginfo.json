@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260306T205809Z",
+  "data_updated" : "20260308T211808Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -46,6 +46,9 @@
     "key" : "building:part",
     "value" : "steps",
     "description" : "Produces steps-shaped structure or a flight of stairs. Should be used together with roof:shape=skillion"
+  }, {
+    "key" : "circumference",
+    "description" : "Used to estimate height of trees (natural=tree)"
   }, {
     "key" : "colour",
     "description" : "Specifies the color of the object, especially barrier or man-made."

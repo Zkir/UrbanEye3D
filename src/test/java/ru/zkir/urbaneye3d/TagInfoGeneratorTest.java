@@ -78,6 +78,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("building:height", "An alternative tag for the total height of the building, including the roof, in meters.");
         TAG_DESCRIPTIONS.put("building:levels", "The number of floors (levels) in the main part of the building. Used to calculate height if not specified explicitly.");
         TAG_DESCRIPTIONS.put("building:min_level", "The number of floors to offset the building from the ground. Used to calculate min_height if not specified explicitly.");
+        TAG_DESCRIPTIONS.put("circumference", "Used to estimate height of trees (natural=tree)");
         TAG_DESCRIPTIONS.put("colour", "Specifies the color of the object, especially barrier or man-made.");
         TAG_DESCRIPTIONS.put("height", "The total height of the building, including the roof, in meters.");
         TAG_DESCRIPTIONS.put("layer", "Objects with layer<0 are considered to be located underground -- and are not displayed");
@@ -137,6 +138,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("man_made=tower",                "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=water_tower",          "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("place", "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance");
+
     }
 
     /** This list contains keys for which reporting of each particular value is not required.*/
