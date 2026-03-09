@@ -19,7 +19,10 @@ def filter_nodes(xml_file):
     for event, elem in context:
         if elem.tag in ('node', 'way', 'relation'):
             tags = get_tags(elem)
-            if len(tags) > 0:
+            for dull_tag in ["source",  "created_by", "attribution"]:
+                if dull_tag in tags:
+                    tags.pop(dull_tag)
+            if len(tags) > 1: # we need some additional tags to work with.
                 yield (elem.attrib, tags)
             elem.clear()
 

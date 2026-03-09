@@ -44,6 +44,8 @@ def clean_age(age, start_date):
             age="mature"
         if age=="young adult":
             age="semi-mature"
+        if age=="veteran":
+            age="mature"            
         
         if age.lower() in ["new planting", "young", "early-mature", "semi-mature", "mature"]:
             stage = age
@@ -83,6 +85,7 @@ def analyze_data(input_filename, json_outfile, csv_outfile, group_by_col, numeri
     })
     group_totals = Counter()
     circumference_rejected_values = 0
+    errors = []
     try:
         with open(input_filename, 'r', newline='', encoding='utf-8') as infile:
             reader = csv.DictReader(infile)
@@ -104,8 +107,16 @@ def analyze_data(input_filename, json_outfile, csv_outfile, group_by_col, numeri
                     if value_str:    
                         try:
                             x = float(value_str)
-                            #if x<0: print ("unexpected value for ", col, ": ", value_str, row.get("id"), row.get(col)); exit(1)
-                            #if x>45 and col=="circumference": circumference_rejected_values += 1; continue
+                            if x < 0:
+                                print ("unexpected value for ", col, ": ", value_str, row.get("id"), row.get(col)); 
+                                exit(1)
+                                continue
+                            if x > 45 and col=="circumference":
+                                osm_id = row.get("id")
+                                message =  "Circumference is too large. Known thickest tree is just 43 m in circumference"
+                                errors += [{"id":osm_id, "key":col, "value":row.get(col), "message": message}]
+                                circumference_rejected_values += 1 
+                                continue
                             state = stats_agg[group_key]['numeric'][col]
                             state['count'] += 1; delta = x - state['mean']; state['mean'] += delta / state['count']
                             delta2 = x - state['mean']; state['S'] += delta * delta2
@@ -134,6 +145,12 @@ def analyze_data(input_filename, json_outfile, csv_outfile, group_by_col, numeri
                         stats_agg[group_key]['categorical'][col][cleaned_value] += 1
                         
         print("Invalid values for circumference rejected:", circumference_rejected_values)
+        
+        print(f"Saving errors to '{json_outfile}'...")
+        with open(json_outfile, 'w', encoding='utf-8') as f:
+            json.dump(errors, f, indent=4, sort_keys=False)
+        
+        
         print("Aggregation complete. Finalizing statistics...")
         results = defaultdict(dict)
         for group_key, collected_data in stats_agg.items():
@@ -150,8 +167,8 @@ def analyze_data(input_filename, json_outfile, csv_outfile, group_by_col, numeri
                 if total > 0:
                     cat_frequencies[field_name] = { value: round(count / total, 2) for value, count in counter.items() }
             if cat_frequencies: results[group_key]['categorical_frequencies'] = cat_frequencies
-        print(f"Saving analysis to '{json_outfile}'...")
-        with open(json_outfile, 'w', encoding='utf-8') as f: json.dump(results, f, indent=4, sort_keys=True)
+        
+            
         print(f"Flattening data for '{csv_outfile}'...")
         flat_data = []; all_csv_headers = set(['total_count', group_by_col])
         for group_key, stats in results.items():
@@ -227,8 +244,9 @@ if __name__ == "__main__":
     GROUP_BY_COLUMN = args.group_by
     
     INPUT_FILE = 'data/trees.csv'
-    JSON_OUTPUT_FILE = f'data/{GROUP_BY_COLUMN}_analysis_full.json'
-    CSV_OUTPUT_FILE = f'data/{GROUP_BY_COLUMN}_analysis_full.csv'
+    
+    JSON_OUTPUT_FILE = f'data/tree_stats_{GROUP_BY_COLUMN}_errors.json'
+    CSV_OUTPUT_FILE = f'data/tree_stats_{GROUP_BY_COLUMN}.csv'
     
     NUMERIC_COLUMNS = ['height', 'circumference', 'age']
     #extract_height_circ(INPUT_FILE, 'data/trees_cleaned.csv', NUMERIC_COLUMNS)

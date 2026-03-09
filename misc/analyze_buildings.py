@@ -98,7 +98,7 @@ def analyze_data(input_filename, json_outfile, csv_outfile, defaults_outfile, gr
             # Write header
             total_buildings = group_totals.get('*', 0)
             f.write("# This file was generated automatically from the OSM data (planet.osm.pbf)\n")
-            f.write(f"# {total_buildings} building(s) was processed.\n\n")
+            f.write(f"# {total_buildings:,} buildings were processed.\n\n")
 
             # Sort group keys by total_count descending
             sorted_groups = sorted(group_totals.items(), key=lambda item: item[1], reverse=True)
@@ -153,9 +153,13 @@ def analyze_data(input_filename, json_outfile, csv_outfile, defaults_outfile, gr
                 
                 if output_parts:
                     f.write(f"    {', '.join(output_parts)}\n")
+                f.write("\n")    
 
-        print(f"Saving analysis to '{json_outfile}'...")
-        with open(json_outfile, 'w', encoding='utf-8') as f: json.dump(results, f, indent=4, sort_keys=True)
+        if False:   
+            print(f"Saving analysis to '{json_outfile}'...")
+            with open(json_outfile, 'w', encoding='utf-8') as f: 
+                json.dump(results, f, indent=4, sort_keys=True)
+            
         print(f"Flattening data for '{csv_outfile}'...")
         flat_data = []; all_csv_headers = set(['total_count', group_by_col])
         for group_key, stats in results.items():

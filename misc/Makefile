@@ -6,7 +6,7 @@
 ANALYSIS_TYPES := species genus leaf_type
 
 # Generate the list of target CSV files from the analysis types
-ANALYSIS_FILES := $(patsubst %,data/%_analysis_full.csv,$(ANALYSIS_TYPES))
+ANALYSIS_FILES := $(patsubst %,data/tree_stats_%.csv,$(ANALYSIS_TYPES))
 
 # Default goal, executed when 'make' is run without arguments
 all: $(ANALYSIS_FILES) data/building_analysis_full.csv | data
@@ -19,8 +19,8 @@ BUILDING_COLUMNS = id building height building:levels roof:shape roof:height roo
 
 # Generic pattern rule to generate any analysis file.
 # The stem (%) will be 'species', 'genus', or 'leaf_type'.
-data/%_analysis_full.csv: data/trees.csv 
-	python analyze_species.py --group-by $*
+data/tree_stats_%.csv: data/trees.csv 
+	python analyze_trees.py --group-by $*
 	
 data/building_analysis_full.csv: data/buildings.csv
 	python analyze_buildings.py

@@ -34,7 +34,7 @@ def clean_height_or_circumference(value_str: str) -> float | None:
             value_str=str(float(value) * 0.3048)
         elif unit in ["in", "inch", "inches", "''", "\""]:
             value_str=str(float(value) * 0.0254)
-        elif unit in ["estimation", "et", "ca", "t", "med", "jacaranda", "o", "mueller", "s", "ss", "pedro", "rr", "arecaceae", "w", "q"]:
+        elif unit in ["estimation", "et", "ca", "t", "med", "jacaranda", "o", "mueller", "s", "ss", "pedro", "rr", "arecaceae", "w", "q", "qq", "storeys"]:
             return None
         else: 
             print("unknown unit:", value, unit)
