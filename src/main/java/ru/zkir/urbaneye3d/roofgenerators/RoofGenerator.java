@@ -1,6 +1,6 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
-import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -16,7 +16,7 @@ public abstract class RoofGenerator {
     /**
     * Main method for mesh creation. Should be implemented in all descendants.
     */
-    public abstract Mesh generate(RenderableBuildingElement building);
+    public abstract Mesh generate(RenderableElement building);
 
     //auxiliary functions, used by descendants are implemented here.
     public static Point3D calculateCentroid(List<Point2D> points) {

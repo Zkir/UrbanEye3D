@@ -2,7 +2,6 @@ package ru.zkir.urbaneye3d;
 
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
-import org.openstreetmap.josm.data.imagery.ImageryInfo;
 import org.openstreetmap.josm.data.osm.*;
 import org.openstreetmap.josm.gui.MainApplication;
 import ru.zkir.urbaneye3d.utils.Contour;
@@ -14,10 +13,10 @@ import java.util.*;
 public class Scene {
     /** The list of scene "elements" that should be rendered.
     * renderable element can be either a building or a building part. */
-    final List<RenderableBuildingElement> renderableElements = new ArrayList<>();
+    final List<RenderableElement> renderableElements = new ArrayList<>();
 
     public void updateSelection(Collection<PrimitiveId> selectedPrimitivesIds) {
-        for (RenderableBuildingElement element : renderableElements) {
+        for (RenderableElement element : renderableElements) {
             element.isSelected = selectedPrimitivesIds.contains(element.primitiveId);
         }
     }
@@ -126,7 +125,7 @@ public class Scene {
                     //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
                     Contour partContour = new Contour(outerRing, mainContour.mode);
 
-                    var element = RenderableBuildingElement.createBuildingOrPart(primitive, primitiveOrigin, partContour, primitive.getInterestingTags(), parentTags);
+                    var element = RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, partContour, primitive.getInterestingTags(), parentTags);
                     if (element != null) {
                         renderableElements.add(element);
                         element.isSelected = primitive.isSelected();
@@ -134,7 +133,7 @@ public class Scene {
                 }
             } else {
                 // Single outer ring, or multiple outer rings with inner rings, or a Way
-                var element = RenderableBuildingElement.createBuildingOrPart(primitive, primitiveOrigin, mainContour, primitive.getInterestingTags(), parentTags);
+                var element = RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, mainContour, primitive.getInterestingTags(), parentTags);
                 if (element != null) {
                     renderableElements.add(element);
                     element.isSelected = primitive.isSelected();
@@ -150,7 +149,7 @@ public class Scene {
                 continue;
             }
             if (primitive instanceof Way && primitive.hasKey("barrier")) {
-                var element = RenderableBuildingElement.createBarrier(primitive);
+                var element = RenderableElement.createBarrier(primitive);
                 if (element != null){
                     renderableElements.add(element);
                 }
@@ -166,7 +165,19 @@ public class Scene {
                 if (isBuildingOrPart(primitive)){
                     continue;
                 }
-                var element = RenderableBuildingElement.createManMade(primitive);
+                var element = RenderableElement.createManMade(primitive);
+                if (element != null){
+                    renderableElements.add(element);
+                }
+            }
+        }
+
+        /*
+         * Trees
+         */
+        for (Node node : dataSet.getNodes()) {
+            if (node.hasTag("natural", "tree")) {
+                var element = RenderableElement.createTree(node);
                 if (element != null){
                     renderableElements.add(element);
                 }

@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260223T023616Z",
+  "data_updated" : "20260308T211808Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -47,6 +47,9 @@
     "value" : "steps",
     "description" : "Produces steps-shaped structure or a flight of stairs. Should be used together with roof:shape=skillion"
   }, {
+    "key" : "circumference",
+    "description" : "Used to estimate height of trees (natural=tree)"
+  }, {
     "key" : "colour",
     "description" : "Specifies the color of the object, especially barrier or man-made."
   }, {
@@ -61,6 +64,14 @@
   }, {
     "key" : "layer",
     "description" : "Objects with layer<0 are considered to be located underground -- and are not displayed"
+  }, {
+    "key" : "leaf_type",
+    "value" : "broadleaved",
+    "description" : "Used to select an appropriate texture/model for trees."
+  }, {
+    "key" : "leaf_type",
+    "value" : "needleleaved",
+    "description" : "Used to select an appropriate texture/model for trees."
   }, {
     "key" : "location",
     "value" : "underground",
@@ -90,6 +101,10 @@
   }, {
     "key" : "min_height",
     "description" : "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes."
+  }, {
+    "key" : "natural",
+    "value" : "tree",
+    "description" : "A single tree, rendered as a 3D billboard model."
   }, {
     "key" : "place",
     "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"

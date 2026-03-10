@@ -218,4 +218,15 @@ For all barrier types, the following tags can be used to override the default va
 - `width`: The width of the barrier.
 - `colour`: The color of the barrier.
 
-Note that in OSM `barrier=*` is considered to be a linear object, even if the way is closed. To override this, use the `area=yes` tag. In the later case the `width` tag is not applied. 
+Note that in OSM `barrier=*` is considered to be a linear object, even if the way is closed. To override this, use the `area=yes` tag. In the later case the `width` tag is not applied.
+
+## Natural Features
+
+The plugin renders some natural features to provide more context to the 3D scene.
+
+### Trees
+
+-   Nodes tagged with `natural=tree` are rendered as 3D models.
+-   The `height` tag can be used to specify the height of the tree. If not present, a default height is used.
+-   The `leaf_type` tag can be used to select a specific "type" of tree. Supported values are `broadleaved` and `needleleaved`.
+-   The rendering uses a simple "billboard" or "cross-plane" technique with a tree texture.

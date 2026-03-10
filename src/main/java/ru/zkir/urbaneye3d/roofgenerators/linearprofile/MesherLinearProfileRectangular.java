@@ -1,6 +1,6 @@
 package ru.zkir.urbaneye3d.roofgenerators.linearprofile;
 
-import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -16,7 +16,7 @@ public class MesherLinearProfileRectangular  { //extends RoofGenerator
     }
 
     //@Override
-    public Mesh generate(RenderableBuildingElement building) {
+    public Mesh generate(RenderableElement building) {
         List<Point2D> basePoints = building.getContour();
         double height = building.height;
         double minHeight = building.minHeight;
@@ -79,7 +79,7 @@ public class MesherLinearProfileRectangular  { //extends RoofGenerator
         Point2D vecAD = new Point2D(D.x - A.x, D.y - A.y);
         Point2D vecBC = new Point2D(C.x - B.x, C.y - B.y);
 
-        Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
         List<Point2D> profile = this.profile.getProfile();
         int profileSize = profile.size();
 
@@ -140,14 +140,14 @@ public class MesherLinearProfileRectangular  { //extends RoofGenerator
         for (int i = 0; i < profileSize; i++) {
             front1Face[i] = front1Start + i;
         }
-        mesh.wallFaces.add(front1Face);
+        mesh.addWallFace(front1Face);
 
         // Фронтон 2 (в обратном порядке)
         int[] front2Face = new int[profileSize];
         for (int i = 0; i < profileSize; i++) {
             front2Face[i] = front2End - i;
         }
-        mesh.wallFaces.add(front2Face);
+        mesh.addWallFace(front2Face);
 
         // Скаты между фронтонами
         for (int i = 0; i < profileSize - 1; i++) {
@@ -157,23 +157,23 @@ public class MesherLinearProfileRectangular  { //extends RoofGenerator
             int v4 = front2Start + i;       // Точка на втором фронтоне
 
             int[] quadFace = {v1, v4, v3, v2};
-            mesh.roofFaces.add(quadFace);
+            mesh.addRoofFace(quadFace);
         }
 
         // 8. Создать стены
         if (!nowalls) {
             // Стена AB
-            mesh.wallFaces.add(new int[]{idxBg, front2Start, front1Start, idxAg});
+            mesh.addWallFace(new int[]{idxBg, front2Start, front1Start, idxAg});
             // Стена BC
-            mesh.wallFaces.add(new int[]{idxCg, front2End, front2Start, idxBg});
+            mesh.addWallFace(new int[]{idxCg, front2End, front2Start, idxBg});
             // Стена CD
-            mesh.wallFaces.add(new int[]{idxDg, front1End, front2End, idxCg});
+            mesh.addWallFace(new int[]{idxDg, front1End, front2End, idxCg});
             // Стена DA
-            mesh.wallFaces.add(new int[]{idxAg, front1Start, front1End, idxDg});
+            mesh.addWallFace(new int[]{idxAg, front1Start, front1End, idxDg});
         }
 
         // 9. Создать нижнюю грань (пол)
-        mesh.bottomFaces.add(new int[]{idxAg, idxDg, idxCg, idxBg});
+        mesh.addBottomFace(new int[]{idxAg, idxDg, idxCg, idxBg});
 
         return mesh;
 

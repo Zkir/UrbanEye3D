@@ -1,6 +1,6 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
-import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MesherMansard extends RoofGenerator {
     @Override
-    public Mesh generate(RenderableBuildingElement building) {
+    public Mesh generate(RenderableElement building) {
         List<Point2D> basePoints = building.getContour();
         if (basePoints.size() != 4) {
             return null; // Fallback for non-quadrilaterals
@@ -21,7 +21,7 @@ public class MesherMansard extends RoofGenerator {
         double height = building.height;
         double roofHeight = building.roofHeight;
 
-        Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
         List<Point3D> verts = mesh.verts;
         int n = basePoints.size();
 
@@ -55,7 +55,7 @@ public class MesherMansard extends RoofGenerator {
         // --- Create Lower Roof Faces (Trapezoids) ---
         for (int i = 0; i < n; i++) {
             int next = (i + 1) % n;
-            mesh.roofFaces.add(new int[]{wallIdx + i, wallIdx + next, insetIdx + next, insetIdx + i});
+            mesh.addRoofFace(new int[]{wallIdx + i, wallIdx + next, insetIdx + next, insetIdx + i});
         }
 
         // --- Generate Upper (Hipped) Roof Part ---
@@ -98,16 +98,16 @@ public class MesherMansard extends RoofGenerator {
         int eave2_idx0 = g2_idx1;
         int eave2_idx1 = g1_idx0;
 
-        mesh.roofFaces.add(new int[]{insetIdx + eave1_idx0, insetIdx + eave1_idx1, ridge2Idx, ridge1Idx});
-        mesh.roofFaces.add(new int[]{insetIdx + eave2_idx0, insetIdx + eave2_idx1, ridge1Idx, ridge2Idx});
-        mesh.roofFaces.add(new int[]{insetIdx + g1_idx1, ridge1Idx, insetIdx + g1_idx0});
-        mesh.roofFaces.add(new int[]{insetIdx + g2_idx1, ridge2Idx, insetIdx + g2_idx0});
+        mesh.addRoofFace(new int[]{insetIdx + eave1_idx0, insetIdx + eave1_idx1, ridge2Idx, ridge1Idx});
+        mesh.addRoofFace(new int[]{insetIdx + eave2_idx0, insetIdx + eave2_idx1, ridge1Idx, ridge2Idx});
+        mesh.addRoofFace(new int[]{insetIdx + g1_idx1, ridge1Idx, insetIdx + g1_idx0});
+        mesh.addRoofFace(new int[]{insetIdx + g2_idx1, ridge2Idx, insetIdx + g2_idx0});
 
         // --- Create Walls and Bottom ---
         if (wallHeight > minHeight) {
             for (int i = 0; i < n; i++) {
                 int next = (i + 1) % n;
-                mesh.wallFaces.add(new int[]{baseIdx + i, baseIdx + next, wallIdx + next, wallIdx + i});
+                mesh.addWallFace(new int[]{baseIdx + i, baseIdx + next, wallIdx + next, wallIdx + i});
             }
         }
 
@@ -115,7 +115,7 @@ public class MesherMansard extends RoofGenerator {
         for (int i = 0; i < n; i++) {
             bottomFace[i] = baseIdx + n - 1 - i;
         }
-        mesh.bottomFaces.add(bottomFace);
+        mesh.addBottomFace(bottomFace);
 
         return mesh;
     }

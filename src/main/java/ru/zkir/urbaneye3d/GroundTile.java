@@ -14,7 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -128,14 +127,17 @@ public class GroundTile {
         Point2D v3_local = FlatEarth.getLocalCoords(bounds.getMax().lat(), bounds.getMax().lon(), center);
         Point2D v4_local = FlatEarth.getLocalCoords(bounds.getMax().lat(), bounds.getMin().lon(), center);
 
-        mesh = new Mesh();
-        mesh.verts = new ArrayList<>(List.of(
-                new Point3D(v1_local),
-                new Point3D(v2_local),
-                new Point3D(v3_local),
-                new Point3D(v4_local)
-        ));
-        mesh.bottomFaces.add(new int[]{0, 1, 2, 3});
+        mesh = new Mesh(null, null, null);
+        mesh.addVertex(new Point3D(v1_local));
+        mesh.addUV(0, 1);
+        mesh.addVertex(new Point3D(v2_local));
+        mesh.addUV(1, 1);
+        mesh.addVertex(new Point3D(v3_local));
+        mesh.addUV(1, 0);
+        mesh.addVertex(new Point3D(v4_local));
+        mesh.addUV(0, 0);
+        mesh.addFace(new int[]{0, 1, 2, 3}, new int[]{0, 1, 2, 3});
+
     }
 
     public void setImageryLayer(GroundPlane.Layer2dInfo layer) {
@@ -295,42 +297,17 @@ public class GroundTile {
         }
     }
 
-    public void render(GL2 gl) {
+    public Texture render(GL2 gl) {
         if (!isReadyToRender()) {
             if (hasImageData()) {
                 uploadToGl(gl);
             } else {
-                renderAsEmptyTile(gl);
-                return;
+                return null;
             }
         }
-        
-        texture.bind(gl);
-        gl.glEnable(GL2.GL_TEXTURE_2D);
-        gl.glColor4d(1.0, 1.0, 1.0, 1.0);
-
-        gl.glBegin(GL2.GL_QUADS);
-        gl.glTexCoord2d(0, 1);
-        gl.glVertex3d(mesh.verts.get(0).x, mesh.verts.get(0).y, 0);
-        gl.glTexCoord2d(1, 1);
-        gl.glVertex3d(mesh.verts.get(1).x, mesh.verts.get(1).y, 0);
-        gl.glTexCoord2d(1, 0);
-        gl.glVertex3d(mesh.verts.get(2).x, mesh.verts.get(2).y, 0);
-        gl.glTexCoord2d(0, 0);
-        gl.glVertex3d(mesh.verts.get(3).x, mesh.verts.get(3).y, 0);
-        gl.glEnd();
-
-        gl.glDisable(GL2.GL_TEXTURE_2D);
+        return this.texture;
     }
-    private void renderAsEmptyTile(GL2 gl){
-        gl.glBegin(GL2.GL_LINE_LOOP);
-        gl.glColor3f(0.0f, 0.0f, 0.0f);
-        for (int index : mesh.bottomFaces.get(0)) {
-            Point3D p = mesh.verts.get(index);
-            gl.glVertex3d(p.x, p.y, p.z);
-        }
-        gl.glEnd();
-    };
+
 
     public void destroy(GL2 gl) {
         if (texture != null) {
@@ -354,6 +331,11 @@ public class GroundTile {
     }
     public static int getPendingGroundTilePaintRequests() {
         return pendingRequests.size();
+    }
+
+    public Mesh getMesh() {
+        return this.mesh;
+
     }
 
 }

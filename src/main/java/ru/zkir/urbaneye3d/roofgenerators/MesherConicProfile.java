@@ -1,6 +1,6 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
-import ru.zkir.urbaneye3d.RenderableBuildingElement;
+import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -56,7 +56,7 @@ public class MesherConicProfile extends RoofGenerator{
     }
 
     @Override
-    public Mesh generate(RenderableBuildingElement building) {
+    public Mesh generate(RenderableElement building) {
 
         List<Point2D> basePoints = building.getContour() ;
         double height= building.height;
@@ -64,10 +64,9 @@ public class MesherConicProfile extends RoofGenerator{
         double wallHeight = building.height - building.roofHeight;
         RoofShapes roofShape = building.roofShape;
 
-        Mesh mesh = new Mesh();
-        List<Point3D> verts = new ArrayList<>();
+        Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
         for (Point2D p:basePoints){
-            verts.add(new Point3D(p.x, p.y, minHeight));
+            mesh.verts.add(new Point3D(p.x, p.y, minHeight));
         }
 
         List<Point2D> profile;
@@ -95,13 +94,12 @@ public class MesherConicProfile extends RoofGenerator{
         // Create walls
         if (minHeight < wallHeight) { // Only create walls if there's a height difference
             for (int i = 0; i < n; i++) {
-                verts.add(new Point3D(basePoints.get(i).x, basePoints.get(i).y, z1));
+                mesh.verts.add(new Point3D(basePoints.get(i).x, basePoints.get(i).y, z1));
             }
-            int indexOffset = n;
             for (int i = 0; i < n - 1; i++) {
-                mesh.wallFaces.add(new int[]{i, i + 1, i + n + 1, i + n});
+                mesh.addWallFace(new int[]{i, i + 1, i + n + 1, i + n});
             }
-            mesh.wallFaces.add(new int[]{n - 1, 0, n, 2 * n - 1});
+            mesh.addWallFace(new int[]{n - 1, 0, n, 2 * n - 1});
         }
 
         // Create roof mesh vertices
@@ -111,27 +109,27 @@ public class MesherConicProfile extends RoofGenerator{
                 double xi = basePoints.get(i).x + (1 - profile.get(j).x) * (center.x - basePoints.get(i).x);
                 double yi = basePoints.get(i).y + (1 - profile.get(j).x) * (center.y - basePoints.get(i).y);
                 double zi = wallHeight + (height - wallHeight) * profile.get(j).y;
-                verts.add(new Point3D(xi, yi, zi));
+                mesh.verts.add(new Point3D(xi, yi, zi));
             }
         }
 
         // Add the top vertex (apex)
-        verts.add(new Point3D(center.x, center.y, z2));
-        int centreIdx = verts.size() - 1;
+        mesh.verts.add(new Point3D(center.x, center.y, z2));
+        int centreIdx = mesh.verts.size() - 1;
 
         // Create roof faces
         int indexOffset = (minHeight < wallHeight) ? n : 0; // Adjust offset if walls were created
 
         for (int j = 0; j < rows - 1; j++) {
             for (int i = 0; i < n - 1; i++) {
-                mesh.roofFaces.add(new int[]{
+                mesh.addRoofFace(new int[]{
                         indexOffset + j * n + i,
                         indexOffset + j * n + i + 1,
                         indexOffset + j * n + i + 1 + n,
                         indexOffset + j * n + i + n
                 });
             }
-            mesh.roofFaces.add(new int[]{
+            mesh.addRoofFace(new int[]{
                     indexOffset + j * n + n - 1,
                     indexOffset + j * n + 0,
                     indexOffset + j * n + n,
@@ -141,13 +139,13 @@ public class MesherConicProfile extends RoofGenerator{
 
         // Faces in the last loop are triangles (connecting to the apex)
         for (int i = 0; i < n - 1; i++) {
-            mesh.roofFaces.add(new int[]{
+            mesh.addRoofFace(new int[]{
                     indexOffset + (rows - 1) * n + i,
                     indexOffset + (rows - 1) * n + i + 1,
                     centreIdx
             });
         }
-        mesh.roofFaces.add(new int[]{
+        mesh.addRoofFace(new int[]{
                 indexOffset + (rows - 1) * n + n - 1,
                 indexOffset + (rows - 1) * n + 0,
                 centreIdx
@@ -158,9 +156,8 @@ public class MesherConicProfile extends RoofGenerator{
         for (int i = 0; i < n; i++) {
             bottomFace[i] = n - 1 - i; // Reverse order for correct normal
         }
-        mesh.bottomFaces.add(bottomFace);
+        mesh.addBottomFace(bottomFace);
 
-        mesh.verts = verts;
         return mesh;
     }
 
