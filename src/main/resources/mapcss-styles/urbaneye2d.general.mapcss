@@ -99,7 +99,7 @@ area|z14-[natural=field] {
 area|z14-[landuse=cemetery][religion=jewish],
 area|z14-[landuse=grave_yard][religion=jewish],
 area|z14-[amenity=grave_yard][religion=jewish] {
-    fill-image: "symbols/cemetery_jewish.18.png";
+    fill-image: "symbols/grave_yard_generic.png";
 }
 
 area|z14-[landuse=cemetery][religion=christian],
@@ -150,14 +150,6 @@ area|z10-13[landuse=allotments] {
 
 area|z14-[landuse=allotments] {
 	fill-color: #cfeca8
-}
-
-area|z8-13[landuse=forest] {
-    fill-color: #8dc56c;
-}
-
-area|z14-[landuse=forest] {
-    fill-image: "symbols/forest.png";
 }
 
 area|z9-[landuse=farmyard] {
@@ -229,7 +221,7 @@ area|z10-[landuse=construction] {
 }
 
 area|z8-[natural=wood],
-area|z8-[landuse=wood] {
+area|z8-[landuse=forest] {
     fill-color: #aed1a0;
 }
 
