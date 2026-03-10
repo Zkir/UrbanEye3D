@@ -11,7 +11,7 @@ JSON_FILE_PATH = os.path.join('data', 'tree_stats_genus_errors.json')
 # The name you want for the new Google Sheet.
 GOOGLE_SHEET_NAME = 'Tree Errors'
 # The path to your Google credentials JSON file.
-GOOGLE_CREDENTIALS_PATH = 'google_credentials.json'
+GOOGLE_CREDENTIALS_PATH = os.path.join(os.path.expanduser("~"),  '.google_credentials.json')
 # The name of the folder in your Google Drive that you've shared with the service account.
 GOOGLE_DRIVE_FOLDER_NAME = 'osm-trees-statistics'
 
@@ -114,8 +114,8 @@ def main():
     worksheet.format(f'A1:{last_column}1', {'textFormat': {'bold': True}})
     print("Formatting complete.")
 
-    print("Рад стараться, ваше благородие! Task complete.")
-    print(f"Final link to the sheet: {spreadsheet.url}")
+    print("Task complete.")
+    print(f"Link to the sheet: {spreadsheet.url}")
 
 if __name__ == '__main__':
     main()
