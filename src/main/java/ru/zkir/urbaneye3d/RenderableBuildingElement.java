@@ -304,7 +304,6 @@ public class RenderableBuildingElement {
 
         if (contour.outerRings.isEmpty()) {
             return null;
-
         }
         contour.removeRedundantNodes();
         return new RenderableBuildingElement(primitive, origin, contour,
@@ -332,6 +331,9 @@ public class RenderableBuildingElement {
         if ("hyperboloid".equals(primitive.get("shape"))){
             roofShape="hyperboloid";
             roofHeight = 0.1; //hack: otherwise roof becomes flat and shape is not applied!!
+        }
+        if (contour.outerRings.isEmpty()) {
+            return null;
         }
 
         contour.toLocalCoords(origin);
