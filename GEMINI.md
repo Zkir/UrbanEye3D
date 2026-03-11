@@ -182,6 +182,10 @@ Mapillary and MapRoulette plugins have been also fixed. See [Josm ticket #24637]
 ### February 8, 2026
 * Own, self-rendered MapCSS-based 2D layer is displayed by default, if no satellite imagery is selected
 
+### March 11, 2026
+* Fixed bug with deleted man-made multipolyong, see [github issue #37](https://github.com/Zkir/UrbanEye3D/issues/37).
+
+
 ### February 21, 2026
 
 * Creation of `taginfo.json` is updated. It is now a part of the Maven build process and ensures tags from both Java source code and [features.md](docs/features.md) are synchronized and documented. Changes:
