@@ -154,10 +154,13 @@ public class Scene {
         }
 
         /*
-         * Experimental feature: man_made=tower.
+         * Experimental feature: man_made.
          * TODO: extend with other man_made's
          */
         for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+            if (!isPrimitiveComplete(primitive)){
+                continue;
+            }
             if (!(primitive instanceof Node) && primitive.hasKey("man_made")) {
                 if (isBuildingOrPart(primitive)){
                     continue;
@@ -194,6 +197,11 @@ public class Scene {
 
 
     private boolean isPrimitiveComplete(OsmPrimitive primitive) {
+        if(primitive.isDeleted()){
+            //sometimes a deleted relation appears in the list of active objects
+            //see github issue #37
+            return false;
+        }
         boolean isComplete=true;
         if (primitive instanceof Relation){
             Relation rel = (Relation)primitive;
