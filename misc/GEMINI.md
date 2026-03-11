@@ -1,4 +1,5 @@
 # Project Instructions
 
-- **CRITICAL:** Never delete `data/trees.osm`. This file is very expensive to generate.
-- The `make clean` command should only remove generated analysis artifacts (e.g., `*_analysis_full.json`, `*_analysis_full.csv`), not the base data files.
+- **CRITICAL:** Never run `make clean` or delete any files from  `data`. folder. The most files are very expensive to generate.
+- If need to test something, run python scripts directly. 
+- Always run `pylint -E ` before reporting readiness of python scripts creation/adjustment

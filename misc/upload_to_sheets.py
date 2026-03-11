@@ -6,8 +6,12 @@ from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
 # --- Configuration ---
-# The name of the local JSON file to upload.
-JSON_FILE_PATH = os.path.join('data', 'tree_stats_genus_errors.json')
+# A list of local JSON files to merge and upload.
+JSON_FILE_PATHS = [
+    os.path.join('data', 'tree_stats_leaf_type_errors.json'),
+    os.path.join('data', 'tree_stats_genus_errors.json'),
+    os.path.join('data', 'tree_stats_species_errors.json')
+]
 # The name you want for the new Google Sheet.
 GOOGLE_SHEET_NAME = 'Tree Errors'
 # The path to your Google credentials JSON file.
@@ -44,7 +48,7 @@ def main():
     folder_id = None
     try:
         query = f"name='{GOOGLE_DRIVE_FOLDER_NAME}' and mimeType='application/vnd.google-apps.folder' and trashed=false"
-        results = drive_service.files().list(q=query, fields="files(id, name)").execute()
+        results = drive_service.files().list(q=query, fields="files(id, name)").execute()  # pylint: disable=no-member
         items = results.get('files', [])
         
         if not items:
@@ -57,9 +61,34 @@ def main():
         print(f"An error occurred while searching for the folder: {e}")
         return
 
-    print(f"Reading local data from '{JSON_FILE_PATH}'...")
+    print("Reading and merging local data from specified JSON files...")
+    all_dfs = []
+    for file_path in JSON_FILE_PATHS:
+        try:
+            print(f"Reading '{file_path}'...")
+            df_single = pd.read_json(file_path)
+            all_dfs.append(df_single)
+        except FileNotFoundError:
+            print(f"WARNING: The source file '{file_path}' was not found. Skipping.")
+            continue
+        except ValueError as e:
+            print(f"WARNING: Could not parse '{file_path}'. It might be malformed. Skipping. Details: {e}")
+            continue
+
+    if not all_dfs:
+        print("ERROR: No data could be read from any of the source files. Aborting.")
+        return
+
+    print("Merging dataframes and removing duplicates...")
+    df = pd.concat(all_dfs, ignore_index=True)
+    df.drop_duplicates(inplace=True)
+    print(f"Found {len(df)} unique error records to upload.")
+
+    if df.empty:
+        print("No data to upload after merging and deduplication.")
+        return
+
     try:
-        df = pd.read_json(JSON_FILE_PATH)
         # Store raw node IDs to use for both link types
         node_ids = df['id'].astype(str)
 
@@ -68,18 +97,15 @@ def main():
 
         print("Creating 'JOSM' column with remote control links...")
         df['JOSM'] = '=HYPERLINK("http://127.0.0.1:8111/load_object?objects=n' + node_ids + '", "Open in JOSM")'
-    except FileNotFoundError:
-        print(f"ERROR: The source file '{JSON_FILE_PATH}' was not found.")
-        return
-    except ValueError as e:
-        print(f"ERROR: Could not parse the JSON file. It might be malformed. Details: {e}")
+    except Exception as e:
+        print(f"An error occurred during data transformation: {e}")
         return
 
     print(f"Looking for sheet '{GOOGLE_SHEET_NAME}' in folder '{GOOGLE_DRIVE_FOLDER_NAME}'...")
     spreadsheet = None
     try:
         query = f"name='{GOOGLE_SHEET_NAME}' and mimeType='application/vnd.google-apps.spreadsheet' and trashed=false and '{folder_id}' in parents"
-        results = drive_service.files().list(q=query, fields="files(id, name)").execute()
+        results = drive_service.files().list(q=query, fields="files(id, name)").execute()  # pylint: disable=no-member
         sheet_files = results.get('files', [])
 
         if sheet_files:
@@ -92,7 +118,7 @@ def main():
                 'parents': [folder_id],
                 'mimeType': 'application/vnd.google-apps.spreadsheet'
             }
-            sheet = drive_service.files().create(body=file_metadata, fields='id').execute()
+            sheet = drive_service.files().create(body=file_metadata, fields='id').execute()  # pylint: disable=no-member
             spreadsheet_id = sheet.get('id')
             print(f"Successfully created blank sheet with ID: {spreadsheet_id}. Opening it...")
             spreadsheet = gc.open_by_key(spreadsheet_id)

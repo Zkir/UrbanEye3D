@@ -44,4 +44,4 @@ data:
 # Rule to clean up all generated files.
 # The '-' prefix ignores errors if files do not exist.
 clean:
-	rm -f data/*.csv data/*.json data/*.cfg
+	rm -f data/*.csv data/*.json data/*.cfg data/*.osm
