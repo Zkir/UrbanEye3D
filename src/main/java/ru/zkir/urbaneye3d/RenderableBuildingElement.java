@@ -304,7 +304,6 @@ public class RenderableBuildingElement {
 
         if (contour.outerRings.isEmpty()) {
             return null;
-
         }
         contour.removeRedundantNodes();
         return new RenderableBuildingElement(primitive, origin, contour,
@@ -333,6 +332,9 @@ public class RenderableBuildingElement {
             roofShape="hyperboloid";
             roofHeight = 0.1; //hack: otherwise roof becomes flat and shape is not applied!!
         }
+        if (contour.outerRings.isEmpty()) {
+            return null;
+        }
 
         contour.toLocalCoords(origin);
         contour.removeRedundantNodes();
@@ -350,15 +352,21 @@ public class RenderableBuildingElement {
                                       String roofShape, String roofDirectionStr, String roofOrientation, Double stepHeight,
                                       boolean noWalls, Double hyperboloidTopRate, Double hyperboloidMiddleRate ) {
         this.primitiveId = primitive.getPrimitiveId();
+
         if (contour==null){
             throw new RuntimeException("contour must be specified");
         }
 
         this.origin = origin;
         if (contour.outerRings.isEmpty()){
+            if (primitive.isDeleted()){
+                //this is a strange glitch in JOSM: sometimes deleted relation
+                // appears in the list of active objects, but loses all it's members
+                throw new RuntimeException("This primitive is already deleted, it cannot be rendered. (" + this.primitiveId + ")");
+            }
             throw new RuntimeException("There can be empty multipolygon relations, broken or not fully downloaded. " +
                                        "However, renderable building cannot be created without outer ring. " +
-                                       "This condition should be checked outside this constructor."
+                                       "This condition should be checked outside this constructor. (" + this.primitiveId + ")"
                                     );
         }
         this.contour = contour;
