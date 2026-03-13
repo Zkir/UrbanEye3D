@@ -230,3 +230,17 @@ The plugin renders some natural features to provide more context to the 3D scene
 -   The `height` tag can be used to specify the height of the tree. If not present, a default height is used.
 -   The `leaf_type` tag can be used to select a specific "type" of tree. Supported values are `broadleaved` and `needleleaved`.
 -   The rendering uses a simple "billboard" or "cross-plane" technique with a tree texture.
+
+## Other 3D Objects
+
+This section describes various standalone 3D objects rendered by the plugin.
+
+### Street Lamps
+
+-   Nodes tagged with `highway=street_lamp` are rendered using a pre-defined 3D model.
+-   Currently, the model is always rendered with a default gray color, and the `colour` tag is not supported for this object.
+
+### Benches
+
+-   Nodes tagged with `amenity=bench` are rendered using a pre-defined 3D model.
+-   Currently, the model is rendered with its default colors, and the `colour` tag is not supported for this object.

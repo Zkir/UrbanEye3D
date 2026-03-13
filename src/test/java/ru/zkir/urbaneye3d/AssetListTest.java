@@ -1,6 +1,8 @@
 package ru.zkir.urbaneye3d;
 
 import org.junit.jupiter.api.Test;
+import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.ObjImporter;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -33,13 +35,18 @@ public class AssetListTest {
 
     private static final Map<String, AssetInfo> MASTER_ASSET_LIST = new HashMap<>();
     static {
+        MASTER_ASSET_LIST.put("/models/colored_cube.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bench.obj",        new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/street_lamp.obj",  new AssetInfo("(https://skfb.ly/6trHw", "\"Street Lamp\" by Shahbaz Awan", "CC-BY-4.0"));
+
         // Textures
         MASTER_ASSET_LIST.put("/textures/trees/tree_000.png", new AssetInfo("https://github.com/tordanik/OSM2World-default-style", "OSM2World-default-style", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/textures/trees/tree_001.png", new AssetInfo("https://github.com/tordanik/OSM2World-default-style", "OSM2World-default-style", "CC0 1.0"));
     }
     private static final Map<String, String> LICENSE_URLS = new HashMap<>();
     static {
-        LICENSE_URLS.put("CC0 1.0", "https://creativecommons.org/publicdomain/zero/1.0/");
+        LICENSE_URLS.put("CC0 1.0",   "https://creativecommons.org/publicdomain/zero/1.0/");
+        LICENSE_URLS.put("CC-BY-4.0", "https://creativecommons.org/licenses/by/4.0/");
     }
 
 
@@ -89,10 +96,13 @@ public class AssetListTest {
 
         // 3. Perform sanity checks on each asset
         Map<String, String> assetDetails = new HashMap<>();
+        ObjImporter objImporter = new ObjImporter();
 
         for (String path : masterListKeys) {
             if (path.endsWith(".obj")) {
-                throw new RuntimeException("We do not have obj support in this branch yet");
+                Mesh mesh = assertDoesNotThrow(() -> objImporter.loadModel(path), "Failed to load OBJ model: " + path);
+                assertNotNull(mesh, "Loaded mesh is null for: " + path);
+                assetDetails.put(path, mesh.faces.size() + "&nbsp;faces");
             } else if (path.endsWith(".png")) {
                 try (InputStream is = getClass().getResourceAsStream(path)) {
                     assertNotNull(is, "Could not find PNG resource: " + path);

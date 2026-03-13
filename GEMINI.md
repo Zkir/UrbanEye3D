@@ -76,6 +76,29 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+
+### March 15, 2026
+*   **Added support for `amenity=bench`:**  `amenity=bench` is rendered using pre-generated 3D model.
+*   **Implemented OBJ Material (.mtl) support:** the `ObjImporter` was significantly refactored to parse `.mtl` files and apply material *colors* to faces based on `usemtl` commands.
+*   **Developed the Asset Sanity Test (`AssetSanityTest.java`)** to ensure the integrity and documentation of all project assets.
+    *   The test inventories all 3D models (`.obj`) and textures (`.png`) and verifies them against a master list defined in the test file.
+    *   It performs a "sanity check" by loading each asset to ensure it is not corrupt, and it extracts details like face count for models and dimensions for textures.
+    *   On a successful run, it automatically generates an `ASSETS-LIST.md` file, serving as a detailed manifest with metadata, licensing information, and asset details.
+
+### March 14, 2026
+*   **Conducted a major architectural refactoring** to improve separation of duties and make mesh generation logic more understandable.
+    *   The monolithic `RenderableElement` was split. A new `BuildingRecipe` class now acts as a parameter object for mesh generation for buildings/parts.
+    *   `RenderableElement` was simplified into a lightweight data container, responsible only for holding the final mesh and origin.
+    *   A new `OsmDataWasher` utility class was created to centralize all OSM tag parsing logic.
+
+### March 13, 2026
+*   **Implemented rendering of OBJ models.**
+    *   Created a new `ObjImporter` utility to parse Wavefront OBJ files.
+    *   The `Scene` class now renders nodes with the `highway=street_lamp` tag by loading a `street_lamp.obj` model from the plugin's resources.
+    *   Added a caching mechanism to ensure models are loaded from disk only once.
+    *   Created a new factory method in `RenderableElement` to handle objects created from pre-loaded models.
+    *   Added a new unit test to verify the functionality.
+
 ### April 07, 2026
 
 *   **Pure Java I18n Compiler :**
@@ -89,6 +112,7 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
         *   Automatically scan `.pot` and all `.po` files using `PoParser`.
         *   Calculate and report translation coverage per language into `docs/dev/translation-status.md`.
         *   Assert the existence of generated `.lang` files, ensuring build integrity.
+
 
 ### April 06, 2026
 

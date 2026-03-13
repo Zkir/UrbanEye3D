@@ -4,8 +4,12 @@ import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
 import ru.zkir.urbaneye3d.utils.Contour;
+import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.ObjImporter;
 import ru.zkir.urbaneye3d.utils.Point2D;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 
@@ -13,6 +17,7 @@ public class Scene {
     /** The list of scene "elements" that should be rendered.
     * renderable element can be either a building or a building part. */
     final List<RenderableElement> renderableElements = new ArrayList<>();
+    private final Map<String, Mesh> modelCache = new HashMap<>();
 
     public static class SceneUpdate {
         final List<RenderableElement> renderableElements;
@@ -27,6 +32,17 @@ public class Scene {
             element.isSelected = selectedPrimitivesIds.contains(element.primitiveId);
         }
     }
+    
+    private Mesh loadModel(String resourcePath) {
+        if (modelCache.containsKey(resourcePath)) {
+            return modelCache.get(resourcePath);
+        }
+        ObjImporter importer = new ObjImporter();
+        Mesh mesh = importer.loadModel(resourcePath);
+        modelCache.put(resourcePath, mesh);
+        return mesh;
+    }
+
 
     /** ground plane represents earth surface with projected satellite image.
      *  Currently, it's separated from other scene objects    */
@@ -188,6 +204,34 @@ public class Scene {
                     newElements.add(element);
                 } 
             }
+        }
+		
+		/*
+        *  Point objects 
+        */
+        for (Node node : dataSet.getNodes()) {
+			//Street Lamps
+            if (node.hasTag("highway", "street_lamp")) {
+                Mesh lampMesh = loadModel("/models/street_lamp.obj");
+                if (lampMesh != null) {
+                    var element = RenderableElement.createFromModel(node, lampMesh);
+                    if (element != null) {
+                        newElements.add(element);
+                    }
+                }
+            }
+			
+            // Benches
+            if (node.hasTag("amenity", "bench")) {
+                Mesh lampMesh = loadModel("/models/bench.obj");
+                if (lampMesh != null) {
+                    var element = RenderableElement.createFromModel(node, lampMesh);
+                    if (element != null) {
+                        newElements.add(element);
+                    }
+                }
+            }
+
         }
         return new SceneUpdate(newElements);
     }

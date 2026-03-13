@@ -13,7 +13,6 @@ import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -423,6 +422,7 @@ public class RenderableElement {
     /**
      * Universal PRIVATE constructor for RenderableElement
      * to actually create object, use one of the factory methods
+     * DO NOT CREATE OTHER CONSTRUCTORS!
      * */
     private RenderableElement(OsmPrimitive primitive, LatLon origin, Mesh mesh, String textureName) {
         if (primitive.isDeleted()) {
@@ -457,6 +457,19 @@ public class RenderableElement {
         this.height = maxZ;
     }
 
+    /**
+     * Create a RenderableElement from a pre-loaded mesh model.
+     * @param node The OSM node.
+     * @param modelMesh The mesh to use.
+     * @return A new RenderableElement.
+     */
+    public static RenderableElement createFromModel(Node node, Mesh modelMesh) {
+        if (node.isDeleted() || node.getCoor() == null || modelMesh == null) {
+            return null;
+        }
+        // The color is now part of the mesh itself, so we just wrap it.
+        return new RenderableElement(node, node.getBBox().getCenter(), modelMesh, null);
+    }
 
 
     public Mesh getMesh() {
