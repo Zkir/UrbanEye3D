@@ -40,8 +40,8 @@ public class Mesh {
     private Point3D minBounds;
     private Point3D maxBounds;
 
-    /** The default (and private) constructor. Empty arrays are initialized for vertices and faces */
-    private Mesh() {
+    /** The default (and public) constructor. Empty arrays are initialized for vertices and faces */
+    public Mesh() {
         this.verts = new ArrayList<>();
         this.uvs = new ArrayList<>();
         this.materials = new ArrayList<>();
@@ -120,6 +120,13 @@ public class Mesh {
         faces.add(vertIndices);
         faceMaterials.add(0); //TODO: it should be rather NULL
         faceUVs.add(uvIndices);
+    }
+
+    /** Adds a face with a specified material index. */
+    public void addFace(int[] indices, int materialIndex) {
+        faces.add(indices);
+        faceMaterials.add(materialIndex);
+        faceUVs.add(null); // No UV for this kind of face
     }
 
     /**

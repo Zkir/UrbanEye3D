@@ -4,5 +4,8 @@ This file provides an inventory of all 3D models and textures used in the projec
 
 | Resource Path | Details | Attribution/Source | License |
 |---|---|---|---|
+| `/models/bench.obj` | 14&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/colored_cube.obj` | 6&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/street_lamp.obj` | 701&nbsp;faces | "Street Lamp" by Shahbaz Awan, (https://skfb.ly/6trHw | [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `/textures/trees/tree_000.png` | 512x512&nbsp;px | [OSM2World-default-style](https://github.com/tordanik/OSM2World-default-style) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/textures/trees/tree_001.png` | 512x512&nbsp;px | [OSM2World-default-style](https://github.com/tordanik/OSM2World-default-style) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |

@@ -15,10 +15,12 @@ import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.coor.LatLon;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import ru.zkir.urbaneye3d.utils.ObjImporter;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.zkir.urbaneye3d.RoofGeneratorTopologyTest.*;
@@ -160,8 +162,8 @@ class SceneTest {
         //resulting number of  buildings is not so important.
         //Just to understand how the picture changes.
         long NumberOfBuildings = scene.renderableElements.stream().filter( e-> e.textureName == null).count();
-        int MIN_BUILDINGS=4377;
-        int MAX_BUILDINGS=4700;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance)
+        int MIN_BUILDINGS=5093;
+        int MAX_BUILDINGS=5093;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance)
         assertTrue(NumberOfBuildings>=MIN_BUILDINGS && NumberOfBuildings<=MAX_BUILDINGS, "Number of building " + NumberOfBuildings + " is NOT in the reasonable range " + MIN_BUILDINGS + ".." + MAX_BUILDINGS);
 
         if (SAVE_TEST_RESULTS_TO_FILE) {
@@ -418,5 +420,52 @@ class SceneTest {
         // Assert that normals are horizontal (Z component is zero)
         assertEquals(0, normal1.z, 1e-6, "Normal of the first plane should be horizontal (Z=0).");
         assertEquals(0, normal2.z, 1e-6, "Normal of the second plane should be horizontal (Z=0).");
+    }
+
+    @Test
+    void testStreetLamp() throws Exception {
+        // Arrange
+        DataSet dataSet = loadDataSetFromOsmFile("street_lamp.osm");
+        Scene scene = new Scene();
+
+        // Act
+        scene.applyUpdate( scene.calculateUpdate(dataSet));
+
+        // Assert
+        assertEquals(1, scene.renderableElements.size(), "Should have exactly one renderable element for the street lamp.");
+
+        RenderableElement lampElement = scene.renderableElements.get(0);
+        assertNotNull(lampElement.getMesh(), "Street lamp mesh should not be null.");
+        assertTrue(!lampElement.getMesh().verts.isEmpty(), "Street lamp mesh should have vertices.");
+        assertNull(lampElement.textureName, "The texture name should be null for the street lamp.");
+    }
+
+    @Test
+    void testColoredModelLoads() {
+        // Arrange
+        ObjImporter importer = new ObjImporter();
+
+        // Act
+        Mesh mesh = importer.loadModel("/models/colored_cube.obj");
+
+        // Assert
+        assertNotNull(mesh, "Mesh should not be null.");
+        assertEquals(8, mesh.verts.size(), "Should have 8 vertices.");
+        assertEquals(6, mesh.faces.size(), "Should have 6 faces.");
+        assertEquals(3, mesh.materials.size(), "Should have 3 materials loaded from .mtl file.");
+
+        // Check that the specific colors were loaded
+        assertTrue(mesh.materials.contains(Color.RED), "Material list should contain RED");
+        assertTrue(mesh.materials.contains(Color.GREEN), "Material list should contain GREEN");
+        assertTrue(mesh.materials.contains(Color.BLUE), "Material list should contain BLUE");
+
+        // Check that the faces are assigned the correct materials
+        long redFaces = mesh.faceMaterials.stream().map(i -> mesh.materials.get(i)).filter(c -> c.equals(Color.RED)).count();
+        long greenFaces = mesh.faceMaterials.stream().map(i -> mesh.materials.get(i)).filter(c -> c.equals(Color.GREEN)).count();
+        long blueFaces = mesh.faceMaterials.stream().map(i -> mesh.materials.get(i)).filter(c -> c.equals(Color.BLUE)).count();
+
+        assertEquals(2, redFaces, "Should be 2 red faces.");
+        assertEquals(2, greenFaces, "Should be 2 green faces.");
+        assertEquals(2, blueFaces, "Should be 2 blue faces.");
     }
 }

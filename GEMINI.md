@@ -64,7 +64,13 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
-None in the current version
+### March 15, 2026
+*   **Added support for `amenity=bench`:**  `amenity=bench` is rendered using pre-generated 3D model.
+*   **Implemented OBJ Material (.mtl) support:** the `ObjImporter` was significantly refactored to parse `.mtl` files and apply material *colors* to faces based on `usemtl` commands.
+*   **Developed the Asset Sanity Test (`AssetSanityTest.java`)** to ensure the integrity and documentation of all project assets.
+    *   The test inventories all 3D models (`.obj`) and textures (`.png`) and verifies them against a master list defined in the test file.
+    *   It performs a "sanity check" by loading each asset to ensure it is not corrupt, and it extracts details like face count for models and dimensions for textures.
+    *   On a successful run, it automatically generates an `ASSETS-LIST.md` file, serving as a detailed manifest with metadata, licensing information, and asset details.
 
 ### Earlier
 See [Devblog](DEVBLOG.md)

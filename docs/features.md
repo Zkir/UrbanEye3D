@@ -231,6 +231,20 @@ For all barrier types, the following tags can be used to override the default va
 
 Note that in OSM `barrier=*` is considered to be a linear object, even if the way is closed. To override this, use the `area=yes` tag. In the later case the `width` tag is not applied.
 
+## Other 3D Objects
+
+This section describes various standalone 3D objects rendered by the plugin.
+
+### Street Lamps
+
+-   Nodes tagged with `highway=street_lamp` are rendered using a pre-defined 3D model.
+-   Currently, the model is always rendered with a default gray color, and the `colour` tag is not supported for this object.
+
+### Benches
+
+-   Nodes tagged with `amenity=bench` are rendered using a pre-defined 3D model.
+-   Currently, the model is rendered with its default colors, and the `colour` tag is not supported for this object.
+
 ## Natural Features
 
 The plugin renders some natural features to provide more context to the 3D scene.

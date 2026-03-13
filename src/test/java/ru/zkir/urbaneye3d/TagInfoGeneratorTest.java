@@ -70,6 +70,7 @@ public class TagInfoGeneratorTest {
     /** This is our dictionary for tag (key=value) documentation */
     private final Map<String, String> TAG_DESCRIPTIONS = new HashMap<>();
     {
+        TAG_DESCRIPTIONS.put("amenity=bench", "A bench, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("barrier", "The feature is interpreted as barrier, in case it does not have the building tag.");
         TAG_DESCRIPTIONS.put("building", "The main tag for identifying a building outline.");
         TAG_DESCRIPTIONS.put("building:part", "Identifies a part of a building, which is rendered as a separate 3D element.");
@@ -81,6 +82,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("circumference", "Used to estimate height of trees (natural=tree)");
         TAG_DESCRIPTIONS.put("colour", "Specifies the color of the object, especially barrier or man-made.");
         TAG_DESCRIPTIONS.put("height", "The total height of the building, including the roof, in meters.");
+        TAG_DESCRIPTIONS.put("highway=street_lamp", "A single street lamp, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("layer", "Objects with layer<0 are considered to be located underground -- and are not displayed");
         TAG_DESCRIPTIONS.put("material","Material for barrier or man-made object. This can influence the default color. ");
         TAG_DESCRIPTIONS.put("min_height", "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes.");
