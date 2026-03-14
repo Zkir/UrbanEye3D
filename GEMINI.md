@@ -111,6 +111,13 @@ To be prioritized via MoSCoW method.
 	* seems it is not really feasible with existing mesher structure.
 
 ## Recent Accomplishments
+
+### March 14, 2026
+*   **Conducted a major architectural refactoring** to improve separation of duties and make mesh generation logic more understandable.
+    *   The monolithic `RenderableElement` was split. A new `BuildingRecipe` class now acts as a parameter object for mesh generation for buildings/parts.
+    *   `RenderableElement` was simplified into a lightweight data container, responsible only for holding the final mesh and origin.
+    *   A new `OsmDataWasher` utility class was created to centralize all OSM tag parsing logic.
+
 ### March 7, 2026
 *   `TagInfoGeneratorTest` has been refactored to collect tags from the new source: /textures/textures.cfg
 
