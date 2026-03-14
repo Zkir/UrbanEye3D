@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUtessellator;
 import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
+import ru.zkir.urbaneye3d.BuildingRecipe;
 import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Mesh;
@@ -20,13 +21,13 @@ public class MesherFlat extends RoofGenerator{
         private final List<Point3D> vertices;
         private final List<int[]> faces;
         private int currentPrimitiveType; // To store the type from beginData
-        private final RenderableElement building; // Reference to the building
+        private final BuildingRecipe building; // Reference to the building
 
         public List<int[]> getNewFaces() {
             return faces;
         }
 
-        public TessellatorCallback(List<Point3D> vertices, RenderableElement building) {
+        public TessellatorCallback(List<Point3D> vertices, BuildingRecipe building) {
             this.vertices = vertices;
             this.faces = new ArrayList<>();
             this.building = building;
@@ -53,7 +54,7 @@ public class MesherFlat extends RoofGenerator{
         @Override
         public void error(int errnum) {
             UrbanEye3dPlugin.debugMsg("Tessellation Error (" + errnum + "): " + new GLU().gluErrorString(errnum) +
-                               " on building at " + building.origin.toString());
+                               " on building at " + building.primitiveId);
         }
 
         private List<Integer> currentContourVertices = new ArrayList<>();
@@ -99,7 +100,7 @@ public class MesherFlat extends RoofGenerator{
     }
 
     @Override
-    public Mesh generate(RenderableElement building) {
+    public Mesh generate(BuildingRecipe building) {
         List<List<Point2D>> contours = new ArrayList<>();
         contours.addAll(building.getContourOuterRings());
         contours.addAll(building.getContourInnerRings());

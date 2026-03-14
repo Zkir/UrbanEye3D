@@ -433,4 +433,11 @@ public class Contour {
         innerRings = simplifiedInnerRings;
 
     }
+
+    public boolean isComplex() {
+        return this.outerRings.size() > 1 || !this.innerRings.isEmpty();
+    }
+
+
+
 }

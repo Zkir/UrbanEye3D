@@ -7,6 +7,7 @@ import org.twak.camp.Output;
 import org.twak.camp.Skeleton;
 import org.twak.utils.collections.Loop;
 import org.twak.utils.collections.LoopL;
+import ru.zkir.urbaneye3d.BuildingRecipe;
 import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 public class MesherHipped extends RoofGenerator {
     @Override
-    public Mesh generate(RenderableElement building) {
+    public Mesh generate(BuildingRecipe building) {
         if (building.getContour().size() <= 4) {
             return generateRectangular(building);
         } else{
@@ -36,7 +37,7 @@ public class MesherHipped extends RoofGenerator {
         return newIndex;
     }
 
-    private Mesh generateStraightSkeleton(RenderableElement building) {
+    private Mesh generateStraightSkeleton(BuildingRecipe building) {
         List<Point2D> basePoints = building.getContour();
         double minHeight = building.minHeight;
         double wallHeight = building.wallHeight;
@@ -151,7 +152,7 @@ public class MesherHipped extends RoofGenerator {
         return mesh;
     }
 
-    private Mesh generateRectangular(RenderableElement building) {
+    private Mesh generateRectangular(BuildingRecipe building) {
         List<Point2D> basePoints = building.getContour();
         double minHeight = building.minHeight;
         double wallHeight = building.wallHeight;

@@ -1,5 +1,6 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
+import ru.zkir.urbaneye3d.BuildingRecipe;
 import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.roofgenerators.linearprofile.LinearProfiles;
@@ -25,7 +26,7 @@ public class MesherLinearProfile extends RoofGenerator {
     /**
     * main method to be called to generate mesh, regardless of base shape
     */
-    public Mesh generate(RenderableElement building){
+    public Mesh generate(BuildingRecipe building){
         Mesh fullMesh;
         if (building.getContour().size() == 4) {
             fullMesh = generateR(building);
@@ -46,7 +47,7 @@ public class MesherLinearProfile extends RoofGenerator {
     /**
     * Generates roof via "simple" mesher for rectangular roof
     */
-    public Mesh generateR(RenderableElement building){
+    public Mesh generateR(BuildingRecipe building){
         var simpleMesher = new MesherLinearProfileRectangular(profile_data);
         return simpleMesher.generate(building);
     }
@@ -54,7 +55,7 @@ public class MesherLinearProfile extends RoofGenerator {
     /**
     * Generates roof via "complex" mesher for quasi-rectangular roof
     */
-    public Mesh generateQR(RenderableElement building)
+    public Mesh generateQR(BuildingRecipe building)
     {
         var mesherLinearProfileQR = new MesherLinearProfileQuasiRectangular(profile_data);
         try {

@@ -1,5 +1,6 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
+import ru.zkir.urbaneye3d.BuildingRecipe;
 import ru.zkir.urbaneye3d.RenderableElement;
 //import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Mesh;
@@ -21,10 +22,10 @@ import static java.lang.Math.abs;
  *
  * @see MesherSkillion
  */
-public class MesherSteps extends  RoofGenerator {
+public class MesherSteps extends RoofGenerator {
 
     @Override
-    public Mesh generate(RenderableElement building) {
+    public Mesh generate(BuildingRecipe building) {
         if (building.hasComplexContour()) {
             return null;
         }
@@ -38,7 +39,7 @@ public class MesherSteps extends  RoofGenerator {
     /**
     * Generate steps for quadrangular base. Simple algorithm
     */
-    public Mesh generateQuadrangular(RenderableElement building) {
+    public Mesh generateQuadrangular(BuildingRecipe building) {
         if (building.getContour().size() != 4) {
             throw new RuntimeException("generateQuadrangular() supports only quadrangular bases. This call should never occur");
         }
@@ -258,7 +259,7 @@ public class MesherSteps extends  RoofGenerator {
     /**
     * Generate steps for an arbitrary non-convex base. Complex algorithm and still some bugs here.
     */
-    public Mesh generateNonConvex(RenderableElement building) {
+    public Mesh generateNonConvex(BuildingRecipe building) {
 
         List<Point2D> contour = building.getContour();
         if (contour.isEmpty()) return null;

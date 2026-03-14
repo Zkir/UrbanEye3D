@@ -1,5 +1,6 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
+import ru.zkir.urbaneye3d.BuildingRecipe;
 import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class MesherCrossGabled extends RoofGenerator{
     @Override
-    public Mesh generate(RenderableElement building) {
+    public Mesh generate(BuildingRecipe building) {
 
 
         List<Point2D> basePoints = building.getContour();

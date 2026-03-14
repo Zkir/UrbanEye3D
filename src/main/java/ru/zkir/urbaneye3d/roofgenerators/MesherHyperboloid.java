@@ -1,5 +1,6 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
+import ru.zkir.urbaneye3d.BuildingRecipe;
 import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
@@ -12,7 +13,7 @@ import static java.lang.Math.pow;
 public class MesherHyperboloid extends RoofGenerator {
 
     @Override
-    public Mesh generate(RenderableElement building) {
+    public Mesh generate(BuildingRecipe building) {
         List<Point2D> basePoints = building.getContour();
         double height = building.height;
         double minHeight = building.minHeight;

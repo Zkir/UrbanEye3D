@@ -1,8 +1,8 @@
 package ru.zkir.urbaneye3d.validator;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
-import static ru.zkir.urbaneye3d.RenderableElement.parseDirection;
 import static ru.zkir.urbaneye3d.utils.Contour.isClockwise;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.parseDirection;
 
 import org.openstreetmap.josm.command.ChangePropertyCommand;
 import org.openstreetmap.josm.command.Command;

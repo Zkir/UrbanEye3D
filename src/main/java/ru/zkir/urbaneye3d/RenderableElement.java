@@ -1,19 +1,17 @@
 package ru.zkir.urbaneye3d;
 
-import com.drew.lang.annotations.NotNull;
 import com.drew.lang.annotations.Nullable;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Way;
 import ru.zkir.urbaneye3d.generators.MesherTree;
-import ru.zkir.urbaneye3d.utils.ColorUtils;
+
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
-import ru.zkir.urbaneye3d.utils.Point2D;
+import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,39 +24,27 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.INHERIT_HEIGHT_FROM_PARENT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_STEP_HEIGHT;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
 public class RenderableElement {
 
     public final PrimitiveId primitiveId;
-    public boolean isSelected = false;
-    public final double roofHeight;
-    public final double minHeight;  // z0 -- z-coordinate of building bottom
-    public final double wallHeight; // z1 -- z coordinate of walls top
-    public final double height;     // z2 -- z coordinate of roof top
-    public final @NotNull Color color;
-    public final @NotNull Color roofColor;
-    public final @NotNull Color bottomColor;
-    public final RoofShapes roofShape;
-    public final Double roofDirection;
-    public final String roofOrientation;
-    public final boolean noWalls;
-    private final Contour contour;
     public final LatLon origin;
-    public final double stepHeight;
-    public final Double hyperboloidTopRate;
-    public final Double hyperboloidMiddleRate;
-    private Mesh mesh;
+    private final Mesh mesh;
     public final String textureName;
+    public boolean isSelected;
 
-    /** Unlike F4, we inherit only some keys from building to parts, not all */
-    final static List<String> inheritableKeys = Arrays.asList("building:colour", "building:material", "roof:colour", "roof:material");
+    public final double height;
+    public final double minHeight;
+
 
     /**
      * Creates Renderable Element from basic parameters. May return null if object is not creatable.
      * @return RenderableElement
      */
     @Nullable
-    public static RenderableElement createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
+    public static BuildingRecipe createBuildingOrPartRecipe(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
                                                             Map<String, String> primitiveTags, Map<String, String> parentTags ){
         String source_key="";
         if (primitiveTags.containsKey("building") && !primitiveTags.get("building").equals("no") ) {
@@ -234,9 +220,25 @@ public class RenderableElement {
 
         contour.toLocalCoords(primitiveOrigin);
         contour.removeRedundantNodes();
-        return new RenderableElement(primitive, primitiveOrigin, contour,
+        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour,
                 height, minHeight, roofHeight, wallColor, roofColor, roofShape, roofDirection, roofOrientation,
                 stepHeight, noWalls, hyperboloidTopRate, hyperboloidMiddleRate);
+
+        return buildingRecipe;
+    }
+
+    public static RenderableElement createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
+                                                         Map<String, String> primitiveTags, Map<String, String> parentTags ){
+
+        BuildingRecipe buildingRecipe = createBuildingOrPartRecipe(primitive, primitiveOrigin, contour,  primitiveTags,  parentTags);
+        if (buildingRecipe==null){
+            return  null;
+        }
+        Mesh mesh = composeMesh(buildingRecipe);
+
+        return new RenderableElement(primitive, primitiveOrigin, mesh,null);
+
+
     }
 
     /**
@@ -318,9 +320,13 @@ public class RenderableElement {
             return null;
         }
         contour.removeRedundantNodes();
-        return new RenderableElement(primitive, origin, contour,
+        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(),  contour,
                 height, minHeight, 0, color, color, "flat", "", "", null,
                 false, null, null);
+
+        Mesh mesh = composeMesh(buildingRecipe);
+
+        return new RenderableElement(primitive, origin, mesh, null);
     }
 
     //similar to buildings, but with fewer options
@@ -357,9 +363,13 @@ public class RenderableElement {
 
         contour.toLocalCoords(origin);
         contour.removeRedundantNodes();
-        return new RenderableElement(primitive, origin, contour,
+        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour,
                 height, minHeight, roofHeight, color, color, roofShape, "", "", null,
                 false, hyperboloidTopRate, hyperboloidMiddleRate);
+
+        Mesh mesh = composeMesh(buildingRecipe);
+
+        return new RenderableElement(primitive, origin, mesh, null);
     }
 
     /** Create a tree*/
@@ -392,250 +402,67 @@ public class RenderableElement {
         // The renderer will translate it to the correct world position.
         Mesh treeMesh = MesherTree.generate(treeWidth, treeHeight);
 
-        return new RenderableElement(node, treeMesh, textureName);
+        return new RenderableElement(node, node.getCoor(), treeMesh, textureName);
     }
 
-
-    /**
-     * This is a private constructor. createBuildingOrPart() or createBarrier() should be used outside, especially in autotests
-     * */
-    private RenderableElement(OsmPrimitive primitive, LatLon origin, Contour contour,
-                              double height, double minHeight, double roofHeight, String wallColor, String roofColor,
-                              String roofShape, String roofDirectionStr, String roofOrientation, Double stepHeight,
-                              boolean noWalls, Double hyperboloidTopRate, Double hyperboloidMiddleRate ) {
-        this.primitiveId = primitive.getPrimitiveId();
-
-        if (contour==null){
-            throw new RuntimeException("contour must be specified");
-        }
-
-        this.origin = origin;
-        if (contour.outerRings.isEmpty()){
-            if (primitive.isDeleted()){
-                //this is a strange glitch in JOSM: sometimes deleted relation
-                // appears in the list of active objects, but loses all it's members
-                throw new RuntimeException("This primitive is already deleted, it cannot be rendered. (" + this.primitiveId + ")");
-            }
-            throw new RuntimeException("There can be empty multipolygon relations, broken or not fully downloaded. " +
-                                       "However, renderable building cannot be created without outer ring. " +
-                                       "This condition should be checked outside this constructor. (" + this.primitiveId + ")"
-                                    );
-        }
-        this.contour = contour;
-        this.textureName = null;
-        this.height = height;
-        this.minHeight = minHeight;
-
-        //default value for roofHeight
-        if (roofShape.isEmpty()){
-            roofShape="flat";
-        }
-
-        if (roofHeight>height-minHeight){
-            roofHeight=height-minHeight;
-        }
-
-
-        //in case outline has inner rings, we cannot construct any other roof, but FLAT and SKILLION
-        // also, if roof's height is zero, it's flat!
-        if( (roofHeight == 0) || (this.hasComplexContour() && !roofShape.equals(RoofShapes.SKILLION.toString()))){
-            this.roofShape = RoofShapes.FLAT;
-        }else{
-            this.roofShape = RoofShapes.fromString(roofShape);
-        }
-
-        this.roofDirection = parseDirection(roofDirectionStr);
-        if (roofOrientation==null){
-            roofOrientation="";
-        }
-        this.roofOrientation = roofOrientation;
-
-        this.roofHeight = roofHeight;
-        this.wallHeight = height - roofHeight;
-
-        this.color = parseColor(wallColor, new Color(204, 204, 204));
-        this.roofColor = parseColor(roofColor, new Color(150, 150, 150));
-        this.bottomColor = this.color.darker().darker(); //Fake AO LOL!
-
-        if (stepHeight==null || stepHeight==0){
-            this.stepHeight = DEFAULT_STEP_HEIGHT;
-        }else{
-            this.stepHeight = stepHeight;
-        }
-
-        this.noWalls = noWalls;
-        this.hyperboloidTopRate = hyperboloidTopRate != null ? hyperboloidTopRate : 0.6;
-        this.hyperboloidMiddleRate = hyperboloidMiddleRate != null ? hyperboloidMiddleRate : this.hyperboloidTopRate;
-
-        //since we have all the data, we can compose building mesh right in constructor.
-        composeMesh();
-        this.isSelected = primitive.isSelected();
-    }
     
-    // Конструктор для текстурированных объектов, таких как деревья
-    public RenderableElement(OsmPrimitive primitive, Mesh mesh, String textureName) {
+    /**
+     * Universal PRIVATE constructor for RenderableElement
+     * */
+    private RenderableElement(OsmPrimitive primitive, LatLon origin, Mesh mesh, String textureName) {
+        if (primitive.isDeleted()) {
+            //this is a strange glitch in JOSM: sometimes deleted relation
+            // appears in the list of active objects, but loses all it's members
+            throw new RuntimeException("This primitive is already deleted, it cannot be rendered. (" + primitive.getPrimitiveId() + ")");
+        }
+
         this.primitiveId = primitive.getPrimitiveId();
         this.mesh = mesh;
         this.textureName = textureName;
         this.isSelected = primitive.isSelected();
+        this.origin = origin;
 
-        // Все остальные "строительные" поля инициализируются значениями по умолчанию или null
-        this.origin = primitive.getBBox().getCenter();
-        this.roofHeight = 0;
-        this.minHeight = 0;
-        this.wallHeight = 0;
-        this.height = 0;
-        this.color = Color.WHITE;
-        this.roofColor = Color.WHITE;
-        this.bottomColor = Color.WHITE;
-        this.roofShape = RoofShapes.FLAT;
-        this.roofDirection = Double.NaN;
-        this.roofOrientation = "";
-        this.noWalls = true;
-        this.stepHeight = 0;
-        this.hyperboloidTopRate = null;
-        this.hyperboloidMiddleRate = null;
-        // Поле contour остается null, так как оно не нужно для простых объектов
-        this.contour = null;
+        // Calculate height from mesh bounds
+        // we still need them for ambient occlusion, so better to calculate them once.
+        double minZ = 0;
+        double maxZ = 0;
+        if (mesh != null && mesh.verts != null && !mesh.verts.isEmpty()) {
+            minZ = Double.MAX_VALUE;
+            maxZ = -Double.MAX_VALUE;
+            for (Point3D vert : mesh.verts) {
+                if (vert.z < minZ) {
+                    minZ = vert.z;
+                }
+                if (vert.z > maxZ) {
+                    maxZ = vert.z;
+                }
+            }
+        }
+        this.minHeight = minZ;
+        this.height = maxZ;
     }
 
 
-    public boolean hasComplexContour() {
-        return this.getContourOuterRings().size() > 1 || !this.getContourInnerRings().isEmpty();
-    }
-
-    public List<Point2D> getContour() {
-        return contour.outerRings.isEmpty() ? new ArrayList<>() : contour.outerRings.get(0);
-    }
-
-    public List<ArrayList<Point2D>> getContourOuterRings() {
-        return contour.outerRings;
-    }
-
-    public List<ArrayList<Point2D>> getContourInnerRings() {
-        return contour.innerRings;
-    }
 
     public Mesh getMesh() {
         return this.mesh;
 
     }
 	
-    public void composeMesh(){
-        this.mesh = null;
+    private static Mesh composeMesh(BuildingRecipe buildingRecipe){
+        Mesh mesh = null;
 
-        this.mesh = roofShape.getMesher().generate(this);
+        mesh = buildingRecipe.roofShape.getMesher().generate(buildingRecipe);
 
         //last chance! mesh can be null, in case specific roof shapes was not created due to limitations
         // for example, GABLED and HIPPED can be created for quadrangles only.
-        if( this.mesh == null){
+        if( mesh == null){
             // Collect all contours (outer and inner) for flat roof generation
-            this.mesh = RoofShapes.FLAT.getMesher().generate(this);
+            mesh = RoofShapes.FLAT.getMesher().generate(buildingRecipe);
         }
+        return mesh;
     }
 
 
-    public  static Double parseDirection(String direction) {
-        if (direction == null || direction.isEmpty()) {
-            return Double.NaN; // Return NaN if direction is not specified
-        }
-        try {
-            return Double.parseDouble(direction);
-        } catch (NumberFormatException e) {
-            // Handle cardinal directions (N, S, E, W, etc.)
-            switch (direction.toUpperCase()) {
-                case "N":   return   0.0;
-                case "NNE": return  22.5;
-                case "NE":  return  45.0;
-                case "ENE": return  67.5;
-                case "E":   return  90.0;
-                case "ESE": return 112.5;
-                case "SE":  return 135.0;
-                case "SSE": return 157.5;
-                case "S":   return 180.0;
-                case "SSW": return 202.5;
-                case "SW":  return 225.0;
-                case "WSW": return 247.5;
-                case "W":   return 270.0;
-                case "WNW": return 292.5;
-                case "NW":  return 315.0;
-                case "NNW": return 337.5;
-                default:    return Double.NaN;
-            }
-        }
-    }
 
-    private Color parseColor(String color, Color default_color){
-        Color rgb_color = ColorUtils.parseColor(color);
-        if (rgb_color == null) {
-            rgb_color = default_color;
-        }
-        return rgb_color;
-    }
-
-    @NotNull
-    public static String getTagStr(String key, OsmPrimitive primitive, String defaultValue ){
-        return getTagStr(key, primitive.getInterestingTags(), defaultValue);
-    }
-
-    @NotNull
-    private  static String getTagStr(String key, Map<String, String> primitive, String defaultValue ){
-        String value = primitive.get(key);
-        if (value == null) {
-            return defaultValue;
-        }
-        return value;
-    }
-
-    @NotNull
-    private static String getTagStr(String key, Map<String, String> primitive, Map<String, String> parent ){
-
-        String value=primitive.get(key);
-        if ((value==null) && parent!=null && inheritableKeys.contains(key)){
-            value=parent.get(key);
-        }
-
-        if (value==null){
-            value="";
-        }
-        return value;
-    }
-
-    @NotNull
-    private static Double getTagD(String key, OsmPrimitive primitive, double defaultValue) {
-        return getTagD(key, primitive.getInterestingTags(), defaultValue);
-    }
-
-    @NotNull
-    private static Double getTagD(String key, Map<String, String> primitive, double defaultValue) {
-        String value = primitive.get(key);
-        if (value == null) {
-            return defaultValue;
-        }
-        try {
-            return Double.parseDouble(value.split(" ")[0]);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
-    }
-
-    //we need to get a floating point value from an osm tag
-    // if tag is missing or cannot be parsed, the return value is null,
-    // to let it possible to fallback to defaults.
-    private static Double getTagD(String key, Map<String, String> primitive, Map<String, String> parent ){
-        Double result;
-        String tag_str = getTagStr(key, primitive, parent);
-
-        if (tag_str.isEmpty()){
-            return null;
-        }
-
-        try {
-            result = Double.parseDouble(tag_str.split(" ")[0]);
-        } catch (NumberFormatException e) {
-            result = null;
-        }
-        return result;
-
-    }
 }

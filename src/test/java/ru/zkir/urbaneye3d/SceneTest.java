@@ -193,7 +193,7 @@ class SceneTest {
         assertEquals(1, scene.renderableElements.size());
         var re = scene.renderableElements.get(0);
         //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), "tests/output/skillion_steps.obj");
-        RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
+        RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, "unknown");
 
     }
 
@@ -209,7 +209,7 @@ class SceneTest {
         // Assert: Verify the outcome
         assertEquals(4, scene.renderableElements.size(), "Expected 4 barrier, but got "+scene.renderableElements.size());
         for (var re:scene.renderableElements) {
-            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, re.roofShape.toString());
+            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, "unknown");
         }
     }
 
@@ -228,7 +228,7 @@ class SceneTest {
         // Assert: Verify the outcome
         assertEquals(6, scene.renderableElements.size(), "Expected 6 building parts rendered, but fot "+scene.renderableElements.size());
         for (var re:scene.renderableElements) {
-            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, re.roofShape.toString());
+            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, "unknown");
         }
     }
 

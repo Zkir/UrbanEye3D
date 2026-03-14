@@ -21,7 +21,7 @@ public class RoofGeneratorGoldenMasterTest {
     @Test
     void testGabledRoof_GoldenMaster() {
         ArrayList<Point2D> base = createRectangularBase(20, 10);
-        RenderableElement test_building = createTestBuilding(base, RoofShapes.GABLED, 0, 5, 10);
+        BuildingRecipe test_building = createTestBuilding(base, RoofShapes.GABLED, 0, 5, 10);
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +
@@ -58,7 +58,7 @@ public class RoofGeneratorGoldenMasterTest {
     @Test
     void testRoundRoof_GoldenMaster() {
         ArrayList<Point2D> base = createRectangularBase(20, 10);
-        RenderableElement test_building = createTestBuilding(base, RoofShapes.ROUND, 0, 5, 10);
+        BuildingRecipe test_building = createTestBuilding(base, RoofShapes.ROUND, 0, 5, 10);
         Mesh mesh = RoofShapes.ROUND.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +
@@ -136,7 +136,7 @@ public class RoofGeneratorGoldenMasterTest {
     @Test
     void testGabledRoofPentagonalBase_GoldenMaster() {
         ArrayList<Point2D> base = createPentagonalBase();
-        RenderableElement test_building = createTestBuilding(base, RoofShapes.GABLED, 0, 5, 10);
+        BuildingRecipe test_building = createTestBuilding(base, RoofShapes.GABLED, 0, 5, 10);
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +
@@ -174,7 +174,7 @@ public class RoofGeneratorGoldenMasterTest {
     @Test
     void testRoundRoofPentagonalBase_GoldenMaster() {
         ArrayList<Point2D> base = createPentagonalBase();
-        RenderableElement test_building = createTestBuilding(base, RoofShapes.ROUND, 0, 5, 10);
+        BuildingRecipe test_building = createTestBuilding(base, RoofShapes.ROUND, 0, 5, 10);
         Mesh mesh = RoofShapes.ROUND.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +

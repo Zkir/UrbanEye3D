@@ -1,5 +1,6 @@
 package ru.zkir.urbaneye3d.roofgenerators.linearprofile;
 
+import ru.zkir.urbaneye3d.BuildingRecipe;
 import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class MesherLinearProfileQuasiRectangular {
     static final double ZERO = 1e-6;
-    protected RenderableElement building;
+    protected BuildingRecipe building;
     public List<Point3D> verts = new ArrayList<>();
     Polygon polygon;
     List<Double> projections = new ArrayList<>();
@@ -93,7 +94,7 @@ public class MesherLinearProfileQuasiRectangular {
     }
 
 
-    public void init(RenderableElement building) {
+    public void init(BuildingRecipe building) {
         debugMsg("\nDEBUG: RoofProfile.init() entry");
 
         this.building = building;
