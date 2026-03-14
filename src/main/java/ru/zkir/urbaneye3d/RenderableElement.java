@@ -46,6 +46,7 @@ public class RenderableElement {
     @Nullable
     public static BuildingRecipe createBuildingOrPartRecipe(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
                                                             Map<String, String> primitiveTags, Map<String, String> parentTags ){
+
         String source_key="";
         if (primitiveTags.containsKey("building") && !primitiveTags.get("building").equals("no") ) {
             source_key = "building";
@@ -230,6 +231,9 @@ public class RenderableElement {
     public static RenderableElement createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
                                                          Map<String, String> primitiveTags, Map<String, String> parentTags ){
 
+        if (primitive.isDeleted()){
+            return null;
+        }
         BuildingRecipe buildingRecipe = createBuildingOrPartRecipe(primitive, primitiveOrigin, contour,  primitiveTags,  parentTags);
         if (buildingRecipe==null){
             return  null;
@@ -237,7 +241,6 @@ public class RenderableElement {
         Mesh mesh = composeMesh(buildingRecipe);
 
         return new RenderableElement(primitive, primitiveOrigin, mesh,null);
-
 
     }
 
@@ -251,6 +254,10 @@ public class RenderableElement {
      */
     @Nullable
     public static RenderableElement createBarrier(OsmPrimitive primitive){
+
+        if (primitive.isDeleted()){
+            return null;
+        }
 
         var primitiveTags = primitive.getInterestingTags();
         Double layer = getTagD("layer", primitiveTags, 0);
@@ -331,6 +338,9 @@ public class RenderableElement {
 
     //similar to buildings, but with fewer options
     public static RenderableElement createManMade(OsmPrimitive primitive){
+        if (primitive.isDeleted()){
+            return null;
+        }
         var tag = primitive.get("man_made");
         if (tag==null){
             throw new RuntimeException("The object should have man_made tag to be processed by this method");
@@ -374,6 +384,10 @@ public class RenderableElement {
 
     /** Create a tree*/
     public static RenderableElement createTree(Node node) {
+        if (node.isDeleted()){
+            return null;
+        }
+
         if (node.getCoor() == null) {
             return null;
         }
@@ -408,6 +422,7 @@ public class RenderableElement {
     
     /**
      * Universal PRIVATE constructor for RenderableElement
+     * to actually create object, use one of the factory methods
      * */
     private RenderableElement(OsmPrimitive primitive, LatLon origin, Mesh mesh, String textureName) {
         if (primitive.isDeleted()) {
@@ -446,7 +461,6 @@ public class RenderableElement {
 
     public Mesh getMesh() {
         return this.mesh;
-
     }
 	
     private static Mesh composeMesh(BuildingRecipe buildingRecipe){
