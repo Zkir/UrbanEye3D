@@ -22,24 +22,15 @@ public class Contour {
     /**
      * This constructor creates contour from POLYGONAL primitive (e.g. closed way or multipolygon relation)
      */
-    public Contour(OsmPrimitive primitive, LatLon center) {
-        if (center == null) {
-            this.mode = "LatLon";
-        } else {
-            this.mode = "XY";
-            throw new RuntimeException("only latlon right now!");
-        }
+    public Contour(OsmPrimitive primitive) {
+        this.mode = "LatLon";
         if (primitive instanceof Way) {
             Way way = (Way) primitive;
             this.outerRings = new ArrayList<>();
             this.innerRings = new ArrayList<>();
             ArrayList<Point2D> tempContour = new ArrayList<>();
             for (Node node : way.getNodes()) {
-                if ("XY".equals(this.mode)) {
-                    tempContour.add(getNodeLocalCoords(node, center));
-                } else {
-                    tempContour.add(new Point2D(node.lon(), node.lat()));
-                }
+                tempContour.add(new Point2D(node.lon(), node.lat()));
             }
             this.outerRings.add(tempContour);
         } else { //relation
@@ -51,7 +42,9 @@ public class Contour {
             List<Way> innerWays = new ArrayList<>();
 
             for (RelationMember member : relation.getMembers()) {
-                if (!member.isWay() || member.getMember().isIncomplete()) continue;
+                if (!member.isWay() || member.getMember().isIncomplete()){
+                    continue;
+                }
 
                 if ("outer".equals(member.getRole())) {
                     outerWays.add(member.getWay());
@@ -64,12 +57,7 @@ public class Contour {
             for (List<Node> nodeRing : outerNodeRings) {
                 ArrayList<Point2D> pointRing = new ArrayList<>();
                 for (Node node : nodeRing) {
-                    if ("XY".equals(this.mode)) {
-                        pointRing.add(getNodeLocalCoords(node, center));
-                    } else {
-                        pointRing.add(new Point2D(node.lon(), node.lat()));
-                    }
-
+                    pointRing.add(new Point2D(node.lon(), node.lat()));
                 }
                 this.outerRings.add(pointRing);
             }
@@ -78,11 +66,7 @@ public class Contour {
             for (List<Node> nodeRing : innerNodeRings) {
                 ArrayList<Point2D> pointRing = new ArrayList<>();
                 for (Node node : nodeRing) {
-                    if ("XY".equals(this.mode)) {
-                        pointRing.add(getNodeLocalCoords(node, center));
-                    } else {
-                        pointRing.add(new Point2D(node.lon(), node.lat()));
-                    }
+                    pointRing.add(new Point2D(node.lon(), node.lat()));
                 }
                 this.innerRings.add(pointRing);
             }
@@ -90,7 +74,8 @@ public class Contour {
     }
 
     /**
-     * This constructor creates contour from LINEAR primitive (e.g. barrier) applying BUFFER
+     * This constructor creates contour from LINEAR primitive (e.g. barrier) applying BUFFER.
+     * Contour is created in local coords, because buffer operation should be done in local coords!
      */
     public Contour(Way way, double width, LatLon center) {
         this.mode = "XY";

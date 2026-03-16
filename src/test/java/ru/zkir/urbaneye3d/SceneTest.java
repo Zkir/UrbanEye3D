@@ -38,10 +38,10 @@ class SceneTest {
         return OsmReader.parseDataSet(is, null);
     }
 
-    @Test
-    /*
-        If there building parts belonging to the building, the building it self is not rendered.
+    /**
+      *  If there building parts belonging to the building, the building itself is not rendered.
      */
+    @Test
     void testBuildingWithPartIsNotRendered() throws Exception {
         // Arrange: Load the specific test case
         DataSet dataSet = loadDataSetFromOsmFile("building_with_part.osm");
@@ -55,13 +55,14 @@ class SceneTest {
         assertEquals(1, scene.renderableElements.size());
     }
 
-    @Test
-    /*
-        More complex belonging topology test
-        Usually nodes of part lie on the same contour as building .
-        it's not a problem with a simple bbox test of belonging,
-        but is always very tricky for polygon/polygon topology test
+
+    /**
+     *  More complex belonging topology test.
+     *    Usually nodes of part lie on the same contour as building.
+     *    it's not a problem with a simple bbox test of belonging,
+     *    but is always very tricky for polygon/polygon topology test
      */
+    @Test
     void testNodesOnContourBelonging() throws Exception {
         // Arrange: Load the specific test case
         DataSet dataSet = loadDataSetFromOsmFile("nodes_on_contour.osm");
@@ -75,12 +76,12 @@ class SceneTest {
         assertEquals(2, scene.renderableElements.size());
     }
 
-    @Test
-    /*
-        Even more complex belonging topology test
-        part should be inside outer ring(s), but outside inner ring(s).
 
+    /**
+      *   Even more complex belonging topology test.
+      *   Part should be inside outer ring(s), but outside inner ring(s).
      */
+    @Test
     void testMultipolygonBelonging() throws Exception {
         // Arrange: Load the specific test case
         DataSet dataSet = loadDataSetFromOsmFile("multipolygons_belonging.osm");
@@ -95,12 +96,11 @@ class SceneTest {
     }
 
 
-    @Test
-    /*
-        Even more complex multipolygon belonging topology test
-        this time with common nodes for both outer and inner rings.
+    /**
+     *   Even more complex multipolygon belonging topology test.
+     *   This time with common nodes for both outer and inner rings.
      */
-
+    @Test
     void testMultipolygonBelonging2() throws Exception {
         // Arrange: Load the specific test case
         DataSet dataSet = loadDataSetFromOsmFile("multipolygons_belonging2.osm");
@@ -129,10 +129,11 @@ class SceneTest {
         assertEquals(1, scene.renderableElements.size());
     }
 
-    @Test
-    /*
-        Test various buildings just from raw osm data
+
+    /**
+      *  Test various buildings just from raw osm data
      */
+    @Test
     void testCityCenter() throws Exception {
 
         // Arrange: Load the specific test case
@@ -161,12 +162,13 @@ class SceneTest {
         }
     }
 
-    @Test
-    /*
-        Here we test that buildings and building parts do not disappear suddenly.
-        Building is rendered even without specified height, and a part should follow
-        the height of the parent.
+
+    /**
+     *   Here we test that buildings and building parts do not disappear suddenly.
+     *   Building is rendered even without specified height, and a part should follow
+     *   the height of the parent.
      */
+    @Test
     void testPartWithoutHeight() throws Exception {
         // Arrange: Load the specific test case
         DataSet dataSet = loadDataSetFromOsmFile("part_without_height.osm");
@@ -213,11 +215,13 @@ class SceneTest {
         }
     }
 
+
+    /** This test checks to things:
+     *  1. Man made should not be rendered, if specified as an outline role in building relation.
+     *  2. Hyperboloids are generated correctly.
+    */
     @Test
-    //This test checks to things:
-    // 1. Man made should not be rendered, if specified as an outline role in building relation.
-    // 2. Hyperboloids are generated correctly.
-    void testMixedManMadeAndPart() throws Exception {
+    void testManMadeAndParts1() throws Exception {
         // Arrange: Load the specific test case
         DataSet dataSet = loadDataSetFromOsmFile("shukhov_tower.osm");
         Scene scene = new Scene();
@@ -226,11 +230,29 @@ class SceneTest {
         scene.updateData(dataSet, null);
 
         // Assert: Verify the outcome
-        assertEquals(6, scene.renderableElements.size(), "Expected 6 building parts rendered, but fot "+scene.renderableElements.size());
+        assertEquals(6, scene.renderableElements.size(), "Expected 6 building parts rendered, but got "+scene.renderableElements.size());
         for (var re:scene.renderableElements) {
             RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, "unknown");
         }
     }
+	
+	/**
+     *  Man-made object is suppressed if there are parts inside, even without building relation.
+     *  (I doubt however that it is always true)
+     */
+    @Test
+    void testManMadeAndParts2() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("manmade_and_parts.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        scene.updateData(dataSet, null);
+
+        // Assert: Verify the outcome
+        assertEquals(1, scene.renderableElements.size(), "Expected 1 elements rendered, but got "+scene.renderableElements.size());
+    }
+
 
     @Test
     void testSingleTree() {
