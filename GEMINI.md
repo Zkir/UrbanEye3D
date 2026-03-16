@@ -20,11 +20,19 @@
 ## Next Steps
 
 ### Musts for the Next Release 
+1. **[JOSM problem]** MapCss style [resources (png images/textures)](src/main/resources/mapcss-styles/symbols) are not found by JOSM in runtime.
+    * either fix it somehow, or remove textures completely.
+    
+2. **[BUG]** JOSM parameters (e.g. draw oneway arrows and feature labels) override MapCSS styles in 3D window. 
+    * Probably josm patch should be created.
+	
+#### Patches to monitor
 
-* JOSM parameters (e.g. draw oneway arrows and feature labels) override MapCSS styles in 3D window.  Probably josm patch should be created.
-* Make ground tiles to pan more nicely (less flashing, maybe cut by visible area).		
-* Make UI more responsive, because it seems that full redrawal of 2d layer after primitive EDIT impacts performance badly.
-* [**50%** -- workaround found] Fix the **InterruptedException crash**. Exception occures in the josm mapcss engine when a worker thread is terminated. 
+*  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637). -- **DONE.**	
+   
+	
+### Nice to have in the Next Release 	
+* [**BUG**, workaround -- **50%**] Fix the **InterruptedException crash**. Exception occures in the josm mapcss engine when a worker thread is terminated. 
 
        (2026-02-14 03:27:35.601 SEVERE: Exception raised in EDT: java.lang.InterruptedException
         at org.openstreetmap.josm.gui.util.GuiHelper.runInEDTAndWait(GuiHelper.java:228)
@@ -33,82 +41,29 @@
     * Termination of a worker process is quite a normal thing, e.g. when the camera is moved and the ground tile is no longer needed. However, josm *prints* (sic!) exception, even without raising it forward. The issue seems to be rather cosmetic (no real harm except dirty log). 
 	* Workaround found: do not terminate a process, if it is already running, just cancell task if it have not yet started. This workaround negatevly affects performance.  It is still not clear how a proper fix in josm could look like. NavigatableComponent has STATIC global listeners.  
 	* Does this workaround affects satellite layers???
-* **[85%]** "realistic" 2d style for roads -- with darkgray asphalt colour and lanes, instead of red-green importance colouring.
-    * Now all refereced png images are present in jar resources. Maybe some could be excluded as non-3D?
-    * Fix a funny bug with `man_mane=bridge`: a linear waterway is painted above area bridge! -- is it fixable at all? lines are drawn over polygons!	
-	
-#### Patches to monitor
 
-*  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637). -- **DONE.**
 
-### Features needed to catch up with f4map
-* man_made=chimney 
+* [BUG] Fix a funny bug with `man_mane=bridge`: a linear waterway is painted above area bridge! 
+    * Is it fixable at all? Lines are drawn over polygons!	
+
+
+### Feature candidates
+
+1. **Support windows/facades**
+    * Buildings with windows are nice.  This feature is present in osm2world, so we also want it. 
+	* There is a tag in osm for windows: [window=*](https://wiki.openstreetmap.org/wiki/Key:window).
+    * We want to implement "facade" feature similar to X-plane one. https://developer.x-plane.com/article/facade-creation
+	* We already have some sample facades: https://github.com/Zkir/VFR_LANDMARKS_3D_RU/blob/master/Facades
+
+
+2. **Support chimney/frustum**
+    * F4 displays chimneys (`man_made=chimney`), we currently do not. To make chimneys look realistic, we need to support 'shape=frustum', like we already support 'shape=hyperboloid'. probably explicit shape=prism should be supported too.
+
 
 ### Ideas for the Further Development
 
-See also: [IDEAS.md](docs/dev/IDEAS.md)
+See: [IDEAS.md](docs/dev/IDEAS.md)
 
-In order [voted](https://community.openstreetmap.org/t/urban-eye-3d-josm-3d-viewer-plugin/133674/240) by the community.
-
-1. Add more objects, e.g. street lights, benches, statues, forests(!)
-
-2. Support the [base:shape proposal](https://community.openstreetmap.org/t/rfc-feature-proposal-3d-tagging-for-building-base-shapes) (#35)
-	
-3. Improve performance/responsiveness of editing in large scenes.
-    * Implement **partial scene update**. If a primitive is changed, geometry of only related objects should be updated, not of the whole scene, as now. 
-        * Performance is not a big issue right now, but it may become important if more complex geometry (e.g. polygonal windows) is generated.
-        * The tricky part is to determine what objects are related. 
-			* First of all we need to process OSM primitive hierarchy: if a node is moved, then a parent way is affected. if the way is affected, parent relation is also affected.
-			* Secondly, objects may be only spatially related. if a building part is moved outside of it's parent building, the latter may become visible.
-			* are any other cases? It would be very embarrassing to miss something here!
-			
-    *  **Update 3D view in a separate thread**, thus not affecting editing experience. Proper update queue is required. 
-	
-4. Improve rendering, implement **real ambient occlusion** and/or **support materials** (e.g. metal and glass).	
-	* **Real Ambient Occlusion.** 
-		* Current rendering engine is good enough for the editing plugin. 
-		* See [Plan for Screen-Space Ambient Occlusion (SSAO) Implementation](docs/dev/IDEAS.md#plan-for-screen-space-ambient-occlusion-ssao-implementation) section below
-	* **Support of materials** (tags building:material  and roof:material). 
-		* Note: material does not affect color, it affects procedural texture and metalness. 
-		* Some more advanced shading is obviously required. 
-		
-5. Support `roof:shape=saltbox` as well as `roof:shape=double_saltbox`, `roof:shape=quadruple_saltbox` (#28)
-	* There is no consistent opinion about what this shape is.		
-	
-6. Implement rendering of building passages (`tunnel=building_passage`).  #6
-    * Definitely, this requires support of boolean operations with meshes: "difference". for this purpose we have JCSG library (https://github.com/Zkir/JCSG)
-and even example of this library usage: JCSG_test (no repository for it yet). How to preserve face colors while using it is  still the big unknown. 
-    Screenshots in JCSG readme.md suggest that it should be possible.
-	
-
-Some other wishes:
-
-* Check whether `roof:shape` should be inherited from building. Both F4 and osm2world inherits both roof:shape and roof:height from parent building. Should we also do that? 
-* Explore further the integration with **Osm2World**. 
-    * What is a best way to use it? Can it be an alternative rendering engine in the plugin (considering it's limitations)?
-      Can it be a separate (manually updatable) window? 
-	  
-* Support [windows](https://wiki.openstreetmap.org/wiki/Key:window).
-    * Since this feature is present in osm2world, we also want that.
-	
-* Implement other roof shapes:
-	* Implement `zakomar` roof somehow. 
-		* It was implemented in Blosm, but that implementation is not suitable for us (not watertight). Probably boolean operation should be tried.
-	* Implement  `sawtooth`, `gabled_row` roofs. They say that F4 Map supports them.  
-	* Implement `butterfly`  roof. Note that the first attempt to implement it has failed. Just a new profile is not enough. Some significant changes are required in MesherLinerProfile to support such 'inverse' geometry.
-
-
-To be prioritized via MoSCoW method.
-
-#### Must 
-#### Should
-#### Could 
-
-	
-#### Would [Not]
-	
-* Support of `roof:ridge=yes` as described in [ProposedRoofLines](https://wiki.openstreetmap.org/wiki/ProposedRoofLines)	
-	* seems it is not really feasible with existing mesher structure.
 
 ## Recent Accomplishments
 
@@ -193,7 +148,6 @@ Mapillary and MapRoulette plugins have been also fixed. See [Josm ticket #24637]
 *   **Fixed a rendering bug for `man_made` objects.**
     *   Previously, if a `man_made` object (e.g., a `man_made=tower` polygon) contained `building:part` polygons, both the container object and its parts were rendered, causing visual duplication and incorrect representation.
     *   The logic has been corrected to suppress the rendering of any `man_made` object that has building parts inside it, ensuring that only the parts are displayed. This resolves GitHub [issue #36]((https://github.com/Zkir/UrbanEye3D/issues/36)).
-
 
 
 ### Earlier
