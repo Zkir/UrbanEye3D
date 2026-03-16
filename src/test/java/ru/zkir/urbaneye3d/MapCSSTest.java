@@ -102,7 +102,7 @@ public class MapCSSTest {
             resourcePaths.add(imageMatcher.group(1));
         }
 
-        Path baseResourceDir = Paths.get("mapcss-styles"); // Base for relative paths in MapCSS
+        Path baseResourceDir = Paths.get("images"); // JOSM convention: plugin image resources are searched in /images folder at the root of classpath.
 
         int missingResources=0;
         for (String resourcePath : resourcePaths) {
@@ -219,7 +219,7 @@ public class MapCSSTest {
         Config.setUrlsProvider(JosmUrls.getInstance());
         Config.getPref().putBoolean("mappaint.auto_reload_local_styles", false); // unnecessary to listen for external changes
         String projCode = Optional.ofNullable(argProjection).orElse("epsg:3857");
-        Config.getPref().putList("mappaint.icon.sources", Arrays.asList("resource://mapcss-styles/", "resource://mapcss-styles/symbols/"));
+
         Config.getPref().putBoolean("mappaint.icon.enable-defaults", true);
         ProjectionRegistry.setProjection(Projections.getProjectionByCode(projCode.toUpperCase(Locale.US)));
 

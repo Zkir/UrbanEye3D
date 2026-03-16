@@ -20,10 +20,8 @@
 ## Next Steps
 
 ### Musts for the Next Release 
-1. **[JOSM problem]** MapCss style [resources (png images/textures)](src/main/resources/mapcss-styles/symbols) are not found by JOSM in runtime.
-    * either fix it somehow, or remove textures completely.
     
-2. **[BUG]** JOSM parameters (e.g. draw oneway arrows and feature labels) override MapCSS styles in 3D window. 
+1. **[BUG]** JOSM parameters (e.g. draw oneway arrows and feature labels) override MapCSS styles in 3D window. 
     * Probably josm patch should be created.
 	
 #### Patches to monitor
@@ -66,6 +64,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### March 17, 2026
+*   **Fixed critical MapCSS image loading bug.**
+    *   **Diagnosis:** In-depth analysis of JOSM's `ImageProvider` and `SourceEntry` classes revealed that `resource://` style sheets are not considered "local", preventing the resolution of relative image paths. The correct approach for plugins is to place images under the `resources/images/` directory, which JOSM searches by default.
+    *   **Fix:** Moved the `symbols` directory to `src/main/resources/images/mapcss-styles/` and updated all paths in `urbaneye2d.general.mapcss` to be relative to the `images` root (e.g., `"mapcss-styles/symbols/image.png"`). This aligns with JOSM's intended resource-loading mechanism.
 
 ### March 14, 2026
 *   **Conducted a major architectural refactoring** to improve separation of duties and make mesh generation logic more understandable.

@@ -1,3 +1,14 @@
+/*
+ * NOTE ON IMAGE PATHS:
+ * Due to the way JOSM's internal rendering helper loads resources for plugins,
+ * relative paths (e.g., "symbols/image.png") from the location of this css file do not work.
+ * Image paths MUST be specified relative to the main resource root's "images"
+ * folder (i.e., "src/main/resources/images/").
+ *
+ * Example:
+ * Correct: "mapcss-styles/symbols/image.png"
+ * (This resolves to: src/main/resources/images/mapcss-styles/symbols/image.png)
+ */
 meta {
     title: "UrbanEye2D";
     version: "0.1";
@@ -48,14 +59,14 @@ area|z13-[tourism=picnic_site] {
 }
 
 area|z11-[landuse=quarry] {
-    fill-image: "symbols/quarry2.png";
+    fill-image: "mapcss-styles/symbols/quarry2.png";
     color: grey;
     width: 0.5;
 }
 
 
 area|z10-[landuse=orchard] {
-    fill-image: "symbols/orchard.png";
+    fill-image: "mapcss-styles/symbols/orchard.png";
 }
 
 area|z13-[landuse=vineyard] {
@@ -99,19 +110,19 @@ area|z14-[natural=field] {
 area|z14-[landuse=cemetery][religion=jewish],
 area|z14-[landuse=grave_yard][religion=jewish],
 area|z14-[amenity=grave_yard][religion=jewish] {
-    fill-image: "symbols/grave_yard_generic.png";
+    fill-image: "mapcss-styles/symbols/grave_yard_generic.png";
 }
 
 area|z14-[landuse=cemetery][religion=christian],
 area|z14-[landuse=grave_yard][religion=christian],
 area|z14-[amenity=grave_yard][religion=christian] {
-    fill-image: "symbols/grave_yard.png";
+    fill-image: "mapcss-styles/symbols/grave_yard.png";
 }
 
 area|z14-[landuse=cemetery][religion!=christian][religion!=jewish],
 area|z14-[landuse=grave_yard][religion!=christian][religion!=jewish],
 area|z14-[amenity=grave_yard][religion!=christian][religion!=jewish] {
-    fill-image: "symbols/grave_yard_generic.png";
+    fill-image: "mapcss-styles/symbols/grave_yard_generic.png";
 }
 
 area|z10-[landuse=flowerbed],
@@ -242,7 +253,7 @@ area|z10-13[natural=scrub] {
 }
 
 area|z14-[natural=scrub] {
-    fill-image: "symbols/scrub.png";
+    fill-image: "mapcss-styles/symbols/scrub.png";
 }
 
 area|z10-[natural=grassland] {
@@ -270,7 +281,7 @@ area|z12-[aeroway=aerodrome] {
 }
 
 area|z13-[natural=beach] {
-    fill-image: "symbols/beach.png";
+    fill-image: "mapcss-styles/symbols/beach.png";
 }
 
 area|z14-[highway=services],
@@ -375,7 +386,7 @@ area|z10-[natural=land] {
 
 area|z13-[natural=marsh],
 area|z13-[natural=wetland] {
-    fill-image: "symbols/marsh.png";
+    fill-image: "mapcss-styles/symbols/marsh.png";
     z-index: -998;
 }
 
@@ -989,7 +1000,7 @@ way|z15-[aeroway=taxiway][!bridge?][bridge!=viaduct] {
 way|z12-[aerialway=cable_car],
 way|z12-[aerialway=gondola],
 way|z12-[aerialway=goods] {
-    pattern-image: "symbols/cable_car.png";
+    pattern-image: "mapcss-styles/symbols/cable_car.png";
 	color: black;
 	width:1;
 }
@@ -1000,7 +1011,7 @@ way|z12-[aerialway=t-bar],
 way|z12-[aerialway=j-bar],
 way|z12-[aerialway=platter],
 way|z12-[aerialway=rope_tow] {
-    pattern-image: "symbols/chair_lift.png";
+    pattern-image: "mapcss-styles/symbols/chair_lift.png";
 }
 
 /**
@@ -1536,7 +1547,7 @@ way|z9-11[admin_level][admin_level>8] {
  */
 
 area|z16-[aeroway=helipad] {
-    icon-image: "symbols/helipad.p.16.png";
+    icon-image: "mapcss-styles/symbols/helipad.p.16.png";
 }
 
 node|z16-[natural=tree] {
