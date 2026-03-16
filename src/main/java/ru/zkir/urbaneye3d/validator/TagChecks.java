@@ -108,7 +108,7 @@ public class TagChecks extends Test {
             return null;
         }
 
-        Contour contour = new Contour(p, null);
+        Contour contour = new Contour(p);
         if (contour.outerRings.isEmpty()) {
             return null;
         }

@@ -65,14 +65,14 @@ public class SpatialConsistencyChecks extends Test {
             if (primitive.isUsable()) {
                 if (primitive.hasKey("building:part") && !primitive.get("building:part").equals("no")) {
                     buildingParts.add(primitive);
-                    primitiveContours.put(primitive, new Contour(primitive, null));
+                    primitiveContours.put(primitive, new Contour(primitive));
                 } else if (primitive.hasKey("building") && !primitive.get("building").equals("no")) {
                     buildings.add(primitive);
-                    primitiveContours.put(primitive, new Contour(primitive, null));
+                    primitiveContours.put(primitive, new Contour(primitive));
                 }else if (primitive.hasKey("man_made") && hasOutlineRole(primitive)) {
                     //we cannot accept any object as parent, because there is a bad practice of adding just unclosed was as building relation members
                     buildings.add(primitive);
-                    primitiveContours.put(primitive, new Contour(primitive, null));
+                    primitiveContours.put(primitive, new Contour(primitive));
                 }
             }
         }
@@ -209,7 +209,7 @@ public class SpatialConsistencyChecks extends Test {
                         //we cannot continue test of this building
                         return;
                     }
-                    Contour partContour = new Contour(part, null);
+                    Contour partContour = new Contour(part);
                     if (partContour.outerRings.size() > 1){
                         //TODO: we do not know how to deal with multipolygons with multiple outer rings.
                         //The only thing we can do is skip them for now.
@@ -230,7 +230,7 @@ public class SpatialConsistencyChecks extends Test {
                 }
 
                 if (!partPolygons.isEmpty()) {
-                    Contour buildingContour = new Contour(p, null);
+                    Contour buildingContour = new Contour(p);
                     Polygon buildingPolygon = toJtsPolygon(buildingContour);
                     if (buildingPolygon != null && !buildingPolygon.isEmpty()) {
                         Geometry partsUnion = UnaryUnionOp.union(partPolygons); // unite parts.

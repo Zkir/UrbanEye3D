@@ -54,6 +54,7 @@ public class Scene {
         ArrayList<OsmPrimitive> buildings = new ArrayList<>();
         ArrayList<OsmPrimitive> buildingParts = new ArrayList<>();
         HashMap<OsmPrimitive, OsmPrimitive> partParents = new HashMap<>();
+        ArrayList<OsmPrimitive> manmades = new ArrayList<>();
 
         //We need to do very interesting thing.
         // we need to collect both buildings and building parts.
@@ -68,7 +69,7 @@ public class Scene {
             if (primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no") ) {
                 buildingParts.add(primitive);
                 // Create and cache the contour for the building part.
-                primitiveContours.put(primitive, new Contour(primitive, null));
+                primitiveContours.put(primitive, new Contour(primitive));
             }
         }
 
@@ -80,23 +81,26 @@ public class Scene {
             if (primitive.hasKey("building") && ! primitive.get("building").equals("no") && !(primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no"))   ) {
                 // Create and cache the contour for the building, if not already present.
                 if (!primitiveContours.containsKey(primitive)) {
-                    primitiveContours.put(primitive, new Contour(primitive, null ));
+                    primitiveContours.put(primitive, new Contour(primitive));
                 }
                 Contour buildingContour = primitiveContours.get(primitive);
 
-                for (OsmPrimitive part: buildingParts ){
-                    // First, a quick BBox check. It is much cheaper and will filter out most of the candidates.
-                    if (primitive.getBBox().bounds(part.getBBox())) {
-                        // If BBoxes intersect, then perform a more expensive contour check.
-                        Contour partContour = primitiveContours.get(part);
-                        //TODO: bug: proper spatial check requires original contour, before simplification.
-                        if (buildingContour.contains(partContour)) {
-                            //there is a building part for this building. goodbye!
-                            partParents.put(part, primitive);
-                        }
-                    }
+                var containedParts = findContainedParts(primitive, buildingContour, buildingParts, primitiveContours);
+                for(OsmPrimitive part: containedParts){
+                    //for buildings, we need to support parent-child relationship with parts.
+                    partParents.put(part, primitive);
                 }
-                buildings.add(primitive);
+
+                buildings.add(primitive); //building which have parts are suppressed later.
+
+            }else if(primitive.hasKey("man_made")){
+                Contour manmadeContour = new Contour(primitive);
+                primitiveContours.put(primitive, manmadeContour);
+                if (findContainedParts(primitive, manmadeContour, buildingParts, primitiveContours).isEmpty() ) {
+                    // for man-mades logic is different a bit.
+                    //man-made cannot be parent and is just suppressed, if there are parts inside (see gh #36)
+                    manmades.add(primitive);
+                }
             }
         }
         ArrayList<OsmPrimitive> allCandidates = new ArrayList<>();
@@ -155,22 +159,37 @@ public class Scene {
 
         /*
          * Experimental feature: man_made.
-         * TODO: extend with other man_made's
          */
-        for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+        for (OsmPrimitive primitive : manmades) {
             if (!isPrimitiveComplete(primitive)){
                 continue;
             }
-            if (!(primitive instanceof Node) && primitive.hasKey("man_made")) {
-                if (isBuildingOrPart(primitive)){
-                    continue;
-                }
-                var element = RenderableBuildingElement.createManMade(primitive);
-                if (element != null){
-                    renderableElements.add(element);
+
+            Contour contour = primitiveContours.get(primitive);
+
+            var element = RenderableBuildingElement.createManMade(primitive, contour);
+            if (element != null){
+                renderableElements.add(element);
+            }
+
+        }
+    }
+
+    private List<OsmPrimitive> findContainedParts (OsmPrimitive primitive, Contour buildingContour, List<OsmPrimitive> buildingParts, Map<OsmPrimitive, Contour> primitiveContours) {
+        List<OsmPrimitive> containedParts = new ArrayList<>();
+        for (OsmPrimitive part: buildingParts ){
+            // First, a quick BBox check. It is much cheaper and will filter out most of the candidates.
+            if (primitive.getBBox().bounds(part.getBBox())) {
+                // If BBoxes intersect, then perform a more expensive contour check.
+                Contour partContour = primitiveContours.get(part);
+                // spatial check requires original contour, before simplification.
+                if (buildingContour.contains(partContour)) {
+                    //there is a building part for this building. goodbye!
+                    containedParts.add(part);
                 }
             }
         }
+        return containedParts;
     }
 
     /**

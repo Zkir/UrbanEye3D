@@ -1,5 +1,12 @@
 # Development History
 
+## Version 1.9.1 (March 11, 2026)
+
+* Fixed bug with deleted man-made multipolyong, see [github issue #37](https://github.com/Zkir/UrbanEye3D/issues/37).
+* Creation of `taginfo.json` is updated. It is now a part of the Maven build process and ensures tags from both Java source code and [features.md](docs/features.md) are synchronized and documented. Changes:
+    * Code rewritten from Python to Java. 
+    * The file is updated only if there are some changes in tags, not just file creation date. 
+
 ## Version 1.9.0 (February 19, 2026)
 *   Implemented support for experimental `shape=hyperboloid` tag.
     *   Added `MesherHyperboloid` to generate 3D meshes for hyperboloid-shaped buildings and man_mades.

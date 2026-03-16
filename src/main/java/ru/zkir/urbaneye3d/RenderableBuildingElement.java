@@ -292,7 +292,7 @@ public class RenderableBuildingElement {
         Contour contour;
         LatLon origin = primitive.getBBox().getCenter();
         if ("yes".equals(primitive.get("area"))) {
-            contour = new Contour(primitive, null);
+            contour = new Contour(primitive);
             contour.toLocalCoords(origin);
         } else {
             if (width > 0) {
@@ -312,12 +312,11 @@ public class RenderableBuildingElement {
     }
 
     //similar to buildings, but with fewer options
-    public static RenderableBuildingElement createManMade(OsmPrimitive primitive){
+    public static RenderableBuildingElement createManMade(OsmPrimitive primitive, Contour contour){
         var tag = primitive.get("man_made");
         if( !List.of("tower", "water_tower", "communications_tower", "cooling_tower").contains(tag)){
             return null;
         }
-        Contour contour = new Contour(primitive, null);;
         LatLon origin = primitive.getBBox().getCenter();
         String color =  getTagStr("colour", primitive, "");
         double minHeight = getTagD("min_height", primitive, 0);
