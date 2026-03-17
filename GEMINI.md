@@ -47,14 +47,23 @@
 
 ### Feature candidates
 
-1. **Support windows/facades**
+1. **Increase resolution for GroundTile/MapCSS style**.
+    * Some kind of smart scaling is required, for the nearest tiles only, because it will create huge performance impact otherwise.
+	
+2. **Support forests**
+    * Since we have trees now, it would be nice to render them on `natural=wood` and `landuse=forest`
+	* We already have a plan for it: [NATURAL-WOOD.md](docs/dev/NATURAL-WOOD.md)
+	* Could be tricky, because proper implementation require subtraction of roads.
+	
+
+3. **Support windows/facades**
     * Buildings with windows are nice.  This feature is present in osm2world, so we also want it. 
 	* There is a tag in osm for windows: [window=*](https://wiki.openstreetmap.org/wiki/Key:window).
     * We want to implement "facade" feature similar to X-plane one. https://developer.x-plane.com/article/facade-creation
 	* We already have some sample facades: https://github.com/Zkir/VFR_LANDMARKS_3D_RU/blob/master/Facades
 
 
-2. **Support chimney/frustum**
+4. **Support chimney/frustum**
     * F4 displays chimneys (`man_made=chimney`), we currently do not. To make chimneys look realistic, we need to support 'shape=frustum', like we already support 'shape=hyperboloid'. probably explicit shape=prism should be supported too.
 
 
