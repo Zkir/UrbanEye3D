@@ -26,7 +26,7 @@ None currently?
 #### JOSM patches to monitor
 
 *  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637). -- **DONE**	
-*  [[PATCH] Possibility to specify custom MapPaintSettings](https://josm.openstreetmap.de/ticket/24678) -- **In progress**
+*  [[PATCH] Possibility to specify custom MapPaintSettings](https://josm.openstreetmap.de/ticket/24678) -- **DONE**	
    
 	
 ### Nice to have in the Next Release 	
