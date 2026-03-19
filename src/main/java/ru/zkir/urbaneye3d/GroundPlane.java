@@ -22,14 +22,21 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     public static class Layer2dInfo{
         private final ImageryType type;
         private final ImageryInfo imageryInfo;
+        private final String dataSetName;
 
-        public Layer2dInfo(ImageryType type, ImageryInfo imageryInfo){
-            this.type = type;
-            this.imageryInfo = imageryInfo;
+        public Layer2dInfo(String dataSetName){
+            this.type = ImageryType.MapCSS;
+            this.imageryInfo = null;
+            if(dataSetName!=null) {
+                this.dataSetName = dataSetName;
+            }else{
+                throw new RuntimeException("Dataset name must be specified");
+            }
         }
         public Layer2dInfo(ImageryInfo imageryInfo){
             this.type = ImageryType.TMS;
             this.imageryInfo = imageryInfo;
+            this.dataSetName = "";
         }
 
         public ImageryInfo getImageryInfo() {
@@ -46,7 +53,7 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
 
         public boolean equals (Layer2dInfo other){
             if (other==null) {return false;}
-            return this.type==other.type && this.imageryInfo==other.imageryInfo;
+            return this.type==other.type && this.imageryInfo==other.imageryInfo && this.dataSetName.equals(other.dataSetName);
         }
         public static boolean equal(Layer2dInfo one, Layer2dInfo another){
             boolean result = true;
@@ -129,7 +136,9 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
             currentImageryLayer = newImageryLayer;
             tmsRenderer.setCurrentImagery(newImageryLayer.getImageryInfo());
             // When layer changes, clear everything. Simpler than trying to update.
-            clearAllTiles();
+            this.cancelAllPendingRequests();
+            this.clearCachedTiles();
+            forced = true;
         }
 
         //We need to determine the visible area. For now just a constant.
@@ -150,23 +159,24 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
 
         // Activate or create newly required tiles
         for (GroundTile.GroundTileXY coord : requiredCoords) {
-            if (activeTiles.containsKey(coord)){
-                if (forced){
-                    GroundTile tile = activeTiles.get(coord);
-                    tile.loadTextureAsync(tmsRenderer, true);
+            GroundTile tile = activeTiles.get(coord);
+
+            if (tile == null) {
+                // Not active, try cache
+                tile = tileCache.remove(coord);
+                if (tile == null) {
+                    // Not in cache either, create new
+                    tile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG, this, dataSet);
                 }
-                //tile exists already, do nothing.
-                continue;
+                activeTiles.put(coord, tile);
             }
 
-            GroundTile tile = tileCache.remove(coord);
-            if (tile != null) {
-                activeTiles.put(coord, tile);
-            } else {
-                GroundTile newTile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG, this, dataSet);
-                newTile.setImageryLayer(currentImageryLayer);
-                newTile.loadTextureAsync(tmsRenderer, forced);
-                activeTiles.put(coord, newTile);
+            // Unconditionally update the dataset and imagery info for the tile
+            //tile.setDataSet(dataSet);
+            tile.setImageryLayer(currentImageryLayer);
+
+            if (forced || !tile.hasImageData()) {
+                tile.loadTextureAsync(tmsRenderer, dataSet, forced);
             }
         }
         raiseUpdatedEvent();
@@ -191,19 +201,30 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     }
     
     public void clearAllTiles() {
+        cancelAllPendingRequests();
+        clearActiveTiles();
+        clearCachedTiles();
+    }
+
+    private void cancelAllPendingRequests(){
         tmsRenderer.cancelAllPendingRequests();
         GroundTile.cancelAllPendingRequests();
+    }
 
-        for (GroundTile tile : activeTiles.values()) {
-            requestTileGLTextureDestruction(tile);
-        }
+    private void clearCachedTiles(){
         for (GroundTile tile : tileCache.values()) {
             requestTileGLTextureDestruction(tile);
         }
-
-        activeTiles.clear();
         tileCache.clear();
     }
+
+    private void clearActiveTiles(){
+        for (GroundTile tile : activeTiles.values()) {
+            requestTileGLTextureDestruction(tile);
+        }
+        activeTiles.clear();
+    }
+
 
     private Bounds getVisibleArea(LatLon center){
         final double N = 0.75;
@@ -215,12 +236,13 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     }
 
     /** we need to update the textures of the ground tiles, within given bounds */
-    private void updateGroundTileTextures(Bounds bounds){
+    private void updateGroundTileTextures(Bounds bounds ){
         int i = 0;
         for(var tile: getAllTiles()){
             //we need to update only ground tiles related to downloaded tms tiles
             if(bounds.intersects( tile.bounds)) {
-                tile.loadTextureAsync(this.tmsRenderer, true);
+                //dataset here can be null, because this operation is TMS specific
+                tile.loadTextureAsync(this.tmsRenderer, null,  true);
                 i++;
             }
         }

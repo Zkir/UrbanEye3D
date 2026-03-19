@@ -20,13 +20,13 @@
 ## Next Steps
 
 ### Musts for the Next Release 
-    
-1. **[BUG]** JOSM parameters (e.g. draw oneway arrows and feature labels) override MapCSS styles in 3D window. 
-    * Probably josm patch should be created.
-	
-#### Patches to monitor
 
-*  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637). -- **DONE.**	
+None currently?
+    
+#### JOSM patches to monitor
+
+*  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637). -- **DONE**	
+*  [[PATCH] Possibility to specify custom MapPaintSettings](https://josm.openstreetmap.de/ticket/24678) -- **In progress**
    
 	
 ### Nice to have in the Next Release 	
@@ -73,10 +73,19 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### March 19, 2026
+*   **Fixed bug with active layer for ground plane rendering.**
+    *   The 2D ground plane was incorrectly rendered using the `DataSet` from the top-most layer even when an active layer was changed.
+    *   The `Layer2dInfo` class was enhanced to include `dataSetName` for MapCSS type layers. This allows `GroundPlane` to detect when the active `DataSet` changes and trigger a full refresh of tiles, clearing caches and forcing a redraw with current data.
+
 ### March 17, 2026
-*   **Fixed critical MapCSS image loading bug.**
-    *   **Diagnosis:** In-depth analysis of JOSM's `ImageProvider` and `SourceEntry` classes revealed that `resource://` style sheets are not considered "local", preventing the resolution of relative image paths. The correct approach for plugins is to place images under the `resources/images/` directory, which JOSM searches by default.
-    *   **Fix:** Moved the `symbols` directory to `src/main/resources/images/mapcss-styles/` and updated all paths in `urbaneye2d.general.mapcss` to be relative to the `images` root (e.g., `"mapcss-styles/symbols/image.png"`). This aligns with JOSM's intended resource-loading mechanism.
+*   **Created a patch for the JOSM core to fix problem with global settings.**
+    *   [[PATCH] Possibility to specify custom MapPaintSettings](https://josm.openstreetmap.de/ticket/24678) 
+	*   Some JOSM MapPaintSettings are not relevant for 3D window
+	
+*   **Fixed bug with image resources in MapCSS-styles.**
+    * PNG images referenced in mapcss styles moved to `src/main/resources/images` folder, where JOSM can find them.   
+
 
 ### March 14, 2026
 *   **Conducted a major architectural refactoring** to improve separation of duties and make mesh generation logic more understandable.

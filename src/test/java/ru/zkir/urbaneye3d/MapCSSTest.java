@@ -62,6 +62,7 @@ public class MapCSSTest {
     public static void setup() throws IOException {
         Files.createDirectories(Paths.get(TEST_OUTPUT_DIR));
         initialize();
+
     }
 
     private static Stream<Path> mapCssFilesProvider() throws IOException {
@@ -157,7 +158,7 @@ public class MapCSSTest {
         // 1. Configure the environment
         var groundPlane = new GroundPlane();
         groundPlane.setRenderer(null);
-        var testLayer = new GroundPlane.Layer2dInfo(MapCSS, null);
+        var testLayer = new GroundPlane.Layer2dInfo("Test dataset");
 
         LatLon visibleAreaCenter = bounds.getCenter();
         groundPlane.update(visibleAreaCenter, testLayer, dataSet, false);

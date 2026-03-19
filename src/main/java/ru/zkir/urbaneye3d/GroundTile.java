@@ -77,7 +77,6 @@ public class GroundTile {
     private static final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     private static final Map<String, Future<?>> pendingRequests = new ConcurrentHashMap<>();
     private final GroundPlane groundPlane;
-    private final DataSet dataSet;
 
     public static int getPendingRequestsCount() {
         return pendingRequests.size();
@@ -108,7 +107,6 @@ public class GroundTile {
     public GroundTile(GroundTileXY coord, double tileLonSizeDeg, double tileLatSizeDeg, GroundPlane groundPlane, DataSet dataSet) {
         this.coord = Objects.requireNonNull(coord);
         this.groundPlane = groundPlane;
-        this.dataSet = dataSet;
 
         double minLon = coord.x * tileLonSizeDeg;
         double maxLon = (coord.x + 1) * tileLonSizeDeg;
@@ -172,14 +170,14 @@ public class GroundTile {
         return optimalZoomLevel;
     }
 
-    public void loadTextureAsync(MapRenderer tmsRenderer, boolean forced) {
+    public void loadTextureAsync(MapRenderer tmsRenderer, DataSet dataSet, boolean forced ) {
         String key = "#" + this.coord.x + "/" + this.coord.y;
 
         Runnable task = () -> {
             try {
                 if (this.imageryLayer.getType() == MapCSS ){
                     if (dataSet!=null) {
-                        loadMapCSSTexture(forced);
+                        loadMapCSSTexture(dataSet, forced);
                     }
                 }else{
                     loadTMSTexture(tmsRenderer, forced);
@@ -236,7 +234,7 @@ public class GroundTile {
             }
         });
     }
-    public void loadMapCSSTexture(boolean forced) {
+    public void loadMapCSSTexture(DataSet dataSet, boolean forced) {
         if ((!forced && hasImageData.get()) || dataSet == null) {
             return;
         }

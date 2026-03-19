@@ -291,14 +291,21 @@ public class DialogWindow3D extends ToggleDialog
                 if (layer instanceof TMSLayer && layer.isVisible()) {
                     TMSLayer tmsLayer = (TMSLayer) layer;
                     try {
-                        return new GroundPlane.Layer2dInfo(GroundPlane.ImageryType.TMS, tmsLayer.getInfo());
+                        return new GroundPlane.Layer2dInfo(tmsLayer.getInfo());
                     } catch (IllegalArgumentException e) {
                         // Skip incompatible layers
                     }
                 }
             }
         }
-        return new GroundPlane.Layer2dInfo(GroundPlane.ImageryType.MapCSS, null);
+
+        if (listenedLayer!=null){
+            String datasetName = listenedLayer.getDataSet().getName();
+            return new GroundPlane.Layer2dInfo(datasetName);
+        }else{
+            return null;
+        }
+
     }
 
     /**
