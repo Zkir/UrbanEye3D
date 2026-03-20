@@ -72,7 +72,10 @@ public class GroundTile {
 
     private GroundPlane.Layer2dInfo imageryLayer;
     private static final int TILE_TEXTURE_SIZE_PIXELS = 2048;
-    private static final int THREAD_POOL_SIZE = 4;
+
+    //TODO: strange bug in JOSM: MapCSS painter partially uses main thread, so background threads fights with each other
+    //  we have to decrease number of threads.
+    private static final int THREAD_POOL_SIZE = 1;
 
     private static final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     private static final Map<String, Future<?>> pendingRequests = new ConcurrentHashMap<>();
@@ -239,6 +242,7 @@ public class GroundTile {
             return;
         }
         BufferedImage result=null;
+        UrbanEye3dPlugin.debugMsg("loadMapCSSTexture()"); //TODO remove when no longer necessary.
 
         var styles= new ArrayList<String>();
         styles.add("resource://mapcss-styles/urbaneye2d.general.mapcss");

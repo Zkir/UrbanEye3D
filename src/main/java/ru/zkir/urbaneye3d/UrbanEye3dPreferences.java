@@ -70,7 +70,7 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         // Force a redraw of the 3D view to apply changes immediately
         DialogWindow3D dialog = UrbanEye3dPlugin.get3DWindow();
         if (dialog != null) {
-            dialog.updateData();
+            dialog.requestSceneUpdate();
         }
         return false; // No restart required
     }

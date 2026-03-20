@@ -2,33 +2,21 @@ package ru.zkir.urbaneye3d;
 
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.DataSelectionListener;
-import org.openstreetmap.josm.data.osm.event.AbstractDatasetChangedEvent;
-import org.openstreetmap.josm.data.osm.event.DataChangedEvent;
-import org.openstreetmap.josm.data.osm.event.DataSetListener;
-import org.openstreetmap.josm.data.osm.event.NodeMovedEvent;
-import org.openstreetmap.josm.data.osm.event.PrimitivesAddedEvent;
-import org.openstreetmap.josm.data.osm.event.PrimitivesRemovedEvent;
-import org.openstreetmap.josm.data.osm.event.RelationMembersChangedEvent;
-import org.openstreetmap.josm.data.osm.event.TagsChangedEvent;
-import org.openstreetmap.josm.data.osm.event.WayNodesChangedEvent;
+import org.openstreetmap.josm.data.osm.DataSet;
+import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import org.openstreetmap.josm.data.osm.PrimitiveId;
+import org.openstreetmap.josm.data.osm.Relation;
+import org.openstreetmap.josm.data.osm.event.*;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MapView;
-import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
-import org.openstreetmap.josm.gui.layer.*;
 import org.openstreetmap.josm.gui.NavigatableComponent;
+import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
+import org.openstreetmap.josm.gui.dialogs.relation.DownloadRelationMemberTask;
+import org.openstreetmap.josm.gui.layer.*;
 import org.openstreetmap.josm.spi.preferences.Config;
 import ru.zkir.urbaneye3d.josmactions.ResetCameraAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
-import org.openstreetmap.josm.data.osm.DataSelectionListener;
-import org.openstreetmap.josm.data.osm.OsmPrimitive;
-import org.openstreetmap.josm.data.osm.PrimitiveId;
-
-
-import org.openstreetmap.josm.data.osm.DataSet;
-import org.openstreetmap.josm.data.osm.OsmPrimitive;
-import org.openstreetmap.josm.data.osm.Relation;
-import org.openstreetmap.josm.gui.dialogs.relation.DownloadRelationMemberTask;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,9 +24,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class DialogWindow3D extends ToggleDialog
@@ -50,6 +41,10 @@ public class DialogWindow3D extends ToggleDialog
     private final Scene scene3d = new Scene();
     private OsmDataLayer listenedLayer;
     private boolean isDestroyed = false;
+    private final ExecutorService sceneUpdateExecutor = Executors.newSingleThreadExecutor();
+    private Future<?> pendingSceneUpdate;
+
+    private long lastDataChangedTimestamp = 0; //TODO: remove when no longer needed
 
     public Renderer3D getRenderer3D() {
         return renderer3D;
@@ -96,7 +91,7 @@ public class DialogWindow3D extends ToggleDialog
         }
 
         updateListenedLayer();
-        updateData();
+        requestSceneUpdate();
     }
 
     @Override
@@ -109,6 +104,7 @@ public class DialogWindow3D extends ToggleDialog
         if(isDestroyed){
             return;
         }
+        sceneUpdateExecutor.shutdownNow();
         NavigatableComponent.removeZoomChangeListener(this);
         MainApplication.getLayerManager().removeLayerChangeListener(this);
         MainApplication.getLayerManager().removeActiveLayerChangeListener(this);
@@ -150,22 +146,41 @@ public class DialogWindow3D extends ToggleDialog
         // That's why we need to clear all existing tiles and force re-creation
         // of ground plane and its textures in the new GL context.
         scene3d.groundPlane.clearAllTiles();
-        updateData();
+        requestSceneUpdate();
     }
 
 
-    public void updateData() {
+    public void requestSceneUpdate() {
         if (!this.isUpdateRequired() ){
-            //it seems that if 3d window is minimized or closed this is not necessary to update data.
             return;
         }
-
-        if (listenedLayer != null) {
-            scene3d.updateData(listenedLayer.getDataSet(), getTopmostImageryLayer());
-        } else {
-            scene3d.updateData(null, getTopmostImageryLayer());
+        //update scene elements: buildings, etc.
+        if (pendingSceneUpdate != null && !pendingSceneUpdate.isDone()) {
+            // We want scene to be updated following changes in the dataset,
+            //  that's why we do cancel(false).
+            pendingSceneUpdate.cancel(false);
         }
-        renderer3D.repaint();
+
+        final DataSet dataSet = (listenedLayer != null) ? listenedLayer.getDataSet() : null;
+        pendingSceneUpdate = sceneUpdateExecutor.submit(() -> {
+            final Scene.SceneUpdate update = scene3d.calculateUpdate(dataSet);
+            SwingUtilities.invokeLater(() -> {
+                scene3d.applyUpdate(update);
+                renderer3D.repaint();
+            });
+        });
+
+        //update ground tiles
+        if (MainApplication.isDisplayingMapView()) {
+            var layer2Dinfo = getTopmostImageryLayer();
+            //TODO: it's a dirty hack.
+            // If the main map window is not visible, we cannot neither obtain map center nor active satellite layer
+            var visibleAreaCenter = Renderer3D.getCameraPosition();
+            //if 2d layer is generated one, it depends on Dataset.
+            //Since we recalculate buildings, we should also update 2d layer
+            boolean forcedUpdate = (layer2Dinfo != null && layer2Dinfo.getType() == GroundPlane.ImageryType.MapCSS);
+            scene3d.groundPlane.update(visibleAreaCenter, layer2Dinfo, dataSet, forcedUpdate);
+        }
     }
 
     private boolean isUpdateRequired() {
@@ -176,46 +191,51 @@ public class DialogWindow3D extends ToggleDialog
     // --- DataSetListener ---
     @Override
     public void dataChanged(DataChangedEvent event) {
-        updateData();
+        requestSceneUpdate();
         downloadIncompleteMultipolygons();
     }
 
     @Override
     public void primitivesAdded(PrimitivesAddedEvent event) {
-        updateData();
+        requestSceneUpdate();
     }
 
     @Override
     public void primitivesRemoved(PrimitivesRemovedEvent event) {
-        updateData();
+        requestSceneUpdate();
     }
 
     @Override
     public void tagsChanged(TagsChangedEvent event) {
-        updateData();
+        requestSceneUpdate();
     }
 
     @Override
     public void nodeMoved(NodeMovedEvent event) {
-       //System.out.println("Event: nodeMoved");
-        updateData();
+        //TODO: remove this measurement when no longer needed
+        if (lastDataChangedTimestamp != 0) {
+            long currentTime = System.nanoTime();
+            long elapsed = (currentTime - lastDataChangedTimestamp) / 1_000_000; // Milliseconds
+            UrbanEye3dPlugin.debugMsg("Time since last dataChanged event: " + elapsed + " ms");
+        }
+        lastDataChangedTimestamp = System.nanoTime();
 
+        requestSceneUpdate();
     }
 
     @Override
     public void wayNodesChanged(WayNodesChangedEvent event) {
-        updateData();
+        requestSceneUpdate();
     }
 
     @Override
     public void relationMembersChanged(RelationMembersChangedEvent event) {
-        updateData();
+        requestSceneUpdate();
     }
 
     @Override
     public void otherDatasetChange(AbstractDatasetChangedEvent event) {
-        //System.out.println("Event: otherDatasetChange");
-        updateData();
+        requestSceneUpdate();
     }
 
     /**
@@ -240,7 +260,7 @@ public class DialogWindow3D extends ToggleDialog
     public void layerAdded(LayerManager.LayerAddEvent e) {
         e.getAddedLayer().addPropertyChangeListener(this);
         updateListenedLayer();
-        updateData();
+        requestSceneUpdate();
     }
 
     @Override
@@ -249,19 +269,19 @@ public class DialogWindow3D extends ToggleDialog
         if (e.getRemovedLayer() == listenedLayer) {
             updateListenedLayer(null);
         }
-        updateData();
+        requestSceneUpdate();
     }
 
     @Override
     public void layerOrderChanged(LayerManager.LayerOrderChangeEvent e) {
-        updateData();
+        requestSceneUpdate();
     }
 
     @Override
     public void activeOrEditLayerChanged(MainLayerManager.ActiveLayerChangeEvent e) {
         boolean editLayerChanged = listenedLayer != MainApplication.getLayerManager().getEditLayer();
         updateListenedLayer();
-        updateData();
+        requestSceneUpdate();
         if (editLayerChanged) {
             downloadIncompleteMultipolygons();
         }

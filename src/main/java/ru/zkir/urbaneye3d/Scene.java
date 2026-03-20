@@ -3,7 +3,6 @@ package ru.zkir.urbaneye3d;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
-import org.openstreetmap.josm.gui.MainApplication;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Point2D;
 
@@ -14,6 +13,14 @@ public class Scene {
     /** The list of scene "elements" that should be rendered.
     * renderable element can be either a building or a building part. */
     final List<RenderableElement> renderableElements = new ArrayList<>();
+
+    public static class SceneUpdate {
+        final List<RenderableElement> renderableElements;
+
+        public SceneUpdate(List<RenderableElement> renderableElements) {
+            this.renderableElements = renderableElements;
+        }
+    }
 
     public void updateSelection(Collection<PrimitiveId> selectedPrimitivesIds) {
         for (RenderableElement element : renderableElements) {
@@ -29,25 +36,18 @@ public class Scene {
         return groundPlane;
     }
 
-    /**
-     * This method analyzes dataset and creates 3D objects
-     * It also updates ground plane tiles, which may be or may be not dataset dependent,
-     * depending on presence of imagery layer
-     */
-    public void updateData(DataSet dataSet, GroundPlane.Layer2dInfo layer2Dinfo) {
+    public void applyUpdate(SceneUpdate update) {
         renderableElements.clear();
-        if (dataSet == null){
-            return;
+        if (update != null) {
+            renderableElements.addAll(update.renderableElements);
         }
 
-        if (MainApplication.isDisplayingMapView()) {
-            //TODO: it's a dirty hack.
-            // If the main map window is not visible, we cannot neither obtain map center nor active satellite layer
-            var visibleAreaCenter = Renderer3D.getCameraPosition();
-            //if 2d layer is generated one, it depends on Dataset.
-            //Since we recalculate buildings, we should also update 2d layer
-            boolean forcedUpdate = (layer2Dinfo.getType() == GroundPlane.ImageryType.MapCSS);
-            this.groundPlane.update(visibleAreaCenter, layer2Dinfo, dataSet, forcedUpdate);
+    }
+
+    public SceneUpdate calculateUpdate(DataSet dataSet) {
+        List<RenderableElement> newElements = new ArrayList<>();
+        if (dataSet == null){
+            return new SceneUpdate(newElements);
         }
 
         // A map to cache the expensive-to-create Contour objects for each primitive.
@@ -131,7 +131,7 @@ public class Scene {
 
                     var element = RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, partContour, primitive.getInterestingTags(), parentTags);
                     if (element != null) {
-                        renderableElements.add(element);
+                        newElements.add(element);
                         element.isSelected = primitive.isSelected();
                     }
                 }
@@ -139,7 +139,7 @@ public class Scene {
                 // Single outer ring, or multiple outer rings with inner rings, or a Way
                 var element = RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, mainContour, primitive.getInterestingTags(), parentTags);
                 if (element != null) {
-                    renderableElements.add(element);
+                    newElements.add(element);
                     element.isSelected = primitive.isSelected();
                 }
             }
@@ -155,7 +155,7 @@ public class Scene {
             if (primitive instanceof Way && primitive.hasKey("barrier")) {
                 var element = RenderableElement.createBarrier(primitive);
                 if (element != null){
-                    renderableElements.add(element);
+                    newElements.add(element);
                 }
             }
         }
@@ -167,16 +167,16 @@ public class Scene {
             if (!isPrimitiveComplete(primitive)){
                 continue;
             }
-			
+
             Contour contour = primitiveContours.get(primitive);
 
             var element = RenderableElement.createManMade(primitive, contour);
             if (element != null){
-                renderableElements.add(element);
+                newElements.add(element);
             }
 
         }
-			
+
 
         /*
          * Trees
@@ -185,10 +185,11 @@ public class Scene {
             if (node.hasTag("natural", "tree")) {
                 var element = RenderableElement.createTree(node);
                 if (element != null){
-                    renderableElements.add(element);
+                    newElements.add(element);
                 } 
             }
         }
+        return new SceneUpdate(newElements);
     }
 
     private List<OsmPrimitive> findContainedParts (OsmPrimitive primitive, Contour buildingContour, List<OsmPrimitive> buildingParts, Map<OsmPrimitive, Contour> primitiveContours) {
