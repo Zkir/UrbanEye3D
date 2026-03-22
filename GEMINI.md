@@ -76,6 +76,16 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+
+### March 22, 2026
+*   **Developed a UV Packing Utility with TDD and Visualization.**
+    *   Created `UvPacker`, a new utility to find the optimal square size for packing a series of rectangles using a binary search algorithm. This will be foundational for creating texture atlases.
+
+### March 19, 2026
+*   **Fixed bug with active layer for ground plane rendering.**
+    *   The 2D ground plane was incorrectly rendered using the `DataSet` from the top-most layer even when an active layer was changed.
+    *   The `Layer2dInfo` class was enhanced to include `dataSetName` for MapCSS type layers. This allows `GroundPlane` to detect when the active `DataSet` changes and trigger a full refresh of tiles, clearing caches and forcing a redraw with current data.
+	
 ### April 07, 2026
 
 *   **Pure Java I18n Compiler :**
