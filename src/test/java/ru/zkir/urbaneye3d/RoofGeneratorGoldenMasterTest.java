@@ -25,7 +25,6 @@ public class RoofGeneratorGoldenMasterTest {
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +
-                //"mtllib default.mtl\n\n" +
                 "v -10.000000 5.000000 -5.000000\n" +
                 "v -10.000000 10.000000 0.000000\n" +
                 "v -10.000000 5.000000 5.000000\n" +
@@ -37,18 +36,15 @@ public class RoofGeneratorGoldenMasterTest {
                 "v 10.000000 0.000000 5.000000\n" +
                 "v -10.000000 0.000000 5.000000\n" +
                 "\ng object_default\n" +
-                "usemtl default\n" +
-                "\n# Roof\n" +
-                "f 1 4 5 2\n" +
-                "f 2 5 6 3\n" +
-                "\n# Walls \n" +
+                "\n# Faces\n" +
                 "f 1 2 3\n" +
                 "f 6 5 4\n" +
+                "f 1 4 5 2\n" +
+                "f 2 5 6 3\n" +
                 "f 8 4 1 7\n" +
                 "f 9 6 4 8\n" +
                 "f 10 3 6 9\n" +
                 "f 7 1 3 10\n" +
-                "\n# Base\n" +
                 "f 7 10 9 8\n";
 
         assertEquals(expected.trim().replaceAll("\\s+", " "), result.trim().replaceAll("\\s+", " "));
@@ -102,8 +98,9 @@ public class RoofGeneratorGoldenMasterTest {
                 "v 10.000000 0.000000 5.000000\n" +
                 "v -10.000000 0.000000 5.000000\n" +
                 "\ng object_default\n" +
-                "usemtl default\n\n" +
-                "# Roof\n" +
+                "# Faces\n" +
+                "f 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17\n" +
+                "f 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18\n" +
                 "f 1 18 19 2\n" +
                 "f 2 19 20 3\n" +
                 "f 3 20 21 4\n" +
@@ -120,14 +117,10 @@ public class RoofGeneratorGoldenMasterTest {
                 "f 14 31 32 15\n" +
                 "f 15 32 33 16\n" +
                 "f 16 33 34 17\n" +
-                "\n# Walls \n" +
-                "f 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17\n" +
-                "f 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18\n" +
                 "f 36 18 1 35\n" +
                 "f 37 34 18 36\n" +
                 "f 38 17 34 37\n" +
                 "f 35 1 17 38\n" +
-                "\n# Base\n" +
                 "f 35 38 37 36\n";
 
         assertEquals(expected.trim().replaceAll("\\s+", " "), result.trim().replaceAll("\\s+", " "));
@@ -140,7 +133,6 @@ public class RoofGeneratorGoldenMasterTest {
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +
-                //"mtllib default.mtl\n\n" +
                 "v -51.000000 0.000000 -223.000000\n" +
                 "v -43.000000 0.000000 325.000000\n" +
                 "v 129.000000 0.000000 323.000000\n" +
@@ -154,18 +146,15 @@ public class RoofGeneratorGoldenMasterTest {
                 "v 34.999915 10.000000 -224.005847\n" +
                 "v 64.000000 8.536575 38.000000\n" +
                 "\ng object_default\n" +
-                "usemtl default\n" +
-                "\n# Roof\n" +
-                "f 11 10 12 6 8\n" +
-                "f 8 7 9 11\n" +
-                "\n# Walls \n" +
+                "\n# Faces\n" +
+                "f 1 2 3 4 5\n" +
                 "f 3 2 7 8 6\n" +
                 "f 2 1 9 7\n" +
                 "f 1 5 10 11 9\n" +
                 "f 5 4 12 10\n" +
                 "f 4 3 6 12\n" +
-                "\n# Base\n" +
-                "f 1 2 3 4 5\n";
+                "f 11 10 12 6 8\n" +
+                "f 8 7 9 11\n";
 
         assertEquals(expected.trim().replaceAll("\\s+", " "), result.trim().replaceAll("\\s+", " "));
     }
@@ -178,7 +167,6 @@ public class RoofGeneratorGoldenMasterTest {
         Mesh mesh = RoofShapes.ROUND.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh);
         String expected = "# Blender-compatible OBJ\n" +
-                //"mtllib default.mtl\n\n" +
                 "v -51.000000 0.000000 -223.000000\n" +
                 "v -43.000000 0.000000 325.000000\n" +
                 "v 129.000000 0.000000 323.000000\n" +
@@ -232,8 +220,13 @@ public class RoofGeneratorGoldenMasterTest {
                 "v 88.197812 9.155000 144.098097\n" +
                 "v 72.207765 9.620000 73.987892\n" +
                 "\ng object_default\n" +
-                "usemtl default\n\n" +
-                "# Roof\n" +
+                "# Faces\n" +
+                "f 1 2 3 4 5\n" +
+                "f 3 2 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 6\n" +
+                "f 2 1 23 7\n" +
+                "f 1 5 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 23\n" +
+                "f 5 4 40 41 42 43 44 45 46 24\n" +
+                "f 4 3 6 47 48 49 50 51 52 40\n\n" +
                 "f 47 6 22\n" +
                 "f 25 24 46\n" +
                 "f 46 45 26 25\n" +
@@ -255,16 +248,7 @@ public class RoofGeneratorGoldenMasterTest {
                 "f 11 10 37 36\n" +
                 "f 10 9 38 37\n" +
                 "f 9 8 39 38\n" +
-                "f 8 7 23 39\n\n" +
-                "# Walls \n" +
-                "f 3 2 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 6\n" +
-                "f 2 1 23 7\n" +
-                "f 1 5 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 23\n" +
-                "f 5 4 40 41 42 43 44 45 46 24\n" +
-                "f 4 3 6 47 48 49 50 51 52 40\n\n" +
-                "# Base\n" +
-                "f 1 2 3 4 5\n";
-
+                "f 8 7 23 39\n\n" ;
         assertEquals(expected.trim().replaceAll("\\s+", " "), result.trim().replaceAll("\\s+", " "));
     }
 }

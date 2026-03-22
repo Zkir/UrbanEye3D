@@ -10,6 +10,7 @@ import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Settings;
 import ru.zkir.urbaneye3d.utils.UvGenerator;
+import ru.zkir.urbaneye3d.utils.ObjExporter;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -74,5 +75,17 @@ class UvGeneratorTest {
             assertTrue(uv.x >= 0.0f && uv.x <= 1.0f, "UV.x should be in [0, 1] range.");
             assertTrue(uv.y >= 0.0f && uv.y <= 1.0f, "UV.y should be in [0, 1] range.");
         }
+
+        // 4. Export the result to OBJ for external verification
+        String objPath = "target/test-output/uv-generator/simpleBuilding.obj";
+        ObjExporter.saveMeshToObj(meshWithUvs, textureAtlas, objPath);
+
+        File objFile = new File(objPath);
+        File mtlFile = new File("target/test-output/uv-generator/simpleBuilding.mtl");
+        File pngFile = new File("target/test-output/uv-generator/simpleBuilding.png");
+
+        assertTrue(objFile.exists() && objFile.length() > 0, "OBJ file should be created.");
+        assertTrue(mtlFile.exists() && mtlFile.length() > 0, "MTL file should be created.");
+        assertTrue(pngFile.exists() && pngFile.length() > 0, "Texture PNG file should be created for OBJ.");
     }
 }

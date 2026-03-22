@@ -99,30 +99,33 @@ public class UvGenerator {
         Point3D p1, uAxis, vAxis;
         final Point3D worldUp = new Point3D(0, 0, 1);
         final double cos5deg = Math.cos(Math.toRadians(5));
+        double dotProduct = normal.dot(worldUp);
 
         // 2. Differentiate between horizontal and vertical/inclined faces
-        if (Math.abs(normal.dot(worldUp)) < cos5deg) {
+        if (Math.abs(dotProduct) < cos5deg) {
             // Vertical/Inclined face
             vAxis = worldUp.subtract(normal.mult(normal.dot(worldUp))).normalize();
             uAxis = vAxis.cross(normal);
             p1 = faceVerts3D.get(0); // Use the first vertex as the origin
         } else {
             // Horizontal face
-            // Use the longest edge as the U-axis
-            p1 = faceVerts3D.get(0);
+            // Find the longest ADJACENT edge to serve as the U-axis
+            p1 = faceVerts3D.get(0); // Initialize with first edge
             Point3D p2 = faceVerts3D.get(1);
-            double maxDistSq = p1.distance(p2);
-            maxDistSq *= maxDistSq;
+            double maxEdgeLengthSq = p1.distance(p2);
+            maxEdgeLengthSq *= maxEdgeLengthSq;
 
             for (int i = 0; i < faceVerts3D.size(); i++) {
-                for (int j = i + 1; j < faceVerts3D.size(); j++) {
-                    double dist = faceVerts3D.get(i).distance(faceVerts3D.get(j));
-                    double distSq = dist * dist;
-                    if (distSq > maxDistSq) {
-                        maxDistSq = distSq;
-                        p1 = faceVerts3D.get(i);
-                        p2 = faceVerts3D.get(j);
-                    }
+                Point3D currentP1 = faceVerts3D.get(i);
+                Point3D currentP2 = faceVerts3D.get((i + 1) % faceVerts3D.size()); // Get next adjacent vertex
+
+                double currentEdgeLength = currentP1.distance(currentP2);
+                double currentEdgeLengthSq = currentEdgeLength * currentEdgeLength;
+
+                if (currentEdgeLengthSq > maxEdgeLengthSq) {
+                    maxEdgeLengthSq = currentEdgeLengthSq;
+                    p1 = currentP1;
+                    p2 = currentP2;
                 }
             }
             uAxis = p2.subtract(p1).normalize();
