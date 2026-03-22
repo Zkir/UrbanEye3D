@@ -73,6 +73,16 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### March 21, 2026
+* **Implemented partial update** for the ground plane tiles.
+    * Unfortunately it does not solve all the problems, JOSM mapcss engine is really dumb and single-treaded.
+
+### March 20, 2026
+*   **Improved UI Responsiveness with Background Processing.**
+    *   Refactored the core scene generation logic to execute on a background thread, preventing the UI from freezing during data updates.
+    *   Introduced a single-threaded `ExecutorService` in `DialogWindow3D` to manage a queue of scene update tasks. New requests cancel pending (non-running) tasks, ensuring the view reflects the latest data state without unnecessary calculations.
+    *   The `Scene` class was updated to separate the heavy computational logic (`calculateUpdate`) from the lightweight state application (`applyUpdate`), which runs on the EDT.
+
 ### March 19, 2026
 *   **Fixed bug with active layer for ground plane rendering.**
     *   The 2D ground plane was incorrectly rendered using the `DataSet` from the top-most layer even when an active layer was changed.

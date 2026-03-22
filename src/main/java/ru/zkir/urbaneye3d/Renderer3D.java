@@ -270,7 +270,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         // --- Render All Elements (Buildings, Trees, etc.) ---
         for (RenderableElement element : scene.renderableElements) {
-            if (visibleArea==null || !visibleArea.contains(element.origin)){
+            if (visibleArea!=null && !visibleArea.contains(element.origin)){
                 continue;
             }
             gl.glPushMatrix();

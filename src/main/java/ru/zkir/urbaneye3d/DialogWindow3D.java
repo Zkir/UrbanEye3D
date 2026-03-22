@@ -1,6 +1,8 @@
 package ru.zkir.urbaneye3d;
 
+import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
+import org.openstreetmap.josm.data.osm.BBox;
 import org.openstreetmap.josm.data.osm.DataSelectionListener;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
@@ -19,7 +21,7 @@ import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -27,6 +29,8 @@ import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -91,7 +95,7 @@ public class DialogWindow3D extends ToggleDialog
         }
 
         updateListenedLayer();
-        requestSceneUpdate();
+        requestSceneUpdate(null);
     }
 
     @Override
@@ -146,11 +150,10 @@ public class DialogWindow3D extends ToggleDialog
         // That's why we need to clear all existing tiles and force re-creation
         // of ground plane and its textures in the new GL context.
         scene3d.groundPlane.clearAllTiles();
-        requestSceneUpdate();
+        requestSceneUpdate(null);
     }
 
-
-    public void requestSceneUpdate() {
+    public void requestSceneUpdate(Bounds dirtyBounds) {
         if (!this.isUpdateRequired() ){
             return;
         }
@@ -179,7 +182,7 @@ public class DialogWindow3D extends ToggleDialog
             //if 2d layer is generated one, it depends on Dataset.
             //Since we recalculate buildings, we should also update 2d layer
             boolean forcedUpdate = (layer2Dinfo != null && layer2Dinfo.getType() == GroundPlane.ImageryType.MapCSS);
-            scene3d.groundPlane.update(visibleAreaCenter, layer2Dinfo, dataSet, forcedUpdate);
+            scene3d.groundPlane.update(visibleAreaCenter, layer2Dinfo, dataSet, forcedUpdate, dirtyBounds);
         }
     }
 
@@ -187,27 +190,41 @@ public class DialogWindow3D extends ToggleDialog
         return (!this.isCollapsed || !this.isDocked) && this.isVisible();
     }
 
+    /**
+     * Calculates area which is affected by the given primitives.
+     * Should be called from change events
+     * @param primitives list of changed primitives
+     * @return geographical bounds that are affected
+     */
+    private Bounds calculateDirtyBounds(List<? extends OsmPrimitive> primitives){
+        var bbox = new BBox();
+        for (var primitive: primitives ){
+            bbox.add(primitive.getBBox());
+        }
+        return new Bounds(bbox.getMinLat(), bbox.getMinLon(), bbox.getMaxLat(), bbox.getMaxLon());
+    }
+
 
     // --- DataSetListener ---
     @Override
     public void dataChanged(DataChangedEvent event) {
-        requestSceneUpdate();
+        requestSceneUpdate(null);
         downloadIncompleteMultipolygons();
     }
 
     @Override
     public void primitivesAdded(PrimitivesAddedEvent event) {
-        requestSceneUpdate();
+        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()));
     }
 
     @Override
     public void primitivesRemoved(PrimitivesRemovedEvent event) {
-        requestSceneUpdate();
+        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()));
     }
 
     @Override
     public void tagsChanged(TagsChangedEvent event) {
-        requestSceneUpdate();
+        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()));
     }
 
     @Override
@@ -220,22 +237,22 @@ public class DialogWindow3D extends ToggleDialog
         }
         lastDataChangedTimestamp = System.nanoTime();
 
-        requestSceneUpdate();
+        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()) );
     }
 
     @Override
     public void wayNodesChanged(WayNodesChangedEvent event) {
-        requestSceneUpdate();
+        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()));
     }
 
     @Override
     public void relationMembersChanged(RelationMembersChangedEvent event) {
-        requestSceneUpdate();
+        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()));
     }
 
     @Override
     public void otherDatasetChange(AbstractDatasetChangedEvent event) {
-        requestSceneUpdate();
+        requestSceneUpdate(null);
     }
 
     /**
@@ -251,7 +268,7 @@ public class DialogWindow3D extends ToggleDialog
             var layer2dInfo = getTopmostImageryLayer();
             LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
 
-            scene3d.getGroundPlane().update(visibleAreaCenter, layer2dInfo, listenedLayer != null ? listenedLayer.getDataSet() : null, false);
+            scene3d.getGroundPlane().update(visibleAreaCenter, layer2dInfo, listenedLayer != null ? listenedLayer.getDataSet() : null, false, null);
             renderer3D.repaint();
         }
     }
@@ -260,7 +277,7 @@ public class DialogWindow3D extends ToggleDialog
     public void layerAdded(LayerManager.LayerAddEvent e) {
         e.getAddedLayer().addPropertyChangeListener(this);
         updateListenedLayer();
-        requestSceneUpdate();
+        requestSceneUpdate(null);
     }
 
     @Override
@@ -269,19 +286,19 @@ public class DialogWindow3D extends ToggleDialog
         if (e.getRemovedLayer() == listenedLayer) {
             updateListenedLayer(null);
         }
-        requestSceneUpdate();
+        requestSceneUpdate(null);
     }
 
     @Override
     public void layerOrderChanged(LayerManager.LayerOrderChangeEvent e) {
-        requestSceneUpdate();
+        requestSceneUpdate(null);
     }
 
     @Override
     public void activeOrEditLayerChanged(MainLayerManager.ActiveLayerChangeEvent e) {
         boolean editLayerChanged = listenedLayer != MainApplication.getLayerManager().getEditLayer();
         updateListenedLayer();
-        requestSceneUpdate();
+        requestSceneUpdate(null);
         if (editLayerChanged) {
             downloadIncompleteMultipolygons();
         }
@@ -296,7 +313,7 @@ public class DialogWindow3D extends ToggleDialog
                 if(isUpdateRequired()) {
                     var tmsLayer = getTopmostImageryLayer();
                     LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
-                    scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null, false);
+                    scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null, false, null);
                     //this is some kind of back magic, otherwise repaint does not work.
                     SwingUtilities.invokeLater(() -> this.getRenderer3D().repaint());
                 }
@@ -385,7 +402,13 @@ public class DialogWindow3D extends ToggleDialog
             //  in future we should get rid of that.
             var tmsLayer = getTopmostImageryLayer();
             LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
-            scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null, true);
+            List<OsmPrimitive> added = new ArrayList<>(event.getAdded());
+            List<OsmPrimitive> removed = new ArrayList<>(event.getRemoved());
+            List<OsmPrimitive> modifiedPrimitives = new ArrayList<>();
+            modifiedPrimitives.addAll(added);
+            modifiedPrimitives.addAll(removed);
+
+            scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null, true, calculateDirtyBounds(modifiedPrimitives));
             //this is some kind of back magic, otherwise repaint does not work.
             SwingUtilities.invokeLater(() -> this.getRenderer3D().repaint());
         }

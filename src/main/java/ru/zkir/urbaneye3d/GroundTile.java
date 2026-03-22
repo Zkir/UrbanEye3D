@@ -107,7 +107,7 @@ public class GroundTile {
         }
     }
 
-    public GroundTile(GroundTileXY coord, double tileLonSizeDeg, double tileLatSizeDeg, GroundPlane groundPlane, DataSet dataSet) {
+    public GroundTile(GroundTileXY coord, double tileLonSizeDeg, double tileLatSizeDeg, GroundPlane groundPlane) {
         this.coord = Objects.requireNonNull(coord);
         this.groundPlane = groundPlane;
 
@@ -147,10 +147,6 @@ public class GroundTile {
             if (hasImageData.get()) {
                 hasImageData.set(false);
                 hasGlTexture.set(false);
-                //if (hasGlTexture.get()) {
-                //    // Texture is now stale, but we need a GL context to destroy it.
-                //   // This will be handled during the next render pass.
-                //}
             }
         }
     }
@@ -180,12 +176,15 @@ public class GroundTile {
             try {
                 if (this.imageryLayer.getType() == MapCSS ){
                     if (dataSet!=null) {
+                        Thread.sleep(250); //hack to make JOSM UI more responsive
                         loadMapCSSTexture(dataSet, forced);
                     }
                 }else{
                     loadTMSTexture(tmsRenderer, forced);
                 }
 
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             } finally {
                 pendingRequests.remove(key);
             }
@@ -242,7 +241,6 @@ public class GroundTile {
             return;
         }
         BufferedImage result=null;
-        UrbanEye3dPlugin.debugMsg("loadMapCSSTexture()"); //TODO remove when no longer necessary.
 
         var styles= new ArrayList<String>();
         styles.add("resource://mapcss-styles/urbaneye2d.general.mapcss");

@@ -121,7 +121,12 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
         return allTiles;
     }
 
-    public void update(LatLon visibleAreaCenter, Layer2dInfo newImageryLayer, DataSet dataSet, boolean forced) {
+    /**
+     * This function does two things:
+     * 1. Updates the set of visible ground tiles.
+     * 2. Schedules redraw of ground tiles textures, which takes place in a separate thread(s)
+     */
+    public void update(LatLon visibleAreaCenter, Layer2dInfo newImageryLayer, DataSet dataSet, boolean forced, Bounds dirtyBounds) {
         tmsRenderer.cancelAllPendingRequests();
 
         if (newImageryLayer == null) {
@@ -166,20 +171,20 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
                 tile = tileCache.remove(coord);
                 if (tile == null) {
                     // Not in cache either, create new
-                    tile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG, this, dataSet);
+                    tile = new GroundTile(coord, TILE_SIZE_DEG, TILE_SIZE_DEG, this);
                 }
                 activeTiles.put(coord, tile);
             }
 
             // Unconditionally update the dataset and imagery info for the tile
-            //tile.setDataSet(dataSet);
             tile.setImageryLayer(currentImageryLayer);
+            boolean dirty = (dirtyBounds==null) || dirtyBounds.intersects(tile.bounds);
 
-            if (forced || !tile.hasImageData()) {
+            if ((forced && dirty) || !tile.hasImageData()) {
                 tile.loadTextureAsync(tmsRenderer, dataSet, forced);
             }
         }
-        raiseUpdatedEvent();
+        raiseUpdatedEvent(); //TODO: do we need forced redraw here? Probably we should raise this event only if tile set was updated.
     }
 
     private Set<GroundTile.GroundTileXY> calculateRequiredTiles(Bounds viewBounds) {

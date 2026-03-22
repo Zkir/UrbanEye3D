@@ -161,7 +161,7 @@ public class MapCSSTest {
         var testLayer = new GroundPlane.Layer2dInfo("Test dataset");
 
         LatLon visibleAreaCenter = bounds.getCenter();
-        groundPlane.update(visibleAreaCenter, testLayer, dataSet, false);
+        groundPlane.update(visibleAreaCenter, testLayer, dataSet, false, null);
 
         // 3. Wait for tiles to be ready
         boolean allReady = false;
