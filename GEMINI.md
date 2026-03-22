@@ -78,8 +78,14 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ## Recent Accomplishments
 
 ### March 22, 2026
+*   **Created a TDD-driven `UvGenerator` for Texture Mapping.**
+    *   Developed a new `UvGenerator` utility that takes a `Mesh` and produces a valid UV-mapping and a corresponding debug texture atlas.
+    *   The process was strictly guided by a new unit test, `UvGeneratorTest`, which creates a hipped-roof building and verifies the generated UV coordinates and atlas image.
+    *   The implementation correctly "unwraps" each 3D face to its own 2D plane, packs the resulting shapes into a single atlas using `UvPacker`, and calculates the final UVs, handling local coordinate systems as per detailed user guidance.
+
 *   **Developed a UV Packing Utility with TDD and Visualization.**
     *   Created `UvPacker`, a new utility to find the optimal square size for packing a series of rectangles using a binary search algorithm. This will be foundational for creating texture atlases.
+
 
 ### March 19, 2026
 *   **Fixed bug with active layer for ground plane rendering.**
@@ -198,9 +204,6 @@ src
 | SceneTest.java| Integration tests for the Scene component. Verifies the correct construction of the 3D scene from various OSM data (buildings with parts, multipolygons, barriers, trees).  Analyzes how Scene interprets data and forms RenderableElement objects. |
 | TagInfoGeneratorTest.java | Does not really test anything, but collects used tags from the source code and produces `taginfo.json`, so we can [take a look at used tags](https://taginfo.openstreetmap.org/projects/urbaneye3d#tags).  |
 | ValidatorTest.java |  Tests for custom JOSM validators (SpatialConsistencyChecks, TagChecks). Verifies that validators correctly identify expected errors and do not produce false positives on valid data. |
-
-
-
 
 
 
