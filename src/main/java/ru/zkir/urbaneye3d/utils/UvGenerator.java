@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class UvGenerator {
 
-    private static final int ATLAS_TEXTURE_SIZE = 512;
+    private static final int ATLAS_TEXTURE_SIZE = 1024;
     private final Mesh sourceMesh;
 
     // Cached results after initialization
@@ -168,14 +168,20 @@ public class UvGenerator {
         newMesh.materials.addAll(sourceMesh.materials);
         newMesh.verts.addAll(sourceMesh.verts);
 
+        // Get face group indices from the source mesh to preserve them
+        List<Integer> sourceWallFaceIndices = sourceMesh.getWallFaceIndices();
+        List<Integer> sourceRoofFaceIndices = sourceMesh.getRoofFaceIndices();
+        List<Integer> sourceBottomFaceIndices = sourceMesh.getBottomFaceIndices();
+
         Map<Object, Rect> packedRects = packer.getPackedRects();
         double atlasSize = this.optimalAtlasSize;
 
         for (FaceLayoutInfo layout : faceLayouts) {
-            int[] originalVertIndices = sourceMesh.faces.get(layout.faceIndex);
+            int currentFaceIndex = layout.faceIndex;
+            int[] originalVertIndices = sourceMesh.faces.get(currentFaceIndex);
             int[] newUvIndices = new int[originalVertIndices.length];
 
-            Rect packedRect = packedRects.get(layout.faceIndex);
+            Rect packedRect = packedRects.get(currentFaceIndex);
 
             for (int i = 0; i < layout.unwrapResult.unwrappedVertices.size(); i++) {
                 Point2D localUv = layout.unwrapResult.unwrappedVertices.get(i);
@@ -190,20 +196,38 @@ public class UvGenerator {
                 newUvIndices[i] = uvIndex;
             }
 
-            newMesh.faces.add(originalVertIndices);
-            newMesh.faceUVs.add(newUvIndices);
-            newMesh.faceMaterials.add(sourceMesh.faceMaterials.get(layout.faceIndex));
+            // Add face to the new mesh, preserving its group and material, then set the correct UVs
+            int newFaceIndex = newMesh.faces.size();
+            Integer materialIndex = sourceMesh.faceMaterials.get(currentFaceIndex);
+
+            if (sourceWallFaceIndices.contains(currentFaceIndex)) {
+                newMesh.addWallFace(originalVertIndices);
+            } else if (sourceRoofFaceIndices.contains(currentFaceIndex)) {
+                newMesh.addRoofFace(originalVertIndices);
+            } else if (sourceBottomFaceIndices.contains(currentFaceIndex)) {
+                newMesh.addBottomFace(originalVertIndices);
+            } else {
+                // Fallback for faces without a group
+                newMesh.faces.add(originalVertIndices);
+                newMesh.faceUVs.add(null); // Add placeholder
+                newMesh.faceMaterials.add(materialIndex);
+            }
+
+            // The add...Face methods set UVs to null and use default materials.
+            // We must override this with the correct, newly generated UVs and original material.
+            newMesh.faceUVs.set(newFaceIndex, newUvIndices);
+            newMesh.faceMaterials.set(newFaceIndex, materialIndex);
         }
 
         this.generatedMesh = newMesh;
         return newMesh;
     }
 
-    public BufferedImage getTextureAtlas() {
+    public BufferedImage getTextureAtlas(boolean debugLabels ) {
         if (generatedAtlas != null) return generatedAtlas;
-        if (optimalAtlasSize == 0) return new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        if (optimalAtlasSize == 0) return new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
 
-        BufferedImage atlas = new BufferedImage(ATLAS_TEXTURE_SIZE, ATLAS_TEXTURE_SIZE, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage atlas = new BufferedImage(ATLAS_TEXTURE_SIZE, ATLAS_TEXTURE_SIZE, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = atlas.createGraphics();
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, ATLAS_TEXTURE_SIZE, ATLAS_TEXTURE_SIZE);
@@ -219,30 +243,31 @@ public class UvGenerator {
             int drawY = (int) (rect.y() * scale);
             int drawW = (int) (rect.w() * scale);
             int drawH = (int) (rect.h() * scale);
-            
+
             g.setColor(faceColor);
             g.fillRect(drawX, drawY, drawW, drawH);
 
             g.setColor(Color.BLACK);
             g.drawRect(drawX, drawY, drawW - 1, drawH - 1);
+            if(debugLabels){
+                g.setColor(new Color(0, 0, 0, 128));
+                for (int i = 0; i < layout.unwrapResult.unwrappedVertices.size(); i++) {
+                    Point2D p1 = layout.unwrapResult.unwrappedVertices.get(i);
+                    Point2D p2 = layout.unwrapResult.unwrappedVertices.get((i + 1) % layout.unwrapResult.unwrappedVertices.size());
 
-            g.setColor(new Color(0, 0, 0, 128));
-            for (int i = 0; i < layout.unwrapResult.unwrappedVertices.size(); i++) {
-                Point2D p1 = layout.unwrapResult.unwrappedVertices.get(i);
-                Point2D p2 = layout.unwrapResult.unwrappedVertices.get((i + 1) % layout.unwrapResult.unwrappedVertices.size());
-                
-                double p1x = (p1.x - layout.unwrapResult.minX) * scale;
-                double p1y = (p1.y - layout.unwrapResult.minY) * scale;
-                double p2x = (p2.x - layout.unwrapResult.minX) * scale;
-                double p2y = (p2.y - layout.unwrapResult.minY) * scale;
+                    double p1x = (p1.x - layout.unwrapResult.minX) * scale;
+                    double p1y = (p1.y - layout.unwrapResult.minY) * scale;
+                    double p2x = (p2.x - layout.unwrapResult.minX) * scale;
+                    double p2y = (p2.y - layout.unwrapResult.minY) * scale;
 
-                g.drawLine(drawX + (int)p1x, drawY + (int)p1y, drawX + (int)p2x, drawY + (int)p2y);
+                    g.drawLine(drawX + (int) p1x, drawY + (int) p1y, drawX + (int) p2x, drawY + (int) p2y);
+                }
+
+                String text = String.valueOf(layout.faceIndex);
+                g.setFont(new Font("Arial", Font.BOLD, 14));
+                int textWidth = g.getFontMetrics().stringWidth(text);
+                g.drawString(text, drawX + drawW / 2 - textWidth / 2, drawY + drawH / 2 + 5);
             }
-
-            String text = String.valueOf(layout.faceIndex);
-            g.setFont(new Font("Arial", Font.BOLD, 14));
-            int textWidth = g.getFontMetrics().stringWidth(text);
-            g.drawString(text, drawX + drawW / 2 - textWidth / 2, drawY + drawH / 2 + 5);
         }
 
         g.dispose();

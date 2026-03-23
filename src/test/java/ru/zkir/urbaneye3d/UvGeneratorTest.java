@@ -41,12 +41,11 @@ class UvGeneratorTest {
         Contour contour = new Contour(createRectangularBase(25, 10), "XY");
         LatLon origin = new LatLon(55, 37);
 
-        var tags = Map.of ("building", "yes",
+        var tags = Map.of("building", "yes",
                 "height" , "10",
-                "roof:height", "3",
-                "roof:shape",  "hipped",
-                "building:colour",  "red",
-                "roof:colour",  "green"
+                "building:colour" , "red",
+                "roof:colour" , "green",
+                "roof:shape" , "gabled"
         );
 
         var element = RenderableElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
@@ -58,7 +57,7 @@ class UvGeneratorTest {
         // This part will fail until we implement UvGenerator
         UvGenerator uvGenerator = new UvGenerator(mesh);
         Mesh meshWithUvs = uvGenerator.getMeshWithUvs();
-        BufferedImage textureAtlas = uvGenerator.getTextureAtlas();
+        BufferedImage textureAtlas = uvGenerator.getTextureAtlas(true);
 
         // 3. Assert & Verify
         assertNotNull(meshWithUvs, "Mesh with UVs should not be null.");

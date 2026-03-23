@@ -77,6 +77,16 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### March 26, 2026
+*   **Refactored Facade Resource Loading for Production Readiness.**
+    *   Migrated facade assets (`.fac` definitions and `.png` textures) from the `src/test/resources` directory to `src/main/resources`.
+    *   Refactored the `FacadeParser` and `FacadeApplicator` classes to load these assets from the classpath using `InputStream` (via `Class.getResourceAsStream()`) instead of as external `File` objects.
+    *   Updated the `FacadeGeneratorTest` to align with this new, robust resource loading mechanism, ensuring tests continue to pass.
+    *   This critical change ensures that facade assets will be correctly bundled into the final plugin `.jar` and will be available in the production environment, not just during development.
+
+### March 23, 2026
+* Implemented facade generation, and autotes `FacadeGeneratorTest.java` has been created. Proper support of facades in main rendering is yet to be implemented.
+
 ### March 22, 2026
 *   **Created a TDD-driven `UvGenerator` for Texture Mapping.**
     *   Developed a new `UvGenerator` utility that takes a `Mesh` and produces a valid UV-mapping and a corresponding debug texture atlas.
@@ -85,12 +95,6 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 *   **Developed a UV Packing Utility with TDD and Visualization.**
     *   Created `UvPacker`, a new utility to find the optimal square size for packing a series of rectangles using a binary search algorithm. This will be foundational for creating texture atlases.
-
-
-### March 19, 2026
-*   **Fixed bug with active layer for ground plane rendering.**
-    *   The 2D ground plane was incorrectly rendered using the `DataSet` from the top-most layer even when an active layer was changed.
-    *   The `Layer2dInfo` class was enhanced to include `dataSetName` for MapCSS type layers. This allows `GroundPlane` to detect when the active `DataSet` changes and trigger a full refresh of tiles, clearing caches and forcing a redraw with current data.
 	
 ### April 07, 2026
 
@@ -113,6 +117,7 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ### April 05, 2026
 
 *   **MapCSS Style Documentation:** Created a comprehensive `README.md` for the `src/main/resources/mapcss-styles/` directory. This document explains the design philosophy, file structure, and key technical considerations for the project's MapCSS stylesheets, including the non-obvious way JOSM handles image paths for plugins.
+
 
 ### Earlier
 See [Devblog](DEVBLOG.md)

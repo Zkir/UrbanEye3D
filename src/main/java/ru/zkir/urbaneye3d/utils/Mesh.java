@@ -287,4 +287,16 @@ public class Mesh {
         return result;
     }
 
+    public final List<Integer> getWallFaceIndices() {
+        return wallFaces;
+    }
+
+    public final List<Integer> getRoofFaceIndices() {
+        return roofFaces;
+    }
+
+    public final List<Integer> getBottomFaceIndices() {
+        return bottomFaces;
+    }
+
 }

@@ -1,0 +1,31 @@
+A
+800
+FACADE
+TEXTURE facade_09.png
+RING 1
+TWO_SIDED 0
+LOD 0.1 50000.0
+    WALL 1 1000
+        SCALE 42 46
+        LEFT   0.000 0.218
+        CENTER 0.218 0.433
+        CENTER 0.433 0.563
+        CENTER 0.563 0.780
+        RIGHT  0.780 1.000
+
+        BOTTOM 0.000 0.077
+        MIDDLE 0.077 0.154
+        MIDDLE 0.154 0.232
+        MIDDLE 0.232 0.310
+        MIDDLE 0.310 0.388
+        MIDDLE 0.388 0.465
+        MIDDLE 0.465 0.543
+        MIDDLE 0.543 0.620
+        MIDDLE 0.620 0.697
+        MIDDLE 0.697 0.776
+        MIDDLE 0.776 0.853
+        MIDDLE 0.853 0.930
+        TOP    0.930 1.000
+
+
+
