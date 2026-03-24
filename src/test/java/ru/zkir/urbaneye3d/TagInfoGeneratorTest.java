@@ -139,6 +139,15 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("man_made=water_tower",          "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("place", "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance");
 
+        //add values from Materials enum. It is good enough description, so we can use it.
+        for (var mat:Materials.values()){
+            if (!TAG_DESCRIPTIONS.containsKey("building:material" +"="+ mat.displayName)){
+                TAG_DESCRIPTIONS.put("building:material" +"="+ mat.displayName, "Recognized as material for a building facade. Default color " + mat.defaultColour );
+            }
+            if (!TAG_DESCRIPTIONS.containsKey("roof:material" +"="+ mat.displayName)){
+                TAG_DESCRIPTIONS.put("roof:material" +"="+ mat.displayName, "Recognized as material for a roof. Default color " + mat.defaultColour);
+            }
+        }
     }
 
     /** This list contains keys for which reporting of each particular value is not required.*/
@@ -157,6 +166,13 @@ public class TagInfoGeneratorTest {
                 .map(entry -> new ParsedTag(entry.getKey(), entry.getValue(), entry.getKey() + "=" + entry.getValue()))
                 .forEach(usedTags::add);
 
+        //Also add tags from Materials enum
+        for (var mat:Materials.values()){
+            usedTags.add( new ParsedTag("building:material", mat.displayName , "building:material" +"="+ mat.displayName));
+            usedTags.add( new ParsedTag("roof:material", mat.displayName ,"roof:material" + "=" + mat.displayName));
+        }
+
+        // 2. Find all described tags.
         Set<ParsedTag> describedTags = TAG_DESCRIPTIONS.keySet().stream()
                 .map(this::parseDescriptionKey)
                 .collect(Collectors.toSet());

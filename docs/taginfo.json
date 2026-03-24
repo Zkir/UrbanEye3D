@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260308T211808Z",
+  "data_updated" : "20260324T134049Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -32,6 +32,62 @@
   }, {
     "key" : "building:material",
     "description" : "Specifies the material of the building's walls. Used for texturing and shading."
+  }, {
+    "key" : "building:material",
+    "value" : "brick",
+    "description" : "Recognized as material for a building facade. Default color #b86848"
+  }, {
+    "key" : "building:material",
+    "value" : "cement_block",
+    "description" : "Recognized as material for a building facade. Default color #a0a0a0"
+  }, {
+    "key" : "building:material",
+    "value" : "concrete",
+    "description" : "Recognized as material for a building facade. Default color #a0a0a0"
+  }, {
+    "key" : "building:material",
+    "value" : "copper",
+    "description" : "Recognized as material for a building facade. Default color #b0e0c0"
+  }, {
+    "key" : "building:material",
+    "value" : "glass",
+    "description" : "Recognized as material for a building facade. Default color #c8d8d8"
+  }, {
+    "key" : "building:material",
+    "value" : "metal",
+    "description" : "Recognized as material for a building facade. Default color #b0b0b0"
+  }, {
+    "key" : "building:material",
+    "value" : "plaster",
+    "description" : "Recognized as material for a building facade. Default color #a8a8a8"
+  }, {
+    "key" : "building:material",
+    "value" : "roof_tiles",
+    "description" : "Recognized as material for a building facade. Default color #d88868"
+  }, {
+    "key" : "building:material",
+    "value" : "sandstone",
+    "description" : "Recognized as material for a building facade. Default color #a89078"
+  }, {
+    "key" : "building:material",
+    "value" : "slate",
+    "description" : "Recognized as material for a building facade. Default color #686868"
+  }, {
+    "key" : "building:material",
+    "value" : "stone",
+    "description" : "Recognized as material for a building facade. Default color #d0c8c0"
+  }, {
+    "key" : "building:material",
+    "value" : "tar_paper",
+    "description" : "Recognized as material for a building facade. Default color #3e2a1f"
+  }, {
+    "key" : "building:material",
+    "value" : "thatch",
+    "description" : "Recognized as material for a building facade. Default color #a88070"
+  }, {
+    "key" : "building:material",
+    "value" : "wood",
+    "description" : "Recognized as material for a building facade. Default color #c09870"
   }, {
     "key" : "building:min_level",
     "description" : "The number of floors to offset the building from the ground. Used to calculate min_height if not specified explicitly."
@@ -123,6 +179,62 @@
   }, {
     "key" : "roof:material",
     "description" : "Specifies the material of the roof. Used for texturing and shading."
+  }, {
+    "key" : "roof:material",
+    "value" : "brick",
+    "description" : "Recognized as material for a roof. Default color #b86848"
+  }, {
+    "key" : "roof:material",
+    "value" : "cement_block",
+    "description" : "Recognized as material for a roof. Default color #a0a0a0"
+  }, {
+    "key" : "roof:material",
+    "value" : "concrete",
+    "description" : "Recognized as material for a roof. Default color #a0a0a0"
+  }, {
+    "key" : "roof:material",
+    "value" : "copper",
+    "description" : "Recognized as material for a roof. Default color #b0e0c0"
+  }, {
+    "key" : "roof:material",
+    "value" : "glass",
+    "description" : "Recognized as material for a roof. Default color #c8d8d8"
+  }, {
+    "key" : "roof:material",
+    "value" : "metal",
+    "description" : "Recognized as material for a roof. Default color #b0b0b0"
+  }, {
+    "key" : "roof:material",
+    "value" : "plaster",
+    "description" : "Recognized as material for a roof. Default color #a8a8a8"
+  }, {
+    "key" : "roof:material",
+    "value" : "roof_tiles",
+    "description" : "Recognized as material for a roof. Default color #d88868"
+  }, {
+    "key" : "roof:material",
+    "value" : "sandstone",
+    "description" : "Recognized as material for a roof. Default color #a89078"
+  }, {
+    "key" : "roof:material",
+    "value" : "slate",
+    "description" : "Recognized as material for a roof. Default color #686868"
+  }, {
+    "key" : "roof:material",
+    "value" : "stone",
+    "description" : "Recognized as material for a roof. Default color #d0c8c0"
+  }, {
+    "key" : "roof:material",
+    "value" : "tar_paper",
+    "description" : "Recognized as material for a roof. Default color #3e2a1f"
+  }, {
+    "key" : "roof:material",
+    "value" : "thatch",
+    "description" : "Recognized as material for a roof. Default color #a88070"
+  }, {
+    "key" : "roof:material",
+    "value" : "wood",
+    "description" : "Recognized as material for a roof. Default color #c09870"
   }, {
     "key" : "roof:orientation",
     "description" : "Specifies the orientation of the roof ridge, typically 'along' or 'across' the longer axis of the building."
