@@ -5,6 +5,9 @@ import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Way;
+import ru.zkir.urbaneye3d.facades.FacadeApplicator;
+import ru.zkir.urbaneye3d.facades.FacadeDefinition;
+import ru.zkir.urbaneye3d.facades.FacadeParser;
 import ru.zkir.urbaneye3d.generators.MesherTree;
 
 import ru.zkir.urbaneye3d.utils.Contour;
@@ -12,6 +15,8 @@ import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +42,11 @@ public class RenderableElement {
 
     public final double height;
     public final double minHeight;
+
+    private com.jogamp.opengl.util.texture.Texture cachedPregeneratedTexture = null;
+    private java.awt.image.BufferedImage pregeneratedAtlas = null;
+
+    static FacadeDefinition facadeOneSizeFitsAll;
 
 
     /**
@@ -239,9 +249,56 @@ public class RenderableElement {
             return  null;
         }
         Mesh mesh = composeMesh(buildingRecipe);
+        if (mesh == null) { // It's possible composeMesh returns null
+            return null;
+        }
 
-        return new RenderableElement(primitive, primitiveOrigin, mesh,null);
+        // Check if it's a main building (not a part)
+        boolean isMainBuilding = primitiveTags.containsKey("building") && !"no".equals(primitiveTags.get("building")) &&
+                                 !primitiveTags.containsKey("building:part");
 
+        if (isMainBuilding) {
+            try {
+                // 1. Generate UVs and base atlas
+                ru.zkir.urbaneye3d.utils.UvGenerator uvGenerator = new ru.zkir.urbaneye3d.utils.UvGenerator(mesh);
+                Mesh meshWithUvs = uvGenerator.getMeshWithUvs();
+                BufferedImage baseAtlas = uvGenerator.getTextureAtlas(false);
+
+                // 2. Load facade definition
+                // For now, hardcode one facade for all buildings as a proof of concept
+                FacadeDefinition facadeDef = getSuitableFacadeDef();
+
+                // 3. Apply facade
+                FacadeApplicator applicator = new ru.zkir.urbaneye3d.facades.FacadeApplicator(meshWithUvs, facadeDef, baseAtlas);
+                BufferedImage finalAtlas = applicator.getAppliedTexture();
+                //BufferedImage finalAtlas = baseAtlas;
+
+                // 4. Create element with the generated atlas and UV-mapped mesh
+                RenderableElement element = new RenderableElement(primitive, primitiveOrigin, meshWithUvs, null);
+                element.setPregeneratedAtlas(finalAtlas);
+                return element;
+
+            } catch (Exception e) {
+                UrbanEye3dPlugin.debugMsg("Failed to apply facade to " + primitive.getPrimitiveId() + ": " + e.getMessage());
+                // Fallback to non-facade version on any error
+                return new RenderableElement(primitive, primitiveOrigin, mesh, null);
+            }
+        } else {
+            // Not a main building, or it's a part, so return the simple version
+            return new RenderableElement(primitive, primitiveOrigin, mesh, null);
+        }
+    }
+
+    private static FacadeDefinition getSuitableFacadeDef() {
+
+        if (facadeOneSizeFitsAll==null) {
+            try {
+                facadeOneSizeFitsAll = FacadeParser.parse("facade_11.fac");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return facadeOneSizeFitsAll;
     }
 
     /**
@@ -419,7 +476,7 @@ public class RenderableElement {
         return new RenderableElement(node, node.getCoor(), treeMesh, textureName);
     }
 
-    
+
     /**
      * Universal PRIVATE constructor for RenderableElement
      * to actually create object, use one of the factory methods
@@ -462,7 +519,7 @@ public class RenderableElement {
     public Mesh getMesh() {
         return this.mesh;
     }
-	
+
     private static Mesh composeMesh(BuildingRecipe buildingRecipe){
         Mesh mesh = null;
 
@@ -477,6 +534,19 @@ public class RenderableElement {
         return mesh;
     }
 
+    public java.awt.image.BufferedImage getPregeneratedAtlas() {
+        return pregeneratedAtlas;
+    }
 
+    public void setPregeneratedAtlas(java.awt.image.BufferedImage pregeneratedAtlas) {
+        this.pregeneratedAtlas = pregeneratedAtlas;
+    }
 
+    public com.jogamp.opengl.util.texture.Texture getCachedPregeneratedTexture() {
+        return cachedPregeneratedTexture;
+    }
+
+    public void setCachedPregeneratedTexture(com.jogamp.opengl.util.texture.Texture cachedPregeneratedTexture) {
+        this.cachedPregeneratedTexture = cachedPregeneratedTexture;
+    }
 }

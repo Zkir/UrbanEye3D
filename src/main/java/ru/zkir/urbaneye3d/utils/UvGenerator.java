@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class UvGenerator {
 
-    private static final int ATLAS_TEXTURE_SIZE = 1024;
+    private static final int ATLAS_TEXTURE_SIZE = 2048;
     private final Mesh sourceMesh;
 
     // Cached results after initialization
@@ -146,17 +146,16 @@ public class UvGenerator {
             maxY = Math.max(maxY, p2d.y);
         }
 
-        // Rotate the unwrapped polygon 180 degrees within its bounding box
+        // Vertically flip the unwrapped polygon to fix coordinate system issues
         double width = maxX - minX;
         double height = maxY - minY;
-        List<Point2D> rotatedUnwrapped = new ArrayList<>();
+        List<Point2D> flippedV = new ArrayList<>();
         for (Point2D p : unwrapped) {
-            double rotatedX = minX + width - (p.x - minX);
-            double rotatedY = minY + height - (p.y - minY);
-            rotatedUnwrapped.add(new Point2D(rotatedX, rotatedY));
+            double flippedY = minY + height - (p.y - minY);
+            flippedV.add(new Point2D(p.x, flippedY));
         }
 
-        return new FaceUnwrapResult(rotatedUnwrapped, minX, minY, width, height);
+        return new FaceUnwrapResult(flippedV, minX, minY, width, height);
     }
 
 

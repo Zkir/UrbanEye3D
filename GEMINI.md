@@ -76,13 +76,19 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
-
 ### March 26, 2026
-*   **Refactored Facade Resource Loading for Production Readiness.**
-    *   Migrated facade assets (`.fac` definitions and `.png` textures) from the `src/test/resources` directory to `src/main/resources`.
-    *   Refactored the `FacadeParser` and `FacadeApplicator` classes to load these assets from the classpath using `InputStream` (via `Class.getResourceAsStream()`) instead of as external `File` objects.
-    *   Updated the `FacadeGeneratorTest` to align with this new, robust resource loading mechanism, ensuring tests continue to pass.
-    *   This critical change ensures that facade assets will be correctly bundled into the final plugin `.jar` and will be available in the production environment, not just during development.
+*   **Fixed Inverted UV Textures on Dynamic Atlases.**
+    *   Diagnosed and fixed a bug where dynamically generated textures (like the UV debug atlas) appeared upside-down in the live plugin.
+    *   The root cause was the difference in behavior between `TextureIO` (which auto-flips textures from streams) and `AWTTextureIO` (which does not flip `BufferedImage` data).
+    *   Implemented a `flipImageVertically` helper method in `Renderer3D` to manually correct the atlas orientation before creating the texture, ensuring consistency with OpenGL's coordinate system.
+*   **Integrated Facade Rendering into Main Pipeline (Proof of Concept).**
+    *   Modified `RenderableElement.createBuildingOrPart` to apply a default facade texture to all main buildings (`building=*`), initiating the full facade generation pipeline (UV generation, texture application) for these objects.
+    *   Enhanced `RenderableElement` to carry the dynamically generated `BufferedImage` atlas.
+    *   Updated `Renderer3D` to handle these dynamic atlases by creating JOGL `Texture` objects on the render thread and caching them within the `RenderableElement`, thus confirming and implementing the two-stage texture creation pattern.
+*   **Refactored Facade Loading Logic for Simplicity and Robustness.**
+    *   Centralized all facade loading logic within `FacadeParser`, which now loads both the `.fac` definition and its corresponding texture from a common `/facades/` resource root.
+    *   The `FacadeParser.parse()` method now returns a fully-hydrated `FacadeDefinition` object that includes the loaded `BufferedImage`, making it self-contained.
+    *   Simplified `FacadeApplicator` by removing all I/O responsibilities, turning it into a pure data processor. This elegant design is cleaner, more robust, and correctly handles asset bundling for production builds.
 
 ### March 23, 2026
 * Implemented facade generation, and autotes `FacadeGeneratorTest.java` has been created. Proper support of facades in main rendering is yet to be implemented.
@@ -209,6 +215,4 @@ src
 | SceneTest.java| Integration tests for the Scene component. Verifies the correct construction of the 3D scene from various OSM data (buildings with parts, multipolygons, barriers, trees).  Analyzes how Scene interprets data and forms RenderableElement objects. |
 | TagInfoGeneratorTest.java | Does not really test anything, but collects used tags from the source code and produces `taginfo.json`, so we can [take a look at used tags](https://taginfo.openstreetmap.org/projects/urbaneye3d#tags).  |
 | ValidatorTest.java |  Tests for custom JOSM validators (SpatialConsistencyChecks, TagChecks). Verifies that validators correctly identify expected errors and do not produce false positives on valid data. |
-
-
 

@@ -1,0 +1,19 @@
+A
+800
+FACADE
+TEXTURE facade_03.png
+RING 1
+TWO_SIDED 0
+LOD 0.1 50000.0
+    WALL 3 1000
+        SCALE 20 20
+        LEFT   0.000 0.287
+        CENTER 0.287 0.429
+        CENTER 0.429 0.576
+        CENTER 0.576 0.717
+        RIGHT  0.717 1.000
+        BOTTOM 0.000 0.199  
+        BOTTOM 0.199 0.370
+        MIDDLE 0.370 0.575 
+        MIDDLE 0.575 0.758
+        TOP    0.758 1.000

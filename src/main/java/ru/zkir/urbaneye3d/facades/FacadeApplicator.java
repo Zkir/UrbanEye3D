@@ -116,8 +116,9 @@ public class FacadeApplicator {
                     currentDestY += sliceDestHeightPx;
                 }
             } else {
-                 System.out.println("Processing Wall Face #" + faceIndex + 
-                                   ": width=" + String.format("%.2f", wallWidth) + "m, height=" + String.format("%.2f", wallHeight) + "m. No suitable WallDef found.");
+                 // TODO: it's not really an error. If no wall found, just original color/material remains on the segment
+                 //System.out.println("Processing Wall Face #" + faceIndex +
+                 //                  ": width=" + String.format("%.2f", wallWidth) + "m, height=" + String.format("%.2f", wallHeight) + "m. No suitable WallDef found.");
             }
         }
 

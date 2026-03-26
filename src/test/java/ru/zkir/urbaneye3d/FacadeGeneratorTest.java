@@ -56,7 +56,7 @@ class FacadeGeneratorTest {
         BufferedImage baseAtlasFromUvGenerator = uvGenerator.getTextureAtlas(false);
 
         // Step 3: Parse the .fac file into a data structure
-        FacadeDefinition facadeDef = FacadeParser.parse("building_10.fac");
+        FacadeDefinition facadeDef = FacadeParser.parse("facade_11.fac");
         assertNotNull(facadeDef);
 
         // Steps 4: Obtain facade texture
@@ -89,14 +89,14 @@ class FacadeGeneratorTest {
      */
     @Test
     void testSliceSequenceCreation() throws IOException {
-        FacadeDefinition facadeDef = FacadeParser.parse("building_03.fac");
+        FacadeDefinition facadeDef = FacadeParser.parse("facade_11.fac");
         assertNotNull(facadeDef);
 
         for(int n=1; n<=10; n++ ) {
             var wall = facadeDef.lods.get(0).walls.get(0);
             //TODO: remove black magic, and ensure that the generated number of levels is strictly equal to the given number
             //   Also sequence calculation should be improved a bit.
-            var sequence = FacadeApplicator.getSliceSequence(wall.verticalSlices, wall.scaleY,  1.2*DEFAULT_LEVEL_HEIGHT*n , "BOTTOM", "MIDDLE", "TOP");
+            var sequence = FacadeApplicator.getSliceSequence(wall.verticalSlices, wall.scaleY,  DEFAULT_LEVEL_HEIGHT*n , "BOTTOM", "MIDDLE", "TOP");
             assertTrue (abs(sequence.size()-n)<=1, "sequence length should match number of levels. n=" + n +", sequence length=" + sequence.size() + "   " + sequence);
         }
     }

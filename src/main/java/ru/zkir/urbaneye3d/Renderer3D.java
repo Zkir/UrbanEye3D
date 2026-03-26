@@ -281,18 +281,32 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             gl.glTranslated(transX, transY, 0);
 
             Mesh mesh = element.getMesh();
-
             if (mesh != null ){
-                if (element.textureName != null) {
-                    // It's a textured object (like a tree)
-                    Texture texture = TextureManager.getInstance().get(gl, element.textureName);
-                    if (texture != null) {
-                        drawMesh(gl, mesh, element.isSelected, 0, 0, texture);
+                Texture texture = null;
+                // Case 1: The element has a pre-generated atlas (e.g., from our facade logic)
+                if (element.getPregeneratedAtlas() != null) {
+                    if (element.getCachedPregeneratedTexture() != null) {
+                        texture = element.getCachedPregeneratedTexture();
+                    } else {
+                        try {
+                            // Create texture from BufferedImage on the render thread and cache it
+                            java.awt.image.BufferedImage atlas = element.getPregeneratedAtlas();
+                            java.awt.image.BufferedImage flippedAtlas = flipImageVertically(atlas);
+
+                            texture = com.jogamp.opengl.util.texture.awt.AWTTextureIO.newTexture(gl.getGLProfile(), flippedAtlas, true);
+                            element.setCachedPregeneratedTexture(texture);
+                        } catch (Exception e) {
+                            UrbanEye3dPlugin.debugMsg("Error creating texture from pre-generated atlas for " + element.primitiveId);
+                        }
                     }
-                } else {
-                    // It's a colored object (like a building)
-                    drawMesh(gl, mesh, element.isSelected, element.height, element.minHeight, null);
                 }
+                // Case 2: The element has a texture name (e.g., for trees) - existing logic
+                else if (element.textureName != null) {
+                    texture = TextureManager.getInstance().get(gl, element.textureName);
+                }
+
+                // Unified call to drawMesh, which handles both textured and colored polygons
+                drawMesh(gl, mesh, element.isSelected, element.height, element.minHeight, texture);
             }
 
             gl.glPopMatrix();
@@ -338,7 +352,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture, boolean isSelected ) {
 
         if (face.length!=4){
-            throw new RuntimeException("Only quads are supported currently for textured faces");
+            return;
+            //throw new RuntimeException("Only quads are supported currently for textured faces");
         }
 
         // --- Draw selection outline (red, thick wireframe) ---
@@ -543,6 +558,17 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         glu.gluPerspective(45.0, aspect, 10.0, CUTOFF_DISTANCE);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
+    }
+    
+    private java.awt.image.BufferedImage flipImageVertically(java.awt.image.BufferedImage image) {
+        if (image == null) return null;
+        int w = image.getWidth();
+        int h = image.getHeight();
+        java.awt.image.BufferedImage flippedImage = new java.awt.image.BufferedImage(w, h, image.getType());
+        java.awt.Graphics2D g = flippedImage.createGraphics();
+        g.drawImage(image, 0, 0, w, h, 0, h, w, 0, null);
+        g.dispose();
+        return flippedImage;
     }
 
     public boolean isNpotSupported() {
