@@ -77,6 +77,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 ### March 26, 2026
+*   **Implemented Robust Polygon Tessellation for Textured Faces.**
+    *   Replaced the simple `quad-only` drawing logic in `drawPolygonUV` with a robust solution that handles polygons with any number of vertices.
+    *   The new implementation uses fast paths for common triangles and quads, but utilizes a `GLUtessellator` for complex polygons (5+ vertices).
+    *   A custom `TexturedTessellatorCallback` class was implemented with a `combine` method to correctly interpolate UV coordinates for vertices created during tessellation, ensuring textures map correctly even on non-convex faces.
 *   **Fixed Inverted UV Textures on Dynamic Atlases.**
     *   Diagnosed and fixed a bug where dynamically generated textures (like the UV debug atlas) appeared upside-down in the live plugin.
     *   The root cause was the difference in behavior between `TextureIO` (which auto-flips textures from streams) and `AWTTextureIO` (which does not flip `BufferedImage` data).

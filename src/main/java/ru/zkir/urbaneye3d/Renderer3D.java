@@ -351,11 +351,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture, boolean isSelected ) {
 
-        if (face.length!=4){
-            return;
-            //throw new RuntimeException("Only quads are supported currently for textured faces");
-        }
-
         // --- Draw selection outline (red, thick wireframe) ---
         if (isSelected) {
             drawSelectedOutline(gl, face, verts);
@@ -369,14 +364,56 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glEnable(GL2.GL_ALPHA_TEST);
         gl.glAlphaFunc(GL2.GL_GREATER, 0.5f); // Discard fragments with alpha <= 0.5
 
-        gl.glBegin(GL2.GL_QUADS);
-        for (int i=0; i<face.length; i++){
-            Point3D vert = verts.get(face[i]);
-            Point2D uv = uvs.get(faceUV[i]);
-            gl.glTexCoord2d(uv.x, uv.y);
-            gl.glVertex3d(vert.x, vert.y, vert.z);
+        if (face.length == 3) {
+            gl.glBegin(GL2.GL_TRIANGLES);
+            for (int i = 0; i < face.length; i++) {
+                Point3D vert = verts.get(face[i]);
+                Point2D uv = uvs.get(faceUV[i]);
+                gl.glTexCoord2d(uv.x, uv.y);
+                gl.glVertex3d(vert.x, vert.y, vert.z);
+            }
+            gl.glEnd();
+        } else if (face.length == 4) {
+            gl.glBegin(GL2.GL_QUADS);
+            for (int i = 0; i < face.length; i++) {
+                Point3D vert = verts.get(face[i]);
+                Point2D uv = uvs.get(faceUV[i]);
+                gl.glTexCoord2d(uv.x, uv.y);
+                gl.glVertex3d(vert.x, vert.y, vert.z);
+            }
+            gl.glEnd();
+        } else if (face.length > 4) {
+            GLUtessellator tess = glu.gluNewTess();
+            TexturedTessellatorCallback callback = new TexturedTessellatorCallback(gl);
+
+            glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_END, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, callback);
+
+            glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
+
+            glu.gluTessBeginPolygon(tess, null);
+            glu.gluTessBeginContour(tess);
+
+            for (int i = 0; i < face.length; i++) {
+                Point3D p = verts.get(face[i]);
+                Point2D uv = uvs.get(faceUV[i]);
+                VertexDataUV vertexData = new VertexDataUV();
+                vertexData.position[0] = p.x;
+                vertexData.position[1] = p.y;
+                vertexData.position[2] = p.z;
+                vertexData.uv[0] = uv.x;
+                vertexData.uv[1] = uv.y;
+                glu.gluTessVertex(tess, vertexData.position, 0, vertexData);
+            }
+
+            glu.gluTessEndContour(tess);
+            glu.gluTessEndPolygon(tess);
+            glu.gluDeleteTess(tess);
         }
-        gl.glEnd();
+
         // Disable states
         gl.glDisable(GL2.GL_ALPHA_TEST);
         gl.glDisable(GL2.GL_TEXTURE_2D);
@@ -494,7 +531,63 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glVertex3d(vertex.x, vertex.y, vertex.z);
     }
 
-    // Tessellator callback inner class
+    // Helper class for texture tessellation
+    private static class VertexDataUV {
+        final double[] position = new double[3];
+        final double[] uv = new double[2];
+    }
+
+    // Tessellator callback for textured polygons
+    private class TexturedTessellatorCallback extends GLUtessellatorCallbackAdapter {
+        private final GL2 gl;
+
+        TexturedTessellatorCallback(GL2 gl) {
+            this.gl = gl;
+        }
+
+        @Override
+        public void begin(int type) {
+            gl.glBegin(type);
+        }
+
+        @Override
+        public void end() {
+            gl.glEnd();
+        }
+
+        @Override
+        public void vertex(Object vertexData) {
+            VertexDataUV v = (VertexDataUV) vertexData;
+            gl.glTexCoord2dv(v.uv, 0);
+            gl.glVertex3dv(v.position, 0);
+        }
+
+        @Override
+        public void combine(double[] coords, Object[] data, float[] weight, Object[] outData) {
+            VertexDataUV newVertex = new VertexDataUV();
+            newVertex.position[0] = coords[0];
+            newVertex.position[1] = coords[1];
+            newVertex.position[2] = coords[2];
+
+            // Interpolate UV coordinates. The data array can have nulls.
+            newVertex.uv[0] = 0;
+            newVertex.uv[1] = 0;
+            for (int i = 0; i < 4; i++) {
+                if (data[i] != null) {
+                    newVertex.uv[0] += weight[i] * ((VertexDataUV) data[i]).uv[0];
+                    newVertex.uv[1] += weight[i] * ((VertexDataUV) data[i]).uv[1];
+                }
+            }
+            outData[0] = newVertex;
+        }
+
+        @Override
+        public void error(int errnum) {
+            //UrbanEye3dPlugin.debugMsg("Tessellation Error (" + errnum + "): " + glu.gluErrorString(errnum));
+        }
+    }
+
+    // Tessellator callback inner class for colored polygons
     private class TessellatorCallback extends GLUtessellatorCallbackAdapter {
         private final GL2 gl;
         private final GLU glu;
