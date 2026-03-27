@@ -5,6 +5,7 @@ import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Way;
+import ru.zkir.urbaneye3d.AssetPicker;
 import ru.zkir.urbaneye3d.facades.FacadeApplicator;
 import ru.zkir.urbaneye3d.facades.FacadeDefinition;
 import ru.zkir.urbaneye3d.facades.FacadeParser;
@@ -21,8 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.openstreetmap.josm.data.osm.PrimitiveId;
+import ru.zkir.urbaneye3d.utils.UvGenerator;
 
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVELS_NUMBER;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
@@ -46,7 +49,8 @@ public class RenderableElement {
     private com.jogamp.opengl.util.texture.Texture cachedPregeneratedTexture = null;
     private java.awt.image.BufferedImage pregeneratedAtlas = null;
 
-    static FacadeDefinition facadeOneSizeFitsAll;
+    static AssetPicker assetPickerFacade = new AssetPicker("/facades/facades.cfg");
+    private static final Map<String, FacadeDefinition> facadeCache = new HashMap<>();
 
 
     /**
@@ -258,47 +262,57 @@ public class RenderableElement {
                                  !primitiveTags.containsKey("building:part");
 
         if (isMainBuilding) {
-            try {
-                // 1. Generate UVs and base atlas
-                ru.zkir.urbaneye3d.utils.UvGenerator uvGenerator = new ru.zkir.urbaneye3d.utils.UvGenerator(mesh);
-                Mesh meshWithUvs = uvGenerator.getMeshWithUvs();
-                BufferedImage baseAtlas = uvGenerator.getTextureAtlas(false);
+            // 1. Generate UVs and base atlas
+            UvGenerator uvGenerator = new UvGenerator(mesh);
+            Mesh meshWithUvs = uvGenerator.getMeshWithUvs();
+            BufferedImage baseAtlas = uvGenerator.getTextureAtlas(false);
 
-                // 2. Load facade definition
-                // For now, hardcode one facade for all buildings as a proof of concept
-                FacadeDefinition facadeDef = getSuitableFacadeDef();
+            // 2. Load facade definition
+            // For now, hardcode one facade for all buildings as a proof of concept
+            FacadeDefinition facadeDef = getSuitableFacadeDef(primitiveTags);
 
-                // 3. Apply facade
+            // 3. Apply facade
+            if (facadeDef != null) { // Only apply if a facade definition was found
+
                 FacadeApplicator applicator = new ru.zkir.urbaneye3d.facades.FacadeApplicator(meshWithUvs, facadeDef, baseAtlas);
                 BufferedImage finalAtlas = applicator.getAppliedTexture();
-                //BufferedImage finalAtlas = baseAtlas;
 
                 // 4. Create element with the generated atlas and UV-mapped mesh
                 RenderableElement element = new RenderableElement(primitive, primitiveOrigin, meshWithUvs, null);
                 element.setPregeneratedAtlas(finalAtlas);
                 return element;
-
-            } catch (Exception e) {
-                UrbanEye3dPlugin.debugMsg("Failed to apply facade to " + primitive.getPrimitiveId() + ": " + e.getMessage());
-                // Fallback to non-facade version on any error
+            } else {
+                // Fallback to non-facade version if no suitable facade is found
+                UrbanEye3dPlugin.debugMsg("No suitable facade found for " + primitive.getPrimitiveId() + ". Tags: ." + primitiveTags);
                 return new RenderableElement(primitive, primitiveOrigin, mesh, null);
             }
+
+
         } else {
             // Not a main building, or it's a part, so return the simple version
             return new RenderableElement(primitive, primitiveOrigin, mesh, null);
         }
     }
 
-    private static FacadeDefinition getSuitableFacadeDef() {
-
-        if (facadeOneSizeFitsAll==null) {
+    private static FacadeDefinition getSuitableFacadeDef(Map<String, String> primitiveTags) {
+        String facadeFileName = assetPickerFacade.findBestMatch(primitiveTags);
+        if (facadeFileName != null) {
+            // If facade is already in cache, just use it.
+            if (facadeCache.containsKey(facadeFileName)) {
+                return facadeCache.get(facadeFileName);
+            }
+            // otherwise load it.
+            // loading facade from file is costly operation
             try {
-                facadeOneSizeFitsAll = FacadeParser.parse("facade_11.fac");
+                // Если нет в кэше, загружаем и помещаем в кэш
+                FacadeDefinition facadeDef = FacadeParser.parse(facadeFileName);
+                facadeCache.put(facadeFileName, facadeDef);
+                return facadeDef;
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Failed to parse facade definition " + facadeFileName + ": " + e.getMessage(), e);
             }
         }
-        return facadeOneSizeFitsAll;
+        return null;
     }
 
     /**
@@ -520,7 +534,7 @@ public class RenderableElement {
         return this.mesh;
     }
 
-    private static Mesh composeMesh(BuildingRecipe buildingRecipe){
+    static Mesh composeMesh(BuildingRecipe buildingRecipe){
         Mesh mesh = null;
 
         mesh = buildingRecipe.roofShape.getMesher().generate(buildingRecipe);

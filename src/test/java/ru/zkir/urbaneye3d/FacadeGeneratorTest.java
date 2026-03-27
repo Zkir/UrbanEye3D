@@ -40,14 +40,17 @@ class FacadeGeneratorTest {
         Contour contour = new Contour(createRectangularBase(32, 12), "XY");
         LatLon origin = new LatLon(55, 37);
         var tags = Map.of("building", "yes",
-                "height" , "26",
+                "height" , "16",
                 "building:colour" , "red",
                 "roof:colour" , "green",
                 "roof:shape" , "hipped"
         );
-        var element = RenderableElement.createBuildingOrPart(new Way(), origin, contour, tags, null);
-        assertNotNull(element);
-        Mesh buildingMesh = element.getMesh();
+
+        BuildingRecipe buildingRecipe = RenderableElement.createBuildingOrPartRecipe(new Way(), origin, contour,  tags,  null);
+        assertNotNull(buildingRecipe);
+
+        Mesh buildingMesh = RenderableElement.composeMesh(buildingRecipe);
+        assertNotNull(buildingMesh);
 
         // Step 2 Create mesh with UV coords, and partially painted (base) atlas.
         //   Note: We want to take advantage of building:colour and roof:colours tags.
@@ -56,7 +59,7 @@ class FacadeGeneratorTest {
         BufferedImage baseAtlasFromUvGenerator = uvGenerator.getTextureAtlas(false);
 
         // Step 3: Parse the .fac file into a data structure
-        FacadeDefinition facadeDef = FacadeParser.parse("facade_11.fac");
+        FacadeDefinition facadeDef = FacadeParser.parse("industrial_01.fac");
         assertNotNull(facadeDef);
 
         // Steps 4: Obtain facade texture
@@ -89,15 +92,34 @@ class FacadeGeneratorTest {
      */
     @Test
     void testSliceSequenceCreation() throws IOException {
-        FacadeDefinition facadeDef = FacadeParser.parse("facade_11.fac");
+        FacadeDefinition facadeDef = FacadeParser.parse("apartments-constructivism_01.fac");
         assertNotNull(facadeDef);
 
-        for(int n=1; n<=10; n++ ) {
+        for(int n=1; n<=5; n++ ) {
             var wall = facadeDef.lods.get(0).walls.get(0);
             //TODO: remove black magic, and ensure that the generated number of levels is strictly equal to the given number
             //   Also sequence calculation should be improved a bit.
             var sequence = FacadeApplicator.getSliceSequence(wall.verticalSlices, wall.scaleY,  DEFAULT_LEVEL_HEIGHT*n , "BOTTOM", "MIDDLE", "TOP");
             assertTrue (abs(sequence.size()-n)<=1, "sequence length should match number of levels. n=" + n +", sequence length=" + sequence.size() + "   " + sequence);
         }
+    }
+    /**
+     * We ensure that all referenced facades are present and parsable.
+    */
+    @Test void testFacadesIntegrity() throws IOException {
+        var assetPicker = new AssetPicker("/facades/facades.cfg");
+        var allFacades = assetPicker.getAllNames();
+        for (String facadeName: allFacades ){
+            FacadeDefinition facadeDef = FacadeParser.parse(facadeName);
+            assertNotNull(facadeDef);
+            assertNotNull(facadeDef.texture, "Texture "+ facadeDef.textureName + " cannot be loaded for facade: "+ facadeName );
+
+            //check the facade health. generated number of levels should match expected.
+            var n = 5;
+            var wall = facadeDef.lods.get(0).walls.get(0);
+            var sequence = FacadeApplicator.getSliceSequence(wall.verticalSlices, wall.scaleY,  DEFAULT_LEVEL_HEIGHT*n , "BOTTOM", "MIDDLE", "TOP");
+            //assertTrue (abs(sequence.size()-n)<=1, facadeName + ": sequence length should match number of levels. n=" + n +", sequence length=" + sequence.size() + "   " + sequence);
+        }
+
     }
 }

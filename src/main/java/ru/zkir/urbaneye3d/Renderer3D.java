@@ -300,7 +300,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                         }
                     }
                 }
-                // Case 2: The element has a texture name (e.g., for trees) - existing logic
+                // Case 2: The element has a texture name (e.g., for trees)
                 else if (element.textureName != null) {
                     texture = TextureManager.getInstance().get(gl, element.textureName);
                 }

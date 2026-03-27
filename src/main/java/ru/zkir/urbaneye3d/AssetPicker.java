@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,8 +95,15 @@ public class AssetPicker {
         for (var def : assets) {
             int currentScore = 0;
             for (Map.Entry<String, String> tagEntry : def.tags.entrySet()) {
-                if (tagEntry.getValue().equals(objectTags.get(tagEntry.getKey()))) {
-                    currentScore++;
+                var k = tagEntry.getKey();
+                var v = tagEntry.getValue();
+                if (v.equals("*")){
+                    //wildcard: key=*. However, the key still should be present.
+                    if( objectTags.containsKey(k)) {
+                        currentScore++;
+                    }
+                }else if (v.equals(objectTags.get(k))) {
+                    currentScore+=2;
                 }
             }
 
@@ -123,5 +131,13 @@ public class AssetPicker {
         return assets.stream()
                 .flatMap(def -> def.tags.entrySet().stream())
                 .collect(Collectors.toSet());
+    }
+
+    public List<String> getAllNames(){
+        var names = new ArrayList<String>();
+        for (var asset:assets){
+            names.add(asset.assetName);
+        }
+        return names;
     }
 }

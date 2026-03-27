@@ -76,26 +76,28 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### March 28, 2026
+*   **Implemented Facade Caching.**
+    *   Introduced a static `Map<String, FacadeDefinition>` cache in `RenderableElement.java` to store loaded facade definitions.
+    *   TODO:Separate class for facade caching is yet to be implemented.
+	*   TODO: Are textures properly disposed?
+    
+
+### March 27, 2026
+*   **Implemented facade selection based on OSM Tags.**
+    *   Most suitable facade definition is picked, based on building type (`building=*`), building architecture (`building:architecture`) and some other tags.
+	*   TODO: Limits for levels: some facades do not support arbitrary number of levels, something should be done about that. In theory, .fac supports FLOORS_MIN and FLOOR_MAX commands
+
 ### March 26, 2026
-*   **Implemented Robust Polygon Tessellation for Textured Faces.**
-    *   Replaced the simple `quad-only` drawing logic in `drawPolygonUV` with a robust solution that handles polygons with any number of vertices.
-    *   The new implementation uses fast paths for common triangles and quads, but utilizes a `GLUtessellator` for complex polygons (5+ vertices).
-    *   A custom `TexturedTessellatorCallback` class was implemented with a `combine` method to correctly interpolate UV coordinates for vertices created during tessellation, ensuring textures map correctly even on non-convex faces.
-*   **Fixed Inverted UV Textures on Dynamic Atlases.**
-    *   Diagnosed and fixed a bug where dynamically generated textures (like the UV debug atlas) appeared upside-down in the live plugin.
-    *   The root cause was the difference in behavior between `TextureIO` (which auto-flips textures from streams) and `AWTTextureIO` (which does not flip `BufferedImage` data).
-    *   Implemented a `flipImageVertically` helper method in `Renderer3D` to manually correct the atlas orientation before creating the texture, ensuring consistency with OpenGL's coordinate system.
+
 *   **Integrated Facade Rendering into Main Pipeline (Proof of Concept).**
     *   Modified `RenderableElement.createBuildingOrPart` to apply a default facade texture to all main buildings (`building=*`), initiating the full facade generation pipeline (UV generation, texture application) for these objects.
-    *   Enhanced `RenderableElement` to carry the dynamically generated `BufferedImage` atlas.
-    *   Updated `Renderer3D` to handle these dynamic atlases by creating JOGL `Texture` objects on the render thread and caching them within the `RenderableElement`, thus confirming and implementing the two-stage texture creation pattern.
-*   **Refactored Facade Loading Logic for Simplicity and Robustness.**
-    *   Centralized all facade loading logic within `FacadeParser`, which now loads both the `.fac` definition and its corresponding texture from a common `/facades/` resource root.
-    *   The `FacadeParser.parse()` method now returns a fully-hydrated `FacadeDefinition` object that includes the loaded `BufferedImage`, making it self-contained.
-    *   Simplified `FacadeApplicator` by removing all I/O responsibilities, turning it into a pure data processor. This elegant design is cleaner, more robust, and correctly handles asset bundling for production builds.
+   
 
 ### March 23, 2026
 * Implemented facade generation, and autotes `FacadeGeneratorTest.java` has been created. Proper support of facades in main rendering is yet to be implemented.
+    *   [Xplane-like](https://developer.x-plane.com/article/facade-creation/) facade files (*.fac) are supported.  This gives much better (and realisticly looking) results than just tiling texture. 
+	*   In autotest only.
 
 ### March 22, 2026
 *   **Created a TDD-driven `UvGenerator` for Texture Mapping.**
