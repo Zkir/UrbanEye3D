@@ -14,11 +14,9 @@ import ru.zkir.urbaneye3d.utils.UvGenerator;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.Map;
 
 import static java.lang.Math.abs;
@@ -94,8 +92,7 @@ class FacadeGeneratorTest {
     void testSliceSequenceCreation() throws IOException {
         FacadeDefinition facadeDef = FacadeParser.parse("apartments-constructivism_01.fac");
         assertNotNull(facadeDef);
-
-        for(int n=1; n<=5; n++ ) {
+        for(int n=1; n<=15; n++ ) {
             var wall = facadeDef.lods.get(0).walls.get(0);
             //TODO: remove black magic, and ensure that the generated number of levels is strictly equal to the given number
             //   Also sequence calculation should be improved a bit.
@@ -103,6 +100,7 @@ class FacadeGeneratorTest {
             assertTrue (abs(sequence.size()-n)<=1, "sequence length should match number of levels. n=" + n +", sequence length=" + sequence.size() + "   " + sequence);
         }
     }
+
     /**
      * We ensure that all referenced facades are present and parsable.
     */
@@ -114,12 +112,15 @@ class FacadeGeneratorTest {
             assertNotNull(facadeDef);
             assertNotNull(facadeDef.texture, "Texture "+ facadeDef.textureName + " cannot be loaded for facade: "+ facadeName );
 
-            //check the facade health. generated number of levels should match expected.
-            var n = 5;
             var wall = facadeDef.lods.get(0).walls.get(0);
-            var sequence = FacadeApplicator.getSliceSequence(wall.verticalSlices, wall.scaleY,  DEFAULT_LEVEL_HEIGHT*n , "BOTTOM", "MIDDLE", "TOP");
-            //assertTrue (abs(sequence.size()-n)<=1, facadeName + ": sequence length should match number of levels. n=" + n +", sequence length=" + sequence.size() + "   " + sequence);
+            for(int n=1; n<=8; n++ ) {
+                //check the facade health. generated number of levels should match expected.
+                // This is not a dogma, because level height for particular building should not be always 3.
+                var sequence = FacadeApplicator.getSliceSequence(wall.verticalSlices, wall.scaleY, DEFAULT_LEVEL_HEIGHT * n, "BOTTOM", "MIDDLE", "TOP");
+                if (wall.isVerticallyStretchable()) {
+                    assertTrue(abs(sequence.size() - n) <= 1, facadeName + ": sequence length should match number of levels. n=" + n + ", sequence length=" + sequence.size() + "   " + sequence);
+                }
+            }
         }
-
     }
 }

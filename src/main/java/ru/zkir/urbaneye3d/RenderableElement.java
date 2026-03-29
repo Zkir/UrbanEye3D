@@ -18,8 +18,6 @@ import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;

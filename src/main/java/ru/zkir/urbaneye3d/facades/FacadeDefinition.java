@@ -41,6 +41,16 @@ public class FacadeDefinition {
         public List<SliceDefinition> horizontalSlices = new ArrayList<>(); // LEFT, CENTER, RIGHT
         public List<SliceDefinition> verticalSlices = new ArrayList<>();   // BOTTOM, MIDDLE, TOP
 
+        /** Wall is vertically stretchable only if it contains "MIDDLE" segments, which can repeat infinitely */
+        public boolean isVerticallyStretchable(){
+            for (var slice:verticalSlices){
+                if (slice.type.equals("MIDDLE")){
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public WallDefinition() {
             // Default constructor
         }

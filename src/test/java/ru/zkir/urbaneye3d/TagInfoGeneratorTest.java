@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ru.zkir.urbaneye3d.RenderableElement.assetPickerFacade;
 
 public class TagInfoGeneratorTest {
 
@@ -49,9 +50,14 @@ public class TagInfoGeneratorTest {
             return value;
         }
 
+        public String valueSafe() {
+            return value==null ? "" : value;
+        }
+
         public String originalKey() {
             return originalKey;
         }
+
 
         @Override
         public boolean equals(Object o) {
@@ -71,7 +77,7 @@ public class TagInfoGeneratorTest {
     private final Map<String, String> TAG_DESCRIPTIONS = new HashMap<>();
     {
         TAG_DESCRIPTIONS.put("barrier", "The feature is interpreted as barrier, in case it does not have the building tag.");
-        TAG_DESCRIPTIONS.put("building", "The main tag for identifying a building outline.");
+        TAG_DESCRIPTIONS.put("building", "The main tag for identifying a building outline. Particular values are used to select facade texture.");
         TAG_DESCRIPTIONS.put("building:part", "Identifies a part of a building, which is rendered as a separate 3D element.");
         TAG_DESCRIPTIONS.put("building:colour", "Specifies the color of the building's walls.");
         TAG_DESCRIPTIONS.put("building:material", "Specifies the material of the building's walls. Used for texturing and shading.");
@@ -148,6 +154,23 @@ public class TagInfoGeneratorTest {
                 TAG_DESCRIPTIONS.put("roof:material" +"="+ mat.displayName, "Recognized as material for a roof. Default color " + mat.defaultColour);
             }
         }
+
+        var  tags = RenderableElement.assetPickerFacade.getAllTags();
+        for (var tag: tags){
+            if (tag.getKey().equals("building:levels")){
+                continue;
+            }
+            if (tag.getValue().equals("*")) {
+                // in cfg file asterisk can occur as a wild card.
+                if (!TAG_DESCRIPTIONS.containsKey(tag.getKey())) {
+                    TAG_DESCRIPTIONS.put(tag.getKey(), "Used to assign the best suitable facade texture to a building");
+                }
+            }else{
+                if (!TAG_DESCRIPTIONS.containsKey(tag.getKey() + "=" + tag.getValue())) {
+                    TAG_DESCRIPTIONS.put(tag.getKey() + "=" + tag.getValue(), "Used to assign the best suitable facade texture to a building");
+                }
+            }
+        }
     }
 
     /** This list contains keys for which reporting of each particular value is not required.*/
@@ -165,6 +188,10 @@ public class TagInfoGeneratorTest {
         TextureManager.getInstance().getAllTags().stream()
                 .map(entry -> new ParsedTag(entry.getKey(), entry.getValue(), entry.getKey() + "=" + entry.getValue()))
                 .forEach(usedTags::add);
+
+        RenderableElement.assetPickerFacade.getAllTags().stream()
+                .map(entry -> new ParsedTag(entry.getKey(), entry.getValue(), entry.getKey() + "=" + entry.getValue()))
+                .forEach(usedTags::add);;
 
         //Also add tags from Materials enum
         for (var mat:Materials.values()){
@@ -228,7 +255,7 @@ public class TagInfoGeneratorTest {
 
         ArrayNode tagsNode = root.putArray("tags");
         describedTags.stream()
-                .sorted(Comparator.comparing(ParsedTag::originalKey))
+                .sorted(Comparator.comparing(ParsedTag::key).thenComparing(ParsedTag::valueSafe))
                 .forEach(parsedTag -> {
                     ObjectNode tagNode = mapper.createObjectNode();
                     tagNode.put("key", parsedTag.key());
@@ -266,13 +293,12 @@ public class TagInfoGeneratorTest {
             ((ObjectNode) newNode).remove("data_updated");
 
             if (oldNode.equals(newNode)) {
-                //System.out.println("✅ taginfo.json is up-to-date. No changes needed.");
+                //taginfo.json is up-to-date. No changes needed
                 return;
             }
         }
         
         Files.write(outputPath, newJsonContent.getBytes(StandardCharsets.UTF_8));
-        //System.out.println("✅ Generated and updated taginfo.json with descriptions.");
         assertTrue(Files.exists(outputPath), "taginfo.json file was not created.");
     }
 
