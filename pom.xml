@@ -16,7 +16,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- You can change this to the JOSM version you are targeting -->
-        <josm.version>19423</josm.version>
+        <josm.version>19555</josm.version>
         <!-- JOGL version bundled with JOSM -->
         <jogl.version>2.4.0</jogl.version>
     </properties>
@@ -141,7 +141,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Plugin-Mainversion>19528</Plugin-Mainversion>
+                            <Plugin-Mainversion>${josm.version}</Plugin-Mainversion>
                             <Plugin-Version>${project.version}</Plugin-Version>
                             <Plugin-Class>ru.zkir.urbaneye3d.UrbanEye3dPlugin</Plugin-Class>
                             <Plugin-Description>${project.description}</Plugin-Description>
