@@ -48,7 +48,7 @@ public class DialogWindow3D extends ToggleDialog
     private final ExecutorService sceneUpdateExecutor = Executors.newSingleThreadExecutor();
     private Future<?> pendingSceneUpdate;
 
-    private long lastDataChangedTimestamp = 0; //TODO: remove when no longer needed
+    //private long lastDataChangedTimestamp = 0; //TODO: remove when no longer needed
 
     public Renderer3D getRenderer3D() {
         return renderer3D;
@@ -230,12 +230,12 @@ public class DialogWindow3D extends ToggleDialog
     @Override
     public void nodeMoved(NodeMovedEvent event) {
         //TODO: remove this measurement when no longer needed
-        if (lastDataChangedTimestamp != 0) {
+        /*if (lastDataChangedTimestamp != 0) {
             long currentTime = System.nanoTime();
             long elapsed = (currentTime - lastDataChangedTimestamp) / 1_000_000; // Milliseconds
             UrbanEye3dPlugin.debugMsg("Time since last dataChanged event: " + elapsed + " ms");
         }
-        lastDataChangedTimestamp = System.nanoTime();
+        lastDataChangedTimestamp = System.nanoTime();*/
 
         requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()) );
     }
