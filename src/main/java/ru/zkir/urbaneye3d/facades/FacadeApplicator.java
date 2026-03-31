@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 
+import static java.lang.Math.abs;
+
 public class FacadeApplicator {
 
     // Output fields
@@ -188,7 +190,14 @@ public class FacadeApplicator {
                 break; // no more elements!
             }
 
-            sequenceWidth += (chosen.end - chosen.start) * scale;
+            var sliceWidth = (chosen.end - chosen.start) * scale;
+
+            if (abs(sequenceWidth + sliceWidth - requiredWidth) > abs(sequenceWidth - requiredWidth)){
+                // with the new segment match is worse than before.
+                // we can quit loop
+                break;
+            }
+            sequenceWidth += sliceWidth;
 
             if(add_to_left){
                 leftQueue.addLast(chosen);

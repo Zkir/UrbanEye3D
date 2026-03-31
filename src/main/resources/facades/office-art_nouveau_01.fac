@@ -6,7 +6,7 @@ RING 1
 TWO_SIDED 0
 LOD 0.1 50000.0
     WALL 3 1000
-        SCALE 20 20
+        SCALE 15 15
         LEFT   0.000 0.287
         CENTER 0.287 0.429
         CENTER 0.429 0.576

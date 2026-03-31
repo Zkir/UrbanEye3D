@@ -1,0 +1,26 @@
+A
+800
+FACADE
+TEXTURE building-any-1f.png
+RING 1
+TWO_SIDED 0
+LOD 0.1 50000.0
+  WALL 1.5 1000
+
+    # Estimated scale (1 levels * 4 m per level)
+    SCALE 14.6 4.0
+
+    # Vertical slices (based on horizontal guides y positions) :
+    BOTTOM 0.000 1.000
+    
+
+    # Horizontal slices (based on vertical guides X positions):
+    LEFT   0.000 0.131
+    CENTER 0.131 0.237
+    CENTER 0.237 0.334
+    CENTER 0.334 0.429
+    CENTER 0.429 0.534
+    CENTER 0.534 0.644
+    CENTER 0.644 0.743
+    CENTER 0.743 0.854
+    RIGHT  0.854 1.000
