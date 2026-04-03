@@ -51,6 +51,8 @@ Some users have reported problems with graphics drivers on certain Linux distrib
 ## Licensing
 Inspired by the GNU GPL-licensed [Blosm](https://github.com/vvoovv/blosm) project and following JOSM's [plugin licensing recommendations](https://josm.openstreetmap.de/wiki/DevelopersGuide/DevelopingPlugins#LegalStuff), this code is licensed under [GNU GPL v3](LICENSE).
 
+The licensing for third-party assets used in this project (such as textures) is detailed in the [ASSETS-LIST.md](ASSETS-LIST.md) file.
+
 ## Contributing
 Contributions are welcome! Please discuss significant code changes via issue tickets before submitting pull requests.
 
