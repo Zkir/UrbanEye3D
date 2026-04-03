@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260329T225114Z",
+  "data_updated" : "20260402T135228Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -30,11 +30,19 @@
     "description" : "Used to assign the best suitable facade texture to a building"
   }, {
     "key" : "building",
+    "value" : "office",
+    "description" : "Used to assign the best suitable facade texture to a building"
+  }, {
+    "key" : "building",
     "value" : "retail",
     "description" : "Used to assign the best suitable facade texture to a building"
   }, {
     "key" : "building",
     "value" : "wall",
+    "description" : "Used to assign the best suitable facade texture to a building"
+  }, {
+    "key" : "building:architecture",
+    "value" : "art_nouveau",
     "description" : "Used to assign the best suitable facade texture to a building"
   }, {
     "key" : "building:architecture",
