@@ -21,13 +21,11 @@
 
 ### Musts for the Next Release 
 
-None currently?
+* None currently?
     
 #### JOSM patches to monitor
 
-*  [[PATCH] MapCSS style cache should be dependent on ElemStyles instance](https://josm.openstreetmap.de/ticket/24637). -- **DONE**	
-*  [[PATCH] Possibility to specify custom MapPaintSettings](https://josm.openstreetmap.de/ticket/24678) -- **DONE**	
-   
+* None currently   
 	
 ### Nice to have in the Next Release 	
 * [**BUG**, workaround -- **50%**] Fix the **InterruptedException crash**. Exception occures in the josm mapcss engine when a worker thread is terminated. 
@@ -73,111 +71,7 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
-### March 21, 2026
-* **Implemented partial update** for the ground plane tiles.
-    * Unfortunately it does not solve all the problems, JOSM mapcss engine is really dumb and single-treaded.
 
-### March 20, 2026
-*   **Improved UI Responsiveness with Background Processing.**
-    *   Refactored the core scene generation logic to execute on a background thread, preventing the UI from freezing during data updates.
-    *   Introduced a single-threaded `ExecutorService` in `DialogWindow3D` to manage a queue of scene update tasks. New requests cancel pending (non-running) tasks, ensuring the view reflects the latest data state without unnecessary calculations.
-    *   The `Scene` class was updated to separate the heavy computational logic (`calculateUpdate`) from the lightweight state application (`applyUpdate`), which runs on the EDT.
-
-### March 19, 2026
-*   **Fixed bug with active layer for ground plane rendering.**
-    *   The 2D ground plane was incorrectly rendered using the `DataSet` from the top-most layer even when an active layer was changed.
-    *   The `Layer2dInfo` class was enhanced to include `dataSetName` for MapCSS type layers. This allows `GroundPlane` to detect when the active `DataSet` changes and trigger a full refresh of tiles, clearing caches and forcing a redraw with current data.
-
-### March 17, 2026
-*   **Created a patch for the JOSM core to fix problem with global settings.**
-    *   [[PATCH] Possibility to specify custom MapPaintSettings](https://josm.openstreetmap.de/ticket/24678) 
-	*   Some JOSM MapPaintSettings are not relevant for 3D window
-	
-*   **Fixed bug with image resources in MapCSS-styles.**
-    * PNG images referenced in mapcss styles moved to `src/main/resources/images` folder, where JOSM can find them.   
-
-
-### March 14, 2026
-*   **Conducted a major architectural refactoring** to improve separation of duties and make mesh generation logic more understandable.
-    *   The monolithic `RenderableElement` was split. A new `BuildingRecipe` class now acts as a parameter object for mesh generation for buildings/parts.
-    *   `RenderableElement` was simplified into a lightweight data container, responsible only for holding the final mesh and origin.
-    *   A new `OsmDataWasher` utility class was created to centralize all OSM tag parsing logic.
-
-### March 7, 2026
-*   `TagInfoGeneratorTest` has been refactored to collect tags from the new source: /textures/textures.cfg
-
-
-### March 6, 2026
-*   **Refactored Tree Texture Handling to be Data-Driven.**
-    *   `TextureManager` no longer uses hardcoded paths. It now parses a configuration file (`/textures/textures.cfg`) to load a list of available texture definitions, each with its own set of tags.
-    *   Implemented a new method `findTextureName()` which selects the best texture for an object by scoring how well the object's OSM tags match the tags of each texture definition. This creates a flexible, data-driven system.
-
-### March 4, 2026
-*   **Successfully implemented `natural=tree` rendering.**
-    *   Refactored `RenderableBuildingElement` into a universal `RenderableElement` class to handle various object types.
-    *   Created `TextureManager` for centralized loading and caching of textures.
-    *   `Renderer3D` now processes both colored (buildings) and textured (trees) objects from a single list.
-    *   Fixed transparency issues for tree billboards by enabling `GL_ALPHA_TEST`.
-    *   A series of build errors were fixed along the way, including a private constructor access, test failures due to new objects, undocumented tags, and an `IndexOutOfBoundsException` in the rendering loop.
-
-### March 3, 2026
-*   **Completed a major refactoring** of the core geometry and rendering pipeline.
-    *   The `Mesh` class now supports a universal data-driven structure with separate material (color) and texture coordinate (UV) attributes for each face.
-    *   The `Renderer3D` has been updated with a universal `drawMesh()` method that can render both colored (buildings) and textured objects.
-    *   `GroundTile` rendering has been successfully migrated to this new universal mechanism, removing special-case code from the renderer.
-    *   This work lays a complete foundation for adding new textured objects. The immediate next step is to implement `natural=tree`.
-
-### February 23, 2026
-* Creation of `taginfo.json` has been improved. It turned out that there is .hasTag(key, value) method in JOSM, so we can find exact tags (key=value) in the source code.
-
-### February 22, 2026
-* 2D style `urbaneye2d.general.mapcss` has been reviewed, "non-3d" icons have been excluded.
-
-### February 21, 2026
-*   **Implemented a MapCSS validation autotest.** This test ensures:
-    * All image resources (e.g., `.png` files referenced within the MapCSS files) exist in the project's resources.
-	* It does NOT really check syntactical correctness of MapCSS files -- JOSM's internal MapCSS parser eats the exceptions!
-
-### February 20, 2026
-* Added support for `surface=unpaved` (and some other unpaved roads). They are rendered in gray in our 2d style.
-
-### February 17, 2026
-* Drawing area for buildings has been restricted. Buildings are only rendered within the visible ground plane.
-* Re-implemented highlighting of selected OSM primitives in the 3D view using a red, thick wireframe.
-
-### February 16, 2026
-* **Fixed a major lifecycle bug** that caused multiple "ghost" instances of the 3D dialog to be created. This resolves long-standing issues with event handlers firing multiple times and improves overall stability.
-    * Implemented the canonical JOSM pattern for managing dialogs by correctly using `mapFrameInitialized` to destroy old dialog instances before creating new ones.
-    * As a major benefit, this fix significantly reduces redundant calls to expensive operations like geometry recalculation (`updateData`), improving plugin responsiveness.
-* The **automatic download of incomplete multipolygons** (and building relation members) has been implemented. Without this feature, the rendered 3D map can appear as if a natural disaster has struck, with buildings destroyed and water overflowing, due to missing geometric components.  The feature is controllable via a new "Automatically download incomplete multipolygons" checkbox in the plugin settings panel.
-* Required JOSM version uplifted to 19528 (expected release March 26)
-
-### February 15, 2026
-
-* Workaround has been found for crash: change future.cancel(true) --> future.cancel(false); // Prevents task from starting, but doesn't interrupt running tasks. Obviously it requires a proper fix in JOSM
-
-        (2026-02-14 03:27:35.601 SEVERE: Exception raised in EDT: java.lang.InterruptedException
-        at org.openstreetmap.josm.gui.util.GuiHelper.runInEDTAndWait(GuiHelper.java:228)
-        at org.openstreetmap.josm.gui.NavigatableComponent.fireZoomChanged(NavigatableComponent.java:152))
-
-* Initial implementation for "realistic" 2d road styles: [urbaneye2d.roads.mapcss](src/main/resources/mapcss-styles/urbaneye2d.roads.mapcss) has been created. Roads are rendered in gray asphalt colour. Lanes and width tags are ignored for now. Non-ugly implementation for lanes maybe impossible with current MapCSS capabilities.
-
-### February 14, 2026
-
-* Patch for JOSM API (which fixes the problem with singleton MapCSS style cache) has been created and accepted by the upstream. 
-Mapillary and MapRoulette plugins have been also fixed. See [Josm ticket #24637](https://josm.openstreetmap.de/ticket/24637)
-
-### February 13, 2026
-
-* Underground barriers (layer<0 or location=underground) are excluded from 2D rendering.
-
-### February 8, 2026
-* Own, self-rendered MapCSS-based 2D layer is displayed by default, if no satellite imagery is selected
-
-### March 16, 2026
-*   **Fixed a rendering bug for `man_made` objects.**
-    *   Previously, if a `man_made` object (e.g., a `man_made=tower` polygon) contained `building:part` polygons, both the container object and its parts were rendered, causing visual duplication and incorrect representation.
-    *   The logic has been corrected to suppress the rendering of any `man_made` object that has building parts inside it, ensuring that only the parts are displayed. This resolves GitHub [issue #36]((https://github.com/Zkir/UrbanEye3D/issues/36)).
 
 
 ### Earlier
