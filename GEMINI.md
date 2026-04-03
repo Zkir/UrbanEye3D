@@ -22,7 +22,14 @@
 
 ### Musts for the Next Release 
 
-* None currently?
+*   Separate class for facade caching.
+*   Are textures properly disposed? We get out-of-memory errors!
+*   imits for levels: some facades do not support arbitrary number of levels, something should be done about that. In theory, .fac supports FLOORS_MIN and FLOOR_MAX commands
+*   Some solution to facade building parts. 
+*   Some buffer for faces in UvGenerator/Packer
+*   Return FakeAO/Shading for textured buildings.
+*   Add fac-file sample and picture to [FACADES.md](docs/FACADES.md)
+
     
 #### JOSM patches to monitor
 
@@ -46,25 +53,19 @@
 
 ### Feature candidates
 
-1. **Support windows/facades**
-    * Buildings with windows are nice.  This feature is present in osm2world, so we also want it. 
-	* There is a tag in osm for windows: [window=*](https://wiki.openstreetmap.org/wiki/Key:window).
-    * We want to implement "facade" feature similar to X-plane one. https://developer.x-plane.com/article/facade-creation
-	* We already have some sample facades: https://github.com/Zkir/VFR_LANDMARKS_3D_RU/blob/master/Facades
-
-2. **Support objects from pre-made meshes**
+1. **Support objects from pre-made meshes**
     * `highway=street_light`	
 	* `amenity=bench` 
-
-3. **Increase resolution for GroundTile/MapCSS style**.
+	
+2. **Increase resolution for GroundTile/MapCSS style**.
     * Some kind of smart scaling is required, for the nearest tiles only, because it will create huge performance impact otherwise.
 	
-4. **Support forests**
+3. **Support forests**
     * Since we have trees now, it would be nice to render them on `natural=wood` and `landuse=forest`
 	* We already have a plan for it: [NATURAL-WOOD.md](docs/dev/NATURAL-WOOD.md)
 	* Could be tricky, because proper implementation require subtraction of roads.
 
-5. **Support chimney/frustum**
+4. **Support chimney/frustum**
     * F4 displays chimneys (`man_made=chimney`), we currently do not. To make chimneys look realistic, we need to support 'shape=frustum', like we already support 'shape=hyperboloid'. probably explicit shape=prism should be supported too.
 	
 
@@ -76,17 +77,19 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### April 4, 2026
+*   **Comprehensive Facade Documentation (`docs/FACADES.md`) created and refined.**
+    
+
 ### March 28, 2026
 *   **Implemented Facade Caching.**
     *   Introduced a static `Map<String, FacadeDefinition>` cache in `RenderableElement.java` to store loaded facade definitions.
-    *   TODO:Separate class for facade caching is yet to be implemented.
-	*   TODO: Are textures properly disposed?
     
 
 ### March 27, 2026
 *   **Implemented facade selection based on OSM Tags.**
     *   Most suitable facade definition is picked, based on building type (`building=*`), building architecture (`building:architecture`) and some other tags.
-	*   TODO: Limits for levels: some facades do not support arbitrary number of levels, something should be done about that. In theory, .fac supports FLOORS_MIN and FLOOR_MAX commands
+	
 
 ### March 26, 2026
 
@@ -207,7 +210,6 @@ src
 *   A Test-Driven Development (TDD) approach proved highly effective in this project. Since it's a JOSM plugin, you cannot debug it directly. However, autotests can be run and debugged separately, without JOSM. So it make sence to develop some feature test it in isolation.
 *   Automated checks for mesh validity do not let AI/LLM produce crap and report success.
 *   There are several autotests for different things, both "functional" (to test functionality) and "pseudo tests" to collect statistics. 
-    
 
 
 |Test name | Details | 
@@ -221,4 +223,5 @@ src
 | SceneTest.java| Integration tests for the Scene component. Verifies the correct construction of the 3D scene from various OSM data (buildings with parts, multipolygons, barriers, trees).  Analyzes how Scene interprets data and forms RenderableElement objects. |
 | TagInfoGeneratorTest.java | Does not really test anything, but collects used tags from the source code and produces `taginfo.json`, so we can [take a look at used tags](https://taginfo.openstreetmap.org/projects/urbaneye3d#tags).  |
 | ValidatorTest.java |  Tests for custom JOSM validators (SpatialConsistencyChecks, TagChecks). Verifies that validators correctly identify expected errors and do not produce false positives on valid data. |
+
 

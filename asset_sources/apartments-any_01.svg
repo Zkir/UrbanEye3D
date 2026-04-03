@@ -53,7 +53,7 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="0.88752353"
-     inkscape:cx="361.11719"
+     inkscape:cx="362.24392"
      inkscape:cy="539.14064"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
@@ -61,87 +61,88 @@
      inkscape:window-y="1059"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer2"
-     showguides="true">
+     showguides="true"
+     inkscape:lockguides="true">
     <sodipodi:guide
        position="510.40899,809.02491"
        orientation="1,0"
        id="guide1"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="295.48512,809.02491"
        orientation="1,0"
        id="guide2"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="209.00854,809.02491"
        orientation="1,0"
        id="guide6"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="119.99682,809.02491"
        orientation="1,0"
        id="guide7"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="-37.182112,731.57213"
        orientation="0,-1"
        id="guide10"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="-66.477109,633.54657"
        orientation="0,-1"
        id="guide11"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="-103.65922,528.76061"
        orientation="0,-1"
        id="guide12"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="-125.0671,431.86178"
        orientation="0,-1"
        id="guide13"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
-       position="-107.03941,325.94909"
+       position="-118.30672,331.58274"
        orientation="0,-1"
        id="guide14"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="-103.65922,227.92353"
        orientation="0,-1"
        id="guide15"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="407.31313,809.02491"
        orientation="1,0"
        id="guide16"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="717.047,731.08766"
        orientation="1,0"
        id="guide19"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="626.22105,733.47782"
        orientation="1,0"
        id="guide20"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="808.42925,789.31708"
        orientation="1,0"
        id="guide22"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="917.4218,770.52525"
        orientation="1,0"
        id="guide23"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
     <sodipodi:guide
        position="-85.248922,128.36982"
        orientation="0,-1"
        id="guide32"
-       inkscape:locked="false" />
+       inkscape:locked="true" />
   </sodipodi:namedview>
   <g
      inkscape:groupmode="layer"
