@@ -36,6 +36,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+import static org.openstreetmap.josm.tools.I18n.tr;
+
 public class DialogWindow3D extends ToggleDialog
                              implements DataSetListener, NavigatableComponent.ZoomChangeListener,
                                         LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener,
@@ -55,7 +57,7 @@ public class DialogWindow3D extends ToggleDialog
     }
 
     public DialogWindow3D(UrbanEye3dPlugin plugin) {
-        super("Urban Eye 3D", "urbaneye3d", "Urban Eye 3D", null, 250, true, UrbanEye3dPreferences.class); //path for the icon is not required, JOSM picks it up by  automatically.
+        super(tr("Urban Eye 3D"), "urbaneye3d", tr("Urban Eye 3D"), null, 250, true, UrbanEye3dPreferences.class); //path for the icon is not required, JOSM picks it up by  automatically.
         renderer3D = new Renderer3D(scene3d);
         scene3d.getGroundPlane().setRenderer(renderer3D);
         createLayout(renderer3D, false, null);

@@ -11,12 +11,14 @@ import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 
 import java.awt.event.KeyEvent;
 
+import static org.openstreetmap.josm.tools.I18n.tr;
+
 public class OpenF4MapAction extends JosmAction {
 
 
     public OpenF4MapAction() {
-        super("View in F4Map (web)", "f4_icon.png", "Open current view in F4 Map",
-                Shortcut.registerShortcut("urbaneye3d:openf4map", "UrbanEye3D: Open in F4 Map", KeyEvent.VK_F, Shortcut.SHIFT),
+        super(tr("View in F4Map (web)"), "f4_icon.png", tr("Open current view in F4 Map"),
+                Shortcut.registerShortcut("urbaneye3d:openf4map", tr("UrbanEye3D: Open in F4 Map"), KeyEvent.VK_F, Shortcut.SHIFT),
                 true);
     }
 
