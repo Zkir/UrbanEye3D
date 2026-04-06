@@ -73,6 +73,7 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ## Recent Accomplishments
 
 
+*   **MapCSS Style Documentation:** Created a comprehensive `README.md` for the `src/main/resources/mapcss-styles/` directory. This document explains the design philosophy, file structure, and key technical considerations for the project's MapCSS stylesheets, including the non-obvious way JOSM handles image paths for plugins.
 
 ### Earlier
 See [Devblog](DEVBLOG.md)
