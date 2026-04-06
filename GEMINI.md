@@ -72,6 +72,7 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+*   **JOSM-Style Internationalization (i18n):** Implemented a complete, JOSM-style i18n mechanism. This involved wrapping all user-facing UI strings, creating translation template (`.pot`) and language-specific (`.po`) files, and configuring the Maven build to compile them into the binary `.lang` files required by JOSM at runtime. A unit test was also added to ensure the translation files are generated correctly.
 
 *   **MapCSS Style Documentation:** Created a comprehensive `README.md` for the `src/main/resources/mapcss-styles/` directory. This document explains the design philosophy, file structure, and key technical considerations for the project's MapCSS stylesheets, including the non-obvious way JOSM handles image paths for plugins.
 
@@ -171,6 +172,17 @@ The primary test class is `RoofGeometryGeneratorTest.java`, which focuses on val
 
 
 ## Learnings
+
+*   **JOSM I18n Build Process:** JOSM's internationalization system relies on a specific, non-trivial build process. It uses `xgettext` to extract strings into a `.pot` template, which developers use to create language-specific `.po` files. A crucial, JOSM-specific Perl script (`i18n.pl`) then compiles these text-based `.po` files into binary `.lang` files, which are the only format the JOSM runtime can load. This entire toolchain must be replicated in the plugin's build system.
+*   **Maven for JOSM I18n:** While the official JOSM build uses Ant, this process can be successfully replicated in Maven by using the `exec-maven-plugin` for fine-grained control over the required command-line tools. The process involves three distinct executions:
+    1.  A PowerShell/shell command to generate a list of source files.
+    2.  An `xgettext` command to extract the strings.
+    3.  A `perl` command to run the `i18n.pl` script for compilation.
+*   **Build Environment Pitfalls (PowerShell & `mvn clean`):**
+    *   **Encoding & BOM:** When using PowerShell to generate file lists for external tools like `xgettext`, it is critical to create files without a Byte Order Mark (BOM). Standard redirection (`>`) and `Out-File -Encoding utf8` both produce files with a BOM, which can cause parsing errors. The correct method is to use `[System.IO.File]::WriteAllLines()`, which creates a clean, BOM-less file.
+    *   **Maven `clean` Lifecycle:** Any build step that writes to the `target` directory must be made idempotent and not assume the directory exists. The `mvn clean` command deletes the entire directory, so any subsequent command that needs to write a file into `target` will fail with a `DirectoryNotFoundException` unless it first checks for and creates the directory if it's missing.
+
+*   **Documenting Framework Quirks:** It is vital to document non-obvious framework behaviors to ensure long-term maintainability. For instance, the way JOSM resolves image paths for plugins is counter-intuitive: it uses paths relative to the main `resources/images/` directory, not relative to the MapCSS file that references them. Capturing such details in developer-facing documentation (like a README) is crucial to prevent future confusion and streamline the development process for anyone working on the styles.
 
 *   **Maven Resource Paths:** It's crucial to be mindful of how resource paths are resolved. The config file was correctly loaded using a path relative to the resources root (`/textures/textures.cfg`), not the full file system path.
 *   **JOSM Plugin Lifecycle and `mapFrameInitialized`:**
