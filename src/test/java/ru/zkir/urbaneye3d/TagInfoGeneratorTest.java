@@ -290,7 +290,7 @@ public class TagInfoGeneratorTest {
         Pattern pattern2 = Pattern.compile("inheritableKeys\\s*=\\s*Arrays\\.asList\\(([^)]+)\\)");
         Pattern pattern3 = Pattern.compile("hasTag\\s*\\(\\s*\"([^\"]+)\"\\s*,\\s*\"([^\"]+)\"\\s*\\)");
 
-        try (Stream<Path> paths = Files.walk(Paths.get("src/main/java"))) {
+        try (Stream<Path> paths = Files.walk(Paths.get("src/main/java/ru/zkir/urbaneye3d"))) {
             paths.filter(Files::isRegularFile)
                     .filter(path -> path.toString().endsWith(".java"))
                     .forEach(path -> {
