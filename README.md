@@ -54,11 +54,9 @@ Inspired by the GNU GPL-licensed [Blosm](https://github.com/vvoovv/blosm) projec
 The licensing for third-party assets used in this project (such as textures) is detailed in the [ASSET-LIST.md](ASSET-LIST.md) file.
 
 ## Contributing
-Contributions are welcome! Please discuss significant code changes via issue tickets before submitting pull requests.
-
-As artificial intelligence reshapes development in 2025, [GEMINI.md](GEMINI.md) contains insights valuable to both silicon-based and protein-based programmers.
-
-You can also contribute to this project by giving us a star :)
+Contributions are welcome!  
+* See the [the Contribution guide](CONTRIBUTING.md) in case you would like to contribute code or artwork.
+* You can also contribute to this project by giving us a star :)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Zkir/UrbanEye3D&type=Date&theme=dark" />
