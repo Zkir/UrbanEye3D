@@ -8,154 +8,145 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-07 00:38+0300\n"
+"POT-Creation-Date: 2026-04-08 06:25:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\DialogWindow3D.java:60
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:95
-msgid "Urban Eye 3D"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:35
-msgid "Enable wireframe rendering mode"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:37
-msgid ""
-"If checked, buildings will be rendered as outlines instead of solid polygons."
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:41
-msgid "Enable Ambient Occlusion Mode"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:43
-msgid "If checked, a fake ambient occlusion effect will be applied."
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:47
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:44
 msgid "Automatically download incomplete multipolygons"
 msgstr ""
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:49
-msgid ""
-"If checked, the plugin will attempt to download missing members of "
-"multipolygons."
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:226
+msgid "Building height ({0}m) and calculated part height ({1}m) differ significantly"
 msgstr ""
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:100
-msgid "Settings for the Urban Eye 3D plugin"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:105
-msgid "Configure rendering options for the 3D Viewer."
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\OpenF4MapAction.java:20
-msgid "View in F4Map (web)"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\OpenF4MapAction.java:20
-msgid "Open current view in F4 Map"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\OpenF4MapAction.java:21
-msgid "UrbanEye3D: Open in F4 Map"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ResetCameraAction.java:17
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ResetCameraAction.java:18
-msgid "Reset Camera View"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ResetCameraAction.java:17
-msgid "Reset camera view to default position"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ResetCameraAction.java:18
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleFakeAOAction.java:16
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleWireframeAction.java:18
-#, java-format
-msgid "UrbanEye3D: {0}"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleFakeAOAction.java:15
-msgid "Fake AO"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleFakeAOAction.java:15
-msgid "Toggle Fake AO mode"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleFakeAOAction.java:16
-msgid "Toggle Fake AO"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleWireframeAction.java:17
-msgid "Wireframe"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleWireframeAction.java:17
-msgid "Toggle wireframe mode"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleWireframeAction.java:18
-msgid "Toggle Wireframe"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\SpatialConsistencyChecks.java:42
-msgid "[UrbanEye3D] Building and building parts spatial consistency check"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\SpatialConsistencyChecks.java:42
-msgid ""
-"Building outline should be fully covered by parts. Parts should not be "
-"orphans. Note this test may show false positives on incomplete data"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\SpatialConsistencyChecks.java:240
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:213
 msgid "Building is not fully covered by its parts"
 msgstr ""
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\SpatialConsistencyChecks.java:263
-#, java-format
-msgid ""
-"Building height ({0}m) and calculated part height ({1}m) differ significantly"
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:39
+msgid "Building outline should be fully covered by parts. Parts should not be orphans. Note this test may show false positives on incomplete data"
 msgstr ""
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\SpatialConsistencyChecks.java:276
-msgid "Orphaned building part"
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:87
+msgid "Building part without height"
 msgstr ""
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\TagChecks.java:37
-msgid "[UrbanEye3D] Tag validity checks"
-msgstr ""
-
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\TagChecks.java:37
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:36
 msgid "Checks for tag validity for buildings and building parts."
 msgstr ""
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\TagChecks.java:59
-#, java-format
-msgid "Missing tag: roof:shape={0} without ''roof:direction''"
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:86
+msgid "Configure rendering options for the 3D Viewer."
 msgstr ""
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\TagChecks.java:69
-#, java-format
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:38
+msgid "Enable Ambient Occlusion Mode"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:32
+msgid "Enable wireframe rendering mode"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
+msgid "Fake AO"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:42
+msgid "If checked, a fake ambient occlusion effect will be applied."
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:36
+msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:48
+msgid "If checked, the plugin will attempt to download missing members of multipolygons."
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:68
 msgid "Invalid value for roof:direction: {0}"
 msgstr ""
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\TagChecks.java:79
-#, java-format
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:78
 msgid "Invalid value for roof:orientation: {0}"
 msgstr ""
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\TagChecks.java:88
-msgid "Building part without height"
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:58
+msgid "Missing tag: roof:shape={0} without ''roof:direction''"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
+msgid "Open current view in F4 Map"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:237
+msgid "Orphaned building part"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:17
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:18
+msgid "Reset Camera View"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:17
+msgid "Reset camera view to default position"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:84
+msgid "Settings for the Urban Eye 3D plugin"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
+msgid "Toggle Fake AO"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
+msgid "Toggle Fake AO mode"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
+msgid "Toggle Wireframe"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
+msgid "Toggle wireframe mode"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:56
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:59
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:79
+msgid "Urban Eye 3D"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:21
+msgid "UrbanEye3D: Open in F4 Map"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:18
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
+msgid "UrbanEye3D: {0}"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
+msgid "View in F4Map (web)"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
+msgid "Wireframe"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:38
+msgid "[UrbanEye3D] Building and building parts spatial consistency check"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:34
+msgid "[UrbanEye3D] Tag validity checks"
 msgstr ""

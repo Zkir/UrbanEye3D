@@ -134,16 +134,26 @@
                 <version>3.2.0</version>
                 <executions>
                     <execution>
+                        <id>generate-pot-file</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>ru.zkir.easytext.PotGenerator</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>generate-lang-files</id>
                         <phase>process-classes</phase>
                         <goals>
                             <goal>java</goal>
                         </goals>
+                        <configuration>
+                            <mainClass>ru.zkir.easytext.LangCompiler</mainClass>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <mainClass>ru.zkir.easytext.EasyText</mainClass>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

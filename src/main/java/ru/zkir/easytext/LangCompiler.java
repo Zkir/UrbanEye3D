@@ -20,9 +20,9 @@ import java.util.stream.Stream;
  * The main orchestrator class for the i18n process.
  * This class replaces the external toolchain (xgettext, i18n.pl) with a pure Java solution.
  */
-public final class EasyText {
+public final class LangCompiler {
 
-    private EasyText() {
+    private LangCompiler() {
         // Utility class
     }
 
