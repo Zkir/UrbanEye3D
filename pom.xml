@@ -135,7 +135,7 @@
                 <executions>
                     <execution>
                         <id>generate-lang-files</id>
-                        <phase>generate-resources</phase>
+                        <phase>process-classes</phase>
                         <goals>
                             <goal>java</goal>
                         </goals>
