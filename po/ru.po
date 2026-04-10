@@ -1,7 +1,7 @@
 # Russian translation for UrbanEye3D plugin.
-# Copyright (C) 2026 Zkir
+# Copyright (C) 2026 Zkir and contributors, GNU GPL v3
 # This file is distributed under the same license as the UrbanEye3D package.
-# Zkir <zkir@example.com>, 2026.
+# Zkir <zkir@zkir.com>, 2026.
 #
 msgid ""
 msgstr ""

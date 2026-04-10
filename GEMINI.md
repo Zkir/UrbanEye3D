@@ -76,6 +76,11 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### April 10, 2026
+
+* Added translation into Slovak language, by @aceman444 
+* Added translation into German and Italian languages, by AI.
+
 ### April 07, 2026
 
 *   **Pure Java I18n Compiler :**
