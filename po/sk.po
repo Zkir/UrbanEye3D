@@ -1,0 +1,165 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UrbanEye3D JOSM plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-08 06:25:16+0300\n"
+"PO-Revision-Date: 2026-04-10 16:23+0200\n"
+"Last-Translator: \n"
+"Language-Team: aceman444\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Generator: Poedit 3.8\n"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:44
+msgid "Automatically download incomplete multipolygons"
+msgstr "Automaticky sťahovať nekompletné multipolygóny"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:226
+msgid ""
+"Building height ({0}m) and calculated part height ({1}m) differ significantly"
+msgstr ""
+"Výška budovy ({0}m) a vypočítaná výška časti budovy ({1}m) sa výrazne líšia"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:213
+msgid "Building is not fully covered by its parts"
+msgstr "Budova nie je celá pokrytá svojimi časťami"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:39
+msgid ""
+"Building outline should be fully covered by parts. Parts should not be "
+"orphans. Note this test may show false positives on incomplete data"
+msgstr ""
+"Obrys budovy by mal byť celý pokrytý časťami budovy. Časti by nemali "
+"vyčnievať z obrysu. Tento test môže hlásiť neexistujúce chyby ak nie sú "
+"stiahnuté všetky dáta budovy"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:87
+msgid "Building part without height"
+msgstr "Časť budovy bez zadanej výšky"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:36
+msgid "Checks for tag validity for buildings and building parts."
+msgstr "Kontroluje platnosť značiek budov a častí budov."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:86
+msgid "Configure rendering options for the 3D Viewer."
+msgstr "Nastavte možnosti vykresľovania pre 3D náhľad."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:38
+msgid "Enable Ambient Occlusion Mode"
+msgstr "Zapnúť režim tienenia okolím"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:32
+msgid "Enable wireframe rendering mode"
+msgstr "Zapnúť vykresľovanie pomocou drôtového model"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
+msgid "Fake AO"
+msgstr "Zdanlivé tienenie"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:42
+msgid "If checked, a fake ambient occlusion effect will be applied."
+msgstr "Ak je zapnuté, bude použitý zdanlivý efekt tienenia okolím."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:36
+msgid ""
+"If checked, buildings will be rendered as outlines instead of solid polygons."
+msgstr ""
+"Ak je zapnuté, budovy budú vykreslené len ako obrysy namiesto plných plôch."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:48
+msgid ""
+"If checked, the plugin will attempt to download missing members of "
+"multipolygons."
+msgstr ""
+"Ak je zapnuté, plugin sa pokúsi stiahnuť chýbajúce členy multipolygónov."
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:68
+msgid "Invalid value for roof:direction: {0}"
+msgstr "Neplatná hodnota pre roof:direction: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:78
+msgid "Invalid value for roof:orientation: {0}"
+msgstr "Neplatná hodnota pre roof:orientation: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:58
+msgid "Missing tag: roof:shape={0} without ''roof:direction''"
+msgstr "Chýbajúca značka: roof:shape={0} bez \"roof:direction\""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
+msgid "Open current view in F4 Map"
+msgstr "Otvoriť súčasný pohľad na F4Map"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:237
+msgid "Orphaned building part"
+msgstr "Nezahrnutá časť budovy"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:17
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:18
+msgid "Reset Camera View"
+msgstr "Resetovať pohľad kamery"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:17
+msgid "Reset camera view to default position"
+msgstr "Resetovať pohľad kamery na východziu pozíciu"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:84
+msgid "Settings for the Urban Eye 3D plugin"
+msgstr "Nastavenia pre plugin Urban Eye 3D"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
+msgid "Toggle Fake AO"
+msgstr "Prepnúť zdanlivé tienenie"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
+msgid "Toggle Fake AO mode"
+msgstr "Prepnúť režim zdanlivého tienenia"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
+msgid "Toggle Wireframe"
+msgstr "Prepnúť drôtový model"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
+msgid "Toggle wireframe mode"
+msgstr "Prepnúť režim drôtového modelu"
+
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:56
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:59
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:79
+msgid "Urban Eye 3D"
+msgstr "Urban Eye 3D"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:21
+msgid "UrbanEye3D: Open in F4 Map"
+msgstr "UrbanEye3D: Otvoriť v F4Map"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:18
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
+msgid "UrbanEye3D: {0}"
+msgstr "UrbanEye3D: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
+msgid "View in F4Map (web)"
+msgstr "Zobraziť na F4Map (na webe)"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
+msgid "Wireframe"
+msgstr "Drôtový model"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:38
+msgid "[UrbanEye3D] Building and building parts spatial consistency check"
+msgstr "[UrbanEye3D] Kontroly konzistentnosti budov a ich častí"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:34
+msgid "[UrbanEye3D] Tag validity checks"
+msgstr "[UrbanEye3D] Kontroly platnosti značiek"

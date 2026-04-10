@@ -86,6 +86,8 @@ public class I18nStatusTest {
             case "ru": return "Russian";
             case "de": return "German";
             case "fr": return "French";
+            case "sk": return "Slovak";
+
             // Add other languages here
             default: return code.toUpperCase();
         }
