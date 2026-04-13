@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: UrbanEye3D JOSM plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-08 06:25:16+0300\n"
-"PO-Revision-Date: 2026-04-10 20:58+0300\n"
+"PO-Revision-Date: 2026-04-13 03:11+0300\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Zkir\n"
 "Language: de\n"
@@ -25,15 +25,15 @@ msgstr "Unvollständige Multipolygone automatisch herunterladen"
 
 #: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:226
 msgid "Building height ({0}m) and calculated part height ({1}m) differ significantly"
-msgstr "Gebäudehöhe ({0}m) und berechnete Teilehöhe ({1}m) weichen deutlich voneinander ab"
+msgstr "Gebäudehöhe ({0}m) und berechnete Gebäudeteilehöhe ({1}m) weichen deutlich voneinander ab"
 
 #: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:213
 msgid "Building is not fully covered by its parts"
-msgstr "Gebäude wird nicht vollständig von seinen Teilen abgedeckt"
+msgstr "Gebäude wird nicht vollständig von seinen Gebäudeteilen abgedeckt"
 
 #: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:39
 msgid "Building outline should be fully covered by parts. Parts should not be orphans. Note this test may show false positives on incomplete data"
-msgstr "Die Gebäudekontur sollte vollständig von Teilen abgedeckt sein. Teile sollten nicht verwaist sein. Hinweis: Dieser Test kann bei unvollständigen Daten falsch positive Ergebnisse anzeigen"
+msgstr "Die Gebäudekontur sollte vollständig von Teilen abgedeckt sein. Gebäudeteile sollten nicht verwaist sein. Hinweis: Dieser Test kann bei unvollständigen Daten falsch-positive Ergebnisse anzeigen"
 
 #: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:87
 msgid "Building part without height"
@@ -45,11 +45,11 @@ msgstr "Überprüft die Gültigkeit von Attributen für Gebäude und Gebäudetei
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:86
 msgid "Configure rendering options for the 3D Viewer."
-msgstr "Konfigurieren Sie die Darstellungsoptionen für den 3D-Betrachter."
+msgstr "Darstellungsoptionen für den 3D-Betrachter konfigurieren."
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:38
 msgid "Enable Ambient Occlusion Mode"
-msgstr "Umgebungsverdeckungsmodus aktivieren"
+msgstr "Schatteneffekt aktivieren"
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:32
 msgid "Enable wireframe rendering mode"
@@ -57,15 +57,15 @@ msgstr "Drahtgittermodelldarstellung aktivieren"
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
 msgid "Fake AO"
-msgstr "Fake AO"
+msgstr "Simuliere Schatteneffekt"
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:42
 msgid "If checked, a fake ambient occlusion effect will be applied."
-msgstr "Wenn aktiviert, wird ein simulierter Umgebungsverdeckungseffekt angewendet."
+msgstr "Wenn aktiviert, wird ein simulierter Schatteneffekt angewendet."
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:36
 msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
-msgstr "Wenn aktiviert, werden Gebäude als Umrisse anstelle von ausgefüllten Polygonen dargestellt."
+msgstr "Wenn aktiviert, werden Gebäude als Drahtgittermodell anstelle von ausgefüllten Polygonen dargestellt."
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:48
 msgid "If checked, the plugin will attempt to download missing members of multipolygons."
@@ -106,11 +106,11 @@ msgstr "Einstellungen für das Urban Eye 3D-Plugin"
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
 msgid "Toggle Fake AO"
-msgstr "Fake AO umschalten"
+msgstr "Simulierten Schatteneffekt umschalten"
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
 msgid "Toggle Fake AO mode"
-msgstr "Fake-AO-Modus umschalten"
+msgstr "Simulierten Schatteneffekt umschalten"
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
 msgid "Toggle Wireframe"
@@ -142,7 +142,7 @@ msgstr "In F4Map ansehen (Web)"
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
 msgid "Wireframe"
-msgstr "Drahtgitter"
+msgstr "Drahtgittermodell"
 
 #: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:38
 msgid "[UrbanEye3D] Building and building parts spatial consistency check"

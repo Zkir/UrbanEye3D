@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: UrbanEye3D\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-06 05:51+0300\n"
-"PO-Revision-Date: 2026-04-06 06:10+0300\n"
+"PO-Revision-Date: 2026-04-13 03:22+0300\n"
 "Last-Translator: Gemini <gemini@google.com>\n"
 "Language-Team: Russian <LL@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\OpenF4MapAction.java:20
 msgid "View in F4Map (web)"
@@ -46,15 +47,15 @@ msgstr "UrbanEye3D: {0}"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleFakeAOAction.java:15
 msgid "Fake AO"
-msgstr "Имитация AO"
+msgstr "Имитация глобального затенения"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleFakeAOAction.java:15
 msgid "Toggle Fake AO mode"
-msgstr "Переключить режим имитации AO"
+msgstr "Переключить режим имитации глобального затенения"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleFakeAOAction.java:16
 msgid "Toggle Fake AO"
-msgstr "Переключить имитацию AO"
+msgstr "Переключить имитацию глобального затенения"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\josmactions\ToggleWireframeAction.java:17
 msgid "Wireframe"
@@ -73,10 +74,9 @@ msgid "[UrbanEye3D] Building and building parts spatial consistency check"
 msgstr "[UrbanEye3D] Проверка пространственной согласованности зданий и их частей"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\SpatialConsistencyChecks.java:42
-msgid ""
-"Building outline should be fully covered by parts. Parts should not be "
-"orphans. Note this test may show false positives on incomplete data"
-msgstr "Контур здания должен быть полностью покрыт его частями. Части не должны быть сиротами. Примечание: этот тест может давать ложные срабатывания на неполных данных"
+msgid "Building outline should be fully covered by parts. Parts should not be orphans. Note this test may show false positives on incomplete data"
+msgstr ""
+"Контур здания должен быть полностью покрыт его частями. Части не должны лежать вне зданий. Примечание: этот тест может давать ложные срабатывания на неполных данных"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\SpatialConsistencyChecks.java:240
 msgid "Building is not fully covered by its parts"
@@ -84,8 +84,7 @@ msgstr "Здание не полностью покрыто своими час�
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\SpatialConsistencyChecks.java:263
 #, java-format
-msgid ""
-"Building height ({0}m) and calculated part height ({1}m) differ significantly"
+msgid "Building height ({0}m) and calculated part height ({1}m) differ significantly"
 msgstr "Высота здания ({0} м) и расчетная высота частей ({1} м) значительно различаются"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\validator\SpatialConsistencyChecks.java:276
@@ -119,8 +118,7 @@ msgstr "Некорректное значение для roof:orientation: {0}"
 msgid "Building part without height"
 msgstr "Часть здания без указания высоты"
 
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\DialogWindow3D.java:60
-#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:95
+#: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\DialogWindow3D.java:60 D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:95
 msgid "Urban Eye 3D"
 msgstr "Urban Eye 3D"
 
@@ -129,13 +127,12 @@ msgid "Enable wireframe rendering mode"
 msgstr "Включить каркасный режим отображения"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:37
-msgid ""
-"If checked, buildings will be rendered as outlines instead of solid polygons."
+msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
 msgstr "Если отмечено, здания будут отображаться в виде контуров, а не сплошных полигонов."
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:41
 msgid "Enable Ambient Occlusion Mode"
-msgstr "Включить режим имитации глобального затенения (AO)"
+msgstr "Включить режим имитации глобального затенения"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:43
 msgid "If checked, a fake ambient occlusion effect will be applied."
@@ -146,9 +143,7 @@ msgid "Automatically download incomplete multipolygons"
 msgstr "Автоматически загружать неполные мультиполигоны"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:49
-msgid ""
-"If checked, the plugin will attempt to download missing members of "
-"multipolygons."
+msgid "If checked, the plugin will attempt to download missing members of multipolygons."
 msgstr "Если отмечено, плагин будет пытаться загрузить недостающие части мультиполигонов."
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:100

@@ -77,6 +77,9 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 ### April 10, 2026
+*  Translation into German and Russian languages updated according to users comments.
+
+### April 10, 2026
 
 * Added translation into Slovak language, by @aceman444 
 * Added translation into German and Italian languages, by AI.
@@ -98,6 +101,8 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ### April 06, 2026
 
 *   **JOSM-Style Internationalization (i18n):** Implemented a complete, JOSM-style i18n mechanism. This involved wrapping all user-facing UI strings, creating translation template (`.pot`) and language-specific (`.po`) files, and configuring the Maven build to compile them into the binary `.lang` files required by JOSM at runtime. A unit test was also added to ensure the translation files are generated correctly.
+
+* Added translation into Russian languages, by AI.
 
 ### April 05, 2026
 
