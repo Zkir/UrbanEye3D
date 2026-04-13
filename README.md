@@ -14,15 +14,15 @@ While 3D visualization of OSM data has existed for years through external tools,
 Urban Eye 3D solves this problem! Mappers and 3D building enthusiasts can now preview their edits directly within JOSM before commiting changes to OpenStreetMap.
 
 ## Key Features
-* Support for the [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
-* Visualization only  – no editing or export functionality
+* 3D visualization of building models according to [Simple 3D Buildings](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) specification
+* Visualization of Earth surface with flat objects: roads, rivers, grassland and others.
 * Intuitive navigation, similar to modern 3D editors:  
   - Orbit (left mouse drag)  
   - Zoom (mouse wheel)
   - Pan (right mouse drag)
-* Basic colour support for `building:colour` and `roof:colour` tags
 * Two modes: *solid* and *wireframe*. Press 'z' to switch between them
 * Real-time updates: Changes made in JOSM instantly reflect in the 3D view
+* Rendering only – no editing or export functionality
 
 See [features.md](docs/features.md) for the list of supported tags and roof shapes.
 
