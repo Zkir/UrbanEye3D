@@ -47,6 +47,15 @@ msgstr "Überprüft die Gültigkeit von Attributen für Gebäude und Gebäudetei
 msgid "Configure rendering options for the 3D Viewer."
 msgstr "Darstellungsoptionen für den 3D-Betrachter konfigurieren."
 
+msgid "Show scene statistics"
+msgstr "Szenenstatistik anzeigen"
+
+msgid "If checked, the number of objects, faces and frame time will be displayed in the top-left corner."
+msgstr "Wenn aktiviert, werden die Anzahl der Objekte, Flächen und die Frame-Zeit in der oberen linken Ecke angezeigt."
+
+msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
+msgstr "Objekte: {0}, Flächen: {1}, Durchschn. Frame-Zeit: {2} ms"
+
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:38
 msgid "Enable Ambient Occlusion Mode"
 msgstr "Schatteneffekt aktivieren"

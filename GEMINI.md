@@ -71,6 +71,13 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### April 14, 2026
+*   **Scene Statistics Overlay:**
+    *   Implemented a statistics overlay in the top-left corner of the 3D scene, displaying the number of objects, total face count, and average frame rendering time (moving average over the last 60 frames).
+    *   Added a new preference setting "Show scene statistics" in the plugin settings to toggle this display.
+    *   Ensured full internationalization (i18n) support for the new strings, including updated Russian translations.
+    *   Calculated object and face counts efficiently during scene updates.
+
 ### Earlier
 See [Devblog](DEVBLOG.md)
 
@@ -115,6 +122,8 @@ src
 
 ### JOSM Framework Integration
 *   **Entry Point & UI:** The plugin is initiated by `UrbanEye3dPlugin.java`, which launches the main dockable window, `DialogWindow3D.java`. This dialog manages the `Renderer3D` canvas, which handles all OpenGL rendering.
+*   **Text Rendering in OpenGL:** To display 2D text over a 3D scene in JOGL, `com.jogamp.opengl.util.awt.TextRenderer` is a powerful tool. It requires initialization with a Font and follows a lifecycle: `beginRendering(width, height)`, followed by `draw(text, x, y)` calls, and finally `endRendering()`.
+*   **Internationalization with Placeholders:** For localizing strings that contain dynamic data (like counts or times), the JOSM `tr()` function supports positional placeholders (e.g., `{0}`, `{1}`). This is much more robust than manual string concatenation, as it allows translators to reorder the data as needed for their language's grammar.
 *   **Extensibility:** The plugin extends the JOSM environment in several ways:
     *   **Validation:** Custom tests are added to the JOSM validator by extending `org.openstreetmap.josm.data.validation.Test`.
     *   **Actions & Shortcuts:** New keyboard shortcuts are created by extending `JosmAction`.

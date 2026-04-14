@@ -13,6 +13,16 @@ public class Scene {
     /** The list of scene "elements" that should be rendered.
     * renderable element can be either a building or a building part. */
     final List<RenderableElement> renderableElements = new ArrayList<>();
+    private int objectCount = 0;
+    private int faceCount = 0;
+
+    public int getObjectCount() {
+        return objectCount;
+    }
+
+    public int getFaceCount() {
+        return faceCount;
+    }
 
     public static class SceneUpdate {
         final List<RenderableElement> renderableElements;
@@ -38,8 +48,16 @@ public class Scene {
 
     public void applyUpdate(SceneUpdate update) {
         renderableElements.clear();
+        objectCount = 0;
+        faceCount = 0;
         if (update != null) {
             renderableElements.addAll(update.renderableElements);
+            objectCount = renderableElements.size();
+            for (RenderableElement element : renderableElements) {
+                if (element.getMesh() != null && element.getMesh().faces != null) {
+                    faceCount += element.getMesh().faces.size();
+                }
+            }
         }
 
     }

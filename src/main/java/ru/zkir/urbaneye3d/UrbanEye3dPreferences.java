@@ -20,6 +20,7 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
     private JCheckBox wireframeCheckBox;
     private JCheckBox fakeAoCheckBox;
     private JCheckBox downloadIncompleteMultipolygonsCheckBox;
+    private JCheckBox showStatsCheckBox;
 
     @Override
     public void addGui(PreferenceTabbedPane gui) {
@@ -49,8 +50,14 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         downloadIncompleteMultipolygonsCheckBox.setToolTipText(tr("If checked, the plugin will attempt to download missing members of multipolygons."));
         panel.add(downloadIncompleteMultipolygonsCheckBox, gbc);
 
+        gbc.gridy = 4;
+        showStatsCheckBox = new JCheckBox(tr("Show scene statistics"));
+        showStatsCheckBox.setSelected(Config.getPref().getBoolean("urbaneye3d.stats.enabled", false));
+        showStatsCheckBox.setToolTipText(tr("If checked, the number of objects, faces and frame time will be displayed in the top-left corner."));
+        panel.add(showStatsCheckBox, gbc);
+
         // Add vertical glue to push content to the top
-        gbc.gridy = 4; // Next row
+        gbc.gridy = 5; // Next row
         gbc.weighty = 1.0; // This component takes all remaining vertical space
         gbc.fill = GridBagConstraints.BOTH; // Fill both horizontally and vertically
         panel.add(new JPanel(), gbc); // Add an empty JPanel as glue
@@ -66,6 +73,9 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         }
         if (downloadIncompleteMultipolygonsCheckBox != null) {
             Config.getPref().putBoolean("urbaneye3d.download-incomplete.enabled", downloadIncompleteMultipolygonsCheckBox.isSelected());
+        }
+        if (showStatsCheckBox != null) {
+            Config.getPref().putBoolean("urbaneye3d.stats.enabled", showStatsCheckBox.isSelected());
         }
         // Force a redraw of the 3D view to apply changes immediately
         DialogWindow3D dialog = UrbanEye3dPlugin.get3DWindow();

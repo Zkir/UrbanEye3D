@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-08 06:25:16+0300\n"
+"POT-Creation-Date: 2026-04-14 16:57:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:44
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:45
 msgid "Automatically download incomplete multipolygons"
 msgstr ""
 
@@ -42,15 +42,15 @@ msgstr ""
 msgid "Checks for tag validity for buildings and building parts."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:86
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:96
 msgid "Configure rendering options for the 3D Viewer."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:38
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:39
 msgid "Enable Ambient Occlusion Mode"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:32
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:33
 msgid "Enable wireframe rendering mode"
 msgstr ""
 
@@ -58,15 +58,19 @@ msgstr ""
 msgid "Fake AO"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:42
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:43
 msgid "If checked, a fake ambient occlusion effect will be applied."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:36
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:37
 msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:48
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:55
+msgid "If checked, the number of objects, faces and frame time will be displayed in the top-left corner."
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:49
 msgid "If checked, the plugin will attempt to download missing members of multipolygons."
 msgstr ""
 
@@ -80,6 +84,10 @@ msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:58
 msgid "Missing tag: roof:shape={0} without ''roof:direction''"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:292
+msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
 msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
@@ -99,8 +107,12 @@ msgstr ""
 msgid "Reset camera view to default position"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:84
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:94
 msgid "Settings for the Urban Eye 3D plugin"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:51
+msgid "Show scene statistics"
 msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
@@ -121,7 +133,7 @@ msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:56
 #: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:59
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:79
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:89
 msgid "Urban Eye 3D"
 msgstr ""
 

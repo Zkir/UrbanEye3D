@@ -153,3 +153,12 @@ msgstr "Настройки плагина Urban Eye 3D"
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:105
 msgid "Configure rendering options for the 3D Viewer."
 msgstr "Настроить параметры отрисовки трехмерного мира."
+
+msgid "Show scene statistics"
+msgstr "Показывать статистику сцены"
+
+msgid "If checked, the number of objects, faces and frame time will be displayed in the top-left corner."
+msgstr "Если включено, в левом верхнем углу будет отображаться количество объектов, граней и время кадра."
+
+msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
+msgstr "Объектов: {0}, Граней: {1}, Среднее время кадра: {2} мс"

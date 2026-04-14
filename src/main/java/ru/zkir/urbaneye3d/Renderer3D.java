@@ -1,5 +1,6 @@
 package ru.zkir.urbaneye3d;
 
+import static org.openstreetmap.josm.tools.I18n.tr;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -9,6 +10,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUtessellator;
 import com.jogamp.opengl.glu.GLUtessellatorCallbackAdapter;
 import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.awt.TextRenderer;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.EastNorth;
 import org.openstreetmap.josm.gui.MainApplication;
@@ -20,6 +22,7 @@ import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -37,6 +40,15 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private final double CUTOFF_DISTANCE=5000.0;
     public boolean isWireframeMode;
     public boolean isFakeAOEnabled;
+    public boolean isStatsEnabled;
+
+    // Frame time statistics
+    private final long[] frameTimes = new long[60];
+    private int frameTimeIndex = 0;
+    private int frameTimeCount = 0;
+    private long lastFrameTime = 0;
+
+    private TextRenderer textRenderer;
 
     private final double DEFAULT_CAM_VERT_ANGLE = 35;
     private final double DEFAULT_CAM_HOR_ANGLE = -90;
@@ -140,6 +152,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         //gl.glEnable(GL2.GL_CULL_FACE);
         //gl.glCullFace(GL2.GL_BACK);
         CheckOpenGL(gl);
+
+        textRenderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 14));
     }
 
     public void CheckOpenGL(GL2 gl) {
@@ -186,6 +200,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     public void dispose(GLAutoDrawable glAutoDrawable) {
         GL2 gl = glAutoDrawable.getGL().getGL2();
         TextureManager.getInstance().disposeAll(gl);
+        textRenderer = null;
     }
 
     private Color applyLighting(Color baseColor, double dotProduct) {
@@ -225,10 +240,15 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
+        int objectCount=0;
+        int faceCount=0;
+
+        long startTime = System.nanoTime();
         GL2 gl = glAutoDrawable.getGL().getGL2();
 
         isWireframeMode = Config.getPref().getBoolean("urbaneye3d.wireframe.enabled", false);
         isFakeAOEnabled = Config.getPref().getBoolean("urbaneye3d.fakeao.enabled", true);
+        isStatsEnabled = Config.getPref().getBoolean("urbaneye3d.stats.enabled", false);
 
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
@@ -255,49 +275,111 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             gl.glTranslated(transX, transY, 0);
             Texture texture = tile.render(gl);
             drawMesh(gl, tile.getMesh(), false, 0, 0, texture);
-
             gl.glPopMatrix();
+            objectCount += 1;
+            faceCount += tile.getMesh().faces.size();
         }
 
-        if ( scene.renderableElements == null || scene.renderableElements.isEmpty()) {
-            gl.glFlush();
-            return;
-        }
+        if ( scene.renderableElements != null && !scene.renderableElements.isEmpty()) {
+            //this may seem to be a circular definition, but what we actually want
+            // is to render buildings in the same area as ground tiles.
+            Bounds visibleArea = this.scene.getVisibleArea();
 
-        //this may seem to be a circular definition, but what we actually want
-        // is to render buildings in the same area as ground tiles.
-        Bounds visibleArea = this.scene.getVisibleArea();
-
-        // --- Render All Elements (Buildings, Trees, etc.) ---
-        for (RenderableElement element : scene.renderableElements) {
-            if (visibleArea!=null && !visibleArea.contains(element.origin)){
-                continue;
-            }
-            gl.glPushMatrix();
-            double dx = element.origin.lon() - mapCenter.lon();
-            double dy = element.origin.lat() - mapCenter.lat();
-            double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
-            double transY = dy * 111320.0;
-            gl.glTranslated(transX, transY, 0);
-
-            Mesh mesh = element.getMesh();
-
-            if (mesh != null ){
-                if (element.textureName != null) {
-                    // It's a textured object (like a tree)
-                    Texture texture = TextureManager.getInstance().get(gl, element.textureName);
-                    if (texture != null) {
-                        drawMesh(gl, mesh, element.isSelected, 0, 0, texture);
-                    }
-                } else {
-                    // It's a colored object (like a building)
-                    drawMesh(gl, mesh, element.isSelected, element.height, element.minHeight, null);
+            // --- Render All Elements (Buildings, Trees, etc.) ---
+            for (RenderableElement element : scene.renderableElements) {
+                if (visibleArea != null && !visibleArea.contains(element.origin)) {
+                    continue;
                 }
-            }
+                gl.glPushMatrix();
+                double dx = element.origin.lon() - mapCenter.lon();
+                double dy = element.origin.lat() - mapCenter.lat();
+                double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+                double transY = dy * 111320.0;
+                gl.glTranslated(transX, transY, 0);
 
-            gl.glPopMatrix();
+                Mesh mesh = element.getMesh();
+
+                if (mesh != null) {
+                    if (element.textureName != null) {
+                        // It's a textured object (like a tree)
+                        Texture texture = TextureManager.getInstance().get(gl, element.textureName);
+                        if (texture != null) {
+                            drawMesh(gl, mesh, element.isSelected, 0, 0, texture);
+                        }
+                    } else {
+                        // It's a colored object (like a building)
+                        drawMesh(gl, mesh, element.isSelected, element.height, element.minHeight, null);
+                    }
+                    objectCount += 1;
+                    faceCount += mesh.faces.size();
+                }
+
+                gl.glPopMatrix();
+            }
         }
         gl.glFlush();
+
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+
+        // Update statistics
+        frameTimes[frameTimeIndex] = duration;
+        frameTimeIndex = (frameTimeIndex + 1) % 60;
+        if (frameTimeCount < 60) {
+            frameTimeCount++;
+        }
+
+        if (isStatsEnabled && textRenderer != null) {
+            long sum = 0;
+            for (int i = 0; i < frameTimeCount; i++) {
+                sum += frameTimes[i];
+            }
+            double avgTimeMs = Math.ceil( (double) sum / (frameTimeCount * 1_000_000.0));
+            String stats = tr("Objects: {0}, Faces: {1}, Avg frame time: {2} ms",
+                    objectCount, faceCount, String.format("%.0f", avgTimeMs));
+
+            java.awt.geom.Rectangle2D bounds = textRenderer.getBounds(stats);
+
+            // Draw semi-transparent background panel
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
+            glu.gluOrtho2D(0, glAutoDrawable.getSurfaceWidth(), 0, glAutoDrawable.getSurfaceHeight());
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
+
+            gl.glEnable(GL2.GL_BLEND);
+            gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
+            gl.glColor4f(0.4f, 0.4f, 0.4f, 0.5f); // Dark gray, 60% opacity
+
+            double paddingX = 8.0;
+            double paddingY = 6.0;
+            double bgWidth = bounds.getWidth() + paddingX * 2;
+            double bgHeight = bounds.getHeight() + paddingY * 2;
+            double bgX = 4.0;
+            double bgY = glAutoDrawable.getSurfaceHeight() - bgHeight - 4.0;
+
+            gl.glBegin(GL2.GL_QUADS);
+            gl.glVertex2d(bgX, bgY);
+            gl.glVertex2d(bgX + bgWidth, bgY);
+            gl.glVertex2d(bgX + bgWidth, bgY + bgHeight);
+            gl.glVertex2d(bgX, bgY + bgHeight);
+            gl.glEnd();
+
+            gl.glDisable(GL2.GL_BLEND);
+
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            gl.glPopMatrix();
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
+            gl.glPopMatrix();
+
+            textRenderer.beginRendering(glAutoDrawable.getSurfaceWidth(), glAutoDrawable.getSurfaceHeight());
+            textRenderer.setColor(Color.WHITE);
+            // Draw text centered within the background panel
+            textRenderer.draw(stats, (int)(bgX + paddingX), (int)(bgY + paddingY+2));
+            textRenderer.endRendering();
+        }
     }
 
     private void drawMesh(GL2 gl, Mesh mesh, boolean isSelected, double maxHeightForAO, double minHeightForAO, Texture texture){
