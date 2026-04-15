@@ -29,6 +29,10 @@ import java.awt.event.MouseWheelListener;
 
 import java.util.List;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.min;
+import static java.lang.Math.max;
+import static java.lang.Math.sqrt;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
 
 public class Renderer3D extends GLJPanel implements GLEventListener {
@@ -113,7 +117,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 } else { // Assume left button for rotation
                     camY_angle -= dx * 0.5;
                     camX_angle += dy * 0.5;
-                    camX_angle = Math.max(-0.0, Math.min(89.0, camX_angle));
+                    camX_angle = max(-0.0, min(89.0, camX_angle));
                 }
 
                 lastMousePoint = e.getPoint();
@@ -125,8 +129,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 cam_dist += e.getWheelRotation() * cam_dist/10;
-                cam_dist = Math.max(25.0, cam_dist); // Prevent zooming too close
-                cam_dist = Math.min(CUTOFF_DISTANCE*0.9, cam_dist); // Prevent zooming too far (limited by cut-off distance).
+                cam_dist = max(25.0, cam_dist); // Prevent zooming too close
+                cam_dist = min(CUTOFF_DISTANCE*0.9, cam_dist); // Prevent zooming too far (limited by cut-off distance).
                 repaint();
             }
         });
@@ -188,20 +192,20 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         TextureManager.getInstance().disposeAll(gl);
     }
 
-    private Color applyLighting(Color baseColor, double dotProduct) {
-        // 70% ambient light + 30% diffuse light from the sun
-        // We clamp the dot product to 0 so that faces pointing away from the light aren't darkened
-        double diffuseFactor = Math.abs(dotProduct);
+    private float[] applyLighting(Color baseColor, double dotProduct) {
+        // Non-linear lighting to brighten shadows while keeping shading for 3D volume.
+        // We use a square root curve (gamma correction style) to pull up the brightness of darker faces.
+        float diffuseFactor = (float) abs(dotProduct);
         float factor = (float) (0.5 + 0.5 * diffuseFactor);
 
         // Ensure the factor does not exceed 1.0
-        factor = Math.min(1.0f, factor);
+        factor = min(1.0f, factor);
 
-        return new Color(
-                (int) (baseColor.getRed() * factor),
-                (int) (baseColor.getGreen() * factor),
-                (int) (baseColor.getBlue() * factor)
-        );
+        return new float[]{
+                (float) sqrt(baseColor.getRed() / 255.0f * factor),
+                (float) sqrt(baseColor.getGreen() / 255.0f * factor),
+                (float) sqrt(baseColor.getBlue() / 255.0f * factor)
+        };
     }
 
     public void toggleWireframeMode() {
@@ -322,7 +326,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             if (faceUV != null && texture != null && !isWireframeMode) {
                 // It's a textured face
-                drawPolygonUV(gl, face, faceUV,  mesh.verts, mesh.uvs, texture, isSelected);
+                drawPolygonUV(gl, face, faceUV,  mesh.verts, mesh.uvs, texture, isSelected, maxHeightForAO, minHeightForAO);
                 //TODO: empty ground tile should be rendered rather as wireframe.
             } else {
                 // It's a colored face
@@ -349,16 +353,31 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     }
 
-    private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture, boolean isSelected ) {
+    private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture, boolean isSelected, double maxHeightForAO, double minHeightForAO) {
 
         // --- Draw selection outline (red, thick wireframe) ---
         if (isSelected) {
             drawSelectedOutline(gl, face, verts);
         }
 
+        // Calculate face normal for lighting
+        Point3D p1 = verts.get(face[0]);
+        Point3D p2 = verts.get(face[1]);
+        Point3D p3 = verts.get(face[2]);
+
+        Point3D v1 = new Point3D(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
+        Point3D v2 = new Point3D(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z);
+        Point3D normal = new Point3D(
+                v1.y * v2.z - v1.z * v2.y,
+                v1.z * v2.x - v1.x * v2.z,
+                v1.x * v2.y - v1.y * v2.x
+        ).normalize();
+
+        double dotProduct = normal.dot(SUN_DIRECTION);
+        float[] litColor = applyLighting(Color.WHITE, dotProduct);
+
         texture.bind(gl);
         gl.glEnable(GL2.GL_TEXTURE_2D);
-        gl.glColor4d(1.0, 1.0, 1.0, 1.0);
 
         // Enable alpha testing to handle transparency in tree textures
         gl.glEnable(GL2.GL_ALPHA_TEST);
@@ -369,6 +388,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             for (int i = 0; i < face.length; i++) {
                 Point3D vert = verts.get(face[i]);
                 Point2D uv = uvs.get(faceUV[i]);
+                setVertexColorWithFakeAO(gl, vert, litColor, maxHeightForAO, minHeightForAO);
                 gl.glTexCoord2d(uv.x, uv.y);
                 gl.glVertex3d(vert.x, vert.y, vert.z);
             }
@@ -378,13 +398,14 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             for (int i = 0; i < face.length; i++) {
                 Point3D vert = verts.get(face[i]);
                 Point2D uv = uvs.get(faceUV[i]);
+                setVertexColorWithFakeAO(gl, vert, litColor, maxHeightForAO, minHeightForAO);
                 gl.glTexCoord2d(uv.x, uv.y);
                 gl.glVertex3d(vert.x, vert.y, vert.z);
             }
             gl.glEnd();
         } else if (face.length > 4) {
             GLUtessellator tess = glu.gluNewTess();
-            TexturedTessellatorCallback callback = new TexturedTessellatorCallback(gl);
+            TexturedTessellatorCallback callback = new TexturedTessellatorCallback(gl, litColor, maxHeightForAO, minHeightForAO);
 
             glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, callback);
             glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, callback);
@@ -443,12 +464,12 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         ).normalize();
 
         double dotProduct = normal.dot(SUN_DIRECTION);
-        Color litColor = applyLighting(color, dotProduct);
+        float[] litColor = applyLighting(color, dotProduct);
 
         if (isWireframeMode) {
             if (!isSelected) {
                 gl.glBegin(GL2.GL_LINE_LOOP);
-                gl.glColor3f(litColor.getRed() / 255.0f, litColor.getGreen() / 255.0f, litColor.getBlue() / 255.0f);
+                gl.glColor3f(litColor[0], litColor[1], litColor[2]);
                 for (int index : faceIndices) {
                     Point3D p = vertices.get(index);
                     gl.glVertex3d(p.x, p.y, p.z);
@@ -494,7 +515,12 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         }
     }
 
-    private void drawVertexWithFakeAO(GL2 gl, Point3D vertex, Color baseColor, double maxHeightForAO, double minHeightForAO) {
+    private void drawVertexWithFakeAO(GL2 gl, Point3D vertex, float[] baseColor, double maxHeightForAO, double minHeightForAO) {
+        setVertexColorWithFakeAO(gl, vertex, baseColor, maxHeightForAO, minHeightForAO);
+        gl.glVertex3d(vertex.x, vertex.y, vertex.z);
+    }
+
+    private void setVertexColorWithFakeAO(GL2 gl, Point3D vertex, float[] baseColor, double maxHeightForAO, double minHeightForAO) {
         double totalHeight = maxHeightForAO - minHeightForAO;
         double vertexHeight = vertex.z - minHeightForAO;
         final float AO_STRENGTH;
@@ -521,14 +547,11 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             aoFactor=1;
         }
 
-        Color finalColor = new Color(
-                (int)(baseColor.getRed() * aoFactor),
-                (int)(baseColor.getGreen() * aoFactor),
-                (int)(baseColor.getBlue() * aoFactor)
+        gl.glColor3f(
+                (baseColor[0] * aoFactor),
+                (baseColor[1] * aoFactor),
+                (baseColor[2] * aoFactor)
         );
-
-        gl.glColor3f(finalColor.getRed() / 255.0f, finalColor.getGreen() / 255.0f, finalColor.getBlue() / 255.0f);
-        gl.glVertex3d(vertex.x, vertex.y, vertex.z);
     }
 
     // Helper class for texture tessellation
@@ -540,9 +563,15 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     // Tessellator callback for textured polygons
     private class TexturedTessellatorCallback extends GLUtessellatorCallbackAdapter {
         private final GL2 gl;
+        private final float[] litColor;
+        private final double maxHeightForAO;
+        private final double minHeightForAO;
 
-        TexturedTessellatorCallback(GL2 gl) {
+        TexturedTessellatorCallback(GL2 gl, float[] litColor, double maxHeightForAO, double minHeightForAO) {
             this.gl = gl;
+            this.litColor = litColor;
+            this.maxHeightForAO = maxHeightForAO;
+            this.minHeightForAO = minHeightForAO;
         }
 
         @Override
@@ -558,6 +587,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         @Override
         public void vertex(Object vertexData) {
             VertexDataUV v = (VertexDataUV) vertexData;
+            Point3D pos = new Point3D(v.position[0], v.position[1], v.position[2]);
+            setVertexColorWithFakeAO(gl, pos, litColor, maxHeightForAO, minHeightForAO);
             gl.glTexCoord2dv(v.uv, 0);
             gl.glVertex3dv(v.position, 0);
         }
@@ -591,12 +622,12 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private class TessellatorCallback extends GLUtessellatorCallbackAdapter {
         private final GL2 gl;
         private final GLU glu;
-        private final Color baseColor;
+        private final float[] baseColor;
         double maxHeightForAO;
         double minHeightForAO;
 
 
-        public TessellatorCallback(GL2 gl, GLU glu, Color baseColor, double maxHeightForAO, double minHeightForAO) {
+        public TessellatorCallback(GL2 gl, GLU glu, float[] baseColor, double maxHeightForAO, double minHeightForAO) {
             this.gl = gl;
             this.glu = glu;
             this.baseColor = baseColor;

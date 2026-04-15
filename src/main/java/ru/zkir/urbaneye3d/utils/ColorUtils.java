@@ -18,6 +18,7 @@ public class ColorUtils {
         COLOR_MAP.put("purple", new Color(128, 0, 128));
         COLOR_MAP.put("teal", new Color(0, 128, 128));
         COLOR_MAP.put("gray", new Color(128, 128, 128));
+        COLOR_MAP.put("grey", new Color(128, 128, 128));
         COLOR_MAP.put("silver", new Color(192, 192, 192));
         COLOR_MAP.put("red", new Color(255, 0, 0));
         COLOR_MAP.put("lime", new Color(0, 255, 0));
@@ -26,7 +27,6 @@ public class ColorUtils {
         COLOR_MAP.put("fuchsia", new Color(255, 0, 255));
         COLOR_MAP.put("aqua", new Color(0, 255, 255));
         COLOR_MAP.put("white", new Color(255, 255, 255));
-        COLOR_MAP.put("grey", new Color(128, 128, 128));
         COLOR_MAP.put("darkred", new Color(139, 0, 0));
         COLOR_MAP.put("brown", new Color(165, 42, 42));
         COLOR_MAP.put("firebrick", new Color(178, 34, 34));
@@ -66,6 +66,7 @@ public class ColorUtils {
         COLOR_MAP.put("mediumseagreen", new Color(60, 179, 113));
         COLOR_MAP.put("lightseagreen", new Color(32, 178, 170));
         COLOR_MAP.put("darkslategray", new Color(47, 79, 79));
+        COLOR_MAP.put("darkslategrey", new Color(47, 79, 79));
         COLOR_MAP.put("darkcyan", new Color(0, 139, 139));
         COLOR_MAP.put("cyan", new Color(0, 255, 255));
         COLOR_MAP.put("lightcyan", new Color(224, 255, 255));
@@ -136,7 +137,9 @@ public class ColorUtils {
         COLOR_MAP.put("seashell", new Color(255, 245, 238));
         COLOR_MAP.put("mintcream", new Color(245, 255, 250));
         COLOR_MAP.put("slategray", new Color(112, 128, 144));
+        COLOR_MAP.put("slategrey", new Color(112, 128, 144));
         COLOR_MAP.put("lightslategray", new Color(119, 136, 153));
+        COLOR_MAP.put("lightslategrey", new Color(119, 136, 153));
         COLOR_MAP.put("lightsteelblue", new Color(176, 196, 222));
         COLOR_MAP.put("lavender", new Color(230, 230, 250));
         COLOR_MAP.put("floralwhite", new Color(255, 250, 240));
@@ -147,9 +150,12 @@ public class ColorUtils {
         COLOR_MAP.put("azure", new Color(240, 255, 255));
         COLOR_MAP.put("snow", new Color(255, 250, 250));
         COLOR_MAP.put("dimgray", new Color(105, 105, 105));
+        COLOR_MAP.put("dimgrey", new Color(105, 105, 105));
         COLOR_MAP.put("gainsboro", new Color(220, 220, 220));
         COLOR_MAP.put("lightgray", new Color(211, 211, 211));
+        COLOR_MAP.put("lightgrey", new Color(211, 211, 211));
         COLOR_MAP.put("darkgray", new Color(169, 169, 169));
+        COLOR_MAP.put("darkgrey", new Color(169, 169, 169));
         COLOR_MAP.put("whitesmoke", new Color(245, 245, 245));
         COLOR_MAP.put("ivoryblack", new Color(41, 36, 33));
         COLOR_MAP.put("darkbrown", new Color(101, 67, 33));

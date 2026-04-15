@@ -27,7 +27,6 @@
 *   imits for levels: some facades do not support arbitrary number of levels, something should be done about that. In theory, .fac supports FLOORS_MIN and FLOOR_MAX commands
 *   Some solution to facade building parts. 
 *   Some buffer for faces in UvGenerator/Packer
-*   Return FakeAO/Shading for textured buildings.
 *   Add fac-file sample and picture to [FACADES.md](docs/FACADES.md)
 
     
@@ -77,6 +76,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### April 14, 2026
+*   **Restored 3D lighting and "Fake AO" shading for textured buildings.** Textured buildings (including those with complex facades) now correctly respond to the sun's direction, making architectural details much more visible and realistic.
+*   **Significantly brightened the 3D scene.** Improved the lighting engine with a new non-linear color correction (gamma-like adjustment). The 3D view is now much brighter and more vibrant, while still preserving the depth and shadows needed to distinguish building shapes and corners.
+
 ### April 4, 2026
 *   **Comprehensive Facade Documentation (`docs/FACADES.md`) created and refined.**
     
@@ -199,6 +202,10 @@ src
 
 ### Rendering Pipeline
 *   **Technology:** The scene is rendered using JOGL (OpenGL for Java). The current implementation uses an immediate-mode-style pipeline, with plans to modernize it with shaders.
+*   **Lighting and Shading:**
+    *   The plugin uses a global directional light source (Sun) and a "Fake AO" effect (height-based darkening) to provide visual depth.
+    *   **Lesson Learned (Non-linear Brightening):** Linear lighting often produces overly dark results, especially on textured surfaces. A non-linear approach (applying a square root/gamma-like correction to each color channel) significantly brightens the scene without losing the perceived 3D volume.
+    *   For textured polygons, the vertex color is multiplied by the texture (GL_MODULATE mode), allowing efficient shading without complex shaders.
 *   **Ground Plane Imagery:** 
     *  We have two modes for ground plane: **satellite imagery** (loaded from TMS) and **live data** based imagery (rendered from the loaded osm data on-the-fly using MapCSS). Both modes faced significant challenges.
     *  Josm has a lot of different satellite layers, but it tightly coupled with the main map window. I failed to reuse existing josm code in the plugin and had to create own(!) simple TMS rendering library, [ru.zkir.customtms](src/main/java/ru/zkir/customtms). It works fine, but probably should be eventually replaced with 'standard' josm calls, because some layers, e.g. MapBox, cannot be used without API key.
