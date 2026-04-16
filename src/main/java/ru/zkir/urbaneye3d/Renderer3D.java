@@ -196,7 +196,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         // Non-linear lighting to brighten shadows while keeping shading for 3D volume.
         // We use a square root curve (gamma correction style) to pull up the brightness of darker faces.
         float diffuseFactor = (float) abs(dotProduct);
-        float factor = (float) (0.5 + 0.5 * diffuseFactor);
+        float factor = (float) (0.4 + 0.6 * diffuseFactor);
 
         // Ensure the factor does not exceed 1.0
         factor = min(1.0f, factor);
