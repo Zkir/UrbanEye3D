@@ -24,10 +24,6 @@ As artificial intelligence reshapes development in 2026, [GEMINI.md](GEMINI.md) 
 
 
 ### Translations
-
- We do not have web UI for translation currently, but the pot and sample po files can be found in [po directory](po/). 
-
-### Translations
 Translate the plugin messages in your favorite language. Luckily there are only few of them.
 
 Currently we do not have a web translation interface (like Launchpad or Crowdin). The translation files live in the [`/po`](po/) directory – a `.pot` template and sample `.po` files.
