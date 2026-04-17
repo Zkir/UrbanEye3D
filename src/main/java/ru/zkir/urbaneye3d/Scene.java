@@ -3,10 +3,17 @@ package ru.zkir.urbaneye3d;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
-import ru.zkir.urbaneye3d.utils.Contour;
-import ru.zkir.urbaneye3d.utils.Point2D;
+import org.openstreetmap.josm.spi.preferences.Config;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.geom.prep.PreparedGeometry;
+import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
+import ru.zkir.urbaneye3d.generators.MesherTree;
+import ru.zkir.urbaneye3d.utils.*;
 
 import java.util.*;
+
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.MAX_FOREST_DENSITY;
 
 
 public class Scene {
@@ -195,7 +202,6 @@ public class Scene {
 
         }
 
-
         /*
          * Trees
          */
@@ -204,7 +210,68 @@ public class Scene {
                 var element = RenderableElement.createTree(node);
                 if (element != null){
                     newElements.add(element);
-                } 
+                }
+            }
+        }
+
+        /*
+         * Forests
+         */
+        int forestDensitySetting = Config.getPref().getInt("urbaneye3d.forest-density", 50);
+        if (forestDensitySetting > 0) {
+            double densityRatio = forestDensitySetting / 100.0;
+            // The user requested R = DEFAULT_TREE_HEIGHT / 3.0 at full density.
+            // We scale R inversely with the square root of density to maintain uniform coverage.
+            double minDist = (DEFAULT_TREE_HEIGHT / 3.0) / Math.sqrt(densityRatio);
+
+            for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+                if (primitive instanceof Node || !isPrimitiveComplete(primitive)) {
+                    continue;
+                }
+
+                if (primitive.hasTag("natural", "wood") || primitive.hasTag("landuse", "forest")) {
+                    Contour forestContour = new Contour(primitive);
+                    LatLon center = primitive.getBBox().getCenter();
+                    forestContour.toLocalCoords(center);
+                    Polygon forestPolygon = forestContour.toJTSPolygon();
+
+                    if (forestPolygon == null || !forestPolygon.isValid()) {
+                        continue;
+                    }
+
+                    Random random = new Random(primitive.getId());
+                    PreparedGeometry preparedPolygon = PreparedGeometryFactory.prepare(forestPolygon);
+                    Envelope envelope = forestPolygon.getEnvelopeInternal();
+
+                    List<Point2D> treePoints = PoissonDiskSampler.generatePoints(envelope, minDist, preparedPolygon, random);
+
+                    for (Point2D p : treePoints) {
+                        LatLon treeOrigin = FlatEarth.fromLocalCoords(p.x, p.y, center);
+
+                        // Randomize height slightly
+                        double baseHeight = DEFAULT_TREE_HEIGHT * (0.75+random.nextDouble()/2); //50% variance
+
+                        // Synthetic tags for the individual tree
+                        Map<String, String> treeTags = new HashMap<>(primitive.getInterestingTags());
+                        treeTags.put("natural", "tree");
+                        treeTags.remove("landuse"); // prevent wood/forest from inflating scores
+
+                        // Handle mixed forest
+                        if ("mixed".equals(treeTags.get("leaf_type"))) {
+                            if (random.nextBoolean()) {
+                                treeTags.put("leaf_type", "broadleaved");
+                            } else {
+                                treeTags.put("leaf_type", "needleleaved");
+                            }
+                        }
+                        treeTags.put("height", String.valueOf(baseHeight));
+
+                        RenderableElement element = RenderableElement.createTree(primitive, treeOrigin, treeTags, random);
+                        if (element != null) {
+                            newElements.add(element);
+                        }
+                    }
+                }
             }
         }
         return new SceneUpdate(newElements);

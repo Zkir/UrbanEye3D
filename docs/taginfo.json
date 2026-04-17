@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260324T134049Z",
+  "data_updated" : "20260411T165335Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -118,6 +118,10 @@
     "key" : "hyperboloid:top_rate",
     "description" : "Defines the relative width of the top of the structure compared to its base"
   }, {
+    "key" : "landuse",
+    "value" : "forest",
+    "description" : "A managed forest area. Automatically populated with 3D tree objects based on the forest density setting."
+  }, {
     "key" : "layer",
     "description" : "Objects with layer<0 are considered to be located underground -- and are not displayed"
   }, {
@@ -161,6 +165,10 @@
     "key" : "natural",
     "value" : "tree",
     "description" : "A single tree, rendered as a 3D billboard model."
+  }, {
+    "key" : "natural",
+    "value" : "wood",
+    "description" : "A forested area. Automatically populated with 3D tree objects based on the forest density setting."
   }, {
     "key" : "place",
     "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"

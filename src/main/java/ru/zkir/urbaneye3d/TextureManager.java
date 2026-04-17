@@ -8,11 +8,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -91,19 +87,19 @@ public class TextureManager {
     }
 
     /**
-     * Finds a suitable texture name based on the object's tags.
-     * For now, it returns a random tree texture.
+     * Finds a suitable texture name based on the object's tags, using a specific seed for determinism.
      *
      * @param objectTags Tags of the OSM object.
+     * @param seed       Seed for random selection among equally good matches.
      * @return A texture name, or null if no suitable texture is found.
      */
-    public String findTextureName(Map<String, String> objectTags) {
+    public String findTextureName(Map<String, String> objectTags, Random random) {
         if (textureDefinitions.isEmpty()) {
             throw new RuntimeException("Texture definitions are not loaded");
         }
 
-        TextureDefinition bestMatch = null;
-        int maxScore = 0;
+        List<TextureDefinition> bestMatches = new ArrayList<>();
+        int maxScore = -1;
 
         for (TextureDefinition def : textureDefinitions) {
             int currentScore = 0;
@@ -115,11 +111,19 @@ public class TextureManager {
 
             if (currentScore > maxScore) {
                 maxScore = currentScore;
-                bestMatch = def;
+                bestMatches.clear();
+                bestMatches.add(def);
+            } else if (currentScore == maxScore) {
+                bestMatches.add(def);
             }
         }
 
-        return bestMatch != null ? bestMatch.textureName : null;
+        if (bestMatches.isEmpty()) {
+            return null;
+        }
+
+        // Return a random texture from the best matches
+        return bestMatches.get(random.nextInt(bestMatches.size())).textureName;
     }
 
 

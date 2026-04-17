@@ -12,6 +12,7 @@ import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.utils.Settings;
 
 import org.openstreetmap.josm.data.osm.Node;
+import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.coor.LatLon;
 
 import java.io.File;
@@ -23,11 +24,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import static ru.zkir.urbaneye3d.RoofGeneratorTopologyTest.*;
 import static ru.zkir.urbaneye3d.utils.Settings.SAVE_TEST_RESULTS_TO_FILE;
 
+import org.openstreetmap.josm.data.preferences.JosmBaseDirectories;
+import org.openstreetmap.josm.data.preferences.JosmUrls;
+import org.openstreetmap.josm.spi.preferences.MemoryPreferences;
+
 class SceneTest {
 
     @BeforeAll
     public static void setUp() {
-        Config.setPreferencesInstance(new Preferences());
+        Config.setPreferencesInstance(new MemoryPreferences());
+        Config.setBaseDirectoriesProvider(JosmBaseDirectories.getInstance());
+        Config.setUrlsProvider(JosmUrls.getInstance());
     }
 
     private DataSet loadDataSetFromOsmFile(String resourceName) throws Exception {
@@ -292,6 +299,88 @@ class SceneTest {
 
         // More detailed topology assertions
         assertBillboardTopology(treeMesh);
+    }
+
+    @Test
+    void testForest() {
+        // Arrange
+        DataSet dataSet = new DataSet();
+        Node n1 = new Node(new LatLon(55.750, 37.610));
+        Node n2 = new Node(new LatLon(55.751, 37.610));
+        Node n3 = new Node(new LatLon(55.751, 37.611));
+        Node n4 = new Node(new LatLon(55.750, 37.611));
+        dataSet.addPrimitive(n1);
+        dataSet.addPrimitive(n2);
+        dataSet.addPrimitive(n3);
+        dataSet.addPrimitive(n4);
+
+        Way forestWay = new Way();
+        forestWay.setNodes(Arrays.asList(n1, n2, n3, n4, n1));
+        forestWay.put("natural", "wood");
+        dataSet.addPrimitive(forestWay);
+
+        // Set high density for testing
+        Config.getPref().putInt("urbaneye3d.forest-density", 100);
+
+        Scene scene = new Scene();
+
+        // Act
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        // Assert
+        // Area is roughly 111m * 63m = 7000 m2.
+        // treeDensity = 1.0 * 0.01 = 0.01 trees/m2.
+        // Expected treeCount = 7000 * 0.01 = 70 trees.
+        assertTrue(scene.renderableElements.size() > 10, "Should have generated multiple trees for the forest. Got: " + scene.renderableElements.size());
+
+        for (RenderableElement element : scene.renderableElements) {
+            assertTrue("tree_000.png".equals(element.textureName) || "tree_001.png".equals(element.textureName));
+            assertTrue(element.origin.lat() >= 55.7499 && element.origin.lat() <= 55.7511);
+            assertTrue(element.origin.lon() >= 37.6099 && element.origin.lon() <= 37.6111);
+        }
+    }
+
+    @Test
+    void testMixedForest() {
+        // Arrange
+        DataSet dataSet = new DataSet();
+        Node n1 = new Node(new LatLon(55.750, 37.610));
+        Node n2 = new Node(new LatLon(55.751, 37.610));
+        Node n3 = new Node(new LatLon(55.751, 37.611));
+        Node n4 = new Node(new LatLon(55.750, 37.611));
+        dataSet.addPrimitive(n1);
+        dataSet.addPrimitive(n2);
+        dataSet.addPrimitive(n3);
+        dataSet.addPrimitive(n4);
+
+        Way forestWay = new Way();
+        forestWay.setNodes(Arrays.asList(n1, n2, n3, n4, n1));
+        forestWay.put("natural", "wood");
+        forestWay.put("leaf_type", "mixed");
+        dataSet.addPrimitive(forestWay);
+
+        // Set high density for testing
+        Config.getPref().putInt("urbaneye3d.forest-density", 100);
+
+        Scene scene = new Scene();
+
+        // Act
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        // Assert
+        assertTrue(scene.renderableElements.size() > 20, "Should have generated many trees for the mixed forest.");
+
+        long broadleavedCount = scene.renderableElements.stream()
+                .filter(e -> "tree_000.png".equals(e.textureName))
+                .count();
+        long needleleavedCount = scene.renderableElements.stream()
+                .filter(e -> "tree_001.png".equals(e.textureName))
+                .count();
+
+        assertTrue(broadleavedCount > 0, "Mixed forest should contain broadleaved trees (tree_000.png).");
+        assertTrue(needleleavedCount > 0, "Mixed forest should contain needleleaved trees (tree_001.png).");
     }
 
     private void assertBillboardTopology(Mesh mesh) {

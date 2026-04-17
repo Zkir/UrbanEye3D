@@ -423,6 +423,39 @@ public class Contour {
         return this.outerRings.size() > 1 || !this.innerRings.isEmpty();
     }
 
+    /**
+     *  Returns JTS equivalent of the polygon
+     */
+    public Polygon toJTSPolygon() {
+        GeometryFactory factory = new GeometryFactory();
+        if (outerRings.isEmpty()) return null;
+
+        // JTS only supports one outer ring per Polygon.
+        // For multiple outer rings, we would need a MultiPolygon, but let's stick to the first one for now
+        // as most forests are single-ring or handled as separate primitives.
+        LinearRing shell = factory.createLinearRing(toCoordinates(outerRings.get(0)));
+        LinearRing[] holes = new LinearRing[innerRings.size()];
+        for (int i = 0; i < innerRings.size(); i++) {
+            holes[i] = factory.createLinearRing(toCoordinates(innerRings.get(i)));
+        }
+        return factory.createPolygon(shell, holes);
+    }
+
+    private Coordinate[] toCoordinates(ArrayList<Point2D> ring) {
+        Coordinate[] coords = new Coordinate[ring.size()];
+        for (int i = 0; i < ring.size(); i++) {
+            coords[i] = new Coordinate(ring.get(i).x, ring.get(i).y);
+        }
+        // Ensure the ring is closed for JTS
+        if (coords.length > 0 && !coords[0].equals2D(coords[coords.length - 1])) {
+            Coordinate[] closedCoords = new Coordinate[coords.length + 1];
+            System.arraycopy(coords, 0, closedCoords, 0, coords.length);
+            closedCoords[coords.length] = new Coordinate(coords[0].x, coords[0].y);
+            return closedCoords;
+        }
+        return coords;
+    }
+
 
 
 }

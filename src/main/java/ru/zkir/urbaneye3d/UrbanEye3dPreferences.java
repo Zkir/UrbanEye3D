@@ -4,6 +4,8 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Component;
 
@@ -21,6 +23,7 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
     private JCheckBox fakeAoCheckBox;
     private JCheckBox downloadIncompleteMultipolygonsCheckBox;
     private JCheckBox showStatsCheckBox;
+    private JSlider forestDensitySlider;
 
     @Override
     public void addGui(PreferenceTabbedPane gui) {
@@ -55,9 +58,16 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         showStatsCheckBox.setSelected(Config.getPref().getBoolean("urbaneye3d.stats.enabled", false));
         showStatsCheckBox.setToolTipText(tr("If checked, the number of objects, faces and frame time will be displayed in the top-left corner."));
         panel.add(showStatsCheckBox, gbc);
-
-        // Add vertical glue to push content to the top
-        gbc.gridy = 5; // Next row
+        
+        gbc.gridy = 5;
+        panel.add(new JLabel(tr("Forest density")), gbc);
+		gbc.gridy = 6; 
+        forestDensitySlider = new JSlider(0, 100);
+        forestDensitySlider.setValue(Config.getPref().getInt("urbaneye3d.forest-density", 50));
+        forestDensitySlider.setToolTipText(tr("Adjust the density of trees in forested areas."));
+        panel.add(forestDensitySlider, gbc);
+		
+        gbc.gridy = 7; 
         gbc.weighty = 1.0; // This component takes all remaining vertical space
         gbc.fill = GridBagConstraints.BOTH; // Fill both horizontally and vertically
         panel.add(new JPanel(), gbc); // Add an empty JPanel as glue
@@ -76,6 +86,9 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         }
         if (showStatsCheckBox != null) {
             Config.getPref().putBoolean("urbaneye3d.stats.enabled", showStatsCheckBox.isSelected());
+		}	
+        if (forestDensitySlider != null) {
+            Config.getPref().putInt("urbaneye3d.forest-density", forestDensitySlider.getValue());
         }
         // Force a redraw of the 3D view to apply changes immediately
         DialogWindow3D dialog = UrbanEye3dPlugin.get3DWindow();

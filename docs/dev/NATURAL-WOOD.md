@@ -3,20 +3,17 @@
 **High-Level Goal:** Render polygonal areas tagged as `natural=wood` or `landuse=forest` by populating them with 3D tree objects, while ensuring no trees are placed on intersecting roads.
 
 This is a multi-part plan:
-1.  **Check for Pre-existing Trees:** First, we check if a forest polygon already contains manually mapped trees. If so, we do nothing further with it.
-2.  **Clearing Road Corridors:** If the forest is empty, we will programmatically "cut out" the areas covered by roads.
-3.  **Tree Population:** Finally, we will fill the resulting cleared area with randomly placed tree models.
+1.  **Clearing Road Corridors:** We will programmatically "cut out" the areas covered by roads from the forest polygon.
+2.  **Tree Population:** We will fill the resulting cleared area with randomly placed tree models.
 
 ---
 
-## Part 0: Check for Existing Mapped Trees
+## Part 0: Check for Existing Mapped Trees (Deprecated / Future Work)
 
-**Objective:** Avoid auto-generating trees in areas where mappers have already placed individual `natural=tree` nodes, respecting their detailed work.
+**Objective:** In the future, we might want to consider manually placed `natural=tree` nodes.
 
-*   **Action:** Before processing a forest polygon for tree generation (and before road subtraction), perform a check:
-    1.  Iterate through all `natural=tree` nodes in the dataset.
-    2.  For each tree node, check if its location is inside the current forest polygon (e.g., using JTS: `forestPolygon.contains(treeNodePoint)`).
-    3.  If even one manually mapped tree is found inside, **skip the automatic population** for this entire forest polygon. The explicitly mapped trees will be rendered individually by the logic that already handles `natural=tree` nodes.
+*   **Note:** The initial idea to skip forest generation completely if manually placed trees exist proved to be flawed (a single unnoticeable tree could prevent an entire forest from rendering). Therefore, this check is currently disabled.
+*   **Future possibilities:** We may revisit this to use manual trees to influence the calculated tree density or as part of a more advanced tree placement algorithm.
 
 ---
 

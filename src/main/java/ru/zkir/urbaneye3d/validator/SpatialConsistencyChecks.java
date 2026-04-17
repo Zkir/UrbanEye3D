@@ -117,50 +117,6 @@ public class SpatialConsistencyChecks extends Test {
         return 0.0; // No height information
     }
 
-
-    private Polygon toJtsPolygon(Contour contour) {
-        if (contour.outerRings.isEmpty()) {
-            return null;
-        }
-
-        LinearRing shell = toLinearRing(contour.outerRings.get(0));
-        if (shell == null) {
-            return null;
-        }
-
-        List<LinearRing> holes = new ArrayList<>();
-        for (List<Point2D> innerRing : contour.innerRings) {
-            LinearRing hole = toLinearRing(innerRing);
-            if (hole != null) {
-                holes.add(hole);
-            }
-        }
-
-        return geometryFactory.createPolygon(shell, holes.toArray(new LinearRing[0]));
-    }
-
-    private LinearRing toLinearRing(List<Point2D> points) {
-        if (points.size() < 4) {
-            // A linear ring must have at least 4 points (the first and last must be the same)
-            return null;
-        }
-        Coordinate[] coordinates = new Coordinate[points.size()];
-        for (int i = 0; i < points.size(); i++) {
-            Point2D p = points.get(i);
-            coordinates[i] = new Coordinate(p.x, p.y);
-        }
-        
-        // Ensure the ring is closed
-        if (!coordinates[0].equals(coordinates[coordinates.length - 1])) {
-            Coordinate[] closedCoordinates = new Coordinate[coordinates.length + 1];
-            System.arraycopy(coordinates, 0, closedCoordinates, 0, coordinates.length);
-            closedCoordinates[coordinates.length] = coordinates[0];
-            coordinates = closedCoordinates;
-        }
-
-        return geometryFactory.createLinearRing(coordinates);
-    }
-
     @Override
     public void visit(Way w) {
         checkPrimitive(w);
@@ -211,7 +167,7 @@ public class SpatialConsistencyChecks extends Test {
                         //The only thing we can do is skip them for now.
                         return;
                     }
-                    Polygon partPolygon = toJtsPolygon(partContour);
+                    Polygon partPolygon = partContour.toJTSPolygon();
                     if (partPolygon != null && !partPolygon.isEmpty()) {
                         Geometry partGeom = partPolygon.buffer(0); // zero buffer heals broken geometry.
                         if (!(partGeom instanceof Polygon) ) {
@@ -227,7 +183,7 @@ public class SpatialConsistencyChecks extends Test {
 
                 if (!partPolygons.isEmpty()) {
                     Contour buildingContour = new Contour(p);
-                    Polygon buildingPolygon = toJtsPolygon(buildingContour);
+                    Polygon buildingPolygon = buildingContour.toJTSPolygon();
                     if (buildingPolygon != null && !buildingPolygon.isEmpty()) {
                         Geometry partsUnion = UnaryUnionOp.union(partPolygons); // unite parts.
                         partsUnion = partsUnion.buffer(0.001/ FlatEarth.GRAD_LENGTH_M,1); // we need to do small buffer, to avoid JTS bugs.

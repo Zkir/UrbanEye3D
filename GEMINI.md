@@ -46,13 +46,8 @@
 
 3. **Increase resolution for GroundTile/MapCSS style**.
     * Some kind of smart scaling is required, for the nearest tiles only, because it will create huge performance impact otherwise.
-    
-4. **Support forests**
-    * Since we have trees now, it would be nice to render them on `natural=wood` and `landuse=forest`
-    * We already have a plan for it: [NATURAL-WOOD.md](docs/dev/NATURAL-WOOD.md)
-    * Could be tricky, because proper implementation require subtraction of roads.
 
-5. **Support chimney/frustum**
+4. **Support chimney/frustum**
     * F4 displays chimneys (`man_made=chimney`), we currently do not. To make chimneys look realistic, we need to support 'shape=frustum', like we already support 'shape=hyperboloid'. probably explicit shape=prism should be supported too.
     
 6. **Validate overlapping 3D walls**
@@ -60,7 +55,12 @@
     * Validator check should be added to find such walls.   
     * This check could be based on finding walls which share common ways/nodes   
 
-7.  **Display MapCSS-based ground-plane regardless of selected satellite layers**    
+5. **Improve Forest Support**
+    * We have now support for `natural=wood` and `landuse=forest`, but it can be improved.
+    * What can be done: subtraction of road corridors to prevent trees from growing on highways, and considering manual trees for density calculations.
+	* We already have a plan for it: [NATURAL-WOOD.md](docs/dev/NATURAL-WOOD.md)
+
+6.  **Display MapCSS-based ground-plane regardless of selected satellite layers**    
     * Currently, 2D Ground Plane only shows up if satellite imagery is disabled. It's not realy convinient ad counter-intuitive. One may want to see sattelite in 2D window and MapCss based layer in 3D windows. 
 	* Solution can be to introduce a new switch in plugin Preferences and a keyboard shortcut to quickly turn satellite imagery on and of, if selected.
 
@@ -77,6 +77,25 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   Added a new preference setting "Show scene statistics" in the plugin settings to toggle this display.
     *   Ensured full internationalization (i18n) support for the new strings, including updated Russian translations.
     *   Calculated object and face counts efficiently during scene updates.
+
+### April 13, 2026
+
+*   **Improved Forest Generation (Poisson Disk Sampling):**
+    *   Replaced the uniform random tree placement with **Poisson Disk Sampling** using Robert Bridson's O(N) algorithm.
+    *   This ensures a more natural and organic distribution of trees, preventing unnatural clusters and overlapping trunks.
+    *   Implemented the new `PoissonDiskSampler` utility class.
+    *   Configured the minimum distance between trees to be $R = \text{DEFAULT\_TREE\_HEIGHT} / 3.0$ at maximum density, with dynamic scaling based on the user's forest density setting.
+    *   Integrated JTS `PreparedGeometry` for highly efficient point-in-polygon filtering during generation.
+
+### April 11, 2026
+
+*   **Automatic Forest Generation:**
+    *   Implemented automatic population of `natural=wood` and `landuse=forest` polygons with 3D tree models.
+    *   Integrated JTS (Java Topology Suite) for robust polygon triangulation, handling complex forest footprints with holes.
+    *   Added a "Forest density" slider to the plugin preferences, allowing users to control the tree density in real-time.
+    *   Updated `FlatEarth` utility with inverse coordinate conversion and `toJTSPolygon` helper in `Contour`.
+    *   Enhanced `SceneTest` with comprehensive unit tests for forest generation.
+    *   Updated `TagInfoGeneratorTest` and `textures.cfg` to support and document the new forest tags.
 
 ### Earlier
 See [Devblog](DEVBLOG.md)

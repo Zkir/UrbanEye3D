@@ -21,6 +21,8 @@ public class UrbanEye3dPlugin extends Plugin {
     public static final double DEFAULT_ROOF_THICKNESS = 0.25;
     public static final double DEFAULT_STEP_HEIGHT = 0.16;
     public static final boolean INHERIT_HEIGHT_FROM_PARENT = false;
+    public static final double DEFAULT_TREE_HEIGHT = 9;
+    public static final double MAX_FOREST_DENSITY = 0.05;  // trees per square meter.
 
     private static boolean f4mapMenuInitialized = false;
 

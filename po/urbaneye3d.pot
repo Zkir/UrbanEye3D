@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-14 16:57:17+0300\n"
+"POT-Creation-Date: 2026-04-17 03:55:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:45
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:66
+msgid "Adjust the density of trees in forested areas."
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:48
 msgid "Automatically download incomplete multipolygons"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:226
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:185
 msgid "Building height ({0}m) and calculated part height ({1}m) differ significantly"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:213
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:170
 msgid "Building is not fully covered by its parts"
 msgstr ""
 
@@ -42,15 +46,15 @@ msgstr ""
 msgid "Checks for tag validity for buildings and building parts."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:96
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:112
 msgid "Configure rendering options for the 3D Viewer."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:39
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:42
 msgid "Enable Ambient Occlusion Mode"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:33
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:36
 msgid "Enable wireframe rendering mode"
 msgstr ""
 
@@ -58,19 +62,23 @@ msgstr ""
 msgid "Fake AO"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:43
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:60
+msgid "Forest density"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:46
 msgid "If checked, a fake ambient occlusion effect will be applied."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:37
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:40
 msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:55
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:58
 msgid "If checked, the number of objects, faces and frame time will be displayed in the top-left corner."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:49
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:52
 msgid "If checked, the plugin will attempt to download missing members of multipolygons."
 msgstr ""
 
@@ -94,7 +102,7 @@ msgstr ""
 msgid "Open current view in F4 Map"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:237
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:195
 msgid "Orphaned building part"
 msgstr ""
 
@@ -107,11 +115,11 @@ msgstr ""
 msgid "Reset camera view to default position"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:94
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:108
 msgid "Settings for the Urban Eye 3D plugin"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:51
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:54
 msgid "Show scene statistics"
 msgstr ""
 
@@ -133,7 +141,7 @@ msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:56
 #: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:59
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:89
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:104
 msgid "Urban Eye 3D"
 msgstr ""
 

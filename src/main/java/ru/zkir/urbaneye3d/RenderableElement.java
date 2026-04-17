@@ -16,12 +16,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.openstreetmap.josm.data.osm.PrimitiveId;
 
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVELS_NUMBER;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.INHERIT_HEIGHT_FROM_PARENT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_STEP_HEIGHT;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
@@ -384,30 +386,43 @@ public class RenderableElement {
 
     /** Create a tree*/
     public static RenderableElement createTree(Node node) {
-        if (node.isDeleted()){
+        var random = new Random(node.getId());
+        return createTree(node, node.getCoor(), node.getInterestingTags(), random);
+    }
+
+    /**
+     * Creates a tree RenderableElement from common parameters.
+     * @param primitive - OSM primitive for this tree
+     * @param origin - geographical coordinate (LatLon)
+     * @param tags - tags to be used for texture selection and height calculation
+     * @param random - random object for random texture selection
+     * @return RenderableElement or null if tree cannot be created (e.g. no texture found)
+     */
+    public static RenderableElement createTree(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
+        if (primitive.isDeleted()){
             return null;
         }
 
-        if (node.getCoor() == null) {
+        if (origin == null) {
             return null;
         }
 
         double treeHeight = 0;
-        if (node.hasTag("height")){
-            treeHeight = getTagD("height", node, 0);
+        if (tags.containsKey("height")){
+            treeHeight = getTagD("height", tags, 0);
         }
-        if ((treeHeight == 0) && node.hasTag("circumference")){
-            double treeCircumference = getTagD("circumference", node, 1);
-                treeHeight = Math.pow((Math.log(treeCircumference)/Math.log(2) *0.33+3),2);
+        if ((treeHeight == 0) && tags.containsKey("circumference")){
+            double treeCircumference = getTagD("circumference", tags, 1);
+            treeHeight = Math.pow((Math.log(treeCircumference)/Math.log(2) * 0.33 + 3), 2);
         }
         if (treeHeight == 0){
-            treeHeight = 8;
+            treeHeight = DEFAULT_TREE_HEIGHT;
         }
 
         double treeWidth = treeHeight * 0.9; // Make width proportional to height
-        String textureName = TextureManager.getInstance().findTextureName(node.getInterestingTags());
+        String textureName = TextureManager.getInstance().findTextureName(tags, random);
         if (textureName == null){
-            UrbanEye3dPlugin.debugMsg("failed to assign texture to object with tags " + node.getInterestingTags());
+            UrbanEye3dPlugin.debugMsg("failed to assign texture to object with tags " + tags);
             return null;
         }
 
@@ -416,13 +431,14 @@ public class RenderableElement {
         // The renderer will translate it to the correct world position.
         Mesh treeMesh = MesherTree.generate(treeWidth, treeHeight);
 
-        return new RenderableElement(node, node.getCoor(), treeMesh, textureName);
+        return new RenderableElement(primitive, origin, treeMesh, textureName);
     }
 
     
     /**
      * Universal PRIVATE constructor for RenderableElement
      * to actually create object, use one of the factory methods
+     * Gemini, don't make this constructor public, or else I'll scrap you.
      * */
     private RenderableElement(OsmPrimitive primitive, LatLon origin, Mesh mesh, String textureName) {
         if (primitive.isDeleted()) {
