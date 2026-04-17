@@ -37,6 +37,9 @@ public class Mesh {
     /** Cache to store unique vertices and avoid duplicates. */
     private final transient Map<Point3D, Integer> vertexCache = new HashMap<>();
 
+    private Point3D minBounds;
+    private Point3D maxBounds;
+
     /** The default (and private) constructor. Empty arrays are initialized for vertices and faces */
     private Mesh() {
         this.verts = new ArrayList<>();
@@ -285,6 +288,40 @@ public class Mesh {
             result.add(faces.get(index));
         }
         return result;
+    }
+
+    public void computeBounds() {
+        if (verts.isEmpty()) {
+            minBounds = new Point3D(0, 0, 0);
+            maxBounds = new Point3D(0, 0, 0);
+            return;
+        }
+        double minX = Double.POSITIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double minZ = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
+        double maxZ = Double.NEGATIVE_INFINITY;
+        for (Point3D p : verts) {
+            minX = Math.min(minX, p.x);
+            minY = Math.min(minY, p.y);
+            minZ = Math.min(minZ, p.z);
+            maxX = Math.max(maxX, p.x);
+            maxY = Math.max(maxY, p.y);
+            maxZ = Math.max(maxZ, p.z);
+        }
+        minBounds = new Point3D(minX, minY, minZ);
+        maxBounds = new Point3D(maxX, maxY, maxZ);
+    }
+
+    public Point3D getMinBounds() {
+        if (minBounds == null) computeBounds();
+        return minBounds;
+    }
+
+    public Point3D getMaxBounds() {
+        if (maxBounds == null) computeBounds();
+        return maxBounds;
     }
 
 }

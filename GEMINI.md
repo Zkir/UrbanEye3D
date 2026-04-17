@@ -78,6 +78,14 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   Ensured full internationalization (i18n) support for the new strings, including updated Russian translations.
     *   Calculated object and face counts efficiently during scene updates.
 
+### April 17, 2026
+
+*   **Graphics Pipeline Optimization - Frustum Culling:**
+    *   Implemented **Frustum Culling** in `Renderer3D` to improve rendering performance.
+    *   Added bounding box computation to the `Mesh` class to enable efficient culling checks.
+    *   The renderer now extracts 6 frustum planes from the ModelView-Projection matrix and skips objects entirely outside the view, while still respecting the distance-based `visibleArea` culling.
+    *   This reduces the number of draw calls and vertex data transfers for complex scenes.
+
 ### April 13, 2026
 
 *   **Improved Forest Generation (Poisson Disk Sampling):**

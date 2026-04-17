@@ -263,21 +263,89 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 0, 1);
 
+        // --- Frustum Culling Setup ---
+        double[] projMatrix = new double[16];
+        double[] mvMatrix = new double[16];
+        double[] clipMatrix = new double[16];
+        gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, projMatrix, 0);
+        gl.glGetDoublev(GL2.GL_MODELVIEW_MATRIX, mvMatrix, 0);
+
+        // clipMatrix = mvMatrix * projMatrix (Note: OpenGL uses column-major, but let's be careful with multiplication order)
+        // Standard frustum extraction expects M = P * V
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                clipMatrix[j * 4 + i] = mvMatrix[j * 4 + 0] * projMatrix[0 * 4 + i] +
+                                        mvMatrix[j * 4 + 1] * projMatrix[1 * 4 + i] +
+                                        mvMatrix[j * 4 + 2] * projMatrix[2 * 4 + i] +
+                                        mvMatrix[j * 4 + 3] * projMatrix[3 * 4 + i];
+            }
+        }
+
+        double[][] frustum = new double[6][4];
+        // Extraction from clipMatrix (row-major logic for the planes)
+        // Right
+        frustum[0][0] = clipMatrix[3] - clipMatrix[0];
+        frustum[0][1] = clipMatrix[7] - clipMatrix[4];
+        frustum[0][2] = clipMatrix[11] - clipMatrix[8];
+        frustum[0][3] = clipMatrix[15] - clipMatrix[12];
+        // Left
+        frustum[1][0] = clipMatrix[3] + clipMatrix[0];
+        frustum[1][1] = clipMatrix[7] + clipMatrix[4];
+        frustum[1][2] = clipMatrix[11] + clipMatrix[8];
+        frustum[1][3] = clipMatrix[15] + clipMatrix[12];
+        // Bottom
+        frustum[2][0] = clipMatrix[3] + clipMatrix[1];
+        frustum[2][1] = clipMatrix[7] + clipMatrix[5];
+        frustum[2][2] = clipMatrix[11] + clipMatrix[9];
+        frustum[2][3] = clipMatrix[15] + clipMatrix[13];
+        // Top
+        frustum[3][0] = clipMatrix[3] - clipMatrix[1];
+        frustum[3][1] = clipMatrix[7] - clipMatrix[5];
+        frustum[3][2] = clipMatrix[11] - clipMatrix[9];
+        frustum[3][3] = clipMatrix[15] - clipMatrix[13];
+        // Far
+        frustum[4][0] = clipMatrix[3] - clipMatrix[2];
+        frustum[4][1] = clipMatrix[7] - clipMatrix[6];
+        frustum[4][2] = clipMatrix[11] - clipMatrix[10];
+        frustum[4][3] = clipMatrix[15] - clipMatrix[14];
+        // Near
+        frustum[5][0] = clipMatrix[3] + clipMatrix[2];
+        frustum[5][1] = clipMatrix[7] + clipMatrix[6];
+        frustum[5][2] = clipMatrix[11] + clipMatrix[10];
+        frustum[5][3] = clipMatrix[15] + clipMatrix[14];
+
+        for (int i = 0; i < 6; i++) {
+            double t = Math.sqrt(frustum[i][0] * frustum[i][0] + frustum[i][1] * frustum[i][1] + frustum[i][2] * frustum[i][2]);
+            frustum[i][0] /= t;
+            frustum[i][1] /= t;
+            frustum[i][2] /= t;
+            frustum[i][3] /= t;
+        }
+
         // --- Render Ground Plane Tiles ---
         LatLon mapCenter = getCameraPosition();
         for (GroundTile tile : scene.getGroundPlane().getActiveTiles()) {
-            gl.glPushMatrix();
             LatLon tileCenter = tile.bounds.getCenter();
             double dx = tileCenter.lon() - mapCenter.lon();
             double dy = tileCenter.lat() - mapCenter.lat();
             double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
             double transY = dy * 111320.0;
+
+            Mesh tileMesh = tile.getMesh();
+            Point3D minB = tileMesh.getMinBounds();
+            Point3D maxB = tileMesh.getMaxBounds();
+
+            if (!isBoxInFrustum(frustum, minB.x + transX, minB.y + transY, minB.z, maxB.x + transX, maxB.y + transY, maxB.z)) {
+                continue;
+            }
+
+            gl.glPushMatrix();
             gl.glTranslated(transX, transY, 0);
             Texture texture = tile.render(gl);
-            drawMesh(gl, tile.getMesh(), false, 0, 0, texture);
+            drawMesh(gl, tileMesh, false, 0, 0, texture);
             gl.glPopMatrix();
             objectCount += 1;
-            faceCount += tile.getMesh().faces.size();
+            faceCount += tileMesh.faces.size();
         }
 
         if ( scene.renderableElements != null && !scene.renderableElements.isEmpty()) {
@@ -290,29 +358,37 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 if (visibleArea != null && !visibleArea.contains(element.origin)) {
                     continue;
                 }
-                gl.glPushMatrix();
+
                 double dx = element.origin.lon() - mapCenter.lon();
                 double dy = element.origin.lat() - mapCenter.lat();
                 double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
                 double transY = dy * 111320.0;
-                gl.glTranslated(transX, transY, 0);
 
                 Mesh mesh = element.getMesh();
+                if (mesh == null) continue;
 
-                if (mesh != null) {
-                    if (element.textureName != null) {
-                        // It's a textured object (like a tree)
-                        Texture texture = TextureManager.getInstance().get(gl, element.textureName);
-                        if (texture != null) {
-                            drawMesh(gl, mesh, element.isSelected, 0, 0, texture);
-                        }
-                    } else {
-                        // It's a colored object (like a building)
-                        drawMesh(gl, mesh, element.isSelected, element.height, element.minHeight, null);
-                    }
-                    objectCount += 1;
-                    faceCount += mesh.faces.size();
+                Point3D minB = mesh.getMinBounds();
+                Point3D maxB = mesh.getMaxBounds();
+
+                if (!isBoxInFrustum(frustum, minB.x + transX, minB.y + transY, minB.z, maxB.x + transX, maxB.y + transY, maxB.z)) {
+                    continue;
                 }
+
+                gl.glPushMatrix();
+                gl.glTranslated(transX, transY, 0);
+
+                if (element.textureName != null) {
+                    // It's a textured object (like a tree)
+                    Texture texture = TextureManager.getInstance().get(gl, element.textureName);
+                    if (texture != null) {
+                        drawMesh(gl, mesh, element.isSelected, 0, 0, texture);
+                    }
+                } else {
+                    // It's a colored object (like a building)
+                    drawMesh(gl, mesh, element.isSelected, element.height, element.minHeight, null);
+                }
+                objectCount += 1;
+                faceCount += mesh.faces.size();
 
                 gl.glPopMatrix();
             }
@@ -629,5 +705,17 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     public boolean isNpotSupported() {
         return npotSupport;
+    }
+
+    private boolean isBoxInFrustum(double[][] frustum, double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+        for (int i = 0; i < 6; i++) {
+            if (frustum[i][0] * (frustum[i][0] > 0 ? maxX : minX) +
+                frustum[i][1] * (frustum[i][1] > 0 ? maxY : minY) +
+                frustum[i][2] * (frustum[i][2] > 0 ? maxZ : minZ) +
+                frustum[i][3] < 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
