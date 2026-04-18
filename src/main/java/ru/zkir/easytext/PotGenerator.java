@@ -61,8 +61,16 @@ public final class PotGenerator {
             }
 
             String potContent = formatPotFile(extractedStrings);
-            Files.write(outputFile, potContent.getBytes(StandardCharsets.UTF_8));
 
+            if (Files.exists(outputFile)) {
+                String existingContent = Files.readString(outputFile, StandardCharsets.UTF_8);
+                if (normalizeForComparison(potContent).equals(normalizeForComparison(existingContent))) {
+                    System.out.println(".pot file is up to date (no significant changes).");
+                    return;
+                }
+            }
+
+            Files.write(outputFile, potContent.getBytes(StandardCharsets.UTF_8));
             System.out.println("Successfully generated .pot file: " + outputFile.toAbsolutePath());
 
         } catch (IOException e) {
@@ -70,6 +78,16 @@ public final class PotGenerator {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    /**
+     * Normalizes content for comparison by removing the creation date line and 
+     * ensuring consistent line endings.
+     */
+    private static String normalizeForComparison(String content) {
+        return Stream.of(content.split("\\r?\\n"))
+                .filter(line -> !line.contains("POT-Creation-Date:"))
+                .collect(Collectors.joining("\n"));
     }
 
     private static void extractStringsFromFile(Path javaFile, Map<MsgId, List<String>> extractedStrings) throws IOException {

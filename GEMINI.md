@@ -76,6 +76,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### April 17, 2026
+
+*   The `.pot` file is now only rewritten if actual translatable strings or their locations have changed, reducing noise in Git history.
+
 ### April 10, 2026
 *  Translation into German and Russian languages updated according to users comments.
 
