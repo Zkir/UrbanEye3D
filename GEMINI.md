@@ -5,9 +5,9 @@
 *   **Definition of Done:** A task is considered DONE only when:
     * `mvn package` completes successfully without any errors.
     * Successful execution of manual test confirmed by the human.
-	* Unit test is created or at least proposed.
-	* GEMINI.md file is updated, including (but not limiting to) the following sections: *Recent Accomplishments*, *Learnings*, and if necessary, *Next Steps*.  
-	* [features.md](docs/features.md) is reviewed and updated if necessary.
+    * Unit test is created or at least proposed.
+    * GEMINI.md file is updated, including (but not limiting to) the following sections: *Recent Accomplishments*, *Learnings*, and if necessary, *Next Steps*.  
+    * [features.md](docs/features.md) is reviewed and updated if necessary.
 *   **Do not suggest git commits**. Git commits in this project are allowed for protein-based developers only.
 *   **JOSM source code** can be found in d:\UrbanEye3D\ext_sources\josm_source
 *   Use UrbanEye3dPlugin.debugMsg() for debug messages instead of System.out.println().
@@ -27,46 +27,42 @@
 #### JOSM patches to monitor
 
 * None currently   
-	
-### Nice to have in the Next Release 	
-* [**BUG**, workaround -- **50%**] Fix the **InterruptedException crash**. Exception occures in the josm mapcss engine when a worker thread is terminated. 
+    
+### Nice to have in the Next Release     
 
-       (2026-02-14 03:27:35.601 SEVERE: Exception raised in EDT: java.lang.InterruptedException
-        at org.openstreetmap.josm.gui.util.GuiHelper.runInEDTAndWait(GuiHelper.java:228)
-        at org.openstreetmap.josm.gui.NavigatableComponent.fireZoomChanged(NavigatableComponent.java:152))
-		
-    * Termination of a worker process is quite a normal thing, e.g. when the camera is moved and the ground tile is no longer needed. However, josm *prints* (sic!) exception, even without raising it forward. The issue seems to be rather cosmetic (no real harm except dirty log). 
-	* Workaround found: do not terminate a process, if it is already running, just cancell task if it have not yet started. This workaround negatevly affects performance.  It is still not clear how a proper fix in josm could look like. NavigatableComponent has STATIC global listeners.  
-	* Does this workaround affects satellite layers???
-
-
-* [BUG] Fix a funny bug with `man_made=bridge`: a linear waterway is painted above area bridge! 
-    * Is it fixable at all? Lines are drawn over polygons!	
-
+* None currently   
 
 ### Feature candidates
 
 1. **Support windows/facades**
     * Buildings with windows are nice.  This feature is present in osm2world, so we also want it. 
-	* There is a tag in osm for windows: [window=*](https://wiki.openstreetmap.org/wiki/Key:window).
+    * There is a tag in osm for windows: [window=*](https://wiki.openstreetmap.org/wiki/Key:window).
     * We want to implement "facade" feature similar to X-plane one. https://developer.x-plane.com/article/facade-creation
-	* We already have some sample facades: https://github.com/Zkir/VFR_LANDMARKS_3D_RU/blob/master/Facades
+    * We already have some sample facades: https://github.com/Zkir/VFR_LANDMARKS_3D_RU/blob/master/Facades
 
 2. **Support objects from pre-made meshes**
-    * `highway=street_light`	
-	* `amenity=bench` 
+    * `highway=street_light`    
+    * `amenity=bench` 
 
 3. **Increase resolution for GroundTile/MapCSS style**.
     * Some kind of smart scaling is required, for the nearest tiles only, because it will create huge performance impact otherwise.
-	
+    
 4. **Support forests**
     * Since we have trees now, it would be nice to render them on `natural=wood` and `landuse=forest`
-	* We already have a plan for it: [NATURAL-WOOD.md](docs/dev/NATURAL-WOOD.md)
-	* Could be tricky, because proper implementation require subtraction of roads.
+    * We already have a plan for it: [NATURAL-WOOD.md](docs/dev/NATURAL-WOOD.md)
+    * Could be tricky, because proper implementation require subtraction of roads.
 
 5. **Support chimney/frustum**
     * F4 displays chimneys (`man_made=chimney`), we currently do not. To make chimneys look realistic, we need to support 'shape=frustum', like we already support 'shape=hyperboloid'. probably explicit shape=prism should be supported too.
+    
+6. **Validate overlapping 3D walls**
+    * Coplanar walls cause flickering and look bad. 
+    * Validator check should be added to find such walls.   
+    * This check could be based on finding walls which share common ways/nodes   
 
+7.  **Display MapCSS-based ground-plane regardless of selected satellite layers**    
+    * Currently, 2D Ground Plane only shows up if satellite imagery is disabled. It's not realy convinient ad counter-intuitive. One may want to see sattelite in 2D window and MapCss based layer in 3D windows. 
+	* Solution can be to introduce a new switch in plugin Preferences and a keyboard shortcut to quickly turn satellite imagery on and of, if selected.
 
 ### Ideas for the Further Development
 
