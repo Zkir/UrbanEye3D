@@ -1,5 +1,24 @@
 # Development History
 
+## Version 2.0.0 (April 18, 2026)
+* Internationalization
+	* **i18n** infrastructure
+		* All strings in the Java code are wrapped in the `tr()` function to support translations.
+		* To collect strings and create the translation template (`.pot`), JOSM uses external tools (xgettext and the `i18n.pl` Perl script). We support this process via [i18n.bat](i18n.bat).
+		* In order to support a pure Java/Maven-compatible build and remove external dependencies, we implemented our own tooling: `ru.zkir.easytext`. It supports both sides of the process:
+			* Collecting strings from the source code and creating the `.pot` file.
+			* Compiling `.lang` files from `.po` files (Yes, JOSM uses its own format here).
+		* An autotest was created to check `.pot`/`.po` files, verify the existence of generated `.lang` files, and produce a [translation status report](docs/dev/translation-status.md).
+	* Translations
+		* Added Russian translation (AI-generated).
+		* Added Slovak translation by @aceman444.
+		* Added Italian translation (AI-generated).
+		* Added German translation (AI-generated, reviewed by @fraggle-DE).
+* Documentation	
+	* [Contributing guide](CONTRIBUTING.md) added with instructions for potential contributors.
+	* Created [documentation for the MapCSS style](src/main/resources/mapcss-styles/README.md). This document explains the design philosophy, file structure, and key technical considerations for the project's MapCSS stylesheets.
+
+
 ## Version 2.0.0 (April 01, 2026)
 
 * Required JOSM version uplifted to 19555 (released on March 31)

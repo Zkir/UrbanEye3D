@@ -66,8 +66,6 @@
 
 5. **Support chimney/frustum**
     * F4 displays chimneys (`man_made=chimney`), we currently do not. To make chimneys look realistic, we need to support 'shape=frustum', like we already support 'shape=hyperboloid'. probably explicit shape=prism should be supported too.
-	
-
 
 
 ### Ideas for the Further Development
@@ -76,41 +74,7 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
-### April 17, 2026
 
-*   The `.pot` file is now only rewritten if actual translatable strings or their locations have changed, reducing noise in Git history.
-
-### April 10, 2026
-*  Translation into German and Russian languages updated according to users comments.
-
-### April 10, 2026
-
-* Added translation into Slovak language, by @aceman444 
-* Added translation into German and Italian languages, by AI.
-
-### April 07, 2026
-
-*   **Pure Java I18n Compiler :**
-    *   Successfully replaced the Perl-based i18n compilation script (`i18n.pl`) with a 100% Java-based solution, removing external script dependencies from the build.
-    *   Developed `ru.zkir.easytext.io.PoParser` to parse `.po` and `.pot` files into memory.
-    *   Developed `ru.zkir.easytext.io.LangWriter` to compile the parsed data into binary `.lang` files, achieving byte-for-byte identity with the original script's output.
-    *   Integrated the new tool into the Maven build lifecycle using `exec-maven-plugin` on the `generate-resources` phase.
-
-*   **I18n Translation Status Reporting:**
-    *   Created `ru.zkir.urbaneye3d.I18nStatusTest.java` (a JUnit 5 test) to:
-        *   Automatically scan `.pot` and all `.po` files using `PoParser`.
-        *   Calculate and report translation coverage per language into `docs/dev/translation-status.md`.
-        *   Assert the existence of generated `.lang` files, ensuring build integrity.
-
-### April 06, 2026
-
-*   **JOSM-Style Internationalization (i18n):** Implemented a complete, JOSM-style i18n mechanism. This involved wrapping all user-facing UI strings, creating translation template (`.pot`) and language-specific (`.po`) files, and configuring the Maven build to compile them into the binary `.lang` files required by JOSM at runtime. A unit test was also added to ensure the translation files are generated correctly.
-
-* Added translation into Russian languages, by AI.
-
-### April 05, 2026
-
-*   **MapCSS Style Documentation:** Created a comprehensive `README.md` for the `src/main/resources/mapcss-styles/` directory. This document explains the design philosophy, file structure, and key technical considerations for the project's MapCSS stylesheets, including the non-obvious way JOSM handles image paths for plugins.
 
 ### Earlier
 See [Devblog](DEVBLOG.md)
