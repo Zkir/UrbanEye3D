@@ -60,7 +60,7 @@ msgstr "Zapnúť režim tienenia okolím"
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:32
 msgid "Enable wireframe rendering mode"
-msgstr "Zapnúť vykresľovanie pomocou drôtového model"
+msgstr "Zapnúť vykresľovanie pomocou drôtového modelu"
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
 msgid "Fake AO"
