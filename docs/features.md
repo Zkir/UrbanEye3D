@@ -150,6 +150,12 @@ This roof shape is particularly useful for building parts, to easily create a bu
 ![side_hipped roof example](images/side_hipped_building_example.png)
 
 
+### `side_half-hipped`
+A combination of a half-hipped and a gabled roof. One end is half-hipped (a vertical trapezoid wall topped with a small sloped roof triangle), and the other end is a full vertical gable. This is common for semi-detached houses where the whole building has a `half-hipped` roof.
+
+Only quadrangular footprints are supported. The orientation is controlled via the `roof:direction` tag. The direction value signifies the direction from the roof centroid to the half-hipped face.
+
+
 ### `half-dome`
 Half of a dome roof. Especially useful for orthodox church architecture.
 

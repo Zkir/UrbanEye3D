@@ -71,12 +71,11 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
-### April 14, 2026
-*   **Scene Statistics Overlay:**
-    *   Implemented a statistics overlay in the top-left corner of the 3D scene, displaying the number of objects, total face count, and average frame rendering time (moving average over the last 60 frames).
-    *   Added a new preference setting "Show scene statistics" in the plugin settings to toggle this display.
-    *   Ensured full internationalization (i18n) support for the new strings, including updated Russian translations.
-    *   Calculated object and face counts efficiently during scene updates.
+### April 19, 2026
+*   **Support for `side_half-hipped` Roof Shape:**
+    *   Implemented the `side_half-hipped` roof shape in `MesherSideHalfHipped`, providing a transition between a half-hipped end and a vertical gabled end.
+    *   Ensured correct slope alignment by calculating the ridge setback as `b/4` for the half-hipped side, maintaining geometric consistency with the eaves.
+    *   Fully supported `roof:direction` to allow users to specify which side should be half-hipped.
 
 ### April 17, 2026
 
@@ -85,6 +84,13 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   Added bounding box computation to the `Mesh` class to enable efficient culling checks.
     *   The renderer now extracts 6 frustum planes from the ModelView-Projection matrix and skips objects entirely outside the view, while still respecting the distance-based `visibleArea` culling.
     *   This reduces the number of draw calls and vertex data transfers for complex scenes.
+
+### April 14, 2026
+*   **Scene Statistics Overlay:**
+    *   Implemented a statistics overlay in the top-left corner of the 3D scene, displaying the number of objects, total face count, and average frame rendering time (moving average over the last 60 frames).
+    *   Added a new preference setting "Show scene statistics" in the plugin settings to toggle this display.
+    *   Ensured full internationalization (i18n) support for the new strings, including updated Russian translations.
+    *   Calculated object and face counts efficiently during scene updates.
 
 ### April 13, 2026
 

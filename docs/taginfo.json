@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260411T165335Z",
+  "data_updated" : "20260420T001007Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -318,6 +318,10 @@
     "key" : "roof:shape",
     "value" : "saltbox",
     "description" : "Generates a roof with an off-center flat top. This implementation follows the F4 map interpretation, which may differ from a classic single-ridge saltbox roof."
+  }, {
+    "key" : "roof:shape",
+    "value" : "side_half-hipped",
+    "description" : "A roof half-hipped from one side and gabled from the other. Orientation is controlled by `roof:direction`. Supported for quadrangular footprints only."
   }, {
     "key" : "roof:shape",
     "value" : "side_hipped",

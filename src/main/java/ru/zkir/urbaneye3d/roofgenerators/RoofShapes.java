@@ -13,6 +13,7 @@ public enum RoofShapes {
     SKILLION("skillion", new MesherSkillion()),
     HIPPED("hipped", new MesherHipped()),
     SIDE_HIPPED("side_hipped", new MesherSideHipped()) ,
+    SIDE_HALF_HIPPED("side_half-hipped", new MesherSideHalfHipped()),
     MANSARD("mansard", new MesherMansard()),
     GABLED("gabled", new MesherLinearProfile(LinearProfiles.GABLED)),
     ROUND("round", new MesherLinearProfile(LinearProfiles.ROUND)),
