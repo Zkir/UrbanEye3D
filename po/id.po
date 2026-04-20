@@ -1,0 +1,150 @@
+# Indonesian translation for UrbanEye3D.
+# Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the UrbanEye3D package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: UrbanEye3D\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-08 06:25:16+0300\n"
+"PO-Revision-Date: 2026-04-20 19:55+0000\n"
+"Last-Translator: FajrAl\n"
+"Language-Team: FajrAl\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:44
+msgid "Automatically download incomplete multipolygons"
+msgstr "Unduh multipoligon yang tidak lengkap secara otomatis"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:226
+msgid "Building height ({0}m) and calculated part height ({1}m) differ significantly"
+msgstr "Tinggi bangunan ({0}m) dan kalkulasi tinggi bagian bangunan ({1}m) berbeda secara signifikan"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:213
+msgid "Building is not fully covered by its parts"
+msgstr "Bangunan tidak tertutup sepenuhnya oleh bagian-bagiannya (building parts)"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:39
+msgid "Building outline should be fully covered by parts. Parts should not be orphans. Note this test may show false positives on incomplete data"
+msgstr "Garis luar bangunan harus tertutup sepenuhnya oleh bagian-bagiannya. Bagian bangunan tidak boleh berdiri sendiri (orphan). Catatan: tes ini mungkin menunjukkan hasil positif palsu pada data yang tidak lengkap"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:87
+msgid "Building part without height"
+msgstr "Bagian bangunan (building part) tanpa tag tinggi (height)"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:36
+msgid "Checks for tag validity for buildings and building parts."
+msgstr "Memeriksa validitas tag untuk bangunan dan bagian-bagian bangunan."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:86
+msgid "Configure rendering options for the 3D Viewer."
+msgstr "Atur opsi render untuk Penampil 3D."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:38
+msgid "Enable Ambient Occlusion Mode"
+msgstr "Aktifkan Mode Ambient Occlusion"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:32
+msgid "Enable wireframe rendering mode"
+msgstr "Aktifkan mode render wireframe"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
+msgid "Fake AO"
+msgstr "AO Buatan"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:42
+msgid "If checked, a fake ambient occlusion effect will be applied."
+msgstr "Jika dicentang, efek ambient occlusion buatan akan diterapkan."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:36
+msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
+msgstr "Jika dicentang, bangunan akan dirender sebagai garis-garis, bukan poligon."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:48
+msgid "If checked, the plugin will attempt to download missing members of multipolygons."
+msgstr "Jika dicentang, plugin akan mencoba mengunduh anggota multipoligon yang hilang."
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:68
+msgid "Invalid value for roof:direction: {0}"
+msgstr "Nilai tidak valid untuk roof:direction: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:78
+msgid "Invalid value for roof:orientation: {0}"
+msgstr "Nilai tidak valid untuk roof:orientation: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:58
+msgid "Missing tag: roof:shape={0} without ''roof:direction''"
+msgstr "Tag hilang: roof:shape={0} tanpa ''roof:direction''"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
+msgid "Open current view in F4 Map"
+msgstr "Buka tampilan saat ini di F4 Map"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:237
+msgid "Orphaned building part"
+msgstr "Bagian bangunan yatim (tidak terhubung ke bangunan utama)"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:17
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:18
+msgid "Reset Camera View"
+msgstr "Atur Ulang Tampilan Kamera"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:17
+msgid "Reset camera view to default position"
+msgstr "Atur ulang tampilan kamera ke posisi awal"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:84
+msgid "Settings for the Urban Eye 3D plugin"
+msgstr "Pengaturan untuk plugin Urban Eye 3D"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
+msgid "Toggle Fake AO"
+msgstr "Alihkan AO Buatan"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
+msgid "Toggle Fake AO mode"
+msgstr "Alihkan mode AO buatan"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
+msgid "Toggle Wireframe"
+msgstr "Alihkan Wireframe"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
+msgid "Toggle wireframe mode"
+msgstr "Alihkan mode wireframe"
+
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:56
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:59
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:79
+msgid "Urban Eye 3D"
+msgstr "Urban Eye 3D"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:21
+msgid "UrbanEye3D: Open in F4 Map"
+msgstr "UrbanEye3D: Buka di F4 Map"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:18
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
+msgid "UrbanEye3D: {0}"
+msgstr "UrbanEye3D: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
+msgid "View in F4Map (web)"
+msgstr "Lihat di F4Map (web)"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
+msgid "Wireframe"
+msgstr "Wireframe"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:38
+msgid "[UrbanEye3D] Building and building parts spatial consistency check"
+msgstr "[UrbanEye3D] Pemeriksaan konsistensi spasial bangunan dan bagian bangunan"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:34
+msgid "[UrbanEye3D] Tag validity checks"
+msgstr "[UrbanEye3D] Pemeriksaan validitas tag"
