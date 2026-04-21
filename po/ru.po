@@ -9,8 +9,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-06 05:51+0300\n"
 "PO-Revision-Date: 2026-04-13 03:22+0300\n"
-"Last-Translator: Gemini <gemini@google.com>\n"
-"Language-Team: Russian <LL@li.org>\n"
+"Last-Translator: Zkir\n"
+"Language-Team: Zkir <zkir@zkir.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -124,19 +124,19 @@ msgstr "Urban Eye 3D"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:35
 msgid "Enable wireframe rendering mode"
-msgstr "Включить каркасный режим отображения"
+msgstr "Каркасный режим отображения"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:37
 msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
-msgstr "Если отмечено, здания будут отображаться в виде контуров, а не сплошных полигонов."
+msgstr "Если отмечено, здания будут отображаться в виде каркасов, а не сплошных тел."
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:41
 msgid "Enable Ambient Occlusion Mode"
-msgstr "Включить режим имитации глобального затенения"
+msgstr "Глобальное затенение (имитация)"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:43
 msgid "If checked, a fake ambient occlusion effect will be applied."
-msgstr "Если отмечено, будет применен эффект имитации глобального затенения."
+msgstr "Если отмечено, будет имитироваться глобальное затенение для придания сцене более реалистичного вида."
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:47
 msgid "Automatically download incomplete multipolygons"
@@ -152,4 +152,4 @@ msgstr "Настройки плагина Urban Eye 3D"
 
 #: D:\UrbanEye3D\src\main\java\ru\zkir\urbaneye3d\UrbanEye3dPreferences.java:105
 msgid "Configure rendering options for the 3D Viewer."
-msgstr "Настроить параметры отображения для 3D-просмотрщика."
+msgstr "Настроить параметры отрисовки трехмерного мира."
