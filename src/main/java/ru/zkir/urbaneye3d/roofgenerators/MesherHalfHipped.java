@@ -1,11 +1,11 @@
 package ru.zkir.urbaneye3d.roofgenerators;
 
 import ru.zkir.urbaneye3d.BuildingRecipe;
-import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MesherHalfHipped extends RoofGenerator {
@@ -16,8 +16,7 @@ public class MesherHalfHipped extends RoofGenerator {
         double minHeight = building.minHeight;
         double wallHeight = building.wallHeight;
         double height = building.height;
-        double roofHeight= building.roofHeight;
-        String roofOrientation = building.roofOrientation;
+        double roofHeight = building.roofHeight;
 
         Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
         if (basePoints.size() != 4) {
@@ -25,124 +24,106 @@ public class MesherHalfHipped extends RoofGenerator {
             return null;
         }
 
-        int n = basePoints.size();
-
-        // --- Find the two edges which will form the gables ---
-        int[] gableEdgeIndices;
-        if ("across".equals(roofOrientation)) {
-            gableEdgeIndices = findLongestOppositeEdges(basePoints);
-        } else { // Default to "along"
-            gableEdgeIndices = findShortestEdges(basePoints);
+        // 1. Let's find the longest side.
+        int longestSideIndex = 0;
+        double maxLen = -1;
+        for (int i = 0; i < 4; i++) {
+            double len = basePoints.get(i).distance(basePoints.get((i + 1) % 4));
+            if (len > maxLen) {
+                maxLen = len;
+                longestSideIndex = i;
+            }
         }
 
-        int g1_idx0 = gableEdgeIndices[0];
-        int g1_idx1 = (g1_idx0 + 1) % n;
-        int g2_idx0 = gableEdgeIndices[1];
-        int g2_idx1 = (g2_idx0 + 1) % n;
-
-        // --- Create Vertices ---
-        // 1. Base vertices (at the bottom of the walls)
-        int baseIdx = mesh.verts.size();
-        for (Point2D p : basePoints) {
-            mesh.verts.add(new Point3D(p.x, p.y, minHeight));
+        // 2. Determine effective orientation.
+        boolean isAcross = "across".equals(building.roofOrientation);
+        if (building.roofOrientation.isEmpty() && building.roofDirection != null && !Double.isNaN(building.roofDirection)) {
+            Point2D vLong = basePoints.get(longestSideIndex).subtract(basePoints.get((longestSideIndex + 1) % 4)).normalized();
+            Point2D vShort = basePoints.get((longestSideIndex + 1) % 4).subtract(basePoints.get((longestSideIndex + 2) % 4)).normalized();
+            double d = Math.toRadians(building.roofDirection);
+            Point2D dirAcrossRidge = new Point2D(Math.sin(d), Math.cos(d));
+            if (Math.abs(dirAcrossRidge.dot(vLong)) > Math.abs(dirAcrossRidge.dot(vShort))) {
+                isAcross = true;
+            }
+        }
+        if (isAcross) {
+            longestSideIndex = (longestSideIndex + 1) % 4;
         }
 
-        // 2. Wall top vertices (at the height of the eaves)
-        int wallIdx;
+        // 3. Reorder vertices : AB and CD are parallel to the ridge, BC и DA - are gabled ends
+        List<Point2D> p = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            p.add(basePoints.get((longestSideIndex + i) % 4));
+        }
+        Point2D A = p.get(0);
+        Point2D B = p.get(1);
+        Point2D C = p.get(2);
+        Point2D D = p.get(3);
+
+        // 4. Calculate ridge parameters
+        Point2D midBC = B.add(C).mult(0.5);
+        Point2D midDA = D.add(A).mult(0.5);
+        double a = A.distance(B);
+        double b = B.distance(C);
+        double ridgeLen = Math.max(0.1, a - b / 2);
+        if (isAcross) {
+            ridgeLen = Math.max(ridgeLen, a / 3);
+        }
+        Point2D[] ridge = shortenSegment(midBC, midDA, ridgeLen / a);
+
+        // 5. Create vertices
+        int baseIdx = 0;
+        for (Point2D pt : p) {
+            mesh.verts.add(new Point3D(pt.x, pt.y, minHeight));
+        }
+
+        int wallIdx = baseIdx;
         if (wallHeight > minHeight) {
             wallIdx = mesh.verts.size();
-            for (Point2D p : basePoints) {
-                mesh.verts.add(new Point3D(p.x, p.y, wallHeight));
-            }
-        } else {
-            wallIdx = baseIdx; // Reuse base vertices if no walls
-        }
-
-        // 3. Roof ridge vertices
-        Point2D g1_p0 = basePoints.get(g1_idx0);
-        Point2D g1_p1 = basePoints.get(g1_idx1);
-        Point2D g2_p0 = basePoints.get(g2_idx0);
-        Point2D g2_p1 = basePoints.get(g2_idx1);
-
-        Point2D mid1 = g1_p0.add(g1_p1).mult(0.5);
-        Point2D mid1A= g1_p0.add(mid1).mult(0.5);
-        Point2D mid1B= g1_p1.add(mid1).mult(0.5);
-
-        Point2D mid2 = g2_p0.add(g2_p1).mult(0.5);
-        Point2D mid2A= g2_p0.add(mid2).mult(0.5);
-        Point2D mid2B= g2_p1.add(mid2).mult(0.5);
-
-        double a = g1_p0.subtract(g2_p1).length();//length of longer side
-        double b = g1_p0.subtract(g1_p1).length();//length of shorter side
-
-        double ridge_length = a-b/2;
-        if (ridge_length<0.1){
-            ridge_length = 0.1;
-        }
-
-        if ("across".equals(roofOrientation)) {
-            //nobody knows how "across" hipped roof should like.
-            // without this limit it looks like a pyramid.
-            if(ridge_length < a/3){
-                ridge_length = a/3;
+            for (Point2D pt : p) {
+                mesh.verts.add(new Point3D(pt.x, pt.y, wallHeight));
             }
         }
 
+        int r1 = mesh.verts.size();
+        mesh.verts.add(new Point3D(ridge[0].x, ridge[0].y, height));
+        int r2 = mesh.verts.size();
+        mesh.verts.add(new Point3D(ridge[1].x, ridge[1].y, height));
 
-        Point2D[] shortened_ridge = shortenSegment(mid1, mid2,ridge_length/a);
-        int ridge1Idx = mesh.verts.size();
-        mesh.verts.add(new Point3D(shortened_ridge[0].x, shortened_ridge[0].y, height));
-        int ridge2Idx = mesh.verts.size();
-        mesh.verts.add(new Point3D(shortened_ridge[1].x, shortened_ridge[1].y, height));
+        double zMid = wallHeight + roofHeight / 2;
+        int mB1 = mesh.verts.size();
+        mesh.verts.add(new Point3D(B.add(midBC).mult(0.5).x, B.add(midBC).mult(0.5).y, zMid));
+        int mC1 = mesh.verts.size();
+        mesh.verts.add(new Point3D(C.add(midBC).mult(0.5).x, C.add(midBC).mult(0.5).y, zMid));
+        int mD2 = mesh.verts.size();
+        mesh.verts.add(new Point3D(D.add(midDA).mult(0.5).x, D.add(midDA).mult(0.5).y, zMid));
+        int mA2 = mesh.verts.size();
+        mesh.verts.add(new Point3D(A.add(midDA).mult(0.5).x, A.add(midDA).mult(0.5).y, zMid));
 
-        int mid1A_idx=mesh.verts.size();
-        mesh.verts.add(new Point3D( mid1A.x, mid1A.y, wallHeight+ roofHeight/2));
-
-        int mid1B_idx=mesh.verts.size();
-        mesh.verts.add(new Point3D( mid1B.x, mid1B.y, wallHeight+ roofHeight/2));
-
-        int mid2A_idx=mesh.verts.size();
-        mesh.verts.add(new Point3D( mid2A.x, mid2A.y, wallHeight+ roofHeight/2));
-
-        int mid2B_idx=mesh.verts.size();
-        mesh.verts.add(new Point3D( mid2B.x, mid2B.y, wallHeight+ roofHeight/2));
-
-        // --- Create Faces ---
-        // Find the indices of the vertices that form the eave walls
-
+        // 6. Create faces
         // Create Walls only if they have height
         if (wallHeight > minHeight) {
-            // Create Eave Walls (Quads)
-            mesh.addWallFace(new int[]{baseIdx + g1_idx1, baseIdx + g2_idx0, wallIdx + g2_idx0, wallIdx + g1_idx1});
-            mesh.addWallFace(new int[]{baseIdx + g2_idx1, baseIdx + g1_idx0, wallIdx + g1_idx0, wallIdx + g2_idx1});
-
-            // Create Gable Walls (also Quads for half-hipped)
-            mesh.addWallFace(new int[]{baseIdx + g1_idx0, baseIdx + g1_idx1, wallIdx + g1_idx1,  wallIdx + g1_idx0});
-            mesh.addWallFace(new int[]{baseIdx + g2_idx0, baseIdx + g2_idx1, wallIdx + g2_idx1,  wallIdx + g2_idx0});
-
+            // Create walls (Quads)
+            mesh.addWallFace(new int[]{baseIdx + 0, baseIdx + 1, wallIdx + 1, wallIdx + 0});
+            mesh.addWallFace(new int[]{baseIdx + 1, baseIdx + 2, wallIdx + 2, wallIdx + 1});
+            mesh.addWallFace(new int[]{baseIdx + 2, baseIdx + 3, wallIdx + 3, wallIdx + 2});
+            mesh.addWallFace(new int[]{baseIdx + 3, baseIdx + 0, wallIdx + 0, wallIdx + 3});
         }
-        
+
         // And one more pair of walls -- trapezoids. those walls are above z1=wallHeight, so they are created always.
-        mesh.addWallFace(ra(new int[]{ wallIdx + g1_idx1,  wallIdx + g1_idx0, mid1A_idx, mid1B_idx}));
-        mesh.addWallFace(ra(new int[]{ wallIdx + g2_idx1,  wallIdx + g2_idx0, mid2A_idx, mid2B_idx}));
+        mesh.addWallFace(new int[]{wallIdx + 1, wallIdx + 2, mC1, mB1}); // BC "gabled" side
+        mesh.addWallFace(new int[]{wallIdx + 3, wallIdx + 0, mA2, mD2}); // DA "gabled" side
 
         //Create Roof Planes (Triangles)
-        mesh.addRoofFace(new int[]{ mid1B_idx, ridge1Idx, mid1A_idx});
-        mesh.addRoofFace(new int[]{ mid2B_idx, ridge2Idx, mid2A_idx});
+        mesh.addRoofFace(new int[]{mC1, r1, mB1});
+        mesh.addRoofFace(new int[]{mA2, r2, mD2});
 
-
-        // Create Roof Planes (Hexagons?)
-        mesh.addRoofFace(new int[]{wallIdx + g1_idx1, wallIdx + g2_idx0, mid2A_idx, ridge2Idx, ridge1Idx, mid1B_idx});
-        mesh.addRoofFace(new int[]{wallIdx + g2_idx1, wallIdx + g1_idx0, mid1A_idx, ridge1Idx, ridge2Idx, mid2B_idx});
+        // Create Roof Planes (Hexagons!)
+        mesh.addRoofFace(new int[]{wallIdx + 0, wallIdx + 1, mB1, r1, r2, mA2}); // plane AB
+        mesh.addRoofFace(new int[]{wallIdx + 2, wallIdx + 3, mD2, r2, r1, mC1}); // plane CD
 
         // Create bottom face
-        int[] bottomFace = new int[n];
-        for (int i = 0; i < n; i++) {
-            bottomFace[i] = baseIdx + n - 1 - i; // Reverse order for correct normal
-        }
-        mesh.addBottomFace(bottomFace);
-
+        mesh.addBottomFace(new int[]{baseIdx + 0, baseIdx + 3, baseIdx + 2, baseIdx + 1});
         return mesh;
     }
-
 }
