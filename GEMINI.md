@@ -70,6 +70,25 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### April 24, 2026
+*   **Significantly improved the `OverlappingWallsCheck` validator accuracy.**
+    *   Implemented a "visibility check" logic: the validator now ignores overlaps for walls that are completely hidden inside a building (e.g., when two building parts are joined "back-to-back"). This eliminates a large class of false positive warnings.
+    *   Added protection against incomplete data: the validator now automatically skips buildings with missing geometry, preventing incorrect reports caused by partially loaded OSM data.
+    *   Refined wall height calculations to account for non-flat roofs, ensuring that sloped roof edges do not trigger false Z-fighting errors.
+    *   Verified the stability of the entire project with 54 automated tests, all of which passed successfully.
+
+### April 20, 2026
+* **Implemented `OverlappingWallsCheck` validator.**
+    * New validator detects coplanar 3D walls that cause Z-fighting (flickering).
+    * The algorithm uses oriented segments and Z-height ranges to distinguish between actual overlaps and valid touching walls.
+
+
+### April 22, 2026
+*   **Full Internationalization (i18n) Update:**
+    *   Updated all `.po` files (`ru.po`, `de.po`, `it.po`, `sk.po`, `id.po`) to achieve 100% translation coverage.
+    *   Added translations for new forest density settings and scene statistics display across all supported languages.
+    *   Ensured consistent use of terminology for 3D graphics context (e.g., "Sisi" for "Faces" in Indonesian).
+    *   Verified the update using `I18nStatusTest` and confirmed successful binary `.lang` file generation during the build.
 
 ### April 22, 2026
 *   **Full Internationalization (i18n) Update:**
@@ -85,7 +104,6 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   Fully supported `roof:direction` to allow users to specify which side should be half-hipped.
 
 ### April 17, 2026
-
 *   **Graphics Pipeline Optimization - Frustum Culling:**
     *   Implemented **Frustum Culling** in `Renderer3D` to improve rendering performance.
     *   Added bounding box computation to the `Mesh` class to enable efficient culling checks.
@@ -100,7 +118,6 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   Calculated object and face counts efficiently during scene updates.
 
 ### April 13, 2026
-
 *   **Improved Forest Generation (Poisson Disk Sampling):**
     *   Replaced the uniform random tree placement with **Poisson Disk Sampling** using Robert Bridson's O(N) algorithm.
     *   This ensures a more natural and organic distribution of trees, preventing unnatural clusters and overlapping trunks.
@@ -109,7 +126,6 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   Integrated JTS `PreparedGeometry` for highly efficient point-in-polygon filtering during generation.
 
 ### April 11, 2026
-
 *   **Automatic Forest Generation:**
     *   Implemented automatic population of `natural=wood` and `landuse=forest` polygons with 3D tree models.
     *   Integrated JTS (Java Topology Suite) for robust polygon triangulation, handling complex forest footprints with holes.

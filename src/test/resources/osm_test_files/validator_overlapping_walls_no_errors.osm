@@ -1,0 +1,369 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <bounds minlat='51.7077426' minlon='-0.3671878' maxlat='51.7083124' maxlon='-0.365935' origin='openstreetmap-cgimap 2.1.0 (1707609 spike-07.openstreetmap.org)' />
+  <node id='-126911' action='modify' visible='true' lat='51.70796937086' lon='-0.36695908216' />
+  <node id='-126913' action='modify' visible='true' lat='51.70793117075' lon='-0.36688498216' />
+  <node id='-126914' action='modify' visible='true' lat='51.70788207062' lon='-0.36695078216' />
+  <node id='-126915' action='modify' visible='true' lat='51.70792027072' lon='-0.36702498216' />
+  <node id='-127004' action='modify' visible='true' lat='51.70787073889' lon='-0.36677103248' />
+  <node id='-127029' action='modify' visible='true' lat='51.70787012012' lon='-0.36641469252' />
+  <node id='-127054' action='modify' visible='true' lat='51.70777368845' lon='-0.3664151286' />
+  <node id='-127091' action='modify' visible='true' lat='51.70777430722' lon='-0.36677146855' />
+  <node id='-127274' action='modify' visible='true' lat='51.70786825979' lon='-0.36674543427' />
+  <node id='-127293' action='modify' visible='true' lat='51.70786825979' lon='-0.36672834554' />
+  <node id='-127324' action='modify' visible='true' lat='51.70785437736' lon='-0.36671994201' />
+  <node id='-127373' action='modify' visible='true' lat='51.70785443622' lon='-0.36675383886' />
+  <node id='-127723' action='modify' visible='true' lat='51.70786776061' lon='-0.36667483806' />
+  <node id='-127724' action='modify' visible='true' lat='51.70786776061' lon='-0.36665774934' />
+  <node id='-127725' action='modify' visible='true' lat='51.70785425476' lon='-0.36664933948' />
+  <node id='-127726' action='modify' visible='true' lat='51.70785431361' lon='-0.36668323406' />
+  <node id='-127843' action='modify' visible='true' lat='51.70786871565' lon='-0.36660158106' />
+  <node id='-127844' action='modify' visible='true' lat='51.70786871565' lon='-0.36658449233' />
+  <node id='-127845' action='modify' visible='true' lat='51.70785412758' lon='-0.36657610114' />
+  <node id='-127846' action='modify' visible='true' lat='51.70785418644' lon='-0.36660999571' />
+  <node id='-127907' action='modify' visible='true' lat='51.70786767407' lon='-0.36652930414' />
+  <node id='-127908' action='modify' visible='true' lat='51.70786767407' lon='-0.36651221541' />
+  <node id='-127909' action='modify' visible='true' lat='51.70785400206' lon='-0.36650381331' />
+  <node id='-127910' action='modify' visible='true' lat='51.70785406091' lon='-0.36653770788' />
+  <node id='-127995' action='modify' visible='true' lat='51.70786802127' lon='-0.3664615095' />
+  <node id='-127996' action='modify' visible='true' lat='51.70786802127' lon='-0.36644442077' />
+  <node id='-127997' action='modify' visible='true' lat='51.70785388434' lon='-0.36643601889' />
+  <node id='-127998' action='modify' visible='true' lat='51.7078539432' lon='-0.36646991561' />
+  <node id='-128091' action='modify' visible='true' lat='51.70787061176' lon='-0.36669781944' />
+  <node id='-128273' action='modify' visible='true' lat='51.70785433908' lon='-0.36669789681' />
+  <node id='-128316' action='modify' visible='true' lat='51.70788754092' lon='-0.36669771841' />
+  <node id='-128359' action='modify' visible='true' lat='51.70788717413' lon='-0.36648649079' />
+  <node id='-128390' action='modify' visible='true' lat='51.70785397229' lon='-0.36648666919' />
+  <node id='-128669' action='modify' visible='true' lat='51.7078544662' lon='-0.36677110607' />
+  <node id='-128760' action='modify' visible='true' lat='51.70785384743' lon='-0.36641476611' />
+  <node id='-130281' action='modify' visible='true' lat='51.70787021262' lon='-0.36648665186' />
+  <node id='59102630' timestamp='2015-11-03T11:15:34Z' uid='6367' user='mackerski' visible='true' version='5' changeset='35053604' lat='51.7057248' lon='-0.3687124'>
+    <tag k='direction' v='clockwise' />
+    <tag k='highway' v='mini_roundabout' />
+  </node>
+  <node id='349205013' timestamp='2025-02-21T03:50:11Z' uid='13792107' user='LordGarySugar' visible='true' version='4' changeset='162763632' lat='51.7084103' lon='-0.3671451' />
+  <node id='1988551796' timestamp='2025-02-21T03:50:11Z' uid='13792107' user='LordGarySugar' visible='true' version='3' changeset='162763632' lat='51.7083145' lon='-0.3672761' />
+  <node id='1988551801' timestamp='2025-02-21T03:50:11Z' uid='13792107' user='LordGarySugar' visible='true' version='3' changeset='162763632' lat='51.7081899' lon='-0.3667253' />
+  <node id='1988551805' timestamp='2025-02-21T03:50:11Z' uid='13792107' user='LordGarySugar' visible='true' version='3' changeset='162763632' lat='51.7080941' lon='-0.3668562' />
+  <node id='8904319837' timestamp='2024-12-26T15:11:52Z' uid='953779' user='Adam Edwards' visible='true' version='5' changeset='160641505' lat='51.7126779' lon='-0.3738823'>
+    <tag k='crossing' v='unmarked' />
+    <tag k='crossing:island' v='no' />
+    <tag k='crossing:markings' v='no' />
+    <tag k='highway' v='crossing' />
+    <tag k='tactile_paving' v='yes' />
+  </node>
+  <node id='12410087976' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='3' changeset='173860983' lat='51.7080893' lon='-0.3668207' />
+  <node id='12410087977' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='3' changeset='173860983' lat='51.7079708' lon='-0.3665907' />
+  <node id='12410087978' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='3' changeset='173860983' lat='51.7080199' lon='-0.3665249' />
+  <node id='12410087979' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='3' changeset='173860983' lat='51.7081384' lon='-0.3667549' />
+  <node id='12606079284' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='2' changeset='173860983' lat='51.7080894' lon='-0.3666597' />
+  <node id='12606079285' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='2' changeset='173860983' lat='51.7081324' lon='-0.366602' />
+  <node id='12606079286' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='2' changeset='173860983' lat='51.7081004' lon='-0.3665397' />
+  <node id='12606079287' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='2' changeset='173860983' lat='51.7080573' lon='-0.3665975' />
+  <node id='12606079292' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.708366' lon='-0.3667086' />
+  <node id='12606079293' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7084008' lon='-0.366661' />
+  <node id='12606079294' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7083323' lon='-0.3665305' />
+  <node id='12606079295' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7081855' lon='-0.3665843' />
+  <node id='12606079296' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.708265' lon='-0.3664756' />
+  <node id='12606079297' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7083099' lon='-0.3665612' />
+  <node id='12606079298' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7082304' lon='-0.3666699' />
+  <node id='12606079299' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7084899' lon='-0.3670603' />
+  <node id='12606079300' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7085365' lon='-0.3669966' />
+  <node id='12606079301' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7083841' lon='-0.3667063' />
+  <node id='12606079302' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7083375' lon='-0.36677' />
+  <node id='12606079303' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7083729' lon='-0.3667217' />
+  <node id='12606079304' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7083316' lon='-0.366778' />
+  <node id='12606079305' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7082767' lon='-0.3666734' />
+  <node id='12606079306' timestamp='2025-02-21T03:50:08Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='162763632' lat='51.7082103' lon='-0.3667642' />
+  <node id='12606079307' timestamp='2026-04-20T00:56:50Z' uid='100812' user='Zkir' visible='true' version='2' changeset='181559420' lat='51.70829725312' lon='-0.36657875851' />
+  <node id='13264060588' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='173860983' lat='51.7080464' lon='-0.3667375' />
+  <node id='13264060589' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='173860983' lat='51.7080955' lon='-0.3666716' />
+  <node id='13264060590' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='173860983' lat='51.7080082' lon='-0.3666633' />
+  <way id='-16139' action='modify' visible='true'>
+    <nd ref='-126911' />
+    <nd ref='-126913' />
+    <nd ref='-126914' />
+    <nd ref='-126915' />
+    <nd ref='-126911' />
+  </way>
+  <way id='-16176' action='modify' visible='true'>
+    <nd ref='-128091' />
+    <nd ref='-128316' />
+    <nd ref='-128359' />
+    <nd ref='-130281' />
+  </way>
+  <way id='-16201' action='modify' visible='true'>
+    <nd ref='-127274' />
+    <nd ref='-127293' />
+    <nd ref='-127324' />
+    <nd ref='-127373' />
+    <nd ref='-127274' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='8' />
+  </way>
+  <way id='-16307' action='modify' visible='true'>
+    <nd ref='-127723' />
+    <nd ref='-127724' />
+    <nd ref='-127725' />
+    <nd ref='-127726' />
+    <nd ref='-127723' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='8' />
+  </way>
+  <way id='-16375' action='modify' visible='true'>
+    <nd ref='-127843' />
+    <nd ref='-127844' />
+    <nd ref='-127845' />
+    <nd ref='-127846' />
+    <nd ref='-127843' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='8' />
+  </way>
+  <way id='-16400' action='modify' visible='true'>
+    <nd ref='-127907' />
+    <nd ref='-127908' />
+    <nd ref='-127909' />
+    <nd ref='-127910' />
+    <nd ref='-127907' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='8' />
+  </way>
+  <way id='-16435' action='modify' visible='true'>
+    <nd ref='-127995' />
+    <nd ref='-127996' />
+    <nd ref='-127997' />
+    <nd ref='-127998' />
+    <nd ref='-127995' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='8' />
+  </way>
+  <way id='-16655' action='modify' visible='true'>
+    <nd ref='-128390' />
+    <nd ref='-127909' />
+    <nd ref='-127910' />
+    <nd ref='-127845' />
+    <nd ref='-127846' />
+    <nd ref='-127725' />
+    <nd ref='-127726' />
+    <nd ref='-128273' />
+  </way>
+  <way id='-16670' action='modify' visible='true'>
+    <nd ref='-128273' />
+    <nd ref='-127324' />
+    <nd ref='-127373' />
+    <nd ref='-128669' />
+  </way>
+  <way id='-16675' action='modify' visible='true'>
+    <nd ref='-128390' />
+    <nd ref='-127998' />
+    <nd ref='-127997' />
+    <nd ref='-128760' />
+  </way>
+  <way id='-17111' action='modify' visible='true'>
+    <nd ref='-128760' />
+    <nd ref='-127054' />
+    <nd ref='-127091' />
+    <nd ref='-128669' />
+  </way>
+  <way id='-17128' action='modify' visible='true'>
+    <nd ref='-128273' />
+    <nd ref='-128091' />
+    <nd ref='-128316' />
+    <nd ref='-128359' />
+    <nd ref='-130281' />
+    <nd ref='-128390' />
+  </way>
+  <way id='-17165' action='modify' visible='true'>
+    <nd ref='-128091' />
+    <nd ref='-130281' />
+  </way>
+  <way id='-17168' action='modify' visible='true'>
+    <nd ref='-128669' />
+    <nd ref='-127004' />
+    <nd ref='-128091' />
+  </way>
+  <way id='-17170' action='modify' visible='true'>
+    <nd ref='-130281' />
+    <nd ref='-127029' />
+    <nd ref='-128760' />
+  </way>
+  <way id='188232969' timestamp='2025-12-04T12:05:04Z' uid='7096975' user='Peter Newman' visible='true' version='11' changeset='175489089'>
+    <nd ref='349205013' />
+    <nd ref='1988551796' />
+    <nd ref='1988551805' />
+    <nd ref='1988551801' />
+    <nd ref='12606079306' />
+    <nd ref='349205013' />
+    <tag k='building' v='retail' />
+    <tag k='building:levels' v='2' />
+    <tag k='roof:levels' v='1' />
+    <tag k='roof:shape' v='gabled' />
+  </way>
+  <way id='1341612365' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='6' changeset='173860983'>
+    <nd ref='13264060589' />
+    <nd ref='12606079284' />
+    <nd ref='12606079285' />
+    <nd ref='12606079286' />
+    <nd ref='12606079287' />
+    <nd ref='13264060590' />
+    <nd ref='13264060588' />
+    <nd ref='13264060589' />
+    <tag k='addr:city' v='St Albans' />
+    <tag k='addr:housenumber' v='123,125' />
+    <tag k='addr:street' v='Oakwood Road' />
+    <tag k='building' v='apartments' />
+    <tag k='building:levels' v='2' />
+    <tag k='roof:levels' v='1' />
+    <tag k='roof:shape' v='gabled' />
+  </way>
+  <way id='1361600706' timestamp='2026-04-20T00:56:50Z' uid='100812' user='Zkir' visible='true' version='2' changeset='181559420'>
+    <nd ref='12606079307' />
+    <nd ref='12606079292' />
+    <nd ref='12606079293' />
+    <nd ref='12606079294' />
+    <nd ref='12606079297' />
+    <nd ref='12606079307' />
+    <tag k='building' v='yes' />
+  </way>
+  <way id='1361600707' timestamp='2026-04-20T00:56:50Z' uid='100812' user='Zkir' visible='true' version='2' changeset='181559420'>
+    <nd ref='12606079298' />
+    <nd ref='12606079307' />
+    <nd ref='12606079297' />
+    <nd ref='12606079296' />
+    <nd ref='12606079295' />
+    <nd ref='12606079298' />
+    <tag k='building' v='garages' />
+  </way>
+  <way id='1361600708' timestamp='2026-04-20T00:56:50Z' uid='100812' user='Zkir' visible='true' version='4' changeset='181559420'>
+    <nd ref='1988551801' />
+    <nd ref='12606079306' />
+    <nd ref='12606079305' />
+    <nd ref='12606079304' />
+    <nd ref='12606079302' />
+    <nd ref='12606079299' />
+    <nd ref='12606079300' />
+    <nd ref='12606079301' />
+    <nd ref='12606079303' />
+    <nd ref='12606079292' />
+    <nd ref='12606079307' />
+    <nd ref='12606079298' />
+    <nd ref='1988551801' />
+    <tag k='addr:city' v='St Albans' />
+    <tag k='addr:postcode' v='AL2 3PP' />
+    <tag k='building' v='yes' />
+    <tag k='ref:GB:uprn' v='10024115130;10024115129;10024115128' />
+  </way>
+  <way id='1445650982' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='173860983'>
+    <nd ref='12606079285' />
+    <nd ref='12606079284' />
+    <nd ref='12606079287' />
+    <nd ref='12606079286' />
+    <nd ref='12606079285' />
+    <tag k='building:levels' v='1' />
+    <tag k='building:part' v='yes' />
+    <tag k='roof:shape' v='flat' />
+  </way>
+  <way id='1445650983' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='173860983'>
+    <nd ref='13264060589' />
+    <nd ref='12606079284' />
+    <nd ref='12606079287' />
+    <nd ref='13264060590' />
+    <nd ref='13264060588' />
+    <nd ref='13264060589' />
+    <tag k='building:levels' v='2' />
+    <tag k='building:part' v='yes' />
+    <tag k='roof:orientation' v='across' />
+    <tag k='roof:shape' v='gabled' />
+  </way>
+  <way id='1445650984' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='173860983'>
+    <nd ref='13264060588' />
+    <nd ref='12410087976' />
+    <nd ref='12410087979' />
+    <nd ref='13264060589' />
+    <nd ref='13264060588' />
+    <tag k='addr:city' v='St Albans' />
+    <tag k='addr:housenumber' v='119,121' />
+    <tag k='addr:street' v='Oakwood Road' />
+    <tag k='building' v='apartments' />
+    <tag k='building:levels' v='2' />
+    <tag k='roof:direction' v='310' />
+    <tag k='roof:levels' v='1' />
+    <tag k='roof:shape' v='side_half-hipped' />
+  </way>
+  <way id='1445650985' timestamp='2025-10-27T23:43:20Z' uid='13792107' user='LordGarySugar' visible='true' version='1' changeset='173860983'>
+    <nd ref='12606079287' />
+    <nd ref='12410087978' />
+    <nd ref='12410087977' />
+    <nd ref='13264060590' />
+    <nd ref='12606079287' />
+    <tag k='addr:city' v='St Albans' />
+    <tag k='addr:housenumber' v='127,129' />
+    <tag k='addr:street' v='Oakwood Road' />
+    <tag k='building' v='apartments' />
+    <tag k='building:levels' v='2' />
+    <tag k='roof:direction' v='130' />
+    <tag k='roof:levels' v='1' />
+    <tag k='roof:shape' v='side_half-hipped' />
+  </way>
+  <relation id='-2734' action='modify' visible='true'>
+    <member type='way' ref='-16139' role='outer' />
+    <tag k='building' v='yes' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+  <relation id='-2756' action='modify' visible='true'>
+    <member type='way' ref='-16139' role='outer' />
+    <tag k='building:part' v='yes' />
+    <tag k='description' v='крыша первого этажа загибается внутрь' />
+    <tag k='height' v='10' />
+    <tag k='roof:height' v='3' />
+    <tag k='roof:shape' v='hipped' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+  <relation id='-2826' action='modify' visible='true'>
+    <member type='way' ref='-16139' role='outer' />
+    <tag k='building:part' v='yes' />
+    <tag k='description' v='Грани этой части находятся в диапазоне высот основания, но поскольку крыша основания загибается, грани не пересекаются' />
+    <tag k='height' v='9' />
+    <tag k='min_height' v='7' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+  <relation id='-3224' action='modify' visible='true'>
+    <member type='way' ref='-17170' role='outer' />
+    <member type='way' ref='-16176' role='outer' />
+    <member type='way' ref='-17168' role='outer' />
+    <member type='way' ref='-17111' role='outer' />
+    <tag k='building' v='yes' />
+    <tag k='description' v='This is a real example of overlapping, but invisible faces.' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+  <relation id='-3260' action='modify' visible='true'>
+    <member type='way' ref='-17128' role='outer' />
+    <member type='way' ref='-16655' role='outer' />
+    <tag k='building:colour' v='green' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='5' />
+    <tag k='min_height' v='4' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+  <relation id='-3288' action='modify' visible='true'>
+    <member type='way' ref='-16675' role='outer' />
+    <member type='way' ref='-17111' role='outer' />
+    <member type='way' ref='-16670' role='outer' />
+    <member type='way' ref='-16655' role='outer' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='10' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+  <relation id='-3391' action='modify' visible='true'>
+    <member type='way' ref='-17170' role='outer' />
+    <member type='way' ref='-17165' role='outer' />
+    <member type='way' ref='-17168' role='outer' />
+    <member type='way' ref='-16670' role='outer' />
+    <member type='way' ref='-16655' role='outer' />
+    <member type='way' ref='-16675' role='outer' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='10' />
+    <tag k='min_height' v='8' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+</osm>

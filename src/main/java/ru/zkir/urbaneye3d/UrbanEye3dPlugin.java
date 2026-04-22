@@ -6,6 +6,7 @@ import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
 import ru.zkir.urbaneye3d.josmactions.OpenF4MapAction;
+import ru.zkir.urbaneye3d.validator.OverlappingWallsCheck;
 import ru.zkir.urbaneye3d.validator.SpatialConsistencyChecks;
 import ru.zkir.urbaneye3d.validator.TagChecks;
 
@@ -30,6 +31,7 @@ public class UrbanEye3dPlugin extends Plugin {
         super(info);
         OsmValidator.addTest(SpatialConsistencyChecks.class);
         OsmValidator.addTest(TagChecks.class);
+        OsmValidator.addTest(OverlappingWallsCheck.class);
     }
     
     public static DialogWindow3D get3DWindow() {

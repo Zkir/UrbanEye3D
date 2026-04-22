@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <node id='-45664' action='modify' visible='true' lat='47.83772560966' lon='17.56131818696' />
+  <node id='-45666' action='modify' visible='true' lat='47.83691708565' lon='17.56356289605' />
+  <node id='-45667' action='modify' visible='true' lat='47.83689127516' lon='17.56133968502' />
+  <node id='-45669' action='modify' visible='true' lat='47.83773828715' lon='17.56241019211' />
+  <node id='-45670' action='modify' visible='true' lat='47.83690333047' lon='17.56237808042' />
+  <node id='-45679' action='modify' visible='true' lat='47.83691168441' lon='17.56309619168'>
+    <tag k='fixme' v='this side does not show flashing overlapping sides, even though they overlap. Would be useful if the plugin reported this.' />
+  </node>
+  <node id='-45686' action='modify' visible='true' lat='47.83775141973' lon='17.56354139799'>
+    <tag k='fixme' v='this side shows flashing overlapping sides properly' />
+  </node>
+  <node id='-45899' action='modify' visible='true' lat='47.83611523732' lon='17.56085156858' />
+  <node id='-45900' action='modify' visible='true' lat='47.83638343327' lon='17.56105989847' />
+  <node id='-45901' action='modify' visible='true' lat='47.83625751931' lon='17.5614196513' />
+  <node id='-45903' action='modify' visible='true' lat='47.83607715068' lon='17.56087981056' />
+  <node id='-45905' action='modify' visible='true' lat='47.8360438378' lon='17.56091923219' />
+  <node id='-45907' action='modify' visible='true' lat='47.83601675462' lon='17.56096811058' />
+  <node id='-45911' action='modify' visible='true' lat='47.83598568805' lon='17.56108537276'>
+    <tag k='fixme' v='this side shows flashing overlapping sides properly' />
+  </node>
+  <node id='-45913' action='modify' visible='true' lat='47.83598306243' lon='17.56114863164' />
+  <node id='-45915' action='modify' visible='true' lat='47.83598932271' lon='17.5612113214' />
+  <node id='-45917' action='modify' visible='true' lat='47.83600419528' lon='17.56127070222' />
+  <node id='-45919' action='modify' visible='true' lat='47.83602703014' lon='17.56132417885' />
+  <node id='-45921' action='modify' visible='true' lat='47.83605682927' lon='17.56136941412' />
+  <node id='-45923' action='modify' visible='true' lat='47.83609229031' lon='17.56140443102' />
+  <node id='-45925' action='modify' visible='true' lat='47.83613186342' lon='17.56142769915' />
+  <node id='-45927' action='modify' visible='true' lat='47.83617381907' lon='17.56143820158' />
+  <node id='-45929' action='modify' visible='true' lat='47.83621632358' lon='17.5614354793' />
+  <node id='-45931' action='modify' visible='true' lat='47.83629560581' lon='17.56139140932' />
+  <node id='-45933' action='modify' visible='true' lat='47.83632891853' lon='17.56135198768' />
+  <node id='-45935' action='modify' visible='true' lat='47.83635600155' lon='17.5613031093' />
+  <node id='-45937' action='modify' visible='true' lat='47.83637567123' lon='17.56124691039' />
+  <node id='-45939' action='modify' visible='true' lat='47.83638706791' lon='17.56118584712' />
+  <node id='-45941' action='modify' visible='true' lat='47.8363896935' lon='17.56112258824' />
+  <node id='-45943' action='modify' visible='true' lat='47.83636856081' lon='17.56100051766' />
+  <node id='-45945' action='modify' visible='true' lat='47.8363457261' lon='17.56094704103' />
+  <node id='-45947' action='modify' visible='true' lat='47.83631592713' lon='17.56090180576' />
+  <node id='-45949' action='modify' visible='true' lat='47.83628046625' lon='17.56086678886' />
+  <node id='-45951' action='modify' visible='true' lat='47.83624089325' lon='17.56084352073' />
+  <node id='-45953' action='modify' visible='true' lat='47.83619893766' lon='17.5608330183' />
+  <node id='-45955' action='modify' visible='true' lat='47.83615643313' lon='17.56083574057' />
+  <node id='-45957' action='modify' visible='true' lat='47.83634479049' lon='17.56059005722' />
+  <node id='-45958' action='modify' visible='true' lat='47.83620075555' lon='17.5619512783' />
+  <node id='-45959' action='modify' visible='true' lat='47.83590458245' lon='17.56185874209' />
+  <node id='-45960' action='modify' visible='true' lat='47.83605672021' lon='17.56049886212' />
+  <node id='-45995' action='modify' visible='true' lat='47.83599708481' lon='17.56102430949' />
+  <node id='-46032' action='modify' visible='true' lat='47.83729936807' lon='17.55854338748' />
+  <node id='-46033' action='modify' visible='true' lat='47.8372968673' lon='17.56016609311' />
+  <node id='-46034' action='modify' visible='true' lat='47.83660367168' lon='17.56016372211' />
+  <node id='-46035' action='modify' visible='true' lat='47.83660617248' lon='17.55854101648' />
+  <node id='-46036' action='modify' visible='true' lat='47.83729845447' lon='17.55913620256' />
+  <node id='-46037' action='modify' visible='true' lat='47.83660525888' lon='17.55913383156' />
+  <node id='-46039' action='modify' visible='true' lat='47.83729770224' lon='17.55962431524' />
+  <node id='-46040' action='modify' visible='true' lat='47.83660450663' lon='17.55962194423' />
+  <node id='-46070' action='modify' visible='true' lat='47.83850911204' lon='17.55957485995' />
+  <node id='-46071' action='modify' visible='true' lat='47.83816621774' lon='17.55967300236' />
+  <node id='-46072' action='modify' visible='true' lat='47.83824037211' lon='17.56024804917' />
+  <node id='-46073' action='modify' visible='true' lat='47.83858326591' lon='17.56014990675' />
+  <node id='-46076' action='modify' visible='true' lat='47.83854643966' lon='17.55986432726' />
+  <node id='-46077' action='modify' visible='true' lat='47.83820354561' lon='17.55996246967' />
+  <node id='-46078' action='modify' visible='true' lat='47.8382182986' lon='17.56007687508' />
+  <node id='-46079' action='modify' visible='true' lat='47.83856086626' lon='17.55997620239' />
+  <node id='-46080' action='modify' visible='true' lat='47.83857345142' lon='17.56007379747' />
+  <node id='-46081' action='modify' visible='true' lat='47.83823115989' lon='17.56017661093' />
+  <way id='-17099' action='modify' visible='true'>
+    <nd ref='-45664' />
+    <nd ref='-45669' />
+    <nd ref='-45686' />
+    <nd ref='-45666' />
+    <nd ref='-45679' />
+    <nd ref='-45670' />
+    <nd ref='-45667' />
+    <nd ref='-45664' />
+    <tag k='building' v='yes' />
+    <tag k='building:levels' v='2' />
+  </way>
+  <way id='-17178' action='modify' visible='true'>
+    <nd ref='-45669' />
+    <nd ref='-45670' />
+    <nd ref='-45679' />
+    <nd ref='-45666' />
+    <nd ref='-45686' />
+    <nd ref='-45669' />
+    <tag k='building:levels' v='2' />
+    <tag k='building:part' v='yes' />
+  </way>
+  <way id='-17252' action='modify' visible='true'>
+    <nd ref='-45667' />
+    <nd ref='-45670' />
+    <nd ref='-45679' />
+    <nd ref='-45686' />
+    <nd ref='-45669' />
+    <nd ref='-45664' />
+    <nd ref='-45667' />
+    <tag k='building:colour' v='blue' />
+    <tag k='building:levels' v='1' />
+    <tag k='building:part' v='yes' />
+  </way>
+  <way id='-17669' action='modify' visible='true'>
+    <nd ref='-45899' />
+    <nd ref='-45955' />
+    <nd ref='-45953' />
+    <nd ref='-45951' />
+    <nd ref='-45949' />
+    <nd ref='-45947' />
+    <nd ref='-45945' />
+    <nd ref='-45943' />
+    <nd ref='-45900' />
+    <nd ref='-45941' />
+    <nd ref='-45939' />
+    <nd ref='-45937' />
+    <nd ref='-45935' />
+    <nd ref='-45933' />
+    <nd ref='-45931' />
+    <nd ref='-45901' />
+    <nd ref='-45929' />
+    <nd ref='-45927' />
+    <nd ref='-45925' />
+    <nd ref='-45923' />
+    <nd ref='-45921' />
+    <nd ref='-45919' />
+    <nd ref='-45917' />
+    <nd ref='-45915' />
+    <nd ref='-45913' />
+    <nd ref='-45911' />
+    <nd ref='-45995' />
+    <nd ref='-45907' />
+    <nd ref='-45905' />
+    <nd ref='-45903' />
+    <nd ref='-45899' />
+    <tag k='building:colour' v='blue' />
+    <tag k='building:levels' v='5' />
+    <tag k='building:part' v='yes' />
+  </way>
+  <way id='-17673' action='modify' visible='true'>
+    <nd ref='-45957' />
+    <nd ref='-45947' />
+    <nd ref='-45901' />
+    <nd ref='-45958' />
+    <nd ref='-45959' />
+    <nd ref='-45913' />
+    <nd ref='-45911' />
+    <nd ref='-45995' />
+    <nd ref='-45960' />
+    <nd ref='-45957' />
+    <tag k='building:levels' v='2' />
+    <tag k='building:part' v='yes' />
+  </way>
+  <way id='-17876' action='modify' visible='true'>
+    <nd ref='-45957' />
+    <nd ref='-45947' />
+    <nd ref='-45945' />
+    <nd ref='-45943' />
+    <nd ref='-45900' />
+    <nd ref='-45941' />
+    <nd ref='-45939' />
+    <nd ref='-45937' />
+    <nd ref='-45935' />
+    <nd ref='-45933' />
+    <nd ref='-45931' />
+    <nd ref='-45901' />
+    <nd ref='-45958' />
+    <nd ref='-45959' />
+    <nd ref='-45913' />
+    <nd ref='-45911' />
+    <nd ref='-45995' />
+    <nd ref='-45960' />
+    <nd ref='-45957' />
+    <tag k='building' v='yes' />
+    <tag k='building:levels' v='5' />
+  </way>
+  <way id='-17966' action='modify' visible='true'>
+    <nd ref='-46032' />
+    <nd ref='-46036' />
+    <nd ref='-46039' />
+    <nd ref='-46033' />
+    <nd ref='-46034' />
+    <nd ref='-46040' />
+    <nd ref='-46037' />
+    <nd ref='-46035' />
+    <nd ref='-46032' />
+    <tag k='building' v='yes' />
+    <tag k='building:levels' v='5' />
+    <tag k='height' v='20' />
+  </way>
+  <way id='-18042' action='modify' visible='true'>
+    <nd ref='-46036' />
+    <nd ref='-46037' />
+    <nd ref='-46035' />
+    <nd ref='-46032' />
+    <nd ref='-46036' />
+    <tag k='building:levels' v='2' />
+    <tag k='building:part' v='yes' />
+  </way>
+  <way id='-18050' action='modify' visible='true'>
+    <nd ref='-46039' />
+    <nd ref='-46040' />
+    <nd ref='-46034' />
+    <nd ref='-46033' />
+    <nd ref='-46039' />
+    <tag k='building:levels' v='2' />
+    <tag k='building:part' v='yes' />
+  </way>
+  <way id='-18143' action='modify' visible='true'>
+    <nd ref='-46035' />
+    <nd ref='-46037' />
+    <nd ref='-46040' />
+    <nd ref='-46034' />
+    <nd ref='-46033' />
+    <nd ref='-46039' />
+    <nd ref='-46036' />
+    <nd ref='-46032' />
+    <nd ref='-46035' />
+    <tag k='building:colour' v='blue' />
+    <tag k='building:levels' v='5' />
+    <tag k='building:min_level' v='2' />
+    <tag k='building:part' v='yes' />
+    <tag k='fixme' v='slight overlap due to min_height lower than 2 levels. Some sides show flashing overlapping sides properly, some don&apos;t.' />
+    <tag k='height' v='20' />
+    <tag k='min_height' v='4' />
+  </way>
+  <way id='-18270' action='modify' visible='true'>
+    <nd ref='-46070' />
+    <nd ref='-46071' />
+    <nd ref='-46077' />
+    <nd ref='-46078' />
+    <nd ref='-46081' />
+    <nd ref='-46072' />
+    <nd ref='-46073' />
+    <nd ref='-46080' />
+    <nd ref='-46079' />
+    <nd ref='-46076' />
+    <nd ref='-46070' />
+    <tag k='building' v='yes' />
+    <tag k='building:levels' v='5' />
+  </way>
+  <way id='-18347' action='modify' visible='true'>
+    <nd ref='-46076' />
+    <nd ref='-46079' />
+    <nd ref='-46080' />
+    <nd ref='-46073' />
+    <nd ref='-46072' />
+    <nd ref='-46081' />
+    <nd ref='-46078' />
+    <nd ref='-46077' />
+    <nd ref='-46076' />
+    <tag k='building:levels' v='5' />
+    <tag k='building:part' v='yes' />
+    <tag k='roof:colour' v='blue' />
+    <tag k='roof:orientation' v='across' />
+    <tag k='roof:shape' v='gabled' />
+  </way>
+  <way id='-18434' action='modify' visible='true'>
+    <nd ref='-46077' />
+    <nd ref='-46071' />
+    <nd ref='-46070' />
+    <nd ref='-46076' />
+    <nd ref='-46077' />
+    <tag k='building:levels' v='5' />
+    <tag k='building:part' v='yes' />
+    <tag k='roof:colour' v='blue' />
+    <tag k='roof:orientation' v='across' />
+    <tag k='roof:shape' v='gabled' />
+  </way>
+  <way id='-18455' action='modify' visible='true'>
+    <nd ref='-46078' />
+    <nd ref='-46079' />
+    <nd ref='-46080' />
+    <nd ref='-46081' />
+    <nd ref='-46078' />
+    <tag k='building:colour' v='red' />
+    <tag k='building:levels' v='5' />
+    <tag k='building:part' v='roof' />
+    <tag k='fixme' v='overlaping in roof only, shows flashing overlapping sides properly' />
+    <tag k='roof:colour' v='green' />
+    <tag k='roof:orientation' v='across' />
+    <tag k='roof:shape' v='gabled' />
+  </way>
+</osm>

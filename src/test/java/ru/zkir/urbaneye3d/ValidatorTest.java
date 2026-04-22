@@ -12,6 +12,7 @@ import org.openstreetmap.josm.data.preferences.JosmBaseDirectories;
 import org.openstreetmap.josm.data.preferences.JosmUrls;
 import ru.zkir.urbaneye3d.validator.SpatialConsistencyChecks;
 import ru.zkir.urbaneye3d.validator.TagChecks;
+import ru.zkir.urbaneye3d.validator.OverlappingWallsCheck;
 
 import java.io.InputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -139,6 +140,43 @@ class ValidatorTest {
         EXPECTED_NUMBER_OF_ERRORS = 180;
         assertTrue(errors.size() == EXPECTED_NUMBER_OF_ERRORS,
                    "Number of errors  found by the Validator Tag Test ("+errors.size()+") differs from  the expected number (" + EXPECTED_NUMBER_OF_ERRORS+")");
+    }
+
+    @Test
+    void testOverlappingWalls() throws Exception {
+        // Arrange
+        DataSet dataSet = loadDataSetFromOsmFile("validator_overlapping_walls.osm");
+        MainApplication.getLayerManager().addLayer(new OsmDataLayer(dataSet, "test", null));
+        OverlappingWallsCheck validator = new OverlappingWallsCheck();
+
+        // Act
+        validator.startTest(null);
+        validator.visit(dataSet.allPrimitives());
+        validator.endTest();
+        var errors = validator.getErrors();
+
+        // Assert
+        // We expect 5 errors (pairs of conflicting objects).
+        // Case 3 (touching walls -105, -106) should NOT have errors.
+        assertEquals(5, errors.size());
+        assertEquals(5, errors.stream().filter(e -> e.getCode() == OverlappingWallsCheck.OVERLAPPING_3D_WALLS).count());
+    }
+
+    @Test
+    void testOverlappingSidesFalsePositives() throws Exception {
+        // Arrange
+        DataSet dataSet = loadDataSetFromOsmFile("validator_overlapping_walls_no_errors.osm");
+        MainApplication.getLayerManager().addLayer(new OsmDataLayer(dataSet, "test", null));
+        OverlappingWallsCheck validator = new OverlappingWallsCheck();
+
+        // Act
+        validator.startTest(null);
+        validator.visit(dataSet.allPrimitives());
+        validator.endTest();
+        var errors = validator.getErrors();
+
+        // Assert
+        assertEquals(0, errors.size(), "Should not have false positive overlapping wall errors in this sample");
     }
 
 }
