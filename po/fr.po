@@ -1,0 +1,152 @@
+# Traduction française pour l'extension UrbanEye3D
+# Copyright (C) 2026 Zkir and contributors, GNU GPL v3
+# This file is distributed under the same license as the PACKAGE package.
+# LeJun <lejun@gmx.fr>, 2026
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UrbanEye3D JOSM plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-08 06:25:16+0300\n"
+"PO-Revision-Date: 2026-04-22 05:00+0001\n"
+"Last-Translator: LeJun <lejun@gmx.fr>\n"
+"Language-Team: LeJun\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:44
+msgid "Automatically download incomplete multipolygons"
+msgstr "Automatiquement télécharger les multipolygones incomplets"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:226
+msgid "Building height ({0}m) and calculated part height ({1}m) differ significantly"
+msgstr "Les hauteurs du bâtiment ({0} m) et de la partie calculée ({1} m) ont une différence substantielle"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:213
+msgid "Building is not fully covered by its parts"
+msgstr "Le bâtiment n'est pas complètement recouvert par ses parties"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:39
+msgid "Building outline should be fully covered by parts. Parts should not be orphans. Note this test may show false positives on incomplete data"
+msgstr "L'empreinte du bâtiment doit être complètement couverte de parties. Les parties ne doivent pas êtres orphelines. À noter que ce test peut remonter des faux positifs sur des données incomplètes"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:87
+msgid "Building part without height"
+msgstr "Partie de bâti sans hauteur"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:36
+msgid "Checks for tag validity for buildings and building parts."
+msgstr "Vérifie les attributs des bâtiments et leurs parties."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:86
+msgid "Configure rendering options for the 3D Viewer."
+msgstr "Configurer les options de rendu pour la vue 3D."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:38
+msgid "Enable Ambient Occlusion Mode"
+msgstr "Activer le mode Occlusion Ambiante"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:32
+msgid "Enable wireframe rendering mode"
+msgstr "Activer le rendu fil de fer"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
+msgid "Fake AO"
+msgstr "Occlusion ambiante simulée"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:42
+msgid "If checked, a fake ambient occlusion effect will be applied."
+msgstr "Si activée, un effet d'occlusion ambiante sera simulé."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:36
+msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
+msgstr "Si activée, seulement le contour des bâtimets sera affiché."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:48
+msgid "If checked, the plugin will attempt to download missing members of multipolygons."
+msgstr "Si activée, l'extension essaiera de télécharger les membres incomplets des multipolygones."
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:68
+msgid "Invalid value for roof:direction: {0}"
+msgstr "Valeur non valide pour roof:direction : {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:78
+msgid "Invalid value for roof:orientation: {0}"
+msgstr "Valeur non valide pour roof:orientation : {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:58
+msgid "Missing tag: roof:shape={0} without ''roof:direction''"
+msgstr "Attribut manquant : roof:shape={0} sans ’’roof:direction’’"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
+msgid "Open current view in F4 Map"
+msgstr "Ouvrir la vue courante dans F4 Map"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:237
+msgid "Orphaned building part"
+msgstr "Partie orpheline de bâtiment"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:17
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:18
+msgid "Reset Camera View"
+msgstr "Réinitialiser la vue caméra"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:17
+msgid "Reset camera view to default position"
+msgstr "Réinitialise la vue caméra dans sa position initiale"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:84
+msgid "Settings for the UrbanEye3D plugin"
+msgstr "Options pour l'extension UrbanEye3D"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
+msgid "Toggle Fake AO"
+msgstr "Activer l'occlusion ambiante simulée"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
+msgid "Toggle Fake AO mode"
+msgstr "Activer le mode occlusion ambiante simulée"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
+msgid "Toggle Wireframe"
+msgstr "Activer fil de fer"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
+msgid "Toggle wireframe mode"
+msgstr "Activer le mode fil de fer"
+
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:56
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:59
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:79
+msgid "UrbanEye3D"
+msgstr "UrbanEye3D"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:21
+msgid "UrbanEye3D: Open in F4 Map"
+msgstr "UrbanEye3D : ouvrir dans F4 Map"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:18
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
+msgid "UrbanEye3D: {0}"
+msgstr "UrbanEye3D : {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
+msgid "View in F4Map (web)"
+msgstr "Voir dans F4 Map (web)"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
+msgid "Wireframe"
+msgstr "Fil de fer"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:38
+msgid "[UrbanEye3D] Building and building parts spatial consistency check"
+msgstr "[UrbanEye3D] Vérification spatiale du bâti et ses parties"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:34
+msgid "[UrbanEye3D] Tag validity checks"
+msgstr "[UrbanEye3D] Vérification des attributs"

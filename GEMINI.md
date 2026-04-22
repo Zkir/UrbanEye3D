@@ -70,6 +70,8 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### April 22, 2026
+* French translation by **Lejun** has been added
 
 ### Earlier
 See [Devblog](DEVBLOG.md)
