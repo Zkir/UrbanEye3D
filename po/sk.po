@@ -63,6 +63,14 @@ msgstr "Ak je zaškrtnuté, v ľavom hornom rohu sa zobrazí počet objektov, pl
 msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
 msgstr "Objekty: {0}, Plochy: {1}, Priem. čas snímky: {2} ms"
 
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:60
+msgid "Forest density"
+msgstr "Hustota lesa"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:66
+msgid "Adjust the number of trees generated in forest polygons. This setting affects performance."
+msgstr "Upravte počet stromov vygenerovaných v lesných polygónoch. Toto nastavenie ovplyvňuje výkon."
+
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:38
 msgid "Enable Ambient Occlusion Mode"
 msgstr "Zapnúť režim tienenia okolím"

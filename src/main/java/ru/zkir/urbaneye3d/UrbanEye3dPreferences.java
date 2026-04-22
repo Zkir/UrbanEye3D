@@ -64,7 +64,7 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
 		gbc.gridy = 6; 
         forestDensitySlider = new JSlider(0, 100);
         forestDensitySlider.setValue(Config.getPref().getInt("urbaneye3d.forest-density", 50));
-        forestDensitySlider.setToolTipText(tr("Adjust the density of trees in forested areas."));
+        forestDensitySlider.setToolTipText(tr("Adjust the number of trees generated in forest polygons. This setting affects performance."));
         panel.add(forestDensitySlider, gbc);
 		
         gbc.gridy = 7; 

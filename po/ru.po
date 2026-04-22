@@ -162,3 +162,11 @@ msgstr "Если включено, в левом верхнем углу буд�
 
 msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
 msgstr "Объектов: {0}, Граней: {1}, Среднее время кадра: {2} мс"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:60
+msgid "Forest density"
+msgstr "Густота леса"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:66
+msgid "Adjust the number of trees generated in forest polygons. This setting affects performance."
+msgstr "Настройка количества деревьев в полигонах леса. Этот параметр влияет на производительность."

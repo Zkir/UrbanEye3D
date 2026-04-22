@@ -71,6 +71,13 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### April 22, 2026
+*   **Full Internationalization (i18n) Update:**
+    *   Updated all `.po` files (`ru.po`, `de.po`, `it.po`, `sk.po`, `id.po`) to achieve 100% translation coverage.
+    *   Added translations for new forest density settings and scene statistics display across all supported languages.
+    *   Ensured consistent use of terminology for 3D graphics context (e.g., "Sisi" for "Faces" in Indonesian).
+    *   Verified the update using `I18nStatusTest` and confirmed successful binary `.lang` file generation during the build.
+
 ### April 19, 2026
 *   **Support for `side_half-hipped` Roof Shape:**
     *   Implemented the `side_half-hipped` roof shape in `MesherSideHalfHipped`, providing a transition between a half-hipped end and a vertical gabled end.
