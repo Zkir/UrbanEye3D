@@ -1,6 +1,13 @@
 # Development History
 
-## Version 2.0.0 (April 18, 2026)
+## Version 2.1.1 (April 21, 2026)
+* Added Indonesian translation 
+* Indonesian translation added (by @FajrAlim)
+* Slovak translation updated — (by @aceman444)
+* Russian translation updated 
+* A bug with `roof:shape=half-hipped` and `roof:direction` fixed (#49)
+
+## Version 2.1.0 (April 18, 2026)
 * Internationalization
 	* **i18n** infrastructure
 		* All strings in the Java code are wrapped in the `tr()` function to support translations.

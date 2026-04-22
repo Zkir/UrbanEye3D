@@ -71,9 +71,6 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
-### April 20, 2026
-* Added Indonesian translation by @FajrAlim
-
 ### Earlier
 See [Devblog](DEVBLOG.md)
 
