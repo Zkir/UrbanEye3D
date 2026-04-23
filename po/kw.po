@@ -1,0 +1,165 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Flynn Peck <cirilla@tuta.io>, 2026.
+#
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-08 06:25:16+0300\n"
+"PO-Revision-Date: 2026-04-23 11:05+0100\n"
+"Last-Translator: Flynn Peck <cirilla@tuta.io>\n"
+"Language-Team: kw\n"
+"Language: kw\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 50.0\n"
+"Project-Id-Version: unnamed project\n"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:44
+msgid "Automatically download incomplete multipolygons"
+msgstr "Iskarga yn awtomatek liesfurvos andhien"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:226
+msgid ""
+"Building height ({0}m) and calculated part height ({1}m) differ significantly"
+msgstr ""
+"Ughelder drehevyans ({0}m) ha ughelder rann kalkys ({1}m) yw dihaval yn "
+"arwedhek"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:213
+msgid "Building is not fully covered by its parts"
+msgstr "Drehevyans nyns yw gorherys yn leun gans an rannow"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:39
+msgid ""
+"Building outline should be fully covered by parts. Parts should not be "
+"orphans. Note this test may show false positives on incomplete data"
+msgstr ""
+"Furv dhrehevyans a vydh gorherys yn leun gans rannow. Rannow ny godh "
+"omdhivasow. Notya an prov ma a yll diskwedhes posedhegyon fals war dhata "
+"andhien"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:87
+msgid "Building part without height"
+msgstr "Rann dhrehevyans heb ughelder"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:36
+msgid "Checks for tag validity for buildings and building parts."
+msgstr "Checkya rag komposter tagg rag drehevyansow ha rannow drehevyans."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:86
+msgid "Configure rendering options for the 3D Viewer."
+msgstr "Selya dewisyow rendrans rag an welell 3D."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:38
+msgid "Enable Ambient Occlusion Mode"
+msgstr "Bywhe Fordh Lettyans Kerghynnek"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:32
+msgid "Enable wireframe rendering mode"
+msgstr "Bywhe fordh rendrans gwiverfram"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
+msgid "Fake AO"
+msgstr "LK Fug"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:42
+msgid "If checked, a fake ambient occlusion effect will be applied."
+msgstr "Mar checkys, effeyth lettyans kerghynnek fug a vydh gweythys."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:36
+msgid ""
+"If checked, buildings will be rendered as outlines instead of solid polygons."
+msgstr "Mar checkys, drehevyansow a vydh rendrys gwag yn-dar solyd."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:48
+msgid ""
+"If checked, the plugin will attempt to download missing members of "
+"multipolygons."
+msgstr ""
+"Mar checkys, an ystynnans a wra assaya iskarga eseli kellys a liesfurvow."
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:68
+msgid "Invalid value for roof:direction: {0}"
+msgstr "Synsas anewn rag roof:direction: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:78
+msgid "Invalid value for roof:orientation: {0}"
+msgstr "Synsas anewn rag roof:orientation: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:58
+msgid "Missing tag: roof:shape={0} without ''roof:direction''"
+msgstr "Tagg kellys: roof:shape={0} heb ''roof:direction''"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
+msgid "Open current view in F4 Map"
+msgstr "Ygeri gwel a-lemmyn yn F4 Map"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:237
+msgid "Orphaned building part"
+msgstr "Rann dhrehevyans omdhivasys"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:17
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:18
+msgid "Reset Camera View"
+msgstr "Dasworra Gwel Kamera"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:17
+msgid "Reset camera view to default position"
+msgstr "Dasworra gwel kamera dhe le defowt"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:84
+msgid "Settings for the Urban Eye 3D plugin"
+msgstr "Settyansow rag an ystynnans Lagas Trevek 3D"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
+msgid "Toggle Fake AO"
+msgstr "Dewis LK Fug"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:15
+msgid "Toggle Fake AO mode"
+msgstr "Dewis fordh LK Fug"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
+msgid "Toggle Wireframe"
+msgstr "Dewis Gwiverfram"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
+msgid "Toggle wireframe mode"
+msgstr "Dewis fordh gwiverfram"
+
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:56
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:59
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:79
+msgid "Urban Eye 3D"
+msgstr "Lagas Trevek 3D"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:21
+msgid "UrbanEye3D: Open in F4 Map"
+msgstr "Lagas Trevek 3D: Ygeri yn F4 Map"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ResetCameraAction.java:18
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:18
+msgid "UrbanEye3D: {0}"
+msgstr "Lagas Trevek 3D: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
+msgid "View in F4Map (web)"
+msgstr "Gweles yn F4Map (gwi)"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
+msgid "Wireframe"
+msgstr "Gwiverfram"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:38
+msgid "[UrbanEye3D] Building and building parts spatial consistency check"
+msgstr "[LagasTrevek3D] Hwithrans tewder drehevyans ha rannow drehevyans"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:34
+msgid "[UrbanEye3D] Tag validity checks"
+msgstr "[LagasTrevek3D] Hwithrans komposter tagg"
