@@ -89,7 +89,7 @@ public class I18nStatusTest {
             case "sk": return "Slovak";
             case "it": return "Italian";
             case "id": return "Indonesian";
-
+            case "kw": return "Cornish";
             // Add other languages here
             default: return code.toUpperCase();
         }
