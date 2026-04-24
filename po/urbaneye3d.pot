@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-24 19:17:12+0300\n"
+"POT-Creation-Date: 2026-04-25 01:48:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,15 +26,15 @@ msgstr ""
 msgid "Automatically download incomplete multipolygons"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:185
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:186
 msgid "Building height ({0}m) and calculated part height ({1}m) differ significantly"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:170
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:171
 msgid "Building is not fully covered by its parts"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:39
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:40
 msgid "Building outline should be fully covered by parts. Parts should not be orphans. Note this test may show false positives on incomplete data"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Configure rendering options for the 3D Viewer."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:22
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:26
 msgid "Detects overlapping 3D walls that cause Z-fighting."
 msgstr ""
 
@@ -106,11 +106,11 @@ msgstr ""
 msgid "Open current view in F4 Map"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:195
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:196
 msgid "Orphaned building part"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:151
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:163
 msgid "Overlapping 3D walls (potential Z-fighting)"
 msgstr ""
 
@@ -171,11 +171,11 @@ msgstr ""
 msgid "Wireframe"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:38
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:39
 msgid "[UrbanEye3D] Building and building parts spatial consistency check"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:21
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:25
 msgid "[UrbanEye3D] Overlapping 3D walls check"
 msgstr ""
 

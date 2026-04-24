@@ -27,6 +27,7 @@ import java.util.List;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
+import static ru.zkir.urbaneye3d.utils.Contour.hasCompleteContour;
 
 /**
  *  This class contains checks for building and building part spatial validity.
@@ -291,25 +292,6 @@ public class SpatialConsistencyChecks extends Test {
         way.setNodes(nodes);
         dataSet.addPrimitive(way);
         return way;
-    }
-
-    /**
-     * Check that primitive has complete contour. We need to implement this check ourselves,
-     * because JOSM interprets completeness of multipolygons in it's own way
-     */
-    private boolean hasCompleteContour(OsmPrimitive primitive) {
-        if (primitive instanceof Way) {
-            return !primitive.isIncomplete();
-        }else if (primitive instanceof Relation) {
-            for (RelationMember member : ((Relation) primitive).getMembers()) {
-                if (member.getMember().isIncomplete()) {
-                    return false;
-                }
-            }
-            return true;
-        }else {
-            return false; // always false for nodes
-        }
     }
 
     private boolean hasOutlineRole(OsmPrimitive primitive) {

@@ -456,6 +456,25 @@ public class Contour {
         return coords;
     }
 
+    /**
+     * Check that primitive has complete contour. We need to implement this check ourselves,
+     * because JOSM interprets completeness of multipolygons in its own way
+     */
+    public static boolean hasCompleteContour(OsmPrimitive primitive) {
+        if (primitive instanceof Way) {
+            return !primitive.isIncomplete();
+        }else if (primitive instanceof Relation) {
+            for (RelationMember member : ((Relation) primitive).getMembers()) {
+                if (member.getMember().isIncomplete()) {
+                    return false;
+                }
+            }
+            return true;
+        }else {
+            return false; // always false for nodes
+        }
+    }
+
 
 
 }

@@ -5,12 +5,16 @@ import org.openstreetmap.josm.data.validation.Severity;
 import org.openstreetmap.josm.data.validation.Test;
 import org.openstreetmap.josm.data.validation.TestError;
 import org.openstreetmap.josm.gui.progress.ProgressMonitor;
+import ru.zkir.urbaneye3d.BuildingRecipe;
+import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Point2D;
 
 import java.util.*;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
+import static ru.zkir.urbaneye3d.RenderableElement.createBuildingOrPartRecipe;
+import static ru.zkir.urbaneye3d.utils.Contour.hasCompleteContour;
 
 public class OverlappingWallsCheck extends Test {
     public static final int OVERLAPPING_3D_WALLS = 3001;
@@ -98,9 +102,17 @@ public class OverlappingWallsCheck extends Test {
             Contour contour = primitiveContours.get(p);
             if (contour == null) continue;
 
-            //roof is ignored, because if it is not flat, roof faces are located elsewhere
-            double zMax = getPrimitiveHeight(p) - getPrimitiveRoofHeight(p);
-            double zMin = getPrimitiveMinHeight(p);
+            BuildingRecipe partInfo = createBuildingOrPartRecipe(p, p.getBBox().getCenter(), new Contour(p) , p.getInterestingTags(), null);
+            if (partInfo==null){
+                continue;
+            }
+
+            double zMax = partInfo.height;
+            double zMin = partInfo.minHeight;
+            if (partInfo.roofShape != RoofShapes.FLAT){
+                //roof is ignored, because if it is not flat, roof faces are located elsewhere
+                zMax = zMax - partInfo.roofHeight;
+            }
 
             // Skip objects with zero or negative height
             if (zMax <= zMin) continue;
@@ -202,60 +214,6 @@ public class OverlappingWallsCheck extends Test {
         }
     }
 
-    private double getPrimitiveHeight(OsmPrimitive p) {
-        String heightStr = p.get("height");
-        if (heightStr != null) {
-            try {
-                return Double.parseDouble(heightStr.replace(',', '.').split(" ")[0]);
-            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { /* ignore */ }
-        }
-
-        String levelsStr = p.get("building:levels");
-        if (levelsStr != null) {
-            try {
-                return Double.parseDouble(levelsStr.replace(',', '.').split(" ")[0]) * 3.0;
-            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { /* ignore */ }
-        }
-
-        return 3.0; // Default height
-    }
-
-    private double getPrimitiveRoofHeight(OsmPrimitive p) {
-        String heightStr = p.get("roof:height");
-        if (heightStr != null) {
-            try {
-                return Double.parseDouble(heightStr.replace(',', '.').split(" ")[0]);
-            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { /* ignore */ }
-        }
-
-        String levelsStr = p.get("roof:levels");
-        if (levelsStr != null) {
-            try {
-                return Double.parseDouble(levelsStr.replace(',', '.').split(" ")[0]) * 3.0;
-            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { /* ignore */ }
-        }
-
-        return 0.0; // Default height
-    }
-
-    private double getPrimitiveMinHeight(OsmPrimitive p) {
-        String minHeightStr = p.get("min_height");
-
-        if (minHeightStr != null) {
-            try {
-                return Double.parseDouble(minHeightStr.replace(',', '.').split(" ")[0]);
-            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { /* ignore */ }
-        }
-
-        String minLevelsStr = p.get("building:min_level");
-        if (minLevelsStr != null) {
-            try {
-                return Double.parseDouble(minLevelsStr.replace(',', '.').split(" ")[0]) * 3.0;
-            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { /* ignore */ }
-        }
-
-        return 0.0;
-    }
 
     private static class OrientedSegment {
         final double x1, y1, x2, y2;
@@ -332,25 +290,6 @@ public class OverlappingWallsCheck extends Test {
                 }
             }
             return currentMax >= max - 0.001;
-        }
-    }
-
-    /**
-     * Check that primitive has complete contour. We need to implement this check ourselves,
-     * because JOSM interprets completeness of multipolygons in it's own way
-     */
-    private boolean hasCompleteContour(OsmPrimitive primitive) {
-        if (primitive instanceof Way) {
-            return !primitive.isIncomplete();
-        }else if (primitive instanceof Relation) {
-            for (RelationMember member : ((Relation) primitive).getMembers()) {
-                if (member.getMember().isIncomplete()) {
-                    return false;
-                }
-            }
-            return true;
-        }else {
-            return false; // always false for nodes
         }
     }
 }
