@@ -1,5 +1,9 @@
 # Development History
 
+## Version 2.1.2 (April 23, 2026)
+* French translation by **Lejun** has been added
+* [Cornish](https://en.wikipedia.org/wiki/Cornish_language) translation by @linfindel has been added
+
 ## Version 2.1.1 (April 21, 2026)
 * Added Indonesian translation 
 * Indonesian translation added (by @FajrAlim)
