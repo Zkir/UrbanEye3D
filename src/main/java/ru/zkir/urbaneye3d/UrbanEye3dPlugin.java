@@ -52,6 +52,7 @@ public class UrbanEye3dPlugin extends Plugin {
     public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
         if (oldFrame!=null && dialog!=null) {
             dialog.destroy();
+            dialog = null;
         }
         if (newFrame != null) {
             dialog = new DialogWindow3D(this);
