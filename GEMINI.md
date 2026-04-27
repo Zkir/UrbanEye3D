@@ -74,6 +74,14 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 *   `roof:shape=many` is rendered as `hipped` (anyway better than just flat) for buildings, but not for building parts. 
 *   A new check is added to validator to warn user that roof:shape=many does not make much sense for a building part. 
 
+	
+### April 26, 2026
+*   **Sports pitch markings:**
+    *   Added rendering of lines for soccer pitches and tennis courts on the ground texture.
+    *   Markings are automatically aligned along the longest side and fit inside the object with a 2-meter offset from the edge.
+    *   For small pitches (school or training grounds), markings are proportionally scaled down to stay within boundaries.
+    *   Supported both simple ways and multipolygons.
+
 
 ### April 24, 2026
 

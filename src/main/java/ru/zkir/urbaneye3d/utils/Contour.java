@@ -7,6 +7,7 @@ import org.openstreetmap.josm.data.osm.*;
 import org.locationtech.jts.operation.buffer.BufferParameters;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -473,6 +474,102 @@ public class Contour {
         }else {
             return false; // always false for nodes
         }
+    }
+
+    /**
+     * Finds the largest inscribed axis-aligned rectangle within the first outer ring
+     * oriented according to the given axis.
+     */
+    public Rectangle2D.Double findLargestInscribedRectangle(double ux, double uy) {
+        if (outerRings.isEmpty()) return null;
+        ArrayList<Point2D> ring = outerRings.get(0);
+        int n = ring.size();
+        if (n < 3) return null;
+
+        // Normal vector nx, ny is perpendicular to ux, uy
+        double nx = -uy;
+        double ny = ux;
+
+        List<Point2D> projected = new ArrayList<>();
+        for (Point2D p : ring) {
+            projected.add(new Point2D(p.x * ux + p.y * uy, p.x * nx + p.y * ny));
+        }
+
+        // 2. Find min/max indices to split into upper and lower chains
+        int minIdx = 0, maxIdx = 0;
+        for (int i = 1; i < projected.size(); i++) {
+            if (projected.get(i).x < projected.get(minIdx).x) minIdx = i;
+            if (projected.get(i).x > projected.get(maxIdx).x) maxIdx = i;
+        }
+
+        List<Point2D> chain1 = new ArrayList<>();
+        List<Point2D> chain2 = new ArrayList<>();
+        for (int i = minIdx; ; i = (i + 1) % n) {
+            chain1.add(projected.get(i));
+            if (i == maxIdx) break;
+        }
+        for (int i = maxIdx; ; i = (i + 1) % n) {
+            chain2.add(projected.get(i));
+            if (i == minIdx) break;
+        }
+
+        // Identify upper and lower chains
+        double midX = (projected.get(minIdx).x + projected.get(maxIdx).x) / 2.0;
+        double y1 = getYAt(chain1, midX);
+        double y2 = getYAt(chain2, midX);
+        List<Point2D> upper = y1 > y2 ? chain1 : chain2;
+        List<Point2D> lower = y1 > y2 ? chain2 : chain1;
+
+        // 3. Brute force pairs of X-coordinates
+        List<Double> xCandidates = new ArrayList<>();
+        for (var p : projected) xCandidates.add(p.x);
+        Collections.sort(xCandidates);
+
+        double maxArea = -1;
+        Rectangle2D.Double bestRect = null;
+
+        for (int i = 0; i < xCandidates.size(); i++) {
+            for (int j = i + 1; j < xCandidates.size(); j++) {
+                double x1 = xCandidates.get(i);
+                double x2 = xCandidates.get(j);
+                if (x2 - x1 < 0.1) continue;
+
+                double minTop = Double.POSITIVE_INFINITY;
+                double maxBottom = Double.NEGATIVE_INFINITY;
+
+                for (double x : new double[]{x1, x2}) {
+                    minTop = Math.min(minTop, getYAt(upper, x));
+                    maxBottom = Math.max(maxBottom, getYAt(lower, x));
+                }
+                for (var p : upper) if (p.x > x1 && p.x < x2) minTop = Math.min(minTop, p.y);
+                for (var p : lower) if (p.x > x1 && p.x < x2) maxBottom = Math.max(maxBottom, p.y);
+
+                double h = minTop - maxBottom;
+                if (h > 0.1) {
+                    double area = (x2 - x1) * h;
+                    if (area > maxArea) {
+                        maxArea = area;
+                        bestRect = new Rectangle2D.Double(x1, maxBottom, x2 - x1, h);
+                    }
+                }
+            }
+        }
+        return bestRect;
+    }
+
+    private double getYAt(List<Point2D> chain, double x) {
+        for (int i = 0; i < chain.size() - 1; i++) {
+            var p1 = chain.get(i);
+            var p2 = chain.get(i + 1);
+            double xMin = Math.min(p1.x, p2.x);
+            double xMax = Math.max(p1.x, p2.x);
+            if (x >= xMin && x <= xMax) {
+                if (Math.abs(p2.x - p1.x) < 1e-9) return (p1.y + p2.y) / 2.0;
+                double t = (x - p1.x) / (p2.x - p1.x);
+                return p1.y + t * (p2.y - p1.y);
+            }
+        }
+        return chain.get(0).y;
     }
 
 

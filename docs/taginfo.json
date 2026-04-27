@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260428T141117Z",
+  "data_updated" : "20260429T232510Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -132,6 +132,10 @@
     "key" : "leaf_type",
     "value" : "needleleaved",
     "description" : "Used to select an appropriate texture/model for trees."
+  }, {
+    "key" : "leisure",
+    "value" : "pitch",
+    "description" : "A sports pitch. If sport=soccer or sport=tennis, characteristic markings are rendered on the ground texture."
   }, {
     "key" : "location",
     "value" : "underground",
@@ -338,6 +342,14 @@
     "key" : "shape",
     "value" : "hyperboloid",
     "description" : "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
+  }, {
+    "key" : "sport",
+    "value" : "soccer",
+    "description" : "Indicates that the pitch is used for soccer. Triggers rendering of soccer markings."
+  }, {
+    "key" : "sport",
+    "value" : "tennis",
+    "description" : "Indicates that the pitch is used for tennis. Triggers rendering of tennis court markings."
   }, {
     "key" : "step:height",
     "description" : "Defines the height of each individual step for building:part=steps. 0.16 is used as default "

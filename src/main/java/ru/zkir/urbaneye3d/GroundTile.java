@@ -7,11 +7,10 @@ import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.DataSet;
 import ru.zkir.customtms.MapRenderer;
+import ru.zkir.urbaneye3d.mapcssproxy.GroundDecorations;
 import ru.zkir.urbaneye3d.mapcssproxy.MapCssProxy;
 import ru.zkir.urbaneye3d.utils.*;
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.SwingUtilities;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Map;
@@ -28,7 +27,9 @@ import static ru.zkir.urbaneye3d.GroundPlane.ImageryType.MapCSS;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
 
 public class GroundTile {
-    /**  A simple class to represent the coordinates of a ground tile in a grid.  */
+    /**
+     * A simple class to represent the coordinates of a ground tile in a grid.
+     */
     public static final class GroundTileXY {
         public final int x;
         public final int y;
@@ -40,8 +41,12 @@ public class GroundTile {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             GroundTileXY tileCoord = (GroundTileXY) o;
             return x == tileCoord.x && y == tileCoord.y;
         }
@@ -150,16 +155,17 @@ public class GroundTile {
             }
         }
     }
+
     private int calculateOptimalZoomLevel(Bounds tileBounds, int tileTextureSizePixels) {
         double tileWidthMeters = FlatEarth.getLocalCoords(tileBounds.getCenter().lat(), tileBounds.getMax().lon(), tileBounds.getCenter()).x -
-                FlatEarth.getLocalCoords(tileBounds.getCenter().lat() , tileBounds.getMin().lon(),  tileBounds.getCenter()).x;
+                FlatEarth.getLocalCoords(tileBounds.getCenter().lat(), tileBounds.getMin().lon(), tileBounds.getCenter()).x;
 
         double idealResolution = tileWidthMeters / tileTextureSizePixels;
         int optimalZoomLevel = 18;
         double minDiff = Double.MAX_VALUE;
 
         for (int zl = 15; zl <= 22; zl++) {
-            double res = (cos(toRadians(tileBounds.getCenter().lat()) ) * FlatEarth.EQUATOR_LENGTH_M) / (256 * Math.pow(2, zl));
+            double res = (cos(toRadians(tileBounds.getCenter().lat())) * FlatEarth.EQUATOR_LENGTH_M) / (256 * Math.pow(2, zl));
             double diff = Math.abs(res - idealResolution);
             if (diff < minDiff) {
                 minDiff = diff;
@@ -169,17 +175,17 @@ public class GroundTile {
         return optimalZoomLevel;
     }
 
-    public void loadTextureAsync(MapRenderer tmsRenderer, DataSet dataSet, boolean forced ) {
+    public void loadTextureAsync(MapRenderer tmsRenderer, DataSet dataSet, boolean forced) {
         String key = "#" + this.coord.x + "/" + this.coord.y;
 
         Runnable task = () -> {
             try {
-                if (this.imageryLayer.getType() == MapCSS ){
-                    if (dataSet!=null) {
+                if (this.imageryLayer.getType() == MapCSS) {
+                    if (dataSet != null) {
                         Thread.sleep(250); //hack to make JOSM UI more responsive
                         loadMapCSSTexture(dataSet, forced);
                     }
-                }else{
+                } else {
                     loadTMSTexture(tmsRenderer, forced);
                 }
 
@@ -206,13 +212,13 @@ public class GroundTile {
         try {
             int textureWidth = (int) Math.ceil(TILE_TEXTURE_SIZE_PIXELS * cos(toRadians(bounds.getCenter().lat())));
             int textureHeight = TILE_TEXTURE_SIZE_PIXELS;
-            tmsRenderer.setCurrentImagery(imageryLayer.getImageryInfo() );
+            tmsRenderer.setCurrentImagery(imageryLayer.getImageryInfo());
             int zoomLevel = calculateOptimalZoomLevel(this.bounds, textureWidth);
-            boolean npotSupported=groundPlane.isNpotSupported();
+            boolean npotSupported = groundPlane.isNpotSupported();
 
             if (npotSupported) {
                 result = tmsRenderer.renderMap(zoomLevel, this.bounds);
-            }else{
+            } else {
                 //It seems that for modern hardware texture size should not be a power of 2
                 //but we can still resize the image, if we would like to.
                 result = tmsRenderer.renderMap(zoomLevel, this.bounds, getPOT(textureWidth), getPOT(textureHeight));
@@ -236,13 +242,14 @@ public class GroundTile {
             }
         });
     }
+
     public void loadMapCSSTexture(DataSet dataSet, boolean forced) {
         if ((!forced && hasImageData.get()) || dataSet == null) {
             return;
         }
-        BufferedImage result=null;
+        BufferedImage result = null;
 
-        var styles= new ArrayList<String>();
+        var styles = new ArrayList<String>();
         styles.add("resource://mapcss-styles/urbaneye2d.general.mapcss");
         styles.add("resource://mapcss-styles/urbaneye2d.roads.mapcss");
 
@@ -252,7 +259,7 @@ public class GroundTile {
             boolean npotSupported = groundPlane.isNpotSupported();
 
             if (npotSupported) {
-                result =  mapCssProxy.render(dataSet, bounds, 1, styles);
+                result = mapCssProxy.render(dataSet, bounds, 1, styles);
             } else {
                 throw new RuntimeException("Support for NPOT textures is not implemented yet!");
             }
@@ -262,6 +269,11 @@ public class GroundTile {
         }
 
         BufferedImage finalResult = result;
+        if (finalResult != null && dataSet != null) {
+            //we have some own logic, which cannot be handled by MapCSS currently.
+            GroundDecorations.drawGroundDecorations(finalResult, dataSet, this.bounds);
+        }
+
         SwingUtilities.invokeLater(() -> {
             if (finalResult != null) {
                 synchronized (imageDataLock) {
@@ -274,13 +286,16 @@ public class GroundTile {
         });
     }
 
-    private int getPOT(int x){
+
+    private int getPOT(int x) {
         return Integer.highestOneBit(x);
     }
 
 
     public void uploadToGl(GL2 gl) {
-        if (!hasImageData.get()) return;
+        if (!hasImageData.get()) {
+            return;
+        }
 
         synchronized (imageDataLock) {
             if (imageData != null) {
@@ -324,11 +339,15 @@ public class GroundTile {
     public boolean isReadyToRender() {
         return hasGlTexture.get();
     }
-    public boolean hasImageData() { return hasImageData.get(); }
-    
-    public BufferedImage getImage(){
+
+    public boolean hasImageData() {
+        return hasImageData.get();
+    }
+
+    public BufferedImage getImage() {
         return this.imageData;
     }
+
     public static int getPendingGroundTilePaintRequests() {
         return pendingRequests.size();
     }
