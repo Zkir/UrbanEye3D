@@ -134,6 +134,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("roof:shape=saltbox", "Generates a roof with an off-center flat top. This implementation follows the F4 map interpretation, which may differ from a classic single-ridge saltbox roof.");
         TAG_DESCRIPTIONS.put("roof:shape=skillion" , "A single-sloped roof surface (a lean-to). The slope direction is controlled by the `roof:direction` tag, which can be set to any angle.");
         TAG_DESCRIPTIONS.put("roof:shape=side_half-hipped", "A roof half-hipped from one side and gabled from the other. Orientation is controlled by `roof:direction`. Supported for quadrangular footprints only.");
+        TAG_DESCRIPTIONS.put("roof:shape=many", "Interpreted as hipped for buildings (as better than flat), but not for building parts");
 
         TAG_DESCRIPTIONS.put("man_made", "Used to identify man-made objects");
         TAG_DESCRIPTIONS.put("man_made=communications_tower", "Can be rendered as 3D object");

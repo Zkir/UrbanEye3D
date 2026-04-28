@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260420T001007Z",
+  "data_updated" : "20260428T141117Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -302,6 +302,10 @@
     "key" : "roof:shape",
     "value" : "mansard",
     "description" : "A four-sided gambrel-style hip roof with two slopes on each side. Currently only supported for quadrangular building outlines."
+  }, {
+    "key" : "roof:shape",
+    "value" : "many",
+    "description" : "Interpreted as hipped for buildings (as better than flat), but not for building parts"
   }, {
     "key" : "roof:shape",
     "value" : "onion",

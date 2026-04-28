@@ -65,11 +65,12 @@ class ValidatorTest {
         validator2.visit(dataSet.allPrimitives());
         validator2.endTest();
         errors = validator2.getErrors();
-        assertEquals(4, errors.size());
+        assertEquals(5, errors.size());
         assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.NO_HEIGHT_OR_LEVELS_SPECIFIED).count());
         assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.INVALID_ROOF_ORIENTATION).count());
         assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.INVALID_ROOF_DIRECTION).count());
         assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.ROOF_DIRECTION_MISSING).count());
+        assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.ROOF_SHAPE_MANY_NOT_ALLOWED_FOR_PARTS ).count());
 
     }
 

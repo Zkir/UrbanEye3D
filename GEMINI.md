@@ -6,7 +6,7 @@
     * `mvn package` completes successfully without any errors.
     * Successful execution of manual test confirmed by the human.
     * Unit test is created or at least proposed.
-    * GEMINI.md file is updated, including (but not limiting to) the following sections: *Recent Accomplishments*, *Learnings*, and if necessary, *Next Steps*.  
+    * GEMINI.md file is updated, including (but not limiting to) the following sections: *Recent Accomplishments*, *Architecture and Key Concepts*, and if necessary, *Next Steps*.  *Recent Accomplishments* should incude date, and be focused on value for end-user/product, but without marketing bullshit, not on technical details. 
     * [features.md](docs/features.md) is reviewed and updated if necessary.
 *   **Do not suggest git commits**. Git commits in this project are allowed for protein-based developers only.
 *   **JOSM source code** can be found in d:\UrbanEye3D\ext_sources\josm_source
@@ -22,11 +22,13 @@
 
 ### Musts for the Next Release 
 
-* None currently?
+1.  **Display MapCSS-based ground-plane regardless of selected satellite layers**    
+    * Currently, 2D Ground Plane only shows up if satellite imagery is disabled. It's not realy convinient ad counter-intuitive. One may want to see sattelite in 2D window and MapCss based layer in 3D windows. 
+	* Solution can be to introduce a new switch in plugin Preferences and a keyboard shortcut to quickly turn satellite imagery on and of, if selected.
     
 #### JOSM patches to monitor
 
-* None currently   
+* [MUST BE FIXED] https://josm.openstreetmap.de/ticket/24699 
     
 ### Nice to have in the Next Release     
 
@@ -49,20 +51,14 @@
 
 4. **Support chimney/frustum**
     * F4 displays chimneys (`man_made=chimney`), we currently do not. To make chimneys look realistic, we need to support 'shape=frustum', like we already support 'shape=hyperboloid'. probably explicit shape=prism should be supported too.
-    
-6. **Validate overlapping 3D walls**
-    * Coplanar walls cause flickering and look bad. 
-    * Validator check should be added to find such walls.   
-    * This check could be based on finding walls which share common ways/nodes   
+
 
 5. **Improve Forest Support**
     * We have now support for `natural=wood` and `landuse=forest`, but it can be improved.
     * What can be done: subtraction of road corridors to prevent trees from growing on highways, and considering manual trees for density calculations.
 	* We already have a plan for it: [NATURAL-WOOD.md](docs/dev/NATURAL-WOOD.md)
 
-6.  **Display MapCSS-based ground-plane regardless of selected satellite layers**    
-    * Currently, 2D Ground Plane only shows up if satellite imagery is disabled. It's not realy convinient ad counter-intuitive. One may want to see sattelite in 2D window and MapCss based layer in 3D windows. 
-	* Solution can be to introduce a new switch in plugin Preferences and a keyboard shortcut to quickly turn satellite imagery on and of, if selected.
+
 
 ### Ideas for the Further Development
 
@@ -70,7 +66,14 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
 ## Recent Accomplishments
+### April 28, 2026
+
+* `roof:shape=many` is rendered as `hipped` (anyway better than just flat) for buildings, but not for building parts. 
+* A new check is added to validator to warn user that roof:shape=many does not make much sense for a building part. 
+    
+
 ### April 24, 2026
+
 *   **Significantly improved the `OverlappingWallsCheck` validator accuracy.**
     *   Implemented a "visibility check" logic: the validator now ignores overlaps for walls that are completely hidden inside a building (e.g., when two building parts are joined "back-to-back"). This eliminates a large class of false positive warnings.
     *   Added protection against incomplete data: the validator now automatically skips buildings with missing geometry, preventing incorrect reports caused by partially loaded OSM data.
@@ -82,20 +85,6 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     * New validator detects coplanar 3D walls that cause Z-fighting (flickering).
     * The algorithm uses oriented segments and Z-height ranges to distinguish between actual overlaps and valid touching walls.
 
-
-### April 22, 2026
-*   **Full Internationalization (i18n) Update:**
-    *   Updated all `.po` files (`ru.po`, `de.po`, `it.po`, `sk.po`, `id.po`) to achieve 100% translation coverage.
-    *   Added translations for new forest density settings and scene statistics display across all supported languages.
-    *   Ensured consistent use of terminology for 3D graphics context (e.g., "Sisi" for "Faces" in Indonesian).
-    *   Verified the update using `I18nStatusTest` and confirmed successful binary `.lang` file generation during the build.
-
-### April 22, 2026
-*   **Full Internationalization (i18n) Update:**
-    *   Updated all `.po` files (`ru.po`, `de.po`, `it.po`, `sk.po`, `id.po`) to achieve 100% translation coverage.
-    *   Added translations for new forest density settings and scene statistics display across all supported languages.
-    *   Ensured consistent use of terminology for 3D graphics context (e.g., "Sisi" for "Faces" in Indonesian).
-    *   Verified the update using `I18nStatusTest` and confirmed successful binary `.lang` file generation during the build.
 
 ### April 19, 2026
 *   **Support for `side_half-hipped` Roof Shape:**

@@ -104,6 +104,10 @@ public class RenderableElement {
             roofShape="hipped";
         }
 
+        if (roofShape.equals("many") && source_key.equals("building")){
+            roofShape="hipped";
+        }
+
         if (roofShape.equals("crosspitched")) {
             roofShape = "cross_gabled";
         }

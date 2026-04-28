@@ -30,6 +30,7 @@ public class TagChecks extends Test {
     public static final int ROOF_DIRECTION_MISSING = 2002;
     public static final int INVALID_ROOF_DIRECTION = 2003;
     public static final int INVALID_ROOF_ORIENTATION = 2004;
+    public static final int ROOF_SHAPE_MANY_NOT_ALLOWED_FOR_PARTS = 2005;
 
     private static final List<String> VALID_ROOF_ORIENTATIONS = Arrays.asList("along", "across");
 
@@ -86,6 +87,12 @@ public class TagChecks extends Test {
             if (!p.hasKey("height") && !p.hasKey("building:levels")) {
                 errors.add(TestError.builder(this, Severity.WARNING, NO_HEIGHT_OR_LEVELS_SPECIFIED)
                         .message(tr("Building part without height"))
+                        .primitives(p)
+                        .build());
+            }
+            if ("many".equals(p.get("roof:shape"))) {
+                errors.add(TestError.builder(this, Severity.WARNING, ROOF_SHAPE_MANY_NOT_ALLOWED_FOR_PARTS)
+                        .message(tr("roof:shape=many is not allowed for building parts"))
                         .primitives(p)
                         .build());
             }
