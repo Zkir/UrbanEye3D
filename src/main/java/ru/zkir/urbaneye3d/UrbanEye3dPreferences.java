@@ -23,6 +23,7 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
     private JCheckBox fakeAoCheckBox;
     private JCheckBox downloadIncompleteMultipolygonsCheckBox;
     private JCheckBox showStatsCheckBox;
+    private JCheckBox useSatelliteCheckBox;
     private JSlider forestDensitySlider;
 
     @Override
@@ -58,15 +59,20 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         showStatsCheckBox.setSelected(Config.getPref().getBoolean("urbaneye3d.stats.enabled", false));
         showStatsCheckBox.setToolTipText(tr("If checked, the number of objects, faces and frame time will be displayed in the top-left corner."));
         panel.add(showStatsCheckBox, gbc);
-        
+
         gbc.gridy = 5;
+        useSatelliteCheckBox = new JCheckBox(tr("Use satellite imagery for ground plane"));
+        useSatelliteCheckBox.setSelected(Config.getPref().getBoolean("urbaneye3d.ground-plane.use-satellite", true));
+        useSatelliteCheckBox.setToolTipText(tr("If checked, active satellite imagery will be used in 3D ground plane when available. If unchecked, plugin's own 2D style will be used to render flat objects."));
+        panel.add(useSatelliteCheckBox, gbc);
+
+        gbc.gridy = 6;
         panel.add(new JLabel(tr("Forest density")), gbc);
-		gbc.gridy = 6; 
+        gbc.gridy = 7;
         forestDensitySlider = new JSlider(0, 100);
         forestDensitySlider.setValue(Config.getPref().getInt("urbaneye3d.forest-density", 50));
         forestDensitySlider.setToolTipText(tr("Adjust the number of trees generated in forest polygons. This setting affects performance."));
         panel.add(forestDensitySlider, gbc);
-		
         gbc.gridy = 7; 
         gbc.weighty = 1.0; // This component takes all remaining vertical space
         gbc.fill = GridBagConstraints.BOTH; // Fill both horizontally and vertically
@@ -86,7 +92,10 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         }
         if (showStatsCheckBox != null) {
             Config.getPref().putBoolean("urbaneye3d.stats.enabled", showStatsCheckBox.isSelected());
-		}	
+		}
+        if (useSatelliteCheckBox != null) {
+            Config.getPref().putBoolean("urbaneye3d.ground-plane.use-satellite", useSatelliteCheckBox.isSelected());
+        }
         if (forestDensitySlider != null) {
             Config.getPref().putInt("urbaneye3d.forest-density", forestDensitySlider.getValue());
         }

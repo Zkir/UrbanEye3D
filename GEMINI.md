@@ -22,9 +22,7 @@
 
 ### Musts for the Next Release 
 
-1.  **Display MapCSS-based ground-plane regardless of selected satellite layers**    
-    * Currently, 2D Ground Plane only shows up if satellite imagery is disabled. It's not realy convinient ad counter-intuitive. One may want to see sattelite in 2D window and MapCss based layer in 3D windows. 
-	* Solution can be to introduce a new switch in plugin Preferences and a keyboard shortcut to quickly turn satellite imagery on and of, if selected.
+* Currently, none?
     
 #### JOSM patches to monitor
 
@@ -68,11 +66,17 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ## Recent Accomplishments
 ### April 28, 2026
 
-* `roof:shape=many` is rendered as `hipped` (anyway better than just flat) for buildings, but not for building parts. 
-* A new check is added to validator to warn user that roof:shape=many does not make much sense for a building part. 
-    
+*   **Improved Ground Plane Control [#41](https://github.com/Zkir/UrbanEye3D/issues/41):**
+    *   Added a new preference "Use satellite imagery for ground plane" to allow independent control of 3D ground imagery.
+    *   Implemented a keyboard shortcut (`Shift+E`) to quickly toggle between satellite imagery and MapCSS-based imagery in the 3D window.
+    *   This allows users to keep satellite imagery in the 2D window for editing while seeing own Urban Eye rendering style in 3D.
+	
+*   `roof:shape=many` is rendered as `hipped` (anyway better than just flat) for buildings, but not for building parts. 
+*   A new check is added to validator to warn user that roof:shape=many does not make much sense for a building part. 
+
 
 ### April 24, 2026
+
 
 *   **Significantly improved the `OverlappingWallsCheck` validator accuracy.**
     *   Implemented a "visibility check" logic: the validator now ignores overlaps for walls that are completely hidden inside a building (e.g., when two building parts are joined "back-to-back"). This eliminates a large class of false positive warnings.

@@ -241,3 +241,22 @@ The plugin renders some natural features to provide more context to the 3D scene
 
 -   Areas tagged with `natural=wood` or `landuse=forest` are automatically populated with 3D tree models.
 -   **Density Control:** The density of trees can be adjusted in the plugin preferences using the "Forest density" slider.
+
+
+## Ground Plane
+
+The ground plane in the 3D window provides geographical context with "flat" objects: roads, rivers, grassland e.t.c. It supports two main modes:
+
+- **Satellite Imagery:** Loads satellite tiles activated in the main JOSM window. Currently only TMS (Tile Map Service) tiles are supported.
+- **UrbanEye3D own 2D style:** Renders a 2D map on-the-fly based on loaded OSM data using the plugin's built-in MapCSS styles .
+
+### Controlling the Ground Plane
+
+By default, the 3D window attempts to use the topmost visible satellite layer from the JOSM main window. If no satellite layers are visible, it falls back to own 2D rendering.
+
+You can control this behavior independently:
+
+- **Keyboard Shortcut `SHIFT+E`:** Toggles satellite imagery on and off in the 3D window.
+- **Preferences:** A checkbox "Use satellite imagery for ground plane" is available in the plugin settings.
+
+This feature is particularly useful if you want to see satellite imagery in the main JOSM window for editing while seing the end result in the 3D view.

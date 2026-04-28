@@ -18,6 +18,7 @@ import org.openstreetmap.josm.gui.layer.*;
 import org.openstreetmap.josm.spi.preferences.Config;
 import ru.zkir.urbaneye3d.josmactions.ResetCameraAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleFakeAOAction;
+import ru.zkir.urbaneye3d.josmactions.ToggleSatelliteAction;
 import ru.zkir.urbaneye3d.josmactions.ToggleWireframeAction;
 
 import javax.swing.*;
@@ -66,6 +67,7 @@ public class DialogWindow3D extends ToggleDialog
         new ToggleWireframeAction(renderer3D);
         new ToggleFakeAOAction(renderer3D);
         new ResetCameraAction(renderer3D);
+        new ToggleSatelliteAction(this);
 
         renderer3D.addMouseListener(new MouseAdapter() {
             @Override
@@ -323,8 +325,15 @@ public class DialogWindow3D extends ToggleDialog
         }
     }
 
+    public void toggleSatelliteImagery() {
+        boolean useSatellite = Config.getPref().getBoolean("urbaneye3d.ground-plane.use-satellite", true);
+        Config.getPref().putBoolean("urbaneye3d.ground-plane.use-satellite", !useSatellite);
+        requestSceneUpdate(null);
+    }
+
     private GroundPlane.Layer2dInfo getTopmostImageryLayer() {
-        if (MainApplication.getMap()!=null) {
+        boolean useSatellite = Config.getPref().getBoolean("urbaneye3d.ground-plane.use-satellite", true);
+        if (useSatellite && MainApplication.getMap() != null) {
             MapView mv = MainApplication.getMap().mapView;
             for (Layer layer : mv.getLayerManager().getLayers()) {
                 if (layer instanceof TMSLayer && layer.isVisible()) {
@@ -338,10 +347,10 @@ public class DialogWindow3D extends ToggleDialog
             }
         }
 
-        if (listenedLayer!=null){
+        if (listenedLayer != null) {
             String datasetName = listenedLayer.getDataSet().getName();
             return new GroundPlane.Layer2dInfo(datasetName);
-        }else{
+        } else {
             return null;
         }
 
