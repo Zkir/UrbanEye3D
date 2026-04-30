@@ -65,10 +65,18 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ### April 30, 2026
 
+*   **Badminton court markings:**
+    *   Added support for rendering badminton court markings on the ground texture.
+    *   Professional 13.4m x 6.1m court layout is used, including service lines and singles/doubles boundaries.
+    *   Features automatic alignment, 2-meter safety offset, and proportional scaling for smaller areas.
+
 *   **Volleyball pitch markings:**
     *   Added support for rendering volleyball court markings on the ground texture.
     *   Standard 18m x 9m court layout is used, including the center line and attack (3-meter) lines.
     *   Follows the same logic as other sports: automatic alignment along the longest side, 2-meter safety offset, and proportional scaling for smaller areas.
+
+*   **Documentation update:**
+    *   Added a new section to [features.md](docs/features.md) documenting all supported sport pitch markings (soccer, tennis, volleyball, and badminton).
 
 ### April 28, 2026
 

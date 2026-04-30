@@ -243,6 +243,7 @@ The plugin renders some natural features to provide more context to the 3D scene
 -   **Density Control:** The density of trees can be adjusted in the plugin preferences using the "Forest density" slider.
 
 
+
 ## Ground Plane
 
 The ground plane in the 3D window provides geographical context with "flat" objects: roads, rivers, grassland e.t.c. It supports two main modes:
@@ -260,3 +261,19 @@ You can control this behavior independently:
 - **Preferences:** A checkbox "Use satellite imagery for ground plane" is available in the plugin settings.
 
 This feature is particularly useful if you want to see satellite imagery in the main JOSM window for editing while seing the end result in the 3D view.
+
+
+### Sport Pitch Markings
+
+The plugin renders certain objects directly on the ground texture that are difficult to represent with standard MapCSS, such as sport pitch markings.
+
+For objects tagged with `leisure=pitch`, the plugin automatically renders characteristic professional markings based on the `sport` tag.
+
+- `sport=soccer`: Renders FIFA-standard soccer pitch markings.
+- `sport=tennis`: Renders professional tennis court markings.
+- `sport=volleyball`: Renders FIVB-standard volleyball court markings.
+- `sport=badminton`: Renders professional badminton court markings.
+
+**Automatic Scaling:**
+- The markings are automatically aligned along the longest side of the pitch.
+- For smaller training grounds or school pitches, the markings are proportionally scaled down to fit within the available space.

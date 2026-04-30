@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260430T001716Z",
+  "data_updated" : "20260430T012826Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -135,7 +135,7 @@
   }, {
     "key" : "leisure",
     "value" : "pitch",
-    "description" : "A sports pitch. If sport=soccer or sport=tennis, characteristic markings are rendered on the ground texture."
+    "description" : "A sports pitch. If sport=soccer, tennis, volleyball or badminton, characteristic markings are rendered on the ground texture."
   }, {
     "key" : "location",
     "value" : "underground",
@@ -342,6 +342,10 @@
     "key" : "shape",
     "value" : "hyperboloid",
     "description" : "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
+  }, {
+    "key" : "sport",
+    "value" : "badminton",
+    "description" : "Indicates that the pitch is used for badminton. Triggers rendering of badminton court markings."
   }, {
     "key" : "sport",
     "value" : "soccer",
