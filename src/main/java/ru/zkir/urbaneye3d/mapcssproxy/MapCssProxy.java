@@ -16,6 +16,8 @@ public class MapCssProxy
 {
 
     public BufferedImage render(DataSet dataSet, Bounds bounds, double scale, ArrayList<String> styleUrls) throws IOException, IllegalDataException {
+
+        // 1. Invoke JOSM MapCSS rendering engine with our own style
         List<RenderingHelper.StyleData> argStyles = new ArrayList<>();
 
         for (var styleUrl:styleUrls) {
@@ -26,6 +28,13 @@ public class MapCssProxy
 
         RenderingHelper rh = new RenderingHelper(dataSet, bounds, scale, argStyles);
         BufferedImage image = rh.render();
+
+        // 2. We have some own logic, which cannot be handled by MapCSS currently.
+        //    so we have to do that ourselves.
+        if (image != null) {
+            GroundDecorations.drawGroundDecorations(image, dataSet, bounds, scale);
+        }
+
         return  image;
 
     }

@@ -63,7 +63,13 @@
 See: [IDEAS.md](docs/dev/IDEAS.md)
 
 
-## Recent Accomplishments
+### April 30, 2026
+
+*   **Volleyball pitch markings:**
+    *   Added support for rendering volleyball court markings on the ground texture.
+    *   Standard 18m x 9m court layout is used, including the center line and attack (3-meter) lines.
+    *   Follows the same logic as other sports: automatic alignment along the longest side, 2-meter safety offset, and proportional scaling for smaller areas.
+
 ### April 28, 2026
 
 *   **Improved Ground Plane Control [#41](https://github.com/Zkir/UrbanEye3D/issues/41):**

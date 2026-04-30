@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260429T232510Z",
+  "data_updated" : "20260430T001716Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -350,6 +350,10 @@
     "key" : "sport",
     "value" : "tennis",
     "description" : "Indicates that the pitch is used for tennis. Triggers rendering of tennis court markings."
+  }, {
+    "key" : "sport",
+    "value" : "volleyball",
+    "description" : "Indicates that the pitch is used for volleyball. Triggers rendering of volleyball court markings."
   }, {
     "key" : "step:height",
     "description" : "Defines the height of each individual step for building:part=steps. 0.16 is used as default "

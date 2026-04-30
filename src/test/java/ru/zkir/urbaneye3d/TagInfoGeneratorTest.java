@@ -146,6 +146,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("leisure=pitch", "A sports pitch. If sport=soccer or sport=tennis, characteristic markings are rendered on the ground texture.");
         TAG_DESCRIPTIONS.put("sport=soccer", "Indicates that the pitch is used for soccer. Triggers rendering of soccer markings.");
         TAG_DESCRIPTIONS.put("sport=tennis", "Indicates that the pitch is used for tennis. Triggers rendering of tennis court markings.");
+        TAG_DESCRIPTIONS.put("sport=volleyball", "Indicates that the pitch is used for volleyball. Triggers rendering of volleyball court markings.");
 
         //add values from Materials enum. It is good enough description, so we can use it.
         for (var mat:Materials.values()){

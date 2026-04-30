@@ -7,7 +7,6 @@ import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.DataSet;
 import ru.zkir.customtms.MapRenderer;
-import ru.zkir.urbaneye3d.mapcssproxy.GroundDecorations;
 import ru.zkir.urbaneye3d.mapcssproxy.MapCssProxy;
 import ru.zkir.urbaneye3d.utils.*;
 import javax.swing.SwingUtilities;
@@ -27,6 +26,7 @@ import static ru.zkir.urbaneye3d.GroundPlane.ImageryType.MapCSS;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
 
 public class GroundTile {
+
     /**
      * A simple class to represent the coordinates of a ground tile in a grid.
      */
@@ -77,6 +77,7 @@ public class GroundTile {
 
     private GroundPlane.Layer2dInfo imageryLayer;
     private static final int TILE_TEXTURE_SIZE_PIXELS = 2048;
+    private static final double MAPCSS_SCALE = 1; // meters per pixel, for MapCSS. Should correlate with TILE_TEXTURE_SIZE_PIXELS
 
     //TODO: strange bug in JOSM: MapCSS painter partially uses main thread, so background threads fights with each other
     //  we have to decrease number of threads.
@@ -259,7 +260,7 @@ public class GroundTile {
             boolean npotSupported = groundPlane.isNpotSupported();
 
             if (npotSupported) {
-                result = mapCssProxy.render(dataSet, bounds, 1, styles);
+                result = mapCssProxy.render(dataSet, bounds, MAPCSS_SCALE, styles);
             } else {
                 throw new RuntimeException("Support for NPOT textures is not implemented yet!");
             }
@@ -269,10 +270,6 @@ public class GroundTile {
         }
 
         BufferedImage finalResult = result;
-        if (finalResult != null && dataSet != null) {
-            //we have some own logic, which cannot be handled by MapCSS currently.
-            GroundDecorations.drawGroundDecorations(finalResult, dataSet, this.bounds);
-        }
 
         SwingUtilities.invokeLater(() -> {
             if (finalResult != null) {

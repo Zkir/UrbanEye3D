@@ -31,11 +31,12 @@ public class GroundDecorations {
     /**
      * Render ground decorations which MapCss is not capable of, like sport pitch markings
      *
-     * @param image      The BufferedImage representing the ground texture tile.
-     * @param dataSet    The OSM dataset containing map objects.
-     * @param tileBounds The geographic boundaries of the current tile.
+     * @param image       The BufferedImage representing the ground texture tile.
+     * @param dataSet     The OSM dataset containing map objects.
+     * @param tileBounds  The geographic boundaries of the current tile.
+     * @param mapcssScale Meters per pixel
      */
-    public static void drawGroundDecorations(BufferedImage image, DataSet dataSet, Bounds tileBounds) {
+    public static void drawGroundDecorations(BufferedImage image, DataSet dataSet, Bounds tileBounds, double scale) {
 
         Graphics2D g2d = image.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -46,7 +47,7 @@ public class GroundDecorations {
                 }
 
                 if (!(primitive.hasTag("leisure", "pitch") &&
-                        (primitive.hasTag("sport", "soccer") || primitive.hasTag("sport", "tennis")))) {
+                        (primitive.hasTag("sport", "soccer") || primitive.hasTag("sport", "tennis") || primitive.hasTag("sport", "volleyball")))) {
                     continue;
                 }
 
@@ -56,12 +57,17 @@ public class GroundDecorations {
                 }
 
                 if (primitive.hasTag("leisure", "pitch") && primitive.hasTag("sport", "soccer")) {
-                    drawSoccerMarkings(g2d, image.getWidth(), image.getHeight(), primitive, tileBounds);
+                    drawSoccerMarkings(g2d, image.getWidth(), image.getHeight(), primitive, tileBounds, scale);
                     continue; // one marking is enough
                 }
 
                 if (primitive.hasTag("leisure", "pitch") && primitive.hasTag("sport", "tennis")) {
-                    drawTennisMarkings(g2d, image.getWidth(), image.getHeight(), primitive, tileBounds);
+                    drawTennisMarkings(g2d, image.getWidth(), image.getHeight(), primitive, tileBounds, scale);
+                    continue; // one marking is enough
+                }
+
+                if (primitive.hasTag("leisure", "pitch") && primitive.hasTag("sport", "volleyball")) {
+                    drawVolleyballMarkings(g2d, image.getWidth(), image.getHeight(), primitive, tileBounds, scale);
                     continue; // one marking is enough
                 }
             }
@@ -76,11 +82,11 @@ public class GroundDecorations {
      * This method identifies soccer pitches, finds the largest inscribed rectangle,
      * and renders FIFA-standard markings (penalty areas, circles, arcs) centered within it.
      */
-    private static void drawSoccerMarkings(Graphics2D g2d, int imgWidth, int imgHeight, OsmPrimitive primitive, Bounds tileBounds) {
+    private static void drawSoccerMarkings(Graphics2D g2d, int imgWidth, int imgHeight, OsmPrimitive primitive, Bounds tileBounds, double scale) {
         LatLon tileCenter = tileBounds.getCenter();
 
         // Factor to convert real meters to pixels (since 1 EN unit = 1 pixel in our MapCSS render)
-        double mToPixFactor = 1.0 / cos(toRadians(tileCenter.lat()));
+        double mToPixFactor = 1.0 / scale / cos(toRadians(tileCenter.lat()));
 
         Contour contour = new Contour(primitive);
         if (contour.outerRings.isEmpty()) {
@@ -214,9 +220,9 @@ public class GroundDecorations {
     /*
      * Draws professional tennis court markings on the generated ground texture.
      */
-    private static void drawTennisMarkings(Graphics2D g2d, int imgWidth, int imgHeight, OsmPrimitive primitive, Bounds tileBounds) {
+    private static void drawTennisMarkings(Graphics2D g2d, int imgWidth, int imgHeight, OsmPrimitive primitive, Bounds tileBounds, double scale) {
         LatLon tileCenter = tileBounds.getCenter();
-        double mToPixFactor = 1.0 / cos(toRadians(tileCenter.lat()));
+        double mToPixFactor = 1.0 / scale / cos(toRadians(tileCenter.lat()));
 
         Contour contour = new Contour(primitive);
         if (contour.outerRings.isEmpty()) {
@@ -300,6 +306,97 @@ public class GroundDecorations {
         double markLen = 0.2 * pitchScale;
         g2d.draw(new Line2D.Double(-halfL, 0, -halfL + markLen, 0));
         g2d.draw(new Line2D.Double(halfL, 0, halfL - markLen, 0));
+
+        g2d.setTransform(oldTransform);
+    }
+
+    /*
+     * Draws professional volleyball court markings on the generated ground texture.
+     */
+    private static void drawVolleyballMarkings(Graphics2D g2d, int imgWidth, int imgHeight, OsmPrimitive primitive, Bounds tileBounds, double scale) {
+        LatLon tileCenter = tileBounds.getCenter();
+        double mToPixFactor = 1.0 / scale / cos(toRadians(tileCenter.lat()));
+
+        Contour contour = new Contour(primitive);
+        if (contour.outerRings.isEmpty()) {
+            return;
+        }
+
+        contour.toLocalCoords(tileCenter);
+        contour.removeRedundantNodes();
+
+        Point2D u = findUVForInscribedRectangle(contour);
+        if (u == null) {
+            return;
+        }
+        Rectangle2D.Double rect = contour.findLargestInscribedRectangle(u.x, u.y);
+
+        if (rect == null) {
+            return;
+        }
+
+        double centerPX = rect.x + rect.width / 2.0;
+        double centerPY = rect.y + rect.height / 2.0;
+
+        double nx = -u.y;
+        double ny = u.x;
+        double localCenterX = centerPX * u.x + centerPY * nx;
+        double localCenterY = centerPX * u.y + centerPY * ny;
+
+        AffineTransform oldTransform = g2d.getTransform();
+
+        g2d.translate(imgWidth / 2.0, imgHeight / 2.0);
+        g2d.translate(localCenterX * mToPixFactor, -localCenterY * mToPixFactor);
+        g2d.rotate(-Math.atan2(u.y, u.x));
+        g2d.scale(mToPixFactor, mToPixFactor);
+
+        double pitchLenM = rect.width;
+        double pitchWidthM = rect.height;
+
+        // 2m offset from edges
+        double drawLenM = Math.max(0, pitchLenM - 4.0);
+        double drawWidthM = Math.max(0, pitchWidthM - 4.0);
+
+        // Proportional scaling for small courts (standard: 18m x 9m)
+        double pitchScale = 1.0;
+        if (drawLenM < 18.0) {
+            pitchScale = Math.min(pitchScale, drawLenM / 18.0);
+        }
+        if (drawWidthM < 9.0) {
+            pitchScale = Math.min(pitchScale, drawWidthM / 9.0);
+        }
+
+        g2d.setColor(new Color(255, 255, 255, 220));
+        g2d.setStroke(new BasicStroke(0.4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+
+        double L = 18.0 * pitchScale;
+        double W = 9.0 * pitchScale;
+        double attackLineDist = 3.0 * pitchScale;
+
+        double halfL = L / 2.0;
+        double halfW = W / 2.0;
+
+        // Perimeter
+        g2d.draw(new Rectangle2D.Double(-halfL, -halfW, L, W));
+
+        // Center line
+        g2d.draw(new Line2D.Double(0, -halfW, 0, halfW));
+
+        // Attack lines
+        g2d.draw(new Line2D.Double(-attackLineDist, -halfW, -attackLineDist, halfW));
+        g2d.draw(new Line2D.Double(attackLineDist, -halfW, attackLineDist, halfW));
+
+        // Dashed extensions of attack lines (FIVB standard)
+        // Simplified for rendering: dashed lines to the end of the free zone (2m)
+        float[] dashPattern = {0.15f * (float)pitchScale, 0.20f * (float)pitchScale};
+        g2d.setStroke(new BasicStroke(0.4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, dashPattern, 0.0f));
+
+        for (int side : new int[]{-1, 1}) {
+            double x = side * attackLineDist;
+            // Draw extensions up and down from the court boundaries to the 2m offset
+            g2d.draw(new Line2D.Double(x, -halfW, x, -halfW - 2.0));
+            g2d.draw(new Line2D.Double(x, halfW, x, halfW + 2.0));
+        }
 
         g2d.setTransform(oldTransform);
     }
