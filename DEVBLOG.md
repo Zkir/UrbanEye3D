@@ -1,5 +1,8 @@
 # Development History
 
+## Version 2.1.3 (May 01, 2026)
+* Fixed bug in tag validator with height value unit (see [gh issue 52](https://github.com/Zkir/UrbanEye3D/issues/52))
+
 ## Version 2.1.2 (April 23, 2026)
 * French translation by **Lejun** has been added
 * [Cornish](https://en.wikipedia.org/wiki/Cornish_language) translation by @linfindel has been added

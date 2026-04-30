@@ -13,6 +13,7 @@ import org.openstreetmap.josm.io.OsmWriterFactory;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.FlatEarth;
+import ru.zkir.urbaneye3d.utils.OsmDataWasher;
 import ru.zkir.urbaneye3d.utils.Point2D;
 
 import java.io.FileOutputStream;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 
 /**
  *  This class contains checks for building and building part spatial validity.
@@ -96,28 +98,22 @@ public class SpatialConsistencyChecks extends Test {
         partParents = null;
     }
 
+    /** Calculation of building height or part height.
+     * It's a simplified version in comparison with what we have is RenderableElement.createBuildingOrPartRecipe()
+     * We do not use any default height, because for the purposes of validator it is not needed. */
     private double getPrimitiveHeight(OsmPrimitive p) {
-        String heightStr = p.get("height");
-        if (heightStr != null) {
-            try {
-                // Handle comma as decimal separator
-                heightStr = heightStr.replace(',', '.');
-                return Double.parseDouble(heightStr);
-            } catch (NumberFormatException e) {
-                // Ignore invalid height values
+        Double height = OsmDataWasher.getTagD("height", p.getInterestingTags(), null);
+        if (height != null) {
+            //First try: from height tag.
+            return height;
+        } else {
+            //Second try: from building:levels and roof:levels
+            Double building_levels = OsmDataWasher.getTagD("building:levels", p.getInterestingTags(), null);
+            Double roof_levels = OsmDataWasher.getTagD("roof:levels", p.getInterestingTags(), 0);
+            if (building_levels != null) {
+                return (building_levels + roof_levels) * DEFAULT_LEVEL_HEIGHT;
             }
         }
-
-        String levelsStr = p.get("building:levels");
-        if (levelsStr != null) {
-            try {
-                int levels = Integer.parseInt(levelsStr);
-                return levels * 3.0; // Assume 3 meters per level
-            } catch (NumberFormatException e) {
-                // Ignore invalid levels values
-            }
-        }
-
         return 0.0; // No height information
     }
 
