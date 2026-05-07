@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: UrbanEye3D\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-06 05:51+0300\n"
-"PO-Revision-Date: 2026-04-13 03:22+0300\n"
+"PO-Revision-Date: 2026-04-30 12:00+0300\n"
 "Last-Translator: Zkir\n"
 "Language-Team: Zkir <zkir@zkir.ru>\n"
 "Language: ru\n"
@@ -170,3 +170,31 @@ msgstr "Густота леса"
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:66
 msgid "Adjust the number of trees generated in forest polygons. This setting affects performance."
 msgstr "Настройка количества деревьев в полигонах леса. Этот параметр влияет на производительность."
+
+# New strings for version 2.2
+msgid "Use satellite imagery for ground plane"
+msgstr "Использовать спутниковые снимки для поверхности земли"
+
+msgid "If checked, active satellite imagery will be used in 3D ground plane when available. If unchecked, plugin's own 2D style will be used to render flat objects."
+msgstr "Если включено, для поверхности земли в 3D будут использоваться активные спутниковые снимки (если они есть). Если выключено, будет использоваться собственный 2D-стиль плагина."
+
+msgid "Satellite imagery"
+msgstr "Спутниковые снимки"
+
+msgid "Toggle satellite imagery on ground plane"
+msgstr "Переключить отображение спутниковых снимков на земле"
+
+msgid "Toggle Satellite Imagery"
+msgstr "Переключить спутниковые снимки"
+
+msgid "[UrbanEye3D] Overlapping 3D walls check"
+msgstr "[UrbanEye3D] Проверка перекрывающихся 3D-стен"
+
+msgid "Detects overlapping 3D walls that cause Z-fighting."
+msgstr "Обнаруживает перекрывающиеся 3D-стены, вызывающие мерцание (Z-fighting)."
+
+msgid "Overlapping 3D walls (potential Z-fighting)"
+msgstr "Перекрывающиеся 3D-стены (потенциальное мерцание)"
+
+msgid "roof:shape=many is not allowed for building parts"
+msgstr "roof:shape=many не разрешается для частей зданий"

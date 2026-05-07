@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-28 17:51:03+0300\n"
+"POT-Creation-Date: 2026-05-08 02:29:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,15 +26,15 @@ msgstr ""
 msgid "Automatically download incomplete multipolygons"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:186
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:177
 msgid "Building height ({0}m) and calculated part height ({1}m) differ significantly"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:171
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:163
 msgid "Building is not fully covered by its parts"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:40
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:42
 msgid "Building outline should be fully covered by parts. Parts should not be orphans. Note this test may show false positives on incomplete data"
 msgstr ""
 
@@ -74,12 +74,12 @@ msgstr ""
 msgid "If checked, a fake ambient occlusion effect will be applied."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:41
-msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:65
+msgid "If checked, active satellite imagery will be used in 3D ground plane when available. If unchecked, plugin's own 2D style will be used to render flat objects."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:65
-msgid "If checked, satellite imagery will be used for the 3D ground plane when available. If unchecked, MapCSS-based imagery will be used."
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:41
+msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
 msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:59
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Open current view in F4 Map"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:196
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:190
 msgid "Orphaned building part"
 msgstr ""
 
@@ -192,7 +192,7 @@ msgstr ""
 msgid "Wireframe"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:39
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:41
 msgid "[UrbanEye3D] Building and building parts spatial consistency check"
 msgstr ""
 

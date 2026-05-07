@@ -65,6 +65,8 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ### May 07, 2026
 
+*   **Finalized and cleaned up translations for version 2.2:**
+
 * `roof:shape=saltbox` has been reimplemented according to the [wiki page](https://wiki.openstreetmap.org/wiki/Tag:roof:shape=saltbox), with asymmetrical sides, but symmetrical heights.
 
 

@@ -168,3 +168,39 @@ msgstr "Jika dicentang, jumlah objek, sisi dan waktu bingkai akan ditampilkan di
 #: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:365
 msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
 msgstr "Objek: {0}, Sisi: {1}, Rata-rata waktu bingkai: {2} ms"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:64
+msgid "Use satellite imagery for ground plane"
+msgstr "Gunakan citra satelit untuk permukaan tanah"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:66
+msgid "If checked, active satellite imagery will be used in 3D ground plane when available. If unchecked, plugin's own 2D style will be used to render flat objects."
+msgstr "Jika dicentang, citra satelit aktif akan digunakan pada permukaan tanah 3D jika tersedia. Jika tidak dicentang, gaya 2D plugin sendiri akan digunakan untuk merender objek datar."
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:17
+msgid "Satellite imagery"
+msgstr "Citra satelit"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:17
+msgid "Toggle satellite imagery on ground plane"
+msgstr "Alihkan citra satelit pada permukaan tanah"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:18
+msgid "Toggle Satellite Imagery"
+msgstr "Alihkan Citra Satelit"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:25
+msgid "[UrbanEye3D] Overlapping 3D walls check"
+msgstr "[UrbanEye3D] Pemeriksaan dinding 3D yang tumpang tindih"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:26
+msgid "Detects overlapping 3D walls that cause Z-fighting."
+msgstr "Mendeteksi dinding 3D yang tumpang tindih yang menyebabkan kedipan (Z-fighting)."
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:180
+msgid "Overlapping 3D walls (potential Z-fighting)"
+msgstr "Dinding 3D yang tumpang tindih (potensi kedipan)"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:95
+msgid "roof:shape=many is not allowed for building parts"
+msgstr "roof:shape=many tidak diperbolehkan untuk bagian bangunan"

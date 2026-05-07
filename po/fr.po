@@ -64,7 +64,7 @@ msgstr "Si activée, un effet d'occlusion ambiante sera simulé."
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:36
 msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
-msgstr "Si activée, seulement le contour des bâtimets sera affiché."
+msgstr "Si activée, seulement le contour des bâtiments sera affiché."
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:48
 msgid "If checked, the plugin will attempt to download missing members of multipolygons."
@@ -99,9 +99,9 @@ msgstr "Réinitialiser la vue caméra"
 msgid "Reset camera view to default position"
 msgstr "Réinitialise la vue caméra dans sa position initiale"
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:84
-msgid "Settings for the UrbanEye3D plugin"
-msgstr "Options pour l'extension UrbanEye3D"
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:117
+msgid "Settings for the Urban Eye 3D plugin"
+msgstr "Options pour l'extension Urban Eye 3D"
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleFakeAOAction.java:16
 msgid "Toggle Fake AO"
@@ -119,11 +119,11 @@ msgstr "Activer fil de fer"
 msgid "Toggle wireframe mode"
 msgstr "Activer le mode fil de fer"
 
-#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:56
-#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:59
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:79
-msgid "UrbanEye3D"
-msgstr "UrbanEye3D"
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:57
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:60
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:113
+msgid "Urban Eye 3D"
+msgstr "Urban Eye 3D"
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:21
 msgid "UrbanEye3D: Open in F4 Map"
@@ -150,3 +150,59 @@ msgstr "[UrbanEye3D] Vérification spatiale du bâti et ses parties"
 #: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:34
 msgid "[UrbanEye3D] Tag validity checks"
 msgstr "[UrbanEye3D] Vérification des attributs"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:64
+msgid "Use satellite imagery for ground plane"
+msgstr "Utiliser l'imagerie satellite pour la surface du sol"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:66
+msgid "If checked, active satellite imagery will be used in 3D ground plane when available. If unchecked, plugin's own 2D style will be used to render flat objects."
+msgstr "Si coché, l'imagerie satellite active sera utilisée pour la surface du sol en 3D si disponible. Sinon, le style 2D du plugin sera utilisé pour le rendu des objets plats."
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:17
+msgid "Satellite imagery"
+msgstr "Imagerie satellite"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:17
+msgid "Toggle satellite imagery on ground plane"
+msgstr "Basculer l'imagerie satellite sur la surface du sol"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:18
+msgid "Toggle Satellite Imagery"
+msgstr "Basculer l'imagerie satellite"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:25
+msgid "[UrbanEye3D] Overlapping 3D walls check"
+msgstr "[UrbanEye3D] Vérification du chevauchement des murs 3D"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:26
+msgid "Detects overlapping 3D walls that cause Z-fighting."
+msgstr "Détecte les murs 3D qui se chevauchent et provoquent du scintillement (Z-fighting)."
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:180
+msgid "Overlapping 3D walls (potential Z-fighting)"
+msgstr "Murs 3D se chevauchant (scintillement potentiel)"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:95
+msgid "roof:shape=many is not allowed for building parts"
+msgstr "roof:shape=many n'est pas autorisé pour les parties de bâtiment"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:55
+msgid "Show scene statistics"
+msgstr "Afficher les statistiques de la scène"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:59
+msgid "If checked, the number of objects, faces and frame time will be displayed in the top-left corner."
+msgstr "Si coché, le nombre d'objets, de faces et le temps de rendu des images seront affichés dans le coin supérieur gauche."
+
+#: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:365
+msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
+msgstr "Objets : {0}, Faces : {1}, Temps de rendu moyen : {2} ms"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:66
+msgid "Forest density"
+msgstr "Densité de la forêt"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:73
+msgid "Adjust the number of trees generated in forest polygons. This setting affects performance."
+msgstr "Ajuster le nombre d'arbres générés dans les polygones de forêt. Ce paramètre affecte les performances."

@@ -3,14 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Zkir <zkir@zkir.com>, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: UrbanEye3D JOSM plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-08 06:25:16+0300\n"
-"PO-Revision-Date: 2026-04-13 03:11+0300\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2026-04-30 12:00+0300\n"
+"Last-Translator: Zkir\n"
 "Language-Team: Zkir\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -168,3 +167,31 @@ msgstr "[UrbanEye3D] Räumliche Konsistenzprüfung von Gebäuden und Gebäudetei
 #: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:34
 msgid "[UrbanEye3D] Tag validity checks"
 msgstr "[UrbanEye3D] Attributgültigkeitsprüfungen"
+
+# New strings for version 2.2
+msgid "Use satellite imagery for ground plane"
+msgstr "Satellitenbilder für die Bodenoberfläche verwenden"
+
+msgid "If checked, active satellite imagery will be used in 3D ground plane when available. If unchecked, plugin's own 2D style will be used to render flat objects."
+msgstr "Wenn aktiviert, werden aktive Satellitenbilder für die 3D-Bodenoberfläche verwendet (sofern verfügbar). Wenn deaktiviert, wird der eigene 2D-Stil des Plugins verwendet."
+
+msgid "Satellite imagery"
+msgstr "Satellitenbilder"
+
+msgid "Toggle satellite imagery on ground plane"
+msgstr "Satellitenbilder auf der Bodenoberfläche umschalten"
+
+msgid "Toggle Satellite Imagery"
+msgstr "Satellitenbilder umschalten"
+
+msgid "[UrbanEye3D] Overlapping 3D walls check"
+msgstr "[UrbanEye3D] Prüfung auf überlappende 3D-Wände"
+
+msgid "Detects overlapping 3D walls that cause Z-fighting."
+msgstr "Erkennt überlappende 3D-Wände, die Z-Fighting (Flackern) verursachen."
+
+msgid "Overlapping 3D walls (potential Z-fighting)"
+msgstr "Überlappende 3D-Wände (potenzielles Z-Fighting)"
+
+msgid "roof:shape=many is not allowed for building parts"
+msgstr "roof:shape=many ist für Gebäudeteile nicht zulässig"

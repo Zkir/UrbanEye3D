@@ -180,3 +180,40 @@ msgstr "[UrbanEye3D] Kontroly konzistentnosti budov a ich častí"
 #: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:34
 msgid "[UrbanEye3D] Tag validity checks"
 msgstr "[UrbanEye3D] Kontroly platnosti značiek"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:64
+msgid "Use satellite imagery for ground plane"
+msgstr "Použiť satelitné snímky pre zemský povrch"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:66
+msgid "If checked, active satellite imagery will be used in 3D ground plane when available. If unchecked, plugin's own 2D style will be used to render flat objects."
+msgstr "Ak je zaškrtnuté, aktívne satelitné snímky sa použijú pre 3D zemský povrch, ak sú k dispozícii. Ak nie je zaškrtnuté, na vykreslenie plochých objektov sa použije vlastný 2D štýl zásuvného modulu."
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:17
+msgid "Satellite imagery"
+msgstr "Satelitné snímky"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:17
+msgid "Toggle satellite imagery on ground plane"
+msgstr "Prepnúť satelitné snímky na zemskom povrchu"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:18
+msgid "Toggle Satellite Imagery"
+msgstr "Prepnúť satelitné snímky"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:25
+msgid "[UrbanEye3D] Overlapping 3D walls check"
+msgstr "[UrbanEye3D] Kontrola prekrývajúcich sa 3D stien"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:26
+msgid "Detects overlapping 3D walls that cause Z-fighting."
+msgstr "Detekuje prekrývajúce sa 3D steny, ktoré spôsobujú blikanie (Z-fighting)."
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:180
+msgid "Overlapping 3D walls (potential Z-fighting)"
+msgstr "Prekrývajúce sa 3D steny (potenciálne blikanie)"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:95
+msgid "roof:shape=many is not allowed for building parts"
+msgstr "roof:shape=many nie je povolené pre časti budov"
+

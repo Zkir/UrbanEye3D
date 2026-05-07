@@ -167,3 +167,40 @@ msgstr "[UrbanEye3D] Controllo di coerenza spaziale di edifici e parti di edific
 #: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:34
 msgid "[UrbanEye3D] Tag validity checks"
 msgstr "[UrbanEye3D] Controlli di validità dei tag"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:64
+msgid "Use satellite imagery for ground plane"
+msgstr "Usa immagini satellitari per il suolo"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:66
+msgid "If checked, active satellite imagery will be used in 3D ground plane when available. If unchecked, plugin's own 2D style will be used to render flat objects."
+msgstr "Se selezionato, le immagini satellitari attive saranno utilizzate per il suolo 3D quando disponibili. Se deselezionato, verrà utilizzato lo stile 2D del plugin per il rendering degli oggetti piatti."
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:17
+msgid "Satellite imagery"
+msgstr "Immagini satellitari"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:17
+msgid "Toggle satellite imagery on ground plane"
+msgstr "Attiva/disattiva immagini satellitari sul suolo"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleSatelliteAction.java:18
+msgid "Toggle Satellite Imagery"
+msgstr "Attiva/disattiva immagini satellitari"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:25
+msgid "[UrbanEye3D] Overlapping 3D walls check"
+msgstr "[UrbanEye3D] Controllo sovrapposizione pareti 3D"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:26
+msgid "Detects overlapping 3D walls that cause Z-fighting."
+msgstr "Rileva la sovrapposizione di pareti 3D che causano sfarfallio (Z-fighting)."
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:180
+msgid "Overlapping 3D walls (potential Z-fighting)"
+msgstr "Pareti 3D sovrapposte (potenziale sfarfallio)"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:95
+msgid "roof:shape=many is not allowed for building parts"
+msgstr "roof:shape=many non è consentito per le parti di edifici"
+
