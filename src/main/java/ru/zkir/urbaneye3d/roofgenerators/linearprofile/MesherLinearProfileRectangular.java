@@ -34,10 +34,15 @@ public class MesherLinearProfileRectangular  { //extends RoofGenerator
 
         // 1. Рассчитать длины сторон
         double[] sideLengths = new double[4];
+        Point2D[] sideNormals = new Point2D[4];
         for (int i = 0; i < 4; i++) {
             Point2D p1 = basePoints.get(i);
             Point2D p2 = basePoints.get((i + 1) % 4);
-            sideLengths[i] = p1.distance(p2);
+            Point2D sideVector = p2.subtract(p1);
+            sideLengths[i] = sideVector.length();
+            //Note: we do not know whether this normal looking inside or outside
+            //  and right now do not even bother
+            sideNormals[i] = new Point2D(-sideVector.y, sideVector.x);
         }
 
         // 2. Найти самую длинную сторону
@@ -52,15 +57,18 @@ public class MesherLinearProfileRectangular  { //extends RoofGenerator
                 longestSideIndex = (longestSideIndex + 1) % 4;
             }
         }else if ( building.roofDirection!=null && !Double.isNaN(building.roofDirection)){
-            //process direction.
-            //direction specified in roof:direction is direction across the ridge.that's why acrossDirection is parallel to the longest side.
-            Point3D acrossDirection = new Point3D(basePoints.get(longestSideIndex).subtract(basePoints.get((longestSideIndex + 1) % 4))).normalize();
-            Point3D alongDirection = new Point3D(basePoints.get((longestSideIndex+1) % 4).subtract(basePoints.get((longestSideIndex + 2) % 4))).normalize();
-
+            //convert the given direction from degrees to vector
             double d = Math.toRadians(building.roofDirection);
-            var orig_direction = new Point3D(Math.sin(d), Math.cos(d), 0.);
-            if( Math.abs(orig_direction.dot(alongDirection)) < Math.abs(orig_direction.dot(acrossDirection))){
-                longestSideIndex = (longestSideIndex + 1) % 4; //across!!
+            var direction = new Point2D(Math.sin(d), Math.cos(d));
+
+            //let's do a simple thing and find the side which normal is closes to the given direction
+            double max_dp = Double.NEGATIVE_INFINITY;
+            for (int i = 0; i < 4; i++) {
+                var dp = direction.dot( sideNormals[i]);
+                if (dp > max_dp ){
+                    max_dp = dp;
+                    longestSideIndex=i;
+                }
             }
         }
 

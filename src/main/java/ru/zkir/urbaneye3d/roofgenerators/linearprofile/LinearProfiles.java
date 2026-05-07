@@ -46,10 +46,15 @@ public enum LinearProfiles {
     SALTBOX(new Point2D[]{// or is it a "double_saltbox"? See https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table#Subtype_3
             new Point2D(0.0000, 0.0000),
             new Point2D(0.3333, 1.0000),
+            new Point2D(1.0000, 0.0000)
+    }, 100, 0.5),
+
+    DOUBLE_SALTBOX(new Point2D[]{// or is it a "double_saltbox"? See https://wiki.openstreetmap.org/wiki/OSM-4D/Roof_table#Subtype_3
+            new Point2D(0.0000, 0.0000),
+            new Point2D(0.3333, 1.0000),
             new Point2D(0.6666, 1.0000),
             new Point2D(1.0000, 0.0000)
-    },
-            100, 0.5);
+    }, 100, 0.5);
 
     final Point2D[] profile;
     final int numSamples;

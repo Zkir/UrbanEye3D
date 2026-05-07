@@ -445,10 +445,17 @@ public class MesherLinearProfileQuasiRectangular {
         } else if (building.roofDirection != null && !Double.isNaN(building.roofDirection)) {
             double d = Math.toRadians(building.roofDirection);
             var orig_direction = new Point3D(Math.sin(d), Math.cos(d), 0.);
-            if (Math.abs(orig_direction.dot(alongDirection)) > Math.abs(orig_direction.dot(acrossDirection))) {
-                this.direction = alongDirection;
-            } else {
-                this.direction = acrossDirection;
+
+            //we have 4 directions to which we have to "snap".
+            Point3D[] directions = { alongDirection, acrossDirection, alongDirection.mult(-1), acrossDirection.mult(-1) };
+
+            var max_dp = Double.NEGATIVE_INFINITY;
+            for (var direction: directions){
+                var dp = orig_direction.dot(direction);
+                if (dp>max_dp){
+                    max_dp = dp;
+                    this.direction = direction;
+                }
             }
         }
 
