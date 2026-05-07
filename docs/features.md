@@ -124,11 +124,14 @@ Note: here we follow the F4 map approach, and an original OSM way/relation defin
 
 
 ### `saltbox`
-There is no consensus in OSM about what `roof:shape=saltbox` should mean. Here we just follow the F4 map interpretation.
+The saltbox roof is supported as asymmetrical gabled roof in accordance with the corresponding [osm-wiki page](https://wiki.openstreetmap.org/wiki/Tag:roof:shape%3Dsaltbox), with the following exception: 
+both front and back eaves have equal height. There is not tagging scheme currently to specify different heights (only `roof:height`).
 
 ![Image of a saltbox roof](images/roof_saltbox.png)
 
-The keys `roof:orientation` and `roof:direction` should work as for other similar roof shapes.
+`roof:orientation` can be `along` or `across`, but it cannot unambigously specify roof orientation, due to its assimmetrical nature. `roof:direction` specifies direction of the longer slope.
+
+**Note:** There are several other interpretations in the OSM community what the saltbox roof is.  We follow the _main_ wiki page wit tag definition. F4 map renderes this roof shape differently. 
 
 ### `cross_gabled` (or `crosspitched`)
 Two gabled roof sections are put together at right angles.
@@ -152,6 +155,8 @@ This roof shape is particularly useful for building parts, to easily create a bu
 
 ### `side_half-hipped`
 A combination of a half-hipped and a gabled roof. One end is half-hipped (a vertical trapezoid wall topped with a small sloped roof triangle), and the other end is a full vertical gable. This is common for semi-detached houses where the whole building has a `half-hipped` roof.
+
+![Image of a side_half-hipped roof](images/roof_side_half-hipped.png)
 
 Only quadrangular footprints are supported. The orientation is controlled via the `roof:direction` tag. The direction value signifies the direction from the roof centroid to the half-hipped face.
 
@@ -274,6 +279,16 @@ For objects tagged with `leisure=pitch`, the plugin automatically renders charac
 - `sport=volleyball`: Renders FIVB-standard volleyball court markings.
 - `sport=badminton`: Renders professional badminton court markings.
 
+
+![pitches with markings](images/leisure_pitch.png)
+
 **Automatic Scaling:**
 - The markings are automatically aligned along the longest side of the pitch.
 - For smaller training grounds or school pitches, the markings are proportionally scaled down to fit within the available space.
+
+
+---
+
+The Urban Eye is watching you!  
+
+<img src="images/pic2.jpg" alt="Urban Eye" width="250px" />

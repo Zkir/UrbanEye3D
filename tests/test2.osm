@@ -84,6 +84,8 @@
   <node id='-37824' action='modify' visible='true' lat='55.04666832464' lon='37.05458140853' />
   <node id='-37825' action='modify' visible='true' lat='55.04667832824' lon='37.05502698803' />
   <node id='-37826' action='modify' visible='true' lat='55.04630156338' lon='37.05505275886' />
+  <node id='-38930' action='modify' visible='true' lat='55.05059074013' lon='37.04888646581' />
+  <node id='-39344' action='modify' visible='true' lat='55.05044079973' lon='37.05341662947' />
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />
@@ -135,30 +137,33 @@
   </way>
   <way id='-13307' action='modify' visible='true'>
     <nd ref='-37606' />
+    <nd ref='-38930' />
     <nd ref='-37607' />
     <nd ref='-37608' />
     <nd ref='-37609' />
     <nd ref='-37606' />
     <tag k='building:colour' v='purple' />
     <tag k='building:part' v='yes' />
-    <tag k='height' v='40' />
+    <tag k='height' v='50' />
     <tag k='roof:colour' v='orange' />
-    <tag k='roof:height' v='15' />
-    <tag k='roof:orientation' v='across' />
-    <tag k='roof:shape' v='skillion' />
+    <tag k='roof:direction' v='270' />
+    <tag k='roof:height' v='30' />
+    <tag k='roof:shape' v='saltbox' />
   </way>
   <way id='-13308' action='modify' visible='true'>
     <nd ref='-37610' />
+    <nd ref='-39344' />
     <nd ref='-37611' />
     <nd ref='-37612' />
     <nd ref='-37613' />
     <nd ref='-37610' />
     <tag k='building:colour' v='purple' />
     <tag k='building:part' v='yes' />
-    <tag k='height' v='40' />
+    <tag k='height' v='50' />
     <tag k='roof:colour' v='orange' />
-    <tag k='roof:height' v='15' />
-    <tag k='roof:shape' v='skillion' />
+    <tag k='roof:direction' v='90' />
+    <tag k='roof:height' v='30' />
+    <tag k='roof:shape' v='saltbox' />
   </way>
   <way id='-13309' action='modify' visible='true'>
     <nd ref='-37614' />
