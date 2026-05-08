@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-08 06:25:16+0300\n"
-"PO-Revision-Date: 2026-04-23 11:05+0100\n"
+"PO-Revision-Date: 2026-05-08 16:25+0100\n"
 "Last-Translator: Flynn Peck <cirilla@tuta.io>\n"
 "Language-Team: kw\n"
 "Language: kw\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:44
 msgid "Automatically download incomplete multipolygons"
-msgstr "Iskarga yn awtomatek liesfurvos andhien"
+msgstr "Iskarga yn awtomatek liesfurvow andhien"
 
 #: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:226
 msgid ""
@@ -39,8 +39,8 @@ msgid ""
 "Building outline should be fully covered by parts. Parts should not be "
 "orphans. Note this test may show false positives on incomplete data"
 msgstr ""
-"Furv dhrehevyans a vydh gorherys yn leun gans rannow. Rannow ny godh "
-"omdhivasow. Notya an prov ma a yll diskwedhes posedhegyon fals war dhata "
+"Furv dhrehevyans a godh gorherys yn leun gans rannow. Rannow ny godh "
+"omdhivasow. Notyewgh an prov ma a yll diskwedhes posedhegyon fals war dhata "
 "andhien"
 
 #: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:87
