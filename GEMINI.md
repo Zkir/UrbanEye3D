@@ -64,7 +64,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
-None in the current version
+### 8 May 2026
+*   **Tree species database:**  Implemented a system that automatically determines leaf type (broadleaved/needleleaved) and leaf cycle based on the tree's `species` or `genus` tag.
+*   **Tree species scraper:** Developed a Python script to fetch and parse the tree species list from the OSM Wiki, ensuring the plugin uses up-to-date botanical data.
+*   **Enriched tree rendering:** The 3D viewer now selects more accurate textures for trees even when explicit `leaf_type` tags are missing, improving the visual realism of forests and parks.
 
 ### Earlier
 See [Devblog](DEVBLOG.md)
