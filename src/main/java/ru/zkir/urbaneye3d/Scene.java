@@ -7,11 +7,14 @@ import org.openstreetmap.josm.spi.preferences.Config;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.prep.PreparedGeometry;
 import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
+
+import ru.zkir.urbaneye3d.generators.MesherAdColumn;
 import ru.zkir.urbaneye3d.generators.MesherTree;
 import ru.zkir.urbaneye3d.utils.*;
 
 import java.util.*;
 
+import static java.lang.Math.random;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.MAX_FOREST_DENSITY;
 
@@ -203,7 +206,7 @@ public class Scene {
         }
 
         /*
-         * Trees
+         * Trees and other objects.
          */
         for (Node node : dataSet.getNodes()) {
             if (node.hasTag("natural", "tree")) {
@@ -211,6 +214,9 @@ public class Scene {
                 if (element != null){
                     newElements.add(element);
                 }
+            }
+            if (node.hasTag("advertising", "column")) {
+                newElements.add(RenderableElement.createAdColumn(node, node.getCoor(), node.getInterestingTags(), new Random(node.getId())));
             }
         }
 

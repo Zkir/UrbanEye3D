@@ -5,6 +5,8 @@ import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Way;
+
+import ru.zkir.urbaneye3d.generators.MesherAdColumn;
 import ru.zkir.urbaneye3d.generators.MesherTree;
 
 import ru.zkir.urbaneye3d.utils.Contour;
@@ -436,6 +438,10 @@ public class RenderableElement {
         Mesh treeMesh = MesherTree.generate(treeWidth, treeHeight);
 
         return new RenderableElement(primitive, origin, treeMesh, textureName);
+    }
+
+    public static RenderableElement createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
+        return new RenderableElement(primitive, origin, MesherAdColumn.generate(1.5, 2.5), null);
     }
 
     
