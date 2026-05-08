@@ -1,5 +1,84 @@
 # Development History
 
+## Version 2.2.0 (May 08, 2026)
+
+*   **Finalized and cleaned up translations for version 2.2:**
+
+* `roof:shape=saltbox` has been reimplemented according to the [wiki page](https://wiki.openstreetmap.org/wiki/Tag:roof:shape=saltbox), with asymmetrical sides, but symmetrical heights.
+
+*   **Badminton court markings:**
+    *   Added support for rendering badminton court markings on the ground texture.
+    *   Professional 13.4m x 6.1m court layout is used, including service lines and singles/doubles boundaries.
+    *   Features automatic alignment, 2-meter safety offset, and proportional scaling for smaller areas.
+
+*   **Volleyball pitch markings:**
+    *   Added support for rendering volleyball court markings on the ground texture.
+    *   Standard 18m x 9m court layout is used, including the center line and attack (3-meter) lines.
+    *   Follows the same logic as other sports: automatic alignment along the longest side, 2-meter safety offset, and proportional scaling for smaller areas.
+
+*   **Documentation update:**
+    *   Added a new section to [features.md](docs/features.md) documenting all supported sport pitch markings (soccer, tennis, volleyball, and badminton).
+
+*   **Improved Ground Plane Control [#41](https://github.com/Zkir/UrbanEye3D/issues/41):**
+    *   Added a new preference "Use satellite imagery for ground plane" to allow independent control of 3D ground imagery.
+    *   Implemented a keyboard shortcut (`Shift+E`) to quickly toggle between satellite imagery and MapCSS-based imagery in the 3D window.
+    *   This allows users to keep satellite imagery in the 2D window for editing while seeing own Urban Eye rendering style in 3D.
+	
+*   `roof:shape=many` is rendered as `hipped` (anyway better than just flat) for buildings, but not for building parts. 
+*   A new check is added to validator to warn user that roof:shape=many does not make much sense for a building part. 
+	
+*   **Sports pitch markings:**
+    *   Added rendering of lines for soccer pitches and tennis courts on the ground texture.
+    *   Markings are automatically aligned along the longest side and fit inside the object with a 2-meter offset from the edge.
+    *   For small pitches (school or training grounds), markings are proportionally scaled down to stay within boundaries.
+    *   Supported both simple ways and multipolygons.
+
+
+*   **Significantly improved the `OverlappingWallsCheck` validator accuracy.**
+    *   Implemented a "visibility check" logic: the validator now ignores overlaps for walls that are completely hidden inside a building (e.g., when two building parts are joined "back-to-back"). This eliminates a large class of false positive warnings.
+    *   Added protection against incomplete data: the validator now automatically skips buildings with missing geometry, preventing incorrect reports caused by partially loaded OSM data.
+    *   Refined wall height calculations to account for non-flat roofs, ensuring that sloped roof edges do not trigger false Z-fighting errors.
+    *   Verified the stability of the entire project with 54 automated tests, all of which passed successfully.
+
+* **Implemented `OverlappingWallsCheck` validator.**
+    * New validator detects coplanar 3D walls that cause Z-fighting (flickering).
+    * The algorithm uses oriented segments and Z-height ranges to distinguish between actual overlaps and valid touching walls.
+
+
+*   **Support for `side_half-hipped` Roof Shape:**
+    *   Implemented the `side_half-hipped` roof shape in `MesherSideHalfHipped`, providing a transition between a half-hipped end and a vertical gabled end.
+    *   Ensured correct slope alignment by calculating the ridge setback as `b/4` for the half-hipped side, maintaining geometric consistency with the eaves.
+    *   Fully supported `roof:direction` to allow users to specify which side should be half-hipped.
+
+*   **Graphics Pipeline Optimization - Frustum Culling:**
+    *   Implemented **Frustum Culling** in `Renderer3D` to improve rendering performance.
+    *   Added bounding box computation to the `Mesh` class to enable efficient culling checks.
+    *   The renderer now extracts 6 frustum planes from the ModelView-Projection matrix and skips objects entirely outside the view, while still respecting the distance-based `visibleArea` culling.
+    *   This reduces the number of draw calls and vertex data transfers for complex scenes.
+
+*   **Scene Statistics Overlay:**
+    *   Implemented a statistics overlay in the top-left corner of the 3D scene, displaying the number of objects, total face count, and average frame rendering time (moving average over the last 60 frames).
+    *   Added a new preference setting "Show scene statistics" in the plugin settings to toggle this display.
+    *   Ensured full internationalization (i18n) support for the new strings, including updated Russian translations.
+    *   Calculated object and face counts efficiently during scene updates.
+
+*   **Improved Forest Generation (Poisson Disk Sampling):**
+    *   Replaced the uniform random tree placement with **Poisson Disk Sampling** using Robert Bridson's O(N) algorithm.
+    *   This ensures a more natural and organic distribution of trees, preventing unnatural clusters and overlapping trunks.
+    *   Implemented the new `PoissonDiskSampler` utility class.
+    *   Configured the minimum distance between trees to be $R = \text{DEFAULT\_TREE\_HEIGHT} / 3.0$ at maximum density, with dynamic scaling based on the user's forest density setting.
+    *   Integrated JTS `PreparedGeometry` for highly efficient point-in-polygon filtering during generation.
+
+*   **Automatic Forest Generation:**
+    *   Implemented automatic population of `natural=wood` and `landuse=forest` polygons with 3D tree models.
+    *   Integrated JTS (Java Topology Suite) for robust polygon triangulation, handling complex forest footprints with holes.
+    *   Added a "Forest density" slider to the plugin preferences, allowing users to control the tree density in real-time.
+    *   Updated `FlatEarth` utility with inverse coordinate conversion and `toJTSPolygon` helper in `Contour`.
+    *   Enhanced `SceneTest` with comprehensive unit tests for forest generation.
+    *   Updated `TagInfoGeneratorTest` and `textures.cfg` to support and document the new forest tags.
+
+
+
 ## Version 2.1.3 (May 01, 2026)
 * Fixed bug in tag validator with height value unit (see [gh issue 52](https://github.com/Zkir/UrbanEye3D/issues/52))
 
