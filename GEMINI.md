@@ -64,6 +64,12 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### 10 May 2026
+*   **Automated Tree Taxonomy Analysis:** Developed a sophisticated analysis tool that compares global OSM tag statistics with the Wiki's curated species list. It automatically identifies missing species, detects taxonomic synonyms, and flags common formatting typos (like missing hybrid signs) using the Royal Botanic Gardens, Kew (POWO) API.
+*   **Wiki Content Generation:** Automated the generation of complete OSM Wiki tables in the required compact format. This directly facilitated the update of the global "List of Species" with dozens of newly verified and accepted tree types.
+*   **Robust Data Processing:** Enhanced existing botanical data scripts with absolute path handling, ensuring consistent performance regardless of the execution directory.
+*   **Synonym Mapping:** Created a systematic mapping of widespread synonyms and typos to their accepted botanical names, providing a foundation for a robust alias system within the plugin.
+
 ### 8 May 2026
 *   **Tree species database:**  Implemented a system that automatically determines leaf type (broadleaved/needleleaved) and leaf cycle based on the tree's `species` or `genus` tag.
 *   **Tree species scraper:** Developed a Python script to fetch and parse the tree species list from the OSM Wiki, ensuring the plugin uses up-to-date botanical data.

@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 
 def fetch_and_parse():
     url = "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species"
-    output_path = os.path.join("src", "main", "resources", "data", "tree_species.csv")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_path = os.path.join(script_dir, "data", "10_trees", "tree_species_curated.csv")
     
     print(f"Fetching {url}...")
     try:

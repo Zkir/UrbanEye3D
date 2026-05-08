@@ -1,0 +1,258 @@
+import csv
+import os
+import re
+import urllib.parse
+import time
+import requests
+
+# File paths relative to the project root
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SPECIES_FILE =   os.path.join(BASE_DIR, "data", "10_trees", "tree_species_curated.csv")
+STATS_FILE =     os.path.join(BASE_DIR, 'data', '10_trees', 'tree_stats_species.csv')
+OUTPUT_MD_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_suggestions.md')
+OUTPUT_CSV_SYNONYMS = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_synonyms.csv')
+OUTPUT_WIKI_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_suggestions_wiki.txt')
+
+# Threshold for "significant" number of trees
+THRESHOLD = 1000
+
+def normalize_and_binomial(name):
+    """
+    Normalizes name to binomial format (Genus species) and standardizes formatting.
+    Example: 'Tilia cordata green spire' -> 'tilia cordata'
+    Example: 'Platanus x acerifolia' -> 'platanus × acerifolia'
+    """
+    if not name:
+        return ""
+    # Remove quotes, extra spaces, and convert to lowercase
+    name = name.replace('"', '').strip().lower()
+    
+    # Normalize hybrid symbol 'x' -> '×' (only if it's a separate symbol, not part of a word)
+    name = re.sub(r'(^|\s)x(\s|$)', r'\1×\2', name)
+    # Ensure spaces around '×'
+    name = re.sub(r'\s*×\s*', ' × ', name)
+    # Clean up multiple spaces
+    name = re.sub(r'\s+', ' ', name).strip()
+    
+    parts = name.split(' ')
+    if len(parts) < 2:
+        return name # Too short, return as is
+    
+    # Binomial nomenclature rule:
+    # 1. If starts with '×', take 3 parts: × Genus species
+    if parts[0] == '×':
+        return " ".join(parts[:3])
+    # 2. If the second part is '×', take 3 parts: Genus × species
+    if len(parts) > 2 and parts[1] == '×':
+        return " ".join(parts[:3])
+    # 3. Otherwise, take first 2 parts: Genus species
+    return " ".join(parts[:2])
+
+def get_display_name(name):
+    """Returns a nicely formatted binomial name."""
+    norm = normalize_and_binomial(name)
+    if not norm:
+        return ""
+    # Capitalize the first letter
+    return norm[0].upper() + norm[1:]
+
+def parse_float(val):
+    try:
+        return float(val) if val else 0.0
+    except ValueError:
+        return 0.0
+
+def get_taginfo_url(species_name):
+    """Generates a TagInfo URL for the species."""
+    encoded_query = urllib.parse.quote(f"species={species_name}", safe='=')
+    return f"https://taginfo.openstreetmap.org/tags/{encoded_query}"
+
+def check_powo_status(species_name):
+    """
+    Queries POWO API to check taxonomic status.
+    Returns: (status, accepted_name)
+    Statuses: 'Accepted', 'Synonym', 'Not found', 'Error'
+    """
+    url = "https://powo.science.kew.org/api/2/search"
+    params = {"q": species_name}
+    headers = {"User-Agent": "Mozilla/5.0 (UrbanEye3D Botany Bot)"}
+    
+    try:
+        # Small delay to be polite to the API
+        time.sleep(0.1)
+        resp = requests.get(url, params=params, headers=headers, timeout=10)
+        if resp.status_code != 200:
+            return 'Error', None
+        
+        data = resp.json()
+        results = data.get('results', [])
+        if not results:
+            return 'Not found', None
+        
+        norm_input = normalize_and_binomial(species_name)
+        
+        for res in results:
+            res_name = res.get('name', '')
+            norm_res = normalize_and_binomial(res_name)
+            
+            is_exact = (norm_res == norm_input)
+            is_typo = (not is_exact and norm_res.replace(' × ', ' ') == norm_input)
+            
+            if is_exact or is_typo:
+                if res.get('accepted'):
+                    # If it's accepted, we only return the name if it was a typo 
+                    # (to show the correct spelling with ×)
+                    return ('Accepted' if is_exact else 'Typo'), (res_name if is_typo else None)
+                else:
+                    # If it's a synonym, follow to the accepted name
+                    syn_of = res.get('synonymOf', {})
+                    if syn_of:
+                        # We return the ultimate accepted name regardless of whether 
+                        # the input was a typo or a direct synonym.
+                        return ('Synonym' if is_exact else 'Typo'), syn_of.get('name')
+        
+        return 'Not found', None
+    except Exception as e:
+        return f'Error ({str(e)})', None
+
+def main():
+    if not os.path.exists(SPECIES_FILE) or not os.path.exists(STATS_FILE):
+        print(f"Error: One of the files not found:\n{SPECIES_FILE}\n{STATS_FILE}")
+        return
+
+    # 1. Read existing species
+    existing_rows = []
+    existing_species_norm = set()
+    with open(SPECIES_FILE, mode='r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            existing_rows.append(row)
+            existing_species_norm.add(normalize_and_binomial(row['species']))
+
+    print(f"Loaded {len(existing_rows)} existing species from curated list.")
+
+    # 2. Read stats and find candidates
+    candidates = []
+    seen_in_stats_norm = set()
+    
+    with open(STATS_FILE, mode='r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            species_raw = row['species']
+            count_str = row.get('total_count', '0')
+            count = int(count_str) if count_str and count_str.isdigit() else 0
+            
+            if count < THRESHOLD:
+                continue
+
+            bin_name = normalize_and_binomial(species_raw)
+            
+            if bin_name not in existing_species_norm and bin_name not in seen_in_stats_norm:
+                seen_in_stats_norm.add(bin_name)
+                
+                parts = bin_name.split(' ')
+                if len(parts) < 2:
+                    continue 
+                
+                genus_idx = 0 if parts[0] != '×' else 1
+                genus = parts[genus_idx].capitalize()
+
+                # Determine defaults
+                leaf_cycle = "deciduous"
+                if parse_float(row.get('leaf_cycle_evergreen', 0)) > parse_float(row.get('leaf_cycle_deciduous', 0)):
+                    leaf_cycle = "evergreen"
+                
+                leaf_type = "broadleaved"
+                if parse_float(row.get('leaf_type_needleleaved', 0)) > parse_float(row.get('leaf_type_broadleaved', 0)):
+                    leaf_type = "needleleaved"
+
+                candidates.append({
+                    'species': get_display_name(bin_name),
+                    'genus': genus,
+                    'count': count,
+                    'leaf_cycle': leaf_cycle,
+                    'leaf_type': leaf_type
+                })
+
+    candidates.sort(key=lambda x: x['count'], reverse=True)
+    print(f"Found {len(candidates)} potential candidates. Verifying with POWO API...")
+
+    # 3. Verify candidates with POWO
+    final_suggestions = []
+    for i, c in enumerate(candidates):
+        print(f"[{i+1}/{len(candidates)}] Checking {c['species']}..."+" "*10, end='\r')
+        status, accepted_name = check_powo_status(c['species'])
+        c['powo_status'] = status
+        c['powo_accepted'] = accepted_name
+        final_suggestions.append(c)
+    print("\nVerification complete.")
+
+    # 4. Output results
+    if final_suggestions:
+        with open(OUTPUT_MD_FILE, mode='w', encoding='utf-8') as md:
+            md.write(f"# Tree Species Suggestions (Threshold {THRESHOLD})\n\n")
+            md.write("The following species are frequent in OpenStreetMap, but missing from the [curated list](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species):\n\n")
+            
+            for s in final_suggestions:
+                url = get_taginfo_url(s['species'])
+                powo_info = f"**{s['powo_status']}**"
+                if s['powo_accepted']:
+                    powo_info += f" (Accepted name: *{s['powo_accepted']}*)"
+                    
+                if s['powo_status'] not in ("Synonym", "Typo"):
+                    md.write(f"- [{s['species']}]({url}) — {powo_info}\n")
+                    md.write(f"  - (Genus: {s['genus']}, Cycle: {s['leaf_cycle']}, Type: {s['leaf_type']}, Count: {s['count']})\n")
+        
+        print(f"\nMarkdown suggestions saved to: {OUTPUT_MD_FILE}")
+
+    # 5. Generate Synonyms CSV file
+    synonyms = [s for s in final_suggestions if s['powo_status'] in ['Synonym', 'Typo']]
+    if synonyms:
+        with open(OUTPUT_CSV_SYNONYMS, mode='w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=['species', 'accepted_name', 'status', 'count'])
+            writer.writeheader()
+            for s in synonyms:
+                writer.writerow({
+                    'species': s['species'],
+                    'accepted_name': s['powo_accepted'] if s['powo_accepted'] else '',
+                    'status': s['powo_status'],
+                    'count': s['count']
+                })
+        print(f"Synonyms CSV saved to: {OUTPUT_CSV_SYNONYMS}")
+
+    # 6. Generate Wiki Markup file for All species
+    all_wiki_species = existing_rows
+    for s in final_suggestions:
+        if s['powo_status'] == 'Accepted':
+            all_wiki_species.append({
+                'species': s['species'],
+                'genus': s['genus'],
+                'species:wikidata': '',
+                'leaf_cycle': s['leaf_cycle'],
+                'leaf_type': s['leaf_type']
+            })
+    
+    all_wiki_species.sort(key=lambda x: x['species'].lower())
+    
+    with open(OUTPUT_WIKI_FILE, mode='w', encoding='utf-8') as wf:
+        wf.write('{| class="wikitable"\n')
+        wf.write('! species \n')
+        wf.write('!genus|| species:wikidata || {{key|leaf_cycle}} || {{key|leaf_type}}\n')
+        wf.write('|-\n')
+        
+        for s in all_wiki_species:
+            wd = s.get('species:wikidata', '')
+            # Wrap Q-codes in Wiki link format if they aren't already
+            if wd and wd.startswith('Q') and '|' not in wd:
+                wd = f'[[:d:{wd}|{wd}]]'
+                
+            wf.write(f"| {s['species']} \n")
+            wf.write(f"|{s['genus']}|| {wd} || {s['leaf_cycle']} || {s['leaf_type']}\n")
+            wf.write(f"|-\n")
+        
+        wf.write('|}\n')
+    
+    print(f"Complete Wiki table saved to: {OUTPUT_WIKI_FILE}")
+
+if __name__ == "__main__":
+    main()
