@@ -10,7 +10,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -45,6 +47,9 @@ public class I18nStatusTest {
                     .collect(Collectors.toList());
         }
 
+        // sort to create stable output
+        Collections.sort(poFiles);
+
         // 3. Process each .po file
         for (Path poFile : poFiles) {
             String fileName = poFile.getFileName().toString();
@@ -61,7 +66,7 @@ public class I18nStatusTest {
 
             double coverage = (double) translatedCount / totalStrings * 100;
 
-            markdownBuilder.append(String.format("| %s | `%s` | %d / %d | %.1f%% |\n",
+            markdownBuilder.append(String.format(Locale.ROOT, "| %s | `%s` | %d / %d | %.1f%% |\n",
                     languageName,
                     langCode,
                     translatedCount,
