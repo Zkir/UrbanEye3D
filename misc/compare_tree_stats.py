@@ -102,14 +102,14 @@ def check_powo_status(species_name):
                 if res.get('accepted'):
                     # If it's accepted, we only return the name if it was a typo 
                     # (to show the correct spelling with ×)
-                    return ('Accepted' if is_exact else 'Typo'), (res_name if is_typo else None)
+                    return ('Accepted' if is_exact else 'Synonym'), (res_name if is_typo else None)
                 else:
                     # If it's a synonym, follow to the accepted name
                     syn_of = res.get('synonymOf', {})
                     if syn_of:
                         # We return the ultimate accepted name regardless of whether 
                         # the input was a typo or a direct synonym.
-                        return ('Synonym' if is_exact else 'Typo'), syn_of.get('name')
+                        return ('Synonym' if is_exact else 'Synonym'), syn_of.get('name')
         
         return 'Not found', None
     except Exception as e:
@@ -193,20 +193,28 @@ def main():
             md.write(f"# Tree Species Suggestions (Threshold {THRESHOLD})\n\n")
             md.write("The following species are frequent in OpenStreetMap, but missing from the [curated list](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species):\n\n")
             
-            for s in final_suggestions:
-                url = get_taginfo_url(s['species'])
-                powo_info = f"**{s['powo_status']}**"
-                if s['powo_accepted']:
-                    powo_info += f" (Accepted name: *{s['powo_accepted']}*)"
-                    
-                if s['powo_status'] not in ("Synonym", "Typo"):
-                    md.write(f"- [{s['species']}]({url}) — {powo_info}\n")
-                    md.write(f"  - (Genus: {s['genus']}, Cycle: {s['leaf_cycle']}, Type: {s['leaf_type']}, Count: {s['count']})\n")
+            
+            for status_group in (("Accepted",), ("Synonym", ), ("Not found",) ):
+                md.write("\n")
+                md.write("## " + ", ".join(status_group) +"\n")
+                for s in final_suggestions:
+                    if s['species'].endswith(" sp.") or s['species'].endswith(" spp."):
+                        # Species like Quercus sp. means that only genus is specified
+                        continue
+                    url = get_taginfo_url(s['species'])
+                    #powo_info = f"**{s['powo_status']}**"
+                    powo_info = ""
+                    if s['powo_accepted']:
+                        powo_info += f"— (Accepted name: *{s['powo_accepted']}*)"
+                        
+                    if s['powo_status'] in status_group:
+                        md.write(f"- [{s['species']}]({url}) {powo_info}\n")
+                        md.write(f"  - (Genus: {s['genus']}, Cycle: {s['leaf_cycle']}, Type: {s['leaf_type']}, Count: {s['count']})\n")
         
         print(f"\nMarkdown suggestions saved to: {OUTPUT_MD_FILE}")
 
     # 5. Generate Synonyms CSV file
-    synonyms = [s for s in final_suggestions if s['powo_status'] in ['Synonym', 'Typo']]
+    synonyms = [s for s in final_suggestions if s['powo_status'] in ['Synonym']]
     if synonyms:
         with open(OUTPUT_CSV_SYNONYMS, mode='w', newline='', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=['species', 'accepted_name', 'status', 'count'])
