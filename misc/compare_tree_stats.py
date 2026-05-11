@@ -14,7 +14,7 @@ OUTPUT_CSV_SYNONYMS = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_sy
 OUTPUT_WIKI_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_suggestions_wiki.txt')
 
 # Threshold for "significant" number of trees
-THRESHOLD = 1000
+THRESHOLD = 250
 
 def normalize_and_binomial(name):
     """
@@ -167,6 +167,7 @@ def main():
                     leaf_type = "needleleaved"
 
                 candidates.append({
+                    'species_raw': species_raw,
                     'species': get_display_name(bin_name),
                     'genus': genus,
                     'count': count,
@@ -201,14 +202,22 @@ def main():
                     if s['species'].endswith(" sp.") or s['species'].endswith(" spp."):
                         # Species like Quercus sp. means that only genus is specified
                         continue
-                    url = get_taginfo_url(s['species'])
+                    
+                    # For "Not found", use raw species name to keep TagInfo URL correct
+                    display_name = s['species']
+                    taginfo_name = s['species']
+                    if s['powo_status'] == "Not found":
+                        taginfo_name = s['species_raw']
+                        display_name = f"*{s['species_raw']}*"
+
+                    url = get_taginfo_url(taginfo_name)
                     #powo_info = f"**{s['powo_status']}**"
                     powo_info = ""
                     if s['powo_accepted']:
                         powo_info += f"— (Accepted name: *{s['powo_accepted']}*)"
                         
                     if s['powo_status'] in status_group:
-                        md.write(f"- [{s['species']}]({url}) {powo_info}\n")
+                        md.write(f"- [{display_name}]({url}) {powo_info}\n")
                         md.write(f"  - (Genus: {s['genus']}, Cycle: {s['leaf_cycle']}, Type: {s['leaf_type']}, Count: {s['count']})\n")
         
         print(f"\nMarkdown suggestions saved to: {OUTPUT_MD_FILE}")
