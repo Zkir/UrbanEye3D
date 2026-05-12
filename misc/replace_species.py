@@ -17,16 +17,25 @@ def replace_species():
     synonyms = {}
     expected_counts = {}
     actual_counts = {}
+    change_type = {}
+    CHANGE_ENGLISH_NAME = 'English name instead of Latin name'
+    allowed_types= (CHANGE_ENGLISH_NAME, 'Typo', 'Formatting', 'Species name omitted', 'Nonsense')
     
     with open(SYNONYMS_CSV, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             species = row['species']
             synonyms[species] = row['accepted_name']
+            change_type[species] = row['status']
+            if change_type[species] not in allowed_types:
+                print("Unknown change type '"+change_type[species]+"'")
+                print("Exiting")
+                exit(1)
             expected_counts[species] = int(row.get('count', 0))
             actual_counts[species] = 0
     
     print(f"Loaded {len(synonyms)} synonyms.")
+    
 
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
@@ -77,6 +86,34 @@ def replace_species():
                                 # Mark tag for removal
                                 tags_to_remove.append(tag)
                                 modified = True
+                            
+                            if change_type[old_species] == CHANGE_ENGLISH_NAME:
+                                # Check if species:en already exists
+                                en_tag = None
+                                for t in elem.findall('tag'):
+                                    if t.get('k') == 'species:en':
+                                        en_tag = t
+                                        break
+                                
+                                if en_tag is not None:
+                                    en_tag.set('v', old_species)
+                                else:
+                                    # Create new tag
+                                    new_tag = ET.Element('tag', k='species:en', v=old_species)
+
+                                    # Try to preserve formatting by copying tail from existing tags
+                                    existing_tags = elem.findall('tag')
+                                    if existing_tags:
+                                        # Copy the tail of the last tag (indentation for the next tag or closing tag)
+                                        last_tag = existing_tags[-1]
+                                        new_tag.tail = last_tag.tail
+
+                                        # Determine standard tag indentation (usually from elem.text or the first tag)
+                                        # If not found, use default 4 spaces
+                                        tag_indent = elem.text if elem.text else "\n    "
+                                        last_tag.tail = tag_indent
+
+                                    elem.append(new_tag)                                    
                             actual_counts[old_species] += 1
                 
                 for tag in tags_to_remove:

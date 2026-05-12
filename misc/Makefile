@@ -22,6 +22,9 @@ data/00_planet/planet-latest.osm.pbf:
 	if not exist data\00_planet mkdir data\00_planet
 	cd data\00_planet && aria2c https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf.torrent --seed-time=0
 	cd data\00_planet && ren planet-*.osm.pbf planet-latest.osm.pbf
+	
+data/00_planet/planet-latest-updated.osm.pbf:  data/00_planet/planet-latest.osm.pbf	
+	osmupdate planet-latest.osm.pbf planet-latest-updated.osm.pbf -v	
 
 data/05_extracts/trees.osm: data/00_planet/planet-latest.osm.pbf ## Rule to generate the source OSM file from the planet data
 	osmosis --rbf data/00_planet/planet-latest.osm.pbf --tf accept-nodes natural=tree --tf reject-ways --tf reject-relations --wx data/05_extracts/trees.osm
