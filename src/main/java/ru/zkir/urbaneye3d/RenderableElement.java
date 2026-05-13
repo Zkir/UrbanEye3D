@@ -461,8 +461,9 @@ public class RenderableElement {
 
         Contour contour = new Contour(circle, "XY");
         contour.removeRedundantNodes();
+        double roofHeight = width / 2;
 
-        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, min_height, 0.0d, colour, colour, "flat", "", "", null, false, null, null);
+        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, min_height, roofHeight, colour, colour, "dome", "", "", null, false, null, null);
         Mesh mesh = composeMesh(buildingRecipe);
 
         return new RenderableElement(primitive, origin, mesh, null);

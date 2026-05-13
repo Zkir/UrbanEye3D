@@ -221,7 +221,8 @@ public class Scene {
             if (node.hasTag("advertising", "column")) {
                 // ad colums might also be tagged with man_made=advertising, we have to be careful that this does not create a conflict with 
                 if(rendered_man_mades.contains((Long) node.getUniqueId())) continue;
-                newElements.add(RenderableElement.createAdColumn(node, node.getCoor(), node.getInterestingTags(), new Random(node.getId())));
+                var element = RenderableElement.createAdColumn(node, node.getCoor(), node.getInterestingTags(), new Random(node.getId()));
+                if (element != null) newElements.add(element);
             }
         }
 
