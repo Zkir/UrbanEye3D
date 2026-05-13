@@ -8,7 +8,6 @@ import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.prep.PreparedGeometry;
 import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
 
-import ru.zkir.urbaneye3d.generators.MesherAdColumn;
 import ru.zkir.urbaneye3d.generators.MesherTree;
 import ru.zkir.urbaneye3d.utils.*;
 
@@ -188,6 +187,8 @@ public class Scene {
             }
         }
 
+        ArrayList<Long> rendered_man_mades = new ArrayList<Long>();
+
         /*
          * Experimental feature: man_made.
          */
@@ -201,6 +202,7 @@ public class Scene {
             var element = RenderableElement.createManMade(primitive, contour);
             if (element != null){
                 newElements.add(element);
+                rendered_man_mades.add(primitive.getUniqueId());
             }
 
         }
@@ -215,7 +217,10 @@ public class Scene {
                     newElements.add(element);
                 }
             }
+            
             if (node.hasTag("advertising", "column")) {
+                // ad colums might also be tagged with man_made=advertising, we have to be careful that this does not create a conflict with 
+                if(rendered_man_mades.contains((Long) node.getUniqueId())) continue;
                 newElements.add(RenderableElement.createAdColumn(node, node.getCoor(), node.getInterestingTags(), new Random(node.getId())));
             }
         }
