@@ -12,6 +12,7 @@ import ru.zkir.urbaneye3d.generators.MesherTree;
 import ru.zkir.urbaneye3d.utils.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.random;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
@@ -187,7 +188,6 @@ public class Scene {
             }
         }
 
-        ArrayList<Long> rendered_man_mades = new ArrayList<Long>();
 
         /*
          * Experimental feature: man_made.
@@ -202,10 +202,12 @@ public class Scene {
             var element = RenderableElement.createManMade(primitive, contour);
             if (element != null){
                 newElements.add(element);
-                rendered_man_mades.add(primitive.getUniqueId());
             }
 
         }
+
+        // Some elements like ad columns might have been already rendered by one of the other loops. Be careful to not double-add them. 
+        var alreadyRenderedPrimitiveIds = new HashSet<>(newElements.stream().map(e -> e.primitiveId).collect(Collectors.toCollection(HashSet::new)));
 
         /*
          * Trees and other objects.
@@ -219,8 +221,7 @@ public class Scene {
             }
             
             if (node.hasTag("advertising", "column")) {
-                // ad colums might also be tagged with man_made=advertising, we have to be careful that this does not create a conflict with 
-                if(rendered_man_mades.contains((Long) node.getUniqueId())) continue;
+                if (alreadyRenderedPrimitiveIds.contains(node.getPrimitiveId())) continue;
                 var element = RenderableElement.createAdColumn(node, node.getCoor(), node.getInterestingTags(), new Random(node.getId()));
                 if (element != null) newElements.add(element);
             }
