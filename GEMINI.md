@@ -64,6 +64,13 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### 12 May 2026
+*   **Enhanced JOSM Update Tooling:** Significantly improved the `replace_species.py` script to include a detailed validation report, tag removal support (for "Nonsense" tags), and automated preservation of English common names in the `species:en` tag when correcting them to Latin scientific names.
+*   **Botany Bot Fixes:** Fixed a bug in the suggestion generator (`compare_tree_stats.py`) where Taginfo links were broken due to over-normalization; the "Not found" section now correctly preserves original OSM names for easy verification and replacement.
+
+### 11 May 2026
+*   **Bulk Tree Species Correction:** Developed a memory-efficient Python script (`replace_species.py`) capable of processing massive OSM datasets (8GB+). It generates JOSM-compatible `.osm` snippets with `action="modify"`, split into 5000-element chunks for reliable bulk uploads.
+
 ### 10 May 2026
 *   **Automated Tree Taxonomy Analysis:** Developed a sophisticated analysis tool that compares global OSM tag statistics with the Wiki's curated species list. It automatically identifies missing species, detects taxonomic synonyms, and flags common formatting typos (like missing hybrid signs) using the Royal Botanic Gardens, Kew (POWO) API.
 *   **Wiki Content Generation:** Automated the generation of complete OSM Wiki tables in the required compact format. This directly facilitated the update of the global "List of Species" with dozens of newly verified and accepted tree types.
@@ -116,6 +123,13 @@ src
                     └── ...                                // Other important tests :)  
            
 ```
+
+### OSM Data Processing Pipeline (misc subproject)
+The `misc` folder contains a specialized subproject for large-scale processing of OpenStreetMap data. This pipeline starts with the global `planet-latest.osm.pbf` file and serves to extract, analyze, and enrich botanical and building data for the main plugin.
+*   **Extraction & Analysis:** Scripts extract specific features (e.g., all trees or buildings) from the planet file into manageable extracts (`trees.osm`). These are then analyzed to generate statistics on taxonomy, leaf types, and building attributes.
+*   **Taxonomic Enrichment:** The pipeline compares OSM data with curated botanical lists and external APIs (POWO) to identify synonyms, typos, and missing attributes.
+*   **JOSM Update Workflow:** Instead of modifying source data, the pipeline generates targeted `.osm` files with `action="modify"`. These snippets are split into 5000-element chunks, allowing for controlled bulk updates of OSM data directly through JOSM.
+*   **Memory Efficiency:** Designed to handle multi-gigabyte files (like the 8GB+ `trees.osm`), the scripts use iterative XML parsing to ensure they can run on standard hardware without exceeding RAM limits.
 
 ### JOSM Framework Integration
 *   **Entry Point & UI:** The plugin is initiated by `UrbanEye3dPlugin.java`, which launches the main dockable window, `DialogWindow3D.java`. This dialog manages the `Renderer3D` canvas, which handles all OpenGL rendering.
