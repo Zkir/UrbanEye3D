@@ -13,13 +13,17 @@ public class TreeSpeciesDatabase {
     private final Map<String, SpeciesInfo> speciesMap = new HashMap<>();
     private final Map<String, SpeciesInfo> genusMap = new HashMap<>();
 
-    private static class SpeciesInfo {
-        String leafCycle;
-        String leafType;
+    public static class SpeciesInfo {
+        public final String leafCycle;
+        public final String leafType;
+        public final String wikidata;
+        public final String genus;
 
-        SpeciesInfo(String leafCycle, String leafType) {
+        SpeciesInfo(String leafCycle, String leafType, String wikidata, String genus) {
             this.leafCycle = leafCycle;
             this.leafType = leafType;
+            this.wikidata = wikidata;
+            this.genus = genus;
         }
     }
 
@@ -32,6 +36,10 @@ public class TreeSpeciesDatabase {
             instance = new TreeSpeciesDatabase();
         }
         return instance;
+    }
+
+    public Map<String, SpeciesInfo> getSpeciesMap() {
+        return java.util.Collections.unmodifiableMap(speciesMap);
     }
 
     private void loadData(String resourcePath) {
@@ -48,10 +56,11 @@ public class TreeSpeciesDatabase {
                     if (parts.length >= 5) {
                         String species = parts[0].trim();
                         String genus = parts[1].trim();
+                        String wikidata = parts[2].trim();
                         String leafCycle = parts[3].trim();
                         String leafType = parts[4].trim();
 
-                        SpeciesInfo info = new SpeciesInfo(leafCycle, leafType);
+                        SpeciesInfo info = new SpeciesInfo(leafCycle, leafType, wikidata, genus);
                         if (!species.isEmpty()) {
                             speciesMap.put(normalizeSpecies(species), info);
                         }

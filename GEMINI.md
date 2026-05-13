@@ -64,6 +64,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### 13 May 2026
+*   **Tree Species Documentation:** Developed an automated reporting system (`TreeSpeciesReportTest.java`) that generates a comprehensive Markdown catalog of all 585 supported tree species, including their botanical attributes and Wikidata links.
+*   **Enhanced Botanical Database:** Upgraded the `TreeSpeciesDatabase` engine to support Wikidata IDs and genus-level metadata, providing richer data for both rendering and documentation.
+
 ### 12 May 2026
 *   **Enhanced JOSM Update Tooling:** Significantly improved the `replace_species.py` script to include a detailed validation report, tag removal support (for "Nonsense" tags), and automated preservation of English common names in the `species:en` tag when correcting them to Latin scientific names.
 *   **Botany Bot Fixes:** Fixed a bug in the suggestion generator (`compare_tree_stats.py`) where Taginfo links were broken due to over-normalization; the "Not found" section now correctly preserves original OSM names for easy verification and replacement.
@@ -124,13 +128,6 @@ src
            
 ```
 
-### OSM Data Processing Pipeline (misc subproject)
-The `misc` folder contains a specialized subproject for large-scale processing of OpenStreetMap data. This pipeline starts with the global `planet-latest.osm.pbf` file and serves to extract, analyze, and enrich botanical and building data for the main plugin.
-*   **Extraction & Analysis:** Scripts extract specific features (e.g., all trees or buildings) from the planet file into manageable extracts (`trees.osm`). These are then analyzed to generate statistics on taxonomy, leaf types, and building attributes.
-*   **Taxonomic Enrichment:** The pipeline compares OSM data with curated botanical lists and external APIs (POWO) to identify synonyms, typos, and missing attributes.
-*   **JOSM Update Workflow:** Instead of modifying source data, the pipeline generates targeted `.osm` files with `action="modify"`. These snippets are split into 5000-element chunks, allowing for controlled bulk updates of OSM data directly through JOSM.
-*   **Memory Efficiency:** Designed to handle multi-gigabyte files (like the 8GB+ `trees.osm`), the scripts use iterative XML parsing to ensure they can run on standard hardware without exceeding RAM limits.
-
 ### JOSM Framework Integration
 *   **Entry Point & UI:** The plugin is initiated by `UrbanEye3dPlugin.java`, which launches the main dockable window, `DialogWindow3D.java`. This dialog manages the `Renderer3D` canvas, which handles all OpenGL rendering.
 *   **Text Rendering in OpenGL:** To display 2D text over a 3D scene in JOGL, `com.jogamp.opengl.util.awt.TextRenderer` is a powerful tool. It requires initialization with a Font and follows a lifecycle: `beginRendering(width, height)`, followed by `draw(text, x, y)` calls, and finally `endRendering()`.
@@ -167,8 +164,7 @@ The `misc` folder contains a specialized subproject for large-scale processing o
 *   A Test-Driven Development (TDD) approach proved highly effective in this project. Since it's a JOSM plugin, you cannot debug it directly. However, autotests can be run and debugged separately, without JOSM. So it make sence to develop some feature test it in isolation.
 *   Automated checks for mesh validity do not let AI/LLM produce crap and report success.
 *   There are several autotests for different things, both "functional" (to test functionality) and "pseudo tests" to collect statistics. 
-    
-
+   
 
 |Test name | Details | 
 |---|---|
@@ -180,10 +176,17 @@ The `misc` folder contains a specialized subproject for large-scale processing o
 | RoofGeneratorTopologyTest.java | Tests the topology of generated 3D roof models. Verifies watertightness, correct normals, absence of zero-length edges, self-intersections, and duplicate vertices. Includes tests  for all roof shapes and special cases (with holes, different orientations). |
 | SceneTest.java| Integration tests for the Scene component. Verifies the correct construction of the 3D scene from various OSM data (buildings with parts, multipolygons, barriers, trees).  Analyzes how Scene interprets data and forms RenderableElement objects. |
 | TagInfoGeneratorTest.java | Does not really test anything, but collects used tags from the source code and produces `taginfo.json`, so we can [take a look at used tags](https://taginfo.openstreetmap.org/projects/urbaneye3d#tags).  |
+| TreeSpeciesReportTest.java | Generates a Markdown report (`docs/tree_species.md`) listing all supported tree species from the internal database. |
 | ValidatorTest.java |  Tests for custom JOSM validators (SpatialConsistencyChecks, TagChecks). Verifies that validators correctly identify expected errors and do not produce false positives on valid data. |
 
 
+### OSM Data Processing Pipeline (misc subproject)
+The `misc` folder contains a specialized subproject for large-scale processing of OpenStreetMap data. This pipeline starts with the global `planet-latest.osm.pbf` file and serves to extract, analyze, and enrich botanical and building data for the main plugin.
+*   There are the following main goals for this pipeline:
+    * Create the tree species list (`src/main/resources/data/tree_species.csv`) which is used to infer `leaf_type` tag, in case it is missing, in order to select most appropriate tree texture/model.
+	* Correct typo errors in `species` tag in the OSM database itself, creating osm-files with changes, so that they can be uploaded via JOSM.
+	* Create smart defaults for various building attributes, depending on building type (`building=*` value). This is not yet used currently by the plugin.
+*   See [misc/GEMINI.md](misc/GEMINI.md) for details.
 
-
-
-
+---
+The Urban Eye is watching you!

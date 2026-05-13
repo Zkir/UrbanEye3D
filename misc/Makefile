@@ -24,9 +24,9 @@ data/00_planet/planet-latest.osm.pbf:
 	cd data\00_planet && ren planet-*.osm.pbf planet-latest.osm.pbf
 	
 data/00_planet/planet-latest-updated.osm.pbf:  data/00_planet/planet-latest.osm.pbf	
-	osmupdate planet-latest.osm.pbf planet-latest-updated.osm.pbf -v	
+	osmupdate data\00_planet\planet-latest.osm.pbf data\00_planet\planet-latest-updated.osm.pbf -v	
 
-data/05_extracts/trees.osm: data/00_planet/planet-latest.osm.pbf ## Rule to generate the source OSM file from the planet data
+data/05_extracts/trees.osm: data/00_planet/planet-latest.osm.pbf |  data/05_extracts ## Rule to generate the source OSM file from the planet data
 	osmosis --rbf data/00_planet/planet-latest.osm.pbf --tf accept-nodes natural=tree --tf reject-ways --tf reject-relations --wx data/05_extracts/trees.osm
 	
 data/05_extracts/buildings.osm: | data/05_extracts ## Rule to generate the source OSM file from the planet data
@@ -55,13 +55,14 @@ data/20_buildings/buildings.csv: data/05_extracts/buildings.osm
 
 data/20_buildings/building_analysis_full.csv: data/20_buildings/buildings.csv
 	python analyze_buildings.py
-
-
 	
 data:
 	@mkdir data
 	
-data/10_trees :	
+data/05_extracts: | data
+	@mkdir data\05_extracts
+	
+data/10_trees :	| data
 	@mkdir data\10_trees
 	
 data/15_trees_output: | data	

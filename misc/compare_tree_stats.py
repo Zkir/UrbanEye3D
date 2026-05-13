@@ -271,7 +271,8 @@ def main():
                 'leaf_type': s['leaf_type']
             })
     
-    all_wiki_species.sort(key=lambda x: x['species'].lower())
+    # Sort alphabetically, ignoring the hybrid symbol '×' and extra spaces
+    all_wiki_species.sort(key=lambda x: re.sub(r'\s+', ' ', x['species'].replace('×', '')).strip().lower())
     
     with open(OUTPUT_WIKI_FILE, mode='w', encoding='utf-8') as wf:
         wf.write('{| class="wikitable"\n')
