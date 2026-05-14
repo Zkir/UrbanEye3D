@@ -26,11 +26,11 @@ data/00_planet/planet-latest.osm.pbf:
 data/00_planet/planet-latest-updated.osm.pbf:  data/00_planet/planet-latest.osm.pbf	
 	osmupdate data\00_planet\planet-latest.osm.pbf data\00_planet\planet-latest-updated.osm.pbf -v	
 
-data/05_extracts/trees.osm: data/00_planet/planet-latest.osm.pbf |  data/05_extracts ## Rule to generate the source OSM file from the planet data
-	osmosis --rbf data/00_planet/planet-latest.osm.pbf --tf accept-nodes natural=tree --tf reject-ways --tf reject-relations --wx data/05_extracts/trees.osm
+data/05_extracts/trees.osm: data/00_planet/planet-latest-updated.osm.pbf |  data/05_extracts ## Rule to generate the source OSM file from the planet data
+	osmosis --rbf data/00_planet/planet-latest-updated.osm.pbf --tf accept-nodes natural=tree --tf reject-ways --tf reject-relations --wx data/05_extracts/trees.osm
 	
-data/05_extracts/buildings.osm: | data/05_extracts ## Rule to generate the source OSM file from the planet data
-	osmosis --rbf data/00_planet/planet-latest.osm.pbf --tf reject-nodes --tf accept-ways building=* --tf accept-ways  building:levels=*  height=* --tf reject-ways building=yes building=no --tf reject-relations --wx data/05_extracts/buildings.osm	
+data/05_extracts/buildings.osm: data/00_planet/planet-latest-updated.osm.pbf | data/05_extracts ## Rule to generate the source OSM file from the planet data
+	osmosis --rbf data/00_planet/planet-latest-updated.osm.pbf --tf reject-nodes --tf accept-ways building=* --tf accept-ways  building:levels=*  height=* --tf reject-ways building=yes building=no --tf reject-relations --wx data/05_extracts/buildings.osm	
 
 # Generic pattern rule to generate any analysis file.
 # The stem (%) will be 'species', 'genus', or 'leaf_type'.
@@ -48,7 +48,7 @@ data/15_trees_output/tree_synonyms.csv : data/10_trees/tree_species_curated.csv 
 	
 data/15_trees_output/tree_species.csv: data/10_trees/tree_species_curated.csv data/15_trees_output/tree_synonyms.csv
 	python merge_tree_data.py
-	copy /b/v/y	 data\15_trees_output\tree_species.csv ..\src\main\resources\data\
+	copy /b/v/y data\15_trees_output\tree_species.csv ..\src\main\resources\data\
 	
 data/20_buildings/buildings.csv: data/05_extracts/buildings.osm
 	python osm_to_csv.py --input $< --output $@ --columns $(BUILDING_COLUMNS)

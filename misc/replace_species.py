@@ -8,6 +8,33 @@ SYNONYMS_CSV = 'tree_typos.csv'
 OUTPUT_DIR = 'data/16_trees_fixes'
 LIMIT = 5000
 
+CHANGE_ENGLISH_NAME = 'English name instead of Latin name'
+CHANGE_GENUS_OMITTED = 'Genus omitted'
+allowed_types= (CHANGE_ENGLISH_NAME, 'Typo', 'Formatting', 'Species name omitted', 'Nonsense', CHANGE_GENUS_OMITTED)
+
+def print_expected_change_report(synonyms, change_type,expected_counts):
+    filename = os.path.join(OUTPUT_DIR, "proposed_changes.md")
+    out_f = open(filename, 'w', encoding='utf-8')
+    
+    out_f.write('# Proposed changes \n')
+    
+    out_f.write("|  Source | Correction | Count |\n")
+    out_f.write("| :--- | :--- | :--- | \n")
+    
+    
+    for species in synonyms:
+        if species[0]=='#':
+            continue
+        if change_type[species]==CHANGE_ENGLISH_NAME:
+            out_f.write(f"|`species={species}`| `species={synonyms[species]}` + `species:en={species}` | {expected_counts[species]} |\n")
+        elif change_type[species]==CHANGE_GENUS_OMITTED: 
+            genus=synonyms[species].split(" ")[0]
+            out_f.write(f"|`species={species}` + `genus={genus}`| `species={synonyms[species]}` | {expected_counts[species]} |\n")
+        else:
+            out_f.write(f"|`species={species}`| `species={synonyms[species]}` | {expected_counts[species]} |\n")
+    out_f.close()
+
+
 def replace_species():
     """
     Reads trees.osm, updates species tags based on synonyms,
@@ -18,8 +45,7 @@ def replace_species():
     expected_counts = {}
     actual_counts = {}
     change_type = {}
-    CHANGE_ENGLISH_NAME = 'English name instead of Latin name'
-    allowed_types= (CHANGE_ENGLISH_NAME, 'Typo', 'Formatting', 'Species name omitted', 'Nonsense')
+    
     
     with open(SYNONYMS_CSV, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
@@ -40,6 +66,8 @@ def replace_species():
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
         print(f"Created directory {OUTPUT_DIR}")
+        
+    print_expected_change_report(synonyms, change_type, expected_counts)    
 
     file_count = 1
     element_count = 0
@@ -69,7 +97,7 @@ def replace_species():
     try:
         for i, (event, elem) in enumerate(context):
             if i % 1000000 == 0 and i > 0:
-                print(f"Processed {i} elements...")
+                print(f"Processed {i} elements...", end='\r')
 
             if elem.tag in ('node', 'way', 'relation'):
                 modified = False
@@ -113,7 +141,26 @@ def replace_species():
                                         tag_indent = elem.text if elem.text else "\n    "
                                         last_tag.tail = tag_indent
 
-                                    elem.append(new_tag)                                    
+                                    elem.append(new_tag) 
+                                    
+                            if change_type[old_species] == CHANGE_GENUS_OMITTED:
+                                # this change can be only appied if there is already matching genus tag
+                                # Check if genus tag exists
+                                genus_tag = None
+                                genus = ""
+                                for t in elem.findall('tag'):
+                                    if t.get('k') == 'genus':
+                                        genus_tag = t
+                                        break
+                                        
+                                if genus_tag is not None:
+                                    genus=genus_tag.get('v')
+                                    if new_species.split(" ")[0]!=genus:
+                                        print(f"fuck! genus does not match. Old value: '{old_species}', New value: '{new_species}', Genus: '{genus}'")
+                                        #exit(1)    
+                                else:    
+                                    print(f"fuck! genus does not match. Old value: '{old_species}', New value: '{new_species}', Genus: '{genus}'")
+                                    #exit(1)    
                             actual_counts[old_species] += 1
                 
                 for tag in tags_to_remove:

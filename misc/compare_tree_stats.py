@@ -12,6 +12,8 @@ SPECIES_FILE =   os.path.join(BASE_DIR, "data", "10_trees", "tree_species_curate
 STATS_FILE =     os.path.join(BASE_DIR, 'data', '10_trees', 'tree_stats_species.csv')
 OUTPUT_MD_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_suggestions.md')
 OUTPUT_CSV_SYNONYMS = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_synonyms.csv')
+OUTPUT_CSV_NOT_FOUND = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_species_not_found.csv')
+OUTPUT_CSV_FOUND = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_species_accepted.csv')
 OUTPUT_WIKI_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_suggestions_wiki.txt')
 CACHE_DIR = os.path.join(BASE_DIR, 'data', '03_powo_cache')
 
@@ -20,7 +22,7 @@ if not os.path.exists(CACHE_DIR):
     os.makedirs(CACHE_DIR)
 
 # Threshold for "significant" number of trees
-THRESHOLD = 200
+THRESHOLD = 50
 
 def normalize_and_binomial(name):
     """
@@ -221,7 +223,7 @@ def main():
                 md.write("\n")
                 md.write("## " + ", ".join(status_group) +"\n")
                 for s in final_suggestions:
-                    if s['species'].endswith(" sp.") or s['species'].endswith(" spp."):
+                    if s['species'].endswith(" sp.") or s['species'].endswith(" sp") or s['species'].endswith(" spp.") or s['species'].endswith(" n. sp."):
                         # Species like Quercus sp. means that only genus is specified
                         continue
                     
@@ -258,8 +260,24 @@ def main():
                     'count': s['count']
                 })
         print(f"Synonyms CSV saved to: {OUTPUT_CSV_SYNONYMS}")
-
-    # 6. Generate Wiki Markup file for All species
+        
+        
+    # 6.1 Generate "Accepted" species CSV file
+    with open(OUTPUT_CSV_FOUND, mode='w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=['species', 'genus', 'species:wikidata', 'leaf_cycle', 'leaf_type'])
+        writer.writeheader()
+        for s in final_suggestions:
+            if s['powo_status'] == 'Accepted':
+                writer.writerow({
+                    'species': s['species'],
+                    'genus': s['genus'],
+                    'species:wikidata': '',
+                    'leaf_cycle': s['leaf_cycle'],
+                    'leaf_type': s['leaf_type']
+                })
+    print(f"Accepted species CSV saved to: {OUTPUT_CSV_FOUND}")
+    
+    # 6.2 Generate Wiki Markup file for all accepted species, to update curated list on osm-wiki
     all_wiki_species = existing_rows
     for s in final_suggestions:
         if s['powo_status'] == 'Accepted':
@@ -293,6 +311,19 @@ def main():
         wf.write('|}\n')
     
     print(f"Complete Wiki table saved to: {OUTPUT_WIKI_FILE}")
+
+    # 7. Generate "Not Found" CSV file
+    not_found = [s for s in final_suggestions if s['powo_status'] == 'Not found']
+    if not_found:
+        with open(OUTPUT_CSV_NOT_FOUND, mode='w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=['species', 'count'])
+            writer.writeheader()
+            for s in not_found:
+                writer.writerow({
+                    'species': s['species_raw'],
+                    'count': s['count']
+                })
+        print(f"Not found species CSV saved to: {OUTPUT_CSV_NOT_FOUND}")
 
 if __name__ == "__main__":
     main()

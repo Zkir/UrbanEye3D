@@ -5,6 +5,7 @@ import re
 # File paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CURATED_FILE = os.path.join(BASE_DIR, 'data', '10_trees', 'tree_species_curated.csv')
+ACCEPTED_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_species_accepted.csv')
 SYNONYMS_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_synonyms.csv')
 FINAL_OUTPUT =  os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_species.csv')
 #FINAL_OUTPUT = os.path.join(os.path.dirname(BASE_DIR), 'src', 'main', 'resources', 'data', 'tree_species.csv')
@@ -38,7 +39,7 @@ def to_binomial(name):
     return n
 
 def main():
-    if not os.path.exists(CURATED_FILE) or not os.path.exists(SYNONYMS_FILE):
+    if not os.path.exists(CURATED_FILE) or not os.path.exists(SYNONYMS_FILE) or not os.path.exists(ACCEPTED_FILE):
         print(f"Error: Required files not found:\n{CURATED_FILE}\n{SYNONYMS_FILE}")
         return
 
@@ -58,6 +59,21 @@ def main():
                 binomial_map[core] = row
 
     print(f"Loaded {len(curated_data)} species from curated list.")
+    
+    j=0
+    with open(ACCEPTED_FILE, mode='r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            species = row['species']
+            curated_data[species] = row
+            j+=1
+            
+            # Index by binomial core to match against subspecies/varieties
+            core = to_binomial(species)
+            if core not in binomial_map:
+                binomial_map[core] = row
+    
+    print(f"Loaded {j} species from accepted list.")
 
     # 2. Process synonyms and inherit properties
     merged_list = list(curated_data.values())
