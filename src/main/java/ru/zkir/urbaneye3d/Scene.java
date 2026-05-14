@@ -188,7 +188,6 @@ public class Scene {
             }
         }
 
-
         /*
          * Experimental feature: man_made.
          */
