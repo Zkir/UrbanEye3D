@@ -7,15 +7,16 @@ import requests
 import json
 
 # File paths relative to the project root
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SPECIES_FILE =   os.path.join(BASE_DIR, "data", "10_trees", "tree_species_curated.csv")
-STATS_FILE =     os.path.join(BASE_DIR, 'data', '10_trees', 'tree_stats_species.csv')
-OUTPUT_MD_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_suggestions.md')
-OUTPUT_CSV_SYNONYMS = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_synonyms.csv')
+BASE_DIR =             os.path.dirname(os.path.abspath(__file__))
+SPECIES_FILE =         os.path.join(BASE_DIR, "data", "10_trees", "tree_species_curated.csv")
+STATS_FILE =           os.path.join(BASE_DIR, 'data', '10_trees', 'tree_stats_species.csv')
+OUTPUT_MD_FILE =       os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_suggestions.md')
+OUTPUT_CSV_SYNONYMS =  os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_synonyms.csv')
 OUTPUT_CSV_NOT_FOUND = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_species_not_found.csv')
-OUTPUT_CSV_FOUND = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_species_accepted.csv')
-OUTPUT_WIKI_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_suggestions_wiki.txt')
-CACHE_DIR = os.path.join(BASE_DIR, 'data', '03_powo_cache')
+OUTPUT_CSV_FOUND =     os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_species_accepted.csv')
+OUTPUT_WIKI_FILE =     os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_suggestions_wiki.txt')
+OUTPUT_CHANGES_FILE =  os.path.join(BASE_DIR, 'data', '15_trees_output', 'changes.csv')
+CACHE_DIR =            os.path.join(BASE_DIR, 'data', '03_powo_cache')
 
 # Ensure cache directory exists
 if not os.path.exists(CACHE_DIR):
@@ -211,6 +212,22 @@ def main():
         final_suggestions.append(c)
     
     print("Verification complete."+" "*40)
+    
+    # find non-specified species, like "Acer sp."
+    non_specifed=[]
+    for s in final_suggestions:
+        display_name = s['species_raw']
+        if display_name.endswith(" sp.") or display_name.endswith(" sp") or display_name.endswith(" spp.") or display_name.endswith(" n. sp."):
+            # Species like Quercus sp. means that only genus is specified
+            non_specifed.append(s)
+    
+    if non_specifed:
+        with open(OUTPUT_CHANGES_FILE, mode='w', encoding='utf-8') as changes_csv:
+            changes_csv.write("species,accepted_name,status,count\n")
+            for s in non_specifed:
+                changes_csv.write(f"{s['species_raw']},,Genus sp.,{s['count']}\n") #{s['species'].split(" ")[0]}
+                
+    
 
     # 4. Output results
     if final_suggestions:
@@ -223,7 +240,7 @@ def main():
                 md.write("\n")
                 md.write("## " + ", ".join(status_group) +"\n")
                 for s in final_suggestions:
-                    if s['species'].endswith(" sp.") or s['species'].endswith(" sp") or s['species'].endswith(" spp.") or s['species'].endswith(" n. sp."):
+                    if s['species_raw'].endswith(" sp.") or s['species_raw'].endswith(" sp") or s['species_raw'].endswith(" spp.") or s['species_raw'].endswith(" n. sp."):
                         # Species like Quercus sp. means that only genus is specified
                         continue
                     

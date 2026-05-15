@@ -4,23 +4,21 @@ import xml.etree.ElementTree as ET
 
 INPUT_OSM = 'data/05_extracts/trees.osm'
 #SYNONYMS_CSV = 'data/15_trees_output/tree_synonyms.csv'
-SYNONYMS_CSV = 'tree_typos.csv'
+SYNONYMS_CSV = 'tree_typos_2.csv'
 OUTPUT_DIR = 'data/16_trees_fixes'
 LIMIT = 5000
 
 CHANGE_ENGLISH_NAME = 'English name instead of Latin name'
 CHANGE_GENUS_OMITTED = 'Genus omitted'
-allowed_types= (CHANGE_ENGLISH_NAME, 'Typo', 'Formatting', 'Species name omitted', 'Nonsense', CHANGE_GENUS_OMITTED)
+CHANGE_ONLY_GENUS = 'Genus sp.'
+allowed_types= (CHANGE_ENGLISH_NAME, 'Typo', 'Formatting', 'Species name omitted', 'Nonsense', CHANGE_GENUS_OMITTED, CHANGE_ONLY_GENUS)
 
 def print_expected_change_report(synonyms, change_type,expected_counts):
     filename = os.path.join(OUTPUT_DIR, "proposed_changes.md")
     out_f = open(filename, 'w', encoding='utf-8')
-    
     out_f.write('# Proposed changes \n')
-    
     out_f.write("|  Source | Correction | Count |\n")
     out_f.write("| :--- | :--- | :--- | \n")
-    
     
     for species in synonyms:
         if species[0]=='#':
@@ -30,6 +28,9 @@ def print_expected_change_report(synonyms, change_type,expected_counts):
         elif change_type[species]==CHANGE_GENUS_OMITTED: 
             genus=synonyms[species].split(" ")[0]
             out_f.write(f"|`species={species}` + `genus={genus}`| `species={synonyms[species]}` | {expected_counts[species]} |\n")
+        elif change_type[species]==CHANGE_ONLY_GENUS:
+            genus=species.split(" ")[0]
+            out_f.write(f"|`species={species}` | `species=` + `genus={genus}` | {expected_counts[species]} |\n")
         else:
             out_f.write(f"|`species={species}`| `species={synonyms[species]}` | {expected_counts[species]} |\n")
     out_f.close()
@@ -115,19 +116,26 @@ def replace_species():
                                 tags_to_remove.append(tag)
                                 modified = True
                             
-                            if change_type[old_species] == CHANGE_ENGLISH_NAME:
+                            if change_type[old_species] in (CHANGE_ENGLISH_NAME, CHANGE_ONLY_GENUS):
+                                
+                                tag_to_add = 'species:en'
+                                value_to_add = old_species 
+                                if change_type[old_species] == CHANGE_ONLY_GENUS:
+                                    tag_to_add = 'genus'
+                                    value_to_add = old_species.split(" ")[0]
+                                
                                 # Check if species:en already exists
                                 en_tag = None
                                 for t in elem.findall('tag'):
-                                    if t.get('k') == 'species:en':
+                                    if t.get('k') == tag_to_add :
                                         en_tag = t
                                         break
                                 
                                 if en_tag is not None:
-                                    en_tag.set('v', old_species)
+                                    en_tag.set('v', value_to_add)
                                 else:
                                     # Create new tag
-                                    new_tag = ET.Element('tag', k='species:en', v=old_species)
+                                    new_tag = ET.Element('tag', k=tag_to_add, v=value_to_add)
 
                                     # Try to preserve formatting by copying tail from existing tags
                                     existing_tags = elem.findall('tag')
