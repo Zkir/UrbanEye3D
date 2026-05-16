@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 
 INPUT_OSM = 'data/05_extracts/trees.osm'
 #SYNONYMS_CSV = 'data/15_trees_output/tree_synonyms.csv'
+#SYNONYMS_CSV = 'tree_typos.csv'
 SYNONYMS_CSV = 'tree_typos_2.csv'
 OUTPUT_DIR = 'data/16_trees_fixes'
 LIMIT = 5000
