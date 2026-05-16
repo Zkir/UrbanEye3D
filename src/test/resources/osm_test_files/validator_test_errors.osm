@@ -27,6 +27,11 @@
     <tag k='natural' v='tree' />
     <tag k='species' v='Acer platanoidess' />
   </node>
+  <node id='-51107' action='modify' visible='true' lat='55.75477096706' lon='37.61753978081'>
+    <tag k='description' v='Mistype in genus' />
+    <tag k='natural' v='tree' />
+    <tag k='genus' v='Acerr' />
+  </node>
   <way id='-14062' visible='true' version='1'>
     <nd ref='-49485' />
     <nd ref='-49486' />

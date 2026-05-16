@@ -34,6 +34,7 @@ public class TagChecks extends Test {
     public static final int INVALID_ROOF_ORIENTATION = 2004;
     public static final int ROOF_SHAPE_MANY_NOT_ALLOWED_FOR_PARTS = 2005;
     public static final int UNKNOWN_TREE_SPECIES = 2006;
+    public static final int UNKNOWN_TREE_GENUS = 2007;
 
     private static final List<String> VALID_ROOF_ORIENTATIONS = Arrays.asList("along", "across");
 
@@ -61,14 +62,27 @@ public class TagChecks extends Test {
             return;
         }
 
-        if (p.hasKey("species")) {
-            String speciesRaw = p.get("species");
-            String normalized = TreeSpeciesDatabase.normalizeSpecies(speciesRaw);
-            if (!normalized.isEmpty() && !TreeSpeciesDatabase.getInstance().getSpeciesMap().containsKey(normalized)) {
-                errors.add(TestError.builder(this, Severity.WARNING, UNKNOWN_TREE_SPECIES)
-                        .message(tr("Unknown tree species: {0}", speciesRaw))
-                        .primitives(p)
-                        .build());
+        if (p.hasTag("natural", "tree")) {
+            if (p.hasKey("species")) {
+                String speciesRaw = p.get("species");
+                String normalized = TreeSpeciesDatabase.normalizeSpecies(speciesRaw);
+                if (!normalized.isEmpty() && !TreeSpeciesDatabase.getInstance().getSpeciesMap().containsKey(normalized)) {
+                    errors.add(TestError.builder(this, Severity.WARNING, UNKNOWN_TREE_SPECIES)
+                            .message(tr("Unknown tree species: {0}", speciesRaw))
+                            .primitives(p)
+                            .build());
+                }
+            }
+
+            if (p.hasKey("genus")) {
+                String genusRaw = p.get("genus");
+                String normalized = genusRaw.trim().toLowerCase();
+                if (!normalized.isEmpty() && !TreeSpeciesDatabase.getInstance().getGenusMap().containsKey(normalized)) {
+                    errors.add(TestError.builder(this, Severity.WARNING, UNKNOWN_TREE_GENUS)
+                            .message(tr("Unknown tree genus: {0}", genusRaw))
+                            .primitives(p)
+                            .build());
+                }
             }
         }
 

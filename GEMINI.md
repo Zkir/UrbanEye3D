@@ -64,6 +64,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### 16 May 2026
+*   **Tree Genus Validation:** Extended the JOSM validator (`TagChecks.java`) to include verification for the `genus` tag, matching the existing `species` validation. This ensures taxonomic consistency for both specific and genus-level botanical tags.
+*   **Botanical Database Enhancements:** Added a public API to `TreeSpeciesDatabase` for accessing the genus-level mapping, facilitating its use in validation and other plugin components.
+
 ### 13 May 2026
 *   **Tree Species Validation:** Integrated botanical species verification into the JOSM validator (`TagChecks.java`). The plugin now alerts users about unknown or misspelled `species` tags, while intelligently handling cultivars, varieties, and hybrid symbols (standardizing 'x' to '×' during validation).
 *   **Tree Species Documentation:** Developed an automated reporting system (`TreeSpeciesReportTest.java`) that generates a comprehensive Markdown catalog of all 585 supported tree species, including their botanical attributes and Wikidata links.

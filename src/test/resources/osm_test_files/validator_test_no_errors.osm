@@ -42,6 +42,15 @@
     <tag k='description' v='No species is sad, but it&apos;s not an error' />
     <tag k='natural' v='tree' />
   </node>
+  <node id='-52285' action='modify' visible='true' lat='55.76309591872' lon='37.59560623533'>
+    <tag k='genus' v='Pinus' />
+    <tag k='natural' v='tree' />
+  </node>
+  <node id='-52286' action='modify' visible='true' lat='55.76309591872' lon='37.59660623533'>
+    <tag k='description' v='Botanical validator only learned about trees, so other objects are ignored' />
+    <tag k='natural' v='shrub' />
+    <tag k='species' v='Unknown species' />
+  </node>
   <way id='-14082' action='modify' visible='true' version='1'>
     <nd ref='-49825' />
     <nd ref='-49830' />

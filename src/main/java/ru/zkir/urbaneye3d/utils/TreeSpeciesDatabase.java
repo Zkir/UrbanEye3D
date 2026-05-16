@@ -42,6 +42,10 @@ public class TreeSpeciesDatabase {
         return java.util.Collections.unmodifiableMap(speciesMap);
     }
 
+    public Map<String, SpeciesInfo> getGenusMap() {
+        return java.util.Collections.unmodifiableMap(genusMap);
+    }
+
     private void loadData(String resourcePath) {
         try (InputStream is = TreeSpeciesDatabase.class.getResourceAsStream(resourcePath)) {
             if (is == null) {
