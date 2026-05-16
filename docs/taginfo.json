@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260430T012826Z",
+  "data_updated" : "20260516T225700Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -52,6 +52,10 @@
     "key" : "building:material",
     "value" : "glass",
     "description" : "Recognized as material for a building facade. Default color #c8d8d8"
+  }, {
+    "key" : "building:material",
+    "value" : "grass",
+    "description" : "Recognized as material for a building facade. Default color #99bb55"
   }, {
     "key" : "building:material",
     "value" : "metal",
@@ -211,6 +215,10 @@
     "key" : "roof:material",
     "value" : "glass",
     "description" : "Recognized as material for a roof. Default color #c8d8d8"
+  }, {
+    "key" : "roof:material",
+    "value" : "grass",
+    "description" : "Recognized as material for a roof. Default color #99bb55"
   }, {
     "key" : "roof:material",
     "value" : "metal",

@@ -19,7 +19,8 @@ public enum Materials {
    METAL        ("metal",        "#b0b0b0"),
    THATCH       ("thatch",       "#a88070"),
    SANDSTONE    ("sandstone",    "#a89078"),
-   TAR_PAPER    ("tar_paper",    "#3e2a1f");
+   TAR_PAPER    ("tar_paper",    "#3e2a1f"),
+   GRASS        ("grass",        "#99bb55");
 
     final String displayName;
     final String defaultColour;

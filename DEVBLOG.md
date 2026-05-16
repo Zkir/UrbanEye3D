@@ -1,5 +1,9 @@
 # Development History
 
+## Version 2.2.1 (May 16, 2026)
+* Cornish translation updated
+* Support for `roof:material=grass`
+
 ## Version 2.2.0 (May 08, 2026)
 
 *   **Finalized and cleaned up translations for version 2.2:**
