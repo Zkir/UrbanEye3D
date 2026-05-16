@@ -795,10 +795,10 @@ Total species count: 869
 | *Spathodea campanulata* | Spathodea | evergreen | broadleaved |  |
 | *Spondias dulcis* | Spondias | deciduous | broadleaved |  |
 | *Stewartia pseudocamellia* | Stewartia | deciduous | broadleaved | [Q1041653](https://www.wikidata.org/wiki/Q1041653) |
-| *Styphnolobium japonicum* | Styphlonobium | deciduous | broadleaved | [Q288558](https://www.wikidata.org/wiki/Q288558) |
+| *Styphnolobium japonicum* | Styphnolobium | deciduous | broadleaved | [Q288558](https://www.wikidata.org/wiki/Q288558) |
 | *Styrax japonicus* | Styrax | deciduous | broadleaved |  |
 | *Styrax obassia* | Styrax | deciduous | broadleaved |  |
-| *Swietenia macrophylla* | Swietenia | evergreen | broadleaved |  |
+| *Swietenia macrophylla* | Swietenia | deciduous | broadleaved |  |
 | *Syagrus romanzoffiana* | Syagrus | evergreen | broadleaved |  |
 | *Syagrus sancona* | Syagrus | evergreen | broadleaved |  |
 | *Syringa pekinensis* | Syringa | deciduous | broadleaved | [Q17713034](https://www.wikidata.org/wiki/Q17713034) |
