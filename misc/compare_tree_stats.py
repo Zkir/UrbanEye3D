@@ -33,6 +33,12 @@ def normalize_and_binomial(name):
     """
     if not name:
         return ""
+    
+    trimmed = name.strip()
+    # Check for cultivar format: Genus 'Cultivar Name'
+    if re.match(r"^[A-Z][a-z]+\s+'[A-Z].*'$", trimmed):
+        return trimmed
+
     # Remove quotes, extra spaces, and convert to lowercase
     name = name.replace('"', '').strip().lower()
     
@@ -56,6 +62,15 @@ def normalize_and_binomial(name):
         return " ".join(parts[:3])
     # 3. Otherwise, take first 2 parts: Genus species
     return " ".join(parts[:2])
+
+def is_genus_sp(name):
+    """Checks if the species name is a generic 'Genus sp.'."""
+    name = name.lower()
+    return name.endswith(" sp.") or name.endswith(" sp") or name.endswith(" spp.") or name.endswith(" n. sp.")
+
+def is_cultivar(name):
+    """Checks if the species name is in 'Genus 'Cultivar'' format."""
+    return bool(re.match(r"^[A-Z][a-z]+\s+'[A-Z].*'$", name.strip()))
 
 def get_display_name(name):
     """Returns a nicely formatted binomial name."""
@@ -147,11 +162,14 @@ def main():
     # 1. Read existing species
     existing_rows = []
     existing_species_norm = set()
+    existing_genera = set()
     with open(SPECIES_FILE, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             existing_rows.append(row)
             existing_species_norm.add(normalize_and_binomial(row['species']))
+            if row.get('genus'):
+                existing_genera.add(row['genus'].lower())
 
     print(f"Loaded {len(existing_rows)} existing species from curated list.")
 
@@ -216,16 +234,18 @@ def main():
     # find non-specified species, like "Acer sp."
     non_specifed=[]
     for s in final_suggestions:
-        display_name = s['species_raw']
-        if display_name.endswith(" sp.") or display_name.endswith(" sp") or display_name.endswith(" spp.") or display_name.endswith(" n. sp."):
-            # Species like Quercus sp. means that only genus is specified
+        raw_name = s['species_raw']
+        if is_genus_sp(raw_name) or is_cultivar(raw_name):
+            # Species like Quercus sp. or cultivars are considered "handled" or generic
             non_specifed.append(s)
     
     if non_specifed:
         with open(OUTPUT_CHANGES_FILE, mode='w', encoding='utf-8') as changes_csv:
             changes_csv.write("species,accepted_name,status,count\n")
             for s in non_specifed:
-                changes_csv.write(f"{s['species_raw']},,Genus sp.,{s['count']}\n") #{s['species'].split(" ")[0]}
+                status = "Genus sp." if not "'" in s['species_raw'] else "Cultivar" # some strage code by AI.
+                if status == "Genus sp.":
+                    changes_csv.write(f"{s['species_raw']},,{status},{s['count']}\n")
                 
     
 
@@ -236,30 +256,42 @@ def main():
             md.write("The following species are frequent in OpenStreetMap, but missing from the [curated list](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species):\n\n")
             
             
-            for status_group in (("Accepted",), ("Synonym", ), ("Not found",) ):
+            for status_group in (("Accepted",), ("Synonym", ), ("Cultivars",), ("Not found",) ):
                 md.write("\n")
                 md.write("## " + ", ".join(status_group) +"\n")
                 for s in final_suggestions:
-                    if s['species_raw'].endswith(" sp.") or s['species_raw'].endswith(" sp") or s['species_raw'].endswith(" spp.") or s['species_raw'].endswith(" n. sp."):
-                        # Species like Quercus sp. means that only genus is specified
+                    raw_name = s['species_raw']
+                    if is_genus_sp(raw_name):
+                        continue
+
+                    # Determine effective status for the report
+                    eff_status = s['powo_status']
+                    is_cult = is_cultivar(raw_name)
+                    if is_cult:
+                        genus = raw_name.split(' ')[0].lower()
+                        if genus in existing_genera:
+                            eff_status = "Cultivars"
+                        else:
+                            eff_status = "Not found"
+
+                    if eff_status not in status_group:
                         continue
                     
-                    # For "Not found", use raw species name to keep TagInfo URL correct
-                    display_name = s['species']
-                    taginfo_name = s['species']
-                    if s['powo_status'] == "Not found":
-                        taginfo_name = s['species_raw']
-                        display_name = f"*{s['species_raw']}*"
+                    # For "Not found" and cultivars, use raw species name to keep TagInfo URL correct
+                    if is_cult or eff_status == "Not found":
+                        taginfo_name = raw_name
+                        display_name = f"*{raw_name}*"
+                    else:
+                        taginfo_name = s['species']
+                        display_name = s['species']
 
                     url = get_taginfo_url(taginfo_name)
-                    #powo_info = f"**{s['powo_status']}**"
                     powo_info = ""
                     if s['powo_accepted']:
                         powo_info += f"— (Accepted name: *{s['powo_accepted']}*)"
                         
-                    if s['powo_status'] in status_group:
-                        md.write(f"- [{display_name}]({url}) {powo_info}\n")
-                        md.write(f"  - (Genus: {s['genus']}, Cycle: {s['leaf_cycle']}, Type: {s['leaf_type']}, Count: {s['count']})\n")
+                    md.write(f"- [{display_name}]({url}) {powo_info}\n")
+                    md.write(f"  - (Genus: {s['genus']}, Cycle: {s['leaf_cycle']}, Type: {s['leaf_type']}, Count: {s['count']})\n")
         
         print(f"\nMarkdown suggestions saved to: {OUTPUT_MD_FILE}")
 
