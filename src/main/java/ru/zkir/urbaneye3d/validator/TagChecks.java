@@ -67,10 +67,23 @@ public class TagChecks extends Test {
                 String speciesRaw = p.get("species");
                 String normalized = TreeSpeciesDatabase.normalizeSpecies(speciesRaw);
                 if (!normalized.isEmpty() && !TreeSpeciesDatabase.getInstance().getSpeciesMap().containsKey(normalized)) {
-                    errors.add(TestError.builder(this, Severity.WARNING, UNKNOWN_TREE_SPECIES)
-                            .message(tr("Unknown tree species: {0}", speciesRaw))
-                            .primitives(p)
-                            .build());
+                    // Check if it's a valid cultivar
+                    boolean isCultivar = false;
+                    String trimmed = speciesRaw.trim();
+                    // Match Genus 'Cultivar Name'
+                    if (trimmed.matches("^[A-Z][a-z]+\\s+'[A-Z].*'$")) {
+                        String genus = trimmed.split(" ")[0].toLowerCase();
+                        if (TreeSpeciesDatabase.getInstance().getGenusMap().containsKey(genus)) {
+                            isCultivar = true;
+                        }
+                    }
+
+                    if (!isCultivar) {
+                        errors.add(TestError.builder(this, Severity.WARNING, UNKNOWN_TREE_SPECIES)
+                                .message(tr("Unknown tree species: {0}", speciesRaw))
+                                .primitives(p)
+                                .build());
+                    }
                 }
             }
 

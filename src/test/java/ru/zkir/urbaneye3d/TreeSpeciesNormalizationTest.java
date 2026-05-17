@@ -30,6 +30,9 @@ class TreeSpeciesNormalizationTest {
         assertEquals("Acer griseum × pseudoplatanus", TreeSpeciesDatabase.formatSpecies("Acer griseum × pseudoplatanus"));
         assertEquals("Acer griseum × pseudoplatanus", TreeSpeciesDatabase.formatSpecies("Acer griseum × pseudoplatanus var. Bogus"));
 
+        assertEquals("Ulmus sp.",TreeSpeciesDatabase.formatSpecies("Ulmus 'Sapporo Autumn Gold'"));
+        assertEquals("Malus sp.",TreeSpeciesDatabase.formatSpecies("Malus 'Evereste'"));
+
     }
 
     @Test

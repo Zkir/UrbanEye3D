@@ -86,8 +86,15 @@ public class TreeSpeciesDatabase {
     public static String normalizeSpecies(String name) {
         if (name == null || name.isEmpty()) return "";
 
+        String trimmed = name.trim();
+        // Check for cultivar format: Genus 'Cultivar'
+        if (trimmed.matches("^[A-Z][a-z]+\\s+'[A-Z].*'$")) {
+            String genus = trimmed.split(" ")[0].toLowerCase();
+            return genus + " sp.";
+        }
+
         // Lowercase and trim
-        String n = name.trim().toLowerCase();
+        String n = trimmed.toLowerCase();
 
         // Normalize hybrid symbol: 'x' -> '×' (only if separate)
         n = n.replaceAll("(^|\\s)x(\\s|$)", "$1×$2");
@@ -171,6 +178,16 @@ public class TreeSpeciesDatabase {
         // 2. Try genus
         if (info == null) {
             String genus = tags.get("genus");
+            if (genus == null && normalizedSpecies != null) {
+                // If genus tag is missing, but we have species, try to extract genus from species
+                String[] parts = normalizedSpecies.split(" ");
+                if (parts.length > 0) {
+                    genus = parts[0];
+                    if (genus.equals("×") && parts.length > 1) {
+                        genus = parts[1];
+                    }
+                }
+            }
             if (genus != null) {
                 info = genusMap.get(genus.toLowerCase());
             }

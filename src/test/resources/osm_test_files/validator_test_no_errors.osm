@@ -51,6 +51,14 @@
     <tag k='natural' v='shrub' />
     <tag k='species' v='Unknown species' />
   </node>
+  <node id='-52395' action='modify' visible='true' lat='55.76406122921' lon='37.59461266851'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Ulmus &apos;Sapporo Autumn Gold&apos;' />
+  </node>
+  <node id='-52444' action='modify' visible='true' lat='55.76406122921' lon='37.59528986952'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Malus &apos;Evereste&apos;' />
+  </node>
   <way id='-14082' action='modify' visible='true' version='1'>
     <nd ref='-49825' />
     <nd ref='-49830' />

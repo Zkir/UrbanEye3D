@@ -64,6 +64,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### 17 May 2026
+*   **Tree Cultivar Support:** Enhanced the tree species processing engine and JOSM validator to support cultivars in the `Genus 'Cultivar Name'` format. The system now correctly recognizes these names, validates their taxonomic genus, and automatically falls back to the genus-level attributes (leaf type/cycle) for visual rendering when a specific cultivar mesh is unavailable.
+*   **Robust Genus Extraction:** Improved the tag enrichment logic to automatically extract the genus from the `species` tag if the explicit `genus` tag is missing. This significantly improves the reliability of texture matching for a wider range of botanical entries.
+
 ### 16 May 2026
 *   **Tree Genus Validation:** Extended the JOSM validator (`TagChecks.java`) to include verification for the `genus` tag, matching the existing `species` validation. This ensures taxonomic consistency for both specific and genus-level botanical tags.
 *   **Botanical Database Enhancements:** Added a public API to `TreeSpeciesDatabase` for accessing the genus-level mapping, facilitating its use in validation and other plugin components.
@@ -149,6 +153,11 @@ src
 *    There is an autotest that enforces that all po files are converted to lang files and print [report of translation completeness](docs/dev/translation-status.md). 
 *    There is still `I18n.bat`, which include calls to traditional josm toolchain. It should not be used in normal process, only in case of bugs in `ru.zkir.easytext` java solution. Note that you are on your own regarding  the installation of gettext and JOSM I18n. 
 
+
+### Botanical Engine
+*   **Species Normalization:** The `TreeSpeciesDatabase` class handles the normalization of botanical names, including hybrid symbols (standardizing to '×') and cultivar formatting.
+*   **Cultivar Handling:** Names in the `Genus 'Cultivar Name'` format are recognized and automatically mapped to the parent genus for attribute inference (leaf type, leaf cycle) while preserving the specific name in validation.
+*   **Tag Enrichment:** The plugin automatically enriches OSM objects with `leaf_type` and `leaf_cycle` tags derived from their `species` or `genus` tags using an internal database of over 800 species. This ensures realistic tree rendering even when explicit architectural tags are missing.
 
 ### 3D Geometry Generation
 *   **Core Principle: Watertight Meshes:** All 3D models, especially roofs, must be generated as **watertight** (fully enclosed) meshes with consistent, **outward-facing normals**. This is fundamental for correct rendering and future features like ambient occlusion. This is enforced by unit tests (`RoofGeneratorTopologyTest`). Those autotests have helped greatly during development of  geometry generation code.
