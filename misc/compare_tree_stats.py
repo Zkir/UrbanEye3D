@@ -227,60 +227,50 @@ def main():
         status, accepted_name = check_powo_status(c['species'])
         c['powo_status'] = status
         c['powo_accepted'] = accepted_name
+        
+        # Determine effective status once for all subsequent logic
+        raw_name = c['species_raw']
+        if is_genus_sp(raw_name):
+            c['eff_status'] = 'Genus sp.'
+        elif is_cultivar(raw_name):
+            genus = raw_name.split(' ')[0].lower()
+            if genus in existing_genera:
+                c['eff_status'] = 'Cultivars'
+            else:
+                c['eff_status'] = 'Not found'
+        else:
+            c['eff_status'] = status
+            
         final_suggestions.append(c)
     
     print("Verification complete."+" "*40)
     
-    # find non-specified species, like "Acer sp."
-    non_specifed=[]
-    for s in final_suggestions:
-        raw_name = s['species_raw']
-        if is_genus_sp(raw_name) or is_cultivar(raw_name):
-            # Species like Quercus sp. or cultivars are considered "handled" or generic
-            non_specifed.append(s)
-    
-    if non_specifed:
-        with open(OUTPUT_CHANGES_FILE, mode='w', encoding='utf-8') as changes_csv:
-            changes_csv.write("species,accepted_name,status,count\n")
-            for s in non_specifed:
-                status = "Genus sp." if not "'" in s['species_raw'] else "Cultivar" # some strage code by AI.
-                if status == "Genus sp.":
-                    changes_csv.write(f"{s['species_raw']},,{status},{s['count']}\n")
-                
+    # 4. Generate Changes CSV (only for Genus sp.)
+    genus_sps = [s for s in final_suggestions if s['eff_status'] == 'Genus sp.']
+    if genus_sps:
+        with open(OUTPUT_CHANGES_FILE, mode='w', encoding='utf-8') as f:
+            f.write("species,accepted_name,status,count\n")
+            for s in genus_sps:
+                f.write(f"{s['species_raw']},,Genus sp.,{s['count']}\n")
     
 
-    # 4. Output results
+    # 5. Output Markdown suggestions
     if final_suggestions:
         with open(OUTPUT_MD_FILE, mode='w', encoding='utf-8') as md:
             md.write(f"# Tree Species Suggestions (Threshold {THRESHOLD})\n\n")
             md.write("The following species are frequent in OpenStreetMap, but missing from the [curated list](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species):\n\n")
             
-            
             for status_group in (("Accepted",), ("Synonym", ), ("Cultivars",), ("Not found",) ):
                 md.write("\n")
                 md.write("## " + ", ".join(status_group) +"\n")
                 for s in final_suggestions:
-                    raw_name = s['species_raw']
-                    if is_genus_sp(raw_name):
-                        continue
-
-                    # Determine effective status for the report
-                    eff_status = s['powo_status']
-                    is_cult = is_cultivar(raw_name)
-                    if is_cult:
-                        genus = raw_name.split(' ')[0].lower()
-                        if genus in existing_genera:
-                            eff_status = "Cultivars"
-                        else:
-                            eff_status = "Not found"
-
-                    if eff_status not in status_group:
+                    if s['eff_status'] not in status_group:
                         continue
                     
                     # For "Not found" and cultivars, use raw species name to keep TagInfo URL correct
-                    if is_cult or eff_status == "Not found":
-                        taginfo_name = raw_name
-                        display_name = f"*{raw_name}*"
+                    if s['eff_status'] in ("Not found", "Cultivars"):
+                        taginfo_name = s['species_raw']
+                        display_name = f"*{s['species_raw']}*"
                     else:
                         taginfo_name = s['species']
                         display_name = s['species']
@@ -293,10 +283,10 @@ def main():
                     md.write(f"- [{display_name}]({url}) {powo_info}\n")
                     md.write(f"  - (Genus: {s['genus']}, Cycle: {s['leaf_cycle']}, Type: {s['leaf_type']}, Count: {s['count']})\n")
         
-        print(f"\nMarkdown suggestions saved to: {OUTPUT_MD_FILE}")
+        print(f"Markdown suggestions saved to: {OUTPUT_MD_FILE}")
 
-    # 5. Generate Synonyms CSV file
-    synonyms = [s for s in final_suggestions if s['powo_status'] in ['Synonym']]
+    # 6. Generate Synonyms CSV file
+    synonyms = [s for s in final_suggestions if s['eff_status'] == 'Synonym']
     if synonyms:
         with open(OUTPUT_CSV_SYNONYMS, mode='w', newline='', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=['species', 'accepted_name', 'status', 'count'])
@@ -311,12 +301,12 @@ def main():
         print(f"Synonyms CSV saved to: {OUTPUT_CSV_SYNONYMS}")
         
         
-    # 6.1 Generate "Accepted" species CSV file
+    # 7.1 Generate "Accepted" species CSV file
     with open(OUTPUT_CSV_FOUND, mode='w', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=['species', 'genus', 'species:wikidata', 'leaf_cycle', 'leaf_type'])
         writer.writeheader()
         for s in final_suggestions:
-            if s['powo_status'] == 'Accepted':
+            if s['eff_status'] == 'Accepted':
                 writer.writerow({
                     'species': s['species'],
                     'genus': s['genus'],
@@ -326,10 +316,10 @@ def main():
                 })
     print(f"Accepted species CSV saved to: {OUTPUT_CSV_FOUND}")
     
-    # 6.2 Generate Wiki Markup file for all accepted species, to update curated list on osm-wiki
+    # 7.2 Generate Wiki Markup file for all accepted species
     all_wiki_species = existing_rows
     for s in final_suggestions:
-        if s['powo_status'] == 'Accepted':
+        if s['eff_status'] == 'Accepted':
             all_wiki_species.append({
                 'species': s['species'],
                 'genus': s['genus'],
@@ -338,7 +328,7 @@ def main():
                 'leaf_type': s['leaf_type']
             })
     
-    # Sort alphabetically, ignoring the hybrid symbol '×' and extra spaces
+    # Sort alphabetically
     all_wiki_species.sort(key=lambda x: re.sub(r'\s+', ' ', x['species'].replace('×', '')).strip().lower())
     
     with open(OUTPUT_WIKI_FILE, mode='w', encoding='utf-8') as wf:
@@ -349,30 +339,27 @@ def main():
         
         for s in all_wiki_species:
             wd = s.get('species:wikidata', '')
-            # Wrap Q-codes in Wiki link format if they aren't already
             if wd and wd.startswith('Q') and '|' not in wd:
                 wd = f'[[:d:{wd}|{wd}]]'
                 
             wf.write(f"| {s['species']} \n")
             wf.write(f"|{s['genus']}|| {wd} || {s['leaf_cycle']} || {s['leaf_type']}\n")
             wf.write(f"|-\n")
-        
         wf.write('|}\n')
     
     print(f"Complete Wiki table saved to: {OUTPUT_WIKI_FILE}")
 
-    # 7. Generate "Not Found" CSV file
-    not_found = [s for s in final_suggestions if s['powo_status'] == 'Not found']
-    if not_found:
-        with open(OUTPUT_CSV_NOT_FOUND, mode='w', newline='', encoding='utf-8') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=['species', 'count'])
-            writer.writeheader()
-            for s in not_found:
+    # 8. Generate "Not Found" CSV file
+    with open(OUTPUT_CSV_NOT_FOUND, mode='w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=['species', 'count'])
+        writer.writeheader()
+        for s in final_suggestions:
+            if s['eff_status'] == 'Not found':
                 writer.writerow({
                     'species': s['species_raw'],
                     'count': s['count']
                 })
-        print(f"Not found species CSV saved to: {OUTPUT_CSV_NOT_FOUND}")
+    print(f"Not found species CSV saved to: {OUTPUT_CSV_NOT_FOUND}")
 
 if __name__ == "__main__":
     main()

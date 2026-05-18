@@ -124,6 +124,11 @@ def replace_species():
                                 if change_type[old_species] == CHANGE_ONLY_GENUS:
                                     tag_to_add = 'genus'
                                     value_to_add = old_species.split(" ")[0]
+                                    #we need to check presence of species:wikidata or species:wikipedia
+                                    for t in elem.findall('tag'):
+                                        if t.get('k') in ('species:wikidata', 'species:wikipedia') :
+                                            print(f"fuck! wikidata/wikipedia tag is present. Old value: '{old_species}', New value: '{new_species}', Genus: '{value_to_add}', tag: {t.get('v')}")
+                                            break
                                 
                                 # Check if species:en already exists
                                 en_tag = None
@@ -190,8 +195,10 @@ def replace_species():
                 elem.clear()
     except EOFError:
         print("End of file reached unexpectedly or file truncated.")
+        exit(1)
     except Exception as e:
         print(f"Error during parsing: {e}")
+        exit(1)
 
     if out_f:
         out_f.write('</osm>\n')
