@@ -7,12 +7,14 @@ INPUT_OSM = 'data/05_extracts/trees.osm'
 #SYNONYMS_CSV = 'tree_typos.csv'
 SYNONYMS_CSV = 'tree_typos_2.csv'
 OUTPUT_DIR = 'data/16_trees_fixes'
-LIMIT = 5000
+LIMIT = 15000
 
 CHANGE_ENGLISH_NAME = 'English name instead of Latin name'
 CHANGE_GENUS_OMITTED = 'Genus omitted'
 CHANGE_ONLY_GENUS = 'Genus sp.'
 allowed_types= (CHANGE_ENGLISH_NAME, 'Typo', 'Formatting', 'Species name omitted', 'Nonsense', CHANGE_GENUS_OMITTED, CHANGE_ONLY_GENUS)
+
+WD_GENUS=('Q132557', 'Q132557', 'Q127849', 'Q104819',)
 
 def print_expected_change_report(synonyms, change_type,expected_counts):
     filename = os.path.join(OUTPUT_DIR, "proposed_changes.md")
@@ -127,6 +129,10 @@ def replace_species():
                                     #we need to check presence of species:wikidata or species:wikipedia
                                     for t in elem.findall('tag'):
                                         if t.get('k') in ('species:wikidata', 'species:wikipedia') :
+                                            if t.get('v') in WD_GENUS:
+                                                #this is genus, and it's ok
+                                                break
+                                                
                                             print(f"fuck! wikidata/wikipedia tag is present. Old value: '{old_species}', New value: '{new_species}', Genus: '{value_to_add}', tag: {t.get('v')}")
                                             break
                                 

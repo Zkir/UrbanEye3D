@@ -24,7 +24,7 @@ data/00_planet/planet-latest.osm.pbf:
 	cd data\00_planet && ren planet-*.osm.pbf planet-latest.osm.pbf
 	
 data/00_planet/planet-latest-updated.osm.pbf:  data/00_planet/planet-latest.osm.pbf	
-	osmupdate data\00_planet\planet-latest.osm.pbf data\00_planet\planet-latest-updated.osm.pbf -v	
+	osmupdate data\00_planet\planet-latest.osm.pbf data\00_planet\planet-latest-updated.osm.pbf -v --base-url=https://planet.maps.mail.ru/replication/
 
 data/05_extracts/trees.osm: data/00_planet/planet-latest-updated.osm.pbf |  data/05_extracts ## Rule to generate the source OSM file from the planet data
 	osmosis --rbf data/00_planet/planet-latest-updated.osm.pbf --tf accept-nodes natural=tree --tf reject-ways --tf reject-relations --wx data/05_extracts/trees.osm
