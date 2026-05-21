@@ -3,18 +3,18 @@ import csv
 import xml.etree.ElementTree as ET
 
 INPUT_OSM = 'data/05_extracts/trees.osm'
-#SYNONYMS_CSV = 'data/15_trees_output/tree_synonyms.csv'
-#SYNONYMS_CSV = 'tree_typos.csv'
-SYNONYMS_CSV = 'tree_typos_2.csv'
+#SYNONYMS_CSV = 'data/15_trees_output/changes.csv'
+SYNONYMS_CSV = 'tree_typos.csv'
+#SYNONYMS_CSV = 'tree_typos_2.csv'
 OUTPUT_DIR = 'data/16_trees_fixes'
 LIMIT = 15000
 
-CHANGE_ENGLISH_NAME = 'English name instead of Latin name'
+CHANGE_ENGLISH_NAME = 'Name:en'
 CHANGE_GENUS_OMITTED = 'Genus omitted'
 CHANGE_ONLY_GENUS = 'Genus sp.'
 allowed_types= (CHANGE_ENGLISH_NAME, 'Typo', 'Formatting', 'Species name omitted', 'Nonsense', CHANGE_GENUS_OMITTED, CHANGE_ONLY_GENUS)
 
-WD_GENUS=('Q132557', 'Q132557', 'Q127849', 'Q104819',)
+WD_GENUS=('Q132557', 'Q132557', 'Q127849', 'Q104819', 'Q163025','Q190545','Q157017', 'Q36050', 'Q434','Q189393')
 
 def print_expected_change_report(synonyms, change_type,expected_counts):
     filename = os.path.join(OUTPUT_DIR, "proposed_changes.md")
@@ -55,6 +55,8 @@ def replace_species():
         reader = csv.DictReader(f)
         for row in reader:
             species = row['species']
+            if species[0]=='#':
+                continue
             synonyms[species] = row['accepted_name']
             change_type[species] = row['status']
             if change_type[species] not in allowed_types:
@@ -105,6 +107,7 @@ def replace_species():
 
             if elem.tag in ('node', 'way', 'relation'):
                 modified = False
+                have_to_skip = False
                 tags_to_remove = []
                 for tag in elem.findall('tag'):
                     if tag.get('k') == 'species':
@@ -123,9 +126,11 @@ def replace_species():
                                 
                                 tag_to_add = 'species:en'
                                 value_to_add = old_species 
+                                
                                 if change_type[old_species] == CHANGE_ONLY_GENUS:
                                     tag_to_add = 'genus'
                                     value_to_add = old_species.split(" ")[0]
+                                    value_to_add = value_to_add[0].upper() + value_to_add[1:].lower()
                                     #we need to check presence of species:wikidata or species:wikipedia
                                     for t in elem.findall('tag'):
                                         if t.get('k') in ('species:wikidata', 'species:wikipedia') :
@@ -134,7 +139,17 @@ def replace_species():
                                                 break
                                                 
                                             print(f"fuck! wikidata/wikipedia tag is present. Old value: '{old_species}', New value: '{new_species}', Genus: '{value_to_add}', tag: {t.get('v')}")
+                                            have_to_skip = True
                                             break
+                                            
+                                        if t.get('k') in ('genus') :
+                                            if t.get('v')!=value_to_add:
+                                                print(f"fuck! genus tag is present and does not match . Old value: '{old_species}', New value: '{new_species}', Genus: '{value_to_add}', tag: {t.get('v')}")
+                                                have_to_skip = True
+                                                break    
+                                            
+                                if have_to_skip:
+                                    break                                    
                                 
                                 # Check if species:en already exists
                                 en_tag = None
@@ -182,6 +197,9 @@ def replace_species():
                                     print(f"fuck! genus does not match. Old value: '{old_species}', New value: '{new_species}', Genus: '{genus}'")
                                     #exit(1)    
                             actual_counts[old_species] += 1
+                            
+                if have_to_skip:            
+                    continue
                 
                 for tag in tags_to_remove:
                     elem.remove(tag)

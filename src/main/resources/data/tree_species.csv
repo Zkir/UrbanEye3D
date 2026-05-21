@@ -199,7 +199,6 @@ Cedrus libani,Cedrus,Q61105,evergreen,needleleaved
 Ceiba pentandra,Ceiba,,deciduous,broadleaved
 Ceiba speciosa,Ceiba,Q1031120,deciduous,broadleaved
 Celtis australis,Celtis,Q255375,deciduous,broadleaved
-Celtis laevigata,Celtis,,deciduous,broadleaved
 Celtis occidentalis,Celtis,Q470006,deciduous,broadleaved
 Celtis sinensis,Celtis,,deciduous,broadleaved
 Cerasus sargentii,Cerasus,Q163039,deciduous,broadleaved
@@ -334,6 +333,7 @@ Delonix regia,Delonix,Q238486,evergreen,broadleaved
 Diospyros kaki,Diospyros,Q158482,deciduous,broadleaved
 Diospyros lotus,Diospyros,Q771101,deciduous,broadleaved
 Diospyros virginiana,Diospyros,,deciduous,broadleaved
+Dipterocarpus alatus,Dipterocarpus,,evergreen,broadleaved
 Dodonaea viscosa,Dodonaea,,evergreen,broadleaved
 Dracaena draco,Dracaena,,evergreen,broadleaved
 Drimys winteri,Drimys,,evergreen,broadleaved
@@ -536,7 +536,7 @@ Mespilus germanica,Mespilus,Q146186,deciduous,broadleaved
 Mesua ferrea,Mesua,,evergreen,broadleaved
 Metasequoia glyptostroboides,Metasequoia,Q156800,deciduous,needleleaved
 Metrosideros excelsa,Metrosideros,,evergreen,broadleaved
-Monoon longifolium,Monoon,,deciduous,broadleaved
+Monoon longifolium,Monoon,,evergreen,broadleaved
 Moquilea tomentosa,Moquilea,,evergreen,broadleaved
 Moringa oleifera,Moringa,,evergreen,broadleaved
 Morus alba,Morus,Q157307,deciduous,broadleaved
@@ -596,6 +596,7 @@ Pinus halepensis,Pinus,,evergreen,needleleaved
 Pinus heldreichii,Pinus,Q460531,evergreen,needleleaved
 Pinus mugo,Pinus,Q147475,evergreen,needleleaved
 Pinus nigra,Pinus,Q145954,evergreen,needleleaved
+Pinus palustris,Pinus,,evergreen,needleleaved
 Pinus parviflora,Pinus,Q178116,evergreen,needleleaved
 Pinus peuce,Pinus,,evergreen,needleleaved
 Pinus pinaster,Pinus,Q271582,evergreen,needleleaved
@@ -717,7 +718,7 @@ Quercus pedunculata,Quercus,Q165145,deciduous,broadleaved
 Quercus petraea,Quercus,Q158608,deciduous,broadleaved
 Quercus phellos,Quercus,Q783224,deciduous,broadleaved
 Quercus pubescens,Quercus,Q161415,deciduous,broadleaved
-Quercus pyrenaica,Quercus,Q165145,deciduous,broadleaved
+Quercus pyrenaica,Quercus,,deciduous,broadleaved
 Quercus robur,Quercus,Q165145,deciduous,broadleaved
 Quercus rotundifolia,Quercus,,evergreen,broadleaved
 Quercus rubra,Quercus,Q147525,deciduous,broadleaved
@@ -775,7 +776,6 @@ Sorbus commixta,Sorbus,,deciduous,broadleaved
 Sorbus decora,Sorbus,,deciduous,broadleaved
 Sorbus discolor,Sorbus,,deciduous,broadleaved
 Sorbus domestica,Sorbus,Q18593737,deciduous,broadleaved
-Sorbus hybrida,Sorbus,,deciduous,broadleaved
 Sorbus intermedia,Sorbus,Q27980,deciduous,broadleaved
 Sorbus scalaris,Sorbus,Q1037204,deciduous,broadleaved
 Sorbus torminalis,Sorbus,Q147459,deciduous,broadleaved

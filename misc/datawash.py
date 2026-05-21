@@ -90,6 +90,83 @@ def clean_roof_shape(value_str: str) -> str|None:
     else:    
         #print (value_str)
         return "other" 
+        
+def to_binomial1(name):
+    """
+    Extracts the binomial core (Genus species) or trinomial for hybrids (Genus × species).
+    Used for fuzzy matching against the curated species list.
+    """
+    name = name.strip()
+    if not name:
+        return ""
+    # Normalize hybrid symbol 'x' -> '×' (only if it's a separate symbol, not part of a word)
+    name = re.sub(r'(^|\s)x(\s|$)', r'\1×\2', name)
+    name = re.sub(r'(^|\s)X(\s|$)', r'\1×\2', name)
+    # Ensure spaces around '×'
+    name = re.sub(r'\s*×\s*', ' × ', name)
+    # Clean up multiple spaces
+    name = re.sub(r'\s+', ' ', name).strip()
+    
+    parts = name.split(' ')
+    
+    if not parts:
+        return ""
+    
+    # 1. Hybrid starts with ×: × Genus species
+    if parts[0] == '×' and len(parts) >= 3:
+        return " ".join(parts[:3])
+    # 2. Hybrid in middle: Genus × species
+    if len(parts) >= 3 and parts[1] == '×':
+        return " ".join(parts[:3])
+    # 3. Standard binomial: Genus species
+    if len(parts) >= 2:
+        return " ".join(parts[:2])
+        
+    #one-worder! Return as is
+    return name      
+    
+def to_binomial(name):
+    """
+    Normalizes name to binomial format (Genus species) and standardizes formatting.
+    Example: 'Tilia cordata green spire' -> 'tilia cordata'
+    Example: 'Platanus x acerifolia' -> 'platanus × acerifolia'
+    """
+    if not name:
+        return ""
+    
+    trimmed = name.strip()
+    # Check for cultivar format: Genus 'Cultivar Name'
+    if re.match(r"^[A-Z][a-z]+\s+'[A-Z].*'$", trimmed):
+        return trimmed
+
+    # Remove quotes, extra spaces, and convert to lowercase
+    name = name.replace('"', '').strip().lower()
+    
+    # Normalize hybrid symbol 'x' -> '×' (only if it's a separate symbol, not part of a word)
+    name = re.sub(r'(^|\s)x(\s|$)', r'\1×\2', name)
+    name = re.sub(r'(^|\s)X(\s|$)', r'\1×\2', name)
+    # Ensure spaces around '×'
+    name = re.sub(r'\s*×\s*', ' × ', name)
+    # Clean up multiple spaces
+    name = re.sub(r'\s+', ' ', name).strip()
+    
+    parts = name.split(' ')
+    if len(parts) < 2:
+        return name # Too short, return as is
+    
+    # Binomial nomenclature rule:
+    # 1. If starts with '×', take 3 parts: × Genus species
+    if parts[0] == '×':
+        return " ".join(parts[:3])
+    # 2. If the second part is '×', take 3 parts: Genus × species
+    if len(parts) > 2 and parts[1] == '×':
+        return " ".join(parts[:3])
+    # 3. Otherwise, take first 2 parts: Genus species
+    return " ".join(parts[:2])    
+    
+def is_cultivar(name):
+    """Checks if the species name is in 'Genus 'Cultivar'' format."""
+    return bool(re.match(r"^[A-Z][a-z]+\s+'[A-Z].*'$", name.strip()))    
 
 
 if __name__ == "__main__":
@@ -113,7 +190,24 @@ if __name__ == "__main__":
     assert clean_height_or_circumference("5 m") == "5.0" 
     assert clean_height_or_circumference("530 cm") == "5.3"
     assert clean_height_or_circumference("40'") == "12.192"
-
+    
+    assert to_binomial1("Tilia cordata") == "Tilia cordata"
+    assert to_binomial1("Tilia cordata green spire") == "Tilia cordata"
+    assert to_binomial1("Tilia cordata 'Green Spire'") == "Tilia cordata"
+    assert to_binomial1("Citrus ×sinensis")      == "Citrus × sinensis"
+    assert to_binomial1("Citrus×sinensis")       == "Citrus × sinensis"
+    assert to_binomial1("Citrus x sinensis")     == "Citrus × sinensis"
+    assert to_binomial1("Citrus  x   sinensis")  == "Citrus × sinensis"
+    assert to_binomial1("Gonystylus xylocarpus") == "Gonystylus xylocarpus"
+    assert to_binomial1("Platanus X hispanica")  == "Platanus × hispanica"
+    
+    assert to_binomial1("X Cupresocyparis leylandii")  == "× Cupresocyparis leylandii"
+    assert to_binomial1("x Cupresocyparis leylandii")  == "× Cupresocyparis leylandii"
+    
+    assert to_binomial1("Prunus 'Accolade'")     == "Prunus 'Accolade'"
+    assert to_binomial1("Oak")                   == "Oak"
+    
+    
    
     print("Tests OK")
     

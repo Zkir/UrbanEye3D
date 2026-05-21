@@ -1,6 +1,7 @@
 import csv
 import os
 import re
+from datawash import to_binomial
 
 # File paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -10,33 +11,6 @@ SYNONYMS_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_synonyms
 FINAL_OUTPUT =  os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_species.csv')
 #FINAL_OUTPUT = os.path.join(os.path.dirname(BASE_DIR), 'src', 'main', 'resources', 'data', 'tree_species.csv')
 
-
-def to_binomial(name):
-    """
-    Extracts the binomial core (Genus species) or trinomial for hybrids (Genus × species).
-    Used for fuzzy matching against the curated list.
-    """
-    if not name:
-        return ""
-    # Standardize hybrid sign for parsing
-    n = name.replace('×', ' × ').replace(' x ', ' × ')
-    n = re.sub(r'\s+', ' ', n).strip().lower()
-    parts = n.split(' ')
-    
-    if not parts:
-        return ""
-    
-    # 1. Hybrid starts with ×: × Genus species
-    if parts[0] == '×' and len(parts) >= 3:
-        return " ".join(parts[:3])
-    # 2. Hybrid in middle: Genus × species
-    if len(parts) >= 3 and parts[1] == '×':
-        return " ".join(parts[:3])
-    # 3. Standard binomial: Genus species
-    if len(parts) >= 2:
-        return " ".join(parts[:2])
-    
-    return n
 
 def main():
     if not os.path.exists(CURATED_FILE) or not os.path.exists(SYNONYMS_FILE) or not os.path.exists(ACCEPTED_FILE):
