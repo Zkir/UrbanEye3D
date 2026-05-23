@@ -10,7 +10,7 @@ TREE_STATS_FILES := $(patsubst %,data/10_trees/tree_stats_%.csv,$(ANALYSIS_TYPES
 
 # Default goal, executed when 'make' is run without arguments
 #all: $(TREE_STATS_FILES) data/building_analysis_full.csv 
-all: $(TREE_STATS_FILES) data/15_trees_output/tree_species.csv
+all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md
 
 # Define the columns to be extracted for the trees CSV
 TREE_COLUMNS = id lat lon height circumference age start_date \
@@ -49,6 +49,12 @@ data/15_trees_output/tree_synonyms.csv : data/10_trees/tree_species_curated.csv 
 data/15_trees_output/tree_species.csv: data/10_trees/tree_species_curated.csv data/15_trees_output/tree_synonyms.csv
 	python merge_tree_data.py
 	copy /b/v/y data\15_trees_output\tree_species.csv ..\src\main\resources\data\
+	
+data/15_trees_output/tree_species_invalid.csv: 	data/15_trees_output/tree_species.csv data/10_trees/trees.csv
+	python find_invalid_species.py
+
+data/15_trees_output/tree_species_invalid.md: data/15_trees_output/tree_species_invalid.csv
+	python report_invalid_species.py	
 	
 data/20_buildings/buildings.csv: data/05_extracts/buildings.osm
 	python osm_to_csv.py --input $< --output $@ --columns $(BUILDING_COLUMNS)

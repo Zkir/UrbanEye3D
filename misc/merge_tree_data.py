@@ -11,6 +11,12 @@ SYNONYMS_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_synonyms
 FINAL_OUTPUT =  os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_species.csv')
 #FINAL_OUTPUT = os.path.join(os.path.dirname(BASE_DIR), 'src', 'main', 'resources', 'data', 'tree_species.csv')
 
+def get_genus(synonym_name):
+    genus = synonym_name.split(' ')[0].replace('×', '').strip().capitalize()
+    if not genus and len(synonym_name.split(' ')) > 1:
+         genus = synonym_name.split(' ')[1].capitalize()
+    return genus
+    
 
 def main():
     if not os.path.exists(CURATED_FILE) or not os.path.exists(SYNONYMS_FILE) or not os.path.exists(ACCEPTED_FILE):
@@ -18,77 +24,80 @@ def main():
         return
 
     # 1. Load curated species
-    curated_data = {}
-    binomial_map = {} # Map binomial core -> full curated row
+    species_data = {}
+    
     
     with open(CURATED_FILE, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            species = row['species']
-            curated_data[species] = row
+            species = to_binomial(row['species'])
+            if species !=row['species']:
+                print(f"Strange occurence in the curated file: {row['species']}, skipping")
+                continue
             
-            # Index by binomial core to match against subspecies/varieties
-            core = to_binomial(species)
-            if core not in binomial_map:
-                binomial_map[core] = row
+            species_data[species] = row
 
-    print(f"Loaded {len(curated_data)} species from curated list.")
+    print(f"Loaded {len(species_data)} species from curated list.")
     
     j=0
     with open(ACCEPTED_FILE, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            species = row['species']
-            curated_data[species] = row
-            j+=1
-            
-            # Index by binomial core to match against subspecies/varieties
-            core = to_binomial(species)
-            if core not in binomial_map:
-                binomial_map[core] = row
+            species = to_binomial(row['species'])
+            if species not in species_data:
+                species_data[species] = row
+                j+=1
     
-    print(f"Loaded {j} species from accepted list.")
+    print(f"Loaded {j} species from powo-confirmed list.")
 
     # 2. Process synonyms and inherit properties
-    merged_list = list(curated_data.values())
     added_count = 0
     
     with open(SYNONYMS_FILE, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            synonym_name = row['species']
-            accepted_name = row['accepted_name']
+            synonym_name =  to_binomial(row['species'])
+            accepted_name = to_binomial(row['accepted_name'])
             
             # Try to find a match for the accepted name
             match = None
-            if accepted_name in curated_data:
-                match = curated_data[accepted_name]
-            else:
-                # Try matching by binomial core (to catch subspecies/varieties)
-                core = to_binomial(accepted_name)
-                if core in binomial_map:
-                    match = binomial_map[core]
-            
+            if accepted_name in species_data:
+                match = species_data[accepted_name]
+                
             if match:
-                # Genus from the synonym itself
-                genus = synonym_name.split(' ')[0].replace('×', '').strip().capitalize()
-                if not genus and len(synonym_name.split(' ')) > 1:
-                     genus = synonym_name.split(' ')[1].capitalize()
-
-                merged_list.append({
-                    'species': synonym_name,
-                    'genus': genus,
-                    'species:wikidata': match.get('species:wikidata', ''),
-                    'leaf_cycle': match.get('leaf_cycle', 'deciduous'),
-                    'leaf_type': match.get('leaf_type', 'broadleaved')
-                })
-                added_count += 1
+                # if we have found "Proper" species name, we use data from it, otherwise from synonym itself
+                #   in future statistics should be combined.
+                leaf_type  =  match.get('leaf_type', 'broadleaved')
+                leaf_cycle =  match.get('leaf_cycle', 'deciduous')
+                wikidata   =  match.get('species:wikidata', '')               
             else:
-                pass
-                # Nobody can read this warning here
-                #print(f"Warning: Accepted name '{accepted_name}' (core: '{to_binomial(accepted_name)}') for synonym '{synonym_name}' not found in curated list. Skipping.")
+                leaf_type  =  row['leaf_type']
+                leaf_cycle =  row['leaf_cycle']
+                wikidata   =  ''            
+            
+            if synonym_name not in species_data:
+                species_data[synonym_name] = {
+                            'species': synonym_name,
+                            'genus': get_genus(synonym_name),
+                            'species:wikidata': wikidata,
+                            'leaf_cycle': leaf_cycle,
+                            'leaf_type': leaf_type}
+                added_count += 1
+                
+            
+            if not match:
+                species_data[accepted_name] =  {
+                            'species': accepted_name,
+                            'genus': get_genus(accepted_name),
+                            'species:wikidata': '',
+                            'leaf_cycle': leaf_cycle,
+                            'leaf_type':  leaf_type,}
+                added_count += 1
+                
+                 
 
     # 3. Sort
+    merged_list = list(species_data.values())
     merged_list.sort(key=lambda x: x['species'].lower())
 
     # 4. Write final
