@@ -2,13 +2,11 @@ species,accepted_name,status,count
 Maple Norway,Acer platanoides,Name:en,6058
 Locust Honey,Gleditsia triacanthos,Name:en,3592
 Maple - Norway,Acer platanoides,Name:en,2734
-"Cerasus × yedoensis",Cerasus × yedoensis,Formatting,1556
 Maple - Silver,Acer saccharinum,Name:en,1211
 Maple Silver,Acer saccharinum,Name:en,1178
 Maple Red,Acer rubrum,Name:en,1021
 Maple Freeman,Acer × freemanii,Name:en,955
-Autumn Blaze,Acer rubrum 'Autumn Blaze',Typo,912
-Sorbus thuringiaca,Sorbus × thuringiaca,Typo,788
+Autumn Blaze,Acer x freemanii 'Autumn Blaze',Typo,912
 Maple Sugar,Acer saccharum,Name:en,713
 Maple Crimson King,Acer platanoides 'Crimson King',Name:en,663
 Sycamore American,Platanus occidentalis,Name:en,595
@@ -19,7 +17,7 @@ Spruce White,Picea laxa,Name:en,497
 Prunus unidentified species,,Genus sp.,436
 Locust Honey Sunburst,Gleditsia triacanthos 'Sunburst',Name:en,431
 Cassea Siamea,Senna siamea,Typo,425
-Maple - Autumn Blaze,Acer rubrum 'Autumn Blaze',Name:en,407
+Maple - Autumn Blaze,Acer x freemanii 'Autumn Blaze',Name:en,407
 Spruce Colorado,Picea pungens,Name:en,406
 Cedar Eastern White,Thuja occidentalis,Name:en,366
 Maple - Hedge,Acer campestre,Name:en,345
@@ -32,14 +30,12 @@ Prunus cesarus,Prunus cerasus,Typo,267
 Maple Canadian Red,Acer rubrum,Name:en,244
 Oak Bur,Quercus macrocarpa,Name:en,241
 Pear Callery,Pyrus calleryana,Name:en,219
-Apple - Crab,Malus sylvestris,Name:en,209
 Oak Pin,Quercus palustris,Name:en,204
 Maple Sycamore,Acer pseudoplatanus,Name:en,173
 Oak English,Quercus robur,Name:en,170
 "Elm, American",Ulmus americana,Name:en,167
 Spruce Norway,Picea abies,Name:en,161
 "Spruce, White",Picea laxa,Name:en,156
-Sorbus thuringiaca 'Fastigiata',Sorbus × thuringiaca 'Fastigiata',Typo,151
 Pine White,Pinus strobus,Name:en,150
 Elm American,Ulmus americana,Name:en,147
 Maple Manitoba,Acer negundo,Name:en,145

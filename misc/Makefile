@@ -43,17 +43,17 @@ data/10_trees/trees.csv: data/05_extracts/trees.osm | data/10_trees ## Generate 
 data/10_trees/tree_species_curated.csv: ##fetches 'curated' list of tree species from osm-wiki
 	python fetch_tree_species.py
 	
+data/10_trees/tree_species_all.csv: data/10_trees/trees.csv
+	python aggregate_species.py	
+	
 data/15_trees_output/tree_synonyms.csv : data/10_trees/tree_species_curated.csv  data/10_trees/tree_stats_species.csv | data/15_trees_output	 ## Creates additions to curated list based on actual osm data
 	python compare_tree_stats.py
 	
 data/15_trees_output/tree_species.csv: data/10_trees/tree_species_curated.csv data/15_trees_output/tree_synonyms.csv
 	python merge_tree_data.py
 	copy /b/v/y data\15_trees_output\tree_species.csv ..\src\main\resources\data\
-	
-data/15_trees_output/tree_species_invalid.csv: 	data/15_trees_output/tree_species.csv data/10_trees/trees.csv
-	python find_invalid_species.py
 
-data/15_trees_output/tree_species_invalid.md: data/15_trees_output/tree_species_invalid.csv
+data/15_trees_output/tree_species_invalid.md: data/10_trees/tree_species_all.csv  data/15_trees_output/tree_species.csv
 	python report_invalid_species.py	
 	
 data/20_buildings/buildings.csv: data/05_extracts/buildings.osm
