@@ -11,7 +11,7 @@ VALID_SPECIES_CSV = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_spec
 SYNONYMS_CSV = 'tree_typos.csv'
 #SYNONYMS_CSV = 'tree_typos_2.csv'
 OUTPUT_DIR = 'data/16_trees_fixes'
-LIMIT = 15000
+LIMIT = 50000
 AUTOMATICALLY_FIX_EPITHET_ONLY = False
 
 CHANGE_ENGLISH_NAME = 'Name:en'
