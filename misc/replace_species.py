@@ -12,7 +12,7 @@ SYNONYMS_CSV = 'tree_typos.csv'
 #SYNONYMS_CSV = 'tree_typos_2.csv'
 OUTPUT_DIR = 'data/16_trees_fixes'
 LIMIT = 50000
-AUTOMATICALLY_FIX_EPITHET_ONLY = False
+AUTOMATICALLY_FIX_EPITHET_ONLY = True
 
 CHANGE_ENGLISH_NAME = 'Name:en'
 CHANGE_GENUS_OMITTED = 'Genus omitted'
@@ -258,7 +258,18 @@ def replace_species(valid_species, valid_genus, valid_epithets):
                                     tag.set('v', new_species)
                                     genus_tag.set('v', genus)
                                     modified = True
-                            
+                                    
+                            parts = old_species.split(" ")            
+                            if len(parts[0]) == 2 and parts[0][1]=="." and genus:
+                                genus = genus[0].upper() + genus[1:].lower()
+                                parts[0] = genus
+                                new_species = " ".join(parts)
+                                if new_species in valid_species:
+                                    tag.set('v', new_species)
+                                    genus_tag.set('v', genus)
+                                    modified = True
+                                    print (f"{old_species}, {genus} --> {new_species}")
+                                    #exit(1)
                         
                 if have_to_skip:            
                     continue
@@ -282,9 +293,9 @@ def replace_species(valid_species, valid_genus, valid_epithets):
     except EOFError:
         print("End of file reached unexpectedly or file truncated.")
         exit(1)
-    except Exception as e:
-        print(f"Error during parsing: {e}")
-        exit(1)
+    #except Exception as e:
+    #    print(f"Error during parsing: {e}")
+    #    exit(1)
 
     if out_f:
         out_f.write('</osm>\n')
