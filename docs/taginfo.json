@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260516T225700Z",
+  "data_updated" : "20260508T154339Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -52,10 +52,6 @@
     "key" : "building:material",
     "value" : "glass",
     "description" : "Recognized as material for a building facade. Default color #c8d8d8"
-  }, {
-    "key" : "building:material",
-    "value" : "grass",
-    "description" : "Recognized as material for a building facade. Default color #99bb55"
   }, {
     "key" : "building:material",
     "value" : "metal",
@@ -112,6 +108,9 @@
   }, {
     "key" : "colour",
     "description" : "Specifies the color of the object, especially barrier or man-made."
+  }, {
+    "key" : "genus",
+    "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."
   }, {
     "key" : "height",
     "description" : "The total height of the building, including the roof, in meters."
@@ -215,10 +214,6 @@
     "key" : "roof:material",
     "value" : "glass",
     "description" : "Recognized as material for a roof. Default color #c8d8d8"
-  }, {
-    "key" : "roof:material",
-    "value" : "grass",
-    "description" : "Recognized as material for a roof. Default color #99bb55"
   }, {
     "key" : "roof:material",
     "value" : "metal",
@@ -350,6 +345,9 @@
     "key" : "shape",
     "value" : "hyperboloid",
     "description" : "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
+  }, {
+    "key" : "species",
+    "description" : "The Latin name of the tree species. Used to infer leaf_type and leaf_cycle if these tags are not specified."
   }, {
     "key" : "sport",
     "value" : "badminton",

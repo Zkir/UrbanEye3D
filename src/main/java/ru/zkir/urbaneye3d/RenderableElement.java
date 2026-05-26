@@ -12,8 +12,11 @@ import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
+import ru.zkir.urbaneye3d.utils.TreeSpeciesDatabase;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -424,7 +427,12 @@ public class RenderableElement {
         }
 
         double treeWidth = treeHeight * 0.9; // Make width proportional to height
-        String textureName = TextureManager.getInstance().findTextureName(tags, random);
+
+        // Enrich tags using species database, but use a copy to avoid polluting the global OSM data model
+        Map<String, String> enrichedTags = new HashMap<>(tags);
+        TreeSpeciesDatabase.getInstance().enrichTags(enrichedTags);
+
+        String textureName = TextureManager.getInstance().findTextureName(enrichedTags, random);
         if (textureName == null){
             UrbanEye3dPlugin.debugMsg("failed to assign texture to object with tags " + tags);
             return null;

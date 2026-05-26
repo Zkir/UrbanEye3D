@@ -64,7 +64,36 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
-None in the current version
+### 17 May 2026
+*   **Tree Cultivar Support:** Enhanced the tree species processing engine and JOSM validator to support cultivars in the `Genus 'Cultivar Name'` format. The system now correctly recognizes these names, validates their taxonomic genus, and automatically falls back to the genus-level attributes (leaf type/cycle) for visual rendering when a specific cultivar mesh is unavailable.
+*   **Robust Genus Extraction:** Improved the tag enrichment logic to automatically extract the genus from the `species` tag if the explicit `genus` tag is missing. This significantly improves the reliability of texture matching for a wider range of botanical entries.
+
+### 16 May 2026
+*   **Tree Genus Validation:** Extended the JOSM validator (`TagChecks.java`) to include verification for the `genus` tag, matching the existing `species` validation. This ensures taxonomic consistency for both specific and genus-level botanical tags.
+*   **Botanical Database Enhancements:** Added a public API to `TreeSpeciesDatabase` for accessing the genus-level mapping, facilitating its use in validation and other plugin components.
+
+### 13 May 2026
+*   **Tree Species Validation:** Integrated botanical species verification into the JOSM validator (`TagChecks.java`). The plugin now alerts users about unknown or misspelled `species` tags, while intelligently handling cultivars, varieties, and hybrid symbols (standardizing 'x' to '×' during validation).
+*   **Tree Species Documentation:** Developed an automated reporting system (`TreeSpeciesReportTest.java`) that generates a comprehensive Markdown catalog of all 585 supported tree species, including their botanical attributes and Wikidata links.
+*   **Enhanced Botanical Database:** Upgraded the `TreeSpeciesDatabase` engine to support Wikidata IDs and genus-level metadata, providing richer data for both rendering and documentation.
+
+### 12 May 2026
+*   **Enhanced JOSM Update Tooling:** Significantly improved the `replace_species.py` script to include a detailed validation report, tag removal support (for "Nonsense" tags), and automated preservation of English common names in the `species:en` tag when correcting them to Latin scientific names.
+*   **Botany Bot Fixes:** Fixed a bug in the suggestion generator (`compare_tree_stats.py`) where Taginfo links were broken due to over-normalization; the "Not found" section now correctly preserves original OSM names for easy verification and replacement.
+
+### 11 May 2026
+*   **Bulk Tree Species Correction:** Developed a memory-efficient Python script (`replace_species.py`) capable of processing massive OSM datasets (8GB+). It generates JOSM-compatible `.osm` snippets with `action="modify"`, split into 5000-element chunks for reliable bulk uploads.
+
+### 10 May 2026
+*   **Automated Tree Taxonomy Analysis:** Developed a sophisticated analysis tool that compares global OSM tag statistics with the Wiki's curated species list. It automatically identifies missing species, detects taxonomic synonyms, and flags common formatting typos (like missing hybrid signs) using the Royal Botanic Gardens, Kew (POWO) API.
+*   **Wiki Content Generation:** Automated the generation of complete OSM Wiki tables in the required compact format. This directly facilitated the update of the global "List of Species" with dozens of newly verified and accepted tree types.
+*   **Robust Data Processing:** Enhanced existing botanical data scripts with absolute path handling, ensuring consistent performance regardless of the execution directory.
+*   **Synonym Mapping:** Created a systematic mapping of widespread synonyms and typos to their accepted botanical names, providing a foundation for a robust alias system within the plugin.
+
+### 8 May 2026
+*   **Tree species database:**  Implemented a system that automatically determines leaf type (broadleaved/needleleaved) and leaf cycle based on the tree's `species` or `genus` tag.
+*   **Tree species scraper:** Developed a Python script to fetch and parse the tree species list from the OSM Wiki, ensuring the plugin uses up-to-date botanical data.
+*   **Enriched tree rendering:** The 3D viewer now selects more accurate textures for trees even when explicit `leaf_type` tags are missing, improving the visual realism of forests and parks.
 
 ### Earlier
 See [Devblog](DEVBLOG.md)
@@ -125,6 +154,11 @@ src
 *    There is still `I18n.bat`, which include calls to traditional josm toolchain. It should not be used in normal process, only in case of bugs in `ru.zkir.easytext` java solution. Note that you are on your own regarding  the installation of gettext and JOSM I18n. 
 
 
+### Botanical Engine
+*   **Species Normalization:** The `TreeSpeciesDatabase` class handles the normalization of botanical names, including hybrid symbols (standardizing to '×') and cultivar formatting.
+*   **Cultivar Handling:** Names in the `Genus 'Cultivar Name'` format are recognized and automatically mapped to the parent genus for attribute inference (leaf type, leaf cycle) while preserving the specific name in validation.
+*   **Tag Enrichment:** The plugin automatically enriches OSM objects with `leaf_type` and `leaf_cycle` tags derived from their `species` or `genus` tags using an internal database of over 800 species. This ensures realistic tree rendering even when explicit architectural tags are missing.
+
 ### 3D Geometry Generation
 *   **Core Principle: Watertight Meshes:** All 3D models, especially roofs, must be generated as **watertight** (fully enclosed) meshes with consistent, **outward-facing normals**. This is fundamental for correct rendering and future features like ambient occlusion. This is enforced by unit tests (`RoofGeneratorTopologyTest`). Those autotests have helped greatly during development of  geometry generation code.
 *   **Coordinate System:** The plugin deliberately avoids using JOSM's projected `EastNorth` coordinates. Instead, it uses geographic `LatLon` coordinates and performs its own projection to a local 3D Cartesian system. This is crucial because `EastNorth` coordinates are distorted by map projection and are not directly comparable to height values, which would lead to malformed 3D shapes.
@@ -144,8 +178,7 @@ src
 *   A Test-Driven Development (TDD) approach proved highly effective in this project. Since it's a JOSM plugin, you cannot debug it directly. However, autotests can be run and debugged separately, without JOSM. So it make sence to develop some feature test it in isolation.
 *   Automated checks for mesh validity do not let AI/LLM produce crap and report success.
 *   There are several autotests for different things, both "functional" (to test functionality) and "pseudo tests" to collect statistics. 
-    
-
+   
 
 |Test name | Details | 
 |---|---|
@@ -157,10 +190,17 @@ src
 | RoofGeneratorTopologyTest.java | Tests the topology of generated 3D roof models. Verifies watertightness, correct normals, absence of zero-length edges, self-intersections, and duplicate vertices. Includes tests  for all roof shapes and special cases (with holes, different orientations). |
 | SceneTest.java| Integration tests for the Scene component. Verifies the correct construction of the 3D scene from various OSM data (buildings with parts, multipolygons, barriers, trees).  Analyzes how Scene interprets data and forms RenderableElement objects. |
 | TagInfoGeneratorTest.java | Does not really test anything, but collects used tags from the source code and produces `taginfo.json`, so we can [take a look at used tags](https://taginfo.openstreetmap.org/projects/urbaneye3d#tags).  |
+| TreeSpeciesReportTest.java | Generates a Markdown report (`docs/tree_species.md`) listing all supported tree species from the internal database. |
 | ValidatorTest.java |  Tests for custom JOSM validators (SpatialConsistencyChecks, TagChecks). Verifies that validators correctly identify expected errors and do not produce false positives on valid data. |
 
 
+### OSM Data Processing Pipeline (misc subproject)
+The `misc` folder contains a specialized subproject for large-scale processing of OpenStreetMap data. This pipeline starts with the global `planet-latest.osm.pbf` file and serves to extract, analyze, and enrich botanical and building data for the main plugin.
+*   There are the following main goals for this pipeline:
+    * Create the tree species list (`src/main/resources/data/tree_species.csv`) which is used to infer `leaf_type` tag, in case it is missing, in order to select most appropriate tree texture/model.
+	* Correct typo errors in `species` tag in the OSM database itself, creating osm-files with changes, so that they can be uploaded via JOSM.
+	* Create smart defaults for various building attributes, depending on building type (`building=*` value). This is not yet used currently by the plugin.
+*   See [misc/GEMINI.md](misc/GEMINI.md) for details.
 
-
-
-
+---
+The Urban Eye is watching you!

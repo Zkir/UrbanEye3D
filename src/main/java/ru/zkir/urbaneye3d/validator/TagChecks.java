@@ -7,6 +7,7 @@ import static ru.zkir.urbaneye3d.utils.OsmDataWasher.parseDirection;
 import org.openstreetmap.josm.command.ChangePropertyCommand;
 import org.openstreetmap.josm.command.Command;
 import org.openstreetmap.josm.data.coor.LatLon;
+import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Relation;
 import org.openstreetmap.josm.data.osm.Way;
@@ -16,6 +17,7 @@ import org.openstreetmap.josm.data.validation.TestError;
 import ru.zkir.urbaneye3d.roofgenerators.RoofGenerator;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Point2D;
+import ru.zkir.urbaneye3d.utils.TreeSpeciesDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,11 +33,18 @@ public class TagChecks extends Test {
     public static final int INVALID_ROOF_DIRECTION = 2003;
     public static final int INVALID_ROOF_ORIENTATION = 2004;
     public static final int ROOF_SHAPE_MANY_NOT_ALLOWED_FOR_PARTS = 2005;
+    public static final int UNKNOWN_TREE_SPECIES = 2006;
+    public static final int UNKNOWN_TREE_GENUS = 2007;
 
     private static final List<String> VALID_ROOF_ORIENTATIONS = Arrays.asList("along", "across");
 
     public TagChecks() {
         super(tr("[UrbanEye3D] Tag validity checks"), tr("Checks for tag validity for buildings and building parts."));
+    }
+
+    @Override
+    public void visit(Node n) {
+        checkPrimitive(n);
     }
 
     @Override
@@ -49,7 +58,48 @@ public class TagChecks extends Test {
     }
 
     private void checkPrimitive(OsmPrimitive p) {
-        if (!p.isUsable() || !(p.hasKey("building") || p.hasKey("building:part"))) {
+        if (!p.isUsable()) {
+            return;
+        }
+
+        if (p.hasTag("natural", "tree")) {
+            if (p.hasKey("species")) {
+                String speciesRaw = p.get("species");
+                String normalized = TreeSpeciesDatabase.normalizeSpecies(speciesRaw);
+                if (!normalized.isEmpty() && !TreeSpeciesDatabase.getInstance().getSpeciesMap().containsKey(normalized)) {
+                    // Check if it's a valid cultivar
+                    boolean isCultivar = false;
+                    String trimmed = speciesRaw.trim();
+                    // Match Genus 'Cultivar Name'
+                    if (trimmed.matches("^[A-Z][a-z]+\\s+'[A-Z].*'$")) {
+                        String genus = trimmed.split(" ")[0].toLowerCase();
+                        if (TreeSpeciesDatabase.getInstance().getGenusMap().containsKey(genus)) {
+                            isCultivar = true;
+                        }
+                    }
+
+                    if (!isCultivar) {
+                        errors.add(TestError.builder(this, Severity.WARNING, UNKNOWN_TREE_SPECIES)
+                                .message(tr("Unknown tree species: {0}", speciesRaw))
+                                .primitives(p)
+                                .build());
+                    }
+                }
+            }
+
+            if (p.hasKey("genus")) {
+                String genusRaw = p.get("genus");
+                String normalized = genusRaw.trim().toLowerCase();
+                if (!normalized.isEmpty() && !TreeSpeciesDatabase.getInstance().getGenusMap().containsKey(normalized)) {
+                    errors.add(TestError.builder(this, Severity.WARNING, UNKNOWN_TREE_GENUS)
+                            .message(tr("Unknown tree genus: {0}", genusRaw))
+                            .primitives(p)
+                            .build());
+                }
+            }
+        }
+
+        if (!(p.hasKey("building") || p.hasKey("building:part"))) {
             return;
         }
 
