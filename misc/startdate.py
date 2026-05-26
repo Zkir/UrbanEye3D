@@ -190,7 +190,7 @@ def parseStartDate(strDate:str) -> int:
 
 
     #C18
-    myRegExp.Pattern = '^C[0-9]{2}$'
+    myRegExp.Pattern = '^C[0-9]{1,2}$'
     if myRegExp.Test(strDate):
         century_digits = str(int(Mid(strDate, 2)) - 1) 
         if strModifier == "early":
@@ -278,6 +278,7 @@ def tests():
     assert psd("mid C14") == 1350                # (some time during the middle of the 14th century)
     assert psd("late 1920s") == 1927             #   
     assert psd("~C13") == 1250                   # (probably in the 13th century)
+    assert psd("~C5") == 450                     # (probably in the 5th century)
     assert psd("1914..1918") == 1916             # indicates some time during WW1.
     assert psd("1914-1918") == 1916              # non standart, but used too frequently to ignore
     assert psd("2008-08-08..2008-08-24") == 2008 # indicates some time during the Beijing Olympics.
