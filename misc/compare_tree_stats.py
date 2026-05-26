@@ -25,7 +25,8 @@ OUTPUT_WIKI_FILE =     os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_s
 
 
 # Threshold for "significant" number of trees
-THRESHOLD = 10
+# we make conclusion about leaf_type and leaf_cycle, so there should be enough trees of that species -- not exactly, because even single value is enough for the stat script
+THRESHOLD = 4 
 
 def is_genus_sp(name):
     """Checks if the species name is a generic 'Genus sp.'."""
