@@ -22,6 +22,16 @@
   <node id='-49636' action='modify' visible='true' lat='55.75726188348' lon='37.61719419619' />
   <node id='-49661' action='modify' visible='true' lat='55.75663123584' lon='37.61722008796' />
   <node id='-49692' action='modify' visible='true' lat='55.75662178236' lon='37.616492891' />
+  <node id='-51106' action='modify' visible='true' lat='55.75477096706' lon='37.61653978081'>
+    <tag k='description' v='Mistype in species' />
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Acer platanoidess' />
+  </node>
+  <node id='-51107' action='modify' visible='true' lat='55.75477096706' lon='37.61753978081'>
+    <tag k='description' v='Mistype in genus' />
+    <tag k='natural' v='tree' />
+    <tag k='genus' v='Acerr' />
+  </node>
   <way id='-14062' visible='true' version='1'>
     <nd ref='-49485' />
     <nd ref='-49486' />

@@ -113,6 +113,9 @@
     "key" : "colour",
     "description" : "Specifies the color of the object, especially barrier or man-made."
   }, {
+    "key" : "genus",
+    "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."
+  }, {
     "key" : "height",
     "description" : "The total height of the building, including the roof, in meters."
   }, {
@@ -346,6 +349,9 @@
     "key" : "shape",
     "value" : "hyperboloid",
     "description" : "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
+  }, {
+    "key" : "species",
+    "description" : "The Latin name of the tree species. Used to infer leaf_type and leaf_cycle if these tags are not specified."
   }, {
     "key" : "sport",
     "value" : "badminton",
