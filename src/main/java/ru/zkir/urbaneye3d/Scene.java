@@ -7,11 +7,14 @@ import org.openstreetmap.josm.spi.preferences.Config;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.prep.PreparedGeometry;
 import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
+
 import ru.zkir.urbaneye3d.generators.MesherTree;
 import ru.zkir.urbaneye3d.utils.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static java.lang.Math.random;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.MAX_FOREST_DENSITY;
 
@@ -202,8 +205,11 @@ public class Scene {
 
         }
 
+        // Some elements like ad columns might have been already rendered by one of the other loops. Be careful to not double-add them. 
+        var alreadyRenderedPrimitiveIds = new HashSet<>(newElements.stream().map(e -> e.primitiveId).collect(Collectors.toCollection(HashSet::new)));
+
         /*
-         * Trees
+         * Trees and other objects.
          */
         for (Node node : dataSet.getNodes()) {
             if (node.hasTag("natural", "tree")) {
@@ -211,6 +217,12 @@ public class Scene {
                 if (element != null){
                     newElements.add(element);
                 }
+            }
+            
+            if (node.hasTag("advertising", "column")) {
+                if (alreadyRenderedPrimitiveIds.contains(node.getPrimitiveId())) continue;
+                var element = RenderableElement.createAdColumn(node, node.getCoor(), node.getInterestingTags(), new Random(node.getId()));
+                if (element != null) newElements.add(element);
             }
         }
 

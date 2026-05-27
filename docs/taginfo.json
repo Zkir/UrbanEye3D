@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260508T154339Z",
+  "data_updated" : "20260509T090435Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -11,6 +11,10 @@
     "contact_email" : "zkir@zkir.ru"
   },
   "tags" : [ {
+    "key" : "advertising",
+    "value" : "column",
+    "description" : "Can be rendered as 3D object"
+  }, {
     "key" : "area",
     "value" : "yes",
     "description" : "This tag causes a feature that would otherwise be considered linear to be considered polygonal."
