@@ -455,7 +455,7 @@ public class RenderableElement {
         if(primitive instanceof Relation) return null;
         
         // I did not see a way to re-use the existing buffer mechanic, therefore we just create a countour directly
-        int segments = 20;
+        int segments = 16;
         ArrayList<Point2D> circle = new ArrayList<Point2D>();
 
         
