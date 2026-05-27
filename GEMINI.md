@@ -64,6 +64,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### 27 May 2026
+*   Added traslations for the newly added validation messages for tree genus and species (German, French, Indonesian, Italian, Russian, and Slovak)
+* 	Added support for the advertising columns.  
+
 ### 17 May 2026
 *   **Tree Cultivar Support:** Enhanced the tree species processing engine and JOSM validator to support cultivars in the `Genus 'Cultivar Name'` format. The system now correctly recognizes these names, validates their taxonomic genus, and automatically falls back to the genus-level attributes (leaf type/cycle) for visual rendering when a specific cultivar mesh is unavailable.
 *   **Robust Genus Extraction:** Improved the tag enrichment logic to automatically extract the genus from the `species` tag if the explicit `genus` tag is missing. This significantly improves the reliability of texture matching for a wider range of botanical entries.

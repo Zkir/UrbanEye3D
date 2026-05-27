@@ -196,5 +196,13 @@ msgstr "Обнаруживает перекрывающиеся 3D-стены, �
 msgid "Overlapping 3D walls (potential Z-fighting)"
 msgstr "Перекрывающиеся 3D-стены (потенциальное мерцание)"
 
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:93
+msgid "Unknown tree genus: {0}"
+msgstr "Неизвестный род дерева: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:82
+msgid "Unknown tree species: {0}"
+msgstr "Неизвестный вид дерева: {0}"
+
 msgid "roof:shape=many is not allowed for building parts"
 msgstr "roof:shape=many не разрешается для частей зданий"

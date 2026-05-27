@@ -200,6 +200,14 @@ msgstr "Rileva la sovrapposizione di pareti 3D che causano sfarfallio (Z-fightin
 msgid "Overlapping 3D walls (potential Z-fighting)"
 msgstr "Pareti 3D sovrapposte (potenziale sfarfallio)"
 
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:93
+msgid "Unknown tree genus: {0}"
+msgstr "Genere di albero sconosciuto: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:82
+msgid "Unknown tree species: {0}"
+msgstr "Specie di albero sconosciuta: {0}"
+
 #: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:95
 msgid "roof:shape=many is not allowed for building parts"
 msgstr "roof:shape=many non è consentito per le parti di edifici"

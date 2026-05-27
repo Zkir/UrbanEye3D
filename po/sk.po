@@ -213,6 +213,14 @@ msgstr "Detekuje prekrývajúce sa 3D steny, ktoré spôsobujú blikanie (Z-figh
 msgid "Overlapping 3D walls (potential Z-fighting)"
 msgstr "Prekrývajúce sa 3D steny (potenciálne blikanie)"
 
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:93
+msgid "Unknown tree genus: {0}"
+msgstr "Neznámy rod stromu: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:82
+msgid "Unknown tree species: {0}"
+msgstr "Neznámy druh stromu: {0}"
+
 #: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:95
 msgid "roof:shape=many is not allowed for building parts"
 msgstr "roof:shape=many nie je povolené pre časti budov"
