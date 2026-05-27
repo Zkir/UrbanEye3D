@@ -193,5 +193,13 @@ msgstr "Erkennt überlappende 3D-Wände, die Z-Fighting (Flackern) verursachen."
 msgid "Overlapping 3D walls (potential Z-fighting)"
 msgstr "Überlappende 3D-Wände (potenzielles Z-Fighting)"
 
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:93
+msgid "Unknown tree genus: {0}"
+msgstr "Unbekannte Baumgattung: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:82
+msgid "Unknown tree species: {0}"
+msgstr "Unbekannte Baumart: {0}"
+
 msgid "roof:shape=many is not allowed for building parts"
 msgstr "roof:shape=many ist für Gebäudeteile nicht zulässig"
