@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-08 02:29:02+0300\n"
-"PO-Revision-Date: 2026-05-08 20:21+0100\n"
+"POT-Creation-Date: 2026-05-27 23:33:32+0300\n"
+"PO-Revision-Date: 2026-05-29 16:52+0100\n"
 "Last-Translator: Flynn Peck <cirilla@tuta.io>\n"
 "Language-Team: kw\n"
 "Language: kw\n"
@@ -51,11 +51,11 @@ msgstr ""
 "omdhivasow. Notyewgh an prov ma a yll diskwedhes posedhegyon fals war dhata "
 "andhien"
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:88
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:137
 msgid "Building part without height"
 msgstr "Rann dhrehevyans heb ughelder"
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:37
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:41
 msgid "Checks for tag validity for buildings and building parts."
 msgstr "Checkya rag komposter tagg rag drehevyansow ha rannow drehevyans."
 
@@ -117,15 +117,15 @@ msgid ""
 msgstr ""
 "Mar checkys, an ystynnans a wra assaya iskarga eseli kellys a liesfurvow."
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:69
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:118
 msgid "Invalid value for roof:direction: {0}"
 msgstr "Synsas anewn rag roof:direction: {0}"
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:79
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:128
 msgid "Invalid value for roof:orientation: {0}"
 msgstr "Synsas anewn rag roof:orientation: {0}"
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:59
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:108
 msgid "Missing tag: roof:shape={0} without ''roof:direction''"
 msgstr "Tagg kellys: roof:shape={0} heb ''roof:direction''"
 
@@ -190,6 +190,14 @@ msgstr "Dewis imajys lorell war blayn dor"
 msgid "Toggle wireframe mode"
 msgstr "Dewis fordh gwiverfram"
 
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:93
+msgid "Unknown tree genus: {0}"
+msgstr "Kinda gwedhen ankoth: {0}"
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:82
+msgid "Unknown tree species: {0}"
+msgstr "Eghen wedhen ankoth: {0}"
+
 #: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:57
 #: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:60
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:113
@@ -227,10 +235,10 @@ msgstr "[LagasTrevek3D] Hwithrans tewder drehevyans ha rannow drehevyans"
 msgid "[UrbanEye3D] Overlapping 3D walls check"
 msgstr "[LagasTrevek3D] Checkyans fosow 3D ow korgudha"
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:35
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:39
 msgid "[UrbanEye3D] Tag validity checks"
 msgstr "[LagasTrevek3D] Hwithrans komposter tagg"
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:94
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:144
 msgid "roof:shape=many is not allowed for building parts"
 msgstr "roof:shape=many nyns yw gesys rag rannow drehevyans"
