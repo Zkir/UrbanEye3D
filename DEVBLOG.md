@@ -1,5 +1,17 @@
 # Development History
 
+# Version 2.3.0 (May 29, 2026)
+
+* Species database: If `leaf_type` tag is missing but `species` or `genus` tags are present, `leaf_type` is now inferred, and appropriate tree texture is selected.
+
+* Pipeline for collecting and analyzing tree statistics (misc subproject) is improved Significantly.
+
+* Validation check for `species` and `genus` tags are added, so you may be sure that the entered values are correct.
+
+* Added support for advertising columns (Morris columns). Nodes tagged with `advertising=column` will now be rendered as 3D street furniture.
+
+
+
 ## Version 2.2.2 (May 23, 2026)
 * Error reporting improved a bit
 

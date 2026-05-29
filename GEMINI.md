@@ -56,51 +56,17 @@
     * What can be done: subtraction of road corridors to prevent trees from growing on highways, and considering manual trees for density calculations.
 	* We already have a plan for it: [NATURAL-WOOD.md](docs/dev/NATURAL-WOOD.md)
 
-
-
 ### Ideas for the Further Development
 
 See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
-### 27 May 2026
-*   Added traslations for the newly added validation messages for tree genus and species (German, French, Indonesian, Italian, Russian, and Slovak)
-* 	Added support for the advertising columns.  
-
-### 17 May 2026
-*   **Tree Cultivar Support:** Enhanced the tree species processing engine and JOSM validator to support cultivars in the `Genus 'Cultivar Name'` format. The system now correctly recognizes these names, validates their taxonomic genus, and automatically falls back to the genus-level attributes (leaf type/cycle) for visual rendering when a specific cultivar mesh is unavailable.
-*   **Robust Genus Extraction:** Improved the tag enrichment logic to automatically extract the genus from the `species` tag if the explicit `genus` tag is missing. This significantly improves the reliability of texture matching for a wider range of botanical entries.
-
-### 16 May 2026
-*   **Tree Genus Validation:** Extended the JOSM validator (`TagChecks.java`) to include verification for the `genus` tag, matching the existing `species` validation. This ensures taxonomic consistency for both specific and genus-level botanical tags.
-*   **Botanical Database Enhancements:** Added a public API to `TreeSpeciesDatabase` for accessing the genus-level mapping, facilitating its use in validation and other plugin components.
-
-### 13 May 2026
-*   **Tree Species Validation:** Integrated botanical species verification into the JOSM validator (`TagChecks.java`). The plugin now alerts users about unknown or misspelled `species` tags, while intelligently handling cultivars, varieties, and hybrid symbols (standardizing 'x' to '×' during validation).
-*   **Tree Species Documentation:** Developed an automated reporting system (`TreeSpeciesReportTest.java`) that generates a comprehensive Markdown catalog of all 585 supported tree species, including their botanical attributes and Wikidata links.
-*   **Enhanced Botanical Database:** Upgraded the `TreeSpeciesDatabase` engine to support Wikidata IDs and genus-level metadata, providing richer data for both rendering and documentation.
-
-### 12 May 2026
-*   **Enhanced JOSM Update Tooling:** Significantly improved the `replace_species.py` script to include a detailed validation report, tag removal support (for "Nonsense" tags), and automated preservation of English common names in the `species:en` tag when correcting them to Latin scientific names.
-*   **Botany Bot Fixes:** Fixed a bug in the suggestion generator (`compare_tree_stats.py`) where Taginfo links were broken due to over-normalization; the "Not found" section now correctly preserves original OSM names for easy verification and replacement.
-
-### 11 May 2026
-*   **Bulk Tree Species Correction:** Developed a memory-efficient Python script (`replace_species.py`) capable of processing massive OSM datasets (8GB+). It generates JOSM-compatible `.osm` snippets with `action="modify"`, split into 5000-element chunks for reliable bulk uploads.
-
-### 10 May 2026
-*   **Automated Tree Taxonomy Analysis:** Developed a sophisticated analysis tool that compares global OSM tag statistics with the Wiki's curated species list. It automatically identifies missing species, detects taxonomic synonyms, and flags common formatting typos (like missing hybrid signs) using the Royal Botanic Gardens, Kew (POWO) API.
-*   **Wiki Content Generation:** Automated the generation of complete OSM Wiki tables in the required compact format. This directly facilitated the update of the global "List of Species" with dozens of newly verified and accepted tree types.
-*   **Robust Data Processing:** Enhanced existing botanical data scripts with absolute path handling, ensuring consistent performance regardless of the execution directory.
-*   **Synonym Mapping:** Created a systematic mapping of widespread synonyms and typos to their accepted botanical names, providing a foundation for a robust alias system within the plugin.
-
-### 8 May 2026
-*   **Tree species database:**  Implemented a system that automatically determines leaf type (broadleaved/needleleaved) and leaf cycle based on the tree's `species` or `genus` tag.
-*   **Tree species scraper:** Developed a Python script to fetch and parse the tree species list from the OSM Wiki, ensuring the plugin uses up-to-date botanical data.
-*   **Enriched tree rendering:** The 3D viewer now selects more accurate textures for trees even when explicit `leaf_type` tags are missing, improving the visual realism of forests and parks.
+None currently
 
 ### Earlier
 See [Devblog](DEVBLOG.md)
+*   See [Devblog](DEVBLOG.md) for the full development history and recent changes.
 
 
 ## Architecture and Key Concepts
