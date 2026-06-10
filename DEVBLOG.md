@@ -1,5 +1,9 @@
 # Development History
 
+# Version 2.3.1 (Jun 10, 2026)
+
+* Support for `line_markings=no` in MapCSS
+
 # Version 2.3.0 (May 29, 2026)
 
 * Species database: If `leaf_type` tag is missing but `species` or `genus` tags are present, `leaf_type` is now inferred, and appropriate tree texture is selected.
