@@ -95,14 +95,14 @@ way[highway=construction] {
  * This creates the effect of white edges and a centerline on a grey road.
  */
 
-/* --- Layer 2: Edge Lines (Bottom Layer) --- */
+/* --- Layer 1: Edge Lines (Bottom Layer) --- */
 /* A single, wide white line is drawn first to create the outer edges. */
 way|z14[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::edge  { width: 5; color: white; z-index: 1; }
 way|z15[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::edge  { width: 8; color: white; z-index: 1; }
 way|z16-[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::edge { width: 11; color: white; z-index: 1; }
  
  
- /* --- Layer 1: Asphalt Fill (Middle Layer) --- */
+ /* --- Layer 2: Asphalt Fill (Middle Layer) --- */
 /* A slightly narrower dark grey line is drawn on top of the edges. */
 /* main public roads */
 way|z14[is_prop_set("carway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area]::fill  {
@@ -130,7 +130,7 @@ way|z16-[is_prop_set("carway", "default")][!is_prop_set("underground", "default"
  * A single dashed white line is drawn in the center.
  */
 
-way|z15-[is_prop_set("carway", "default")][is_prop_set("oneway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area][lane_markings!=no]::centerline 
+way|z15-[is_prop_set("carway", "default")][is_prop_set("oneway", "default")][!is_prop_set("underground", "default")][!is_prop_set("unpaved", "default")][!area][lane_markings!=no][lanes!=1]::centerline 
 {
     width: 0.7;
     color: white;
@@ -149,13 +149,13 @@ way|z15-[is_prop_set("carway", "default")][is_prop_set("oneway", "default")][!is
  * A double solid white line is faked by drawing two solid lines
  * with a small 'offset' from the center.
  */
-way|z15-[is_prop_set("carway", "default")][!is_prop_set("oneway", "default")][!is_prop_set("unpaved", "default")][!area][lane_markings!=no]::centerline_left{
+way|z15-[is_prop_set("carway", "default")][!is_prop_set("oneway", "default")][!is_prop_set("unpaved", "default")][!area][lane_markings!=no][lanes!=1]::centerline_left{
     width: 0.5;
     color: white;
     offset: -0.7;
     z-index: 3;
 }
-way|z15-[is_prop_set("carway", "default")][!is_prop_set("oneway", "default")][!is_prop_set("unpaved", "default")][!area][lane_markings!=no]::centerline_right {
+way|z15-[is_prop_set("carway", "default")][!is_prop_set("oneway", "default")][!is_prop_set("unpaved", "default")][!area][lane_markings!=no][lanes!=1]::centerline_right {
     width: 0.5;
     color: white;
     offset: 0.7;
