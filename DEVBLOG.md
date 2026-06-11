@@ -2,7 +2,7 @@
 
 # Version 2.3.1 (Jun 10, 2026)
 
-* Support for `line_markings=no` in MapCSS
+* Support for `lane_markings=no` in MapCSS
 
 # Version 2.3.0 (May 29, 2026)
 
