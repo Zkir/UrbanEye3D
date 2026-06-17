@@ -40,7 +40,7 @@ data/10_trees/tree_stats_%.csv: data/10_trees/trees.csv
 data/10_trees/trees.csv: data/05_extracts/trees.osm | data/10_trees ## Generate trees CSV from the source OSM file
 	python osm_to_csv.py --input $< --output $@ --columns $(TREE_COLUMNS)
 
-data/10_trees/tree_species_curated.csv: ##fetches 'curated' list of tree species from osm-wiki
+data/10_trees/tree_species_curated.csv: data/00_planet/planet-latest-updated.osm.pbf ##fetches 'curated' list of tree species from osm-wiki
 	python fetch_tree_species.py
 	
 data/10_trees/tree_species_all.csv: data/10_trees/trees.csv
