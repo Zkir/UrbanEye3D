@@ -1,5 +1,9 @@
 # Development History
 
+# Version 2.3.2 (Jun 18, 2026)
+
+*  More proper defaults for the `leaf_type` tag, based on taxonomic family. Species belonging to the families 'Araucariaceae', 'Cephalotaxaceae', 'Cupressaceae', 'Pinaceae', 'Podocarpaceae', 'Sciadopityaceae', 'Taxaceae' are considered needleleaved by default. 
+
 # Version 2.3.1 (Jun 10, 2026)
 
 * Support for `lane_markings=no` in MapCSS
