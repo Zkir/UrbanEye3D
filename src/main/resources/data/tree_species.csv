@@ -27,7 +27,7 @@ Abies procera,Abies,,evergreen,needleleaved
 Abies recurvata,Abies,Q1936162,evergreen,needleleaved
 Abies sachalinensis,Abies,Q1520125,evergreen,needleleaved
 Abies sibirica,Abies,,evergreen,needleleaved
-Abies spectabilis,Abies,,deciduous,broadleaved
+Abies spectabilis,Abies,,deciduous,needleleaved
 Abies veitchii,Abies,,evergreen,needleleaved
 Abies × vilmorinii,Abies,,deciduous,needleleaved
 Acacia acinacea,Acacia,,deciduous,broadleaved
@@ -152,7 +152,7 @@ Aextoxicon punctatum,Aextoxicon,,evergreen,broadleaved
 Afrocarpus falcatus,Afrocarpus,,evergreen,needleleaved
 Afrocarpus gracilior,Afrocarpus,,evergreen,broadleaved
 Agathis australis,Agathis,,evergreen,broadleaved
-Agathis robusta,Agathis,,evergreen,broadleaved
+Agathis robusta,Agathis,,evergreen,needleleaved
 Agave americana,Agave,,evergreen,broadleaved
 Agonis flexuosa,Agonis,,deciduous,broadleaved
 Ailanthus altissima,Ailanthus,Q159570,deciduous,broadleaved
@@ -236,6 +236,7 @@ Areca triandra,Areca,,deciduous,broadleaved
 Aria devoniensis,Aria,,deciduous,broadleaved
 Aria edulis,Aria,Q41068995,deciduous,broadleaved
 Aria latifolia,Aria,,deciduous,broadleaved
+Aria torminalis,Aria,Q139936561,deciduous,broadleaved
 Aristotelia chilensis,Aristotelia,,evergreen,broadleaved
 Aronia arbutifolia,Aronia,,deciduous,broadleaved
 Aronia melanocarpa,Aronia,,deciduous,broadleaved
@@ -299,7 +300,7 @@ Bixa orellana,Bixa,,evergreen,broadleaved
 Blighia sapida,Blighia,,evergreen,broadleaved
 Bombax ceiba,Bombax,,deciduous,broadleaved
 Borassus flabellifer,Borassus,,evergreen,broadleaved
-Borkhausenia intermedia,Borkhausenia,,deciduous,broadleaved
+Borkhausenia intermedia,Borkhausenia,Q139936592,deciduous,broadleaved
 Bougainvillea glabra,Bougainvillea,,deciduous,broadleaved
 Bougainvillea spectabilis,Bougainvillea,,deciduous,broadleaved
 Brachychiton acerifolius,Brachychiton,,deciduous,broadleaved
@@ -316,7 +317,6 @@ Brownea grandiceps,Brownea,,deciduous,broadleaved
 Brugmansia suaveolens,Brugmansia,,evergreen,broadleaved
 Brunfelsia pauciflora,Brunfelsia,,deciduous,broadleaved
 Buchenavia capitata,Buchenavia,,evergreen,broadleaved
-Buckinghamia celsissima,Buckinghamia,,deciduous,broadleaved
 Buddleja davidii,Buddleja,,deciduous,broadleaved
 Buddleja globosa,Buddleja,,evergreen,broadleaved
 Bulnesia arborea,Bulnesia,,deciduous,broadleaved
@@ -328,7 +328,7 @@ Butia odorata,Butia,,evergreen,broadleaved
 Butia yatay,Butia,,evergreen,broadleaved
 Buxus balearica,Buxus,,evergreen,broadleaved
 Buxus sempervirens,Buxus,Q27344,evergreen,broadleaved
-Byrsonima crassifolia,Byrsonima,,deciduous,broadleaved
+Byrsonima crassifolia,Byrsonima,,evergreen,broadleaved
 Caesalpinia ebano,Caesalpinia,,evergreen,broadleaved
 Caesalpinia pluviosa,Caesalpinia,,evergreen,broadleaved
 Caesalpinia pulcherrima,Caesalpinia,,deciduous,broadleaved
@@ -341,8 +341,8 @@ Callistemon phoeniceus,Callistemon,,deciduous,broadleaved
 Callistemon salignus,Callistemon,,deciduous,broadleaved
 Callistemon speciosus,Callistemon,,evergreen,broadleaved
 Callistemon viminalis,Callistemon,Q22113637,deciduous,broadleaved
-Callitris columellaris,Callitris,,deciduous,broadleaved
-Callitris glauca,Callitris,,deciduous,broadleaved
+Callitris columellaris,Callitris,,deciduous,needleleaved
+Callitris glauca,Callitris,,deciduous,needleleaved
 Callitris preissii,Callitris,Q2715203,evergreen,needleleaved
 Callitris rhomboidea,Callitris,,deciduous,needleleaved
 Callitropsis nootkatensis,Callitropsis,Q23707222,evergreen,needleleaved
@@ -406,11 +406,10 @@ Cedrela montana,Cedrela,,evergreen,broadleaved
 Cedrela odorata,Cedrela,,evergreen,broadleaved
 Cedrela sinensis,Cedrela,,deciduous,broadleaved
 Cedrus atlantica,Cedrus,Q623489,evergreen,needleleaved
-Cedrus brevifolia,Cedrus,,deciduous,broadleaved
+Cedrus brevifolia,Cedrus,,deciduous,needleleaved
 Cedrus deodara,Cedrus,Q146935,evergreen,needleleaved
 Cedrus libani,Cedrus,Q61105,evergreen,needleleaved
 Ceiba chodatii,Ceiba,,evergreen,broadleaved
-Ceiba glaziovii,Ceiba,,deciduous,broadleaved
 Ceiba pentandra,Ceiba,,deciduous,broadleaved
 Ceiba speciosa,Ceiba,Q1031120,deciduous,broadleaved
 Celtis australis,Celtis,Q255375,deciduous,broadleaved
@@ -422,7 +421,7 @@ Celtis laevigata,Celtis,,deciduous,broadleaved
 Celtis occidentalis,Celtis,Q470006,deciduous,broadleaved
 Celtis rugosa,Celtis,,deciduous,broadleaved
 Celtis sinensis,Celtis,,deciduous,broadleaved
-Celtis tala,Celtis,,deciduous,broadleaved
+Celtis tala,Celtis,,evergreen,broadleaved
 Cenostigma pluviosum,Cenostigma,,evergreen,broadleaved
 Cephalotaxus fortunei,Cephalotaxus,,evergreen,needleleaved
 Cephalotaxus harringtonia,Cephalotaxus,,evergreen,needleleaved
@@ -433,6 +432,7 @@ Cerasus lannesiana,Cerasus,,deciduous,broadleaved
 Cerasus sargentii,Cerasus,Q163039,deciduous,broadleaved
 Cerasus serrulata,Cerasus,Q165321,deciduous,broadleaved
 Cerasus spachiana,Cerasus,,deciduous,broadleaved
+Cerasus × subhirtella,Cerasus,Q163070,deciduous,broadleaved
 Cerasus × yedoensis,Cerasus,Q163078,deciduous,broadleaved
 Ceratonia siliqua,Ceratonia,Q68763,evergreen,broadleaved
 Cercidiphyllum japonicum,Cercidiphyllum,Q526549,deciduous,broadleaved
@@ -470,8 +470,10 @@ Citrus maxima,Citrus,,evergreen,broadleaved
 Citrus nobilis,Citrus,Q147096,evergreen,broadleaved
 Citrus reticulata,Citrus,,evergreen,broadleaved
 Citrus sinensis,Citrus,Q147096,evergreen,broadleaved
+Citrus tachibana,Citrus,,evergreen,broadleaved
 Citrus trifoliata,Citrus,,deciduous,broadleaved
 Citrus × aurantium,Citrus,Q147096,evergreen,broadleaved
+Citrus × depressa,Citrus,,evergreen,broadleaved
 Citrus × limon,Citrus,Q500,evergreen,broadleaved
 Citrus × paradisi,Citrus,Q147096,evergreen,broadleaved
 Citrus × sinensis,Citrus,Q147096,evergreen,broadleaved
@@ -526,7 +528,7 @@ Corylus colurna,Corylus,Q148939,deciduous,broadleaved
 Corylus cornuta,Corylus,Q972950,deciduous,broadleaved
 Corylus maxima,Corylus,,deciduous,broadleaved
 Corymbia aparrerinja,Corymbia,,evergreen,broadleaved
-Corymbia calophylla,Corymbia,,deciduous,broadleaved
+Corymbia calophylla,Corymbia,,evergreen,broadleaved
 Corymbia citriodora,Corymbia,,evergreen,broadleaved
 Corymbia eximia,Corymbia,,deciduous,broadleaved
 Corymbia ficifolia,Corymbia,,evergreen,broadleaved
@@ -624,7 +626,7 @@ Cupaniopsis anacardioides,Cupaniopsis,,evergreen,broadleaved
 Cupressus arizonica,Cupressus,Q670040,evergreen,needleleaved
 Cupressus cashmeriana,Cupressus,Q917216,evergreen,needleleaved
 Cupressus funebris,Cupressus,,evergreen,needleleaved
-Cupressus glabra,Cupressus,,deciduous,broadleaved
+Cupressus glabra,Cupressus,,deciduous,needleleaved
 Cupressus glauca,Cupressus,Q50843037,evergreen,needleleaved
 Cupressus leylandii,Cupressus,Q42688380,evergreen,needleleaved
 Cupressus lusitanica,Cupressus,Q50843037,evergreen,needleleaved
@@ -720,7 +722,7 @@ Eucalyptus macrandra,Eucalyptus,,deciduous,broadleaved
 Eucalyptus macrorhyncha,Eucalyptus,,deciduous,broadleaved
 Eucalyptus mannifera,Eucalyptus,,evergreen,broadleaved
 Eucalyptus megacornuta,Eucalyptus,,deciduous,broadleaved
-Eucalyptus melliodora,Eucalyptus,,evergreen,needleleaved
+Eucalyptus melliodora,Eucalyptus,,evergreen,broadleaved
 Eucalyptus microcarpa,Eucalyptus,,deciduous,broadleaved
 Eucalyptus newbeyi,Eucalyptus,,deciduous,broadleaved
 Eucalyptus nicholii,Eucalyptus,,deciduous,broadleaved
@@ -868,7 +870,7 @@ Handroanthus serratifolius,Handroanthus,,deciduous,broadleaved
 Hedera helix,Hedera,,deciduous,broadleaved
 Hedlundia austriaca,Hedlundia,,deciduous,broadleaved
 Hedlundia hybrida,Hedlundia,,deciduous,broadleaved
-Hedlundia intermedia,Hedlundia,,deciduous,broadleaved
+Hedlundia intermedia,Hedlundia,Q139936592,deciduous,broadleaved
 Hedlundia mougeotii,Hedlundia,,deciduous,broadleaved
 Hedlundia pseudofennica,Hedlundia,,deciduous,broadleaved
 Hedlundia thuringiaca,Hedlundia,Q41297396,deciduous,broadleaved
@@ -878,7 +880,7 @@ Heptapleurum actinophyllum,Heptapleurum,,evergreen,broadleaved
 Hesperocyparis abramsiana,Hesperocyparis,Q32856048,evergreen,needleleaved
 Hesperocyparis arizonica,Hesperocyparis,Q670040,evergreen,needleleaved
 Hesperocyparis bakeri,Hesperocyparis,Q32856049,evergreen,needleleaved
-Hesperocyparis glabra,Hesperocyparis,,deciduous,broadleaved
+Hesperocyparis glabra,Hesperocyparis,,deciduous,needleleaved
 Hesperocyparis guadalupensis,Hesperocyparis,Q67192921,evergreen,needleleaved
 Hesperocyparis lusitanica,Hesperocyparis,Q50843037,evergreen,needleleaved
 Hesperocyparis macrocarpa,Hesperocyparis,Q32856056,evergreen,needleleaved
@@ -964,6 +966,7 @@ Kigelia africana,Kigelia,,deciduous,broadleaved
 Kigelia pinnata,Kigelia,,deciduous,broadleaved
 Koelreuteria bipinnata,Koelreuteria,,deciduous,broadleaved
 Koelreuteria paniculata,Koelreuteria,Q844835,deciduous,broadleaved
+Kolkwitzia amabilis,Kolkwitzia,,deciduous,broadleaved
 Laburnum alpinum,Laburnum,Q3497019,deciduous,broadleaved
 Laburnum anagyroides,Laburnum,Q147939,deciduous,broadleaved
 Laburnum watereri,Laburnum,Q12317600,deciduous,broadleaved
@@ -1158,7 +1161,7 @@ Myrica pubescens,Myrica,,evergreen,broadleaved
 Myrica rubra,Myrica,,evergreen,broadleaved
 Myrtus communis,Myrtus,,evergreen,broadleaved
 Nageia nagi,Nageia,,evergreen,needleleaved
-Nandina domestica,Nandina,,deciduous,broadleaved
+Nandina domestica,Nandina,,evergreen,broadleaved
 Nauclea orientalis,Nauclea,,deciduous,broadleaved
 Neillia incisa,Neillia,,deciduous,broadleaved
 Neltuma caldenia,Neltuma,,evergreen,broadleaved
@@ -1169,6 +1172,7 @@ Normanbya normanbyi,Normanbya,,deciduous,broadleaved
 Nothofagus alpina,Nothofagus,,deciduous,broadleaved
 Nothofagus antarctica,Nothofagus,Q571422,deciduous,broadleaved
 Nothofagus dombeyi,Nothofagus,,evergreen,broadleaved
+Nothofagus menziesii,Nothofagus,,evergreen,broadleaved
 Nothofagus obliqua,Nothofagus,Q1486147,deciduous,broadleaved
 Nyssa sinensis,Nyssa,,deciduous,broadleaved
 Nyssa sylvatica,Nyssa,Q3179665,deciduous,broadleaved
@@ -1291,7 +1295,7 @@ Pinus resinosa,Pinus,Q2045958,evergreen,needleleaved
 Pinus rigida,Pinus,,evergreen,needleleaved
 Pinus sabiniana,Pinus,,evergreen,needleleaved
 Pinus sibirica,Pinus,,evergreen,needleleaved
-Pinus spectabilis,Pinus,,deciduous,broadleaved
+Pinus spectabilis,Pinus,,deciduous,needleleaved
 Pinus strobiformis,Pinus,,evergreen,needleleaved
 Pinus strobus,Pinus,Q157230,evergreen,needleleaved
 Pinus sylvestris,Pinus,Q133128,evergreen,needleleaved
@@ -1518,6 +1522,7 @@ Quercus lusitanica,Quercus,,deciduous,broadleaved
 Quercus lyrata,Quercus,,deciduous,broadleaved
 Quercus macranthera,Quercus,,deciduous,broadleaved
 Quercus macrocarpa,Quercus,Q1082365,deciduous,broadleaved
+Quercus macrolepis,Quercus,,deciduous,broadleaved
 Quercus marilandica,Quercus,,deciduous,broadleaved
 Quercus michauxii,Quercus,Q1460497,deciduous,broadleaved
 Quercus mongolica,Quercus,,deciduous,broadleaved
@@ -1535,7 +1540,7 @@ Quercus polymorpha,Quercus,,evergreen,broadleaved
 Quercus pontica,Quercus,,deciduous,broadleaved
 Quercus prinus,Quercus,Q1460497,deciduous,broadleaved
 Quercus pubescens,Quercus,Q161415,deciduous,broadleaved
-Quercus pyrenaica,Quercus,,deciduous,broadleaved
+Quercus pyrenaica,Quercus,Q899686,deciduous,broadleaved
 Quercus robur,Quercus,Q165145,deciduous,broadleaved
 Quercus rotundifolia,Quercus,,evergreen,broadleaved
 Quercus rubra,Quercus,Q147525,deciduous,broadleaved
@@ -1644,7 +1649,7 @@ Sarcomphalus joazeiro,Sarcomphalus,,evergreen,broadleaved
 Saribus rotundifolius,Saribus,,deciduous,broadleaved
 Sassafras albidum,Sassafras,,deciduous,broadleaved
 Saxegothaea conspicua,Saxegothaea,,evergreen,needleleaved
-Scandosorbus intermedia,Scandosorbus,Q95988426,deciduous,broadleaved
+Scandosorbus intermedia,Scandosorbus,Q139936592,deciduous,broadleaved
 Schefflera actinophylla,Schefflera,,evergreen,broadleaved
 Schima wallichii,Schima,,evergreen,broadleaved
 Schinus areira,Schinus,,evergreen,broadleaved
@@ -1652,6 +1657,7 @@ Schinus molle,Schinus,Q855896,evergreen,broadleaved
 Schinus terebinthifolia,Schinus,,evergreen,broadleaved
 Schizolobium parahyba,Schizolobium,,deciduous,broadleaved
 Sciadopitys verticillata,Sciadopitys,,evergreen,needleleaved
+Searsia lancea,Searsia,,evergreen,broadleaved
 Semiarundinaria fastuosa,Semiarundinaria,,deciduous,broadleaved
 Senna candolleana,Senna,,evergreen,broadleaved
 Senna siamea,Senna,,evergreen,broadleaved
@@ -1679,12 +1685,12 @@ Sorbus domestica,Sorbus,Q18593737,deciduous,broadleaved
 Sorbus hupehensis,Sorbus,,deciduous,broadleaved
 Sorbus hybrida,Sorbus,,deciduous,broadleaved
 Sorbus incana,Sorbus,,deciduous,broadleaved
-Sorbus intermedia,Sorbus,Q27980,deciduous,broadleaved
+Sorbus intermedia,Sorbus,,deciduous,broadleaved
 Sorbus latifolia,Sorbus,,deciduous,broadleaved
 Sorbus mougeotii,Sorbus,,deciduous,broadleaved
 Sorbus scalaris,Sorbus,Q1037204,deciduous,broadleaved
 Sorbus thuringiaca,Sorbus,,deciduous,broadleaved
-Sorbus torminalis,Sorbus,Q147459,deciduous,broadleaved
+Sorbus torminalis,Sorbus,Q139936561,deciduous,broadleaved
 Sorbus ulleungensis,Sorbus,,deciduous,broadleaved
 Sorbus vilmorinii,Sorbus,Q1037212,deciduous,broadleaved
 Sorbus × arnoldiana,Sorbus,,deciduous,broadleaved
@@ -1744,7 +1750,7 @@ Tabebuia roseoalba,Tabebuia,,deciduous,broadleaved
 Tabernaemontana divaricata,Tabernaemontana,,deciduous,broadleaved
 Taiwania cryptomeriodes,Taiwania,Q390313,evergreen,needleleaved
 Taiwania cryptomerioides,Taiwania,,evergreen,needleleaved
-Tamarindus indica,Tamarindus,,evergreen,broadleaved
+Tamarindus indica,Tamarindus,,deciduous,broadleaved
 Tamarix africana,Tamarix,,evergreen,broadleaved
 Tamarix aphylla,Tamarix,,evergreen,broadleaved
 Tamarix gallica,Tamarix,,deciduous,broadleaved
@@ -1772,7 +1778,7 @@ Terminalia mantaly,Terminalia,,evergreen,broadleaved
 Terminalia muelleri,Terminalia,,deciduous,broadleaved
 Terminalia tetraphylla,Terminalia,,evergreen,broadleaved
 Ternstroemia gymnanthera,Ternstroemia,,evergreen,broadleaved
-Tetraclinis articulata,Tetraclinis,,deciduous,broadleaved
+Tetraclinis articulata,Tetraclinis,,deciduous,needleleaved
 Tetradium daniellii,Tetradium,Q837237,evergreen,broadleaved
 Theobroma cacao,Theobroma,,evergreen,broadleaved
 Thevetia peruviana,Thevetia,,evergreen,broadleaved
@@ -1876,7 +1882,7 @@ Wollemia nobilis,Wollemia,Q190510,evergreen,needleleaved
 Xanthocyparis nootkatensis,Xanthocyparis,Q23707222,evergreen,needleleaved
 Yucca aloifolia,Yucca,,evergreen,broadleaved
 Yucca elephantipes,Yucca,,evergreen,broadleaved
-Yucca filifera,Yucca,,deciduous,broadleaved
+Yucca filifera,Yucca,,evergreen,broadleaved
 Yucca gigantea,Yucca,,evergreen,broadleaved
 Yucca gloriosa,Yucca,,evergreen,broadleaved
 Yucca guatemalensis,Yucca,,evergreen,broadleaved

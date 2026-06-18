@@ -10,7 +10,7 @@ import re
 import urllib.parse
 import json
 
-from powoapi import check_powo_status
+from powoapi import check_powo_status, get_powo_family
 from datawash import to_binomial as normalize_and_binomial
 
 # File paths relative to the project root
@@ -108,9 +108,19 @@ def main():
                 if parse_float(row.get('leaf_cycle_evergreen', 0)) > parse_float(row.get('leaf_cycle_deciduous', 0)):
                     leaf_cycle = "evergreen"
                 
-                leaf_type = "broadleaved"
-                if parse_float(row.get('leaf_type_needleleaved', 0)) > parse_float(row.get('leaf_type_broadleaved', 0)):
+                needle_count = parse_float(row.get('leaf_type_needleleaved', 0))
+                broad_count = parse_float(row.get('leaf_type_broadleaved', 0))
+                
+                if needle_count > broad_count:
                     leaf_type = "needleleaved"
+                elif broad_count > needle_count:
+                    leaf_type = "broadleaved"
+                else:
+                    family = get_powo_family(bin_name)
+                    if family in {'Araucariaceae', 'Cephalotaxaceae', 'Cupressaceae', 'Pinaceae', 'Podocarpaceae', 'Sciadopityaceae', 'Taxaceae'}:
+                        leaf_type = "needleleaved"
+                    else:
+                        leaf_type = "broadleaved"
 
                 candidates.append({
                     'species_raw': species_raw,
