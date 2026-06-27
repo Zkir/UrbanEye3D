@@ -8,15 +8,12 @@ import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.prep.PreparedGeometry;
 import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
 
-import ru.zkir.urbaneye3d.generators.MesherTree;
 import ru.zkir.urbaneye3d.utils.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.lang.Math.random;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
-import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.MAX_FOREST_DENSITY;
 
 
 public class Scene {
@@ -245,42 +242,51 @@ public class Scene {
                     Contour forestContour = new Contour(primitive);
                     LatLon center = primitive.getBBox().getCenter();
                     forestContour.toLocalCoords(center);
-                    Polygon forestPolygon = forestContour.toJTSPolygon();
+                    Geometry forestGeom = forestContour.toJTSGeometry();
 
-                    if (forestPolygon == null || !forestPolygon.isValid()) {
+                    if (forestGeom == null || !forestGeom.isValid()) {
+                        continue;
+                    }
+                    if (!(forestGeom instanceof Polygon) && !(forestGeom instanceof MultiPolygon)) {
+                        //if for some reason contour is neither polygon or multipolygon, we can do nothing
                         continue;
                     }
 
                     Random random = new Random(primitive.getId());
-                    PreparedGeometry preparedPolygon = PreparedGeometryFactory.prepare(forestPolygon);
-                    Envelope envelope = forestPolygon.getEnvelopeInternal();
+                    for (int i = 0; i < forestGeom.getNumGeometries(); i++) {
+                        Polygon forestPolygon = (Polygon) forestGeom.getGeometryN(i);
 
-                    List<Point2D> treePoints = PoissonDiskSampler.generatePoints(envelope, minDist, preparedPolygon, random);
 
-                    for (Point2D p : treePoints) {
-                        LatLon treeOrigin = FlatEarth.fromLocalCoords(p.x, p.y, center);
+                        PreparedGeometry preparedPolygon = PreparedGeometryFactory.prepare(forestPolygon);
+                        Envelope envelope = forestPolygon.getEnvelopeInternal();
 
-                        // Randomize height slightly
-                        double baseHeight = DEFAULT_TREE_HEIGHT * (0.75+random.nextDouble()/2); //50% variance
+                        List<Point2D> treePoints = PoissonDiskSampler.generatePoints(envelope, minDist, preparedPolygon, random);
 
-                        // Synthetic tags for the individual tree
-                        Map<String, String> treeTags = new HashMap<>(primitive.getInterestingTags());
-                        treeTags.put("natural", "tree");
-                        treeTags.remove("landuse"); // prevent wood/forest from inflating scores
+                        for (Point2D p : treePoints) {
+                            LatLon treeOrigin = FlatEarth.fromLocalCoords(p.x, p.y, center);
 
-                        // Handle mixed forest
-                        if ("mixed".equals(treeTags.get("leaf_type"))) {
-                            if (random.nextBoolean()) {
-                                treeTags.put("leaf_type", "broadleaved");
-                            } else {
-                                treeTags.put("leaf_type", "needleleaved");
+                            // Randomize height slightly
+                            double baseHeight = DEFAULT_TREE_HEIGHT * (0.75 + random.nextDouble() / 2); //50% variance
+
+                            // Synthetic tags for the individual tree
+                            Map<String, String> treeTags = new HashMap<>(primitive.getInterestingTags());
+                            treeTags.put("natural", "tree");
+                            treeTags.remove("landuse"); // prevent wood/forest from inflating scores
+
+                            // Handle mixed forest
+                            if ("mixed".equals(treeTags.get("leaf_type"))) {
+                                if (random.nextBoolean()) {
+                                    treeTags.put("leaf_type", "broadleaved");
+                                } else {
+                                    treeTags.put("leaf_type", "needleleaved");
+                                }
                             }
-                        }
-                        treeTags.put("height", String.valueOf(baseHeight));
+                            treeTags.put("height", String.valueOf(baseHeight));
 
-                        RenderableElement element = RenderableElement.createTree(primitive, treeOrigin, treeTags, random);
-                        if (element != null) {
-                            newElements.add(element);
+                            RenderableElement element = RenderableElement.createTree(primitive, treeOrigin, treeTags, random);
+                            if (element != null) {
+                                newElements.add(element);
+                            }
                         }
                     }
                 }

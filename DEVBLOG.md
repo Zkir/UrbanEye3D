@@ -1,5 +1,13 @@
 # Development History
 
+# Version 2.3.3 (Jun 28, 2026)
+
+* Validator check for building parts covering building outline has been improved.
+    * Home-made code replaced with Java Topology Suite (JTS) calls.
+	* False positive errors fixed [#64](https://github.com/Zkir/UrbanEye3D/issues/64)
+	* Support for building outlines with mutiple outer rings added
+
+
 # Version 2.3.2 (Jun 18, 2026)
 
 *  More proper defaults for the `leaf_type` tag, based on taxonomic family. Species belonging to the families 'Araucariaceae', 'Cephalotaxaceae', 'Cupressaceae', 'Pinaceae', 'Podocarpaceae', 'Sciadopityaceae', 'Taxaceae' are considered needleleaved by default. 

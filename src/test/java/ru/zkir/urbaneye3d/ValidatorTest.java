@@ -117,6 +117,22 @@ class ValidatorTest {
     }
 
     @Test
+    void testValidatorFalsePositives3() throws Exception {
+        // Arrange
+        DataSet dataSet = loadDataSetFromOsmFile("false_positive_building_not_covered_by_parts.osm");
+        MainApplication.getLayerManager().addLayer(new OsmDataLayer(dataSet, "test", null));
+        SpatialConsistencyChecks validator = new SpatialConsistencyChecks();
+
+        //First test -- Spatial Consistency
+        validator.startTest(null);
+        validator.visit(dataSet.allPrimitives());
+        validator.endTest();
+
+        // Assert
+        assertEquals(0, validator.getErrors().size());
+    }
+
+    @Test
     void testCityCenter() throws Exception {
         // Arrange
         DataSet dataSet = loadDataSetFromOsmFile("city_center.osm");
@@ -132,7 +148,7 @@ class ValidatorTest {
 
         // The resulting number of buildings is not so important.
         // we just need to understand how the picture changes.
-        int EXPECTED_NUMBER_OF_ERRORS = 806;
+        int EXPECTED_NUMBER_OF_ERRORS = 756;
         assertTrue(errors.size() == EXPECTED_NUMBER_OF_ERRORS,
                    "Number of errors  found by the Validator Spatial Test ("+errors.size()+") differs from  the expected number (" + EXPECTED_NUMBER_OF_ERRORS+")");
 
