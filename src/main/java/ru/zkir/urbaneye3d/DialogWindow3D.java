@@ -83,6 +83,21 @@ public class DialogWindow3D extends ToggleDialog
             public void mouseReleased(MouseEvent e) {
                 renderer3D.setCursor(Cursor.getDefaultCursor());
             }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1) {
+                    RenderableElement picked = renderer3D.getPickedElement(e.getX(), e.getY());
+                    if (picked != null && picked.primitiveId != null) {
+                        if (listenedLayer != null) {
+                            OsmPrimitive primitive = listenedLayer.getDataSet().getPrimitiveById(picked.primitiveId);
+                            if (primitive != null) {
+                                listenedLayer.getDataSet().setSelected(primitive);
+                            }
+                        }
+                    }
+                }
+            }
         });
 
         renderer3D.setFocusable(true);
