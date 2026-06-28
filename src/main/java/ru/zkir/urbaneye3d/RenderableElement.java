@@ -9,16 +9,21 @@ import ru.zkir.urbaneye3d.generators.MesherTree;
 
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
+import ru.zkir.urbaneye3d.utils.TreeSpeciesDatabase;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import org.openstreetmap.josm.data.osm.PrimitiveId;
+import org.openstreetmap.josm.data.osm.Relation;
 
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVELS_NUMBER;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
@@ -77,13 +82,8 @@ public class RenderableElement {
         Double hyperboloidTopRate = getTagD("hyperboloid:top_rate", primitiveTags, parentTags);
         Double hyperboloidMiddleRate = getTagD("hyperboloid:middle_rate", primitiveTags, parentTags);
 
-        Double layer = getTagD("layer", primitiveTags, 0);
-        String location = getTagStr("location", primitiveTags, "");
-
-        if ((layer<0) || (location.equals("underground"))){
-            // we ignore such underground buildings/parts for now.
-            return null;
-        }
+        // we ignore such underground buildings/parts for now.
+        if (isPrimitiveUnderground(primitive, primitiveTags)) return null;
 
         // New: Prioritize building:shape over roof:shape for specific cases like hyperboloid
         if (!buildingShape.isEmpty()){
@@ -265,14 +265,8 @@ public class RenderableElement {
             return null;
         }
 
-        var primitiveTags = primitive.getInterestingTags();
-        Double layer = getTagD("layer", primitiveTags, 0);
-        String location = getTagStr("location", primitiveTags, "");
-
-        if ((layer<0) || (location.equals("underground"))){
-            // we ignore such underground barriers for now.
-            return null;
-        }
+        // we ignore such underground barriers for now.
+        if(isPrimitiveUnderground(primitive)) return null;
 
         String barrierType = primitive.get("barrier");
 
@@ -424,7 +418,12 @@ public class RenderableElement {
         }
 
         double treeWidth = treeHeight * 0.9; // Make width proportional to height
-        String textureName = TextureManager.getInstance().findTextureName(tags, random);
+
+        // Enrich tags using species database, but use a copy to avoid polluting the global OSM data model
+        Map<String, String> enrichedTags = new HashMap<>(tags);
+        TreeSpeciesDatabase.getInstance().enrichTags(enrichedTags);
+
+        String textureName = TextureManager.getInstance().findTextureName(enrichedTags, random);
         if (textureName == null){
             UrbanEye3dPlugin.debugMsg("failed to assign texture to object with tags " + tags);
             return null;
@@ -436,6 +435,45 @@ public class RenderableElement {
         Mesh treeMesh = MesherTree.generate(treeWidth, treeHeight);
 
         return new RenderableElement(primitive, origin, treeMesh, textureName);
+    }
+
+    public static RenderableElement createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
+        if (primitive.isDeleted()) return null;
+
+        // ignore underground ad columns
+        if(isPrimitiveUnderground(primitive)) return null;
+
+        double width = getTagD("width", primitive, 1.5);
+        double height = getTagD("height", primitive, 4.0);
+        double min_height = getTagD("min_height", primitive, 0.0);
+        var colour = getTagStr("colour", primitive, null);
+        
+
+        // Almost all columns are points
+        // https://taginfo.openstreetmap.org/tags/advertising=column
+        if("yes".equals(primitive.get("area"))) return null;
+        if(primitive instanceof Relation) return null;
+        
+        // I did not see a way to re-use the existing buffer mechanic, therefore we just create a countour directly
+        int segments = 16;
+        ArrayList<Point2D> circle = new ArrayList<Point2D>();
+
+        
+        for(int i = 0; i < segments; i++) {
+            double angle = (2 * Math.PI / segments) * i;
+            double x = width / 2 * Math.cos(angle);
+            double y = width / 2 * Math.sin(angle);
+            circle.add(new Point2D(x, y));
+        }
+
+        Contour contour = new Contour(circle, "XY");
+        contour.removeRedundantNodes();
+        double roofHeight = width / 2;
+
+        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, min_height, roofHeight, colour, colour, "dome", "", "", null, false, null, null);
+        Mesh mesh = composeMesh(buildingRecipe);
+
+        return new RenderableElement(primitive, origin, mesh, null);
     }
 
     
@@ -497,6 +535,19 @@ public class RenderableElement {
         return mesh;
     }
 
+    private static boolean isPrimitiveUnderground(OsmPrimitive primitive) {
+        return isPrimitiveUnderground(primitive, primitive.getInterestingTags());
+    }
+
+    private static boolean isPrimitiveUnderground(OsmPrimitive primitive, Map<String, String> primitiveTags) {
+        Double layer = getTagD("layer", primitiveTags, 0);
+        String location = getTagStr("location", primitiveTags, "");
+
+        if ((layer<0) || (location.equals("underground"))){
+            return true;
+        }
+        return false;
+    }
 
 
 }

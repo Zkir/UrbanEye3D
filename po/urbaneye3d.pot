@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-08 02:29:02+0300\n"
+"POT-Creation-Date: 2026-05-27 23:33:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,11 +38,11 @@ msgstr ""
 msgid "Building outline should be fully covered by parts. Parts should not be orphans. Note this test may show false positives on incomplete data"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:88
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:137
 msgid "Building part without height"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:37
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:41
 msgid "Checks for tag validity for buildings and building parts."
 msgstr ""
 
@@ -90,15 +90,15 @@ msgstr ""
 msgid "If checked, the plugin will attempt to download missing members of multipolygons."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:69
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:118
 msgid "Invalid value for roof:direction: {0}"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:79
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:128
 msgid "Invalid value for roof:orientation: {0}"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:59
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:108
 msgid "Missing tag: roof:shape={0} without ''roof:direction''"
 msgstr ""
 
@@ -163,6 +163,14 @@ msgstr ""
 msgid "Toggle wireframe mode"
 msgstr ""
 
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:93
+msgid "Unknown tree genus: {0}"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:82
+msgid "Unknown tree species: {0}"
+msgstr ""
+
 #: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:57
 #: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:60
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:113
@@ -200,10 +208,10 @@ msgstr ""
 msgid "[UrbanEye3D] Overlapping 3D walls check"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:35
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:39
 msgid "[UrbanEye3D] Tag validity checks"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:94
+#: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:144
 msgid "roof:shape=many is not allowed for building parts"
 msgstr ""

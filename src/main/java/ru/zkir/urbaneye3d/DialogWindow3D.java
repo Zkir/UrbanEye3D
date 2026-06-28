@@ -185,11 +185,16 @@ public class DialogWindow3D extends ToggleDialog
 
         final DataSet dataSet = (listenedLayer != null) ? listenedLayer.getDataSet() : null;
         pendingSceneUpdate = sceneUpdateExecutor.submit(() -> {
-            final Scene.SceneUpdate update = scene3d.calculateUpdate(dataSet);
-            SwingUtilities.invokeLater(() -> {
-                scene3d.applyUpdate(update);
-                renderer3D.repaint();
-            });
+            try {
+                final Scene.SceneUpdate update = scene3d.calculateUpdate(dataSet);
+                SwingUtilities.invokeLater(() -> {
+                    scene3d.applyUpdate(update);
+                    renderer3D.repaint();
+                });
+            } catch (Exception e) {
+                UrbanEye3dPlugin.debugMsg("Preparation of 3D scene FAILED: " + e.getMessage());
+                throw e; //NB: this exception is silenced in the ExecutorService and is never reported to UI
+            }
         });
 
         //update ground tiles

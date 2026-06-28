@@ -1,6 +1,7 @@
 package ru.zkir.urbaneye3d.utils;
 
 import org.locationtech.jts.geom.*;
+import org.locationtech.jts.operation.union.UnaryUnionOp;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
 
@@ -124,106 +125,63 @@ public class Contour {
 
     public boolean contains(Contour other) {
         // 'this' is the potential container (building), 'other' is the content (part).
+        Geometry thisGeom = this.toJTSGeometry();
+        Geometry otherGeom = other.toJTSGeometry();
 
-        // A building must have an outer ring to contain anything.
-        if (this.outerRings.isEmpty()) {
-            return false;
-        }
-        // A part must have an outer ring to be contained.
-        if (other.outerRings.isEmpty()) {
+        if (thisGeom == null || otherGeom == null) {
             return false;
         }
 
-        // For simplicity, we assume a building is defined by its first outer ring for containment checks.
-        // This is a reasonable simplification for most OSM data.
-        List<Point2D> buildingOuterRing = this.outerRings.get(0);
+        Geometry thisGeomFixed = thisGeom.buffer(0);
+        Geometry otherGeomFixed = otherGeom.buffer(0);
 
-        // Check every outer ring of the part.
-        for (ArrayList<Point2D> partOuterRing : other.outerRings) {
-            // Check every point of the part's outer ring.
-            for (Point2D point : partOuterRing) {
-                // 1. All points of the part must be inside the building's outer ring.
-                if (!isPointInside(buildingOuterRing, point)) {
-                    return false; // Part is not fully inside the building's boundary.
-                }
+        // Add a tiny tolerance to 'thisGeom' so it robustly covers 'otherGeom'
+        // even with slight precision issues or collinear points.
+        thisGeomFixed = thisGeomFixed.buffer(0.05 / FlatEarth.GRAD_LENGTH_M, 1);
 
-                // 2. All points of the part must be outside all of the building's inner rings (holes).
-                for (ArrayList<Point2D> buildingInnerRing : this.innerRings) {
-                    if (isPointStrictlyInside(buildingInnerRing, point)) {
-                        return false; // Part is inside a hole of the building.
-                    }
-                }
+        return thisGeomFixed.covers(otherGeomFixed);
+    }
+
+    /**
+     *  Returns JTS equivalent of the contour, correctly handling multiple outer and inner rings (multipolygons)
+     */
+    public Geometry toJTSGeometry() {
+        GeometryFactory factory = new GeometryFactory();
+        if (outerRings.isEmpty()) return null;
+
+        List<Geometry> polyList = new ArrayList<>();
+        for (ArrayList<Point2D> outerRing : outerRings) {
+            Coordinate[] coords = toCoordinates(outerRing);
+            if (coords.length < 4) continue;
+            try {
+                polyList.add(factory.createPolygon(factory.createLinearRing(coords), null).buffer(0));
+            } catch (Exception e) {
+                // Ignore invalid rings
             }
         }
 
-        // If all checks pass, the part is considered to be inside the building.
-        return true;
-    }
+        if (polyList.isEmpty()) return null;
+        Geometry allOuters = UnaryUnionOp.union(polyList);
 
-    private boolean isPointStrictlyInside(List<Point2D> polygon, Point2D point) {
-        if (isPointOnBorder(polygon, point)) {
-            return false;
-        }
-        return isPointInside(polygon, point, false);
-    }
+        if (innerRings.isEmpty()) return allOuters;
 
-    private boolean isPointInside(List<Point2D> polygon, Point2D point) {
-        return isPointInside(polygon, point, true);
-    }
-
-
-    private boolean isPointInside(List<Point2D> polygon, Point2D point, boolean includeBorder) {
-        if (includeBorder && isPointOnBorder(polygon, point)) {
-            return true; // for our purposes we consider borders as part of a polygon
-        }
-
-        int intersections = 0;
-        for (int i = 0; i < polygon.size(); i++) {
-            Point2D p1 = polygon.get(i);
-            Point2D p2 = polygon.get((i + 1) % polygon.size());
-            if (p1.y == p2.y) continue;
-            if (point.y < Math.min(p1.y, p2.y) || point.y >= Math.max(p1.y, p2.y)) continue;
-            double x = (point.y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x;
-            if (x > point.x) {
-                intersections++;
+        List<Geometry> holeList = new ArrayList<>();
+        for (ArrayList<Point2D> innerRing : innerRings) {
+            Coordinate[] coords = toCoordinates(innerRing);
+            if (coords.length < 4) continue;
+            try {
+                holeList.add(factory.createPolygon(factory.createLinearRing(coords), null).buffer(0));
+            } catch (Exception e) {
+                // Ignore
             }
         }
-        return (intersections % 2) == 1;
-    }
 
-    // Проверка, лежит ли точка на границе полигона
-    private boolean isPointOnBorder(List<Point2D> polygon, Point2D point) {
-        final double EPS = 1e-10;
-        for (int i = 0; i < polygon.size(); i++) {
-            Point2D p1 = polygon.get(i);
-            Point2D p2 = polygon.get((i + 1) % polygon.size());
-
-            // Проверка принадлежности точки ребру (p1, p2)
-            if (pointOnSegment(p1, p2, point, EPS)) {
-                return true;
-            }
+        if (holeList.isEmpty()) {
+            return allOuters;
         }
-        return false;
-    }
 
-    // Проверка, лежит ли точка на отрезке
-    private boolean pointOnSegment(Point2D p1, Point2D p2, Point2D point, double eps) {
-        // Расстояние от точки до концов отрезка
-        double distToP1 = Math.hypot(point.x - p1.x, point.y - p1.y);
-        double distToP2 = Math.hypot(point.x - p2.x, point.y - p2.y);
-        double segLength = Math.hypot(p2.x - p1.x, p2.y - p1.y);
-
-        // Если точка совпадает с вершиной
-        if (distToP1 < eps || distToP2 < eps) return true;
-
-        // Коллинеарность и нахождение на отрезке
-        double cross = (point.x - p1.x) * (p2.y - p1.y) - (point.y - p1.y) * (p2.x - p1.x);
-        boolean withinBoundingBox = point.x >= Math.min(p1.x, p2.x) - eps &&
-                point.x <= Math.max(p1.x, p2.x) + eps &&
-                point.y >= Math.min(p1.y, p2.y) - eps &&
-                point.y <= Math.max(p1.y, p2.y) + eps;
-
-        return Math.abs(cross) < eps && withinBoundingBox;
+        Geometry allInners = UnaryUnionOp.union(holeList);
+        return allOuters.difference(allInners);
     }
 
 
@@ -422,24 +380,6 @@ public class Contour {
 
     public boolean isComplex() {
         return this.outerRings.size() > 1 || !this.innerRings.isEmpty();
-    }
-
-    /**
-     *  Returns JTS equivalent of the polygon
-     */
-    public Polygon toJTSPolygon() {
-        GeometryFactory factory = new GeometryFactory();
-        if (outerRings.isEmpty()) return null;
-
-        // JTS only supports one outer ring per Polygon.
-        // For multiple outer rings, we would need a MultiPolygon, but let's stick to the first one for now
-        // as most forests are single-ring or handled as separate primitives.
-        LinearRing shell = factory.createLinearRing(toCoordinates(outerRings.get(0)));
-        LinearRing[] holes = new LinearRing[innerRings.size()];
-        for (int i = 0; i < innerRings.size(); i++) {
-            holes[i] = factory.createLinearRing(toCoordinates(innerRings.get(i)));
-        }
-        return factory.createPolygon(shell, holes);
     }
 
     private Coordinate[] toCoordinates(ArrayList<Point2D> ring) {
