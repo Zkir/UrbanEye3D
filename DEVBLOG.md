@@ -6,7 +6,8 @@
     * Home-made code replaced with Java Topology Suite (JTS) calls.
 	* False positive errors fixed [#64](https://github.com/Zkir/UrbanEye3D/issues/64)
 	* Support for building outlines with mutiple outer rings added
-
+	
+* Forest multipolygons with several outer rings supported
 
 # Version 2.3.2 (Jun 18, 2026)
 
