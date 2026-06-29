@@ -88,6 +88,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("min_height", "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes.");
         TAG_DESCRIPTIONS.put("natural=tree", "A single tree, rendered as a 3D billboard model.");
         TAG_DESCRIPTIONS.put("natural=wood", "A forested area. Automatically populated with 3D tree objects based on the forest density setting.");
+        TAG_DESCRIPTIONS.put("species", "The Latin name of the tree species. Used to infer leaf_type and leaf_cycle if these tags are not specified.");
+        TAG_DESCRIPTIONS.put("genus", "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified.");
         TAG_DESCRIPTIONS.put("landuse=forest", "A managed forest area. Automatically populated with 3D tree objects based on the forest density setting.");
         TAG_DESCRIPTIONS.put("leaf_type=broadleaved", "Used to select an appropriate texture/model for trees.");
         TAG_DESCRIPTIONS.put("leaf_type=needleleaved", "Used to select an appropriate texture/model for trees.");
@@ -144,6 +146,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("man_made=tower",                "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=water_tower",          "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("place", "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance");
+
+        TAG_DESCRIPTIONS.put("advertising=column",           "Can be rendered as 3D object");
 
         TAG_DESCRIPTIONS.put("leisure=pitch", "A sports pitch. If sport=soccer, tennis, volleyball or badminton, characteristic markings are rendered on the ground texture.");
         TAG_DESCRIPTIONS.put("sport=soccer", "Indicates that the pitch is used for soccer. Triggers rendering of soccer markings.");

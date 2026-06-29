@@ -1,5 +1,41 @@
 # Development History
 
+# Version 2.3.3 (Jun 28, 2026)
+
+* Validator check for building parts covering building outline has been improved.
+    * Home-made code replaced with Java Topology Suite (JTS) calls.
+	* False positive errors fixed [#64](https://github.com/Zkir/UrbanEye3D/issues/64)
+	* Support for building outlines with mutiple outer rings added
+	
+* Forest multipolygons with several outer rings supported
+
+# Version 2.3.2 (Jun 18, 2026)
+
+*  More proper defaults for the `leaf_type` tag, based on taxonomic family. Species belonging to the families 'Araucariaceae', 'Cephalotaxaceae', 'Cupressaceae', 'Pinaceae', 'Podocarpaceae', 'Sciadopityaceae', 'Taxaceae' are considered needleleaved by default. 
+
+# Version 2.3.1 (Jun 10, 2026)
+
+* Support for `lane_markings=no` in MapCSS
+
+# Version 2.3.0 (May 29, 2026)
+
+* Species database: If `leaf_type` tag is missing but `species` or `genus` tags are present, `leaf_type` is now inferred, and appropriate tree texture is selected.
+
+* Pipeline for collecting and analyzing tree statistics (misc subproject) is improved Significantly.
+
+* Validation check for `species` and `genus` tags are added, so you may be sure that the entered values are correct.
+
+* Added support for advertising columns (Morris columns). Nodes tagged with `advertising=column` will now be rendered as 3D street furniture.
+
+
+
+## Version 2.2.2 (May 23, 2026)
+* Error reporting improved a bit
+
+## Version 2.2.1 (May 16, 2026)
+* Cornish translation updated
+* Support for `roof:material=grass`
+
 ## Version 2.2.0 (May 08, 2026)
 
 *   **Finalized and cleaned up translations for version 2.2:**

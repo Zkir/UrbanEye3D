@@ -2,6 +2,7 @@ import csv
 import json
 import math
 import re
+import os
 import argparse
 from startdate import parseStartDateValue
 from collections import defaultdict, Counter
@@ -71,7 +72,9 @@ def clean_age(age, start_date):
         if age1<0:
             print("age="+age +", start_date=" + start_date)            
             exit(1)
-        age1 = math.log(age1, 2)    
+            
+        #log was needed for log-normal correlation. comment it out for now    
+        #age1 = math.log(age1, 2)    
         
         
     return stage, age1   
@@ -118,9 +121,15 @@ def analyze_data(input_filename, json_outfile, csv_outfile, group_by_col, numeri
                                 circumference_rejected_values += 1 
                                 continue
                             state = stats_agg[group_key]['numeric'][col]
-                            state['count'] += 1; delta = x - state['mean']; state['mean'] += delta / state['count']
-                            delta2 = x - state['mean']; state['S'] += delta * delta2
-                            state['min'] = min(state['min'], x); state['max'] = max(state['max'], x)
+                            state['count'] += 1
+                            
+                            delta = x - state['mean']
+                            state['mean'] += delta / state['count']
+                            delta2 = x - state['mean']
+                            state['S'] += delta * delta2
+                            
+                            state['min'] = min(state['min'], x)
+                            state['max'] = max(state['max'], x)
                         except (ValueError, TypeError):
                             if col=="age" or value_str in ["half",]:
                                 continue
@@ -128,8 +137,6 @@ def analyze_data(input_filename, json_outfile, csv_outfile, group_by_col, numeri
                                 pass
                                 #print ("unexpected value for ", col, ": ", value_str)
                             continue
-                            
-                    
                            
                             
                 for col in categorical_cols:
@@ -243,10 +250,12 @@ if __name__ == "__main__":
 
     GROUP_BY_COLUMN = args.group_by
     
-    INPUT_FILE = 'data/trees.csv'
+    script_dir = os.path.dirname(os.path.abspath(__file__))
     
-    JSON_OUTPUT_FILE = f'data/tree_stats_{GROUP_BY_COLUMN}_errors.json'
-    CSV_OUTPUT_FILE = f'data/tree_stats_{GROUP_BY_COLUMN}.csv'
+    INPUT_FILE = os.path.join(script_dir, 'data', '10_trees', 'trees.csv')
+    
+    JSON_OUTPUT_FILE = os.path.join(script_dir, 'data', '10_trees', f'tree_stats_{GROUP_BY_COLUMN}_errors.json')
+    CSV_OUTPUT_FILE = os.path.join(script_dir, 'data', '10_trees', f'tree_stats_{GROUP_BY_COLUMN}.csv')
     
     NUMERIC_COLUMNS = ['height', 'circumference', 'age']
     #extract_height_circ(INPUT_FILE, 'data/trees_cleaned.csv', NUMERIC_COLUMNS)

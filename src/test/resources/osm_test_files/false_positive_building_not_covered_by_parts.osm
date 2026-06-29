@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <bounds minlat='48.085659' minlon='17.1235032' maxlat='48.0874537' maxlon='17.1279143' origin='openstreetmap-cgimap 2.1.0 (1327 spike-07.openstreetmap.org)' />
+  <node id='2495494796' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='3' changeset='88803446' lat='48.0863953' lon='17.1252898' />
+  <node id='2495494798' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='3' changeset='88803446' lat='48.0864489' lon='17.1255841' />
+  <node id='2495494799' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='3' changeset='88803446' lat='48.0864996' lon='17.1258741' />
+  <node id='2495494803' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='3' changeset='88803446' lat='48.0865925' lon='17.1252057' />
+  <node id='2495494809' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='3' changeset='88803446' lat='48.0866477' lon='17.1255034' />
+  <node id='2495494813' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='3' changeset='88803446' lat='48.086701' lon='17.1257904' />
+  <node id='2495494816' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='3' changeset='88803446' lat='48.0867563' lon='17.1260892' />
+  <node id='2696865713' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='2' changeset='88803446' lat='48.086355' lon='17.1252516' />
+  <node id='2696865714' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='2' changeset='88803446' lat='48.0865187' lon='17.125184' />
+  <node id='2696865715' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='2' changeset='88803446' lat='48.0865276' lon='17.1252323' />
+  <node id='2696865716' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='2' changeset='88803446' lat='48.0865366' lon='17.1262319' />
+  <node id='2696865723' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='2' changeset='88803446' lat='48.0865829' lon='17.1255309' />
+  <node id='2696865730' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='2' changeset='88803446' lat='48.0866363' lon='17.125818' />
+  <node id='2696865732' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='2' changeset='88803446' lat='48.0867004' lon='17.1261642' />
+  <node id='3256557881' timestamp='2025-08-10T22:56:24Z' uid='1617449' user='aceman444' visible='true' version='9' changeset='170267568' lat='48.0865863' lon='17.1255484'>
+    <tag k='addr:city' v='Bratislava' />
+    <tag k='addr:conscriptionnumber' v='3897' />
+    <tag k='addr:country' v='SK' />
+    <tag k='addr:housenumber' v='3897/2C' />
+    <tag k='addr:postcode' v='85107' />
+    <tag k='addr:street' v='Žltá' />
+    <tag k='addr:streetnumber' v='2C' />
+    <tag k='addr:suburb' v='Petržalka' />
+    <tag k='entrance' v='home' />
+    <tag k='ref:minvskaddress' v='7001516192' />
+    <tag k='source' v='survey' />
+    <tag k='source:addr' v='minvskaddress 2025-01' />
+  </node>
+  <node id='3256557882' timestamp='2025-08-10T22:56:24Z' uid='1617449' user='aceman444' visible='true' version='9' changeset='170267568' lat='48.0866029' lon='17.1256319'>
+    <tag k='addr:city' v='Bratislava' />
+    <tag k='addr:conscriptionnumber' v='3897' />
+    <tag k='addr:country' v='SK' />
+    <tag k='addr:housenumber' v='3897/2D' />
+    <tag k='addr:postcode' v='85107' />
+    <tag k='addr:street' v='Žltá' />
+    <tag k='addr:streetnumber' v='2D' />
+    <tag k='addr:suburb' v='Petržalka' />
+    <tag k='entrance' v='home' />
+    <tag k='ref:minvskaddress' v='7001516203' />
+    <tag k='source' v='survey' />
+    <tag k='source:addr' v='minvskaddress 2025-01' />
+  </node>
+  <node id='3256557883' timestamp='2025-08-10T22:56:24Z' uid='1617449' user='aceman444' visible='true' version='9' changeset='170267568' lat='48.0866323' lon='17.1257926'>
+    <tag k='addr:city' v='Bratislava' />
+    <tag k='addr:conscriptionnumber' v='3897' />
+    <tag k='addr:country' v='SK' />
+    <tag k='addr:housenumber' v='3897/2E' />
+    <tag k='addr:postcode' v='85107' />
+    <tag k='addr:street' v='Žltá' />
+    <tag k='addr:streetnumber' v='2E' />
+    <tag k='addr:suburb' v='Petržalka' />
+    <tag k='entrance' v='home' />
+    <tag k='ref:minvskaddress' v='7001516214' />
+    <tag k='source' v='survey' />
+    <tag k='source:addr' v='minvskaddress 2025-01' />
+  </node>
+  <node id='3821973685' timestamp='2022-11-17T17:47:58Z' uid='1617449' user='aceman444' visible='true' version='6' changeset='129053497' lat='48.0866197' lon='17.1253535'>
+    <tag k='addr:city' v='Bratislava' />
+    <tag k='addr:conscriptionnumber' v='3897' />
+    <tag k='addr:country' v='SK' />
+    <tag k='addr:housenumber' v='3897/2B' />
+    <tag k='addr:postcode' v='85107' />
+    <tag k='addr:street' v='Žltá' />
+    <tag k='addr:streetnumber' v='2B' />
+    <tag k='addr:suburb' v='Petržalka' />
+    <tag k='entrance' v='home' />
+    <tag k='ref:minvskaddress' v='7001516181' />
+    <tag k='source' v='survey' />
+    <tag k='source:addr' v='minvskaddress 2022-11' />
+  </node>
+  <node id='3821973687' timestamp='2025-08-10T22:56:24Z' uid='1617449' user='aceman444' visible='true' version='7' changeset='170267568' lat='48.0867298' lon='17.1259468'>
+    <tag k='addr:city' v='Bratislava' />
+    <tag k='addr:conscriptionnumber' v='3897' />
+    <tag k='addr:country' v='SK' />
+    <tag k='addr:housenumber' v='3897/2F' />
+    <tag k='addr:postcode' v='85107' />
+    <tag k='addr:street' v='Žltá' />
+    <tag k='addr:streetnumber' v='2F' />
+    <tag k='addr:suburb' v='Petržalka' />
+    <tag k='entrance' v='home' />
+    <tag k='ref:minvskaddress' v='7001516225' />
+    <tag k='source' v='survey' />
+    <tag k='source:addr' v='minvskaddress 2025-01' />
+  </node>
+  <node id='3821982603' timestamp='2020-08-08T17:42:19Z' uid='1617449' user='aceman444' visible='true' version='3' changeset='89134698' lat='48.0865567' lon='17.1252189'>
+    <tag k='access' v='private' />
+    <tag k='amenity' v='parking_entrance' />
+    <tag k='maxheight' v='2' />
+    <tag k='parking' v='underground' />
+  </node>
+  <node id='7774542365' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='1' changeset='88803446' lat='48.0865563' lon='17.1261719' />
+  <node id='7774542366' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='1' changeset='88803446' lat='48.0864727' lon='17.125889' />
+  <node id='7774542367' timestamp='2020-08-01T01:33:05Z' uid='1617449' user='aceman444' visible='true' version='1' changeset='88803446' lat='48.0866914' lon='17.1261157' />
+  <way id='241978314' timestamp='2022-11-17T17:47:58Z' uid='1617449' user='aceman444' visible='true' version='15' changeset='129053497'>
+    <nd ref='2495494803' />
+    <nd ref='3821982603' />
+    <nd ref='2696865715' />
+    <nd ref='2495494796' />
+    <nd ref='2495494798' />
+    <nd ref='2696865723' />
+    <nd ref='2495494809' />
+    <nd ref='3821973685' />
+    <nd ref='2495494803' />
+    <tag k='building:levels' v='5' />
+    <tag k='building:min_level' v='1' />
+    <tag k='building:part' v='apartments' />
+    <tag k='source' v='survey' />
+  </way>
+  <way id='241978316' timestamp='2022-11-17T17:47:58Z' uid='1617449' user='aceman444' visible='true' version='14' changeset='129053497'>
+    <nd ref='2495494813' />
+    <nd ref='2696865730' />
+    <nd ref='2495494799' />
+    <nd ref='7774542365' />
+    <nd ref='7774542367' />
+    <nd ref='2495494816' />
+    <nd ref='3821973687' />
+    <nd ref='2495494813' />
+    <tag k='building:levels' v='5' />
+    <tag k='building:min_level' v='1' />
+    <tag k='building:part' v='apartments' />
+    <tag k='source' v='survey' />
+  </way>
+  <way id='264010614' timestamp='2022-11-17T17:47:58Z' uid='1617449' user='aceman444' visible='true' version='8' changeset='129053497'>
+    <nd ref='2696865715' />
+    <nd ref='2696865714' />
+    <nd ref='2696865713' />
+    <nd ref='2696865716' />
+    <nd ref='2696865732' />
+    <nd ref='7774542367' />
+    <nd ref='2696865730' />
+    <nd ref='3256557883' />
+    <nd ref='3256557882' />
+    <nd ref='3256557881' />
+    <nd ref='2696865723' />
+    <nd ref='2696865715' />
+    <tag k='building:levels' v='1' />
+    <tag k='building:part' v='commercial' />
+    <tag k='source' v='ZBGIS' />
+  </way>
+  <way id='832780245' timestamp='2022-01-23T09:45:13Z' uid='1617449' user='aceman444' visible='true' version='5' changeset='116491695'>
+    <nd ref='2696865715' />
+    <nd ref='3821982603' />
+    <nd ref='2495494803' />
+    <nd ref='3821973685' />
+    <nd ref='2495494809' />
+    <nd ref='2696865723' />
+    <nd ref='3256557881' />
+    <nd ref='3256557882' />
+    <nd ref='3256557883' />
+    <nd ref='2696865730' />
+    <nd ref='2495494813' />
+    <nd ref='3821973687' />
+    <nd ref='2495494816' />
+    <nd ref='7774542367' />
+    <nd ref='2696865732' />
+    <nd ref='2696865716' />
+    <nd ref='7774542366' />
+    <nd ref='2696865713' />
+    <nd ref='2696865714' />
+    <nd ref='2696865715' />
+    <tag k='building' v='apartments' />
+    <tag k='building:levels' v='5' />
+    <tag k='name' v='S2' />
+    <tag k='source' v='kapor2' />
+  </way>
+</osm>

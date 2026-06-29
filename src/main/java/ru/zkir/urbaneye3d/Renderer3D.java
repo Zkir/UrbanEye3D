@@ -20,6 +20,7 @@ import org.openstreetmap.josm.data.coor.LatLon;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
+import ru.zkir.urbaneye3d.utils.GeometryUtils;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -61,6 +62,10 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     private boolean npotSupport = true;
 
+    private final double[] lastProjMatrix = new double[16];
+    private final double[] lastMvMatrix = new double[16];
+    private final int[] lastViewport = new int[4];
+
     public double getCamX_angle() {
         return camX_angle;
     }
@@ -85,6 +90,13 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             @Override
             public void mousePressed(MouseEvent e) {
                 lastMousePoint = e.getPoint();
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1) {
+                   // Picking will be handled by the parent window/dialog
+                }
             }
         });
 
@@ -262,6 +274,11 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         double eyeZ = cam_dist * Math.sin(camX_rad);
 
         glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 0, 1);
+
+        // Store matrices and viewport for picking
+        gl.glGetIntegerv(GL2.GL_VIEWPORT, lastViewport, 0);
+        gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, lastProjMatrix, 0);
+        gl.glGetDoublev(GL2.GL_MODELVIEW_MATRIX, lastMvMatrix, 0);
 
         // --- Frustum Culling Setup ---
         double[] projMatrix = new double[16];
@@ -690,6 +707,62 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             //UrbanEye3dPlugin.debugMsg("Tessellation Error (" + errnum + "): " + glu.gluErrorString(errnum));
         }
     }
+    public RenderableElement getPickedElement(int x, int y) {
+        if (lastViewport[2] == 0 || lastViewport[3] == 0) return null;
+
+        // Invert Y coordinate for OpenGL
+        int glY = lastViewport[3] - y;
+
+        double[] nearPos = new double[3];
+        double[] farPos = new double[3];
+
+        // Unproject two points to define a ray in world space
+        glu.gluUnProject(x, glY, 0.0, lastMvMatrix, 0, lastProjMatrix, 0, lastViewport, 0, nearPos, 0);
+        glu.gluUnProject(x, glY, 1.0, lastMvMatrix, 0, lastProjMatrix, 0, lastViewport, 0, farPos, 0);
+
+        Point3D rayOrigin = new Point3D(nearPos[0], nearPos[1], nearPos[2]);
+        Point3D rayDir = new Point3D(farPos[0] - nearPos[0], farPos[1] - nearPos[1], farPos[2] - nearPos[2]);
+        GeometryUtils.Ray ray = new GeometryUtils.Ray(rayOrigin, rayDir);
+
+        RenderableElement closestElement = null;
+        double minDistance = Double.POSITIVE_INFINITY;
+
+        LatLon mapCenter = getCameraPosition();
+
+        if (scene.renderableElements == null) return null;
+
+        for (RenderableElement element : scene.renderableElements) {
+            Mesh mesh = element.getMesh();
+            if (mesh == null) continue;
+
+            double dx = element.origin.lon() - mapCenter.lon();
+            double dy = element.origin.lat() - mapCenter.lat();
+            double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+            double transY = dy * 111320.0;
+            Point3D translation = new Point3D(transX, transY, 0);
+
+            // Move ray to element's local space
+            GeometryUtils.Ray localRay = new GeometryUtils.Ray(ray.origin.subtract(translation), ray.direction);
+
+            // Fast BBox check
+            if (!GeometryUtils.intersectRayAABB(localRay, mesh.getMinBounds(), mesh.getMaxBounds())) {
+                continue;
+            }
+
+            // Precise polygon check
+            for (int[] face : mesh.faces) {
+                double dist = GeometryUtils.intersectRayPolygon(localRay, mesh.verts, face);
+
+                if (!Double.isNaN(dist) && dist < minDistance) {
+                    minDistance = dist;
+                    closestElement = element;
+                }
+            }
+        }
+
+        return closestElement;
+    }
+
     @Override
     public void reshape(GLAutoDrawable glAutoDrawable, int x, int y, int width, int height) {
         GL2 gl = glAutoDrawable.getGL().getGL2();

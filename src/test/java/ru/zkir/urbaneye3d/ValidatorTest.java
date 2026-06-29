@@ -65,12 +65,14 @@ class ValidatorTest {
         validator2.visit(dataSet.allPrimitives());
         validator2.endTest();
         errors = validator2.getErrors();
-        assertEquals(5, errors.size());
+        assertEquals(7, errors.size());
         assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.NO_HEIGHT_OR_LEVELS_SPECIFIED).count());
         assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.INVALID_ROOF_ORIENTATION).count());
         assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.INVALID_ROOF_DIRECTION).count());
         assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.ROOF_DIRECTION_MISSING).count());
         assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.ROOF_SHAPE_MANY_NOT_ALLOWED_FOR_PARTS ).count());
+        assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.UNKNOWN_TREE_SPECIES).count());
+        assertEquals(1, errors.stream().filter(e -> e.getCode() == TagChecks.UNKNOWN_TREE_GENUS).count());
 
     }
 
@@ -81,6 +83,27 @@ class ValidatorTest {
     void testValidatorFalsePositives() throws Exception {
         // Arrange
         DataSet dataSet = loadDataSetFromOsmFile("validator_test_no_errors.osm");
+        MainApplication.getLayerManager().addLayer(new OsmDataLayer(dataSet, "test", null));
+        SpatialConsistencyChecks validator1 = new SpatialConsistencyChecks();
+        TagChecks validator2 = new TagChecks();
+
+        //First test -- Spatial Consistency
+        validator1.startTest(null);
+        validator1.visit(dataSet.allPrimitives());
+        validator1.endTest();
+        assertEquals(0, validator1.getErrors().size());
+
+        //Second test -- Tag Validity
+        validator2.startTest(null);
+        validator2.visit(dataSet.allPrimitives());
+        validator2.endTest();
+        assertEquals(0, validator2.getErrors().size());
+    }
+
+    @Test
+    void testValidatorFalsePositives2() throws Exception {
+        // Arrange
+        DataSet dataSet = loadDataSetFromOsmFile("shukhov_tower.osm");
         MainApplication.getLayerManager().addLayer(new OsmDataLayer(dataSet, "test", null));
         SpatialConsistencyChecks validator = new SpatialConsistencyChecks();
 
@@ -94,9 +117,9 @@ class ValidatorTest {
     }
 
     @Test
-    void testValidatorFalsePositives2() throws Exception {
+    void testValidatorFalsePositives3() throws Exception {
         // Arrange
-        DataSet dataSet = loadDataSetFromOsmFile("shukhov_tower.osm");
+        DataSet dataSet = loadDataSetFromOsmFile("false_positive_building_not_covered_by_parts.osm");
         MainApplication.getLayerManager().addLayer(new OsmDataLayer(dataSet, "test", null));
         SpatialConsistencyChecks validator = new SpatialConsistencyChecks();
 
@@ -125,7 +148,7 @@ class ValidatorTest {
 
         // The resulting number of buildings is not so important.
         // we just need to understand how the picture changes.
-        int EXPECTED_NUMBER_OF_ERRORS = 806;
+        int EXPECTED_NUMBER_OF_ERRORS = 756;
         assertTrue(errors.size() == EXPECTED_NUMBER_OF_ERRORS,
                    "Number of errors  found by the Validator Spatial Test ("+errors.size()+") differs from  the expected number (" + EXPECTED_NUMBER_OF_ERRORS+")");
 

@@ -467,5 +467,29 @@ class SceneTest {
         assertEquals(2, redFaces, "Should be 2 red faces.");
         assertEquals(2, greenFaces, "Should be 2 green faces.");
         assertEquals(2, blueFaces, "Should be 2 blue faces.");
+	}
+	
+	@Test
+    void testTreeSpeciesEnrichment() {
+        // Arrange
+        DataSet dataSet = new DataSet();
+        Node treeNode = new Node(new LatLon(55.0, 37.0));
+        treeNode.put("natural", "tree");
+        treeNode.put("species", "Abies alba");
+        dataSet.addPrimitive(treeNode);
+
+        Scene scene = new Scene();
+
+        // Act
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        // Assert
+        assertEquals(1, scene.renderableElements.size());
+        RenderableElement treeElement = scene.renderableElements.get(0);
+
+        // Abies alba should be enriched to needleleaved, so it should get tree_001.png
+        // (based on current textures.cfg)
+        assertEquals("tree_001.png", treeElement.textureName);
     }
 }

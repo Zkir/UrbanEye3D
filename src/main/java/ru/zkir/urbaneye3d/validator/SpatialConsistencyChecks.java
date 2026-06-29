@@ -1,6 +1,10 @@
 package ru.zkir.urbaneye3d.validator;
 
-import org.locationtech.jts.geom.*;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.LinearRing;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.operation.union.UnaryUnionOp;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.*;
@@ -14,7 +18,7 @@ import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.FlatEarth;
 import ru.zkir.urbaneye3d.utils.OsmDataWasher;
-import ru.zkir.urbaneye3d.utils.Point2D;
+
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,7 +39,6 @@ import static ru.zkir.urbaneye3d.utils.Contour.hasCompleteContour;
  */
 public class SpatialConsistencyChecks extends Test {
 
-    private final GeometryFactory geometryFactory = new GeometryFactory();
     public static final int BUILDING_NOT_COVERED_BY_PARTS = 1001;
     public static final int ORPHANED_BUILDING_PART = 1002;
     public static final int BUILDING_HEIGHT_MISMATCH = 1003;
@@ -154,7 +157,7 @@ public class SpatialConsistencyChecks extends Test {
 
             if (!parts.isEmpty()) {
                 // Coverage check
-                List<Polygon> partPolygons = new ArrayList<>();
+                List<Geometry> partPolygons = new ArrayList<>();
                 for(OsmPrimitive part : parts) {
                     if (!hasCompleteContour(part)){
                         //it happened somehow, that a child part is not fully loaded.
@@ -163,31 +166,27 @@ public class SpatialConsistencyChecks extends Test {
                         return;
                     }
                     Contour partContour = new Contour(part);
-                    if (partContour.outerRings.size() > 1){
-                        //TODO: we do not know how to deal with multipolygons with multiple outer rings.
-                        //The only thing we can do is skip them for now.
-                        return;
-                    }
-                    Polygon partPolygon = partContour.toJTSPolygon();
-                    if (partPolygon != null && !partPolygon.isEmpty()) {
-                        Geometry partGeom = partPolygon.buffer(0); // zero buffer heals broken geometry.
-                        if (!(partGeom instanceof Polygon) ) {
+                    Geometry partGeom = partContour.toJTSGeometry();
+                    if (partGeom != null && !partGeom.isEmpty()) {
+                        partGeom = partGeom.buffer(0); // zero buffer heals broken geometry.
+
+                        if (!(partGeom instanceof Polygon) && !(partGeom instanceof MultiPolygon)) {
                             UrbanEye3dPlugin.debugMsg("Unexpected topology problem with " + part.getOsmPrimitiveId() );
-                            /* we can just exit here, because topology problems like way self intersections and duplicated segments
-                               are checked by other JOSM validation rules. We do not need to worry about that here.
-                            */
+                            // we can just exit here, because topology problems like way self intersections and duplicated segments
+                            // are checked by other JOSM validation rules. We do not need to worry about that here.
                             return;
                         }
-                        partPolygons.add((Polygon)partGeom);
+
+                        partPolygons.add(partGeom);
                     }
                 }
 
                 if (!partPolygons.isEmpty()) {
                     Contour buildingContour = new Contour(p);
-                    Polygon buildingPolygon = buildingContour.toJTSPolygon();
+                    Geometry buildingPolygon = buildingContour.toJTSGeometry();
                     if (buildingPolygon != null && !buildingPolygon.isEmpty()) {
                         Geometry partsUnion = UnaryUnionOp.union(partPolygons); // unite parts.
-                        partsUnion = partsUnion.buffer(0.001/ FlatEarth.GRAD_LENGTH_M,1); // we need to do small buffer, to avoid JTS bugs.
+                        partsUnion = partsUnion.buffer(0.05/ FlatEarth.GRAD_LENGTH_M, 1); // 5cm buffer to handle precision issues.
                         if (!partsUnion.covers(buildingPolygon)) {
                             errors.add(TestError.builder(this, Severity.WARNING, BUILDING_NOT_COVERED_BY_PARTS)
                                     .message(tr("Building is not fully covered by its parts"))
