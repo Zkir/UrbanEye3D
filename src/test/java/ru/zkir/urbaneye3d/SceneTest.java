@@ -55,7 +55,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -77,7 +77,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -97,7 +97,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -117,7 +117,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update) ;
 
         // Assert: Verify the outcome
@@ -133,7 +133,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -153,7 +153,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -188,7 +188,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -203,7 +203,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -221,7 +221,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -243,7 +243,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -264,7 +264,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -284,7 +284,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert
@@ -325,7 +325,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert
@@ -366,7 +366,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert
@@ -432,7 +432,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
         scene.applyUpdate(update);
 
         // Assert
@@ -442,5 +442,49 @@ class SceneTest {
         // Abies alba should be enriched to needleleaved, so it should get tree_001.png
         // (based on current textures.cfg)
         assertEquals("tree_001.png", treeElement.textureName);
+    }
+
+    @Test
+    void testPartialUpdate() {
+        // Arrange
+        DataSet dataSet = new DataSet();
+        Node n1 = new Node(new LatLon(55.0, 37.0));
+        Node n2 = new Node(new LatLon(55.01, 37.0));
+        Node n3 = new Node(new LatLon(55.01, 37.01));
+        Node n4 = new Node(new LatLon(55.0, 37.01));
+        dataSet.addPrimitive(n1);
+        dataSet.addPrimitive(n2);
+        dataSet.addPrimitive(n3);
+        dataSet.addPrimitive(n4);
+        Way building = new Way();
+        building.setNodes(Arrays.asList(n1, n2, n3, n4, n1));
+        building.put("building", "yes");
+        dataSet.addPrimitive(building);
+
+        Node tree = new Node(new LatLon(56.0, 38.0));
+        tree.put("natural", "tree");
+        dataSet.addPrimitive(tree);
+
+        Scene scene = new Scene();
+        Scene.SceneUpdate fullUpdate = scene.calculateUpdate(dataSet, null);
+        scene.applyUpdate(fullUpdate);
+        assertEquals(2, scene.renderableElements.size());
+
+        // Act: Modify the building
+        building.put("height", "20");
+        var bbox = building.getBBox();
+        org.openstreetmap.josm.data.Bounds dirtyBounds = new org.openstreetmap.josm.data.Bounds(bbox.getMinLat(), bbox.getMinLon(), bbox.getMaxLat(), bbox.getMaxLon());
+
+        Scene.SceneUpdate partialUpdate = scene.calculateUpdate(dataSet, dirtyBounds);
+
+        // Assert
+        assertFalse(partialUpdate.isFullUpdate);
+        assertEquals(1, partialUpdate.elementsToRemove.size());
+        assertEquals(1, partialUpdate.elementsToAdd.size());
+        assertEquals(building.getPrimitiveId(), partialUpdate.elementsToRemove.get(0).primitiveId);
+        assertEquals(building.getPrimitiveId(), partialUpdate.elementsToAdd.get(0).primitiveId);
+
+        scene.applyUpdate(partialUpdate);
+        assertEquals(2, scene.renderableElements.size());
     }
 }

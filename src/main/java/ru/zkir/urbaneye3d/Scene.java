@@ -13,13 +13,15 @@ import ru.zkir.urbaneye3d.utils.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
 
 
 public class Scene {
     /** The list of scene "elements" that should be rendered.
     * renderable element can be either a building or a building part. */
-    final List<RenderableElement> renderableElements = new ArrayList<>();
+    final List<RenderableElement> renderableElements = new CopyOnWriteArrayList<>();
     private int objectCount = 0;
     private int faceCount = 0;
 
@@ -32,10 +34,14 @@ public class Scene {
     }
 
     public static class SceneUpdate {
-        final List<RenderableElement> renderableElements;
+        final List<RenderableElement> elementsToRemove;
+        final List<RenderableElement> elementsToAdd;
+        final boolean isFullUpdate;
 
-        public SceneUpdate(List<RenderableElement> renderableElements) {
-            this.renderableElements = renderableElements;
+        public SceneUpdate(List<RenderableElement> elementsToRemove, List<RenderableElement> elementsToAdd, boolean isFullUpdate) {
+            this.elementsToRemove = elementsToRemove;
+            this.elementsToAdd = elementsToAdd;
+            this.isFullUpdate = isFullUpdate;
         }
     }
 
@@ -54,25 +60,51 @@ public class Scene {
     }
 
     public void applyUpdate(SceneUpdate update) {
-        renderableElements.clear();
-        objectCount = 0;
-        faceCount = 0;
-        if (update != null) {
-            renderableElements.addAll(update.renderableElements);
-            objectCount = renderableElements.size();
-            for (RenderableElement element : renderableElements) {
+        if (update == null) {
+            return;
+        }
+
+        if (update.isFullUpdate) {
+            renderableElements.clear();
+            faceCount = 0;
+        } else {
+            for (RenderableElement element : update.elementsToRemove) {
+                renderableElements.remove(element);
                 if (element.getMesh() != null && element.getMesh().faces != null) {
-                    faceCount += element.getMesh().faces.size();
+                    faceCount -= element.getMesh().faces.size();
                 }
             }
         }
 
+        renderableElements.addAll(update.elementsToAdd);
+        objectCount = renderableElements.size();
+        for (RenderableElement element : update.elementsToAdd) {
+            if (element.getMesh() != null && element.getMesh().faces != null) {
+                faceCount += element.getMesh().faces.size();
+            }
+        }
     }
 
-    public SceneUpdate calculateUpdate(DataSet dataSet) {
+    public SceneUpdate calculateUpdate(DataSet dataSet, org.openstreetmap.josm.data.Bounds dirtyBounds) {
+        long startTime = System.currentTimeMillis();
         List<RenderableElement> newElements = new ArrayList<>();
-        if (dataSet == null){
-            return new SceneUpdate(newElements);
+        List<RenderableElement> elementsToRemove = new ArrayList<>();
+        boolean isFullUpdate = (dirtyBounds == null);
+
+        if (dataSet == null) {
+            return new SceneUpdate(elementsToRemove, newElements, isFullUpdate);
+        }
+
+        if (!isFullUpdate) {
+            UrbanEye3dPlugin.debugMsg(String.format("Partial update. Dirty bounds: %s", dirtyBounds.toString()));
+            for (RenderableElement element : renderableElements) {
+                OsmPrimitive primitive = dataSet.getPrimitiveById(element.primitiveId);
+                if (primitive == null || primitive.isDeleted() || (primitive.getBBox() != null && primitive.getBBox().intersects(dirtyBounds))) {
+                    elementsToRemove.add(element);
+                }
+            }
+        } else {
+            UrbanEye3dPlugin.debugMsg("Full scene update.");
         }
 
         // A map to cache the expensive-to-create Contour objects for each primitive.
@@ -84,24 +116,45 @@ public class Scene {
         HashMap<OsmPrimitive, OsmPrimitive> partParents = new HashMap<>();
         ArrayList<OsmPrimitive> manmades = new ArrayList<>();
 
-        //We need to do very interesting thing.
-        // we need to collect both buildings and building parts.
+        // Collect primitives to process
+        Collection<OsmPrimitive> primitivesToProcess;
+        // JOSM's DataSet is not thread-safe, and allPrimitives() returns a live view or 
+        // a collection that can be modified while we iterate in the background thread.
+        // We must synchronize and copy to avoid ConcurrentModificationException.
+        Collection<OsmPrimitive> allPrimitivesCopy;
+        synchronized (dataSet) {
+            allPrimitivesCopy = new ArrayList<>(dataSet.allPrimitives());
+        }
+
+        if (isFullUpdate) {
+            primitivesToProcess = allPrimitivesCopy;
+        } else {
+            // Optimization: Filter primitives by dirty bounds once
+            primitivesToProcess = new ArrayList<>();
+            for (OsmPrimitive p : allPrimitivesCopy) {
+                if (p.getBBox() != null && p.getBBox().intersects(dirtyBounds)) {
+                    primitivesToProcess.add(p);
+                }
+            }
+        }
+        int totalToProcess = primitivesToProcess.size();
+
         //building parts are rendered all
         // buildings -- only if they do not contain building parts.
 
-        for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+        for (OsmPrimitive primitive : primitivesToProcess) {
             if (primitive instanceof Node || !isPrimitiveComplete(primitive)) {
                 continue;
             }
 
-            if (primitive.hasKey("building:part") && ! primitive.get("building:part").equals("no") ) {
+            if (primitive.hasKey("building:part") && !primitive.get("building:part").equals("no")) {
                 buildingParts.add(primitive);
                 // Create and cache the contour for the building part.
                 primitiveContours.put(primitive, new Contour(primitive));
             }
         }
 
-        for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+        for (OsmPrimitive primitive : primitivesToProcess) {
             if (primitive instanceof  Node || !isPrimitiveComplete(primitive)) {
                 continue;
             }
@@ -142,7 +195,9 @@ public class Scene {
 
             OsmPrimitive parent = partParents.get(primitive);
             Contour mainContour = primitiveContours.get(primitive);
-            LatLon primitiveOrigin = primitive.getBBox().getCenter();
+            LatLon primitiveOrigin = (primitive.getBBox() != null) ? primitive.getBBox().getCenter() : null;
+            if (primitiveOrigin == null) continue;
+
             Map<String, String> parentTags=null;
             if (parent!=null){
                 parentTags=parent.getInterestingTags();
@@ -173,7 +228,7 @@ public class Scene {
         /*
         * Barriers
         */
-        for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+        for (OsmPrimitive primitive : primitivesToProcess) {
             if (isBuildingOrPart(primitive)){
                 continue;
             }
@@ -208,7 +263,9 @@ public class Scene {
         /*
          * Trees and other objects.
          */
-        for (Node node : dataSet.getNodes()) {
+        for (OsmPrimitive p : primitivesToProcess) {
+            if (!(p instanceof Node)) continue;
+            Node node = (Node) p;
             if (node.hasTag("natural", "tree")) {
                 var element = RenderableElement.createTree(node);
                 if (element != null){
@@ -233,14 +290,16 @@ public class Scene {
             // We scale R inversely with the square root of density to maintain uniform coverage.
             double minDist = (DEFAULT_TREE_HEIGHT / 3.0) / Math.sqrt(densityRatio);
 
-            for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+            for (OsmPrimitive primitive : primitivesToProcess) {
                 if (primitive instanceof Node || !isPrimitiveComplete(primitive)) {
                     continue;
                 }
 
                 if (primitive.hasTag("natural", "wood") || primitive.hasTag("landuse", "forest")) {
                     Contour forestContour = new Contour(primitive);
-                    LatLon center = primitive.getBBox().getCenter();
+                    LatLon center = (primitive.getBBox() != null) ? primitive.getBBox().getCenter() : null;
+                    if (center == null) continue;
+
                     forestContour.toLocalCoords(center);
                     Geometry forestGeom = forestContour.toJTSGeometry();
 
@@ -292,7 +351,10 @@ public class Scene {
                 }
             }
         }
-        return new SceneUpdate(newElements);
+        long endTime = System.currentTimeMillis();
+        UrbanEye3dPlugin.debugMsg(String.format("Scene update completed in %d ms. Primitives processed: %d, Removed: %d, Added: %d", 
+            (endTime - startTime), totalToProcess, elementsToRemove.size(), newElements.size()));
+        return new SceneUpdate(elementsToRemove, newElements, isFullUpdate);
     }
 
     private List<OsmPrimitive> findContainedParts (OsmPrimitive primitive, Contour buildingContour, List<OsmPrimitive> buildingParts, Map<OsmPrimitive, Contour> primitiveContours) {

@@ -61,6 +61,14 @@
 See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
+### Jul 4, 2026
+*   **Partial Scene Updates:**
+    *   Implemented partial rebuilding of the 3D scene using a "Dirty Bounding Box" approach.
+    *   Added recursive collection of affected primitives (referrers) in `DialogWindow3D` to ensure all dependent objects are updated.
+    *   Optimized `Scene.calculateUpdate` to only process primitives intersecting with the modified area.
+    *   Enhanced `Scene.applyUpdate` to perform targeted removal and addition of elements, significantly improving performance during editing.
+    *   Verified the implementation with a new dedicated unit test `SceneTest.testPartialUpdate`.
+
 ### Jun 28, 2026
 *   **Object Selection in 3D View:**
     *   Implemented the ability to select OSM objects by clicking on them in the 3D window.

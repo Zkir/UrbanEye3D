@@ -186,13 +186,16 @@ public class DialogWindow3D extends ToggleDialog
         final DataSet dataSet = (listenedLayer != null) ? listenedLayer.getDataSet() : null;
         pendingSceneUpdate = sceneUpdateExecutor.submit(() -> {
             try {
-                final Scene.SceneUpdate update = scene3d.calculateUpdate(dataSet);
+                final Scene.SceneUpdate update = scene3d.calculateUpdate(dataSet, dirtyBounds);
                 SwingUtilities.invokeLater(() -> {
                     scene3d.applyUpdate(update);
                     renderer3D.repaint();
                 });
             } catch (Exception e) {
-                UrbanEye3dPlugin.debugMsg("Preparation of 3D scene FAILED: " + e.getMessage());
+                UrbanEye3dPlugin.debugMsg("Preparation of 3D scene FAILED: " + e.getMessage() );
+                for (StackTraceElement element : e.getStackTrace()) {
+                    UrbanEye3dPlugin.debugMsg(element.toString());
+                }
                 throw e; //NB: this exception is silenced in the ExecutorService and is never reported to UI
             }
         });
@@ -220,12 +223,39 @@ public class DialogWindow3D extends ToggleDialog
      * @param primitives list of changed primitives
      * @return geographical bounds that are affected
      */
-    private Bounds calculateDirtyBounds(List<? extends OsmPrimitive> primitives){
-        var bbox = new BBox();
-        for (var primitive: primitives ){
-            bbox.add(primitive.getBBox());
+    private Bounds calculateDirtyBounds(Collection<? extends OsmPrimitive> primitives){
+        if (primitives == null || primitives.isEmpty()) return null;
+        long startTime = System.currentTimeMillis();
+
+        Set<OsmPrimitive> affectedPrimitives = new HashSet<>();
+        for (OsmPrimitive p : primitives) {
+            collectAffected(p, affectedPrimitives);
         }
-        return new Bounds(bbox.getMinLat(), bbox.getMinLon(), bbox.getMaxLat(), bbox.getMaxLon());
+
+        var bbox = new BBox();
+        for (var primitive: affectedPrimitives ){
+            if (primitive.getBBox() != null) {
+                bbox.add(primitive.getBBox());
+            }
+        }
+        
+        Bounds result = null;
+        if (bbox.getMinLat() <= bbox.getMaxLat() && bbox.getMinLon() <= bbox.getMaxLon()) {
+            result = new Bounds(bbox.getMinLat(), bbox.getMinLon(), bbox.getMaxLat(), bbox.getMaxLon());
+        }
+        
+        long endTime = System.currentTimeMillis();
+        UrbanEye3dPlugin.debugMsg(String.format("Dirty bounds calculated in %d ms. Initial: %d, Total affected: %d", 
+            (endTime - startTime), primitives.size(), affectedPrimitives.size()));
+        
+        return result;
+    }
+
+    private void collectAffected(OsmPrimitive p, Set<OsmPrimitive> affected) {
+        if (p == null || !affected.add(p)) return;
+        for (OsmPrimitive referrer : p.getReferrers()) {
+            collectAffected(referrer, affected);
+        }
     }
 
 
