@@ -36,11 +36,13 @@ public class Scene {
     public static class SceneUpdate {
         final List<RenderableElement> elementsToRemove;
         final List<RenderableElement> elementsToAdd;
+        final Set<PrimitiveId> idsToRemove;
         final boolean isFullUpdate;
 
-        public SceneUpdate(List<RenderableElement> elementsToRemove, List<RenderableElement> elementsToAdd, boolean isFullUpdate) {
+        public SceneUpdate(List<RenderableElement> elementsToRemove, List<RenderableElement> elementsToAdd, Set<PrimitiveId> idsToRemove, boolean isFullUpdate) {
             this.elementsToRemove = elementsToRemove;
             this.elementsToAdd = elementsToAdd;
+            this.idsToRemove = idsToRemove;
             this.isFullUpdate = isFullUpdate;
         }
     }
@@ -74,6 +76,18 @@ public class Scene {
                     faceCount -= element.getMesh().faces.size();
                 }
             }
+            // Additional safety removal by ID
+            if (update.idsToRemove != null) {
+                renderableElements.removeIf(element -> {
+                    if (update.idsToRemove.contains(element.primitiveId)) {
+                        if (element.getMesh() != null && element.getMesh().faces != null) {
+                            faceCount -= element.getMesh().faces.size();
+                        }
+                        return true;
+                    }
+                    return false;
+                });
+            }
         }
 
         renderableElements.addAll(update.elementsToAdd);
@@ -85,21 +99,24 @@ public class Scene {
         }
     }
 
-    public SceneUpdate calculateUpdate(DataSet dataSet, org.openstreetmap.josm.data.Bounds dirtyBounds) {
+    public SceneUpdate calculateUpdate(DataSet dataSet, org.openstreetmap.josm.data.Bounds dirtyBounds, Set<PrimitiveId> modifiedIds) {
         long startTime = System.currentTimeMillis();
         List<RenderableElement> newElements = new ArrayList<>();
         List<RenderableElement> elementsToRemove = new ArrayList<>();
         boolean isFullUpdate = (dirtyBounds == null);
 
         if (dataSet == null) {
-            return new SceneUpdate(elementsToRemove, newElements, isFullUpdate);
+            return new SceneUpdate(elementsToRemove, newElements, modifiedIds, isFullUpdate);
         }
 
         if (!isFullUpdate) {
             UrbanEye3dPlugin.debugMsg(String.format("Partial update. Dirty bounds: %s", dirtyBounds.toString()));
             for (RenderableElement element : renderableElements) {
                 OsmPrimitive primitive = dataSet.getPrimitiveById(element.primitiveId);
-                if (primitive == null || primitive.isDeleted() || (primitive.getBBox() != null && primitive.getBBox().intersects(dirtyBounds))) {
+                // Remove if primitive is gone, deleted, intersects dirty bounds, OR is explicitly in modifiedIds
+                if (primitive == null || primitive.isDeleted() || 
+                    (modifiedIds != null && modifiedIds.contains(element.primitiveId)) ||
+                    (primitive.getBBox() != null && primitive.getBBox().intersects(dirtyBounds))) {
                     elementsToRemove.add(element);
                 }
             }
@@ -354,7 +371,7 @@ public class Scene {
         long endTime = System.currentTimeMillis();
         UrbanEye3dPlugin.debugMsg(String.format("Scene update completed in %d ms. Primitives processed: %d, Removed: %d, Added: %d", 
             (endTime - startTime), totalToProcess, elementsToRemove.size(), newElements.size()));
-        return new SceneUpdate(elementsToRemove, newElements, isFullUpdate);
+        return new SceneUpdate(elementsToRemove, newElements, modifiedIds, isFullUpdate);
     }
 
     private List<OsmPrimitive> findContainedParts (OsmPrimitive primitive, Contour buildingContour, List<OsmPrimitive> buildingParts, Map<OsmPrimitive, Contour> primitiveContours) {

@@ -114,7 +114,7 @@ public class DialogWindow3D extends ToggleDialog
         }
 
         updateListenedLayer();
-        requestSceneUpdate(null);
+        requestSceneUpdate(null, null);
     }
 
     @Override
@@ -169,10 +169,10 @@ public class DialogWindow3D extends ToggleDialog
         // That's why we need to clear all existing tiles and force re-creation
         // of ground plane and its textures in the new GL context.
         scene3d.groundPlane.clearAllTiles();
-        requestSceneUpdate(null);
+        requestSceneUpdate(null, null);
     }
 
-    public void requestSceneUpdate(Bounds dirtyBounds) {
+    public void requestSceneUpdate(Bounds dirtyBounds, Set<PrimitiveId> modifiedIds) {
         if (!this.isUpdateRequired() ){
             return;
         }
@@ -186,7 +186,7 @@ public class DialogWindow3D extends ToggleDialog
         final DataSet dataSet = (listenedLayer != null) ? listenedLayer.getDataSet() : null;
         pendingSceneUpdate = sceneUpdateExecutor.submit(() -> {
             try {
-                final Scene.SceneUpdate update = scene3d.calculateUpdate(dataSet, dirtyBounds);
+                final Scene.SceneUpdate update = scene3d.calculateUpdate(dataSet, dirtyBounds, modifiedIds);
                 SwingUtilities.invokeLater(() -> {
                     scene3d.applyUpdate(update);
                     renderer3D.repaint();
@@ -215,6 +215,15 @@ public class DialogWindow3D extends ToggleDialog
 
     private boolean isUpdateRequired() {
         return (!this.isCollapsed || !this.isDocked) && this.isVisible();
+    }
+
+    private Set<PrimitiveId> getAffectedIds(Collection<? extends OsmPrimitive> primitives) {
+        if (primitives == null || primitives.isEmpty()) return null;
+        Set<OsmPrimitive> affectedPrimitives = new HashSet<>();
+        for (OsmPrimitive p : primitives) {
+            collectAffected(p, affectedPrimitives);
+        }
+        return affectedPrimitives.stream().map(OsmPrimitive::getPrimitiveId).collect(Collectors.toSet());
     }
 
     /**
@@ -262,51 +271,49 @@ public class DialogWindow3D extends ToggleDialog
     // --- DataSetListener ---
     @Override
     public void dataChanged(DataChangedEvent event) {
-        requestSceneUpdate(null);
+        requestSceneUpdate(null, null);
         downloadIncompleteMultipolygons();
     }
 
     @Override
     public void primitivesAdded(PrimitivesAddedEvent event) {
-        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()));
+        var primitives = event.getPrimitives();
+        requestSceneUpdate(calculateDirtyBounds(primitives), getAffectedIds(primitives));
     }
 
     @Override
     public void primitivesRemoved(PrimitivesRemovedEvent event) {
-        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()));
+        var primitives = event.getPrimitives();
+        requestSceneUpdate(calculateDirtyBounds(primitives), getAffectedIds(primitives));
     }
 
     @Override
     public void tagsChanged(TagsChangedEvent event) {
-        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()));
+        var primitives = event.getPrimitives();
+        requestSceneUpdate(calculateDirtyBounds(primitives), getAffectedIds(primitives));
     }
 
     @Override
     public void nodeMoved(NodeMovedEvent event) {
-        //TODO: remove this measurement when no longer needed
-        /*if (lastDataChangedTimestamp != 0) {
-            long currentTime = System.nanoTime();
-            long elapsed = (currentTime - lastDataChangedTimestamp) / 1_000_000; // Milliseconds
-            UrbanEye3dPlugin.debugMsg("Time since last dataChanged event: " + elapsed + " ms");
-        }
-        lastDataChangedTimestamp = System.nanoTime();*/
-
-        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()) );
+        var primitives = event.getPrimitives();
+        requestSceneUpdate(calculateDirtyBounds(primitives), getAffectedIds(primitives));
     }
 
     @Override
     public void wayNodesChanged(WayNodesChangedEvent event) {
-        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()));
+        var primitives = event.getPrimitives();
+        requestSceneUpdate(calculateDirtyBounds(primitives), getAffectedIds(primitives));
     }
 
     @Override
     public void relationMembersChanged(RelationMembersChangedEvent event) {
-        requestSceneUpdate(calculateDirtyBounds(event.getPrimitives()));
+        var primitives = event.getPrimitives();
+        requestSceneUpdate(calculateDirtyBounds(primitives), getAffectedIds(primitives));
     }
 
     @Override
     public void otherDatasetChange(AbstractDatasetChangedEvent event) {
-        requestSceneUpdate(null);
+        requestSceneUpdate(null, null);
     }
 
     /**
@@ -331,7 +338,7 @@ public class DialogWindow3D extends ToggleDialog
     public void layerAdded(LayerManager.LayerAddEvent e) {
         e.getAddedLayer().addPropertyChangeListener(this);
         updateListenedLayer();
-        requestSceneUpdate(null);
+        requestSceneUpdate(null, null);
     }
 
     @Override
@@ -340,19 +347,19 @@ public class DialogWindow3D extends ToggleDialog
         if (e.getRemovedLayer() == listenedLayer) {
             updateListenedLayer(null);
         }
-        requestSceneUpdate(null);
+        requestSceneUpdate(null, null);
     }
 
     @Override
     public void layerOrderChanged(LayerManager.LayerOrderChangeEvent e) {
-        requestSceneUpdate(null);
+        requestSceneUpdate(null, null);
     }
 
     @Override
     public void activeOrEditLayerChanged(MainLayerManager.ActiveLayerChangeEvent e) {
         boolean editLayerChanged = listenedLayer != MainApplication.getLayerManager().getEditLayer();
         updateListenedLayer();
-        requestSceneUpdate(null);
+        requestSceneUpdate(null, null);
         if (editLayerChanged) {
             downloadIncompleteMultipolygons();
         }
@@ -378,7 +385,7 @@ public class DialogWindow3D extends ToggleDialog
     public void toggleSatelliteImagery() {
         boolean useSatellite = Config.getPref().getBoolean("urbaneye3d.ground-plane.use-satellite", true);
         Config.getPref().putBoolean("urbaneye3d.ground-plane.use-satellite", !useSatellite);
-        requestSceneUpdate(null);
+        requestSceneUpdate(null, null);
     }
 
     private GroundPlane.Layer2dInfo getTopmostImageryLayer() {

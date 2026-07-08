@@ -55,7 +55,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -77,7 +77,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -97,7 +97,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -117,7 +117,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update) ;
 
         // Assert: Verify the outcome
@@ -133,7 +133,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -153,7 +153,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -188,7 +188,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -203,7 +203,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -221,7 +221,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -243,7 +243,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -264,7 +264,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act: Run the method being tested
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
@@ -284,7 +284,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert
@@ -325,7 +325,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert
@@ -366,7 +366,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert
@@ -432,7 +432,7 @@ class SceneTest {
         Scene scene = new Scene();
 
         // Act
-        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(update);
 
         // Assert
@@ -466,7 +466,7 @@ class SceneTest {
         dataSet.addPrimitive(tree);
 
         Scene scene = new Scene();
-        Scene.SceneUpdate fullUpdate = scene.calculateUpdate(dataSet, null);
+        Scene.SceneUpdate fullUpdate = scene.calculateUpdate(dataSet, null, null);
         scene.applyUpdate(fullUpdate);
         assertEquals(2, scene.renderableElements.size());
 
@@ -475,7 +475,7 @@ class SceneTest {
         var bbox = building.getBBox();
         org.openstreetmap.josm.data.Bounds dirtyBounds = new org.openstreetmap.josm.data.Bounds(bbox.getMinLat(), bbox.getMinLon(), bbox.getMaxLat(), bbox.getMaxLon());
 
-        Scene.SceneUpdate partialUpdate = scene.calculateUpdate(dataSet, dirtyBounds);
+        Scene.SceneUpdate partialUpdate = scene.calculateUpdate(dataSet, dirtyBounds, null);
 
         // Assert
         assertFalse(partialUpdate.isFullUpdate);
