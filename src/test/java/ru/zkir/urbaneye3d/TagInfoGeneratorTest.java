@@ -91,6 +91,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("landuse=forest", "A managed forest area. Automatically populated with 3D tree objects based on the forest density setting.");
         TAG_DESCRIPTIONS.put("leaf_type=broadleaved", "Used to select an appropriate texture/model for trees.");
         TAG_DESCRIPTIONS.put("leaf_type=needleleaved", "Used to select an appropriate texture/model for trees.");
+        TAG_DESCRIPTIONS.put("leaf_type=palm", "Used to select an appropriate texture/model for trees.");
         TAG_DESCRIPTIONS.put("roof:colour", "Specifies the color of the roof.");
         TAG_DESCRIPTIONS.put("roof:direction", "Specifies the direction or orientation of the roof, typically in degrees. Used for directional roof shapes like 'skillion'.");
         TAG_DESCRIPTIONS.put("roof:height", "The height of the roof section of the building, in meters.");

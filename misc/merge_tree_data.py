@@ -2,6 +2,7 @@ import csv
 import os
 import re
 from datawash import to_binomial
+from powoapi import get_powo_family
 
 # File paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -11,12 +12,29 @@ SYNONYMS_FILE = os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_synonyms
 FINAL_OUTPUT =  os.path.join(BASE_DIR, 'data', '15_trees_output', 'tree_species.csv')
 #FINAL_OUTPUT = os.path.join(os.path.dirname(BASE_DIR), 'src', 'main', 'resources', 'data', 'tree_species.csv')
 
+CONIFER_FAMILIES = {
+    'Araucariaceae', 'Cephalotaxaceae', 'Cupressaceae',
+    'Pinaceae', 'Podocarpaceae', 'Sciadopityaceae', 'Taxaceae'
+}
+
 def get_genus(synonym_name):
     genus = synonym_name.split(' ')[0].replace('×', '').strip().capitalize()
     if not genus and len(synonym_name.split(' ')) > 1:
          genus = synonym_name.split(' ')[1].capitalize()
     return genus
+
+def fix_leaf_type(species_name, current_type):
+    family = get_powo_family(species_name)
+    if not family:
+        return current_type
     
+    if family == 'Arecaceae':
+        return 'palm'
+    if family in CONIFER_FAMILIES:
+        return 'needleleaved'
+    
+    # If family is found and it's not a palm or conifer, it's broadleaved
+    return 'broadleaved'
 
 def main():
     if not os.path.exists(CURATED_FILE) or not os.path.exists(SYNONYMS_FILE) or not os.path.exists(ACCEPTED_FILE):
@@ -26,7 +44,7 @@ def main():
     # 1. Load curated species
     species_data = {}
     
-    
+    print("Loading and verifying curated list...")
     with open(CURATED_FILE, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
@@ -35,15 +53,22 @@ def main():
                 print(f"Strange occurence in the curated file: {row['species']}, skipping")
                 continue
             
+            # Enforce biological truth even for curated list
+            row['leaf_type'] = fix_leaf_type(species, row['leaf_type'])
             species_data[species] = row
 
     print(f"Loaded {len(species_data)} species from curated list.")
     
     j=0
+    print("Loading and verifying powo-confirmed list...")
     with open(ACCEPTED_FILE, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             species = to_binomial(row['species'])
+            
+            # Re-verify/enforce leaf_type
+            row['leaf_type'] = fix_leaf_type(species, row['leaf_type'])
+            
             if species not in species_data:
                 species_data[species] = row
                 j+=1
@@ -52,7 +77,7 @@ def main():
 
     # 2. Process synonyms and inherit properties
     added_count = 0
-    
+    print("Processing synonyms...")
     with open(SYNONYMS_FILE, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
@@ -71,7 +96,7 @@ def main():
                 leaf_cycle =  match.get('leaf_cycle', 'deciduous')
                 wikidata   =  match.get('species:wikidata', '')               
             else:
-                leaf_type  =  row['leaf_type']
+                leaf_type  =  fix_leaf_type(synonym_name, row['leaf_type'])
                 leaf_cycle =  row['leaf_cycle']
                 wikidata   =  ''            
             

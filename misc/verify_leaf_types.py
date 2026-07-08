@@ -37,15 +37,18 @@ def verify():
                 continue
                 
             is_conifer = family in CONIFER_FAMILIES
+            is_palm = family == 'Arecaceae'
             
             violation_reason = None
             if is_conifer and leaf_type != 'needleleaved':
-                # Some conifers might be 'mixed', but usually they should be 'needleleaved'
-                # If it's 'broadleaved', it's definitely a violation
-                if leaf_type == 'broadleaved':
+                if leaf_type == 'broadleaved' or leaf_type == 'palm':
                      violation_reason = f"Conifer family ({family}) but leaf_type is {leaf_type}"
-            elif not is_conifer and leaf_type == 'needleleaved':
+            elif is_palm and leaf_type != 'palm':
+                violation_reason = f"Palm family ({family}) but leaf_type is {leaf_type}"
+            elif not is_conifer and not is_palm and leaf_type == 'needleleaved':
                 violation_reason = f"Non-conifer family ({family}) but leaf_type is {leaf_type}"
+            elif not is_conifer and not is_palm and leaf_type == 'palm':
+                violation_reason = f"Non-palm family ({family}) but leaf_type is {leaf_type}"
                 
             if violation_reason:
                 violations.append({

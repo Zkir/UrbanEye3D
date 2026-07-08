@@ -335,7 +335,8 @@ class SceneTest {
         assertTrue(scene.renderableElements.size() > 10, "Should have generated multiple trees for the forest. Got: " + scene.renderableElements.size());
 
         for (RenderableElement element : scene.renderableElements) {
-            assertTrue("tree_000.png".equals(element.textureName) || "tree_001.png".equals(element.textureName));
+
+            assertTrue(element.textureName.startsWith("tree_"), "Unexpected tree texture name '" + element.textureName +"'");
             assertTrue(element.origin.lat() >= 55.7499 && element.origin.lat() <= 55.7511);
             assertTrue(element.origin.lon() >= 37.6099 && element.origin.lon() <= 37.6111);
         }

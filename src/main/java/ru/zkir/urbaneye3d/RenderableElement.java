@@ -421,7 +421,7 @@ public class RenderableElement {
 
         // Enrich tags using species database, but use a copy to avoid polluting the global OSM data model
         Map<String, String> enrichedTags = new HashMap<>(tags);
-        TreeSpeciesDatabase.getInstance().enrichTags(enrichedTags);
+        TreeSpeciesDatabase.getInstance().enrichTags(enrichedTags, origin, random);
 
         String textureName = TextureManager.getInstance().findTextureName(enrichedTags, random);
         if (textureName == null){

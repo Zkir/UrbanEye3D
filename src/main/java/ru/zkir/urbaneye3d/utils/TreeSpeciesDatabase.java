@@ -6,12 +6,19 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import org.openstreetmap.josm.data.coor.LatLon;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 
 public class TreeSpeciesDatabase {
     private static TreeSpeciesDatabase instance;
     private final Map<String, SpeciesInfo> speciesMap = new HashMap<>();
     private final Map<String, SpeciesInfo> genusMap = new HashMap<>();
+    private final Map<String, Map<String, Double>> spatialStats = new HashMap<>();
+    private static final double GRID_SIZE = 5.0;
 
     public static class SpeciesInfo {
         public final String leafCycle;
@@ -28,7 +35,9 @@ public class TreeSpeciesDatabase {
     }
 
     private TreeSpeciesDatabase() {
-        loadData("/data/tree_species.csv");
+        loadSpeciesData("/data/tree_species.csv");
+        loadSpatialData("/data/spatial_stats_5x5.json");
+        UrbanEye3dPlugin.debugMsg("loaded tree data ... OK");
     }
 
     public static synchronized TreeSpeciesDatabase getInstance() {
@@ -46,7 +55,10 @@ public class TreeSpeciesDatabase {
         return java.util.Collections.unmodifiableMap(genusMap);
     }
 
-    private void loadData(String resourcePath) {
+    /**
+     * Loads defaults for leaf_type and leaf_cycle for known species
+     */
+    private void loadSpeciesData(String resourcePath) {
         try (InputStream is = TreeSpeciesDatabase.class.getResourceAsStream(resourcePath)) {
             if (is == null) {
                 UrbanEye3dPlugin.debugMsg("Tree species database not found: " + resourcePath);
@@ -79,7 +91,38 @@ public class TreeSpeciesDatabase {
                 UrbanEye3dPlugin.debugMsg("Loaded " + speciesMap.size() + " tree species from database.");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             UrbanEye3dPlugin.debugMsg("Error loading tree species database: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Loads defaults for leaf_type for each 5x5 degree square
+     */
+    private void loadSpatialData(String resourcePath) {
+        try (InputStream is = TreeSpeciesDatabase.class.getResourceAsStream(resourcePath)) {
+            if (is == null) {
+                UrbanEye3dPlugin.debugMsg("Spatial stats database not found: " + resourcePath);
+                return;
+            }
+            try (JsonReader reader = Json.createReader(is)) {
+                JsonObject root = reader.readObject();
+                for (String key : root.keySet()) {
+                    JsonObject cell = root.getJsonObject(key);
+                    if (cell.containsKey("leaf_type_prob")) {
+                        JsonObject probs = cell.getJsonObject("leaf_type_prob");
+                        Map<String, Double> cellProbs = new HashMap<>();
+                        for (String type : probs.keySet()) {
+                            cellProbs.put(type, probs.getJsonNumber(type).doubleValue());
+                        }
+                        spatialStats.put(key, cellProbs);
+                    }
+                }
+                UrbanEye3dPlugin.debugMsg("Loaded spatial stats for " + spatialStats.size() + " grid cells.");
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+            UrbanEye3dPlugin.debugMsg("Error loading spatial stats database: " + t.getMessage());
         }
     }
 
@@ -152,10 +195,43 @@ public class TreeSpeciesDatabase {
     }
 
     /**
-     * Enriches the provided tags with leaf_type and leaf_cycle if they are missing
-     * but can be inferred from species or genus tags.
+     * Generates geographical cell index from the given latitude and logitude
+     * @param lat latitude
+     * @param lon longitude
+     * @param gridSize expected 5
+     * @return cell index in the form +30+050.
      */
-    public void enrichTags(Map<String, String> tags) {
+    public static String getGridIndex(double lat, double lon, double gridSize) {
+        int latBin = (int) (Math.floor(lat / gridSize) * gridSize);
+        int lonBin = (int) (Math.floor(lon / gridSize) * gridSize);
+        return String.format("%+03d%+04d", latBin, lonBin);
+    }
+
+    /**
+     * Generates leaf_type value from the given probabilities
+     * @param probs  values with their probabilities
+     * @param random Random object, needed to generate each time the same values for the same object
+     * @return selected leaf_type value
+     */
+    private String pickLeafTypeFromProbs(Map<String, Double> probs, Random random) {
+        if (probs == null || probs.isEmpty()) return null;
+        double r = random.nextDouble();
+        double cumulative = 0.0;
+        for (Map.Entry<String, Double> entry : probs.entrySet()) {
+            cumulative += entry.getValue();
+            if (r <= cumulative) {
+                return entry.getKey();
+            }
+        }
+        // Fallback to the last one if rounding issues occur
+        return probs.keySet().iterator().next();
+    }
+
+    /**
+     * Enriches the provided tags with leaf_type and leaf_cycle if they are missing
+     * but can be inferred from species or genus tags, or geographic location.
+     */
+    public void enrichTags(Map<String, String> tags, LatLon location, Random random) {
         String species = tags.get("species");
         String normalizedSpecies = null;
         if (species != null) {
@@ -164,18 +240,14 @@ public class TreeSpeciesDatabase {
             tags.put("species", formatSpecies(species));
         }
 
-        if (tags.containsKey("leaf_type") && tags.containsKey("leaf_cycle")) {
-            return;
-        }
-
         SpeciesInfo info = null;
         
-        // 1. Try species
+        // 1. Try species lookup
         if (normalizedSpecies != null) {
             info = speciesMap.get(normalizedSpecies);
         }
 
-        // 2. Try genus
+        // 2. Try genus lookup
         if (info == null) {
             String genus = tags.get("genus");
             if (genus == null && normalizedSpecies != null) {
@@ -199,6 +271,16 @@ public class TreeSpeciesDatabase {
             }
             if (!tags.containsKey("leaf_cycle") && !info.leafCycle.isEmpty()) {
                 tags.put("leaf_cycle", info.leafCycle);
+            }
+        }
+
+        // 3. Spatial fallback for leaf_type
+        if (!tags.containsKey("leaf_type") && location != null && random != null) {
+            String gridIdx = getGridIndex(location.lat(), location.lon(), GRID_SIZE);
+            Map<String, Double> probs = spatialStats.get(gridIdx);
+            String spatialType = pickLeafTypeFromProbs(probs, random);
+            if (spatialType != null) {
+                tags.put("leaf_type", spatialType);
             }
         }
     }

@@ -108,19 +108,21 @@ def main():
                 if parse_float(row.get('leaf_cycle_evergreen', 0)) > parse_float(row.get('leaf_cycle_deciduous', 0)):
                     leaf_cycle = "evergreen"
                 
-                needle_count = parse_float(row.get('leaf_type_needleleaved', 0))
-                broad_count = parse_float(row.get('leaf_type_broadleaved', 0))
                 
-                if needle_count > broad_count:
+                 
+                family = get_powo_family(bin_name)
+                
+                # Determine leaf_type based on family  (biological truth)
+                if family == 'Arecaceae':
+                    leaf_type = "palm"
+                elif family in {'Araucariaceae', 'Cephalotaxaceae', 'Cupressaceae', 'Pinaceae', 'Podocarpaceae', 'Sciadopityaceae', 'Taxaceae'}:
                     leaf_type = "needleleaved"
-                elif broad_count > needle_count:
-                    leaf_type = "broadleaved"
                 else:
-                    family = get_powo_family(bin_name)
-                    if family in {'Araucariaceae', 'Cephalotaxaceae', 'Cupressaceae', 'Pinaceae', 'Podocarpaceae', 'Sciadopityaceae', 'Taxaceae'}:
-                        leaf_type = "needleleaved"
-                    else:
-                        leaf_type = "broadleaved"
+                    leaf_type = "broadleaved"
+                
+                ##we do not need leaf_type yet, it will be determined later
+                #leaf_type = ""    
+                    
 
                 candidates.append({
                     'species_raw': species_raw,

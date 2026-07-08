@@ -34,12 +34,20 @@ public class AssetListTest {
     private static final Map<String, AssetInfo> MASTER_ASSET_LIST = new HashMap<>();
     static {
         // Textures
-        MASTER_ASSET_LIST.put("/textures/trees/tree_000.png", new AssetInfo("https://github.com/tordanik/OSM2World-default-style", "OSM2World-default-style", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/textures/trees/tree_001.png", new AssetInfo("https://github.com/tordanik/OSM2World-default-style", "OSM2World-default-style", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/textures/trees/tree_000.png",
+                new AssetInfo("https://github.com/tordanik/OSM2World-default-style", "OSM2World-default-style", "CC0 1.0"));
+
+        MASTER_ASSET_LIST.put("/textures/trees/tree_001.png",
+                new AssetInfo("https://github.com/tordanik/OSM2World-default-style", "OSM2World-default-style", "CC0 1.0"));
+
+        MASTER_ASSET_LIST.put("/textures/trees/tree_002.png",
+                new AssetInfo("https://www.magnific.com/free-psd/majestic-palm-tree-isolated-transparent-background_408655328.htm", "Designed by Magnific", "Magnific Free"));
     }
     private static final Map<String, String> LICENSE_URLS = new HashMap<>();
     static {
         LICENSE_URLS.put("CC0 1.0", "https://creativecommons.org/publicdomain/zero/1.0/");
+        LICENSE_URLS.put("Magnific Free", "https://www.magnific.com/ai/docs/licenses-attribution");
+
     }
 
 
