@@ -317,6 +317,7 @@ Brownea grandiceps,Brownea,,deciduous,broadleaved
 Brugmansia suaveolens,Brugmansia,,evergreen,broadleaved
 Brunfelsia pauciflora,Brunfelsia,,deciduous,broadleaved
 Buchenavia capitata,Buchenavia,,evergreen,broadleaved
+Buckinghamia celsissima,Buckinghamia,,deciduous,broadleaved
 Buddleja davidii,Buddleja,,deciduous,broadleaved
 Buddleja globosa,Buddleja,,evergreen,broadleaved
 Bulnesia arborea,Bulnesia,,deciduous,broadleaved
@@ -523,6 +524,7 @@ Cornus rugosa,Cornus,Q15605468,deciduous,broadleaved
 Cornus sanguinea,Cornus,Q161416,deciduous,broadleaved
 Cornus sericea,Cornus,Q164130,deciduous,broadleaved
 Cornus sessilis,Cornus,Q289855,deciduous,broadleaved
+Cornus walteri,Cornus,,deciduous,broadleaved
 Cortaderia selloana,Cortaderia,,evergreen,broadleaved
 Corylus americana,Corylus,,deciduous,broadleaved
 Corylus avellana,Corylus,Q124969,deciduous,broadleaved
@@ -1064,6 +1066,7 @@ Magnolia × brooklynensis,Magnolia,Q11766240,deciduous,broadleaved
 Magnolia × loebneri,Magnolia,Q3206440,deciduous,broadleaved
 Magnolia × soulangeana,Magnolia,Q731443,deciduous,broadleaved
 Mahonia aquifolium,Mahonia,,deciduous,broadleaved
+Malpighia emarginata,Malpighia,,evergreen,broadleaved
 Malus asiatica,Malus,,deciduous,broadleaved
 Malus baccata,Malus,Q1743596,deciduous,broadleaved
 Malus communis,Malus,Q146281,deciduous,broadleaved
@@ -1432,7 +1435,6 @@ Prunus padus,Prunus,Q165424,deciduous,broadleaved
 Prunus pendula,Prunus,Q131517,deciduous,broadleaved
 Prunus pensylvanica,Prunus,,deciduous,broadleaved
 Prunus persica,Prunus,Q13189,deciduous,broadleaved
-Prunus pissardii,Prunus,Q146951,deciduous,broadleaved
 Prunus salicina,Prunus,,deciduous,broadleaved
 Prunus sargentii,Prunus,Q163039,deciduous,broadleaved
 Prunus schmittii,Prunus,,deciduous,broadleaved
@@ -1442,6 +1444,7 @@ Prunus serrulata,Prunus,Q165321,deciduous,broadleaved
 Prunus speciosa,Prunus,,deciduous,broadleaved
 Prunus spinosa,Prunus,Q129018,deciduous,broadleaved
 Prunus subhirtella,Prunus,Q163070,deciduous,broadleaved
+Prunus syriaca,Prunus,,deciduous,broadleaved
 Prunus tomentosa,Prunus,,deciduous,broadleaved
 Prunus triloba,Prunus,,deciduous,broadleaved
 Prunus umbellata,Prunus,Q17235187,deciduous,broadleaved
@@ -1455,6 +1458,7 @@ Prunus × hillieri,Prunus,,deciduous,broadleaved
 Prunus × lannesiana,Prunus,,deciduous,broadleaved
 Prunus × schmittii,Prunus,,deciduous,broadleaved
 Prunus × subhirtella,Prunus,Q163070,deciduous,broadleaved
+Prunus × syriaca,Prunus,,deciduous,broadleaved
 Prunus × yedoensis,Prunus,Q163078,deciduous,broadleaved
 Pseudobombax septenatum,Pseudobombax,,evergreen,broadleaved
 Pseudocydonia sinensis,Pseudocydonia,,deciduous,broadleaved
@@ -1612,6 +1616,7 @@ Sabal minor,Sabal,,evergreen,palm
 Sabal palmetto,Sabal,Q1088471,evergreen,palm
 Salix acutifolia,Salix,,deciduous,broadleaved
 Salix alba,Salix,Q156918,deciduous,broadleaved
+Salix appendiculata,Salix,,deciduous,broadleaved
 Salix atrocinerea,Salix,Q3320649,deciduous,broadleaved
 Salix aurita,Salix,Q157519,deciduous,broadleaved
 Salix babylonica,Salix,Q156307,deciduous,broadleaved
@@ -1650,8 +1655,8 @@ Sambucus canadensis,Sambucus,Q21877280,deciduous,broadleaved
 Sambucus nigra,Sambucus,Q22701,deciduous,broadleaved
 Sambucus racemosa,Sambucus,,deciduous,broadleaved
 Sapindus mukorossi,Sapindus,,deciduous,broadleaved
-Sapindus rarak,Sapindus,,deciduous,broadleaved
-Sapindus saponaria,Sapindus,,deciduous,broadleaved
+Sapindus rarak,Sapindus,,evergreen,broadleaved
+Sapindus saponaria,Sapindus,,evergreen,broadleaved
 Sarcomphalus joazeiro,Sarcomphalus,,evergreen,broadleaved
 Saribus rotundifolius,Saribus,,deciduous,palm
 Sassafras albidum,Sassafras,,deciduous,broadleaved
@@ -1810,6 +1815,7 @@ Tilia japonica,Tilia,,deciduous,broadleaved
 Tilia kiusiana,Tilia,,deciduous,broadleaved
 Tilia mandshurica,Tilia,,deciduous,broadleaved
 Tilia maximowicziana,Tilia,,deciduous,broadleaved
+Tilia miqueliana,Tilia,,deciduous,broadleaved
 Tilia mongolica,Tilia,Q1944479,deciduous,broadleaved
 Tilia oliveri,Tilia,,deciduous,broadleaved
 Tilia platyphyllos,Tilia,Q156831,deciduous,broadleaved

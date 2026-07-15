@@ -118,10 +118,25 @@ def process_spatial_stats(input_file: str, output_file: str, grid_size: float, t
         total_leaf_type_tags = sum(data['leaf_types'].values())
         
         # Calculate probabilities
+        PROB_DIGITS=3
         leaf_type_prob = {}
         if total_leaf_type_tags > 0:
             for lt, count in data['leaf_types'].items():
-                leaf_type_prob[lt] = round(count / total_leaf_type_tags, 4)
+                leaf_type_prob[lt] = round(count / total_leaf_type_tags, PROB_DIGITS)
+                
+        # Make sure that sum of probabilities is 1 after rounding                
+        s = 0
+        max_val = 0
+        max_key = None
+        for lt in leaf_type_prob:
+            val = leaf_type_prob[lt]
+            s = s + val
+            if not max_key or val>max_val:
+                max_val = val
+                max_key = lt
+        if  max_key:
+            leaf_type_prob[max_key] =round( leaf_type_prob[max_key] + (1-s), PROB_DIGITS)
+            
 
         # Get top species
         top_species = [species for species, count in data['species'].most_common(top_n_species)]
