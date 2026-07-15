@@ -1,5 +1,21 @@
 # Development History
 
+# Version 2.4.0 (Jul 15, 2026)
+
+*   **Enhanced Botanical Support & Spatial Statistics:**
+    *   Implemented full support for `leaf_type=palm`, including new textures and botanical database enrichment.
+    *   Developed a spatial analysis engine (`spatial_tree_stats.py`) to calculate tree type probabilities per 5x5 degree grid cell.
+    *   Integrated spatial statistics into the plugin, preventing unrealistic tree rendering (like palms in northern climates) by using geographic-based defaults.
+    *   Enforced botanical family-based validation: species belonging to `Arecaceae` are automatically identified as palms, and conifers are correctly typed as `needleleaved`.
+    *   Updated the data pipeline to automatically regenerate and sync spatial statistics with plugin resources.
+
+*   **Object Selection in 3D View:**
+    *   Implemented the ability to select OSM objects by clicking on them in the 3D window.
+    *   Added `GeometryUtils` for precise ray-triangle and ray-AABB intersection calculations.
+    *   Updated `Renderer3D` to perform "picking" by unprojecting mouse coordinates into a world-space ray.
+    *   Enhanced `DialogWindow3D` to sync the selection with the main JOSM window.
+    *   Verified the implementation with new unit tests and a full build.
+	
 # Version 2.3.3 (Jun 28, 2026)
 
 * Validator check for building parts covering building outline has been improved.

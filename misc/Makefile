@@ -10,7 +10,7 @@ TREE_STATS_FILES := $(patsubst %,data/10_trees/tree_stats_%.csv,$(ANALYSIS_TYPES
 
 # Default goal, executed when 'make' is run without arguments
 #all: $(TREE_STATS_FILES) data/building_analysis_full.csv 
-all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv
+all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/15_trees_output/spatial_stats_5x5.json
 
 # Define the columns to be extracted for the trees CSV
 TREE_COLUMNS = id lat lon height circumference age start_date \
@@ -52,6 +52,10 @@ data/15_trees_output/tree_synonyms.csv : data/10_trees/tree_species_curated.csv 
 data/15_trees_output/tree_species.csv: data/10_trees/tree_species_curated.csv data/15_trees_output/tree_synonyms.csv
 	python merge_tree_data.py
 	copy /b/v/y data\15_trees_output\tree_species.csv ..\src\main\resources\data\
+
+data/15_trees_output/spatial_stats_5x5.json: data/10_trees/trees.csv data/15_trees_output/tree_species.csv
+	python spatial_tree_stats.py --grid-size 5.0
+	copy /b/v/y data\15_trees_output\spatial_stats_5x5.json ..\src\main\resources\data\
 
 data/15_trees_output/tree_species_invalid.md: data/10_trees/tree_species_all.csv  data/15_trees_output/tree_species.csv
 	python report_invalid_species.py	

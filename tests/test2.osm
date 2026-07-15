@@ -115,6 +115,10 @@
   <node id='-40179' action='modify' visible='true' lat='55.04138774994' lon='37.05848783363' />
   <node id='-40192' action='modify' visible='true' lat='55.04113577821' lon='37.05793336409' />
   <node id='-40205' action='modify' visible='true' lat='55.04133297362' lon='37.05758921059' />
+  <node id='-40321' action='modify' visible='true' lat='55.05051722221' lon='37.04376931425'>
+    <tag k='leaf_type' v='palm' />
+    <tag k='natural' v='tree' />
+  </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />

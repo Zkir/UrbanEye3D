@@ -69,13 +69,6 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   The test inventories all 3D models (`.obj`) and textures (`.png`) and verifies them against a master list defined in the test file.
     *   It performs a "sanity check" by loading each asset to ensure it is not corrupt, and it extracts details like face count for models and dimensions for textures.
     *   On a successful run, it automatically generates an `ASSETS-LIST.md` file, serving as a detailed manifest with metadata, licensing information, and asset details.
-### Jun 28, 2026
-*   **Object Selection in 3D View:**
-    *   Implemented the ability to select OSM objects by clicking on them in the 3D window.
-    *   Added `GeometryUtils` for precise ray-triangle and ray-AABB intersection calculations.
-    *   Updated `Renderer3D` to perform "picking" by unprojecting mouse coordinates into a world-space ray.
-    *   Enhanced `DialogWindow3D` to sync the selection with the main JOSM window.
-    *   Verified the implementation with new unit tests and a full build.
 
 ### Earlier
 See [Devblog](DEVBLOG.md)
@@ -140,7 +133,9 @@ src
 ### Botanical Engine
 *   **Species Normalization:** The `TreeSpeciesDatabase` class handles the normalization of botanical names, including hybrid symbols (standardizing to '×') and cultivar formatting.
 *   **Cultivar Handling:** Names in the `Genus 'Cultivar Name'` format are recognized and automatically mapped to the parent genus for attribute inference (leaf type, leaf cycle) while preserving the specific name in validation.
-*   **Tag Enrichment:** The plugin automatically enriches OSM objects with `leaf_type` and `leaf_cycle` tags derived from their `species` or `genus` tags using an internal database of over 800 species. This ensures realistic tree rendering even when explicit architectural tags are missing.
+*   **Tag Enrichment:** The plugin automatically enriches OSM objects with `leaf_type` and `leaf_cycle` tags derived from their `species` or `genus` tags using an internal database.
+*   **Biological Priority:** Botanical family information (sourced via POWO) is used as the primary authority for `leaf_type`. Species in the `Arecaceae` family are always typed as `palm`, while conifer families (Pinaceae, etc.) are always `needleleaved`, overriding potentially incorrect OSM tags or wiki data.
+*   **Geographic Defaults:** When both the `species` and `leaf_type` tags are missing, the engine uses a built-in spatial database (`spatial_stats_5x5.json`) to determine the most likely `leaf_type` based on geographic coordinates. This weighted probability approach ensures realistic local vegetation (e.g., preventing palms in northern latitudes).
 
 ### 3D Geometry Generation
 *   **Core Principle: Watertight Meshes:** All 3D models, especially roofs, must be generated as **watertight** (fully enclosed) meshes with consistent, **outward-facing normals**. This is fundamental for correct rendering and future features like ambient occlusion. This is enforced by unit tests (`RoofGeneratorTopologyTest`). Those autotests have helped greatly during development of  geometry generation code.
@@ -182,6 +177,7 @@ src
 The `misc` folder contains a specialized subproject for large-scale processing of OpenStreetMap data. This pipeline starts with the global `planet-latest.osm.pbf` file and serves to extract, analyze, and enrich botanical and building data for the main plugin.
 *   There are the following main goals for this pipeline:
     * Create the tree species list (`src/main/resources/data/tree_species.csv`) which is used to infer `leaf_type` tag, in case it is missing, in order to select most appropriate tree texture/model.
+    * Generate geographic tree statistics (`src/main/resources/data/spatial_stats_5x5.json`) based on OSM data to provide realistic rendering defaults when explicit tags are missing.
 	* Correct typo errors in `species` tag in the OSM database itself, creating osm-files with changes, so that they can be uploaded via JOSM.
 	* Create smart defaults for various building attributes, depending on building type (`building=*` value). This is not yet used currently by the plugin.
 *   See [misc/GEMINI.md](misc/GEMINI.md) for details.

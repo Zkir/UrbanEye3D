@@ -9,3 +9,4 @@ This file provides an inventory of all 3D models and textures used in the projec
 | `/models/street_lamp.obj` | 701&nbsp;faces | "Street Lamp" by Shahbaz Awan, (https://skfb.ly/6trHw | [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `/textures/trees/tree_000.png` | 512x512&nbsp;px | [OSM2World-default-style](https://github.com/tordanik/OSM2World-default-style) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/textures/trees/tree_001.png` | 512x512&nbsp;px | [OSM2World-default-style](https://github.com/tordanik/OSM2World-default-style) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/textures/trees/tree_002.png` | 512x512&nbsp;px | [Designed by Magnific](https://www.magnific.com/free-psd/majestic-palm-tree-isolated-transparent-background_408655328.htm) | [Magnific Free](https://www.magnific.com/ai/docs/licenses-attribution) |
