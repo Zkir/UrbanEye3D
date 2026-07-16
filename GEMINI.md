@@ -61,7 +61,9 @@
 See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
-* None yet
+
+### Jul 16, 2026
+*   **Fixed a crash in the JOSM validator:** The `OverlappingWallsCheck` validator no longer incorrectly processes primitives tagged with `building=no` or `building:part=no`. This prevents an invalid input `RuntimeException` when `RenderableElement.createBuildingOrPartRecipe` is strictly called to create a building recipe.
 
 ### Earlier
 See [Devblog](DEVBLOG.md)

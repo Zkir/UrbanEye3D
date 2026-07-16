@@ -830,7 +830,7 @@ area|z15-[amenity=place_of_worship][!building] {
  */
   
 
-area|z12-[building][location!=underground]{
+area|z12-[building][building!=no][location!=underground]{
 	fill-color: any(tag("roof:colour"), "#bca9a9");
     fill-opacity: 0.9;
     z-index: 900;

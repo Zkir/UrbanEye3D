@@ -44,7 +44,9 @@ public class OverlappingWallsCheck extends Test {
 
     private boolean isRenderable(OsmPrimitive p) {
         if (!p.isUsable()) return false;
-        return p.hasKey("building") || p.hasKey("building:part");
+        boolean isBuilding = p.hasKey("building") && !"no".equals(p.get("building"));
+        boolean isPart = p.hasKey("building:part") && !"no".equals(p.get("building:part"));
+        return isBuilding || isPart;
     }
 
     @Override
