@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260708T174650Z",
+  "data_updated" : "20260718T120259Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -14,6 +14,10 @@
     "key" : "advertising",
     "value" : "column",
     "description" : "Can be rendered as 3D object"
+  }, {
+    "key" : "amenity",
+    "value" : "bench",
+    "description" : "A bench, rendered as a 3D model."
   }, {
     "key" : "area",
     "value" : "yes",
@@ -122,6 +126,10 @@
   }, {
     "key" : "height",
     "description" : "The total height of the building, including the roof, in meters."
+  }, {
+    "key" : "highway",
+    "value" : "street_lamp",
+    "description" : "A single street lamp, rendered as a 3D model."
   }, {
     "key" : "hyperboloid:middle_rate",
     "description" : "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width"
