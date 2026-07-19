@@ -162,8 +162,8 @@ class SceneTest {
         //resulting number of  buildings is not so important.
         //Just to understand how the picture changes.
         long NumberOfBuildings = scene.renderableElements.stream().filter( e-> e.textureName == null).count();
-        int MIN_BUILDINGS=5093;
-        int MAX_BUILDINGS=5093;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance)
+        int MIN_BUILDINGS=5138;
+        int MAX_BUILDINGS=5138;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance)
         assertTrue(NumberOfBuildings>=MIN_BUILDINGS && NumberOfBuildings<=MAX_BUILDINGS, "Number of building " + NumberOfBuildings + " is NOT in the reasonable range " + MIN_BUILDINGS + ".." + MAX_BUILDINGS);
 
         if (SAVE_TEST_RESULTS_TO_FILE) {
@@ -294,7 +294,7 @@ class SceneTest {
 
         RenderableElement treeElement = scene.renderableElements.get(0);
         assertNotNull(treeElement.textureName, "The texture name should be set for the tree.");
-        assertTrue(treeElement.textureName.startsWith("tree_") , "The texture name should start with 'tree_'.");
+        assertTrue(treeElement.textureName.contains("tree_") , "The texture name should contain 'tree_'.");
 
         Mesh treeMesh = treeElement.getMesh();
         assertNotNull(treeMesh, "Tree mesh should not be null.");
@@ -338,7 +338,7 @@ class SceneTest {
 
         for (RenderableElement element : scene.renderableElements) {
 
-            assertTrue(element.textureName.startsWith("tree_"), "Unexpected tree texture name '" + element.textureName +"'");
+            assertTrue(element.textureName.contains("tree_"), "Unexpected tree texture name '" + element.textureName +"'");
             assertTrue(element.origin.lat() >= 55.7499 && element.origin.lat() <= 55.7511);
             assertTrue(element.origin.lon() >= 37.6099 && element.origin.lon() <= 37.6111);
         }
@@ -376,14 +376,14 @@ class SceneTest {
         assertTrue(scene.renderableElements.size() > 20, "Should have generated many trees for the mixed forest.");
 
         long broadleavedCount = scene.renderableElements.stream()
-                .filter(e -> "tree_000.png".equals(e.textureName))
+                .filter(e -> "/textures/trees/tree_000.png".equals(e.textureName))
                 .count();
         long needleleavedCount = scene.renderableElements.stream()
-                .filter(e -> "tree_001.png".equals(e.textureName))
+                .filter(e -> "/textures/trees/tree_001.png".equals(e.textureName))
                 .count();
 
-        assertTrue(broadleavedCount > 0, "Mixed forest should contain broadleaved trees (tree_000.png).");
-        assertTrue(needleleavedCount > 0, "Mixed forest should contain needleleaved trees (tree_001.png).");
+        assertTrue(broadleavedCount > 0, "Mixed forest should contain broadleaved trees (/textures/trees/tree_000.png).");
+        assertTrue(needleleavedCount > 0, "Mixed forest should contain needleleaved trees (/textures/trees/tree_001.png).");
     }
 
     private void assertBillboardTopology(Mesh mesh) {
@@ -491,6 +491,6 @@ class SceneTest {
 
         // Abies alba should be enriched to needleleaved, so it should get tree_001.png
         // (based on current textures.cfg)
-        assertEquals("tree_001.png", treeElement.textureName);
+        assertEquals("/textures/trees/tree_001.png", treeElement.textureName);
     }
 }

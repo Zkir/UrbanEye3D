@@ -4,80 +4,21 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.HashSet;
 
 public class TextureManager {
     private static TextureManager instance;
     private final Map<String, Texture> textureCache = new ConcurrentHashMap<>();
-    private final List<TextureDefinition> textureDefinitions = new ArrayList<>();
-
-    /**
-     * Inner class to hold information about a single tree texture definition.
-     */
-    private static class TextureDefinition {
-        private final String textureName;
-        private final String texturePath;
-        private final Map<String, String> tags;
-
-        TextureDefinition(String texturePath, Map<String, String> tags) {
-            this.texturePath = texturePath;
-            this.tags = tags;
-            // Extract filename from path
-            this.textureName = texturePath.substring(texturePath.lastIndexOf('/') + 1);
-        }
-    }
-
 
     private TextureManager() {
-        parseConfig("/textures/textures.cfg");
     }
-
-    private void parseConfig(String configPath) {
-        try (InputStream is = TextureManager.class.getResourceAsStream(configPath)) {
-            if (is == null) {
-                throw new RuntimeException("Cannot find texture config file: " + configPath);
-            }
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
-                String line;
-                String currentTexturePath = null;
-                Map<String, String> currentTags = new HashMap<>();
-
-                while ((line = reader.readLine()) != null) {
-                    if (!line.trim().isEmpty() && !line.startsWith(" ") && !line.startsWith("\t")) {
-                        // New texture definition starts
-                        if (currentTexturePath != null) {
-                            textureDefinitions.add(new TextureDefinition(currentTexturePath, new HashMap<>(currentTags)));
-                            currentTags.clear();
-                        }
-                        currentTexturePath = line.trim();
-                    } else if (currentTexturePath != null && !line.trim().isEmpty()) {
-                        // Tags for the current texture
-                        String[] pairs = line.trim().split(",");
-                        for (String pair : pairs) {
-                            String[] keyValue = pair.trim().split("=");
-                            if (keyValue.length == 2) {
-                                currentTags.put(keyValue[0].trim(), keyValue[1].trim());
-                            }
-                        }
-                    }
-                }
-                // Add the last one
-                if (currentTexturePath != null) {
-                    textureDefinitions.add(new TextureDefinition(currentTexturePath, currentTags));
-                }
-            }
-        } catch (Exception e) {
-            UrbanEye3dPlugin.debugMsg("Error reading texture config file: " + configPath);
-            e.printStackTrace();
-        }
-    }
-
 
     public static synchronized TextureManager getInstance() {
         if (instance == null) {
@@ -87,90 +28,49 @@ public class TextureManager {
     }
 
     /**
-     * Finds a suitable texture name based on the object's tags, using a specific seed for determinism.
-     *
-     * @param objectTags Tags of the OSM object.
-     * @param seed       Seed for random selection among equally good matches.
-     * @return A texture name, or null if no suitable texture is found.
+     * Used by tests to get all tags. Now returns an empty list since the config is migrated.
      */
-    public String findTextureName(Map<String, String> objectTags, Random random) {
-        if (textureDefinitions.isEmpty()) {
-            throw new RuntimeException("Texture definitions are not loaded");
-        }
-
-        List<TextureDefinition> bestMatches = new ArrayList<>();
-        int maxScore = -1;
-
-        for (TextureDefinition def : textureDefinitions) {
-            int currentScore = 0;
-            for (Map.Entry<String, String> tagEntry : def.tags.entrySet()) {
-                if (tagEntry.getValue().equals(objectTags.get(tagEntry.getKey()))) {
-                    currentScore++;
-                }
-            }
-
-            if (currentScore > maxScore) {
-                maxScore = currentScore;
-                bestMatches.clear();
-                bestMatches.add(def);
-            } else if (currentScore == maxScore) {
-                bestMatches.add(def);
-            }
-        }
-
-        if (bestMatches.isEmpty()) {
-            return null;
-        }
-
-        // Return a random texture from the best matches
-        return bestMatches.get(random.nextInt(bestMatches.size())).textureName;
+    public Set<Map.Entry<String, String>> getAllTags() {
+        return new HashSet<>();
     }
 
-
     /**
-     * Gets a texture by name. If the texture is already loaded, returns it from the cache.
+     * Gets a texture by resource path. If the texture is already loaded, returns it from the cache.
      * Otherwise, loads it from the resources, caches it, and returns it.
      *
      * @param gl   The GL2 context.
-     * @param name The symbolic name of the texture (e.g., "tree_000.png").
+     * @param path The full resource path of the texture (e.g., "/textures/trees/tree_000.png" or "trees/tree_000.png").
      * @return The Texture object, or null if loading fails.
      */
-    public Texture get(GL2 gl, String name) {
-        if (textureCache.containsKey(name)) {
-            return textureCache.get(name);
+    public Texture get(GL2 gl, String path) {
+        if (textureCache.containsKey(path)) {
+            return textureCache.get(path);
         }
 
-        String path = findPathByName(name);
-        if (path == null) {
-            UrbanEye3dPlugin.debugMsg("Texture path not found for name: " + name);
-            return null;
-        }
+        String fullPath = path.startsWith("/") ? path : "/textures/" + path;
 
-        try (InputStream stream = TextureManager.class.getResourceAsStream(path)) {
+        try (InputStream stream = TextureManager.class.getResourceAsStream(fullPath)) {
             if (stream == null) {
-                UrbanEye3dPlugin.debugMsg("Texture resource not found at path: " + path);
+                UrbanEye3dPlugin.debugMsg("Could not find texture: " + fullPath);
                 return null;
             }
-            Texture texture = TextureIO.newTexture(stream, true, TextureIO.PNG);
-            textureCache.put(name, texture);
+            // Determine suffix (e.g., ".png")
+            String suffix = fullPath.substring(fullPath.lastIndexOf('.'));
+            Texture texture = TextureIO.newTexture(stream, true, suffix);
+
+            texture.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+            texture.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
+            texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
+            texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
+
+            textureCache.put(path, texture);
             return texture;
         } catch (Exception e) {
-            UrbanEye3dPlugin.debugMsg("Error loading texture: " + name + " from " + path);
+            UrbanEye3dPlugin.debugMsg("Error loading texture: " + fullPath);
             e.printStackTrace();
             return null;
         }
     }
-
-    private String findPathByName(String name) {
-        for (TextureDefinition def : textureDefinitions) {
-            if (def.textureName.equals(name)) {
-                // Assuming a base path for all textures defined in the config
-                return "/textures/" + def.texturePath;
-            }
-        }
-        return null;
-    }
-
 
     /**
      * Disposes of a single specified texture.
@@ -196,14 +96,5 @@ public class TextureManager {
         }
         textureCache.clear();
     }
-
-    /**
-     * Gets a set of all unique key-value tags used across all texture definitions.
-     * @return A set of map entries representing all unique tags.
-     */
-    public Set<Map.Entry<String, String>> getAllTags() {
-        return textureDefinitions.stream()
-                .flatMap(def -> def.tags.entrySet().stream())
-                .collect(Collectors.toSet());
-    }
 }
+

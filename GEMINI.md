@@ -62,6 +62,9 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Jul 19, 2026
+*   **Universal Asset Configuration:** Replaced hardcoded object mappings and `textures.cfg` with a new, extensible `assets.mapcss` format. The new system cleanly separates configuration from code, uses MapCSS-like specificity rules (e.g., handling OSM taxonomy like `species` > `leaf_type`), and routes assets to their respective procedural, model, or billboard generators dynamically.
+
 ### Jul 18, 2026
 *   **Added support for `direction` tag for benches:** Models for `amenity=bench` can now be correctly rotated by reading the `direction` tag.
 

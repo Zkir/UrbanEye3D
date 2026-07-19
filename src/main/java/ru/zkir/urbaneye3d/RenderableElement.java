@@ -383,20 +383,21 @@ public class RenderableElement {
     }
 
     /** Create a tree*/
-    public static RenderableElement createTree(Node node) {
+    public static RenderableElement createTree(Node node, String texturePath) {
         var random = new Random(node.getId());
-        return createTree(node, node.getCoor(), node.getInterestingTags(), random);
+        return createTree(node, node.getCoor(), node.getInterestingTags(), random, texturePath);
     }
 
     /**
      * Creates a tree RenderableElement from common parameters.
      * @param primitive - OSM primitive for this tree
      * @param origin - geographical coordinate (LatLon)
-     * @param tags - tags to be used for texture selection and height calculation
-     * @param random - random object for random texture selection
-     * @return RenderableElement or null if tree cannot be created (e.g. no texture found)
+     * @param tags - tags to be used for height calculation
+     * @param random - random object
+     * @param texturePath - The path to the texture file
+     * @return RenderableElement or null if tree cannot be created
      */
-    public static RenderableElement createTree(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
+    public static RenderableElement createTree(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random, String texturePath) {
         if (primitive.isDeleted()){
             return null;
         }
@@ -419,12 +420,7 @@ public class RenderableElement {
 
         double treeWidth = treeHeight * 0.9; // Make width proportional to height
 
-        // Enrich tags using species database, but use a copy to avoid polluting the global OSM data model
-        Map<String, String> enrichedTags = new HashMap<>(tags);
-        TreeSpeciesDatabase.getInstance().enrichTags(enrichedTags, origin, random);
-
-        String textureName = TextureManager.getInstance().findTextureName(enrichedTags, random);
-        if (textureName == null){
+        if (texturePath == null) {
             UrbanEye3dPlugin.debugMsg("failed to assign texture to object with tags " + tags);
             return null;
         }
@@ -434,7 +430,7 @@ public class RenderableElement {
         // The renderer will translate it to the correct world position.
         Mesh treeMesh = MesherTree.generate(treeWidth, treeHeight);
 
-        return new RenderableElement(primitive, origin, treeMesh, textureName);
+        return new RenderableElement(primitive, origin, treeMesh, texturePath);
     }
 
     public static RenderableElement createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {

@@ -119,6 +119,15 @@
     <tag k='leaf_type' v='palm' />
     <tag k='natural' v='tree' />
   </node>
+  <node id='-45926' action='modify' visible='true' lat='55.05074547759' lon='37.04279962359'>
+    <tag k='amenity' v='bench' />
+  </node>
+  <node id='-95612' action='modify' visible='true' lat='55.05075172097' lon='37.04295635203'>
+    <tag k='highway' v='street_lamp' />
+  </node>
+  <node id='-109269' action='modify' visible='true' lat='55.0507458625' lon='37.04286829767'>
+    <tag k='amenity' v='waste_basket' />
+  </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />

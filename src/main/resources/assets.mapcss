@@ -1,9 +1,15 @@
-/* Base tree */
-node|l0-[natural=tree] {
-    billboard: "auto";
+/* Trees */
+node|l0-[natural=tree][leaf_type=broadleaved] {
+    billboard: "/textures/trees/tree_000.png";
 }
 
-/* Specific tree overrides could go here */
+node|l0-[natural=tree][leaf_type=needleleaved] {
+    billboard: "/textures/trees/tree_001.png";
+}
+
+node|l0-[natural=tree][leaf_type=palm] {
+    billboard: "/textures/trees/tree_002.png";
+}
 
 /* Bench */
 node[amenity=bench] {
@@ -19,4 +25,10 @@ node[highway=street_lamp] {
 /* Advertising Column */
 node[advertising=column] {
     procedure: "ad_column";
+}
+
+/* Busket */
+node[amenity=waste_basket] {
+    model: "/models/basket.obj";
+    rotatable: true;
 }

@@ -233,12 +233,23 @@ public class Scene {
         for (Node node : dataSet.getNodes()) {
             if (alreadyRenderedPrimitiveIds.contains(node.getPrimitiveId())) continue;
 
+            // For trees, we want to enrich tags BEFORE querying the config so that specific leaf_type rules can match
+            Node nodeForConfig = node;
+            if (node.hasTag("natural", "tree")) {
+                Map<String, String> enrichedTags = new HashMap<>(node.getInterestingTags());
+                TreeSpeciesDatabase.getInstance().enrichTags(enrichedTags, node.getCoor(), new Random(node.getId()));
+                nodeForConfig = new Node();
+                nodeForConfig.setKeys(enrichedTags);
+            }
+
             // Find best matching rule for LOD 0 (currently using LOD 0 by default)
-            AssetRule rule = assetConfig.findBestMatch(node, 0);
+            // In future we will get all the LODs
+            AssetRule rule = assetConfig.findBestMatch(nodeForConfig, 0);
 
             if (rule != null) {
                 if (rule.properties.containsKey("procedure")) {
                     String procedure = rule.properties.get("procedure");
+
                     ProceduralGenerator generator = GeneratorRegistry.getInstance().get(procedure);
                     if (generator != null) {
                         RenderableElement element = generator.generate(node, node.getCoor(), rule, new Random(node.getId()));
@@ -267,10 +278,8 @@ public class Scene {
                     }
                 } else if (rule.properties.containsKey("billboard")) {
                     String texturePath = rule.properties.get("billboard");
-                    // Assuming this is handled via RenderableElement.createTree for now since it needs TextureManager
-                    // For backward compatibility until we refactor createTree:
                     if (node.hasTag("natural", "tree")) {
-                        var element = RenderableElement.createTree(node);
+                        var element = RenderableElement.createTree(node, texturePath);
                         if (element != null) newElements.add(element);
                     }
                 }
@@ -334,10 +343,28 @@ public class Scene {
                                 } else {
                                     treeTags.put("leaf_type", "needleleaved");
                                 }
+                                //treeTags.remove("leaf_type");
                             }
+                            Node dummyNode = new Node();
+                            if (!treeTags.containsKey("leaf_type")) {
+                                TreeSpeciesDatabase.getInstance().enrichTags(treeTags, center, new Random(dummyNode.getId()));
+                            }
+
                             treeTags.put("height", String.valueOf(baseHeight));
 
-                            RenderableElement element = RenderableElement.createTree(primitive, treeOrigin, treeTags, random);
+                            // Query AssetConfig to determine the correct texture based on enriched tags
+
+                            dummyNode.setKeys(treeTags);
+                            AssetRule treeRule = assetConfig.findBestMatch(dummyNode, 0);
+                            String texturePath;
+                            if (treeRule != null && treeRule.properties.containsKey("billboard")) {
+                                texturePath = treeRule.properties.get("billboard");
+                            }else {
+                                throw new RuntimeException("Unable to find proper tree model for forest " + primitive.getPrimitiveId() );
+                            }
+
+
+                            RenderableElement element = RenderableElement.createTree(primitive, treeOrigin, treeTags, random, texturePath);
                             if (element != null) {
                                 newElements.add(element);
                             }

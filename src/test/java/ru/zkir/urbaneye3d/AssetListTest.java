@@ -37,6 +37,7 @@ public class AssetListTest {
     static {
         MASTER_ASSET_LIST.put("/models/colored_cube.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/bench.obj",        new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/basket.obj",       new AssetInfo("https://github.com/tordanik/OSM2World", "OSM2World", "MIT license"));
         MASTER_ASSET_LIST.put("/models/street_lamp.obj",  new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
 
         // Textures
@@ -53,7 +54,9 @@ public class AssetListTest {
     static {
         LICENSE_URLS.put("CC0 1.0", "https://creativecommons.org/publicdomain/zero/1.0/");
         LICENSE_URLS.put("Magnific Free", "https://www.magnific.com/ai/docs/licenses-attribution");
-		LICENSE_URLS.put("CC-BY-4.0", "https://creativecommons.org/licenses/by/4.0/");
+        LICENSE_URLS.put("CC-BY-4.0", "https://creativecommons.org/licenses/by/4.0/");
+        LICENSE_URLS.put("MIT license", "https://opensource.org/license/mit");
+
 
     }
 
