@@ -184,6 +184,22 @@ public class TagInfoGeneratorTest {
                 .map(entry -> new ParsedTag(entry.getKey(), entry.getValue(), entry.getKey() + "=" + entry.getValue()))
                 .forEach(usedTags::add);
 
+        // Add tags from assets.mapcss
+        try (java.io.InputStream is = getClass().getResourceAsStream("/assets.mapcss")) {
+            if (is != null) {
+                ru.zkir.urbaneye3d.assetconfig.AssetRuleParser parser = new ru.zkir.urbaneye3d.assetconfig.AssetRuleParser();
+                for (ru.zkir.urbaneye3d.assetconfig.AssetRule rule : parser.parse(is)) {
+                    for (java.util.Map.Entry<String, String> entry : rule.selector.getTags().entrySet()) {
+                        usedTags.add(new ParsedTag(entry.getKey(), entry.getValue(), entry.getValue() == null ? entry.getKey() : entry.getKey() + "=" + entry.getValue()));
+                    }
+                }
+            } else {
+                throw new IllegalStateException("/assets.mapcss not found");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Could not parse assets.mapcss for TagInfo", e);
+        }
+
         //Also add tags from Materials enum
         for (var mat:Materials.values()){
             usedTags.add( new ParsedTag("building:material", mat.displayName , "building:material" +"="+ mat.displayName));
@@ -304,7 +320,7 @@ public class TagInfoGeneratorTest {
 
     private Set<ParsedTag> findTagsInSourceCode() throws IOException {
         Set<ParsedTag> tags = new HashSet<>();
-        Pattern pattern1 = Pattern.compile("(?:getTagStr|getTagD|get|hasKey|hasTag)\\s*\\(\\s*\"([a-zA-Z0-9:_.-]+)\"\\s*[,\\)]");
+        Pattern pattern1 = Pattern.compile("(?<!properties\\.)(?:getTagStr|getTagD|get|hasKey|hasTag)\\s*\\(\\s*\"([a-zA-Z0-9:_.-]+)\"\\s*[,\\)]");
         Pattern pattern2 = Pattern.compile("inheritableKeys\\s*=\\s*Arrays\\.asList\\(([^)]+)\\)");
         Pattern pattern3 = Pattern.compile("hasTag\\s*\\(\\s*\"([^\"]+)\"\\s*,\\s*\"([^\"]+)\"\\s*\\)");
 

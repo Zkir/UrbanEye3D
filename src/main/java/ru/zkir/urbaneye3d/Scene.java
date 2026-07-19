@@ -12,6 +12,11 @@ import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.ObjImporter;
 import ru.zkir.urbaneye3d.utils.Point2D;
+import ru.zkir.urbaneye3d.assetconfig.AssetConfig;
+import ru.zkir.urbaneye3d.assetconfig.AssetConfigLoader;
+import ru.zkir.urbaneye3d.assetconfig.AssetRule;
+import ru.zkir.urbaneye3d.assetconfig.GeneratorRegistry;
+import ru.zkir.urbaneye3d.assetconfig.ProceduralGenerator;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -219,21 +224,56 @@ public class Scene {
         // Some elements like ad columns might have been already rendered by one of the other loops. Be careful to not double-add them. 
         var alreadyRenderedPrimitiveIds = new HashSet<>(newElements.stream().map(e -> e.primitiveId).collect(Collectors.toCollection(HashSet::new)));
 
+        // Get asset config singleton or initialize it if we haven't
+        AssetConfig assetConfig = AssetConfigLoader.getInstance().getConfig();
+
         /*
-         * Trees and other objects.
+         * Trees, street furniture, and other objects (using AssetConfig).
          */
         for (Node node : dataSet.getNodes()) {
-            if (node.hasTag("natural", "tree")) {
-                var element = RenderableElement.createTree(node);
-                if (element != null){
-                    newElements.add(element);
+            if (alreadyRenderedPrimitiveIds.contains(node.getPrimitiveId())) continue;
+
+            // Find best matching rule for LOD 0 (currently using LOD 0 by default)
+            AssetRule rule = assetConfig.findBestMatch(node, 0);
+
+            if (rule != null) {
+                if (rule.properties.containsKey("procedure")) {
+                    String procedure = rule.properties.get("procedure");
+                    ProceduralGenerator generator = GeneratorRegistry.getInstance().get(procedure);
+                    if (generator != null) {
+                        RenderableElement element = generator.generate(node, node.getCoor(), rule, new Random(node.getId()));
+                        if (element != null) newElements.add(element);
+                    }
+                } else if (rule.properties.containsKey("model")) {
+                    String modelPath = rule.properties.get("model");
+                    Mesh mesh = loadModel(modelPath);
+                    if (mesh != null) {
+                        Mesh instanceMesh = mesh;
+                        
+                        // Check if rotation is allowed and requested
+                        if ("true".equals(rule.properties.get("rotatable"))) {
+                            Double direction = null;
+                            if (node.hasKey("direction")) {
+                                direction = OsmDataWasher.parseDirection(node.get("direction"));
+                            }
+                            if (direction != null) {
+                                instanceMesh = mesh.clone();
+                                instanceMesh.rotate(-direction);
+                            }
+                        }
+                        
+                        var element = RenderableElement.createFromModel(node, instanceMesh);
+                        if (element != null) newElements.add(element);
+                    }
+                } else if (rule.properties.containsKey("billboard")) {
+                    String texturePath = rule.properties.get("billboard");
+                    // Assuming this is handled via RenderableElement.createTree for now since it needs TextureManager
+                    // For backward compatibility until we refactor createTree:
+                    if (node.hasTag("natural", "tree")) {
+                        var element = RenderableElement.createTree(node);
+                        if (element != null) newElements.add(element);
+                    }
                 }
-            }
-            
-            if (node.hasTag("advertising", "column")) {
-                if (alreadyRenderedPrimitiveIds.contains(node.getPrimitiveId())) continue;
-                var element = RenderableElement.createAdColumn(node, node.getCoor(), node.getInterestingTags(), new Random(node.getId()));
-                if (element != null) newElements.add(element);
             }
         }
 
@@ -307,44 +347,6 @@ public class Scene {
             }
         }
 		
-		/*
-        *  Point objects 
-        */
-        for (Node node : dataSet.getNodes()) {
-			//Street Lamps
-            if (node.hasTag("highway", "street_lamp")) {
-                Mesh lampMesh = loadModel("/models/street_lamp.obj");
-                if (lampMesh != null) {
-                    var element = RenderableElement.createFromModel(node, lampMesh);
-                    if (element != null) {
-                        newElements.add(element);
-                    }
-                }
-            }
-			
-            // Benches
-            if (node.hasTag("amenity", "bench")) {
-                Mesh lampMesh = loadModel("/models/bench.obj");
-                if (lampMesh != null) {
-                    Double direction = null;
-                    if (node.hasKey("direction")) {
-                        direction = OsmDataWasher.parseDirection(node.get("direction"));
-                    }
-
-                    Mesh instanceMesh = lampMesh;
-                    if (direction != null) {
-                        instanceMesh = lampMesh.clone();
-                        instanceMesh.rotate(-direction);
-                    }
-
-                    var element = RenderableElement.createFromModel(node, instanceMesh);
-                    if (element != null) {
-                        newElements.add(element);
-                    }
-                }
-            }
-
-        }
         return new SceneUpdate(newElements);
     }
 

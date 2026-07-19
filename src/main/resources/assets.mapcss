@@ -1,0 +1,22 @@
+/* Base tree */
+node|l0-[natural=tree] {
+    billboard: "auto";
+}
+
+/* Specific tree overrides could go here */
+
+/* Bench */
+node[amenity=bench] {
+    model: "/models/bench.obj";
+    rotatable: true;
+}
+
+/* Street Lamp */
+node[highway=street_lamp] {
+    model: "/models/street_lamp.obj";
+}
+
+/* Advertising Column */
+node[advertising=column] {
+    procedure: "ad_column";
+}

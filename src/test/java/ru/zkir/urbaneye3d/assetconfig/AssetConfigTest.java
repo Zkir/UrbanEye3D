@@ -24,10 +24,10 @@ public class AssetConfigTest {
     @Test
     public void testFindBestMatch() {
         String configText = 
-            "node|l0-2[natural=tree] { generator: model; }\n" +
-            "node|l0-2[natural=tree][leaf_type=broadleaved] { generator: broadleaved_model; }\n" +
-            "node|l0-2[natural=tree][species=\"Betula pendula\"] { generator: birch_model; }\n" +
-            "node|l3-[natural=tree] { generator: billboard; }\n";
+            "node|l0-2[natural=tree] { model: \"models/tree.obj\"; }\n" +
+            "node|l0-2[natural=tree][leaf_type=broadleaved] { model: \"models/broadleaved_tree.obj\"; }\n" +
+            "node|l0-2[natural=tree][species=\"Betula pendula\"] { model: \"models/birch.obj\"; }\n" +
+            "node|l3-[natural=tree] { billboard: \"auto\"; }\n";
             
         AssetRuleParser parser = new AssetRuleParser();
         List<AssetRule> rules = parser.parseString(configText);
@@ -48,23 +48,23 @@ public class AssetConfigTest {
         // Test basic tree at LOD 0
         AssetRule match1 = config.findBestMatch(basicTree, 0);
         assertNotNull(match1);
-        assertEquals("model", match1.properties.get("generator"));
+        assertEquals("models/tree.obj", match1.properties.get("model"));
         
         // Test broadleaved tree at LOD 0 (should override basic tree)
         AssetRule match2 = config.findBestMatch(broadTree, 0);
         assertNotNull(match2);
-        assertEquals("broadleaved_model", match2.properties.get("generator"));
+        assertEquals("models/broadleaved_tree.obj", match2.properties.get("model"));
         
         // Test birch tree at LOD 0 (should override broadleaved)
         AssetRule match3 = config.findBestMatch(birchTree, 0);
         assertNotNull(match3);
-        assertEquals("birch_model", match3.properties.get("generator"));
+        assertEquals("models/birch.obj", match3.properties.get("model"));
         
         // Test birch tree at LOD 5 (should fall back to billboard, as no specific LOD 3 rule exists)
         // Wait, the rule is node|l3-[natural=tree], which is score 10.
         // There are no specific birch rules for l3-. So it will match the basic l3- rule.
         AssetRule match4 = config.findBestMatch(birchTree, 5);
         assertNotNull(match4);
-        assertEquals("billboard", match4.properties.get("generator"));
+        assertEquals("auto", match4.properties.get("billboard"));
     }
 }
