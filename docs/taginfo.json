@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260718T120259Z",
+  "data_updated" : "20260718T155820Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -120,6 +120,9 @@
   }, {
     "key" : "colour",
     "description" : "Specifies the color of the object, especially barrier or man-made."
+  }, {
+    "key" : "direction",
+    "description" : "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points."
   }, {
     "key" : "genus",
     "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."

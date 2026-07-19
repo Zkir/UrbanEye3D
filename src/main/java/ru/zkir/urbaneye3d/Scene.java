@@ -326,7 +326,18 @@ public class Scene {
             if (node.hasTag("amenity", "bench")) {
                 Mesh lampMesh = loadModel("/models/bench.obj");
                 if (lampMesh != null) {
-                    var element = RenderableElement.createFromModel(node, lampMesh);
+                    Double direction = null;
+                    if (node.hasKey("direction")) {
+                        direction = OsmDataWasher.parseDirection(node.get("direction"));
+                    }
+
+                    Mesh instanceMesh = lampMesh;
+                    if (direction != null) {
+                        instanceMesh = lampMesh.clone();
+                        instanceMesh.rotate(-direction);
+                    }
+
+                    var element = RenderableElement.createFromModel(node, instanceMesh);
                     if (element != null) {
                         newElements.add(element);
                     }

@@ -130,6 +130,80 @@ public class Mesh {
     }
 
     /**
+     * Rotates all vertices of the mesh around the Z axis by the given angle.
+     * @param angleDegrees the rotation angle in degrees.
+     */
+    public void rotate(double angleDegrees) {
+        double angleRad = Math.toRadians(angleDegrees);
+        double cosA = Math.cos(angleRad);
+        double sinA = Math.sin(angleRad);
+        
+        for (int i = 0; i < verts.size(); i++) {
+            Point3D p = verts.get(i);
+            double newX = p.x * cosA - p.y * sinA;
+            double newY = p.x * sinA + p.y * cosA;
+            verts.set(i, new Point3D(newX, newY, p.z));
+        }
+        
+        // Invalidate bounding box and vertex cache as coordinates have changed
+        minBounds = null;
+        maxBounds = null;
+        vertexCache.clear();
+        for (int i = 0; i < verts.size(); i++) {
+            Point3D p = verts.get(i);
+            double scale = 1e6;
+            Point3D roundedP = new Point3D(
+                Math.round(p.x * scale) / scale,
+                Math.round(p.y * scale) / scale,
+                Math.round(p.z * scale) / scale
+            );
+            vertexCache.put(roundedP, i);
+        }
+    }
+
+    /**
+     * Creates a deep copy of this Mesh.
+     * @return a new Mesh instance with copied data.
+     */
+    public Mesh clone() {
+        Mesh cloned = new Mesh();
+        
+        for (Point3D p : this.verts) {
+            cloned.verts.add(new Point3D(p.x, p.y, p.z));
+        }
+        for (Point2D uv : this.uvs) {
+            cloned.uvs.add(new Point2D(uv.x, uv.y));
+        }
+        cloned.materials.addAll(this.materials);
+        
+        for (int[] face : this.faces) {
+            cloned.faces.add(face != null ? Arrays.copyOf(face, face.length) : null);
+        }
+        for (int[] faceUV : this.faceUVs) {
+            cloned.faceUVs.add(faceUV != null ? Arrays.copyOf(faceUV, faceUV.length) : null);
+        }
+        cloned.faceMaterials.addAll(this.faceMaterials);
+        
+        cloned.bottomFaces.addAll(this.bottomFaces);
+        cloned.wallFaces.addAll(this.wallFaces);
+        cloned.roofFaces.addAll(this.roofFaces);
+        
+        for (Map.Entry<Point3D, Integer> entry : this.vertexCache.entrySet()) {
+            Point3D p = entry.getKey();
+            cloned.vertexCache.put(new Point3D(p.x, p.y, p.z), entry.getValue());
+        }
+        
+        if (this.minBounds != null) {
+            cloned.minBounds = new Point3D(this.minBounds.x, this.minBounds.y, this.minBounds.z);
+        }
+        if (this.maxBounds != null) {
+            cloned.maxBounds = new Point3D(this.maxBounds.x, this.maxBounds.y, this.maxBounds.z);
+        }
+        
+        return cloned;
+    }
+
+    /**
      * Checks whether the vertex with the given coordinates exists in the mesh
      * @param p The Point3D to check.
      * @return The index of the vertex, if it exists, and -1 if it does not.

@@ -95,6 +95,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("leaf_type=needleleaved", "Used to select an appropriate texture/model for trees.");
         TAG_DESCRIPTIONS.put("leaf_type=palm", "Used to select an appropriate texture/model for trees.");
         TAG_DESCRIPTIONS.put("roof:colour", "Specifies the color of the roof.");
+        TAG_DESCRIPTIONS.put("direction", "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points.");
         TAG_DESCRIPTIONS.put("roof:direction", "Specifies the direction or orientation of the roof, typically in degrees. Used for directional roof shapes like 'skillion'.");
         TAG_DESCRIPTIONS.put("roof:height", "The height of the roof section of the building, in meters.");
         TAG_DESCRIPTIONS.put("roof:levels", "The number of floors (levels) within the roof structure. Used to calculate roof:height if not specified explicitly.");

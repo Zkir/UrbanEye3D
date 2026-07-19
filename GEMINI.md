@@ -62,6 +62,9 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Jul 18, 2026
+*   **Added support for `direction` tag for benches:** Models for `amenity=bench` can now be correctly rotated by reading the `direction` tag.
+
 ### Jun 29, 2026
 *   **Added support for `amenity=bench`:**  `amenity=bench` is rendered using pre-generated 3D model.
 *   **Implemented OBJ Material (.mtl) support:** the `ObjImporter` was significantly refactored to parse `.mtl` files and apply material *colors* to faces based on `usemtl` commands.
