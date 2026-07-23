@@ -1,5 +1,12 @@
 # Development History
 
+# Version 2.4.2 (Jul 22, 2026)
+* Fixed bug with gabled roof direction: opposite directions are considered equal.
+
+# Version 2.4.1 (Jul 17, 2026)
+
+*   **Fixed a crash in the JOSM validator:** The `OverlappingWallsCheck` validator no longer incorrectly processes primitives tagged with `building=no` or `building:part=no`. This prevents an invalid input `RuntimeException` when `RenderableElement.createBuildingOrPartRecipe` is strictly called to create a building recipe.
+
 # Version 2.4.0 (Jul 15, 2026)
 
 *   **Enhanced Botanical Support & Spatial Statistics:**

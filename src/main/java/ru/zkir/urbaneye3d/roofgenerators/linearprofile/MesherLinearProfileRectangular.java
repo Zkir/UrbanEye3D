@@ -1,13 +1,14 @@
 package ru.zkir.urbaneye3d.roofgenerators.linearprofile;
 
 import ru.zkir.urbaneye3d.BuildingRecipe;
-import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Math.abs;
 
 public class MesherLinearProfileRectangular  { //extends RoofGenerator
 
@@ -64,7 +65,7 @@ public class MesherLinearProfileRectangular  { //extends RoofGenerator
             //let's do a simple thing and find the side which normal is closes to the given direction
             double max_dp = Double.NEGATIVE_INFINITY;
             for (int i = 0; i < 4; i++) {
-                var dp = direction.dot( sideNormals[i]);
+                var dp = abs(direction.dot(sideNormals[i]));
                 if (dp > max_dp ){
                     max_dp = dp;
                     longestSideIndex=i;
