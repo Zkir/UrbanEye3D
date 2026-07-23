@@ -49,9 +49,9 @@ public class AssetRuleParser {
                 selector.addTag(key, value);
             }
 
-            // Extract target and LOD
+            // Extract target and DistanceRange
             AssetRule.TargetType targetType = AssetRule.TargetType.ALL;
-            LodRange lodRange = new LodRange(0, Integer.MAX_VALUE);
+            DistanceRange distanceRange = new DistanceRange(0, Double.MAX_VALUE);
             String targetAndLod = header.replaceAll("\\[.*?\\]", "").trim();
             if (!targetAndLod.isEmpty()) {
                 String[] parts = targetAndLod.split("\\|");
@@ -61,17 +61,17 @@ public class AssetRuleParser {
                 else if (targetStr.equals("area")) targetType = AssetRule.TargetType.AREA;
 
                 if (parts.length > 1) {
-                    String lodStr = parts[1].trim();
-                    if (lodStr.startsWith("l")) {
-                        lodStr = lodStr.substring(1);
-                        if (lodStr.contains("-")) {
-                            String[] lodParts = lodStr.split("-", -1);
-                            int minLod = lodParts[0].isEmpty() ? 0 : Integer.parseInt(lodParts[0]);
-                            int maxLod = lodParts.length > 1 && !lodParts[1].isEmpty() ? Integer.parseInt(lodParts[1]) : Integer.MAX_VALUE;
-                            lodRange = new LodRange(minLod, maxLod);
+                    String dStr = parts[1].trim();
+                    if (dStr.startsWith("d")) {
+                        dStr = dStr.substring(1);
+                        if (dStr.contains("-")) {
+                            String[] dParts = dStr.split("-", -1);
+                            double minD = dParts[0].isEmpty() ? 0 : Double.parseDouble(dParts[0]);
+                            double maxD = dParts.length > 1 && !dParts[1].isEmpty() ? Double.parseDouble(dParts[1]) : Double.MAX_VALUE;
+                            distanceRange = new DistanceRange(minD, maxD);
                         } else {
-                            int lod = Integer.parseInt(lodStr);
-                            lodRange = new LodRange(lod, lod);
+                            double dist = Double.parseDouble(dStr);
+                            distanceRange = new DistanceRange(dist, dist);
                         }
                     }
                 }
@@ -94,7 +94,7 @@ public class AssetRuleParser {
                 }
             }
 
-            rules.add(new AssetRule(targetType, lodRange, selector, properties));
+            rules.add(new AssetRule(targetType, distanceRange, selector, properties));
         }
         return rules;
     }

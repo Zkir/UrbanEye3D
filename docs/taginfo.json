@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260719T182455Z",
+  "data_updated" : "20260722T131145Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -26,6 +26,10 @@
     "key" : "area",
     "value" : "yes",
     "description" : "This tag causes a feature that would otherwise be considered linear to be considered polygonal."
+  }, {
+    "key" : "backrest",
+    "value" : "yes",
+    "description" : "Used in combination with amenity=bench to signify whether the bench has a backrest "
   }, {
     "key" : "barrier",
     "description" : "The feature is interpreted as barrier, in case it does not have the building tag."

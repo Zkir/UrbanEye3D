@@ -6,13 +6,13 @@ public class AssetRule {
     public enum TargetType { NODE, WAY, AREA, ALL }
 
     public final TargetType targetType;
-    public final LodRange lodRange;
+    public final DistanceRange distanceRange;
     public final Selector selector;
     public final Map<String, String> properties;
 
-    public AssetRule(TargetType targetType, LodRange lodRange, Selector selector, Map<String, String> properties) {
+    public AssetRule(TargetType targetType, DistanceRange distanceRange, Selector selector, Map<String, String> properties) {
         this.targetType = targetType;
-        this.lodRange = lodRange;
+        this.distanceRange = distanceRange;
         this.selector = selector;
         this.properties = properties;
     }

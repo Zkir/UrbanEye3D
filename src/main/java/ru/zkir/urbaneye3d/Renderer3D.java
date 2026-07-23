@@ -376,10 +376,23 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                     continue;
                 }
 
-                double dx = element.origin.lon() - mapCenter.lon();
-                double dy = element.origin.lat() - mapCenter.lat();
-                double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
-                double transY = dy * 111320.0;
+                // Check distance visibility
+                double dxMap = element.origin.lon() - mapCenter.lon();
+                double dyMap = element.origin.lat() - mapCenter.lat();
+                double transX = dxMap * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+                double transY = dyMap * 111320.0;
+                
+                // Real 3D distance from the camera eye
+                double distToEye = Math.sqrt(
+                    Math.pow(transX - eyeX, 2) + 
+                    Math.pow(transY - eyeY, 2) + 
+                    Math.pow(0 - eyeZ, 2) // assuming ground Z=0 for distance check
+                );
+
+                if (distToEye > element.maxVisibleDistance) {
+                    //if element is too far, and it's screen size is less than N pixels, it could be skipped
+                    continue;
+                }
 
                 Mesh mesh = element.getMesh();
                 if (mesh == null) continue;

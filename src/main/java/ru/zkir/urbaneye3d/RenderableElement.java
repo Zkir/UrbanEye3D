@@ -45,6 +45,13 @@ public class RenderableElement {
     public final double height;
     public final double minHeight;
 
+    public double minVisibleDistance = 0;
+    public double maxVisibleDistance = Double.MAX_VALUE;
+
+    public void setVisibleDistance(double min, double max) {
+        this.minVisibleDistance = min;
+        this.maxVisibleDistance = max;
+    }
 
     /**
      * Creates Renderable Element from basic parameters. May return null if object is not creatable.

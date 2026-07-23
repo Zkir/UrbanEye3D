@@ -244,16 +244,16 @@ public class Scene {
 
             // Find best matching rule for LOD 0 (currently using LOD 0 by default)
             // In future we will get all the LODs
-            AssetRule rule = assetConfig.findBestMatch(nodeForConfig, 0);
+            AssetRule rule = assetConfig.findBestMatch(nodeForConfig);
 
             if (rule != null) {
+                RenderableElement element = null;
                 if (rule.properties.containsKey("procedure")) {
                     String procedure = rule.properties.get("procedure");
 
                     ProceduralGenerator generator = GeneratorRegistry.getInstance().get(procedure);
                     if (generator != null) {
-                        RenderableElement element = generator.generate(node, node.getCoor(), rule, new Random(node.getId()));
-                        if (element != null) newElements.add(element);
+                        element = generator.generate(node, node.getCoor(), rule, new Random(node.getId()));
                     }
                 } else if (rule.properties.containsKey("model")) {
                     String modelPath = rule.properties.get("model");
@@ -273,15 +273,18 @@ public class Scene {
                             }
                         }
                         
-                        var element = RenderableElement.createFromModel(node, instanceMesh);
-                        if (element != null) newElements.add(element);
+                        element = RenderableElement.createFromModel(node, instanceMesh);
                     }
                 } else if (rule.properties.containsKey("billboard")) {
                     String texturePath = rule.properties.get("billboard");
                     if (node.hasTag("natural", "tree")) {
-                        var element = RenderableElement.createTree(node, texturePath);
-                        if (element != null) newElements.add(element);
+                        element = RenderableElement.createTree(node, texturePath);
                     }
+                }
+
+                if (element != null) {
+                    element.setVisibleDistance(rule.distanceRange.minDistance, rule.distanceRange.maxDistance);
+                    newElements.add(element);
                 }
             }
         }
@@ -355,7 +358,7 @@ public class Scene {
                             // Query AssetConfig to determine the correct texture based on enriched tags
 
                             dummyNode.setKeys(treeTags);
-                            AssetRule treeRule = assetConfig.findBestMatch(dummyNode, 0);
+                            AssetRule treeRule = assetConfig.findBestMatch(dummyNode);
                             String texturePath;
                             if (treeRule != null && treeRule.properties.containsKey("billboard")) {
                                 texturePath = treeRule.properties.get("billboard");

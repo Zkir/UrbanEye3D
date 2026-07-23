@@ -14,7 +14,7 @@ public class AssetConfig {
         this.rules = rules;
     }
 
-    public AssetRule findBestMatch(OsmPrimitive primitive, int currentLod) {
+    public AssetRule findBestMatch(OsmPrimitive primitive) {
         AssetRule bestRule = null;
         int bestScore = -1;
 
@@ -23,17 +23,11 @@ public class AssetConfig {
                 continue;
             }
 
-            if (!rule.lodRange.matches(currentLod)) {
-                continue;
-            }
-
             if (!rule.selector.matches(primitive)) {
                 continue;
             }
 
             int score = rule.selector.getSpecificityScore();
-            // In case of a tie, the later rule could override, but let's keep it simple for now (first wins or last wins).
-            // Let's do >= to allow later rules to override.
             if (score >= bestScore) {
                 bestScore = score;
                 bestRule = rule;

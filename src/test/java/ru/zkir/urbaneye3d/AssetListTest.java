@@ -37,6 +37,7 @@ public class AssetListTest {
     static {
         MASTER_ASSET_LIST.put("/models/colored_cube.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/bench.obj",        new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bench_002.obj",        new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/basket.obj",       new AssetInfo("https://github.com/tordanik/OSM2World", "OSM2World", "MIT license"));
         MASTER_ASSET_LIST.put("/models/street_lamp.obj",  new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
 

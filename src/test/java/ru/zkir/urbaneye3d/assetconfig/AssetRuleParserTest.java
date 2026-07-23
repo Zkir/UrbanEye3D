@@ -9,15 +9,15 @@ public class AssetRuleParserTest {
 
     @Test
     public void testParseSimpleRule() {
-        String config = "node|l0-2[natural=tree] { model: \"models/tree.obj\"; }";
+        String config = "node|d0-200[natural=tree] { model: \"models/tree.obj\"; }";
         AssetRuleParser parser = new AssetRuleParser();
         List<AssetRule> rules = parser.parseString(config);
         
         assertEquals(1, rules.size());
         AssetRule rule = rules.get(0);
         assertEquals(AssetRule.TargetType.NODE, rule.targetType);
-        assertEquals(0, rule.lodRange.minLod);
-        assertEquals(2, rule.lodRange.maxLod);
+        assertEquals(0, rule.distanceRange.minDistance);
+        assertEquals(200, rule.distanceRange.maxDistance);
         assertEquals("tree", rule.selector.getTags().get("natural"));
         assertNull(rule.properties.get("generator"));
         assertEquals("models/tree.obj", rule.properties.get("model"));
@@ -26,15 +26,15 @@ public class AssetRuleParserTest {
 
     @Test
     public void testParseComplexTags() {
-        String config = "way|l1-[natural=tree][species=\"Betula pendula\"] { billboard: \"trees/birch.png\"; }";
+        String config = "way|d200-[natural=tree][species=\"Betula pendula\"] { billboard: \"trees/birch.png\"; }";
         AssetRuleParser parser = new AssetRuleParser();
         List<AssetRule> rules = parser.parseString(config);
         
         assertEquals(1, rules.size());
         AssetRule rule = rules.get(0);
         assertEquals(AssetRule.TargetType.WAY, rule.targetType);
-        assertEquals(1, rule.lodRange.minLod);
-        assertEquals(Integer.MAX_VALUE, rule.lodRange.maxLod);
+        assertEquals(200, rule.distanceRange.minDistance);
+        assertEquals(Double.MAX_VALUE, rule.distanceRange.maxDistance);
         assertEquals("tree", rule.selector.getTags().get("natural"));
         assertEquals("Betula pendula", rule.selector.getTags().get("species"));
         assertNull(rule.properties.get("generator"));
@@ -55,8 +55,8 @@ public class AssetRuleParserTest {
         
         AssetRule rule1 = rules.get(0);
         assertEquals(AssetRule.TargetType.NODE, rule1.targetType);
-        assertEquals(0, rule1.lodRange.minLod);
-        assertEquals(Integer.MAX_VALUE, rule1.lodRange.maxLod);
+        assertEquals(0, rule1.distanceRange.minDistance);
+        assertEquals(Double.MAX_VALUE, rule1.distanceRange.maxDistance);
         assertEquals("bench", rule1.selector.getTags().get("amenity"));
         assertEquals("true", rule1.properties.get("rotatable"));
         
