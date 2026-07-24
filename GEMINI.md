@@ -62,6 +62,9 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Jul 24, 2026
+*   **Implemented Automatic Pixel-Based Culling:** Removed manual distance thresholds (`maxVisibleDistance`) in favor of a professional engine-like approach. The renderer now automatically calculates the projected screen area of each object in pixels based on its 3D bounding box and camera distance. Objects smaller than 3 pixels are automatically culled, significantly improving performance in dense scenes without any manual configuration.
+
 ### Jul 19, 2026
 *   **Universal Asset Configuration:** Replaced hardcoded object mappings and `textures.cfg` with a new, extensible `assets.mapcss` format. The new system cleanly separates configuration from code, uses MapCSS-like specificity rules (e.g., handling OSM taxonomy like `species` > `leaf_type`), and routes assets to their respective procedural, model, or billboard generators dynamically.
 

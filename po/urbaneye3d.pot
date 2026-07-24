@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-19 16:23:04+0300\n"
+"POT-Creation-Date: 2026-07-24 20:52:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,7 +102,7 @@ msgstr ""
 msgid "Missing tag: roof:shape={0} without ''roof:direction''"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:381
+#: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:394
 msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
 msgstr ""
 
@@ -114,7 +114,7 @@ msgstr ""
 msgid "Orphaned building part"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:164
+#: src/main/java/ru/zkir/urbaneye3d/validator/OverlappingWallsCheck.java:166
 msgid "Overlapping 3D walls (potential Z-fighting)"
 msgstr ""
 

@@ -24,9 +24,9 @@ public class AssetConfigTest {
     @Test
     public void testFindBestMatch() {
         String configText = 
-            "node|d0-200[natural=tree] { model: \"models/tree.obj\"; }\n" +
-            "node|d0-200[natural=tree][leaf_type=broadleaved] { model: \"models/broadleaved_tree.obj\"; }\n" +
-            "node|d0-200[natural=tree][species=\"Betula pendula\"] { model: \"models/birch.obj\"; }\n";
+            "node[natural=tree] { model: \"models/tree.obj\"; }\n" +
+            "node[natural=tree][leaf_type=broadleaved] { model: \"models/broadleaved_tree.obj\"; }\n" +
+            "node[natural=tree][species=\"Betula pendula\"] { model: \"models/birch.obj\"; }\n";
             
         AssetRuleParser parser = new AssetRuleParser();
         List<AssetRule> rules = parser.parseString(configText);

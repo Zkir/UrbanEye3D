@@ -1,6 +1,6 @@
 # Supported Features
 
-This document outlines the OpenStreetMap tags supported by the UrbanEye3D plugin for rendering 3D buildings.
+This document outlines the OpenStreetMap tags supported by the UrbanEye3D plugin for rendering 3D buildings and other objects.
 
 ## Buildings
 
@@ -243,7 +243,17 @@ This section describes various standalone 3D objects rendered by the plugin.
 ### Benches
 
 -   Nodes tagged with `amenity=bench` are rendered using a pre-defined 3D model.
+-   The orientation of the bench can be specified using the `direction` tag (in degrees or cardinal points like N, NE, etc.).
 -   Currently, the model is rendered with its default colors, and the `colour` tag is not supported for this object.
+
+### Advertising Columns
+
+-   Nodes tagged with `advertising=column` are rendered as 3D Morris columns.
+-   The height and width of the column are determined by the `height` and `width` tags.
+
+### Waste Baskets
+
+-   Nodes tagged with `amenity=waste_basket` are rendered using a pre-defined 3D model.
 
 ## Natural Features
 

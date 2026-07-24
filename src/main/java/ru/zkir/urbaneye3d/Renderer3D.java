@@ -81,6 +81,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     // Sun direction (normalized)
     private final Point3D SUN_DIRECTION = new Point3D(0.5, 0.5, 1.0).normalize();
 
+    // Constant for pixel-based culling (tan(FOV/2) * 2)
+    private static final double FOV_FACTOR = Math.tan(Math.toRadians(45.0 / 2.0)) * 2.0;
+
 
     public Renderer3D( Scene scene) {
         this.scene = scene;
@@ -371,6 +374,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             Bounds visibleArea = this.scene.getVisibleArea();
 
             // --- Render All Elements (Buildings, Trees, etc.) ---
+            double screenHeight = glAutoDrawable.getSurfaceHeight();
             for (RenderableElement element : scene.renderableElements) {
                 if (visibleArea != null && !visibleArea.contains(element.origin)) {
                     continue;
@@ -381,16 +385,19 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 double dyMap = element.origin.lat() - mapCenter.lat();
                 double transX = dxMap * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
                 double transY = dyMap * 111320.0;
-                
+
                 // Real 3D distance from the camera eye
                 double distToEye = Math.sqrt(
-                    Math.pow(transX - eyeX, 2) + 
-                    Math.pow(transY - eyeY, 2) + 
+                    Math.pow(transX - eyeX, 2) +
+                    Math.pow(transY - eyeY, 2) +
                     Math.pow(0 - eyeZ, 2) // assuming ground Z=0 for distance check
                 );
 
-                if (distToEye > element.maxVisibleDistance) {
-                    //if element is too far, and it's screen size is less than N pixels, it could be skipped
+                // --- Pixel-based Culling ---
+                // Projected pixel area formula: (AreaMeters * ScreenHeight^2) / (Dist^2 * fovFactor^2)
+                double pixelArea = (element.physicalArea * screenHeight * screenHeight) / (distToEye * distToEye * FOV_FACTOR * FOV_FACTOR);
+
+                if (pixelArea < 5.0) {
                     continue;
                 }
 

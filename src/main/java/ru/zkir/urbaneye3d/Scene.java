@@ -283,7 +283,6 @@ public class Scene {
                 }
 
                 if (element != null) {
-                    element.setVisibleDistance(rule.distanceRange.minDistance, rule.distanceRange.maxDistance);
                     newElements.add(element);
                 }
             }

@@ -45,13 +45,7 @@ public class RenderableElement {
     public final double height;
     public final double minHeight;
 
-    public double minVisibleDistance = 0;
-    public double maxVisibleDistance = Double.MAX_VALUE;
-
-    public void setVisibleDistance(double min, double max) {
-        this.minVisibleDistance = min;
-        this.maxVisibleDistance = max;
-    }
+    public final double physicalArea;
 
     /**
      * Creates Renderable Element from basic parameters. May return null if object is not creatable.
@@ -517,6 +511,18 @@ public class RenderableElement {
         }
         this.minHeight = minZ;
         this.height = maxZ;
+
+        // Calculate approximate physical area for pixel-based culling
+        if (mesh != null) {
+            Point3D minB = mesh.getMinBounds();
+            Point3D maxB = mesh.getMaxBounds();
+            double dx = maxB.x - minB.x;
+            double dy = maxB.y - minB.y;
+            double dz = maxB.z - minB.z;
+            this.physicalArea = Math.max(dx * dy, Math.max(dx * dz, dy * dz));
+        } else {
+            this.physicalArea = 0.0;
+        }
     }
 
     /**

@@ -49,32 +49,16 @@ public class AssetRuleParser {
                 selector.addTag(key, value);
             }
 
-            // Extract target and DistanceRange
+            // Extract target
             AssetRule.TargetType targetType = AssetRule.TargetType.ALL;
-            DistanceRange distanceRange = new DistanceRange(0, Double.MAX_VALUE);
-            String targetAndLod = header.replaceAll("\\[.*?\\]", "").trim();
-            if (!targetAndLod.isEmpty()) {
-                String[] parts = targetAndLod.split("\\|");
+            String targetHeader = header.replaceAll("\\[.*?\\]", "").trim();
+            if (!targetHeader.isEmpty()) {
+                // If there was a |d... part, we just ignore it now or split it
+                String[] parts = targetHeader.split("\\|");
                 String targetStr = parts[0].trim().toLowerCase();
                 if (targetStr.equals("node")) targetType = AssetRule.TargetType.NODE;
                 else if (targetStr.equals("way")) targetType = AssetRule.TargetType.WAY;
                 else if (targetStr.equals("area")) targetType = AssetRule.TargetType.AREA;
-
-                if (parts.length > 1) {
-                    String dStr = parts[1].trim();
-                    if (dStr.startsWith("d")) {
-                        dStr = dStr.substring(1);
-                        if (dStr.contains("-")) {
-                            String[] dParts = dStr.split("-", -1);
-                            double minD = dParts[0].isEmpty() ? 0 : Double.parseDouble(dParts[0]);
-                            double maxD = dParts.length > 1 && !dParts[1].isEmpty() ? Double.parseDouble(dParts[1]) : Double.MAX_VALUE;
-                            distanceRange = new DistanceRange(minD, maxD);
-                        } else {
-                            double dist = Double.parseDouble(dStr);
-                            distanceRange = new DistanceRange(dist, dist);
-                        }
-                    }
-                }
             }
 
             // Parse body
@@ -94,7 +78,7 @@ public class AssetRuleParser {
                 }
             }
 
-            rules.add(new AssetRule(targetType, distanceRange, selector, properties));
+            rules.add(new AssetRule(targetType, selector, properties));
         }
         return rules;
     }
