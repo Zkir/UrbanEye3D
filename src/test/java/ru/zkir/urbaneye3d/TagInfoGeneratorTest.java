@@ -89,6 +89,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("material","Material for barrier or man-made object. This can influence the default color. ");
         TAG_DESCRIPTIONS.put("min_height", "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes.");
         TAG_DESCRIPTIONS.put("natural=tree", "A single tree, rendered as a 3D billboard model.");
+        TAG_DESCRIPTIONS.put("natural=shrub", "A single shrub or bush, rendered as a 3D billboard model.");
         TAG_DESCRIPTIONS.put("natural=wood", "A forested area. Automatically populated with 3D tree objects based on the forest density setting.");
         TAG_DESCRIPTIONS.put("species", "The Latin name of the tree species. Used to infer leaf_type and leaf_cycle if these tags are not specified.");
         TAG_DESCRIPTIONS.put("genus", "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified.");

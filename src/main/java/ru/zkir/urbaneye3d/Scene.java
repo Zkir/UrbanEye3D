@@ -22,6 +22,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
 
 public class Scene {
@@ -279,6 +281,11 @@ public class Scene {
                     String texturePath = rule.properties.get("billboard");
                     if (node.hasTag("natural", "tree")) {
                         element = RenderableElement.createTree(node, texturePath);
+                    } else {
+                        // Generic billboard (e.g. shrub)
+                        double height = getTagD("height", node.getInterestingTags(), 1.5);
+                        double width = height; // Square by default
+                        element = RenderableElement.createBillboard(node, node.getCoor(), texturePath, width, height);
                     }
                 }
 

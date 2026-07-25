@@ -50,6 +50,9 @@ public class AssetListTest {
 
         MASTER_ASSET_LIST.put("/textures/trees/tree_002.png",
                 new AssetInfo("https://www.magnific.com/free-psd/majestic-palm-tree-isolated-transparent-background_408655328.htm", "Designed by Magnific", "Magnific Free"));
+
+        MASTER_ASSET_LIST.put("/textures/bushes/rose_bush.png",
+                new AssetInfo("https://pngtree.com/freepng/blooming-red-rose-bush_19859191.html?sol=downref&id=bef", "Pngtree", "Pngtree Free"));
     }
     private static final Map<String, String> LICENSE_URLS = new HashMap<>();
     static {
@@ -57,6 +60,8 @@ public class AssetListTest {
         LICENSE_URLS.put("Magnific Free", "https://www.magnific.com/ai/docs/licenses-attribution");
         LICENSE_URLS.put("CC-BY-4.0", "https://creativecommons.org/licenses/by/4.0/");
         LICENSE_URLS.put("MIT license", "https://opensource.org/license/mit");
+        LICENSE_URLS.put("Pngtree Free", "");
+
 
 
     }

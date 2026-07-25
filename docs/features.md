@@ -269,6 +269,11 @@ The plugin renders some natural features to provide more context to the 3D scene
 -   **Validation:** The JOSM validator alerts the user if an unknown or misspelled `species` or `genus` tag is used, helping to maintain data quality in OSM.
 -   The tree species database is derived from the [OSM Wiki: List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species). It is updated periodically by a maintainer-run script.
 
+### Shrubs and Bushes
+
+-   Nodes tagged with `natural=shrub` are rendered as 3D billboard models.
+-   By default, they are rendered as flowering rose bushes.
+-   The `height` tag can be used to specify the height. If not present, a default height of **1.5 meters** is used.
 
 ### Forests
 

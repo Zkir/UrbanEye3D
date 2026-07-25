@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260722T131145Z",
+  "data_updated" : "20260724T193919Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -199,6 +199,10 @@
   }, {
     "key" : "min_height",
     "description" : "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes."
+  }, {
+    "key" : "natural",
+    "value" : "shrub",
+    "description" : "A single shrub or bush, rendered as a 3D billboard model."
   }, {
     "key" : "natural",
     "value" : "tree",

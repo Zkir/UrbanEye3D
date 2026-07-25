@@ -407,31 +407,39 @@ public class RenderableElement {
             return null;
         }
 
-        double treeHeight = 0;
+        double height = 0;
         if (tags.containsKey("height")){
-            treeHeight = getTagD("height", tags, 0);
+            height = getTagD("height", tags, 0);
         }
-        if ((treeHeight == 0) && tags.containsKey("circumference")){
+        if ((height == 0) && tags.containsKey("circumference")){
             double treeCircumference = getTagD("circumference", tags, 1);
-            treeHeight = Math.pow((Math.log(treeCircumference)/Math.log(2) * 0.33 + 3), 2);
+            height = Math.pow((Math.log(treeCircumference)/Math.log(2) * 0.33 + 3), 2);
         }
-        if (treeHeight == 0){
-            treeHeight = DEFAULT_TREE_HEIGHT;
+        if (height == 0){
+            height = DEFAULT_TREE_HEIGHT;
         }
 
-        double treeWidth = treeHeight * 0.9; // Make width proportional to height
+        double width = height * 0.9; // Make width proportional to height
 
-        if (texturePath == null) {
-            UrbanEye3dPlugin.debugMsg("failed to assign texture to object with tags " + tags);
+        return createBillboard(primitive, origin, texturePath, width, height);
+    }
+
+    /**
+     * Creates a generic billboard RenderableElement.
+     * @param primitive - OSM primitive
+     * @param origin - geographical coordinate
+     * @param texturePath - resource path to the texture
+     * @param width - width in meters
+     * @param height - height in meters
+     * @return RenderableElement
+     */
+    public static RenderableElement createBillboard(OsmPrimitive primitive, LatLon origin, String texturePath, double width, double height) {
+        if (primitive.isDeleted() || origin == null || texturePath == null) {
             return null;
         }
 
-        // The origin of the tree object is the node itself.
-        // The mesher creates geometry around (0,0,0).
-        // The renderer will translate it to the correct world position.
-        Mesh treeMesh = MesherTree.generate(treeWidth, treeHeight);
-
-        return new RenderableElement(primitive, origin, treeMesh, texturePath);
+        Mesh mesh = MesherTree.generate(width, height);
+        return new RenderableElement(primitive, origin, mesh, texturePath);
     }
 
     public static RenderableElement createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {

@@ -11,6 +11,11 @@ node[natural=tree][leaf_type=palm] {
     billboard: "/textures/trees/tree_002.png";
 }
 
+/* Bushes */
+node[natural=shrub]{
+    billboard: "/textures/bushes/rose_bush.png";
+}
+
 /* Bench */
 node|d0-350[amenity=bench] {
     model: "/models/bench.obj";
