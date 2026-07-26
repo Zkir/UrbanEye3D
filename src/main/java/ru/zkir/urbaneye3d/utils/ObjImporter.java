@@ -30,6 +30,8 @@ public class ObjImporter {
     private Map<String, Color> parseMtlFile(String mtlPath) throws IOException {
         Map<String, Color> materials = new HashMap<>();
         String currentMtlName = null;
+        float currentR = 0, currentG = 0, currentB = 0;
+        float currentAlpha = 1.0f;
 
         try (InputStream mtlStream = getClass().getResourceAsStream(mtlPath)) {
             if (mtlStream == null) {
@@ -41,14 +43,31 @@ public class ObjImporter {
                 while ((line = reader.readLine()) != null) {
                     line = line.trim();
                     if (line.startsWith("newmtl ")) {
+                        if (currentMtlName != null) {
+                            materials.put(currentMtlName, new Color(currentR, currentG, currentB, currentAlpha));
+                        }
                         currentMtlName = line.split(" +")[1];
+                        currentAlpha = 1.0f;
                     } else if (line.startsWith("Kd ") && currentMtlName != null) {
                         String[] parts = line.split(" +");
-                        float r = Float.parseFloat(parts[1]);
-                        float g = Float.parseFloat(parts[2]);
-                        float b = Float.parseFloat(parts[3]);
-                        materials.put(currentMtlName, new Color(r, g, b));
+                        currentR = Float.parseFloat(parts[1]);
+                        currentG = Float.parseFloat(parts[2]);
+                        currentB = Float.parseFloat(parts[3]);
+                    } else if ((line.startsWith("d ") || line.startsWith("Tr ")) && currentMtlName != null) {
+                        String[] parts = line.split(" +");
+                        float val = Float.parseFloat(parts[1]);
+                        // In MTL, 'd' (dissolve) 1.0 is opaque, 0.0 is transparent.
+                        // 'Tr' (transparency) can be inverted depending on implementation, 
+                        // but usually 'Tr' 1.0 means transparent. Let's stick to 'd' logic first.
+                        if (line.startsWith("Tr ")) {
+                             currentAlpha = 1.0f - val;
+                        } else {
+                             currentAlpha = val;
+                        }
                     }
+                }
+                if (currentMtlName != null) {
+                    materials.put(currentMtlName, new Color(currentR, currentG, currentB, currentAlpha));
                 }
             }
         }

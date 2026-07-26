@@ -230,7 +230,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         return new Color(
                 (int) (baseColor.getRed() * factor),
                 (int) (baseColor.getGreen() * factor),
-                (int) (baseColor.getBlue() * factor)
+                (int) (baseColor.getBlue() * factor),
+                baseColor.getAlpha()
         );
     }
 
@@ -277,6 +278,10 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         double eyeZ = cam_dist * Math.sin(camX_rad);
 
         glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 0, 1);
+
+        // Enable alpha blending for semi-transparent materials (e.g., bus stop glass)
+        gl.glEnable(GL2.GL_BLEND);
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
 
         // Store matrices and viewport for picking
         gl.glGetIntegerv(GL2.GL_VIEWPORT, lastViewport, 0);
@@ -667,10 +672,11 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         Color finalColor = new Color(
                 (int)(baseColor.getRed() * aoFactor),
                 (int)(baseColor.getGreen() * aoFactor),
-                (int)(baseColor.getBlue() * aoFactor)
+                (int)(baseColor.getBlue() * aoFactor),
+                baseColor.getAlpha()
         );
 
-        gl.glColor3f(finalColor.getRed() / 255.0f, finalColor.getGreen() / 255.0f, finalColor.getBlue() / 255.0f);
+        gl.glColor4f(finalColor.getRed() / 255.0f, finalColor.getGreen() / 255.0f, finalColor.getBlue() / 255.0f, finalColor.getAlpha() / 255.0f);
         gl.glVertex3d(vertex.x, vertex.y, vertex.z);
     }
 

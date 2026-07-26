@@ -9,7 +9,7 @@
 |[amenity=waste_basket](https://wiki.openstreetmap.org/wiki/Tag:amenity=waste_basket)|||YES|
 |[power=pole](https://wiki.openstreetmap.org/wiki/Tag:power=pole) || Linear 3D cables needed!!!||
 |[power=tower](https://wiki.openstreetmap.org/wiki/Tag:power=tower) ||Linear 3D cables needed!!!|| 
-|[highway=bus_stop](https://wiki.openstreetmap.org/wiki/Tag:highway=bus_stop)| [shelter](https://wiki.openstreetmap.org/wiki/Key:shelter)=yes\|no | probably with public_transport=platform. Should be aligned to a nearest road||
+|[highway=bus_stop](https://wiki.openstreetmap.org/wiki/Tag:highway=bus_stop)| [shelter](https://wiki.openstreetmap.org/wiki/Key:shelter)=yes\|no | probably with public_transport=platform. Should be aligned to a nearest road|YES|
 |[emergency=fire_hydrant](https://wiki.openstreetmap.org/wiki/Tag:emergency=fire_hydrant)| [fire_hydrant:type=underground](https://wiki.openstreetmap.org/wiki/Tag:fire_hydrant:type=underground), [fire_hydrant:type=pillar](https://wiki.openstreetmap.org/wiki/Tag:fire_hydrant:type=pillar)|||
 |[tourism=information](https://wiki.openstreetmap.org/wiki/Tag:tourism=information)||||
 |[barrier=bollard](https://wiki.openstreetmap.org/wiki/Tag:barrier=bollard)||||

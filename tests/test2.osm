@@ -139,6 +139,14 @@
     <tag k='leaf_type' v='broadleaved' />
     <tag k='natural' v='shrub' />
   </node>
+  <node id='-284134' action='modify' visible='true' lat='55.05075030964' lon='37.04300393179'>
+    <tag k='highway' v='bus_stop' />
+    <tag k='shelter' v='yes' />
+  </node>
+  <node id='-289353' action='modify' visible='true' lat='55.05093322296' lon='37.04322212855' />
+  <node id='-299578' action='modify' visible='true' lat='55.0509370841' lon='37.04337502558' />
+  <node id='-309809' action='modify' visible='true' lat='55.05087715235' lon='37.04337963763' />
+  <node id='-320040' action='modify' visible='true' lat='55.05087329122' lon='37.04322674059' />
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />
@@ -326,6 +334,17 @@
     <nd ref='-40192' />
     <nd ref='-40205' />
     <nd ref='-40166' />
+  </way>
+  <way id='-13451' action='modify' visible='true'>
+    <nd ref='-289353' />
+    <nd ref='-299578' />
+    <nd ref='-309809' />
+    <nd ref='-320040' />
+    <nd ref='-289353' />
+    <tag k='building' v='yes' />
+    <tag k='building:colour' v='green' />
+    <tag k='roof:material' v='glass' />
+    <tag k='roof:shape' v='gabled' />
   </way>
   <relation id='-2721' action='modify' visible='true'>
     <member type='way' ref='-13300' role='outer' />

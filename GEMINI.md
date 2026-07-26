@@ -62,6 +62,15 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Jul 26, 2026
+*   **Added support for `emergency=fire_hydrant`:** Fire hydrants are now rendered using a new low-poly 3D model. The asset inventory system has been updated to include this new model, ensuring its integrity and documentation.
+
+### Jul 24, 2026
+
+*   **Implemented Material Transparency Support:** Enhanced the rendering pipeline and `ObjImporter` to support semi-transparent materials. The system now correctly parses the `d` (dissolve) parameter from `.mtl` files and applies alpha blending in OpenGL. This allows for realistic rendering of glass surfaces, such as those in the new 3D bus stop model.
+*   **Added 3D model for bus stops:** Created a low-poly 3D model (`bus_stop_001.obj`) for bus stop shelters (`highway=bus_stop` with `shelter=yes`). The model includes pillars, a roof, glass wall panels, and an integrated bench.
+*   **Enriched street objects documentation:** Added direct links to the OpenStreetMap Wiki for all tags and keys in the implementation backlog (`docs/dev/street_objects_to_implement.md`).
+
 ### Jul 24, 2026
 *   **Implemented Automatic Pixel-Based Culling:** Removed manual distance thresholds (`maxVisibleDistance`) in favor of a professional engine-like approach. The renderer now automatically calculates the projected screen area of each object in pixels based on its 3D bounding box and camera distance. Objects smaller than 3 pixels are automatically culled, significantly improving performance in dense scenes without any manual configuration.
 

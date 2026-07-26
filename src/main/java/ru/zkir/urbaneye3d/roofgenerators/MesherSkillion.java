@@ -97,13 +97,13 @@ public class MesherSkillion extends RoofGenerator {
         double minHeight = building.minHeight;
         double height = building.height;
         double wallHeight = building.height - building.roofHeight;
-        double roofDirection = building.roofDirection;
+        Double roofDirection = building.roofDirection;
 
         Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
         List<Point3D> verts = mesh.verts;
 
         Point2D slopeVector;
-        if (!Double.isNaN(roofDirection)) {
+        if (roofDirection != null) {
             double angleRad = Math.toRadians(roofDirection);
             slopeVector = new Point2D(-Math.sin(angleRad), -Math.cos(angleRad));
         } else {

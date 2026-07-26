@@ -298,11 +298,7 @@ public class TreeSpeciesDatabase {
                 height = DEFAULT_TREE_HEIGHT;
             }
             tags.put("height", String.valueOf(height));
-            UrbanEye3dPlugin.debugMsg("assigned tree height: " + String.valueOf(height));
         }
-
-
-
         return tags;
     }
 }

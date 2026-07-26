@@ -84,6 +84,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("circumference", "Used to estimate height of trees (natural=tree)");
         TAG_DESCRIPTIONS.put("colour", "Specifies the color of the object, especially barrier or man-made.");
         TAG_DESCRIPTIONS.put("height", "The total height of the building, including the roof, in meters.");
+        TAG_DESCRIPTIONS.put("highway=bus_stop", "A bus stop, rendered as a 3D model if it has shelter=yes.");
+        TAG_DESCRIPTIONS.put("shelter=yes", "Indicates that a bus stop has a shelter, triggering 3D model rendering.");
         TAG_DESCRIPTIONS.put("highway=street_lamp", "A single street lamp, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("layer", "Objects with layer<0 are considered to be located underground -- and are not displayed");
         TAG_DESCRIPTIONS.put("material","Material for barrier or man-made object. This can influence the default color. ");

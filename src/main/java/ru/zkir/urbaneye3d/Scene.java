@@ -229,6 +229,15 @@ public class Scene {
         // Get asset config singleton or initialize it if we haven't
         AssetConfig assetConfig = AssetConfigLoader.getInstance().getConfig();
 
+        // Pre-filter roads for automatic orientation
+        List<Way> roads = new ArrayList<>();
+        List<String> nonRoadHighwayValues = Arrays.asList("footway", "cycleway", "path", "pedestrian", "steps", "corridor", "bridleway", "track", "service", "platform", "sidewalk");
+        for (Way way : dataSet.getWays()) {
+            if (way.hasKey("highway") && !nonRoadHighwayValues.contains(way.get("highway"))) {
+                roads.add(way);
+            }
+        }
+
         /*
          * Trees, street furniture, and other objects (using AssetConfig).
          */
@@ -262,18 +271,27 @@ public class Scene {
                     if (mesh != null) {
                         Mesh instanceMesh = mesh;
                         
-                        // Check if rotation is allowed and requested
-                        if ("true".equals(rule.properties.get("rotatable"))) {
-                            Double direction = null;
+                        boolean isRotatable = "true".equals(rule.properties.get("rotatable"));
+                        boolean isSnapToRoads = "yes".equals(rule.properties.get("snap_to_roads"));
+
+                        // Check if rotation is allowed or automatic orientation is requested
+                        Double direction = null;
+                        if (isRotatable) { //rotatable means that direction tag is defined for this object
                             if (node.hasKey("direction")) {
                                 direction = OsmDataWasher.parseDirection(node.get("direction"));
                             }
-                            if (direction != null) {
-                                instanceMesh = mesh.clone();
-                                instanceMesh.rotate(-direction);
-                            }
                         }
-                        
+
+                        // Automatic orientation if direction is missing and snap_to_roads is enabled
+                        if (direction == null && isSnapToRoads){
+                            direction = calculateDirectionToNearestRoad(node, roads);
+                        }
+
+                        if (direction != null && direction !=0 ) {
+                            instanceMesh = mesh.clone();
+                            instanceMesh.rotate(-direction);
+                        }
+
                         element = RenderableElement.createFromModel(node, instanceMesh);
                     }
                 } else if (rule.properties.containsKey("billboard")) {
@@ -464,6 +482,56 @@ public class Scene {
             }
         }
         return bounds;
+    }
+
+    private Double calculateDirectionToNearestRoad(Node node, List<Way> roads) {
+        if (roads.isEmpty()) return null;
+
+        LatLon nodeCoor = node.getCoor();
+        double minDistSq = Double.POSITIVE_INFINITY;
+        Point2D closestPoint = null;
+
+        for (Way road : roads) {
+            List<Node> roadNodes = road.getNodes();
+            for (int i = 0; i < roadNodes.size() - 1; i++) {
+                Node n1 = roadNodes.get(i);
+                Node n2 = roadNodes.get(i + 1);
+
+                // Fast distance check (within ~100m)
+                if (Math.abs(n1.lat() - nodeCoor.lat()) > 0.001 && Math.abs(n2.lat() - nodeCoor.lat()) > 0.001) continue;
+                if (Math.abs(n1.lon() - nodeCoor.lon()) > 0.001 && Math.abs(n2.lon() - nodeCoor.lon()) > 0.001) continue;
+
+                Point2D p1 = FlatEarth.getLocalCoords(n1.lat(), n1.lon(), nodeCoor);
+                Point2D p2 = FlatEarth.getLocalCoords(n2.lat(), n2.lon(), nodeCoor);
+
+                // Find closest point on segment to origin (0,0)
+                double dx = p2.x - p1.x;
+                double dy = p2.y - p1.y;
+                double lenSq = dx * dx + dy * dy;
+                if (lenSq < 1e-9) continue;
+
+                double t = ((-p1.x) * dx + (-p1.y) * dy) / lenSq;
+                t = Math.max(0, Math.min(1, t));
+
+                double cpX = p1.x + t * dx;
+                double cpY = p1.y + t * dy;
+
+                double distSq = cpX * cpX + cpY * cpY;
+                if (distSq < minDistSq) {
+                    minDistSq = distSq;
+                    closestPoint = new Point2D(cpX, cpY);
+                }
+            }
+        }
+
+        if (closestPoint != null && minDistSq < 2500) { // Limit to 50m
+            // Azimuth: 0 is North (Y+), 90 is East (X+)
+            double azimuth = Math.toDegrees(Math.atan2(closestPoint.x, closestPoint.y));
+            if (azimuth < 0) azimuth += 360.0;
+            return azimuth;
+        }
+
+        return null;
     }
 
 }

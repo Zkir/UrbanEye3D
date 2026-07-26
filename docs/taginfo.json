@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260724T193919Z",
+  "data_updated" : "20260726T120305Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -137,6 +137,10 @@
   }, {
     "key" : "height",
     "description" : "The total height of the building, including the roof, in meters."
+  }, {
+    "key" : "highway",
+    "value" : "bus_stop",
+    "description" : "A bus stop, rendered as a 3D model if it has shelter=yes."
   }, {
     "key" : "highway",
     "value" : "street_lamp",
@@ -384,6 +388,10 @@
     "key" : "shape",
     "value" : "hyperboloid",
     "description" : "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
+  }, {
+    "key" : "shelter",
+    "value" : "yes",
+    "description" : "Indicates that a bus stop has a shelter, triggering 3D model rendering."
   }, {
     "key" : "species",
     "description" : "The Latin name of the tree species. Used to infer leaf_type and leaf_cycle if these tags are not specified."

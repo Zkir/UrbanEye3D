@@ -35,6 +35,12 @@ node[highway=street_lamp] {
     model: "/models/street_lamp.obj";
 }
 
+/* Bus Stop */
+node[highway=bus_stop][shelter=yes] {
+    model: "/models/bus_stop_001.obj";
+    snap_to_roads: yes;
+}
+
 /* Advertising Column */
 node[advertising=column] {
     procedure: "ad_column";
