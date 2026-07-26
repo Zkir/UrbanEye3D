@@ -87,6 +87,11 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("highway=bus_stop", "A bus stop, rendered as a 3D model if it has shelter=yes.");
         TAG_DESCRIPTIONS.put("shelter=yes", "Indicates that a bus stop has a shelter, triggering 3D model rendering.");
         TAG_DESCRIPTIONS.put("highway=street_lamp", "A single street lamp, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("emergency=fire_hydrant", "A fire hydrant, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("tourism=information", "General tourism information point.");
+        TAG_DESCRIPTIONS.put("information=board", "An information board, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("information=post", "A generic information post.");
+        TAG_DESCRIPTIONS.put("information=guidepost", "A signpost with arrows pointing to different locations.");
         TAG_DESCRIPTIONS.put("layer", "Objects with layer<0 are considered to be located underground -- and are not displayed");
         TAG_DESCRIPTIONS.put("material","Material for barrier or man-made object. This can influence the default color. ");
         TAG_DESCRIPTIONS.put("min_height", "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes.");

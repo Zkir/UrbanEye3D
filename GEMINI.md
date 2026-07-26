@@ -40,10 +40,6 @@
     * We want to implement "facade" feature similar to X-plane one. https://developer.x-plane.com/article/facade-creation
     * We already have some sample facades: https://github.com/Zkir/VFR_LANDMARKS_3D_RU/blob/master/Facades
 
-2. **Support objects from pre-made meshes**
-    * `highway=street_light`    
-    * `amenity=bench` 
-
 3. **Increase resolution for GroundTile/MapCSS style**.
     * Some kind of smart scaling is required, for the nearest tiles only, because it will create huge performance impact otherwise.
 
@@ -63,16 +59,23 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ## Recent Accomplishments
 
 ### Jul 26, 2026
-*   **Added support for `emergency=fire_hydrant`:** Fire hydrants are now rendered using a new low-poly 3D model. The asset inventory system has been updated to include this new model, ensuring its integrity and documentation.
+
+* Support for street furniture via pre-made models:
+    * Bus stop, both with shelter and just a post with sign. The plugin  distinguishes between sheltered stops (`shelter=yes`) and standard sign-on-a-pole stops.
+	    *  Some support for transparency for glass panels. Enhanced the rendering pipeline and `ObjImporter` to support semi-transparent materials. The system now correctly parses the `d` (dissolve) parameter from `.mtl` files and applies alpha blending in OpenGL. This allows for realistic rendering of glass surfaces, such as those in the new 3D bus stop model.
+    * Set of models for `tourism=information`.
+        *   `information=board`: Large information stands with a sturdy wooden-post design.
+        *   `information=post`: Smaller pillar with information plate.
+        *   `information=guidepost`: Signposts with arrow-shaped indicators pointing in multiple directions.
+    *   **Fire Hydrant Model:** Low-poly 3D model for `emergency=fire_hydrant`.
+	
+### Jul 25, 2026	
+* Support for `natural=shrub`. 
+    * Rose bush texture	added
+	* Refactoring for more general billboards done
 
 ### Jul 24, 2026
-
-*   **Implemented Material Transparency Support:** Enhanced the rendering pipeline and `ObjImporter` to support semi-transparent materials. The system now correctly parses the `d` (dissolve) parameter from `.mtl` files and applies alpha blending in OpenGL. This allows for realistic rendering of glass surfaces, such as those in the new 3D bus stop model.
-*   **Added 3D model for bus stops:** Created a low-poly 3D model (`bus_stop_001.obj`) for bus stop shelters (`highway=bus_stop` with `shelter=yes`). The model includes pillars, a roof, glass wall panels, and an integrated bench.
-*   **Enriched street objects documentation:** Added direct links to the OpenStreetMap Wiki for all tags and keys in the implementation backlog (`docs/dev/street_objects_to_implement.md`).
-
-### Jul 24, 2026
-*   **Implemented Automatic Pixel-Based Culling:** Removed manual distance thresholds (`maxVisibleDistance`) in favor of a professional engine-like approach. The renderer now automatically calculates the projected screen area of each object in pixels based on its 3D bounding box and camera distance. Objects smaller than 3 pixels are automatically culled, significantly improving performance in dense scenes without any manual configuration.
+*   **Implemented Automatic Pixel-Based Culling:** Removed manual distance thresholds (`maxVisibleDistance`) in favor of a professional engine-like approach. The renderer now automatically calculates the projected screen area of each object in pixels based on its 3D bounding box and camera distance. Objects smaller than N pixels are automatically culled, significantly improving performance in dense scenes without any manual configuration.
 
 ### Jul 19, 2026
 *   **Universal Asset Configuration:** Replaced hardcoded object mappings and `textures.cfg` with a new, extensible `assets.mapcss` format. The new system cleanly separates configuration from code, uses MapCSS-like specificity rules (e.g., handling OSM taxonomy like `species` > `leaf_type`), and routes assets to their respective procedural, model, or billboard generators dynamically.

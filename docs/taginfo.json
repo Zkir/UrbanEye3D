@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260726T120305Z",
+  "data_updated" : "20260726T172733Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -132,6 +132,10 @@
     "key" : "direction",
     "description" : "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points."
   }, {
+    "key" : "emergency",
+    "value" : "fire_hydrant",
+    "description" : "A fire hydrant, rendered as a 3D model."
+  }, {
     "key" : "genus",
     "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."
   }, {
@@ -151,6 +155,18 @@
   }, {
     "key" : "hyperboloid:top_rate",
     "description" : "Defines the relative width of the top of the structure compared to its base"
+  }, {
+    "key" : "information",
+    "value" : "board",
+    "description" : "An information board, rendered as a 3D model."
+  }, {
+    "key" : "information",
+    "value" : "guidepost",
+    "description" : "A signpost with arrows pointing to different locations."
+  }, {
+    "key" : "information",
+    "value" : "post",
+    "description" : "A generic information post."
   }, {
     "key" : "landuse",
     "value" : "forest",
@@ -414,6 +430,10 @@
   }, {
     "key" : "step:height",
     "description" : "Defines the height of each individual step for building:part=steps. 0.16 is used as default "
+  }, {
+    "key" : "tourism",
+    "value" : "information",
+    "description" : "General tourism information point."
   }, {
     "key" : "type",
     "value" : "building",

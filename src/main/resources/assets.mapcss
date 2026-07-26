@@ -41,6 +41,31 @@ node[highway=bus_stop][shelter=yes] {
     snap_to_roads: yes;
 }
 
+node[highway=bus_stop] {
+    model: "/models/bus_stop_sign.obj";
+    snap_to_roads: yes;
+}
+
+/* Tourism Information */
+node[tourism=information][information=board] {
+    model: "/models/info_board.obj";
+    rotatable: true;
+}
+
+node[tourism=information][information=post] {
+    model: "/models/info_post.obj";
+    rotatable: true;
+}
+
+node[tourism=information][information=guidepost] {
+    model: "/models/guidepost.obj";
+}
+
+node[tourism=information] {
+    model: "/models/info_board.obj";
+    rotatable: true;
+}
+
 /* Advertising Column */
 node[advertising=column] {
     procedure: "ad_column";
@@ -50,4 +75,9 @@ node[advertising=column] {
 node[amenity=waste_basket] {
     model: "/models/basket.obj";
     rotatable: true;
+}
+
+/* Fire Hydrant */
+node[emergency=fire_hydrant] {
+    model: "/models/fire_hydrant.obj";
 }
