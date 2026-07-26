@@ -238,8 +238,7 @@ public class Scene {
             // For trees, we want to enrich tags BEFORE querying the config so that specific leaf_type rules can match
             Node nodeForConfig = node;
             if (node.hasTag("natural", "tree")) {
-                Map<String, String> enrichedTags = new HashMap<>(node.getInterestingTags());
-                TreeSpeciesDatabase.getInstance().enrichTags(enrichedTags, node.getCoor(), new Random(node.getId()));
+                var enrichedTags = TreeSpeciesDatabase.getInstance().enrichTags(node.getInterestingTags(), node.getCoor(), new Random(node.getId()));
                 nodeForConfig = new Node();
                 nodeForConfig.setKeys(enrichedTags);
             }
@@ -279,14 +278,15 @@ public class Scene {
                     }
                 } else if (rule.properties.containsKey("billboard")) {
                     String texturePath = rule.properties.get("billboard");
-                    if (node.hasTag("natural", "tree")) {
-                        element = RenderableElement.createTree(node, texturePath);
-                    } else {
-                        // Generic billboard (e.g. shrub)
-                        double height = getTagD("height", node.getInterestingTags(), 1.5);
-                        double width = height; // Square by default
-                        element = RenderableElement.createBillboard(node, node.getCoor(), texturePath, width, height);
-                    }
+                    Map<String, String> tags = nodeForConfig.getInterestingTags();
+                    
+                    // Determine dimensions
+                    double defaultHeight = rule.properties.containsKey("height") ? Double.parseDouble(rule.properties.get("height")) : 1.0;
+                    double height = getTagD("height", tags, defaultHeight); //height is a proper tag
+                    double defaultWidth = rule.properties.containsKey("width") ? Double.parseDouble(rule.properties.get("width")) : 0.9*defaultHeight;
+                    double width = height * ( defaultWidth/defaultHeight); //width is not a tag, default width is just a rate.
+
+                    element = RenderableElement.createBillboard(node, node.getCoor(), texturePath, width, height);
                 }
 
                 if (element != null) {
@@ -356,7 +356,7 @@ public class Scene {
                             }
                             Node dummyNode = new Node();
                             if (!treeTags.containsKey("leaf_type")) {
-                                TreeSpeciesDatabase.getInstance().enrichTags(treeTags, center, new Random(dummyNode.getId()));
+                                treeTags = TreeSpeciesDatabase.getInstance().enrichTags(treeTags, center, new Random(dummyNode.getId()));
                             }
 
                             treeTags.put("height", String.valueOf(baseHeight));
@@ -372,8 +372,8 @@ public class Scene {
                                 throw new RuntimeException("Unable to find proper tree model for forest " + primitive.getPrimitiveId() );
                             }
 
-
-                            RenderableElement element = RenderableElement.createTree(primitive, treeOrigin, treeTags, random, texturePath);
+                            double width = baseHeight * 0.9;
+                            RenderableElement element = RenderableElement.createBillboard(primitive, treeOrigin, texturePath, width, baseHeight);
                             if (element != null) {
                                 newElements.add(element);
                             }

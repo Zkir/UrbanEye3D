@@ -45,6 +45,7 @@
     <tag k='natural' v='tree' />
   </node>
   <node id='-37619' action='modify' visible='true' lat='55.0507463441' lon='37.04268092059'>
+    <tag k='circumference' v='1' />
     <tag k='leaf_type' v='broadleaved' />
     <tag k='natural' v='tree' />
   </node>
@@ -129,6 +130,12 @@
     <tag k='amenity' v='waste_basket' />
   </node>
   <node id='-160602' action='modify' visible='true' lat='55.05074620238' lon='37.04281512535'>
+    <tag k='leaf_type' v='broadleaved' />
+    <tag k='natural' v='shrub' />
+    <tag k='width' v='6' />
+  </node>
+  <node id='-278915' action='modify' visible='true' lat='55.05076297369' lon='37.04280795549'>
+    <tag k='height' v='6' />
     <tag k='leaf_type' v='broadleaved' />
     <tag k='natural' v='shrub' />
   </node>

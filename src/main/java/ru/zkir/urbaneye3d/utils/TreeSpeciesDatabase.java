@@ -13,6 +13,9 @@ import jakarta.json.JsonReader;
 import org.openstreetmap.josm.data.coor.LatLon;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
+
 public class TreeSpeciesDatabase {
     private static TreeSpeciesDatabase instance;
     private final Map<String, SpeciesInfo> speciesMap = new HashMap<>();
@@ -231,7 +234,8 @@ public class TreeSpeciesDatabase {
      * Enriches the provided tags with leaf_type and leaf_cycle if they are missing
      * but can be inferred from species or genus tags, or geographic location.
      */
-    public void enrichTags(Map<String, String> tags, LatLon location, Random random) {
+    public Map<String, String> enrichTags(Map<String, String> originalTags, LatLon location, Random random) {
+        Map<String, String> tags = new HashMap<>(originalTags);
         String species = tags.get("species");
         String normalizedSpecies = null;
         if (species != null) {
@@ -283,5 +287,22 @@ public class TreeSpeciesDatabase {
                 tags.put("leaf_type", spatialType);
             }
         }
+
+        // 4. Default height for a tree. Probably it could be species dependent.
+        if (!tags.containsKey("height")){
+            double height;
+            if (tags.containsKey("circumference")){
+                double treeCircumference = getTagD("circumference", tags, 1);
+                height = Math.pow((Math.log(treeCircumference)/Math.log(2) * 0.33 + 3), 2);
+            } else {
+                height = DEFAULT_TREE_HEIGHT;
+            }
+            tags.put("height", String.valueOf(height));
+            UrbanEye3dPlugin.debugMsg("assigned tree height: " + String.valueOf(height));
+        }
+
+
+
+        return tags;
     }
 }

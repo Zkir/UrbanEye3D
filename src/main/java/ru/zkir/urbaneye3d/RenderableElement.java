@@ -383,47 +383,6 @@ public class RenderableElement {
         return new RenderableElement(primitive, origin, mesh, null);
     }
 
-    /** Create a tree*/
-    public static RenderableElement createTree(Node node, String texturePath) {
-        var random = new Random(node.getId());
-        return createTree(node, node.getCoor(), node.getInterestingTags(), random, texturePath);
-    }
-
-    /**
-     * Creates a tree RenderableElement from common parameters.
-     * @param primitive - OSM primitive for this tree
-     * @param origin - geographical coordinate (LatLon)
-     * @param tags - tags to be used for height calculation
-     * @param random - random object
-     * @param texturePath - The path to the texture file
-     * @return RenderableElement or null if tree cannot be created
-     */
-    public static RenderableElement createTree(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random, String texturePath) {
-        if (primitive.isDeleted()){
-            return null;
-        }
-
-        if (origin == null) {
-            return null;
-        }
-
-        double height = 0;
-        if (tags.containsKey("height")){
-            height = getTagD("height", tags, 0);
-        }
-        if ((height == 0) && tags.containsKey("circumference")){
-            double treeCircumference = getTagD("circumference", tags, 1);
-            height = Math.pow((Math.log(treeCircumference)/Math.log(2) * 0.33 + 3), 2);
-        }
-        if (height == 0){
-            height = DEFAULT_TREE_HEIGHT;
-        }
-
-        double width = height * 0.9; // Make width proportional to height
-
-        return createBillboard(primitive, origin, texturePath, width, height);
-    }
-
     /**
      * Creates a generic billboard RenderableElement.
      * @param primitive - OSM primitive

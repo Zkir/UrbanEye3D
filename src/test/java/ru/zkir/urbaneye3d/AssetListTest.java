@@ -180,6 +180,6 @@ public class AssetListTest {
                     ));
                 });
 
-        Files.write(Paths.get("ASSET-LIST.md"), markdownBuilder.toString().getBytes(StandardCharsets.UTF_8));
+        Files.write(Paths.get("docs/ASSET-LIST.md"), markdownBuilder.toString().getBytes(StandardCharsets.UTF_8));
     }
 }

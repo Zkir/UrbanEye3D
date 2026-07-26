@@ -14,22 +14,24 @@ node[natural=tree][leaf_type=palm] {
 /* Bushes */
 node[natural=shrub]{
     billboard: "/textures/bushes/rose_bush.png";
+    height: 1.5;
+    width: 1.5;
 }
 
 /* Bench */
-node|d0-350[amenity=bench] {
+node[amenity=bench] {
     model: "/models/bench.obj";
     rotatable: true;
 }
 
 /* Bench */
-node|d0-350[amenity=bench][backrest=yes] {
+node[amenity=bench][backrest=yes] {
     model: "/models/bench_002.obj";
     rotatable: true;
 }
 
 /* Street Lamp */
-node|d0-400[highway=street_lamp] {
+node[highway=street_lamp] {
     model: "/models/street_lamp.obj";
 }
 
@@ -39,7 +41,7 @@ node[advertising=column] {
 }
 
 /* Busket */
-node|d0-200[amenity=waste_basket] {
+node[amenity=waste_basket] {
     model: "/models/basket.obj";
     rotatable: true;
 }
