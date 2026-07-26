@@ -135,7 +135,7 @@ src
 ### Internationalization
 *    JOSM uses a non-trivial internationalization (i18n) system that compiles text-based `.po` files into binary `.lang` files using a specific Perl script. `.po` files are created via xgettext utility, which is a living classics of the industry, but is still an external dependency.  
 *    We have rewritten everything into pure Java (see `ru.zkir.easytext` package), both collecting string for pot creation and compling `po` intoto `lang`. Both functions are integrated into Maven build (pom.xml) using the `exec-maven-plugin`.
-*    There is an autotest that enforces that all po files are converted to lang files and print [report of translation completeness](docs/dev/translation-status.md). 
+*    There is an autotest that enforces that all po files are converted to lang files and print [report of translation completeness](docs/translation-status.md). 
 *    There is still `I18n.bat`, which include calls to traditional josm toolchain. It should not be used in normal process, only in case of bugs in `ru.zkir.easytext` java solution. Note that you are on your own regarding  the installation of gettext and JOSM I18n. 
 
 
@@ -172,7 +172,7 @@ src
 |---|---|
 | AssetListTest.java   |  Test for verifying and documenting project assets (textures, models). Scans the src/main/resources directory, compares found assets with a master list, and generates ASSET-LIST.md. |
 | GroundPlaneTest.java | Verifies the correct creation, loading, and rendering of Ground Plane tiles for satellite imagery or MapCSS data. Includes tests for cache clearing and behavior during rapid panning. |
-| I18nStatusTest.java |  Test for checking internationalization status. Reads `.po` and `.pot` files, calculates translation coverage, and verifies the existence of compiled `.lang` files. Generates [translation-status](docs/dev/translation-status.md) report.|
+| I18nStatusTest.java |  Test for checking internationalization status. Reads `.po` and `.pot` files, calculates translation coverage, and verifies the existence of compiled `.lang` files. Generates [translation-status](docs/translation-status.md) report.|
 | MapCSSTest.java |  Verifies the syntax of project MapCSS files, the existence of referenced resources (e.g., images), and the rendering of OSM data using MapCSS. |
 | RoofGeneratorGoldenMasterTest.java| Compares the output of 3D geometry generators (in OBJ format)against a verified "golden" result to ensure regression stability.  Tests various roof shapes on different bases. |
 | RoofGeneratorTopologyTest.java | Tests the topology of generated 3D roof models. Verifies watertightness, correct normals, absence of zero-length edges, self-intersections, and duplicate vertices. Includes tests  for all roof shapes and special cases (with holes, different orientations). |
