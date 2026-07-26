@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260726T172733Z",
+  "data_updated" : "20260726T210841Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -20,8 +20,16 @@
     "description" : "A bench, rendered as a 3D model."
   }, {
     "key" : "amenity",
+    "value" : "recycling",
+    "description" : "A recycling point. Rendered as a 3D container model."
+  }, {
+    "key" : "amenity",
     "value" : "waste_basket",
     "description" : "A waste basket, rendered as a 3D model."
+  }, {
+    "key" : "amenity",
+    "value" : "waste_disposal",
+    "description" : "A waste disposal point. Currently rendered using the same model as recycling containers."
   }, {
     "key" : "area",
     "value" : "yes",
@@ -234,6 +242,10 @@
   }, {
     "key" : "place",
     "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"
+  }, {
+    "key" : "recycling_type",
+    "value" : "container",
+    "description" : "Used with amenity=recycling to specify that the recycling point is a container."
   }, {
     "key" : "roof:colour",
     "description" : "Specifies the color of the roof."

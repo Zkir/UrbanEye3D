@@ -61,7 +61,9 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ### Jul 26, 2026
 
 * Support for street furniture via pre-made models:
-    * Bus stop, both with shelter and just a post with sign. The plugin  distinguishes between sheltered stops (`shelter=yes`) and standard sign-on-a-pole stops.
+    * **Recycling Container:** Added support for `amenity=recycling` using a new 3D model with a green body and grey lid.
+    * Bus stop, both with shelter and just a post with sign.
+ The plugin  distinguishes between sheltered stops (`shelter=yes`) and standard sign-on-a-pole stops.
 	    *  Some support for transparency for glass panels. Enhanced the rendering pipeline and `ObjImporter` to support semi-transparent materials. The system now correctly parses the `d` (dissolve) parameter from `.mtl` files and applies alpha blending in OpenGL. This allows for realistic rendering of glass surfaces, such as those in the new 3D bus stop model.
     * Set of models for `tourism=information`.
         *   `information=board`: Large information stands with a sturdy wooden-post design.

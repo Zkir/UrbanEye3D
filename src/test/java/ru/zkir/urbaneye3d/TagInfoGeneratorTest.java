@@ -161,6 +161,10 @@ public class TagInfoGeneratorTest {
 
         TAG_DESCRIPTIONS.put("advertising=column",           "Can be rendered as 3D object");
 
+        TAG_DESCRIPTIONS.put("amenity=recycling", "A recycling point. Rendered as a 3D container model.");
+        TAG_DESCRIPTIONS.put("recycling_type=container", "Used with amenity=recycling to specify that the recycling point is a container.");
+        TAG_DESCRIPTIONS.put("amenity=waste_disposal", "A waste disposal point. Currently rendered using the same model as recycling containers.");
+
         TAG_DESCRIPTIONS.put("leisure=pitch", "A sports pitch. If sport=soccer, tennis, volleyball or badminton, characteristic markings are rendered on the ground texture.");
         TAG_DESCRIPTIONS.put("sport=soccer", "Indicates that the pitch is used for soccer. Triggers rendering of soccer markings.");
         TAG_DESCRIPTIONS.put("sport=tennis", "Indicates that the pitch is used for tennis. Triggers rendering of tennis court markings.");

@@ -81,3 +81,20 @@ node[amenity=waste_basket] {
 node[emergency=fire_hydrant] {
     model: "/models/fire_hydrant.obj";
 }
+
+/* Recycling Container */
+node[amenity=recycling][recycling_type=container] {
+    model: "/models/recycling_container.obj";
+    rotatable: true;
+}
+
+node[amenity=recycling] {
+    model: "/models/recycling_container.obj";
+    rotatable: true;
+}
+
+node[amenity=waste_disposal]
+{
+    model: "/models/recycling_container.obj";
+    rotatable: true;
+}

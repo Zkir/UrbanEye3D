@@ -255,6 +255,11 @@ This section describes various standalone 3D objects rendered by the plugin.
 
 -   Nodes tagged with `amenity=waste_basket` are rendered using a pre-defined 3D model.
 
+### Recycling Containers
+
+-   Nodes tagged with `amenity=recycling` (optionally with `recycling_type=container`) are rendered using a pre-defined 3D model.
+-   The orientation can be specified using the `direction` tag.
+
 ### Bus Stops
 
 -   Nodes tagged with `highway=bus_stop` with `shelter=yes` are rendered using a pre-defined 3D model of a bus shelter.
