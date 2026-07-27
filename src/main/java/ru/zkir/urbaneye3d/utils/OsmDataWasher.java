@@ -12,9 +12,14 @@ public class OsmDataWasher {
     /** Unlike F4, we inherit only some keys from building to parts, not all */
     final static List<String> inheritableKeys = Arrays.asList("building:colour", "building:material", "roof:colour", "roof:material");
 
+    /**
+     * Parses direction tag
+     * @param direction direction tag string value
+     * @return direction in degrees counterclockwise or null if not set
+     */
     public  static Double parseDirection(String direction) {
         if (direction == null || direction.isEmpty()) {
-            return Double.NaN; // Return NaN if direction is not specified
+            return null; // Return null if direction is not specified
         }
         try {
             return Double.parseDouble(direction);
@@ -37,7 +42,7 @@ public class OsmDataWasher {
                 case "WNW": return 292.5;
                 case "NW":  return 315.0;
                 case "NNW": return 337.5;
-                default:    return Double.NaN;
+                default:    return null;
             }
         }
     }

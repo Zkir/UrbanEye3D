@@ -40,10 +40,6 @@
     * We want to implement "facade" feature similar to X-plane one. https://developer.x-plane.com/article/facade-creation
     * We already have some sample facades: https://github.com/Zkir/VFR_LANDMARKS_3D_RU/blob/master/Facades
 
-2. **Support objects from pre-made meshes**
-    * `highway=street_light`    
-    * `amenity=bench` 
-
 3. **Increase resolution for GroundTile/MapCSS style**.
     * Some kind of smart scaling is required, for the nearest tiles only, because it will create huge performance impact otherwise.
 
@@ -62,6 +58,40 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Jul 26, 2026
+
+* Support for street furniture via pre-made models:
+    * **Recycling Container:** Added support for `amenity=recycling` using a new 3D model with a green body and grey lid.
+    * Bus stop, both with shelter and just a post with sign.
+ The plugin  distinguishes between sheltered stops (`shelter=yes`) and standard sign-on-a-pole stops.
+	    *  Some support for transparency for glass panels. Enhanced the rendering pipeline and `ObjImporter` to support semi-transparent materials. The system now correctly parses the `d` (dissolve) parameter from `.mtl` files and applies alpha blending in OpenGL. This allows for realistic rendering of glass surfaces, such as those in the new 3D bus stop model.
+    * Set of models for `tourism=information`.
+        *   `information=board`: Large information stands with a sturdy wooden-post design.
+        *   `information=post`: Smaller pillar with information plate.
+        *   `information=guidepost`: Signposts with arrow-shaped indicators pointing in multiple directions.
+    *   **Fire Hydrant Model:** Low-poly 3D model for `emergency=fire_hydrant`.
+	
+### Jul 25, 2026	
+* Support for `natural=shrub`. 
+    * Rose bush texture	added
+	* Refactoring for more general billboards done
+
+### Jul 24, 2026
+*   **Implemented Automatic Pixel-Based Culling:** Removed manual distance thresholds (`maxVisibleDistance`) in favor of a professional engine-like approach. The renderer now automatically calculates the projected screen area of each object in pixels based on its 3D bounding box and camera distance. Objects smaller than N pixels are automatically culled, significantly improving performance in dense scenes without any manual configuration.
+
+### Jul 19, 2026
+*   **Universal Asset Configuration:** Replaced hardcoded object mappings and `textures.cfg` with a new, extensible `assets.mapcss` format. The new system cleanly separates configuration from code, uses MapCSS-like specificity rules (e.g., handling OSM taxonomy like `species` > `leaf_type`), and routes assets to their respective procedural, model, or billboard generators dynamically.
+
+### Jul 18, 2026
+*   **Added support for `direction` tag for benches:** Models for `amenity=bench` can now be correctly rotated by reading the `direction` tag.
+
+### Jun 29, 2026
+*   **Added support for `amenity=bench`:**  `amenity=bench` is rendered using pre-generated 3D model.
+*   **Implemented OBJ Material (.mtl) support:** the `ObjImporter` was significantly refactored to parse `.mtl` files and apply material *colors* to faces based on `usemtl` commands.
+*   **Developed the Asset Sanity Test (`AssetSanityTest.java`)** to ensure the integrity and documentation of all project assets.
+    *   The test inventories all 3D models (`.obj`) and textures (`.png`) and verifies them against a master list defined in the test file.
+    *   It performs a "sanity check" by loading each asset to ensure it is not corrupt, and it extracts details like face count for models and dimensions for textures.
+    *   On a successful run, it automatically generates an `ASSETS-LIST.md` file, serving as a detailed manifest with metadata, licensing information, and asset details.
 
 ### Earlier
 See [Devblog](DEVBLOG.md)
@@ -119,7 +149,7 @@ src
 ### Internationalization
 *    JOSM uses a non-trivial internationalization (i18n) system that compiles text-based `.po` files into binary `.lang` files using a specific Perl script. `.po` files are created via xgettext utility, which is a living classics of the industry, but is still an external dependency.  
 *    We have rewritten everything into pure Java (see `ru.zkir.easytext` package), both collecting string for pot creation and compling `po` intoto `lang`. Both functions are integrated into Maven build (pom.xml) using the `exec-maven-plugin`.
-*    There is an autotest that enforces that all po files are converted to lang files and print [report of translation completeness](docs/dev/translation-status.md). 
+*    There is an autotest that enforces that all po files are converted to lang files and print [report of translation completeness](docs/translation-status.md). 
 *    There is still `I18n.bat`, which include calls to traditional josm toolchain. It should not be used in normal process, only in case of bugs in `ru.zkir.easytext` java solution. Note that you are on your own regarding  the installation of gettext and JOSM I18n. 
 
 
@@ -156,7 +186,7 @@ src
 |---|---|
 | AssetListTest.java   |  Test for verifying and documenting project assets (textures, models). Scans the src/main/resources directory, compares found assets with a master list, and generates ASSET-LIST.md. |
 | GroundPlaneTest.java | Verifies the correct creation, loading, and rendering of Ground Plane tiles for satellite imagery or MapCSS data. Includes tests for cache clearing and behavior during rapid panning. |
-| I18nStatusTest.java |  Test for checking internationalization status. Reads `.po` and `.pot` files, calculates translation coverage, and verifies the existence of compiled `.lang` files. Generates [translation-status](docs/dev/translation-status.md) report.|
+| I18nStatusTest.java |  Test for checking internationalization status. Reads `.po` and `.pot` files, calculates translation coverage, and verifies the existence of compiled `.lang` files. Generates [translation-status](docs/translation-status.md) report.|
 | MapCSSTest.java |  Verifies the syntax of project MapCSS files, the existence of referenced resources (e.g., images), and the rendering of OSM data using MapCSS. |
 | RoofGeneratorGoldenMasterTest.java| Compares the output of 3D geometry generators (in OBJ format)against a verified "golden" result to ensure regression stability.  Tests various roof shapes on different bases. |
 | RoofGeneratorTopologyTest.java | Tests the topology of generated 3D roof models. Verifies watertightness, correct normals, absence of zero-length edges, self-intersections, and duplicate vertices. Includes tests  for all roof shapes and special cases (with holes, different orientations). |

@@ -42,7 +42,7 @@ class TreeSpeciesNormalizationTest {
     void testEnrichTagsModifiesSpecies() {
         Map<String, String> tags = new HashMap<>();
         tags.put("species", "Tilia cordata green spire");
-        TreeSpeciesDatabase.getInstance().enrichTags(tags, new LatLon(55.0, 35.0), new Random(1));
+        tags = TreeSpeciesDatabase.getInstance().enrichTags(tags, new LatLon(55.0, 35.0), new Random(1));
         assertEquals("Tilia cordata", tags.get("species"));
         assertEquals("broadleaved", tags.get("leaf_type"));
         assertEquals("deciduous", tags.get("leaf_cycle"));
@@ -54,7 +54,7 @@ class TreeSpeciesNormalizationTest {
         Map<String, String> tags = new HashMap<>();
         tags.put("natural", "tree");
         // No species, no leaf_type
-        TreeSpeciesDatabase.getInstance().enrichTags(tags, new LatLon(55.75, 37.61), new Random(42));
+        tags = TreeSpeciesDatabase.getInstance().enrichTags(tags, new LatLon(55.75, 37.61), new Random(42));
 
         // In Moscow region (+55+035), probability of broadleaved/needleleaved is high, palm is 0
         String leafType = tags.get("leaf_type");

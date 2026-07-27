@@ -26,7 +26,7 @@ public class I18nStatusTest {
         Path poDir = Paths.get("po");
         Path potFile = poDir.resolve("urbaneye3d.pot");
         Path outputDir = Paths.get("target/classes/data");
-        Path reportFile = Paths.get("docs/dev/translation-status.md");
+        Path reportFile = Paths.get("docs/translation-status.md");
 
         // 1. Read .pot file to get the master list of strings
         String potContent = Files.readString(potFile);

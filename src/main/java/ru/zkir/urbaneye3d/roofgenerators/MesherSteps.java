@@ -48,7 +48,7 @@ public class MesherSteps extends RoofGenerator {
         double minHeight = building.minHeight;
         double roofHeight = building.roofHeight;
         double wallHeight = building.height - roofHeight;
-        double roofDirection = building.roofDirection;
+        Double roofDirection = building.roofDirection;
 
         Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
 
@@ -267,7 +267,7 @@ public class MesherSteps extends RoofGenerator {
         double minHeight = building.minHeight;
         double roofHeight = building.roofHeight;
         double wallHeight = building.height - roofHeight;
-        double roofDirection = building.roofDirection;
+        Double roofDirection = building.roofDirection;
 
         Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
 
@@ -589,9 +589,9 @@ public class MesherSteps extends RoofGenerator {
     }
 
 
-    private Point2D calculateSlopeVector(List<Point2D> contour, double roofDirection) {
+    private Point2D calculateSlopeVector(List<Point2D> contour, Double roofDirection) {
         Point2D slopeVector;
-        if (!Double.isNaN(roofDirection)) {
+        if (roofDirection != null) {
             double angleRad = Math.toRadians(roofDirection);
             slopeVector = new Point2D(-Math.sin(angleRad), -Math.cos(angleRad));
         } else {

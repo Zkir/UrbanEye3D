@@ -47,7 +47,7 @@ Please mention the language and your name (if you want to be credited). Any amou
 
 ### Create new tree textures
 
-We are always looking for more variety, especially for tree species.  All contributed assets must have a free license (like CC0, CC-BY, CC-BY-SA) compatible with the plugin's GPL v3 license. Contributor credentials will be gratefully included in the project documentation, see [ASSET-LIST.md](ASSET-LIST.md).
+We are always looking for more variety, especially for tree species.  All contributed assets must have a free license (like CC0, CC-BY, CC-BY-SA) compatible with the plugin's GPL v3 license. Contributor credentials will be gratefully included in the project documentation, see [ASSET-LIST.md](docs/ASSET-LIST.md).
 
 Here's what is needed for tree textures, which are rendered using the billboarding method (two crossing planes):
 *   **Format:** Square PNG images with a transparent background (alpha channel).

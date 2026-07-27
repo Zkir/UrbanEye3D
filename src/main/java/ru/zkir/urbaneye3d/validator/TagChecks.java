@@ -115,7 +115,7 @@ public class TagChecks extends Test {
 
         if (p.hasKey("roof:direction")) {
             String direction = p.get("roof:direction");
-            if (parseDirection(direction).isNaN()) {
+            if (parseDirection(direction) == null) {
                 errors.add(TestError.builder(this, Severity.WARNING, INVALID_ROOF_DIRECTION)
                         .message(tr("Invalid value for roof:direction: {0}", direction))
                         .primitives(p)

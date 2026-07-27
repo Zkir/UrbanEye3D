@@ -7,13 +7,23 @@ import org.openstreetmap.josm.spi.preferences.Config;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.prep.PreparedGeometry;
 import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
-
 import ru.zkir.urbaneye3d.utils.*;
+import ru.zkir.urbaneye3d.utils.Contour;
+import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.ObjImporter;
+import ru.zkir.urbaneye3d.utils.Point2D;
+import ru.zkir.urbaneye3d.assetconfig.AssetConfig;
+import ru.zkir.urbaneye3d.assetconfig.AssetConfigLoader;
+import ru.zkir.urbaneye3d.assetconfig.AssetRule;
+import ru.zkir.urbaneye3d.assetconfig.GeneratorRegistry;
+import ru.zkir.urbaneye3d.assetconfig.ProceduralGenerator;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
 
 public class Scene {
@@ -22,7 +32,6 @@ public class Scene {
     final List<RenderableElement> renderableElements = new ArrayList<>();
     private int objectCount = 0;
     private int faceCount = 0;
-
     public int getObjectCount() {
         return objectCount;
     }
@@ -30,6 +39,7 @@ public class Scene {
     public int getFaceCount() {
         return faceCount;
     }
+    private final Map<String, Mesh> modelCache = new HashMap<>();
 
     public static class SceneUpdate {
         final List<RenderableElement> renderableElements;
@@ -44,6 +54,17 @@ public class Scene {
             element.isSelected = selectedPrimitivesIds.contains(element.primitiveId);
         }
     }
+    
+    private Mesh loadModel(String resourcePath) {
+        if (modelCache.containsKey(resourcePath)) {
+            return modelCache.get(resourcePath);
+        }
+        ObjImporter importer = new ObjImporter();
+        Mesh mesh = importer.loadModel(resourcePath);
+        modelCache.put(resourcePath, mesh);
+        return mesh;
+    }
+
 
     /** ground plane represents earth surface with projected satellite image.
      *  Currently, it's separated from other scene objects    */
@@ -205,21 +226,90 @@ public class Scene {
         // Some elements like ad columns might have been already rendered by one of the other loops. Be careful to not double-add them. 
         var alreadyRenderedPrimitiveIds = new HashSet<>(newElements.stream().map(e -> e.primitiveId).collect(Collectors.toCollection(HashSet::new)));
 
+        // Get asset config singleton or initialize it if we haven't
+        AssetConfig assetConfig = AssetConfigLoader.getInstance().getConfig();
+
+        // Pre-filter roads for automatic orientation
+        List<Way> roads = new ArrayList<>();
+        List<String> nonRoadHighwayValues = Arrays.asList("footway", "cycleway", "path", "pedestrian", "steps", "corridor", "bridleway", "track", "service", "platform", "sidewalk");
+        for (Way way : dataSet.getWays()) {
+            if (way.hasKey("highway") && !nonRoadHighwayValues.contains(way.get("highway"))) {
+                roads.add(way);
+            }
+        }
+
         /*
-         * Trees and other objects.
+         * Trees, street furniture, and other objects (using AssetConfig).
          */
         for (Node node : dataSet.getNodes()) {
+            if (alreadyRenderedPrimitiveIds.contains(node.getPrimitiveId())) continue;
+
+            // For trees, we want to enrich tags BEFORE querying the config so that specific leaf_type rules can match
+            Node nodeForConfig = node;
             if (node.hasTag("natural", "tree")) {
-                var element = RenderableElement.createTree(node);
-                if (element != null){
+                var enrichedTags = TreeSpeciesDatabase.getInstance().enrichTags(node.getInterestingTags(), node.getCoor(), new Random(node.getId()));
+                nodeForConfig = new Node();
+                nodeForConfig.setKeys(enrichedTags);
+            }
+
+            // Find best matching rule for LOD 0 (currently using LOD 0 by default)
+            // In future we will get all the LODs
+            AssetRule rule = assetConfig.findBestMatch(nodeForConfig);
+
+            if (rule != null) {
+                RenderableElement element = null;
+                if (rule.properties.containsKey("procedure")) {
+                    String procedure = rule.properties.get("procedure");
+
+                    ProceduralGenerator generator = GeneratorRegistry.getInstance().get(procedure);
+                    if (generator != null) {
+                        element = generator.generate(node, node.getCoor(), rule, new Random(node.getId()));
+                    }
+                } else if (rule.properties.containsKey("model")) {
+                    String modelPath = rule.properties.get("model");
+                    Mesh mesh = loadModel(modelPath);
+                    if (mesh != null) {
+                        Mesh instanceMesh = mesh;
+                        
+                        boolean isRotatable = "true".equals(rule.properties.get("rotatable"));
+                        boolean isSnapToRoads = "yes".equals(rule.properties.get("snap_to_roads"));
+
+                        // Check if rotation is allowed or automatic orientation is requested
+                        Double direction = null;
+                        if (isRotatable) { //rotatable means that direction tag is defined for this object
+                            if (node.hasKey("direction")) {
+                                direction = OsmDataWasher.parseDirection(node.get("direction"));
+                            }
+                        }
+
+                        // Automatic orientation if direction is missing and snap_to_roads is enabled
+                        if (direction == null && isSnapToRoads){
+                            direction = calculateDirectionToNearestRoad(node, roads);
+                        }
+
+                        if (direction != null && direction !=0 ) {
+                            instanceMesh = mesh.clone();
+                            instanceMesh.rotate(-direction);
+                        }
+
+                        element = RenderableElement.createFromModel(node, instanceMesh);
+                    }
+                } else if (rule.properties.containsKey("billboard")) {
+                    String texturePath = rule.properties.get("billboard");
+                    Map<String, String> tags = nodeForConfig.getInterestingTags();
+                    
+                    // Determine dimensions
+                    double defaultHeight = rule.properties.containsKey("height") ? Double.parseDouble(rule.properties.get("height")) : 1.0;
+                    double height = getTagD("height", tags, defaultHeight); //height is a proper tag
+                    double defaultWidth = rule.properties.containsKey("width") ? Double.parseDouble(rule.properties.get("width")) : 0.9*defaultHeight;
+                    double width = height * ( defaultWidth/defaultHeight); //width is not a tag, default width is just a rate.
+
+                    element = RenderableElement.createBillboard(node, node.getCoor(), texturePath, width, height);
+                }
+
+                if (element != null) {
                     newElements.add(element);
                 }
-            }
-            
-            if (node.hasTag("advertising", "column")) {
-                if (alreadyRenderedPrimitiveIds.contains(node.getPrimitiveId())) continue;
-                var element = RenderableElement.createAdColumn(node, node.getCoor(), node.getInterestingTags(), new Random(node.getId()));
-                if (element != null) newElements.add(element);
             }
         }
 
@@ -280,10 +370,28 @@ public class Scene {
                                 } else {
                                     treeTags.put("leaf_type", "needleleaved");
                                 }
+                                //treeTags.remove("leaf_type");
                             }
+                            Node dummyNode = new Node();
+                            if (!treeTags.containsKey("leaf_type")) {
+                                treeTags = TreeSpeciesDatabase.getInstance().enrichTags(treeTags, center, new Random(dummyNode.getId()));
+                            }
+
                             treeTags.put("height", String.valueOf(baseHeight));
 
-                            RenderableElement element = RenderableElement.createTree(primitive, treeOrigin, treeTags, random);
+                            // Query AssetConfig to determine the correct texture based on enriched tags
+
+                            dummyNode.setKeys(treeTags);
+                            AssetRule treeRule = assetConfig.findBestMatch(dummyNode);
+                            String texturePath;
+                            if (treeRule != null && treeRule.properties.containsKey("billboard")) {
+                                texturePath = treeRule.properties.get("billboard");
+                            }else {
+                                throw new RuntimeException("Unable to find proper tree model for forest " + primitive.getPrimitiveId() );
+                            }
+
+                            double width = baseHeight * 0.9;
+                            RenderableElement element = RenderableElement.createBillboard(primitive, treeOrigin, texturePath, width, baseHeight);
                             if (element != null) {
                                 newElements.add(element);
                             }
@@ -292,6 +400,7 @@ public class Scene {
                 }
             }
         }
+		
         return new SceneUpdate(newElements);
     }
 
@@ -373,6 +482,56 @@ public class Scene {
             }
         }
         return bounds;
+    }
+
+    private Double calculateDirectionToNearestRoad(Node node, List<Way> roads) {
+        if (roads.isEmpty()) return null;
+
+        LatLon nodeCoor = node.getCoor();
+        double minDistSq = Double.POSITIVE_INFINITY;
+        Point2D closestPoint = null;
+
+        for (Way road : roads) {
+            List<Node> roadNodes = road.getNodes();
+            for (int i = 0; i < roadNodes.size() - 1; i++) {
+                Node n1 = roadNodes.get(i);
+                Node n2 = roadNodes.get(i + 1);
+
+                // Fast distance check (within ~100m)
+                if (Math.abs(n1.lat() - nodeCoor.lat()) > 0.001 && Math.abs(n2.lat() - nodeCoor.lat()) > 0.001) continue;
+                if (Math.abs(n1.lon() - nodeCoor.lon()) > 0.001 && Math.abs(n2.lon() - nodeCoor.lon()) > 0.001) continue;
+
+                Point2D p1 = FlatEarth.getLocalCoords(n1.lat(), n1.lon(), nodeCoor);
+                Point2D p2 = FlatEarth.getLocalCoords(n2.lat(), n2.lon(), nodeCoor);
+
+                // Find closest point on segment to origin (0,0)
+                double dx = p2.x - p1.x;
+                double dy = p2.y - p1.y;
+                double lenSq = dx * dx + dy * dy;
+                if (lenSq < 1e-9) continue;
+
+                double t = ((-p1.x) * dx + (-p1.y) * dy) / lenSq;
+                t = Math.max(0, Math.min(1, t));
+
+                double cpX = p1.x + t * dx;
+                double cpY = p1.y + t * dy;
+
+                double distSq = cpX * cpX + cpY * cpY;
+                if (distSq < minDistSq) {
+                    minDistSq = distSq;
+                    closestPoint = new Point2D(cpX, cpY);
+                }
+            }
+        }
+
+        if (closestPoint != null && minDistSq < 2500) { // Limit to 50m
+            // Azimuth: 0 is North (Y+), 90 is East (X+)
+            double azimuth = Math.toDegrees(Math.atan2(closestPoint.x, closestPoint.y));
+            if (azimuth < 0) azimuth += 360.0;
+            return azimuth;
+        }
+
+        return null;
     }
 
 }

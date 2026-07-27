@@ -1,6 +1,8 @@
 package ru.zkir.urbaneye3d;
 
 import org.junit.jupiter.api.Test;
+import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.ObjImporter;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -33,6 +35,19 @@ public class AssetListTest {
 
     private static final Map<String, AssetInfo> MASTER_ASSET_LIST = new HashMap<>();
     static {
+        MASTER_ASSET_LIST.put("/models/colored_cube.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bench.obj",        new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bench_002.obj",        new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/basket.obj",       new AssetInfo("https://github.com/tordanik/OSM2World", "OSM2World", "MIT license"));
+        MASTER_ASSET_LIST.put("/models/street_lamp.obj",  new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bus_stop_001.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bus_stop_sign.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/guidepost.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/info_board.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/info_post.obj",     new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/fire_hydrant.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/recycling_container.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+
         // Textures
         MASTER_ASSET_LIST.put("/textures/trees/tree_000.png",
                 new AssetInfo("https://github.com/tordanik/OSM2World-default-style", "OSM2World-default-style", "CC0 1.0"));
@@ -42,11 +57,19 @@ public class AssetListTest {
 
         MASTER_ASSET_LIST.put("/textures/trees/tree_002.png",
                 new AssetInfo("https://www.magnific.com/free-psd/majestic-palm-tree-isolated-transparent-background_408655328.htm", "Designed by Magnific", "Magnific Free"));
+
+        MASTER_ASSET_LIST.put("/textures/bushes/rose_bush.png",
+                new AssetInfo("https://pngtree.com/freepng/blooming-red-rose-bush_19859191.html?sol=downref&id=bef", "Pngtree", "Pngtree Free"));
     }
     private static final Map<String, String> LICENSE_URLS = new HashMap<>();
     static {
         LICENSE_URLS.put("CC0 1.0", "https://creativecommons.org/publicdomain/zero/1.0/");
         LICENSE_URLS.put("Magnific Free", "https://www.magnific.com/ai/docs/licenses-attribution");
+        LICENSE_URLS.put("CC-BY-4.0", "https://creativecommons.org/licenses/by/4.0/");
+        LICENSE_URLS.put("MIT license", "https://opensource.org/license/mit");
+        LICENSE_URLS.put("Pngtree Free", "");
+
+
 
     }
 
@@ -97,10 +120,13 @@ public class AssetListTest {
 
         // 3. Perform sanity checks on each asset
         Map<String, String> assetDetails = new HashMap<>();
+        ObjImporter objImporter = new ObjImporter();
 
         for (String path : masterListKeys) {
             if (path.endsWith(".obj")) {
-                throw new RuntimeException("We do not have obj support in this branch yet");
+                Mesh mesh = assertDoesNotThrow(() -> objImporter.loadModel(path), "Failed to load OBJ model: " + path);
+                assertNotNull(mesh, "Loaded mesh is null for: " + path);
+                assetDetails.put(path, mesh.faces.size() + "&nbsp;faces");
             } else if (path.endsWith(".png")) {
                 try (InputStream is = getClass().getResourceAsStream(path)) {
                     assertNotNull(is, "Could not find PNG resource: " + path);
@@ -161,6 +187,6 @@ public class AssetListTest {
                     ));
                 });
 
-        Files.write(Paths.get("ASSET-LIST.md"), markdownBuilder.toString().getBytes(StandardCharsets.UTF_8));
+        Files.write(Paths.get("docs/ASSET-LIST.md"), markdownBuilder.toString().getBytes(StandardCharsets.UTF_8));
     }
 }

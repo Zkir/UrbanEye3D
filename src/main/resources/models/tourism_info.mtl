@@ -1,0 +1,8 @@
+newmtl Wood
+Kd 0.5 0.3 0.1
+newmtl MetalGrey
+Kd 0.5 0.5 0.5
+newmtl BoardBlue
+Kd 0.0 0.2 0.8
+newmtl BoardWhite
+Kd 0.9 0.9 0.9

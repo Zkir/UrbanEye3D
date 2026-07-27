@@ -70,6 +70,9 @@ public class TagInfoGeneratorTest {
     /** This is our dictionary for tag (key=value) documentation */
     private final Map<String, String> TAG_DESCRIPTIONS = new HashMap<>();
     {
+        TAG_DESCRIPTIONS.put("amenity=bench", "A bench, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("backrest=yes", "Used in combination with amenity=bench to signify whether the bench has a backrest ");
+        TAG_DESCRIPTIONS.put("amenity=waste_basket", "A waste basket, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("barrier", "The feature is interpreted as barrier, in case it does not have the building tag.");
         TAG_DESCRIPTIONS.put("building", "The main tag for identifying a building outline.");
         TAG_DESCRIPTIONS.put("building:part", "Identifies a part of a building, which is rendered as a separate 3D element.");
@@ -81,10 +84,19 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("circumference", "Used to estimate height of trees (natural=tree)");
         TAG_DESCRIPTIONS.put("colour", "Specifies the color of the object, especially barrier or man-made.");
         TAG_DESCRIPTIONS.put("height", "The total height of the building, including the roof, in meters.");
+        TAG_DESCRIPTIONS.put("highway=bus_stop", "A bus stop, rendered as a 3D model if it has shelter=yes.");
+        TAG_DESCRIPTIONS.put("shelter=yes", "Indicates that a bus stop has a shelter, triggering 3D model rendering.");
+        TAG_DESCRIPTIONS.put("highway=street_lamp", "A single street lamp, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("emergency=fire_hydrant", "A fire hydrant, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("tourism=information", "General tourism information point.");
+        TAG_DESCRIPTIONS.put("information=board", "An information board, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("information=post", "A generic information post.");
+        TAG_DESCRIPTIONS.put("information=guidepost", "A signpost with arrows pointing to different locations.");
         TAG_DESCRIPTIONS.put("layer", "Objects with layer<0 are considered to be located underground -- and are not displayed");
         TAG_DESCRIPTIONS.put("material","Material for barrier or man-made object. This can influence the default color. ");
         TAG_DESCRIPTIONS.put("min_height", "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes.");
         TAG_DESCRIPTIONS.put("natural=tree", "A single tree, rendered as a 3D billboard model.");
+        TAG_DESCRIPTIONS.put("natural=shrub", "A single shrub or bush, rendered as a 3D billboard model.");
         TAG_DESCRIPTIONS.put("natural=wood", "A forested area. Automatically populated with 3D tree objects based on the forest density setting.");
         TAG_DESCRIPTIONS.put("species", "The Latin name of the tree species. Used to infer leaf_type and leaf_cycle if these tags are not specified.");
         TAG_DESCRIPTIONS.put("genus", "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified.");
@@ -93,6 +105,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("leaf_type=needleleaved", "Used to select an appropriate texture/model for trees.");
         TAG_DESCRIPTIONS.put("leaf_type=palm", "Used to select an appropriate texture/model for trees.");
         TAG_DESCRIPTIONS.put("roof:colour", "Specifies the color of the roof.");
+        TAG_DESCRIPTIONS.put("direction", "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points.");
         TAG_DESCRIPTIONS.put("roof:direction", "Specifies the direction or orientation of the roof, typically in degrees. Used for directional roof shapes like 'skillion'.");
         TAG_DESCRIPTIONS.put("roof:height", "The height of the roof section of the building, in meters.");
         TAG_DESCRIPTIONS.put("roof:levels", "The number of floors (levels) within the roof structure. Used to calculate roof:height if not specified explicitly.");
@@ -148,6 +161,10 @@ public class TagInfoGeneratorTest {
 
         TAG_DESCRIPTIONS.put("advertising=column",           "Can be rendered as 3D object");
 
+        TAG_DESCRIPTIONS.put("amenity=recycling", "A recycling point. Rendered as a 3D container model.");
+        TAG_DESCRIPTIONS.put("recycling_type=container", "Used with amenity=recycling to specify that the recycling point is a container.");
+        TAG_DESCRIPTIONS.put("amenity=waste_disposal", "A waste disposal point. Currently rendered using the same model as recycling containers.");
+
         TAG_DESCRIPTIONS.put("leisure=pitch", "A sports pitch. If sport=soccer, tennis, volleyball or badminton, characteristic markings are rendered on the ground texture.");
         TAG_DESCRIPTIONS.put("sport=soccer", "Indicates that the pitch is used for soccer. Triggers rendering of soccer markings.");
         TAG_DESCRIPTIONS.put("sport=tennis", "Indicates that the pitch is used for tennis. Triggers rendering of tennis court markings.");
@@ -180,6 +197,22 @@ public class TagInfoGeneratorTest {
         TextureManager.getInstance().getAllTags().stream()
                 .map(entry -> new ParsedTag(entry.getKey(), entry.getValue(), entry.getKey() + "=" + entry.getValue()))
                 .forEach(usedTags::add);
+
+        // Add tags from assets.mapcss
+        try (java.io.InputStream is = getClass().getResourceAsStream("/assets.mapcss")) {
+            if (is != null) {
+                ru.zkir.urbaneye3d.assetconfig.AssetRuleParser parser = new ru.zkir.urbaneye3d.assetconfig.AssetRuleParser();
+                for (ru.zkir.urbaneye3d.assetconfig.AssetRule rule : parser.parse(is)) {
+                    for (java.util.Map.Entry<String, String> entry : rule.selector.getTags().entrySet()) {
+                        usedTags.add(new ParsedTag(entry.getKey(), entry.getValue(), entry.getValue() == null ? entry.getKey() : entry.getKey() + "=" + entry.getValue()));
+                    }
+                }
+            } else {
+                throw new IllegalStateException("/assets.mapcss not found");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Could not parse assets.mapcss for TagInfo", e);
+        }
 
         //Also add tags from Materials enum
         for (var mat:Materials.values()){
@@ -301,7 +334,7 @@ public class TagInfoGeneratorTest {
 
     private Set<ParsedTag> findTagsInSourceCode() throws IOException {
         Set<ParsedTag> tags = new HashSet<>();
-        Pattern pattern1 = Pattern.compile("(?:getTagStr|getTagD|get|hasKey|hasTag)\\s*\\(\\s*\"([a-zA-Z0-9:_.-]+)\"\\s*[,\\)]");
+        Pattern pattern1 = Pattern.compile("(?<!properties\\.)(?:getTagStr|getTagD|get|hasKey|hasTag)\\s*\\(\\s*\"([a-zA-Z0-9:_.-]+)\"\\s*[,\\)]");
         Pattern pattern2 = Pattern.compile("inheritableKeys\\s*=\\s*Arrays\\.asList\\(([^)]+)\\)");
         Pattern pattern3 = Pattern.compile("hasTag\\s*\\(\\s*\"([^\"]+)\"\\s*,\\s*\"([^\"]+)\"\\s*\\)");
 

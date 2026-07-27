@@ -1,6 +1,6 @@
 # Supported Features
 
-This document outlines the OpenStreetMap tags supported by the UrbanEye3D plugin for rendering 3D buildings.
+This document outlines the OpenStreetMap tags supported by the UrbanEye3D plugin for rendering 3D buildings and other objects.
 
 ## Buildings
 
@@ -231,6 +231,41 @@ For all barrier types, the following tags can be used to override the default va
 
 Note that in OSM `barrier=*` is considered to be a linear object, even if the way is closed. To override this, use the `area=yes` tag. In the later case the `width` tag is not applied.
 
+## Other 3D Objects
+
+This section describes various standalone 3D objects rendered by the plugin.
+
+### Street Lamps
+
+-   Nodes tagged with `highway=street_lamp` are rendered using a pre-defined 3D model.
+-   Currently, the model is always rendered with a default gray color, and the `colour` tag is not supported for this object.
+
+### Benches
+
+-   Nodes tagged with `amenity=bench` are rendered using a pre-defined 3D model.
+-   The orientation of the bench can be specified using the `direction` tag (in degrees or cardinal points like N, NE, etc.).
+-   Currently, the model is rendered with its default colors, and the `colour` tag is not supported for this object.
+
+### Advertising Columns
+
+-   Nodes tagged with `advertising=column` are rendered as 3D Morris columns.
+-   The height and width of the column are determined by the `height` and `width` tags.
+
+### Waste Baskets
+
+-   Nodes tagged with `amenity=waste_basket` are rendered using a pre-defined 3D model.
+
+### Recycling Containers
+
+-   Nodes tagged with `amenity=recycling` (optionally with `recycling_type=container`) are rendered using a pre-defined 3D model.
+-   The orientation can be specified using the `direction` tag.
+
+### Bus Stops
+
+-   Nodes tagged with `highway=bus_stop` with `shelter=yes` are rendered using a pre-defined 3D model of a bus shelter.
+-   **Automatic Alignment:** The bus stop model automatically rotates to face the nearest road (`highway=*`, excluding footways). If the `direction` tag is explicitly provided, it overrides this automatic behavior.
+-   The model features semi-transparent glass panels and an integrated bench.
+
 ## Natural Features
 
 The plugin renders some natural features to provide more context to the 3D scene.
@@ -245,6 +280,11 @@ The plugin renders some natural features to provide more context to the 3D scene
 -   **Validation:** The JOSM validator alerts the user if an unknown or misspelled `species` or `genus` tag is used, helping to maintain data quality in OSM.
 -   The tree species database is derived from the [OSM Wiki: List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species). It is updated periodically by a maintainer-run script.
 
+### Shrubs and Bushes
+
+-   Nodes tagged with `natural=shrub` are rendered as 3D billboard models.
+-   By default, they are rendered as flowering rose bushes.
+-   The `height` tag can be used to specify the height. If not present, a default height of **1.5 meters** is used.
 
 ### Forests
 

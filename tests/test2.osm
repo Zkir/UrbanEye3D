@@ -44,7 +44,8 @@
   <node id='-37618' action='modify' visible='true' lat='55.05026296861' lon='37.04350313041'>
     <tag k='natural' v='tree' />
   </node>
-  <node id='-37619' action='modify' visible='true' lat='55.05050264581' lon='37.04322583031'>
+  <node id='-37619' action='modify' visible='true' lat='55.0507463441' lon='37.04268092059'>
+    <tag k='circumference' v='1' />
     <tag k='leaf_type' v='broadleaved' />
     <tag k='natural' v='tree' />
   </node>
@@ -118,6 +119,57 @@
   <node id='-40321' action='modify' visible='true' lat='55.05051722221' lon='37.04376931425'>
     <tag k='leaf_type' v='palm' />
     <tag k='natural' v='tree' />
+  </node>
+  <node id='-45926' action='modify' visible='true' lat='55.05074650441' lon='37.04275003203'>
+    <tag k='amenity' v='bench' />
+  </node>
+  <node id='-95612' action='modify' visible='true' lat='55.05074607349' lon='37.04296889929'>
+    <tag k='highway' v='street_lamp' />
+  </node>
+  <node id='-109269' action='modify' visible='true' lat='55.05074517796' lon='37.04286112781'>
+    <tag k='amenity' v='waste_basket' />
+  </node>
+  <node id='-160602' action='modify' visible='true' lat='55.05074620238' lon='37.04281512535'>
+    <tag k='leaf_type' v='broadleaved' />
+    <tag k='natural' v='shrub' />
+    <tag k='width' v='6' />
+  </node>
+  <node id='-278915' action='modify' visible='true' lat='55.05078761725' lon='37.04272699576'>
+    <tag k='height' v='3' />
+    <tag k='leaf_type' v='broadleaved' />
+    <tag k='natural' v='shrub' />
+  </node>
+  <node id='-284134' action='modify' visible='true' lat='55.05074329307' lon='37.04301886901'>
+    <tag k='highway' v='bus_stop' />
+    <tag k='shelter' v='yes' />
+  </node>
+  <node id='-335571' action='modify' visible='true' lat='55.05069931144' lon='37.04253848748' />
+  <node id='-345844' action='modify' visible='true' lat='55.05069828462' lon='37.04315031593' />
+  <node id='-402230' action='modify' visible='true' lat='55.05074671578' lon='37.04289817628'>
+    <tag k='emergency' v='fire_hydrant' />
+  </node>
+  <node id='-525303' action='modify' visible='true' lat='55.05074654499' lon='37.04278166539'>
+    <tag k='highway' v='bus_stop' />
+  </node>
+  <node id='-612446' action='modify' visible='true' lat='55.05074671579' lon='37.04309056765'>
+    <tag k='tourism' v='information' />
+  </node>
+  <node id='-617661' action='modify' visible='true' lat='55.05074603107' lon='37.04293103847'>
+    <tag k='information' v='guidepost' />
+    <tag k='tourism' v='information' />
+  </node>
+  <node id='-638233' action='modify' visible='true' lat='55.05074260835' lon='37.04264782881'>
+    <tag k='information' v='post' />
+    <tag k='tourism' v='information' />
+  </node>
+  <node id='-694617' action='modify' visible='true' lat='55.05074791373' lon='37.04259405453'>
+    <tag k='amenity' v='bench' />
+    <tag k='backrest' v='yes' />
+    <tag k='direction' v='180' />
+  </node>
+  <node id='-699838' action='modify' visible='true' lat='55.05077170145' lon='37.04282528296'>
+    <tag k='amenity' v='recycling' />
+    <tag k='recycling_type' v='container' />
   </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
@@ -306,6 +358,11 @@
     <nd ref='-40192' />
     <nd ref='-40205' />
     <nd ref='-40166' />
+  </way>
+  <way id='-13487' action='modify' visible='true'>
+    <nd ref='-335571' />
+    <nd ref='-345844' />
+    <tag k='highway' v='unclassified' />
   </way>
   <relation id='-2721' action='modify' visible='true'>
     <member type='way' ref='-13300' role='outer' />

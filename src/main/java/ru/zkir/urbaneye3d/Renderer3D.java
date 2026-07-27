@@ -81,6 +81,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     // Sun direction (normalized)
     private final Point3D SUN_DIRECTION = new Point3D(0.5, 0.5, 1.0).normalize();
 
+    // Constant for pixel-based culling (tan(FOV/2) * 2)
+    private static final double FOV_FACTOR = Math.tan(Math.toRadians(45.0 / 2.0)) * 2.0;
+
 
     public Renderer3D( Scene scene) {
         this.scene = scene;
@@ -227,7 +230,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         return new Color(
                 (int) (baseColor.getRed() * factor),
                 (int) (baseColor.getGreen() * factor),
-                (int) (baseColor.getBlue() * factor)
+                (int) (baseColor.getBlue() * factor),
+                baseColor.getAlpha()
         );
     }
 
@@ -274,6 +278,10 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         double eyeZ = cam_dist * Math.sin(camX_rad);
 
         glu.gluLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 0, 1);
+
+        // Enable alpha blending for semi-transparent materials (e.g., bus stop glass)
+        gl.glEnable(GL2.GL_BLEND);
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
 
         // Store matrices and viewport for picking
         gl.glGetIntegerv(GL2.GL_VIEWPORT, lastViewport, 0);
@@ -371,15 +379,32 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             Bounds visibleArea = this.scene.getVisibleArea();
 
             // --- Render All Elements (Buildings, Trees, etc.) ---
+            double screenHeight = glAutoDrawable.getSurfaceHeight();
             for (RenderableElement element : scene.renderableElements) {
                 if (visibleArea != null && !visibleArea.contains(element.origin)) {
                     continue;
                 }
 
-                double dx = element.origin.lon() - mapCenter.lon();
-                double dy = element.origin.lat() - mapCenter.lat();
-                double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
-                double transY = dy * 111320.0;
+                // Check distance visibility
+                double dxMap = element.origin.lon() - mapCenter.lon();
+                double dyMap = element.origin.lat() - mapCenter.lat();
+                double transX = dxMap * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+                double transY = dyMap * 111320.0;
+
+                // Real 3D distance from the camera eye
+                double distToEye = Math.sqrt(
+                    Math.pow(transX - eyeX, 2) +
+                    Math.pow(transY - eyeY, 2) +
+                    Math.pow(0 - eyeZ, 2) // assuming ground Z=0 for distance check
+                );
+
+                // --- Pixel-based Culling ---
+                // Projected pixel area formula: (AreaMeters * ScreenHeight^2) / (Dist^2 * fovFactor^2)
+                double pixelArea = (element.physicalArea * screenHeight * screenHeight) / (distToEye * distToEye * FOV_FACTOR * FOV_FACTOR);
+
+                if (pixelArea < 5.0) {
+                    continue;
+                }
 
                 Mesh mesh = element.getMesh();
                 if (mesh == null) continue;
@@ -647,10 +672,11 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         Color finalColor = new Color(
                 (int)(baseColor.getRed() * aoFactor),
                 (int)(baseColor.getGreen() * aoFactor),
-                (int)(baseColor.getBlue() * aoFactor)
+                (int)(baseColor.getBlue() * aoFactor),
+                baseColor.getAlpha()
         );
 
-        gl.glColor3f(finalColor.getRed() / 255.0f, finalColor.getGreen() / 255.0f, finalColor.getBlue() / 255.0f);
+        gl.glColor4f(finalColor.getRed() / 255.0f, finalColor.getGreen() / 255.0f, finalColor.getBlue() / 255.0f, finalColor.getAlpha() / 255.0f);
         gl.glVertex3d(vertex.x, vertex.y, vertex.z);
     }
 

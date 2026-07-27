@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <node id='-1' lat='55.75' lon='37.61' version='1'>
+    <tag k='highway' v='street_lamp' />
+  </node>
+</osm>

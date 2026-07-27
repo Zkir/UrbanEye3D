@@ -1,0 +1,100 @@
+/* Trees */
+node[natural=tree][leaf_type=broadleaved] {
+    billboard: "/textures/trees/tree_000.png";
+}
+
+node[natural=tree][leaf_type=needleleaved] {
+    billboard: "/textures/trees/tree_001.png";
+}
+
+node[natural=tree][leaf_type=palm] {
+    billboard: "/textures/trees/tree_002.png";
+}
+
+/* Bushes */
+node[natural=shrub]{
+    billboard: "/textures/bushes/rose_bush.png";
+    height: 1.5;
+    width: 1.5;
+}
+
+/* Bench */
+node[amenity=bench] {
+    model: "/models/bench.obj";
+    rotatable: true;
+}
+
+/* Bench */
+node[amenity=bench][backrest=yes] {
+    model: "/models/bench_002.obj";
+    rotatable: true;
+}
+
+/* Street Lamp */
+node[highway=street_lamp] {
+    model: "/models/street_lamp.obj";
+}
+
+/* Bus Stop */
+node[highway=bus_stop][shelter=yes] {
+    model: "/models/bus_stop_001.obj";
+    snap_to_roads: yes;
+}
+
+node[highway=bus_stop] {
+    model: "/models/bus_stop_sign.obj";
+    snap_to_roads: yes;
+}
+
+/* Tourism Information */
+node[tourism=information][information=board] {
+    model: "/models/info_board.obj";
+    rotatable: true;
+}
+
+node[tourism=information][information=post] {
+    model: "/models/info_post.obj";
+    rotatable: true;
+}
+
+node[tourism=information][information=guidepost] {
+    model: "/models/guidepost.obj";
+}
+
+node[tourism=information] {
+    model: "/models/info_board.obj";
+    rotatable: true;
+}
+
+/* Advertising Column */
+node[advertising=column] {
+    procedure: "ad_column";
+}
+
+/* Busket */
+node[amenity=waste_basket] {
+    model: "/models/basket.obj";
+    rotatable: true;
+}
+
+/* Fire Hydrant */
+node[emergency=fire_hydrant] {
+    model: "/models/fire_hydrant.obj";
+}
+
+/* Recycling Container */
+node[amenity=recycling][recycling_type=container] {
+    model: "/models/recycling_container.obj";
+    rotatable: true;
+}
+
+node[amenity=recycling] {
+    model: "/models/recycling_container.obj";
+    rotatable: true;
+}
+
+node[amenity=waste_disposal]
+{
+    model: "/models/recycling_container.obj";
+    rotatable: true;
+}

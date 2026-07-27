@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260708T174650Z",
+  "data_updated" : "20260726T210841Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -15,9 +15,29 @@
     "value" : "column",
     "description" : "Can be rendered as 3D object"
   }, {
+    "key" : "amenity",
+    "value" : "bench",
+    "description" : "A bench, rendered as a 3D model."
+  }, {
+    "key" : "amenity",
+    "value" : "recycling",
+    "description" : "A recycling point. Rendered as a 3D container model."
+  }, {
+    "key" : "amenity",
+    "value" : "waste_basket",
+    "description" : "A waste basket, rendered as a 3D model."
+  }, {
+    "key" : "amenity",
+    "value" : "waste_disposal",
+    "description" : "A waste disposal point. Currently rendered using the same model as recycling containers."
+  }, {
     "key" : "area",
     "value" : "yes",
     "description" : "This tag causes a feature that would otherwise be considered linear to be considered polygonal."
+  }, {
+    "key" : "backrest",
+    "value" : "yes",
+    "description" : "Used in combination with amenity=bench to signify whether the bench has a backrest "
   }, {
     "key" : "barrier",
     "description" : "The feature is interpreted as barrier, in case it does not have the building tag."
@@ -117,17 +137,44 @@
     "key" : "colour",
     "description" : "Specifies the color of the object, especially barrier or man-made."
   }, {
+    "key" : "direction",
+    "description" : "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points."
+  }, {
+    "key" : "emergency",
+    "value" : "fire_hydrant",
+    "description" : "A fire hydrant, rendered as a 3D model."
+  }, {
     "key" : "genus",
     "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."
   }, {
     "key" : "height",
     "description" : "The total height of the building, including the roof, in meters."
   }, {
+    "key" : "highway",
+    "value" : "bus_stop",
+    "description" : "A bus stop, rendered as a 3D model if it has shelter=yes."
+  }, {
+    "key" : "highway",
+    "value" : "street_lamp",
+    "description" : "A single street lamp, rendered as a 3D model."
+  }, {
     "key" : "hyperboloid:middle_rate",
     "description" : "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width"
   }, {
     "key" : "hyperboloid:top_rate",
     "description" : "Defines the relative width of the top of the structure compared to its base"
+  }, {
+    "key" : "information",
+    "value" : "board",
+    "description" : "An information board, rendered as a 3D model."
+  }, {
+    "key" : "information",
+    "value" : "guidepost",
+    "description" : "A signpost with arrows pointing to different locations."
+  }, {
+    "key" : "information",
+    "value" : "post",
+    "description" : "A generic information post."
   }, {
     "key" : "landuse",
     "value" : "forest",
@@ -182,6 +229,10 @@
     "description" : "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes."
   }, {
     "key" : "natural",
+    "value" : "shrub",
+    "description" : "A single shrub or bush, rendered as a 3D billboard model."
+  }, {
+    "key" : "natural",
     "value" : "tree",
     "description" : "A single tree, rendered as a 3D billboard model."
   }, {
@@ -191,6 +242,10 @@
   }, {
     "key" : "place",
     "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"
+  }, {
+    "key" : "recycling_type",
+    "value" : "container",
+    "description" : "Used with amenity=recycling to specify that the recycling point is a container."
   }, {
     "key" : "roof:colour",
     "description" : "Specifies the color of the roof."
@@ -362,6 +417,10 @@
     "value" : "hyperboloid",
     "description" : "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
   }, {
+    "key" : "shelter",
+    "value" : "yes",
+    "description" : "Indicates that a bus stop has a shelter, triggering 3D model rendering."
+  }, {
     "key" : "species",
     "description" : "The Latin name of the tree species. Used to infer leaf_type and leaf_cycle if these tags are not specified."
   }, {
@@ -383,6 +442,10 @@
   }, {
     "key" : "step:height",
     "description" : "Defines the height of each individual step for building:part=steps. 0.16 is used as default "
+  }, {
+    "key" : "tourism",
+    "value" : "information",
+    "description" : "General tourism information point."
   }, {
     "key" : "type",
     "value" : "building",

@@ -160,7 +160,7 @@
 		* In order to support a pure Java/Maven-compatible build and remove external dependencies, we implemented our own tooling: `ru.zkir.easytext`. It supports both sides of the process:
 			* Collecting strings from the source code and creating the `.pot` file.
 			* Compiling `.lang` files from `.po` files (Yes, JOSM uses its own format here).
-		* An autotest was created to check `.pot`/`.po` files, verify the existence of generated `.lang` files, and produce a [translation status report](docs/dev/translation-status.md).
+		* An autotest was created to check `.pot`/`.po` files, verify the existence of generated `.lang` files, and produce a [translation status report](docs/translation-status.md).
 	* Translations
 		* Added Russian translation (AI-generated).
 		* Added Slovak translation by @aceman444.

@@ -45,6 +45,7 @@ public class RenderableElement {
     public final double height;
     public final double minHeight;
 
+    public final double physicalArea;
 
     /**
      * Creates Renderable Element from basic parameters. May return null if object is not creatable.
@@ -382,59 +383,22 @@ public class RenderableElement {
         return new RenderableElement(primitive, origin, mesh, null);
     }
 
-    /** Create a tree*/
-    public static RenderableElement createTree(Node node) {
-        var random = new Random(node.getId());
-        return createTree(node, node.getCoor(), node.getInterestingTags(), random);
-    }
-
     /**
-     * Creates a tree RenderableElement from common parameters.
-     * @param primitive - OSM primitive for this tree
-     * @param origin - geographical coordinate (LatLon)
-     * @param tags - tags to be used for texture selection and height calculation
-     * @param random - random object for random texture selection
-     * @return RenderableElement or null if tree cannot be created (e.g. no texture found)
+     * Creates a generic billboard RenderableElement.
+     * @param primitive - OSM primitive
+     * @param origin - geographical coordinate
+     * @param texturePath - resource path to the texture
+     * @param width - width in meters
+     * @param height - height in meters
+     * @return RenderableElement
      */
-    public static RenderableElement createTree(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
-        if (primitive.isDeleted()){
+    public static RenderableElement createBillboard(OsmPrimitive primitive, LatLon origin, String texturePath, double width, double height) {
+        if (primitive.isDeleted() || origin == null || texturePath == null) {
             return null;
         }
 
-        if (origin == null) {
-            return null;
-        }
-
-        double treeHeight = 0;
-        if (tags.containsKey("height")){
-            treeHeight = getTagD("height", tags, 0);
-        }
-        if ((treeHeight == 0) && tags.containsKey("circumference")){
-            double treeCircumference = getTagD("circumference", tags, 1);
-            treeHeight = Math.pow((Math.log(treeCircumference)/Math.log(2) * 0.33 + 3), 2);
-        }
-        if (treeHeight == 0){
-            treeHeight = DEFAULT_TREE_HEIGHT;
-        }
-
-        double treeWidth = treeHeight * 0.9; // Make width proportional to height
-
-        // Enrich tags using species database, but use a copy to avoid polluting the global OSM data model
-        Map<String, String> enrichedTags = new HashMap<>(tags);
-        TreeSpeciesDatabase.getInstance().enrichTags(enrichedTags, origin, random);
-
-        String textureName = TextureManager.getInstance().findTextureName(enrichedTags, random);
-        if (textureName == null){
-            UrbanEye3dPlugin.debugMsg("failed to assign texture to object with tags " + tags);
-            return null;
-        }
-
-        // The origin of the tree object is the node itself.
-        // The mesher creates geometry around (0,0,0).
-        // The renderer will translate it to the correct world position.
-        Mesh treeMesh = MesherTree.generate(treeWidth, treeHeight);
-
-        return new RenderableElement(primitive, origin, treeMesh, textureName);
+        Mesh mesh = MesherTree.generate(width, height);
+        return new RenderableElement(primitive, origin, mesh, texturePath);
     }
 
     public static RenderableElement createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
@@ -476,11 +440,12 @@ public class RenderableElement {
         return new RenderableElement(primitive, origin, mesh, null);
     }
 
-    
+
     /**
      * Universal PRIVATE constructor for RenderableElement
      * to actually create object, use one of the factory methods
      * Gemini, don't make this constructor public, or else I'll scrap you.
+     * DO NOT CREATE OTHER CONSTRUCTORS!
      * */
     private RenderableElement(OsmPrimitive primitive, LatLon origin, Mesh mesh, String textureName) {
         if (primitive.isDeleted()) {
@@ -513,8 +478,33 @@ public class RenderableElement {
         }
         this.minHeight = minZ;
         this.height = maxZ;
+
+        // Calculate approximate physical area for pixel-based culling
+        if (mesh != null) {
+            Point3D minB = mesh.getMinBounds();
+            Point3D maxB = mesh.getMaxBounds();
+            double dx = maxB.x - minB.x;
+            double dy = maxB.y - minB.y;
+            double dz = maxB.z - minB.z;
+            this.physicalArea = Math.max(dx * dy, Math.max(dx * dz, dy * dz));
+        } else {
+            this.physicalArea = 0.0;
+        }
     }
 
+    /**
+     * Create a RenderableElement from a pre-loaded mesh model.
+     * @param node The OSM node.
+     * @param modelMesh The mesh to use.
+     * @return A new RenderableElement.
+     */
+    public static RenderableElement createFromModel(Node node, Mesh modelMesh) {
+        if (node.isDeleted() || node.getCoor() == null || modelMesh == null) {
+            return null;
+        }
+        // The color is now part of the mesh itself, so we just wrap it.
+        return new RenderableElement(node, node.getBBox().getCenter(), modelMesh, null);
+    }
 
 
     public Mesh getMesh() {
