@@ -1,0 +1,12 @@
+# Power Tower Billboard
+mtllib power_tower_billboard.mtl
+v -6.250 0.000 0.000
+v 6.250 0.000 0.000
+v 6.250 25.500 0.000
+v -6.250 25.500 0.000
+vt 0.000 0.000
+vt 1.000 0.000
+vt 1.000 1.000
+vt 0.000 1.000
+usemtl billboard_mat
+f 1/1 2/2 3/3 4/4

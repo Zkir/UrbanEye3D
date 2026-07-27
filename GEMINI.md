@@ -65,8 +65,30 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   **Support for CSS Cascading:** The asset configuration now supports standard CSS cascading and property inheritance. Common properties (like `rotatable` or `snap_to_roads`) can be defined in base rules and automatically inherited by more specific rules, reducing duplication in `assets.mapcss`.
     *   **Refactored Asset Configuration:** Simplified the `AssetRule` data model and updated `AssetConfigLoader` to utilize the JOSM style loading pipeline.
     *   **Updated Tooling:** Adjusted `TagInfoGeneratorTest` to maintain tag extraction capabilities using the new configuration structure.
+*   **Fixed Power Tower Geometry:**
+    * More realistic model for power tower (framework structure) has been added. 
+	* Python script to generated it programmatically has been added (but still buggy), so the model was adjusted manually.
 
-### Jul 26, 2026
+### Jul 28, 2026
+
+*   **Improved Power Line Geometry:**
+    *   **Anti-twist logic:** Implemented an intelligent snap-rotation system for power towers. On sharp turns (> 90 degrees), traverses now automatically reorient to stay parallel to the turn's chord, preventing wires from crossing or twisting.
+    *   **Enhanced node orientation:** Alignment logic now considers all connected line segments, ensuring correct tower rotation even at junctions of multiple OSM ways.
+    *   **Advanced Aerial Perspective:** Strengthened the "atmospheric haze" effect for wires. Switched to quadratic fading and reduced the effective visibility range to 2000m, significantly improving the sense of depth and scene realism.
+
+### Jul 27, 2026	
+
+*   **Comprehensive Power Line Support (Полноценная поддержка ЛЭП):**
+    *   **New 3D Visualization:** Power lines (`power=line`, `power=minor_line`) and their supports are now fully rendered in 3D.
+    *   **Multi-Wire Geometry:** Wires are modeled with realistic parabolic sagging. Large towers now feature 5 parallel wires (including a lightning protection wire at the top), while standard poles have 2 parallel wires.
+    *   **Upgraded Models:** Introduced detailed 3D models for `power=tower` and `power=pole` equipped with traverses (cross-arms) of varying widths.
+    *   **Intelligent Layout:** Towers automatically rotate to align with the line direction. Wires are precisely attached to the tips of the cross-arms, maintaining correct geometry even on sharp turns.
+    *   **Visual Fidelity:**
+        *   **Distance-based scaling:** Wires dynamically adjust their thickness as the camera moves, ensuring they remain visible but proportional.
+        *   **Atmospheric depth:** Implemented aerial perspective where wires become progressively transparent in the distance, blending into the scene's horizon.
+        *   **Accurate clipping:** Wires are strictly rendered within the active map area, perfectly synchronized with ground tiles.
+
+### Jul 26, 2026	
 
 * Support for street furniture via pre-made models:
     * **Recycling Container:** Added support for `amenity=recycling` using a new 3D model with a green body and grey lid.

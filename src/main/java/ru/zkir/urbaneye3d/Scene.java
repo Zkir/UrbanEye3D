@@ -30,6 +30,8 @@ public class Scene {
     /** The list of scene "elements" that should be rendered.
     * renderable element can be either a building or a building part. */
     final List<RenderableElement> renderableElements = new ArrayList<>();
+    final List<RenderableWire> renderableWires = new ArrayList<>();
+
     private int objectCount = 0;
     private int faceCount = 0;
     public int getObjectCount() {
@@ -41,11 +43,24 @@ public class Scene {
     }
     private final Map<String, Mesh> modelCache = new HashMap<>();
 
+    private static final Map<String, List<Point3D>> POWER_ATTACHMENTS = Map.of(
+        "tower", List.of(
+            new Point3D(-6.0, 0, 14.0), new Point3D(6.0, 0, 14.0),
+            new Point3D(-4.5, 0, 20.0), new Point3D(4.5, 0, 20.0),
+            new Point3D(0, 0, 25.0)
+        ),
+        "pole", List.of(
+            new Point3D(-1, 0, 9), new Point3D(1, 0, 9)
+        )
+    );
+
     public static class SceneUpdate {
         final List<RenderableElement> renderableElements;
+        final List<RenderableWire> renderableWires;
 
-        public SceneUpdate(List<RenderableElement> renderableElements) {
+        public SceneUpdate(List<RenderableElement> renderableElements, List<RenderableWire> renderableWires) {
             this.renderableElements = renderableElements;
+            this.renderableWires = renderableWires;
         }
     }
 
@@ -76,11 +91,13 @@ public class Scene {
 
     public void applyUpdate(SceneUpdate update) {
         renderableElements.clear();
+        renderableWires.clear();
         objectCount = 0;
         faceCount = 0;
         if (update != null) {
             renderableElements.addAll(update.renderableElements);
-            objectCount = renderableElements.size();
+            renderableWires.addAll(update.renderableWires);
+            objectCount = renderableElements.size() + renderableWires.size();
             for (RenderableElement element : renderableElements) {
                 if (element.getMesh() != null && element.getMesh().faces != null) {
                     faceCount += element.getMesh().faces.size();
@@ -92,8 +109,9 @@ public class Scene {
 
     public SceneUpdate calculateUpdate(DataSet dataSet) {
         List<RenderableElement> newElements = new ArrayList<>();
+        List<RenderableWire> newWires = new ArrayList<>();
         if (dataSet == null){
-            return new SceneUpdate(newElements);
+            return new SceneUpdate(newElements, newWires);
         }
 
         // A map to cache the expensive-to-create Contour objects for each primitive.
@@ -238,6 +256,64 @@ public class Scene {
             }
         }
 
+        // Pre-filter power lines for tower orientation
+        Map<Node, Double> powerNodeAngles = new HashMap<>();
+        Map<Node, List<Way>> powerLinesPerNode = new HashMap<>();
+        for (Way way : dataSet.getWays()) {
+            if (way.hasKey("power") && ("line".equals(way.get("power")) || "minor_line".equals(way.get("power")))) {
+                for (Node n : way.getNodes()) {
+                    powerLinesPerNode.computeIfAbsent(n, k -> new ArrayList<>()).add(way);
+                }
+            }
+        }
+
+        // Pre-calculate angles for all power nodes
+        for (Node node : powerLinesPerNode.keySet()) {
+            List<Way> lines = powerLinesPerNode.get(node);
+            List<Point2D> neighbors = new ArrayList<>();
+            LatLon nodeCoor = node.getCoor();
+
+            for (Way line : lines) {
+                List<Node> wayNodes = line.getNodes();
+                for (int i = 0; i < wayNodes.size(); i++) {
+                    if (wayNodes.get(i).equals(node)) {
+                        if (i > 0) neighbors.add(FlatEarth.getLocalCoords(wayNodes.get(i-1).lat(), wayNodes.get(i-1).lon(), nodeCoor));
+                        if (i < wayNodes.size() - 1) neighbors.add(FlatEarth.getLocalCoords(wayNodes.get(i+1).lat(), wayNodes.get(i+1).lon(), nodeCoor));
+                    }
+                }
+            }
+
+            if (!neighbors.isEmpty()) {
+                Point2D direction;
+                double rotationOffset = 90.0; // Standard perpendicular orientation
+
+                if (neighbors.size() >= 2) {
+                    // v1 and v2 are vectors FROM node TO neighbors.
+                    Point2D v1 = neighbors.get(0).normalized();
+                    Point2D v2 = neighbors.get(1).normalized();
+                    
+                    // Chord vector (v2 - v1)
+                    direction = new Point2D(v2.x - v1.x, v2.y - v1.y);
+                    
+                    // Check if the turn is sharp (angle between v1 and v2 is < 90 degrees)
+                    // Dot product > 0 means acute angle (sharp turn)
+                    if (v1.x * v2.x + v1.y * v2.y > 0) {
+                        rotationOffset = 0.0; // Snap! Align traverse with the chord
+                    }
+
+                    if (direction.length() < 1e-6) {
+                        direction = v2;
+                        rotationOffset = 90.0;
+                    }
+                } else {
+                    // End node
+                    Point2D v1 = neighbors.get(0).normalized();
+                    direction = new Point2D(-v1.x, -v1.y);
+                }
+                powerNodeAngles.put(node, Math.toDegrees(Math.atan2(direction.y, direction.x)) + rotationOffset);
+            }
+        }
+
         /*
          * Trees, street furniture, and other objects (using AssetConfig).
          */
@@ -278,6 +354,8 @@ public class Scene {
                         Double direction = null;
                         if (isRotatable) { //rotatable means that direction tag is defined for this object
                             if (node.hasKey("direction")) {
+                                // JOSM direction is Degrees CW from North. 
+                                // Our Mesh.rotate expects Degrees CCW from East OR model's Y+ matches North.
                                 direction = OsmDataWasher.parseDirection(node.get("direction"));
                             }
                         }
@@ -286,9 +364,21 @@ public class Scene {
                         if (direction == null && isSnapToRoads){
                             direction = calculateDirectionToNearestRoad(node, roads);
                         }
+                        
+                        // Special case for power towers/poles orientation
+                        if (direction == null && node.hasKey("power") && (node.hasTag("power", "tower") || node.hasTag("power", "pole"))) {
+                            Double lineAngle = powerNodeAngles.get(node);
+                            if (lineAngle != null) {
+                                instanceMesh = mesh.clone();
+                                // lineAngle already includes the necessary offset (0 or 90)
+                                instanceMesh.rotate(lineAngle);
+                                direction = 0.0; // Handled
+                            }
+                        }
 
-                        if (direction != null && direction !=0 ) {
+                        if (direction != null && direction != 0.0) {
                             instanceMesh = mesh.clone();
+                            // If model faces North (Y+) by default, rotate(-directionCWFromNorth) works perfectly.
                             instanceMesh.rotate(-direction);
                         }
 
@@ -309,6 +399,80 @@ public class Scene {
 
                 if (element != null) {
                     newElements.add(element);
+                }
+            }
+        }
+
+        /*
+         * Power Lines (Wires)
+         */
+        for (Way way : dataSet.getWays()) {
+            if (way.isDeleted() || !way.hasKey("power")) continue;
+            String power = way.get("power");
+            if (!"line".equals(power) && !"minor_line".equals(power)) continue;
+
+            float lineWidth = "line".equals(power) ? 1.5f : 1.0f;
+            double sag = "line".equals(power) ? 2.5 : 1.0;
+
+            List<Node> wayNodes = way.getNodes();
+            for (int i = 0; i < wayNodes.size() - 1; i++) {
+                Node n1 = wayNodes.get(i);
+                Node n2 = wayNodes.get(i + 1);
+
+                double angle1 = powerNodeAngles.getOrDefault(n1, 0.0);
+                double angle2 = powerNodeAngles.getOrDefault(n2, 0.0);
+
+                List<Point3D> offsets1 = getAttachmentOffsets(n1);
+                List<Point3D> offsets2 = getAttachmentOffsets(n2);
+
+                LatLon origin = n1.getCoor();
+                // Base points in local coords
+                Point3D base1 = new Point3D(0, 0, 0);
+                double cosLat = Math.cos(Math.toRadians(origin.lat()));
+                Point3D base2 = new Point3D(
+                        (n2.lon() - origin.lon()) * cosLat * FlatEarth.GRAD_LENGTH_M,
+                        (n2.lat() - origin.lat()) * FlatEarth.GRAD_LENGTH_M,
+                        0
+                );
+
+                // Segment vector and its right-hand normal in 2D (XY plane)
+                Point2D segV = new Point2D(base2.x - base1.x, base2.y - base1.y);
+                Point2D segRight = new Point2D(segV.y, -segV.x);
+
+                int wireCount = Math.min(offsets1.size(), offsets2.size());
+                // We process wires in pairs (except for the top single wire of a tower)
+                // to prevent crossing within each traverse level.
+                for (int j = 0; j < wireCount; ) {
+                    // Check if it's a pair (like indices 0,1 or 2,3) or a single wire (like index 4)
+                    int batchSize = (j + 1 < wireCount && Math.abs(offsets1.get(j).z - offsets1.get(j+1).z) < 0.1) ? 2 : 1;
+
+                    if (batchSize == 2) {
+                        // It's a pair on one traverse. Match them to prevent twisting.
+                        Point3D p1a = offsets1.get(j).rotateZ(angle1);
+                        Point3D p1b = offsets1.get(j+1).rotateZ(angle1);
+                        Point3D p2a = base2.add(offsets2.get(j).rotateZ(angle2));
+                        Point3D p2b = base2.add(offsets2.get(j+1).rotateZ(angle2));
+
+                        // Decide which is "right" at n1 and n2 based on projection onto segRight
+                        boolean p1aIsRight = (p1a.x * segRight.x + p1a.y * segRight.y) > (p1b.x * segRight.x + p1b.y * segRight.y);
+                        boolean p2aIsRight = (p2a.x * segRight.x + p2a.y * segRight.y) > (p2b.x * segRight.x + p2b.y * segRight.y);
+
+                        // Connect right to right, left to left
+                        Point3D startR = p1aIsRight ? p1a : p1b;
+                        Point3D startL = p1aIsRight ? p1b : p1a;
+                        Point3D endR = p2aIsRight ? p2a : p2b;
+                        Point3D endL = p2aIsRight ? p2b : p2a;
+
+                        newWires.add(new RenderableWire(way, origin, PowerLineMath.generateSaggingWire(startR, endR, sag, 10), lineWidth));
+                        newWires.add(new RenderableWire(way, origin, PowerLineMath.generateSaggingWire(startL, endL, sag, 10), lineWidth));
+                        j += 2;
+                    } else {
+                        // Single wire (e.g. lightning protector)
+                        Point3D p1 = base1.add(offsets1.get(j).rotateZ(angle1));
+                        Point3D p2 = base2.add(offsets2.get(j).rotateZ(angle2));
+                        newWires.add(new RenderableWire(way, origin, PowerLineMath.generateSaggingWire(p1, p2, sag, 10), lineWidth));
+                        j++;
+                    }
                 }
             }
         }
@@ -401,7 +565,7 @@ public class Scene {
             }
         }
 		
-        return new SceneUpdate(newElements);
+        return new SceneUpdate(newElements, newWires);
     }
 
     private List<OsmPrimitive> findContainedParts (OsmPrimitive primitive, Contour buildingContour, List<OsmPrimitive> buildingParts, Map<OsmPrimitive, Contour> primitiveContours) {
@@ -532,6 +696,17 @@ public class Scene {
         }
 
         return null;
+    }
+
+    private List<Point3D> getAttachmentOffsets(Node node) {
+        if (node.hasTag("power", "tower")) {
+            return POWER_ATTACHMENTS.get("tower");
+        }
+        if (node.hasTag("power", "pole")) {
+            return POWER_ATTACHMENTS.get("pole");
+        }
+        // Default for unknown nodes on the line
+        return List.of(new Point3D(0, 0, 10));
     }
 
 }

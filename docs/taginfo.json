@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260730T185952Z",
+  "data_updated" : "20260730T184606Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -144,10 +144,6 @@
     "value" : "fire_hydrant",
     "description" : "A fire hydrant, rendered as a 3D model."
   }, {
-    "key" : "fire_hydrant:type",
-    "value" : "underground",
-    "description" : "Underground hydrants are NOT rendered!"
-  }, {
     "key" : "genus",
     "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."
   }, {
@@ -247,13 +243,21 @@
     "key" : "place",
     "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"
   }, {
-    "key" : "public_transport",
-    "value" : "platform",
-    "description" : "A public transport platform. Rendered as a bus stop model if applicable."
+    "key" : "power",
+    "value" : "line",
+    "description" : "A high-voltage power line, rendered with multiple sagging wires."
   }, {
-    "key" : "recycling_type",
-    "value" : "centre",
-    "description" : "A larger recycling center, usually containing multiple containers. In UrbanEye3D, we exclude it from simple container rendering."
+    "key" : "power",
+    "value" : "minor_line",
+    "description" : "A low-voltage or service power line, rendered with two sagging wires."
+  }, {
+    "key" : "power",
+    "value" : "pole",
+    "description" : "A standard power pole support."
+  }, {
+    "key" : "power",
+    "value" : "tower",
+    "description" : "A large lattice power tower support."
   }, {
     "key" : "recycling_type",
     "value" : "container",

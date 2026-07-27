@@ -1,7 +1,5 @@
 package ru.zkir.urbaneye3d.utils;
 
-import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
-
 import java.awt.Color;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -22,16 +20,30 @@ public class ObjImporter {
      */
     private static class ModelData {
         public final List<Point3D> vertices = new ArrayList<>();
+        public final List<Point2D> uvs = new ArrayList<>();
         public final List<int[]> faces = new ArrayList<>();
+        public final List<int[]> faceUVs = new ArrayList<>();
         public final List<String> faceMaterials = new ArrayList<>();
-        public final Map<String, Color> materials = new HashMap<>();
+        public final Map<String, MaterialInfo> materials = new HashMap<>();
+        public String textureName;
     }
 
-    private Map<String, Color> parseMtlFile(String mtlPath) throws IOException {
-        Map<String, Color> materials = new HashMap<>();
+    private static class MaterialInfo {
+        public final Color color;
+        public final String textureName;
+
+        public MaterialInfo(Color color, String textureName) {
+            this.color = color;
+            this.textureName = textureName;
+        }
+    }
+
+    private Map<String, MaterialInfo> parseMtlFile(String mtlPath) throws IOException {
+        Map<String, MaterialInfo> materials = new HashMap<>();
         String currentMtlName = null;
-        float currentR = 0, currentG = 0, currentB = 0;
+        float currentR = 1.0f, currentG = 1.0f, currentB = 1.0f;
         float currentAlpha = 1.0f;
+        String currentTexture = null;
 
         try (InputStream mtlStream = getClass().getResourceAsStream(mtlPath)) {
             if (mtlStream == null) {
@@ -44,21 +56,23 @@ public class ObjImporter {
                     line = line.trim();
                     if (line.startsWith("newmtl ")) {
                         if (currentMtlName != null) {
-                            materials.put(currentMtlName, new Color(currentR, currentG, currentB, currentAlpha));
+                            materials.put(currentMtlName, new MaterialInfo(new Color(currentR, currentG, currentB, currentAlpha), currentTexture));
                         }
                         currentMtlName = line.split(" +")[1];
                         currentAlpha = 1.0f;
+                        currentTexture = null;
+                        currentR = 1.0f; currentG = 1.0f; currentB = 1.0f;
                     } else if (line.startsWith("Kd ") && currentMtlName != null) {
                         String[] parts = line.split(" +");
                         currentR = Float.parseFloat(parts[1]);
                         currentG = Float.parseFloat(parts[2]);
                         currentB = Float.parseFloat(parts[3]);
+                    } else if (line.startsWith("map_Kd ") && currentMtlName != null) {
+                        String[] parts = line.split(" +");
+                        currentTexture = parts[1];
                     } else if ((line.startsWith("d ") || line.startsWith("Tr ")) && currentMtlName != null) {
                         String[] parts = line.split(" +");
                         float val = Float.parseFloat(parts[1]);
-                        // In MTL, 'd' (dissolve) 1.0 is opaque, 0.0 is transparent.
-                        // 'Tr' (transparency) can be inverted depending on implementation, 
-                        // but usually 'Tr' 1.0 means transparent. Let's stick to 'd' logic first.
                         if (line.startsWith("Tr ")) {
                              currentAlpha = 1.0f - val;
                         } else {
@@ -67,7 +81,7 @@ public class ObjImporter {
                     }
                 }
                 if (currentMtlName != null) {
-                    materials.put(currentMtlName, new Color(currentR, currentG, currentB, currentAlpha));
+                    materials.put(currentMtlName, new MaterialInfo(new Color(currentR, currentG, currentB, currentAlpha), currentTexture));
                 }
             }
         }
@@ -88,8 +102,12 @@ public class ObjImporter {
                     line = line.trim();
                     if (line.startsWith("v ")) {
                         modelData.vertices.add(parseVertex(line));
+                    } else if (line.startsWith("vt ")) {
+                        modelData.uvs.add(parseUV(line));
                     } else if (line.startsWith("f ")) {
-                        modelData.faces.add(parseFace(line));
+                        int[][] faceData = parseFaceWithUV(line);
+                        modelData.faces.add(faceData[0]);
+                        modelData.faceUVs.add(faceData[1]);
                         modelData.faceMaterials.add(currentMaterialName);
                     } else if (line.startsWith("mtllib ")) {
                         String mtlFileName = line.split(" +")[1];
@@ -109,22 +127,33 @@ public class ObjImporter {
         double x = Double.parseDouble(parts[1]);
         double y = Double.parseDouble(parts[2]);
         double z = Double.parseDouble(parts[3]);
-        // To convert from a Y-up coordinate system (common in 3D modeling)
-        // to our Z-up system, we perform a 90-degree rotation around the X-axis.
         // (x, y, z) -> (x, -z, y)
         return new Point3D(x, -z, y);
     }
 
-    private int[] parseFace(String line) {
+    private Point2D parseUV(String line) {
         String[] parts = line.split(" +");
-        int[] faceIndices = new int[parts.length - 1];
+        double u = Double.parseDouble(parts[1]);
+        double v = Double.parseDouble(parts[2]);
+        return new Point2D(u, v);
+    }
+
+    private int[][] parseFaceWithUV(String line) {
+        String[] parts = line.split(" +");
+        int[] vIndices = new int[parts.length - 1];
+        int[] uvIndices = new int[parts.length - 1];
+        boolean hasUV = false;
         for (int i = 1; i < parts.length; i++) {
-            // OBJ format is 1-based, our list is 0-based.
-            // We only care about the vertex index, ignore texture/normal indices.
-            String vertexIndexStr = parts[i].split("/")[0];
-            faceIndices[i - 1] = Integer.parseInt(vertexIndexStr) - 1;
+            String[] subParts = parts[i].split("/");
+            vIndices[i - 1] = Integer.parseInt(subParts[0]) - 1;
+            if (subParts.length > 1 && !subParts[1].isEmpty()) {
+                uvIndices[i - 1] = Integer.parseInt(subParts[1]) - 1;
+                hasUV = true;
+            } else {
+                uvIndices[i - 1] = -1;
+            }
         }
-        return faceIndices;
+        return new int[][]{vIndices, hasUV ? uvIndices : null};
     }
 
     public Mesh loadModel(String resourcePath) {
@@ -136,45 +165,82 @@ public class ObjImporter {
             Map<String, Integer> materialNameToIndex = new HashMap<>();
 
             // Populate mesh materials and create a name-to-index map
+            int lastSlash = resourcePath.lastIndexOf('/');
+            String parentDir = lastSlash >= 0 ? resourcePath.substring(0, lastSlash) : "";
+            
             if (modelData.materials.isEmpty()) {
-                // Add a default material if none are loaded
                 mesh.materials.add(Color.GRAY);
                 materialNameToIndex.put(null, 0);
             } else {
-                for (Map.Entry<String, Color> entry : modelData.materials.entrySet()) {
-                    mesh.materials.add(entry.getValue());
+                for (Map.Entry<String, MaterialInfo> entry : modelData.materials.entrySet()) {
+                    mesh.materials.add(entry.getValue().color);
                     materialNameToIndex.put(entry.getKey(), mesh.materials.size() - 1);
+                    if (entry.getValue().textureName != null && mesh.textureName == null) {
+                        String texName = entry.getValue().textureName;
+                        String finalPath;
+                        if (!texName.startsWith("/")) {
+                            finalPath = parentDir + (parentDir.isEmpty() || parentDir.endsWith("/") ? "" : "/") + texName;
+                        } else {
+                            finalPath = texName;
+                        }
+                        // Ensure it's an absolute resource path
+                        if (!finalPath.startsWith("/")) {
+                            finalPath = "/" + finalPath;
+                        }
+                        mesh.textureName = finalPath;
+                    }
                 }
             }
 
             // Add vertices
-            int[] indexMap = new int[modelData.vertices.size()];
+            int[] vIndexMap = new int[modelData.vertices.size()];
             for (int i = 0; i < modelData.vertices.size(); i++) {
-                indexMap[i] = mesh.addVertex(modelData.vertices.get(i));
+                vIndexMap[i] = mesh.addVertex(modelData.vertices.get(i));
             }
 
-            // Add faces with correct material
+            // Add UVs
+            int[] uvIndexMap = new int[modelData.uvs.size()];
+            for (int i = 0; i < modelData.uvs.size(); i++) {
+                Point2D uv = modelData.uvs.get(i);
+                uvIndexMap[i] = mesh.addUV(uv.x, uv.y);
+            }
+
+            // Add faces with correct material and UVs
             for (int i = 0; i < modelData.faces.size(); i++) {
-                int[] oldFace = modelData.faces.get(i);
+                int[] oldVFace = modelData.faces.get(i);
+                int[] oldUVFace = modelData.faceUVs.get(i);
                 String materialName = modelData.faceMaterials.get(i);
 
-                int[] newFace = new int[oldFace.length];
-                for (int j = 0; j < oldFace.length; j++) {
-                    newFace[j] = indexMap[oldFace[j]];
+                int[] newVFace = new int[oldVFace.length];
+                for (int j = 0; j < oldVFace.length; j++) {
+                    newVFace[j] = vIndexMap[oldVFace[j]];
                 }
 
-                Integer materialIndex = materialNameToIndex.get(materialName);
-                if (materialIndex == null) {
-                    materialIndex = 0; // Default to the first material (or gray)
+                int[] newUVFace = null;
+                if (oldUVFace != null) {
+                    newUVFace = new int[oldUVFace.length];
+                    for (int j = 0; j < oldUVFace.length; j++) {
+                        newUVFace[j] = uvIndexMap[oldUVFace[j]];
+                    }
                 }
 
-                mesh.addFace(newFace, materialIndex);
+                if (newUVFace != null) {
+                    // Use the official API to ensure all lists are synchronized
+                    mesh.addFace(newVFace, newUVFace);
+                    // Also set the material color for this face
+                    Integer materialIndex = materialNameToIndex.get(materialName);
+                    if (materialIndex != null) {
+                        mesh.faceMaterials.set(mesh.faces.size() - 1, materialIndex);
+                    }
+                } else {
+                    Integer materialIndex = materialNameToIndex.get(materialName);
+                    mesh.addFace(newVFace, materialIndex != null ? materialIndex : 0);
+                }
             }
 
             return mesh;
         } catch (IOException e) {
-            UrbanEye3dPlugin.debugMsg("Failed to load model " + resourcePath + ": " + e.getMessage());
-            return null;
+            throw new RuntimeException("Failed to load model " + resourcePath + ": " + e.getMessage());
         }
     }
 }

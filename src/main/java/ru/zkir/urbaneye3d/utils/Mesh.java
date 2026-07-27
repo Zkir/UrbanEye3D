@@ -14,6 +14,7 @@ public class Mesh {
     public final List<Point3D> verts;   //vertex coordinates (3D)
     public final List<Point2D> uvs;     //UV coordinates  (2D)
     public final List<Color> materials; //currently we have Color only.
+    public String textureName;          // Optional texture name for the whole mesh
 
     /** Main array for faces. Contains Vertex indices*/
     public final List<int[]> faces;
@@ -199,6 +200,8 @@ public class Mesh {
         if (this.maxBounds != null) {
             cloned.maxBounds = new Point3D(this.maxBounds.x, this.maxBounds.y, this.maxBounds.z);
         }
+
+        cloned.textureName = this.textureName;
         
         return cloned;
     }

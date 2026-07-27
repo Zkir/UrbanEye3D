@@ -1,0 +1,4 @@
+newmtl billboard_mat
+Kd 1.0 1.0 1.0
+map_Kd power_tower_billboard.png
+d 1.0

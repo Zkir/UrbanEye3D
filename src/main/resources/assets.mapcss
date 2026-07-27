@@ -86,6 +86,15 @@ node[emergency=fire_hydrant][fire_hydrant:type!=underground] {
     model: "/models/fire_hydrant.obj";
 }
 
+/* Power */
+node[power=tower] {
+    model: "/models/power_tower_billboard.obj";
+}
+
+node[power=pole] {
+    model: "/models/power_pole.obj";
+}
+
 /* Recycling Container */
 node[amenity=recycling][recycling_type=container] {
     model: "/models/recycling_container.obj";

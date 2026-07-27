@@ -148,7 +148,7 @@
   <node id='-402230' action='modify' visible='true' lat='55.05074671578' lon='37.04289817628'>
     <tag k='emergency' v='fire_hydrant' />
   </node>
-  <node id='-525303' action='modify' visible='true' lat='55.05074688726' lon='37.04278047041'>
+  <node id='-525303' action='modify' visible='true' lat='55.05074654499' lon='37.04278166539'>
     <tag k='highway' v='bus_stop' />
   </node>
   <node id='-612446' action='modify' visible='true' lat='55.05074671579' lon='37.04309056765'>
@@ -171,23 +171,29 @@
     <tag k='amenity' v='recycling' />
     <tag k='recycling_type' v='container' />
   </node>
-  <node id='-702711' action='modify' visible='true' lat='55.05065105069' lon='37.0428282701'>
-    <tag k='public_transport' v='platform' />
-    <tag k='shelter' v='yes' />
+  <node id='-705417' action='modify' visible='true' lat='55.05435668674' lon='37.04345977805'>
+    <tag k='power' v='tower' />
   </node>
-  <node id='-713859' action='modify' visible='true' lat='55.05064797024' lon='37.04259823694'>
-    <tag k='public_transport' v='platform' />
+  <node id='-716440' action='modify' visible='true' lat='55.05424716948' lon='37.0494251055'>
+    <tag k='power' v='tower' />
   </node>
-  <node id='-985867' action='modify' visible='true' lat='55.05077084594' lon='37.04284858472'>
-    <tag k='amenity' v='recycling' />
+  <node id='-727433' action='modify' visible='true' lat='55.05383100115' lon='37.0540520582'>
+    <tag k='power' v='tower' />
   </node>
-  <node id='-1019242' action='modify' visible='true' lat='55.05077153048' lon='37.04287427674'>
-    <tag k='amenity' v='recycling' />
-    <tag k='recycling_type' v='centre' />
+  <node id='-830246' action='modify' visible='true' lat='55.05342576404' lon='37.05126539946'>
+    <tag k='power' v='tower' />
   </node>
-  <node id='-1022153' action='modify' visible='true' lat='55.05077084577' lon='37.04289787784'>
-    <tag k='emergency' v='fire_hydrant' />
-    <tag k='fire_hydrant:type' v='underground' />
+  <node id='-1029878' action='modify' visible='true' lat='55.05365027871' lon='37.05023293894'>
+    <tag k='power' v='tower' />
+  </node>
+  <node id='-3214527' action='modify' visible='true' lat='55.0533217175' lon='37.0497358331'>
+    <tag k='power' v='pole' />
+  </node>
+  <node id='-3237065' action='modify' visible='true' lat='55.05356813935' lon='37.04939645472'>
+    <tag k='power' v='pole' />
+  </node>
+  <node id='-3239949' action='modify' visible='true' lat='55.05388026804' lon='37.04536221083'>
+    <tag k='power' v='tower' />
   </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
@@ -381,6 +387,29 @@
     <nd ref='-335571' />
     <nd ref='-345844' />
     <tag k='highway' v='unclassified' />
+  </way>
+  <way id='-13509' action='modify' visible='true'>
+    <nd ref='-705417' />
+    <nd ref='-716440' />
+    <nd ref='-727433' />
+    <tag k='power' v='line' />
+  </way>
+  <way id='-13530' action='modify' visible='true'>
+    <nd ref='-716440' />
+    <nd ref='-1029878' />
+    <nd ref='-830246' />
+    <tag k='power' v='line' />
+  </way>
+  <way id='-13557' action='modify' visible='true'>
+    <nd ref='-1029878' />
+    <nd ref='-3214527' />
+    <nd ref='-3237065' />
+    <tag k='power' v='minor_line' />
+  </way>
+  <way id='-13579' action='modify' visible='true'>
+    <nd ref='-3239949' />
+    <nd ref='-705417' />
+    <tag k='power' v='line' />
   </way>
   <relation id='-2721' action='modify' visible='true'>
     <member type='way' ref='-13300' role='outer' />

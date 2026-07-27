@@ -14,6 +14,8 @@ This file provides an inventory of all 3D models and textures used in the projec
 | `/models/guidepost.obj` | 48&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/info_board.obj` | 20&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/info_post.obj` | 16&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/power_pole.obj` | 11&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/power_tower.obj` | 144&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/recycling_container.obj` | 40&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/street_lamp.obj` | 36&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/textures/bushes/rose_bush.png` | 512x512&nbsp;px | [Pngtree](https://pngtree.com/freepng/blooming-red-rose-bush_19859191.html?sol=downref&id=bef) | [Pngtree Free]() |

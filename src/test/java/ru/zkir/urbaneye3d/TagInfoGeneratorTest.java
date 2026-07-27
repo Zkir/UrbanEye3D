@@ -159,6 +159,12 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("man_made=cooling_tower",        "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=tower",                "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=water_tower",          "Can be rendered as 3D object");
+
+        TAG_DESCRIPTIONS.put("power=line", "A high-voltage power line, rendered with multiple sagging wires.");
+        TAG_DESCRIPTIONS.put("power=minor_line", "A low-voltage or service power line, rendered with two sagging wires.");
+        TAG_DESCRIPTIONS.put("power=tower", "A large lattice power tower support.");
+        TAG_DESCRIPTIONS.put("power=pole", "A standard power pole support.");
+
         TAG_DESCRIPTIONS.put("place", "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance");
 
         TAG_DESCRIPTIONS.put("advertising=column",           "Can be rendered as 3D object");
@@ -344,7 +350,7 @@ public class TagInfoGeneratorTest {
 
     private Set<ParsedTag> findTagsInSourceCode() throws IOException {
         Set<ParsedTag> tags = new HashSet<>();
-        Pattern pattern1 = Pattern.compile("(?<!properties\\.)(?:getTagStr|getTagD|get|hasKey|hasTag)\\s*\\(\\s*\"([a-zA-Z0-9:_.-]+)\"\\s*[,\\)]");
+        Pattern pattern1 = Pattern.compile("(?<!properties\\.|POWER_ATTACHMENTS\\.)(?:getTagStr|getTagD|get|hasKey|hasTag)\\s*\\(\\s*\"([a-zA-Z0-9:_.-]+)\"\\s*[,\\)]");
         Pattern pattern2 = Pattern.compile("inheritableKeys\\s*=\\s*Arrays\\.asList\\(([^)]+)\\)");
         Pattern pattern3 = Pattern.compile("hasTag\\s*\\(\\s*\"([^\"]+)\"\\s*,\\s*\"([^\"]+)\"\\s*\\)");
 

@@ -502,8 +502,8 @@ public class RenderableElement {
         if (node.isDeleted() || node.getCoor() == null || modelMesh == null) {
             return null;
         }
-        // The color is now part of the mesh itself, so we just wrap it.
-        return new RenderableElement(node, node.getBBox().getCenter(), modelMesh, null);
+        // If the mesh has a model-defined texture, we use it.
+        return new RenderableElement(node, node.getBBox().getCenter(), modelMesh, modelMesh.textureName);
     }
 
 

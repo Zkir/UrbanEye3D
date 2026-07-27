@@ -70,6 +70,15 @@ public class Point3D {
        return this.subtract(other).length();
     }
 
+    public Point3D rotateZ(double angleDegrees) {
+        double angleRad = Math.toRadians(angleDegrees);
+        double cosA = Math.cos(angleRad);
+        double sinA = Math.sin(angleRad);
+        double newX = x * cosA - y * sinA;
+        double newY = x * sinA + y * cosA;
+        return new Point3D(newX, newY, z);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

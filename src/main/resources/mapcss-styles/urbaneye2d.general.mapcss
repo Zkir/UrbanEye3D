@@ -1564,6 +1564,7 @@ area|z16-[natural=tree] {
  * Style 'power_line'
  */
 
+/*
 way|z14-15[power=line] {
     color: #777777;
     width: 1;
@@ -1573,16 +1574,19 @@ way|z16-[power=line] {
     color: #777777;
     width: 1.5;
 }
+*/
 
 /**
  * Layer 'power_minorline'
  * Style 'power_minorline'
  */
 
+/*
 way|z16-[power=minor_line] {
     color: #777777;
     width: 0.5;
 }
+*/
 
 
 /**

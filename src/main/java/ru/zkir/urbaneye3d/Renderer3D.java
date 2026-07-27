@@ -435,6 +435,66 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 gl.glPopMatrix();
             }
         }
+
+        // --- Render Wires (Power Lines) ---
+        if (scene.renderableWires != null && !scene.renderableWires.isEmpty()) {
+            Bounds visibleArea = this.scene.getVisibleArea();
+            for (RenderableWire wire : scene.renderableWires) {
+                if (visibleArea != null && !visibleArea.contains(wire.origin)) {
+                    continue;
+                }
+
+                double dxMap = wire.origin.lon() - mapCenter.lon();
+                double dyMap = wire.origin.lat() - mapCenter.lat();
+                double transX = dxMap * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+                double transY = dyMap * 111320.0;
+
+                // Simple frustum check
+                Point3D pStart = wire.points.get(0);
+                Point3D pEnd = wire.points.get(wire.points.size() - 1);
+                double minX = Math.min(pStart.x, pEnd.x);
+                double maxX = Math.max(pStart.x, pEnd.x);
+                double minY = Math.min(pStart.y, pEnd.y);
+                double maxY = Math.max(pStart.y, pEnd.y);
+                double minZ = Math.min(pStart.z, pEnd.z) - 5; // Account for sag
+                double maxZ = Math.max(pStart.z, pEnd.z);
+
+                if (!isBoxInFrustum(frustum, minX + transX, minY + transY, minZ, maxX + transX, maxY + transY, maxZ)) {
+                    continue;
+                }
+
+                // Adaptive line properties based on distance
+                // Calculate distance from camera to the center of the segment
+                double centerX = (minX + maxX) / 2.0 + transX;
+                double centerY = (minY + maxY) / 2.0 + transY;
+                double centerZ = (minZ + maxZ) / 2.0;
+                double dist = Math.sqrt(Math.pow(centerX - eyeX, 2) + Math.pow(centerY - eyeY, 2) + Math.pow(centerZ - eyeZ, 2));
+                
+                // 1. Adaptive width
+                float adaptiveWidth = (float) (wire.lineWidth * 10.0 / Math.sqrt(dist + 1));
+                if (adaptiveWidth < 1.0f) adaptiveWidth = 1.0f;
+                if (adaptiveWidth > 5.0f) adaptiveWidth = 5.0f;
+
+                // 2. Aerial Perspective (Alpha)
+                // Wires fade out quadratically and much faster than the world cutoff (5km)
+                // Use 2000m as the "wire fog" horizon.
+                float alpha = (float) Math.pow(1.0 - Math.min(1.0, dist / 2000.0), 2.0);
+                if (alpha < 0.1f) alpha = 0.1f; // Minimum visibility for distant wires
+                if (alpha > 1.0f) alpha = 1.0f;
+
+                gl.glPushMatrix();
+                gl.glTranslated(transX, transY, 0);
+                gl.glLineWidth(adaptiveWidth);
+                gl.glColor4f(0.1f, 0.1f, 0.1f, alpha);
+                gl.glBegin(GL2.GL_LINE_STRIP);
+                for (Point3D p : wire.points) {
+                    gl.glVertex3d(p.x, p.y, p.z);
+                }
+                gl.glEnd();
+                gl.glPopMatrix();
+            }
+        }
+
         gl.glFlush();
 
         long endTime = System.nanoTime();

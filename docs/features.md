@@ -266,6 +266,25 @@ This section describes various standalone 3D objects rendered by the plugin.
 -   **Automatic Alignment:** The bus stop model automatically rotates to face the nearest road (`highway=*`, excluding footways). If the `direction` tag is explicitly provided, it overrides this automatic behavior.
 -   The model features semi-transparent glass panels and an integrated bench.
 
+## Power Infrastructure
+
+The plugin provides 3D visualization for electrical power networks.
+
+### Power Lines
+
+- Objects tagged with `power=line` or `power=minor_line` are rendered as 3D wires.
+- **Realistic Catenary:** Wires are modeled with a realistic parabolic sag (catenary curve).
+- **Multi-Wire Support:** The renderer automatically assigns the number of parallel wires based on the voltage and importance:
+    - High-voltage lines (`power=line`) feature 5 parallel wires, including a lightning protection wire at the very top of the tower.
+    - Minor lines (`power=minor_line`) are rendered with 2 parallel wires.
+- **Limitations:** Tags for cables, circuits or voltage are NOT respected yet. 
+
+### Power Supports
+
+- Nodes tagged with `power=tower` or `power=pole` are rendered as 3D structures.
+- **Automatic Alignment:** Supports automatically rotate to align with the direction of the connected power lines.
+- **Traverses (Cross-arms):** Towers are equipped with traverses of varying widths. Wires are precisely attached to the tips of these arms. On sharp turns, the traverses automatically reorient to prevent wire crossing.
+
 ## Natural Features
 
 The plugin renders some natural features to provide more context to the 3D scene.
