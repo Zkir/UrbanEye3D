@@ -16,6 +16,7 @@ import org.openstreetmap.josm.gui.preferences.PreferenceTabbedPane.PreferencePan
 import org.openstreetmap.josm.spi.preferences.Config;
 import org.openstreetmap.josm.tools.ImageProvider;
 import javax.swing.ImageIcon;
+import java.util.Hashtable;
 
 public class UrbanEye3dPreferences implements TabPreferenceSetting {
 
@@ -25,6 +26,16 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
     private JCheckBox showStatsCheckBox;
     private JCheckBox useSatelliteCheckBox;
     private JSlider forestDensitySlider;
+    private JSlider msaaSlider;
+
+    private static final int[] MSAA_VALUES = {0, 2, 4, 8};
+
+    private int getMsaaIndex(int value) {
+        for (int i = 0; i < MSAA_VALUES.length; i++) {
+            if (MSAA_VALUES[i] == value) return i;
+        }
+        return 2; // Default to 4 samples (index 2)
+    }
 
     @Override
     public void addGui(PreferenceTabbedPane gui) {
@@ -73,7 +84,28 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         forestDensitySlider.setValue(Config.getPref().getInt("urbaneye3d.forest-density", 50));
         forestDensitySlider.setToolTipText(tr("Adjust the number of trees generated in forest polygons. This setting affects performance."));
         panel.add(forestDensitySlider, gbc);
-        gbc.gridy = 7; 
+
+        gbc.gridy = 8;
+        panel.add(new JLabel(tr("Anti-aliasing (MSAA) samples")), gbc);
+        gbc.gridy = 9;
+        msaaSlider = new JSlider(0, 3);
+        int currentSamples = Config.getPref().getInt("urbaneye3d.msaa.samples", 4);
+        msaaSlider.setValue(getMsaaIndex(currentSamples));
+        msaaSlider.setMajorTickSpacing(1);
+        msaaSlider.setPaintTicks(true);
+        msaaSlider.setSnapToTicks(true);
+        
+        Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
+        for (int i = 0; i < MSAA_VALUES.length; i++) {
+            labelTable.put(i, new JLabel(String.valueOf(MSAA_VALUES[i])));
+        }
+        msaaSlider.setLabelTable(labelTable);
+        msaaSlider.setPaintLabels(true);
+        
+        msaaSlider.setToolTipText(tr("Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."));
+        panel.add(msaaSlider, gbc);
+
+        gbc.gridy = 10; 
         gbc.weighty = 1.0; // This component takes all remaining vertical space
         gbc.fill = GridBagConstraints.BOTH; // Fill both horizontally and vertically
         panel.add(new JPanel(), gbc); // Add an empty JPanel as glue
@@ -81,6 +113,7 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
 
     @Override
     public boolean ok() {
+        boolean restartRequired = false;
         if (wireframeCheckBox != null) {
             Config.getPref().putBoolean("urbaneye3d.wireframe.enabled", wireframeCheckBox.isSelected());
         }
@@ -99,12 +132,20 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         if (forestDensitySlider != null) {
             Config.getPref().putInt("urbaneye3d.forest-density", forestDensitySlider.getValue());
         }
+        if (msaaSlider != null) {
+            int oldMsaa = Config.getPref().getInt("urbaneye3d.msaa.samples", 4);
+            int newMsaa = MSAA_VALUES[msaaSlider.getValue()];
+            if (oldMsaa != newMsaa) {
+                Config.getPref().putInt("urbaneye3d.msaa.samples", newMsaa);
+                restartRequired = true;
+            }
+        }
         // Force a redraw of the 3D view to apply changes immediately
         DialogWindow3D dialog = UrbanEye3dPlugin.get3DWindow();
         if (dialog != null) {
             dialog.requestSceneUpdate(null);
         }
-        return false; // No restart required
+        return restartRequired;
     }
 
     @Override

@@ -212,3 +212,11 @@ msgstr "Spesies pohon tidak dikenal: {0}"
 #: src/main/java/ru/zkir/urbaneye3d/validator/TagChecks.java:95
 msgid "roof:shape=many is not allowed for building parts"
 msgstr "roof:shape=many tidak diperbolehkan untuk bagian bangunan"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:85
+msgid "Anti-aliasing (MSAA) samples"
+msgstr "Sampel anti-aliasing (MSAA)"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:101
+msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
+msgstr "Jumlah sampel MSAA untuk tepi yang lebih halus. 0 berarti dinonaktifkan. Nilai yang lebih tinggi meningkatkan kualitas tetapi dapat mengurangi performa. Perubahan memerlukan mulai ulang JOSM."

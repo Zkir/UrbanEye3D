@@ -214,3 +214,11 @@ msgstr "Espèce d'arbre inconnue : {0}"
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:73
 msgid "Adjust the number of trees generated in forest polygons. This setting affects performance."
 msgstr "Ajuster le nombre d'arbres générés dans les polygones de forêt. Ce paramètre affecte les performances."
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:85
+msgid "Anti-aliasing (MSAA) samples"
+msgstr "Échantillons d'anti-crénelage (MSAA)"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:101
+msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
+msgstr "Nombre d'échantillons MSAA pour des bords plus lisses. 0 signifie désactivé. Des valeurs plus élevées améliorent la qualité mais peuvent réduire les performances. Les modifications nécessitent un redémarrage de JOSM."

@@ -206,3 +206,11 @@ msgstr "Неизвестный вид дерева: {0}"
 
 msgid "roof:shape=many is not allowed for building parts"
 msgstr "roof:shape=many не разрешается для частей зданий"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:85
+msgid "Anti-aliasing (MSAA) samples"
+msgstr "Сглаживание (MSAA)"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:101
+msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
+msgstr "Количество сэмплов MSAA для сглаживания. 0 - сглаживание отключено. Высокие значения улучшают качество изображения, но могут снизить производительность. Для изменения требуется перезапуск JOSM."

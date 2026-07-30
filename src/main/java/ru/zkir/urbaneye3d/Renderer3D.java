@@ -4,7 +4,9 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUtessellator;
@@ -84,8 +86,19 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     // Constant for pixel-based culling (tan(FOV/2) * 2)
     private static final double FOV_FACTOR = Math.tan(Math.toRadians(45.0 / 2.0)) * 2.0;
 
+    private static GLCapabilities createCapabilities() {
+        GLProfile profile = GLProfile.get(GLProfile.GL2);
+        GLCapabilities capabilities = new GLCapabilities(profile);
+        int samples = Config.getPref().getInt("urbaneye3d.msaa.samples", 4);
+        if (samples > 0) {
+            capabilities.setSampleBuffers(true);
+            capabilities.setNumSamples(samples);
+        }
+        return capabilities;
+    }
 
     public Renderer3D( Scene scene) {
+        super(createCapabilities());
         this.scene = scene;
         this.addGLEventListener(this);
 
@@ -164,6 +177,14 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         GL2 gl = glAutoDrawable.getGL().getGL2();
         gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // White background
         gl.glEnable(GL2.GL_DEPTH_TEST);
+        
+        int samples = Config.getPref().getInt("urbaneye3d.msaa.samples", 4);
+        if (samples > 0) {
+            gl.glEnable(GL2.GL_MULTISAMPLE);
+        } else {
+            gl.glDisable(GL2.GL_MULTISAMPLE);
+        }
+        
         //gl.glEnable(GL2.GL_CULL_FACE);
         //gl.glCullFace(GL2.GL_BACK);
         CheckOpenGL(gl);

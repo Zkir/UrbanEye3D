@@ -203,3 +203,11 @@ msgstr "Unbekannte Baumart: {0}"
 
 msgid "roof:shape=many is not allowed for building parts"
 msgstr "roof:shape=many ist für Gebäudeteile nicht zulässig"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:85
+msgid "Anti-aliasing (MSAA) samples"
+msgstr "Anti-Aliasing (MSAA) Samples"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:101
+msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
+msgstr "Anzahl der MSAA-Samples für glattere Kanten. 0 bedeutet deaktiviert. Höhere Werte verbessern die Qualität, können aber die Leistung verringern. Änderungen erfordern einen JOSM-Neustart."

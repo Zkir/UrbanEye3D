@@ -225,3 +225,11 @@ msgstr "Neznámy druh stromu: {0}"
 msgid "roof:shape=many is not allowed for building parts"
 msgstr "roof:shape=many nie je povolené pre časti budov"
 
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:85
+msgid "Anti-aliasing (MSAA) samples"
+msgstr "Vzorky vyhladzovania (MSAA)"
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:101
+msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
+msgstr "Počet vzoriek MSAA pre hladšie hrany. 0 znamená zakázané. Vyššie hodnoty zlepšujú kvalitu, ale môžu znížiť výkon. Zmeny vyžadujú reštart JOSM."
+

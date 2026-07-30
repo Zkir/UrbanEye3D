@@ -58,6 +58,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Jul 31, 2026
+*   **Enabled Anti-aliasing:** Implemented MSAA 4x support in the 3D renderer. This significantly improves visual quality by smoothing jagged edges on buildings, power towers, and other objects, providing a much cleaner and more professional look for the 3D scene.
+*   **Completed Translations:** Updated German, French, Indonesian, Italian, Russian, and Slovak translations to 100% coverage, including new strings for MSAA settings.
+
 ### Jul 30, 2026
 
 *   **Integrated JOSM MapCSS Engine for Assets (Интеграция движка MapCSS из JOSM):**
