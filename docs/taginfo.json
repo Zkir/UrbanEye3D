@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260730T104601Z",
+  "data_updated" : "20260730T185952Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -143,6 +143,10 @@
     "key" : "emergency",
     "value" : "fire_hydrant",
     "description" : "A fire hydrant, rendered as a 3D model."
+  }, {
+    "key" : "fire_hydrant:type",
+    "value" : "underground",
+    "description" : "Underground hydrants are NOT rendered!"
   }, {
     "key" : "genus",
     "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."

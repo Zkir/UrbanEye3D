@@ -82,7 +82,7 @@ node[amenity=waste_basket] {
 }
 
 /* Fire Hydrant */
-node[emergency=fire_hydrant] {
+node[emergency=fire_hydrant][fire_hydrant:type!=underground] {
     model: "/models/fire_hydrant.obj";
 }
 

@@ -181,9 +181,13 @@
   <node id='-985867' action='modify' visible='true' lat='55.05077084594' lon='37.04284858472'>
     <tag k='amenity' v='recycling' />
   </node>
-  <node id='-1019242' action='modify' visible='true' lat='55.05077187275' lon='37.04288622651'>
+  <node id='-1019242' action='modify' visible='true' lat='55.05077153048' lon='37.04287427674'>
     <tag k='amenity' v='recycling' />
     <tag k='recycling_type' v='centre' />
+  </node>
+  <node id='-1022153' action='modify' visible='true' lat='55.05077084577' lon='37.04289787784'>
+    <tag k='emergency' v='fire_hydrant' />
+    <tag k='fire_hydrant:type' v='underground' />
   </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
