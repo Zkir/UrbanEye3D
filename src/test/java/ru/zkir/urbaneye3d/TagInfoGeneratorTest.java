@@ -88,6 +88,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("shelter=yes", "Indicates that a bus stop has a shelter, triggering 3D model rendering.");
         TAG_DESCRIPTIONS.put("highway=street_lamp", "A single street lamp, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("emergency=fire_hydrant", "A fire hydrant, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("public_transport=platform", "A public transport platform. Rendered as a bus stop model if applicable.");
         TAG_DESCRIPTIONS.put("tourism=information", "General tourism information point.");
         TAG_DESCRIPTIONS.put("information=board", "An information board, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("information=post", "A generic information post.");
@@ -163,6 +164,7 @@ public class TagInfoGeneratorTest {
 
         TAG_DESCRIPTIONS.put("amenity=recycling", "A recycling point. Rendered as a 3D container model.");
         TAG_DESCRIPTIONS.put("recycling_type=container", "Used with amenity=recycling to specify that the recycling point is a container.");
+        TAG_DESCRIPTIONS.put("recycling_type=centre", "A larger recycling center, usually containing multiple containers. In UrbanEye3D, we exclude it from simple container rendering.");
         TAG_DESCRIPTIONS.put("amenity=waste_disposal", "A waste disposal point. Currently rendered using the same model as recycling containers.");
 
         TAG_DESCRIPTIONS.put("leisure=pitch", "A sports pitch. If sport=soccer, tennis, volleyball or badminton, characteristic markings are rendered on the ground texture.");
@@ -201,11 +203,18 @@ public class TagInfoGeneratorTest {
         // Add tags from assets.mapcss
         try (java.io.InputStream is = getClass().getResourceAsStream("/assets.mapcss")) {
             if (is != null) {
-                ru.zkir.urbaneye3d.assetconfig.AssetRuleParser parser = new ru.zkir.urbaneye3d.assetconfig.AssetRuleParser();
-                for (ru.zkir.urbaneye3d.assetconfig.AssetRule rule : parser.parse(is)) {
-                    for (java.util.Map.Entry<String, String> entry : rule.selector.getTags().entrySet()) {
-                        usedTags.add(new ParsedTag(entry.getKey(), entry.getValue(), entry.getValue() == null ? entry.getKey() : entry.getKey() + "=" + entry.getValue()));
-                    }
+                String content = new String(is.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+                // Simple regex to extract tags from [key=value] or [key]
+                java.util.regex.Pattern tagPattern = java.util.regex.Pattern.compile("\\[\\s*([^\\]=!<>~\\s]+)\\s*(?:(!=|~=|=)\\s*(?:\"([^\"]+)\"|'([^']+)'|([^\\]]+))\\s*)?\\]");
+                java.util.regex.Matcher tagMatcher = tagPattern.matcher(content);
+                while (tagMatcher.find()) {
+                    String key = tagMatcher.group(1).trim();
+                    String value = null;
+                    if (tagMatcher.group(3) != null) value = tagMatcher.group(3);
+                    else if (tagMatcher.group(4) != null) value = tagMatcher.group(4);
+                    else if (tagMatcher.group(5) != null) value = tagMatcher.group(5).trim();
+                    
+                    usedTags.add(new ParsedTag(key, value, value == null ? key : key + "=" + value));
                 }
             } else {
                 throw new IllegalStateException("/assets.mapcss not found");

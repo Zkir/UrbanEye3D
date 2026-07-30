@@ -3,14 +3,12 @@ package ru.zkir.urbaneye3d.assetconfig;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.osm.Node;
-import org.openstreetmap.josm.data.osm.Way;
+import org.openstreetmap.josm.gui.mappaint.mapcss.MapCSSStyleSource;
 import org.openstreetmap.josm.spi.preferences.Config;
 import org.openstreetmap.josm.data.preferences.JosmBaseDirectories;
 import org.openstreetmap.josm.data.preferences.JosmUrls;
 import org.openstreetmap.josm.spi.preferences.MemoryPreferences;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
 
 public class AssetConfigTest {
 
@@ -22,15 +20,15 @@ public class AssetConfigTest {
     }
 
     @Test
-    public void testFindBestMatch() {
+    public void testFindBestMatchWithCascading() {
         String configText = 
-            "node[natural=tree] { model: \"models/tree.obj\"; }\n" +
-            "node[natural=tree][leaf_type=broadleaved] { model: \"models/broadleaved_tree.obj\"; }\n" +
-            "node[natural=tree][species=\"Betula pendula\"] { model: \"models/birch.obj\"; }\n";
+            "node[natural=tree] { billboard: \"textures/tree.png\"; height: 10; }\n" +
+            "node[natural=tree][leaf_type=broadleaved] { billboard: \"textures/broadleaved_tree.png\"; }\n" +
+            "node[natural=tree][species=\"Betula pendula\"] { billboard: \"textures/birch.png\"; }\n";
             
-        AssetRuleParser parser = new AssetRuleParser();
-        List<AssetRule> rules = parser.parseString(configText);
-        AssetConfig config = new AssetConfig(rules);
+        MapCSSStyleSource source = new MapCSSStyleSource(configText);
+        source.loadStyleSource(false);
+        AssetConfig config = new AssetConfig(source);
         
         Node basicTree = new Node();
         basicTree.put("natural", "tree");
@@ -47,16 +45,36 @@ public class AssetConfigTest {
         // Test basic tree
         AssetRule match1 = config.findBestMatch(basicTree);
         assertNotNull(match1);
-        assertEquals("models/tree.obj", match1.properties.get("model"));
+        assertEquals("textures/tree.png", match1.properties.get("billboard"));
+        assertEquals("10.0", match1.properties.get("height"));
         
-        // Test broadleaved tree (should override basic tree)
+        // Test broadleaved tree (should override billboard, but INHERIT height)
         AssetRule match2 = config.findBestMatch(broadTree);
         assertNotNull(match2);
-        assertEquals("models/broadleaved_tree.obj", match2.properties.get("model"));
+        assertEquals("textures/broadleaved_tree.png", match2.properties.get("billboard"));
+        assertEquals("10.0", match2.properties.get("height")); // Inherited via cascade
         
-        // Test birch tree (should override broadleaved)
+        // Test birch tree (should override billboard, inherit height)
         AssetRule match3 = config.findBestMatch(birchTree);
         assertNotNull(match3);
-        assertEquals("models/birch.obj", match3.properties.get("model"));
+        assertEquals("textures/birch.png", match3.properties.get("billboard"));
+        assertEquals("10.0", match3.properties.get("height")); // Inherited via cascade
+    }
+
+    @Test
+    public void testNonStandardProperties() {
+        String configText = "node[amenity=bench] { model: \"bench.obj\"; my_custom_prop: \"ignored\"; }";
+        MapCSSStyleSource source = new MapCSSStyleSource(configText);
+        source.loadStyleSource(false);
+        AssetConfig config = new AssetConfig(source);
+
+        Node bench = new Node();
+        bench.put("amenity", "bench");
+
+        AssetRule match = config.findBestMatch(bench);
+        assertNotNull(match);
+        assertEquals("bench.obj", match.properties.get("model"));
+        // 'my_custom_prop' is not in our extracted list in AssetConfig.java, so it should be absent in AssetRule.properties
+        assertNull(match.properties.get("my_custom_prop"));
     }
 }

@@ -58,6 +58,14 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Jul 30, 2026
+
+*   **Integrated JOSM MapCSS Engine for Assets (Интеграция движка MapCSS из JOSM):**
+    *   **Native Parser Adoption:** Replaced the custom regex-based `AssetRuleParser` and `Selector` implementations with JOSM's native `MapCSSStyleSource` and `Cascade` engine. This significantly reduces custom code and ensures 100% compatibility with standard MapCSS features (expressions, complex selectors, operators).
+    *   **Support for CSS Cascading:** The asset configuration now supports standard CSS cascading and property inheritance. Common properties (like `rotatable` or `snap_to_roads`) can be defined in base rules and automatically inherited by more specific rules, reducing duplication in `assets.mapcss`.
+    *   **Refactored Asset Configuration:** Simplified the `AssetRule` data model and updated `AssetConfigLoader` to utilize the JOSM style loading pipeline.
+    *   **Updated Tooling:** Adjusted `TagInfoGeneratorTest` to maintain tag extraction capabilities using the new configuration structure.
+
 ### Jul 26, 2026
 
 * Support for street furniture via pre-made models:

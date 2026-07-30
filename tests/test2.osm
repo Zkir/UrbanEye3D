@@ -148,7 +148,7 @@
   <node id='-402230' action='modify' visible='true' lat='55.05074671578' lon='37.04289817628'>
     <tag k='emergency' v='fire_hydrant' />
   </node>
-  <node id='-525303' action='modify' visible='true' lat='55.05074654499' lon='37.04278166539'>
+  <node id='-525303' action='modify' visible='true' lat='55.05074688726' lon='37.04278047041'>
     <tag k='highway' v='bus_stop' />
   </node>
   <node id='-612446' action='modify' visible='true' lat='55.05074671579' lon='37.04309056765'>
@@ -170,6 +170,20 @@
   <node id='-699838' action='modify' visible='true' lat='55.05077170145' lon='37.04282528296'>
     <tag k='amenity' v='recycling' />
     <tag k='recycling_type' v='container' />
+  </node>
+  <node id='-702711' action='modify' visible='true' lat='55.05065105069' lon='37.0428282701'>
+    <tag k='public_transport' v='platform' />
+    <tag k='shelter' v='yes' />
+  </node>
+  <node id='-713859' action='modify' visible='true' lat='55.05064797024' lon='37.04259823694'>
+    <tag k='public_transport' v='platform' />
+  </node>
+  <node id='-985867' action='modify' visible='true' lat='55.05077084594' lon='37.04284858472'>
+    <tag k='amenity' v='recycling' />
+  </node>
+  <node id='-1019242' action='modify' visible='true' lat='55.05077187275' lon='37.04288622651'>
+    <tag k='amenity' v='recycling' />
+    <tag k='recycling_type' v='centre' />
   </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />

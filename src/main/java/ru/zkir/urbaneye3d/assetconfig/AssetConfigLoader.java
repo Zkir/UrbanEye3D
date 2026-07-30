@@ -1,8 +1,8 @@
 package ru.zkir.urbaneye3d.assetconfig;
 
+import org.openstreetmap.josm.gui.mappaint.mapcss.MapCSSStyleSource;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
 
 public class AssetConfigLoader {
     private static final AssetConfigLoader instance = new AssetConfigLoader();
@@ -15,9 +15,14 @@ public class AssetConfigLoader {
             if (is == null) {
                 throw new IllegalStateException("Critical resource /assets.mapcss not found.");
             }
-            AssetRuleParser parser = new AssetRuleParser();
-            List<AssetRule> rules = parser.parse(is);
-            config = new AssetConfig(rules);
+            byte[] bytes = is.readAllBytes();
+            String cssString = new String(bytes, StandardCharsets.UTF_8);
+            
+            MapCSSStyleSource source = new MapCSSStyleSource(cssString);
+            // Compile the rules
+            source.loadStyleSource(false);
+            
+            config = new AssetConfig(source);
         } catch (Exception e) {
             throw new RuntimeException("Error loading asset configuration", e);
         }

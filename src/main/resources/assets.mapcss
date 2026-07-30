@@ -36,17 +36,24 @@ node[highway=street_lamp] {
 }
 
 /* Bus Stop */
-node[highway=bus_stop][shelter=yes] {
-    model: "/models/bus_stop_001.obj";
-    snap_to_roads: yes;
-}
-
+node[public_transport=platform],
 node[highway=bus_stop] {
     model: "/models/bus_stop_sign.obj";
     snap_to_roads: yes;
 }
 
+node[public_transport=platform][shelter=yes],
+node[highway=bus_stop][shelter=yes] {
+    model: "/models/bus_stop_001.obj";
+    snap_to_roads: yes;
+}
+
 /* Tourism Information */
+node[tourism=information] {
+    model: "/models/info_board.obj";
+    rotatable: true;
+}
+
 node[tourism=information][information=board] {
     model: "/models/info_board.obj";
     rotatable: true;
@@ -59,12 +66,9 @@ node[tourism=information][information=post] {
 
 node[tourism=information][information=guidepost] {
     model: "/models/guidepost.obj";
+	rotatable: false;
 }
 
-node[tourism=information] {
-    model: "/models/info_board.obj";
-    rotatable: true;
-}
 
 /* Advertising Column */
 node[advertising=column] {
@@ -88,7 +92,7 @@ node[amenity=recycling][recycling_type=container] {
     rotatable: true;
 }
 
-node[amenity=recycling] {
+node[amenity=recycling][recycling_type!=centre] {
     model: "/models/recycling_container.obj";
     rotatable: true;
 }
