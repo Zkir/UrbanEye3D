@@ -25,7 +25,7 @@ public class I18nStatusTest {
     void verifyAndReportTranslationStatus() throws IOException {
         Path poDir = Paths.get("po");
         Path potFile = poDir.resolve("urbaneye3d.pot");
-        Path outputDir = Paths.get("target/classes/data");
+        Path outputDir = Paths.get("src/main/resources/data");
         Path reportFile = Paths.get("docs/translation-status.md");
 
         // 1. Read .pot file to get the master list of strings

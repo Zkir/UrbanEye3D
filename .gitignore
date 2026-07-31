@@ -8,3 +8,4 @@
 /misc/data
 /misc/__pycache__
 /misc/osmupdate_temp
+/src/main/resources/data/*.lang
