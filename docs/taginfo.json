@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260730T184606Z",
+  "data_updated" : "20260801T194005Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -197,7 +197,7 @@
   }, {
     "key" : "leisure",
     "value" : "pitch",
-    "description" : "A sports pitch. If sport=soccer, tennis, volleyball or badminton, characteristic markings are rendered on the ground texture."
+    "description" : "A sports pitch. If sport=soccer, tennis, volleyball, badminton or futsal, characteristic markings are rendered on the ground texture."
   }, {
     "key" : "location",
     "value" : "underground",
@@ -443,6 +443,10 @@
     "key" : "sport",
     "value" : "badminton",
     "description" : "Indicates that the pitch is used for badminton. Triggers rendering of badminton court markings."
+  }, {
+    "key" : "sport",
+    "value" : "futsal",
+    "description" : "Indicates that the pitch is used for futsal. Triggers rendering of futsal markings."
   }, {
     "key" : "sport",
     "value" : "soccer",

@@ -174,11 +174,12 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("recycling_type=centre", "A larger recycling center, usually containing multiple containers. In UrbanEye3D, we exclude it from simple container rendering.");
         TAG_DESCRIPTIONS.put("amenity=waste_disposal", "A waste disposal point. Currently rendered using the same model as recycling containers.");
 
-        TAG_DESCRIPTIONS.put("leisure=pitch", "A sports pitch. If sport=soccer, tennis, volleyball or badminton, characteristic markings are rendered on the ground texture.");
+        TAG_DESCRIPTIONS.put("leisure=pitch", "A sports pitch. If sport=soccer, tennis, volleyball, badminton or futsal, characteristic markings are rendered on the ground texture.");
         TAG_DESCRIPTIONS.put("sport=soccer", "Indicates that the pitch is used for soccer. Triggers rendering of soccer markings.");
         TAG_DESCRIPTIONS.put("sport=tennis", "Indicates that the pitch is used for tennis. Triggers rendering of tennis court markings.");
         TAG_DESCRIPTIONS.put("sport=volleyball", "Indicates that the pitch is used for volleyball. Triggers rendering of volleyball court markings.");
         TAG_DESCRIPTIONS.put("sport=badminton", "Indicates that the pitch is used for badminton. Triggers rendering of badminton court markings.");
+        TAG_DESCRIPTIONS.put("sport=futsal", "Indicates that the pitch is used for futsal. Triggers rendering of futsal markings.");
 
         //add values from Materials enum. It is good enough description, so we can use it.
         for (var mat:Materials.values()){

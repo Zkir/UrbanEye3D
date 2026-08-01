@@ -341,6 +341,7 @@ For objects tagged with `leisure=pitch`, the plugin automatically renders charac
 - `sport=tennis`: Renders professional tennis court markings.
 - `sport=volleyball`: Renders FIVB-standard volleyball court markings.
 - `sport=badminton`: Renders professional badminton court markings.
+- `sport=futsal`: Renders professional futsal markings.
 
 
 ![pitches with markings](images/leisure_pitch.png)

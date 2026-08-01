@@ -47,7 +47,7 @@ public class GroundDecorations {
                 }
 
                 if (!(primitive.hasTag("leisure", "pitch") &&
-                        (primitive.hasTag("sport", "soccer") || primitive.hasTag("sport", "tennis") || primitive.hasTag("sport", "volleyball") || primitive.hasTag("sport", "badminton")))) {
+                        (primitive.hasTag("sport", "soccer") || primitive.hasTag("sport", "tennis") || primitive.hasTag("sport", "volleyball") || primitive.hasTag("sport", "badminton") || primitive.hasTag("sport", "futsal")))) {
                     continue;
                 }
 
@@ -73,6 +73,11 @@ public class GroundDecorations {
 
                 if (primitive.hasTag("leisure", "pitch") && primitive.hasTag("sport", "badminton")) {
                     drawBadmintonMarkings(g2d, image.getWidth(), image.getHeight(), primitive, tileBounds, scale);
+                    continue; // one marking is enough
+                }
+
+                if (primitive.hasTag("leisure", "pitch") && primitive.hasTag("sport", "futsal")) {
+                    drawFutsalMarkings(g2d, image.getWidth(), image.getHeight(), primitive, tileBounds, scale);
                     continue; // one marking is enough
                 }
             }
@@ -500,6 +505,127 @@ public class GroundDecorations {
         // Central service lines
         g2d.draw(new Line2D.Double(-halfL, 0, -shortServiceDist, 0));
         g2d.draw(new Line2D.Double(shortServiceDist, 0, halfL, 0));
+
+        g2d.setTransform(oldTransform);
+    }
+
+    /*
+     * Draws professional futsal pitch markings on the generated ground texture.
+     */
+    private static void drawFutsalMarkings(Graphics2D g2d, int imgWidth, int imgHeight, OsmPrimitive primitive, Bounds tileBounds, double scale) {
+        final double PADDINGS = 1.0;
+        LatLon tileCenter = tileBounds.getCenter();
+        double mToPixFactor = 1.0 / scale / cos(toRadians(tileCenter.lat()));
+
+        Contour contour = new Contour(primitive);
+        if (contour.outerRings.isEmpty()) {
+            return;
+        }
+
+        contour.toLocalCoords(tileCenter);
+        contour.removeRedundantNodes();
+
+        Point2D u = findUVForInscribedRectangle(contour);
+        if (u == null) {
+            return;
+        }
+        Rectangle2D.Double rect = contour.findLargestInscribedRectangle(u.x, u.y);
+
+        if (rect == null) {
+            return;
+        }
+
+        double centerPX = rect.x + rect.width / 2.0;
+        double centerPY = rect.y + rect.height / 2.0;
+
+        double nx = -u.y;
+        double ny = u.x;
+        double localCenterX = centerPX * u.x + centerPY * nx;
+        double localCenterY = centerPX * u.y + centerPY * ny;
+
+        AffineTransform oldTransform = g2d.getTransform();
+
+        g2d.translate(imgWidth / 2.0, imgHeight / 2.0);
+        g2d.translate(localCenterX * mToPixFactor, -localCenterY * mToPixFactor);
+        g2d.rotate(-Math.atan2(u.y, u.x));
+        g2d.scale(mToPixFactor, mToPixFactor);
+
+        double pitchLenM = rect.width;
+        double pitchWidthM = rect.height;
+
+        double drawLenM = Math.max(0, pitchLenM - PADDINGS * 2);
+        double drawWidthM = Math.max(0, pitchWidthM - PADDINGS * 2);
+
+        // Proportional scaling for small pitches (standard: 40m x 20m)
+        double pitchScale = 1.0;
+        if (drawLenM < 40.0) {
+            pitchScale = Math.min(pitchScale, drawLenM / 40.0);
+        }
+        if (drawWidthM < 20.0) {
+            pitchScale = Math.min(pitchScale, drawWidthM / 20.0);
+        }
+
+        g2d.setColor(new Color(255, 255, 255, 220));
+        g2d.setStroke(new BasicStroke(0.4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+
+        double halfL = drawLenM / 2.0;
+        double halfW = drawWidthM / 2.0;
+
+        // Perimeter and center line
+        g2d.draw(new Rectangle2D.Double(-halfL, -halfW, drawLenM, drawWidthM));
+        g2d.draw(new Line2D.Double(0, -halfW, 0, halfW));
+
+        // Center circle (3m radius)
+        double R_center = 3.0 * pitchScale;
+        g2d.fill(new Ellipse2D.Double(-0.3, -0.3, 0.6, 0.6));
+        if (R_center > 0.5) {
+            g2d.draw(new Ellipse2D.Double(-R_center, -R_center, 2 * R_center, 2 * R_center));
+        }
+
+        for (int side : new int[]{-1, 1}) {
+            double goalLineX = side * halfL;
+            double dir = -side;
+
+            // Penalty area (6m radius arcs from goal posts 3.16m apart)
+            double r = 6.0 * pitchScale;
+            double halfGoalWidth = 1.58 * pitchScale;
+
+            // Arcs from goal posts
+            g2d.draw(new Arc2D.Double(goalLineX - r, -halfGoalWidth - r, 2 * r, 2 * r, (side > 0 ? 90 : 0), 90, Arc2D.OPEN));
+            g2d.draw(new Arc2D.Double(goalLineX - r, halfGoalWidth - r, 2 * r, 2 * r, (side > 0 ? 180 : 270), 90, Arc2D.OPEN));
+
+            // Connecting line (3m long)
+            g2d.draw(new Line2D.Double(goalLineX + dir * r, -halfGoalWidth, goalLineX + dir * r, halfGoalWidth));
+
+            // Penalty spot (6m)
+            double spot6 = goalLineX + dir * 6.0 * pitchScale;
+            g2d.fill(new Ellipse2D.Double(spot6 - 0.25, -0.25, 0.5, 0.5));
+
+            // Second penalty spot (10m)
+            double spot10 = goalLineX + dir * 10.0 * pitchScale;
+            g2d.fill(new Ellipse2D.Double(spot10 - 0.25, -0.25, 0.5, 0.5));
+        }
+
+        // Substitution zones (5m wide, 5m from center line)
+        double zoneStart = 5.0 * pitchScale;
+        double zoneEnd = 10.0 * pitchScale;
+        double markLen = 0.8 * pitchScale;
+        for (int sideX : new int[]{-1, 1}) {
+            for (int sideY : new int[]{-1, 1}) {
+                double x1 = sideX * zoneStart;
+                double x2 = sideX * zoneEnd;
+                double yBase = sideY * halfW;
+                g2d.draw(new Line2D.Double(x1, yBase - sideY * markLen / 2.0, x1, yBase + sideY * markLen / 2.0));
+                g2d.draw(new Line2D.Double(x2, yBase - sideY * markLen / 2.0, x2, yBase + sideY * markLen / 2.0));
+            }
+        }
+
+        // Corner arcs (0.25m radius)
+        double R_corner = 0.25 * pitchScale;
+        g2d.draw(new Arc2D.Double(-halfL - R_corner, -halfW - R_corner, 2 * R_corner, 2 * R_corner, 270, 90, Arc2D.OPEN));
+        g2d.draw(new Arc2D.Double(halfL - R_corner, -halfW - R_corner, 2 * R_corner, 2 * R_corner, 180, 90, Arc2D.OPEN));
+        g2d.draw(new Arc2D.Double(halfL - R_corner, halfW - R_corner, 2 * R_corner, 2 * R_corner, 90, 90, Arc2D.OPEN));
+        g2d.draw(new Arc2D.Double(-halfL - R_corner, halfW - R_corner, 2 * R_corner, 2 * R_corner, 0, 90, Arc2D.OPEN));
 
         g2d.setTransform(oldTransform);
     }
