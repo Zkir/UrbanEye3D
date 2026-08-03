@@ -58,6 +58,11 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Aug 19, 2026
+*   **Chimney Support:** Added procedural 3D generation for `man_made=chimney` points and polygonal structures 
+    *   Point chimneys feature a 12-sided circular base and an automatic 50% tapering at the top, providing a realistic industrial look.
+    *   Both point and polygon chimneys respect the `shape` tag (`frustum`, `hyperboloid`, `prism`), matching polygon behavior.
+
 ### Aug 18, 2026
 *   **Flagpole Support & Smart Color Inference:**
     *   **Procedural 3D Flagpoles:** Implemented advanced procedural generation for `man_made=flagpole`. The model features an 8-sided mast, a golden finial, and a waving flag with a natural 20-degree downward tilt.
@@ -142,9 +147,9 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   Generated an initial report of candidates for 3D visualization in `docs/dev/popular_missing_tags.md`.
 
 ### Aug 3, 2026
-
 *   **Futsal Pitch Markings:** Added support for FIFA-standard futsal markings for `leisure=pitch` + `sport=futsal`.
 *   **Street Standpipe** Blue standpipe model added, type popular in Russia
+
 ### Jul 31, 2026
 *   **Enabled Anti-aliasing:** Implemented MSAA 4x support in the 3D renderer. This significantly improves visual quality by smoothing jagged edges on buildings, power towers, and other objects, providing a much cleaner and more professional look for the 3D scene.
 *   **Completed Translations:** Updated German, French, Indonesian, Italian, Russian, and Slovak translations to 100% coverage, including new strings for MSAA settings.

@@ -366,6 +366,11 @@
     <tag k='flag:colour' v='blue' />
     <tag k='height' v='25' />
     <tag k='man_made' v='flagpole' />
+    <tag k='shape' v='frustum' />
+  </node>
+  <node id='-5515045' action='modify' visible='true' lat='55.05102789145' lon='37.04311924652'>
+    <tag k='diameter' v='1000' />
+    <tag k='man_made' v='chimney' />
   </node>
   <way id='-13717' action='modify' visible='true'>
     <nd ref='-5438022' />

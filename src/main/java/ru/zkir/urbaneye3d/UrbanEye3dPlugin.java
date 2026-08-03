@@ -19,6 +19,7 @@ public class UrbanEye3dPlugin extends Plugin {
 
     public static final double DEFAULT_LEVELS_NUMBER = 2;
     public static final double DEFAULT_LEVEL_HEIGHT = 3;
+    public static final double DEFAULT_CHIMNEY_HEIGHT = 20.0;
     public static final double DEFAULT_ROOF_THICKNESS = 0.25;
     public static final double DEFAULT_STEP_HEIGHT = 0.16;
     public static final boolean INHERIT_HEIGHT_FROM_PARENT = false;
@@ -37,6 +38,11 @@ public class UrbanEye3dPlugin extends Plugin {
         ru.zkir.urbaneye3d.assetconfig.GeneratorRegistry.getInstance().register("flagpole",
             (primitive, origin, rule, random) -> RenderableElement.createFlagpole(primitive, origin, primitive.getInterestingTags(), random)
         );
+
+        ru.zkir.urbaneye3d.assetconfig.GeneratorRegistry.getInstance().register("chimney",
+            (primitive, origin, rule, random) -> RenderableElement.createChimney(primitive, origin, random)
+        );
+
         OsmValidator.addTest(SpatialConsistencyChecks.class);
         OsmValidator.addTest(TagChecks.class);
         OsmValidator.addTest(OverlappingWallsCheck.class);

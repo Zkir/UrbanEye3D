@@ -109,7 +109,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("man_made=cross", "A cross, often rendered as a wayside cross.");
         TAG_DESCRIPTIONS.put("man_made=flagpole", "A flagpole rendered with a procedural mast and a waving flag.");
         TAG_DESCRIPTIONS.put("flag:colour", "The color of the flag on a flagpole.");
-        TAG_DESCRIPTIONS.put("diameter", "Used for diameter of the flagpole feature. Note that unit is millimeter!");
+        TAG_DESCRIPTIONS.put("diameter", "Used for diameter of the flagpole and chimney features. Note that unit is millimeter!");
         TAG_DESCRIPTIONS.put("denomination=orthodox", "Used with wayside crosses to select the Orthodox cross model.");
         TAG_DESCRIPTIONS.put("historic=memorial", "A memorial or monument, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("memorial=statue", "A memorial statue (personage/animal), rendered as 3D model.");
@@ -167,6 +167,9 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("area=yes", "This tag causes a feature that would otherwise be considered linear to be considered polygonal.");
         TAG_DESCRIPTIONS.put("location=underground", "An object is located underground. Can be ignored for 3D rendering");
         TAG_DESCRIPTIONS.put("shape=hyperboloid", "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension");
+        TAG_DESCRIPTIONS.put("shape=frustum", "Building or man-made object has frustum shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension");
+        TAG_DESCRIPTIONS.put("shape=prism",   "Homebrew SM3DB extension: defines overall shape of the building. Default value. ");
+
         TAG_DESCRIPTIONS.put("wall=yes", "Used to override building:part=roof. For building:part=roof + wall=yes walls are still created");
         TAG_DESCRIPTIONS.put("wall=no", "Alternative for building:part=roof. In case of building:part=yes + wall=no walls are not generated and roof floats");
 
@@ -203,6 +206,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("man_made=water_tower",          "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=water_well",           "A water well, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("pump=no",                       "Used with water wells to trigger a 'traditional' windlass well model.");
+        TAG_DESCRIPTIONS.put("man_made=chimney",              "Industrial chimney. Can be rendered as 3D object with frustum or cylinder shape");
 
         TAG_DESCRIPTIONS.put("power=line", "A high-voltage power line, rendered with multiple sagging wires.");
         TAG_DESCRIPTIONS.put("power=minor_line", "A low-voltage or service power line, rendered with two sagging wires.");

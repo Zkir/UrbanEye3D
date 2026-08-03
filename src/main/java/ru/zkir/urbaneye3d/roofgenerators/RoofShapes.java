@@ -22,7 +22,8 @@ public enum RoofShapes {
     HALF_HIPPED("half-hipped", new MesherHalfHipped()),
     CROSS_GABLED("cross_gabled", new MesherCrossGabled()),
     STEPS("steps", new MesherSteps()),
-    HYPERBOLOID("hyperboloid", new MesherHyperboloid());
+    HYPERBOLOID("hyperboloid", new MesherHyperboloid()),
+    FRUSTUM("frustum", new MesherFrustum());
     /* roof shapes yet to be supported.
     ZAKOMAR("zakomar"),
     */

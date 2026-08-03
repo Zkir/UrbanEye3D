@@ -113,6 +113,11 @@ node[advertising=column] {
 /* Flagpole */
 node[man_made=flagpole] {
     procedure: "flagpole";
+}	
+
+/* Chimney */
+node[man_made=chimney] {
+    procedure: "chimney";
 }
 
 /* Busket */

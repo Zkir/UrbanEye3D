@@ -273,6 +273,13 @@ This section describes various standalone 3D objects rendered by the plugin.
 -   Nodes tagged with `advertising=column` are rendered as 3D Morris columns.
 -   The height and width of the column are determined by the `height` and `width` tags.
 
+### Chimneys
+
+-   Point and polygon objects tagged with `man_made=chimney` are rendered as procedural 3D objects.
+-   Supported shapes via the `shape` tag: `frustum` (default for points), `hyperboloid`, and `prism` (via `shape=prism` or default for polygons).
+-   For hyperboloid shapes tapering can be controlled via `hyperboloid:top_rate` and `hyperboloid:middle_rate` tags.
+-   The base size for point chimneys is determined by the `diameter` tag.
+
 ### Waste Baskets
 
 -   Nodes tagged with `amenity=waste_basket` are rendered using a pre-defined 3D model.

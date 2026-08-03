@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260818T205839Z",
+  "data_updated" : "20260819T205936Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -204,7 +204,7 @@
     "description" : "Used with wayside crosses to select the Orthodox cross model."
   }, {
     "key" : "diameter",
-    "description" : "Used for diameter of the flagpole feature. Note that unit is millimeter!"
+    "description" : "Used for diameter of the flagpole and chimney features. Note that unit is millimeter!"
   }, {
     "key" : "direction",
     "description" : "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points."
@@ -427,6 +427,10 @@
   }, {
     "key" : "man_made",
     "description" : "Used to identify man-made objects"
+  }, {
+    "key" : "man_made",
+    "value" : "chimney",
+    "description" : "Industrial chimney. Can be rendered as 3D object with frustum or cylinder shape"
   }, {
     "key" : "man_made",
     "value" : "communications_tower",
@@ -742,8 +746,16 @@
     "description" : "A single-sloped roof surface (a lean-to). The slope direction is controlled by the `roof:direction` tag, which can be set to any angle."
   }, {
     "key" : "shape",
+    "value" : "frustum",
+    "description" : "Building or man-made object has frustum shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
+  }, {
+    "key" : "shape",
     "value" : "hyperboloid",
     "description" : "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
+  }, {
+    "key" : "shape",
+    "value" : "prism",
+    "description" : "Homebrew SM3DB extension: defines overall shape of the building. Default value. "
   }, {
     "key" : "shape",
     "value" : "star",

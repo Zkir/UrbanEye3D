@@ -571,6 +571,35 @@ class RoofGeneratorTopologyTest {
             ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_bulge, outputFolder + "/" + "Hyperboloid_Bulge.obj");
         }
         AssertMeshTopology(mesh_bulge, test_building_bulge.minHeight, test_building_bulge.height, "Hyperboloid_Bulge");
-    }
+        }
 
-}
+        @Test
+        void testFrustumShapeSpecific() throws IOException {
+        String outputFolder = null;
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            outputFolder = Settings.prepareTestOutputFolder("Frustum");
+        }
+
+        ArrayList<Point2D> basePoints = new ArrayList<>();
+        basePoints.add(new Point2D(-1, -1));
+        basePoints.add(new Point2D(1, -1));
+        basePoints.add(new Point2D(1, 1));
+        basePoints.add(new Point2D(-1, 1));
+
+        // Test 1: Default frustum (topRate=0.5)
+        BuildingRecipe test_building_default = createTestBuilding(basePoints, RoofShapes.FRUSTUM, 0, 0, 10, 0.5, null);
+        Mesh mesh_default = RoofShapes.FRUSTUM.getMesher().generate(test_building_default);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_default, outputFolder + "/" + "Frustum_Default.obj");
+        }
+        AssertMeshTopology(mesh_default, test_building_default.minHeight, test_building_default.height, "Frustum_Default");
+
+        // Test 2: Cylinder-like frustum (topRate=1.0)
+        BuildingRecipe test_building_cylinder = createTestBuilding(basePoints, RoofShapes.FRUSTUM, 0, 0, 10, 1.0, null);
+        Mesh mesh_cylinder = RoofShapes.FRUSTUM.getMesher().generate(test_building_cylinder);
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh_cylinder, outputFolder + "/" + "Frustum_Cylinder.obj");
+        }
+        AssertMeshTopology(mesh_cylinder, test_building_cylinder.minHeight, test_building_cylinder.height, "Frustum_Cylinder");
+        }
+        }

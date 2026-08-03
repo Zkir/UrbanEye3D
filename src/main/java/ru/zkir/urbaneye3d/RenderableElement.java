@@ -30,6 +30,7 @@ import org.openstreetmap.josm.data.osm.Relation;
 
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVELS_NUMBER;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_CHIMNEY_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.INHERIT_HEIGHT_FROM_PARENT;
@@ -351,7 +352,7 @@ public class RenderableElement {
         //We gladly accept any object, as long as it has height.
         //if it does not, we accept it if it of the known type
         if (!primitive.hasKey("height")) {
-            if (!List.of("tower", "water_tower", "communications_tower", "cooling_tower").contains(tag)) {
+            if (!List.of("tower", "water_tower", "communications_tower", "cooling_tower", "chimney").contains(tag)) {
                 return null;
             }
         }
@@ -359,8 +360,13 @@ public class RenderableElement {
         LatLon origin = primitive.getBBox().getCenter();
         String color =  getTagStr("colour", primitive, "");
         double minHeight = getTagD("min_height", primitive, 0);
-        //TODO: here we got value  for height should be different for towers!
-        double height = getTagD("height", primitive, DEFAULT_LEVEL_HEIGHT*DEFAULT_LEVELS_NUMBER*2 );
+        
+        double defaultHeight = DEFAULT_LEVEL_HEIGHT * DEFAULT_LEVELS_NUMBER * 2;
+        if ("chimney".equals(tag)) {
+            defaultHeight = DEFAULT_CHIMNEY_HEIGHT;
+        }
+        double height = getTagD("height", primitive, defaultHeight);
+
         // Hyperboloid specific tags
         Double hyperboloidTopRate = getTagD("hyperboloid:top_rate", primitive.getInterestingTags(), null);
         Double hyperboloidMiddleRate = getTagD("hyperboloid:middle_rate", primitive.getInterestingTags(), null);
@@ -369,6 +375,10 @@ public class RenderableElement {
         if ("hyperboloid".equals(primitive.get("shape"))){
             roofShape="hyperboloid";
             roofHeight = 0.1; //hack: otherwise roof becomes flat and shape is not applied!!
+        }
+        if ("frustum".equals(primitive.get("shape"))){
+            roofShape="frustum";
+            roofHeight = 0.1;
         }
         if (contour.outerRings.isEmpty()) {
             return null;
@@ -523,7 +533,7 @@ public class RenderableElement {
 
         // 3. Flag (Waving strip with thickness)
         double windAngle = 90 * Math.PI / 180.0; // Global wind direction (same for all flags)
-        double phaseOffset =  random.nextDouble(10.0) ;//Math.abs(primitive.getUniqueId()) % 100) / 10.0; // Random phase start for variety
+        double phaseOffset =  10 * random.nextDouble() ;//Math.abs(primitive.getUniqueId()) % 100) / 10.0; // Random phase start for variety
         double cosW = Math.cos(windAngle);
         double sinW = Math.sin(windAngle);
 
@@ -579,6 +589,43 @@ public class RenderableElement {
         mesh.addFace(new int[]{topFront[flagSegments], topBack[flagSegments], bottomBack[flagSegments], bottomFront[flagSegments]}, 2);
 
         return new RenderableElement(primitive, origin, mesh, 0, 0);
+    }
+
+    public static RenderableElement createChimney(OsmPrimitive primitive, LatLon origin, Random random) {
+        if (primitive.isDeleted()) return null;
+
+        if (isPrimitiveUnderground(primitive)) return null;
+
+        double diameter = getTagD("diameter", primitive, 2000.0)/1000; //Default unit for diameter tag is MILLIMETER!
+        double height = getTagD("height", primitive, DEFAULT_CHIMNEY_HEIGHT);
+        double min_height = getTagD("min_height", primitive, 0.0);
+        var colour = getTagStr("colour", primitive, ""); // Unified default (BuildingRecipe will handle it)
+
+        // Points only for this procedural generator
+        if (primitive instanceof Way || primitive instanceof Relation) return null;
+
+        // Support for shape and tapering rates, same as polygon chimneys
+        String buildingShape = getTagStr("shape", primitive, "frustum");
+        Double topRate = getTagD("hyperboloid:top_rate", primitive.getInterestingTags(), null);
+        Double middleRate = getTagD("hyperboloid:middle_rate", primitive.getInterestingTags(), null);
+
+        int segments = 12;
+        ArrayList<Point2D> circle = new ArrayList<Point2D>();
+
+        for (int i = 0; i < segments; i++) {
+            double angle = (2 * Math.PI / segments) * i;
+            double x = diameter / 2 * Math.cos(angle);
+            double y = diameter / 2 * Math.sin(angle);
+            circle.add(new Point2D(x, y));
+        }
+
+        Contour contour = new Contour(circle, "XY");
+        contour.removeRedundantNodes();
+
+        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, min_height, 0.1, colour, colour, buildingShape, "", "", null, false, topRate, middleRate);
+        Mesh mesh = composeMesh(buildingRecipe);
+
+        return new RenderableElement(primitive, origin, mesh, 0,0);
     }
 
 
