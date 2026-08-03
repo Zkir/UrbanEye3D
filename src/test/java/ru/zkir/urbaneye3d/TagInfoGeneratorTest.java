@@ -71,6 +71,7 @@ public class TagInfoGeneratorTest {
     private final Map<String, String> TAG_DESCRIPTIONS = new HashMap<>();
     {
         TAG_DESCRIPTIONS.put("amenity=bench", "A bench, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("backrest=no", "Used in combination with amenity=bench to signify that the bench does not have a backrest");
         TAG_DESCRIPTIONS.put("backrest=yes", "Used in combination with amenity=bench to signify whether the bench has a backrest ");
         TAG_DESCRIPTIONS.put("amenity=waste_basket", "A waste basket, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("barrier", "The feature is interpreted as barrier, in case it does not have the building tag.");

@@ -19,7 +19,8 @@ node[natural=shrub]{
 }
 
 /* Bench */
-node[amenity=bench] {
+node[amenity=bench],
+node[amenity=bench][backrest=no] {
     model: "/models/bench.obj";
     rotatable: true;
 }

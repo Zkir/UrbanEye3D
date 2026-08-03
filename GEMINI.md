@@ -58,7 +58,14 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
-### Aug 1, 2026
+### Aug 4, 2026
+*   **Tag Popularity Analysis Tools:**
+    *   Updated `popular_tags.py` to export data to JSON for further processing.
+    *   Created `find_missing_tags.py` to identify popular OSM tags not yet implemented in the plugin.
+    *   Generated an initial report of candidates for 3D visualization in `docs/dev/popular_missing_tags.md`.
+
+### Aug 3, 2026
+
 *   **Futsal Pitch Markings:** Added support for FIFA-standard futsal markings for `leisure=pitch` + `sport=futsal`.
 *   **Street Standpipe** Blue standpipe model added, type popular in Russia
 ### Jul 31, 2026

@@ -18,3 +18,7 @@
 	* The final species list is placed in the plugin's resources ('src/main/resources/data/tree_species.csv') to drive the 3D rendering engine.
 	
 *   **Buildings** are processed in order to create a file with "smart defaults" values. This part is highly experimental and not yet used by the plugin itself.
+
+*   **Tag Popularity Analysis:**
+    *   `misc/popular_tags.py`: Fetches the most popular tags for nodes from Taginfo API, filters out metadata, and saves them to `misc/data/popular_tags.json`.
+    *   `misc/find_missing_tags.py`: Compares popular tags with `docs/taginfo.json` and generates a report (`docs/dev/popular_missing_tags.md`) of popular tags not yet supported by the plugin.

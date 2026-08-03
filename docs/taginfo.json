@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260803T201405Z",
+  "data_updated" : "20260803T223031Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -38,6 +38,10 @@
     "key" : "area",
     "value" : "yes",
     "description" : "This tag causes a feature that would otherwise be considered linear to be considered polygonal."
+  }, {
+    "key" : "backrest",
+    "value" : "no",
+    "description" : "Used in combination with amenity=bench to signify that the bench does not have a backrest"
   }, {
     "key" : "backrest",
     "value" : "yes",
@@ -147,6 +151,10 @@
     "key" : "emergency",
     "value" : "fire_hydrant",
     "description" : "A fire hydrant, rendered as a 3D model."
+  }, {
+    "key" : "fire_hydrant:type",
+    "value" : "underground",
+    "description" : "Underground hydrants are NOT rendered!"
   }, {
     "key" : "genus",
     "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."
@@ -262,6 +270,14 @@
     "key" : "power",
     "value" : "tower",
     "description" : "A large lattice power tower support."
+  }, {
+    "key" : "public_transport",
+    "value" : "platform",
+    "description" : "A public transport platform. Rendered as a bus stop model if applicable."
+  }, {
+    "key" : "recycling_type",
+    "value" : "centre",
+    "description" : "A larger recycling center, usually containing multiple containers. In UrbanEye3D, we exclude it from simple container rendering."
   }, {
     "key" : "recycling_type",
     "value" : "container",
