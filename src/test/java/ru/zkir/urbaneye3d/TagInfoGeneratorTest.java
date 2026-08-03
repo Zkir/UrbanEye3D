@@ -173,6 +173,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("recycling_type=container", "Used with amenity=recycling to specify that the recycling point is a container.");
         TAG_DESCRIPTIONS.put("recycling_type=centre", "A larger recycling center, usually containing multiple containers. In UrbanEye3D, we exclude it from simple container rendering.");
         TAG_DESCRIPTIONS.put("amenity=waste_disposal", "A waste disposal point. Currently rendered using the same model as recycling containers.");
+        TAG_DESCRIPTIONS.put("amenity=drinking_water", "A drinking water point, rendered as a 3D model (water column).");
 
         TAG_DESCRIPTIONS.put("leisure=pitch", "A sports pitch. If sport=soccer, tennis, volleyball, badminton or futsal, characteristic markings are rendered on the ground texture.");
         TAG_DESCRIPTIONS.put("sport=soccer", "Indicates that the pitch is used for soccer. Triggers rendering of soccer markings.");

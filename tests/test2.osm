@@ -195,6 +195,10 @@
   <node id='-3239949' action='modify' visible='true' lat='55.05388026804' lon='37.04536221083'>
     <tag k='power' v='tower' />
   </node>
+  <node id='-3242863' action='modify' visible='true' lat='55.05074055463' lon='37.04271385146'>
+    <tag k='amenity' v='drinking_water' />
+    <tag k='direction' v='160' />
+  </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />

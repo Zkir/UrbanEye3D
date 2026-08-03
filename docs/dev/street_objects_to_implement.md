@@ -12,12 +12,13 @@
 |[tourism=information](https://wiki.openstreetmap.org/wiki/Tag:tourism=information)| [information](https://wiki.openstreetmap.org/wiki/Key:information)=board\|map\|guidepost|Models: board, tilted map, signpost with arrows|YES|
 |[power=pole](https://wiki.openstreetmap.org/wiki/Tag:power=pole)   || Linear 3D cables are rendered as special object|YES|
 |[power=tower](https://wiki.openstreetmap.org/wiki/Tag:power=tower) || Linear 3D cables are rendered as special object|YES| 
+|[amenity=recycling](https://wiki.openstreetmap.org/wiki/Tag:amenity=recycling)|[recycling_type=container](https://wiki.openstreetmap.org/wiki/Tag:recycling_type=container)|Implemented as a generic green container.|YES|
+|[amenity=drinking_water](https://wiki.openstreetmap.org/wiki/Tag:amenity=drinking_water)||is it the same as `man_made=water_tap`??|To some extent|
 |[barrier=bollard](https://wiki.openstreetmap.org/wiki/Tag:barrier=bollard)||||
 |[amenity=bicycle_parking](https://wiki.openstreetmap.org/wiki/Tag:amenity=bicycle_parking)||||
-|[amenity=recycling](https://wiki.openstreetmap.org/wiki/Tag:amenity=recycling)|[recycling_type=container](https://wiki.openstreetmap.org/wiki/Tag:recycling_type=container)|Implemented as a generic green container.|YES|
 |[man_made=mast](https://wiki.openstreetmap.org/wiki/Tag:man_made=mast)||||
 |[leisure=picnic_table](https://wiki.openstreetmap.org/wiki/Tag:leisure=picnic_table)||||
-|[amenity=drinking_water](https://wiki.openstreetmap.org/wiki/Tag:amenity=drinking_water)||||
+
 
 ## Additional tags to consider
 

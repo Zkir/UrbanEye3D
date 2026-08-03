@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260801T194005Z",
+  "data_updated" : "20260803T201405Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -18,6 +18,10 @@
     "key" : "amenity",
     "value" : "bench",
     "description" : "A bench, rendered as a 3D model."
+  }, {
+    "key" : "amenity",
+    "value" : "drinking_water",
+    "description" : "A drinking water point, rendered as a 3D model (water column)."
   }, {
     "key" : "amenity",
     "value" : "recycling",

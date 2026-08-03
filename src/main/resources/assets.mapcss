@@ -95,6 +95,12 @@ node[power=pole] {
     model: "/models/power_pole.obj";
 }
 
+/* Drinking Water */
+node[amenity=drinking_water] {
+    model: "/models/water_column.obj";
+	rotatable: true;
+}
+
 /* Recycling Container */
 node[amenity=recycling][recycling_type=container] {
     model: "/models/recycling_container.obj";
