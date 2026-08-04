@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260803T223031Z",
+  "data_updated" : "20260804T120334Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -151,6 +151,10 @@
     "key" : "emergency",
     "value" : "fire_hydrant",
     "description" : "A fire hydrant, rendered as a 3D model."
+  }, {
+    "key" : "fire_hydrant:type",
+    "value" : "pillar",
+    "description" : "Traditional fire hydrant shape. Also the default one."
   }, {
     "key" : "fire_hydrant:type",
     "value" : "underground",

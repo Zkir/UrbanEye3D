@@ -333,6 +333,10 @@ public class Scene {
             AssetRule rule = assetConfig.findBestMatch(nodeForConfig);
 
             if (rule != null) {
+                String display = rule.properties.get("display");
+                if ("false".equals(display)) {
+                    continue;
+                }
                 RenderableElement element = null;
                 if (rule.properties.containsKey("procedure")) {
                     String procedure = rule.properties.get("procedure");

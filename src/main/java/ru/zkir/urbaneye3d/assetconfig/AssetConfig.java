@@ -35,6 +35,7 @@ public class AssetConfig {
         extractString(cascade, properties, "height");
         extractString(cascade, properties, "width");
         extractString(cascade, properties, "snap_to_roads");
+        extractString(cascade, properties, "display");
 
         if (properties.isEmpty()) {
             return null;

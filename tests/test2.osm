@@ -199,6 +199,10 @@
     <tag k='amenity' v='drinking_water' />
     <tag k='direction' v='160' />
   </node>
+  <node id='-3256965' action='modify' visible='true' lat='55.05076434278' lon='37.04289937126'>
+    <tag k='emergency' v='fire_hydrant' />
+    <tag k='fire_hydrant:type' v='underground' />
+  </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />

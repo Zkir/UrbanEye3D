@@ -14,7 +14,6 @@ These are candidates for future implementation.
 | [ford=yes](https://wiki.openstreetmap.org/wiki/Tag:ford%3Dyes) | | | 1433137 | |
 | [power=generator](https://wiki.openstreetmap.org/wiki/Tag:power%3Dgenerator) | | | 1348446 | |
 | [support=pole](https://wiki.openstreetmap.org/wiki/Tag:support%3Dpole) | | | 1341992 | |
-| [fire_hydrant:type=pillar](https://wiki.openstreetmap.org/wiki/Tag:fire_hydrant:type%3Dpillar) | | | 1068059 | |
 | [shelter=no](https://wiki.openstreetmap.org/wiki/Tag:shelter%3Dno) | | | 973627 | |
 | [bicycle=yes](https://wiki.openstreetmap.org/wiki/Tag:bicycle%3Dyes) | | | 958048 | |
 | [barrier=bollard](https://wiki.openstreetmap.org/wiki/Tag:barrier%3Dbollard) | | | 935804 | |
