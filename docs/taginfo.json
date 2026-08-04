@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260804T120334Z",
+  "data_updated" : "20260804T133003Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -167,12 +167,116 @@
     "description" : "The total height of the building, including the roof, in meters."
   }, {
     "key" : "highway",
+    "value" : "bridleway",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
     "value" : "bus_stop",
     "description" : "A bus stop, rendered as a 3D model if it has shelter=yes."
   }, {
     "key" : "highway",
+    "value" : "construction",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "cycleway",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "footway",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "living_street",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "motorway",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "motorway_link",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "path",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "pedestrian",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "primary",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "primary_link",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "proposed",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "raceway",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "residential",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "road",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "secondary",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "secondary_link",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "service",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "steps",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
     "value" : "street_lamp",
     "description" : "A single street lamp, rendered as a 3D model."
+  }, {
+    "key" : "highway",
+    "value" : "tertiary",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "tertiary_link",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "track",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "trunk",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "trunk_link",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "turning_circle",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "unclassified",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "hyperboloid:middle_rate",
     "description" : "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width"
@@ -195,6 +299,14 @@
     "key" : "landuse",
     "value" : "forest",
     "description" : "A managed forest area. Automatically populated with 3D tree objects based on the forest density setting."
+  }, {
+    "key" : "lane_markings",
+    "value" : "no",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "lanes",
+    "value" : "1",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "layer",
     "description" : "Objects with layer<0 are considered to be located underground -- and are not displayed"
@@ -255,6 +367,22 @@
     "key" : "natural",
     "value" : "wood",
     "description" : "A forested area. Automatically populated with 3D tree objects based on the forest density setting."
+  }, {
+    "key" : "oneway",
+    "value" : "-1",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "oneway",
+    "value" : "1",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "oneway",
+    "value" : "no",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "oneway",
+    "value" : "yes",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "place",
     "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"
@@ -458,8 +586,12 @@
     "description" : "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
   }, {
     "key" : "shelter",
+    "value" : "no",
+    "description" : "Indicates that a bus stop does NOT have a shelter, triggering appropriate 3D model rendering."
+  }, {
+    "key" : "shelter",
     "value" : "yes",
-    "description" : "Indicates that a bus stop has a shelter, triggering 3D model rendering."
+    "description" : "Indicates that a bus stop has a shelter, triggering appropriate 3D model rendering."
   }, {
     "key" : "species",
     "description" : "The Latin name of the tree species. Used to infer leaf_type and leaf_cycle if these tags are not specified."
@@ -487,9 +619,36 @@
     "key" : "step:height",
     "description" : "Defines the height of each individual step for building:part=steps. 0.16 is used as default "
   }, {
+    "key" : "surface",
+    "value" : "dirt",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "surface",
+    "value" : "grass",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "surface",
+    "value" : "ground",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "surface",
+    "value" : "sand",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "surface",
+    "value" : "unpaved",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
     "key" : "tourism",
     "value" : "information",
     "description" : "General tourism information point."
+  }, {
+    "key" : "tunnel",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "tunnel",
+    "value" : "no",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "type",
     "value" : "building",

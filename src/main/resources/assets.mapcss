@@ -38,7 +38,9 @@ node[highway=street_lamp] {
 
 /* Bus Stop */
 node[public_transport=platform],
-node[highway=bus_stop] {
+node[highway=bus_stop],
+node[public_transport=platform][shelter=no],
+node[highway=bus_stop][shelter=no] {
     model: "/models/bus_stop_sign.obj";
     snap_to_roads: yes;
 }

@@ -23,8 +23,8 @@ for t in data.get("data", [])[:300]:
     if key.startswith("addr:") or key.startswith("source:") or \
        key in ('source', 'created_by', 'place', 'operator', 'operator:wikidata', 'access', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', \
                'hiking', 'wheelchair','fee', 'religion', 'denotation', 'material') or \
-       tag in ('public_transport=stop_position', 'noexit=yes', 'highway=traffic_signals', 'highway=stop', 'highway=give_way') or \
-       tag in ('direction=forward', 'direction=backward', 'bus=yes', 'foot=yes') or \
+       tag in ('public_transport=stop_position', 'noexit=yes', 'highway=traffic_signals', 'highway=stop', 'highway=give_way') or  key in ('traffic_signals', 'traffic_signals:direction') or\
+       tag in ('direction=forward', 'direction=backward', 'bus=yes', 'foot=yes', 'bicycle=yes') or \
        key in ('crossing', 'crossing_ref') or  key.startswith('crossing:') or tag in ('highway=crossing') or \
        key in ('entrance') or \
        tag in ('railway=switch', 'railway=level_crossing') or \

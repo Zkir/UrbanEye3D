@@ -86,7 +86,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("colour", "Specifies the color of the object, especially barrier or man-made.");
         TAG_DESCRIPTIONS.put("height", "The total height of the building, including the roof, in meters.");
         TAG_DESCRIPTIONS.put("highway=bus_stop", "A bus stop, rendered as a 3D model if it has shelter=yes.");
-        TAG_DESCRIPTIONS.put("shelter=yes", "Indicates that a bus stop has a shelter, triggering 3D model rendering.");
+        TAG_DESCRIPTIONS.put("shelter=yes", "Indicates that a bus stop has a shelter, triggering appropriate 3D model rendering.");
+        TAG_DESCRIPTIONS.put("shelter=no", "Indicates that a bus stop does NOT have a shelter, triggering appropriate 3D model rendering.");
         TAG_DESCRIPTIONS.put("highway=street_lamp", "A single street lamp, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("emergency=fire_hydrant", "A fire hydrant, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=pillar", "Traditional fire hydrant shape. Also the default one.");
@@ -193,6 +194,15 @@ public class TagInfoGeneratorTest {
                 TAG_DESCRIPTIONS.put("roof:material" +"="+ mat.displayName, "Recognized as material for a roof. Default color " + mat.defaultColour);
             }
         }
+
+        //add values from 2D mapCSS.
+        HashSet<ParsedTag> usedTags = new HashSet<>();
+        extractTagsFromMapCSS(usedTags, "/mapcss-styles/urbaneye2d.roads.mapcss");
+        for (var usedTag: usedTags){
+            if (!TAG_DESCRIPTIONS.containsKey(usedTag.originalKey())){
+                TAG_DESCRIPTIONS.put(usedTag.originalKey(), "Used for 2D ground plane rendering" );
+            }
+        }
     }
 
     /** This list contains keys for which reporting of each particular value is not required.*/
@@ -211,28 +221,11 @@ public class TagInfoGeneratorTest {
                 .map(entry -> new ParsedTag(entry.getKey(), entry.getValue(), entry.getKey() + "=" + entry.getValue()))
                 .forEach(usedTags::add);
 
-        // Add tags from assets.mapcss
-        try (java.io.InputStream is = getClass().getResourceAsStream("/assets.mapcss")) {
-            if (is != null) {
-                String content = new String(is.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
-                // Simple regex to extract tags from [key=value] or [key]
-                java.util.regex.Pattern tagPattern = java.util.regex.Pattern.compile("\\[\\s*([^\\]=!<>~\\s]+)\\s*(?:(!=|~=|=)\\s*(?:\"([^\"]+)\"|'([^']+)'|([^\\]]+))\\s*)?\\]");
-                java.util.regex.Matcher tagMatcher = tagPattern.matcher(content);
-                while (tagMatcher.find()) {
-                    String key = tagMatcher.group(1).trim();
-                    String value = null;
-                    if (tagMatcher.group(3) != null) value = tagMatcher.group(3);
-                    else if (tagMatcher.group(4) != null) value = tagMatcher.group(4);
-                    else if (tagMatcher.group(5) != null) value = tagMatcher.group(5).trim();
-                    
-                    usedTags.add(new ParsedTag(key, value, value == null ? key : key + "=" + value));
-                }
-            } else {
-                throw new IllegalStateException("/assets.mapcss not found");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Could not parse assets.mapcss for TagInfo", e);
-        }
+        extractTagsFromMapCSS(usedTags, "/assets.mapcss");
+
+        // this file is not parsed properly, because it contains too many comments, which are still fetch by RE
+        //extractTagsFromMapCSS(usedTags, "/mapcss-styles/urbaneye2d.general.mapcss");
+        extractTagsFromMapCSS(usedTags, "/mapcss-styles/urbaneye2d.roads.mapcss");
 
         //Also add tags from Materials enum
         for (var mat:Materials.values()){
@@ -342,6 +335,31 @@ public class TagInfoGeneratorTest {
         Files.write(outputPath, newJsonContent.getBytes(StandardCharsets.UTF_8));
         //System.out.println("✅ Generated and updated taginfo.json with descriptions.");
         assertTrue(Files.exists(outputPath), "taginfo.json file was not created.");
+    }
+
+    private void extractTagsFromMapCSS(Set<ParsedTag> usedTags, String filename) {
+        // Add tags from assets.mapcss
+        try (InputStream is = getClass().getResourceAsStream(filename)) {
+            if (is != null) {
+                String content = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                // Simple regex to extract tags from [key=value] or [key]
+                Pattern tagPattern = Pattern.compile("\\[\\s*([^\\]=!<>~\\s]+)\\s*(?:(!=|~=|=)\\s*(?:\"([^\"]+)\"|'([^']+)'|([^\\]]+))\\s*)?\\]");
+                Matcher tagMatcher = tagPattern.matcher(content);
+                while (tagMatcher.find()) {
+                    String key = tagMatcher.group(1).trim();
+                    String value = null;
+                    if (tagMatcher.group(3) != null) value = tagMatcher.group(3);
+                    else if (tagMatcher.group(4) != null) value = tagMatcher.group(4);
+                    else if (tagMatcher.group(5) != null) value = tagMatcher.group(5).trim();
+
+                    usedTags.add(new ParsedTag(key, value, value == null ? key : key + "=" + value));
+                }
+            } else {
+                throw new IllegalStateException("/assets.mapcss not found");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Could not parse assets.mapcss for TagInfo", e);
+        }
     }
 
     private ParsedTag parseDescriptionKey(String key) {

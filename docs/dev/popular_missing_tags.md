@@ -7,22 +7,18 @@ These are candidates for future implementation.
 | :--- | :--- | :--- | :--- | :--- |
 | [barrier=gate](https://wiki.openstreetmap.org/wiki/Tag:barrier%3Dgate) | | | 6382469 | |
 | [tactile_paving=no](https://wiki.openstreetmap.org/wiki/Tag:tactile_paving%3Dno) | | | 2662937 | |
-| [highway=turning_circle](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dturning_circle) | | | 2547258 | |
 | [barrier=kerb](https://wiki.openstreetmap.org/wiki/Tag:barrier%3Dkerb) | | | 2492740 | |
 | [tactile_paving=yes](https://wiki.openstreetmap.org/wiki/Tag:tactile_paving%3Dyes) | | | 2364696 | |
 | [kerb=lowered](https://wiki.openstreetmap.org/wiki/Tag:kerb%3Dlowered) | | | 1991948 | |
 | [ford=yes](https://wiki.openstreetmap.org/wiki/Tag:ford%3Dyes) | | | 1433137 | |
 | [power=generator](https://wiki.openstreetmap.org/wiki/Tag:power%3Dgenerator) | | | 1348446 | |
 | [support=pole](https://wiki.openstreetmap.org/wiki/Tag:support%3Dpole) | | | 1341992 | |
-| [shelter=no](https://wiki.openstreetmap.org/wiki/Tag:shelter%3Dno) | | | 973627 | |
-| [bicycle=yes](https://wiki.openstreetmap.org/wiki/Tag:bicycle%3Dyes) | | | 958048 | |
 | [barrier=bollard](https://wiki.openstreetmap.org/wiki/Tag:barrier%3Dbollard) | | | 935804 | |
 | [lamp_type=electric](https://wiki.openstreetmap.org/wiki/Tag:lamp_type%3Delectric) | | | 924028 | |
 | [bench=yes](https://wiki.openstreetmap.org/wiki/Tag:bench%3Dyes) | | | 893365 | |
 | [covered=no](https://wiki.openstreetmap.org/wiki/Tag:covered%3Dno) | | | 849115 | |
 | [generator:source=solar](https://wiki.openstreetmap.org/wiki/Tag:generator:source%3Dsolar) | | | 847040 | |
 | [generator:output:electricity=yes](https://wiki.openstreetmap.org/wiki/Tag:generator:output:electricity%3Dyes) | | | 838823 | |
-| [traffic_signals=signal](https://wiki.openstreetmap.org/wiki/Tag:traffic_signals%3Dsignal) | | | 835527 | |
 | [generator:method=photovoltaic](https://wiki.openstreetmap.org/wiki/Tag:generator:method%3Dphotovoltaic) | | | 831759 | |
 | [generator:type=solar_photovoltaic_panel](https://wiki.openstreetmap.org/wiki/Tag:generator:type%3Dsolar_photovoltaic_panel) | | | 825223 | |
 | [amenity=bicycle_parking](https://wiki.openstreetmap.org/wiki/Tag:amenity%3Dbicycle_parking) | | | 782225 | |
@@ -35,7 +31,6 @@ These are candidates for future implementation.
 | [lamp_mount=straight_mast](https://wiki.openstreetmap.org/wiki/Tag:lamp_mount%3Dstraight_mast) | | | 548036 | |
 | [man_made=surveillance](https://wiki.openstreetmap.org/wiki/Tag:man_made%3Dsurveillance) | | | 543760 | |
 | [bin=yes](https://wiki.openstreetmap.org/wiki/Tag:bin%3Dyes) | | | 530801 | |
-| [traffic_signals:direction=forward](https://wiki.openstreetmap.org/wiki/Tag:traffic_signals:direction%3Dforward) | | | 522654 | |
 | [lamp_type=led](https://wiki.openstreetmap.org/wiki/Tag:lamp_type%3Dled) | | | 519850 | |
 | [tower:type=communication](https://wiki.openstreetmap.org/wiki/Tag:tower:type%3Dcommunication) | | | 515270 | |
 | [man_made=manhole](https://wiki.openstreetmap.org/wiki/Tag:man_made%3Dmanhole) | | | 512886 | |
