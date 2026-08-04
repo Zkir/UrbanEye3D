@@ -7,13 +7,10 @@ These are candidates for future implementation.
 | :--- | :--- | :--- | :--- | :--- |
 | [barrier=gate](https://wiki.openstreetmap.org/wiki/Tag:barrier%3Dgate) | | | 6382469 | |
 | [tactile_paving=no](https://wiki.openstreetmap.org/wiki/Tag:tactile_paving%3Dno) | | | 2662937 | |
-| [barrier=kerb](https://wiki.openstreetmap.org/wiki/Tag:barrier%3Dkerb) | | | 2492740 | |
 | [tactile_paving=yes](https://wiki.openstreetmap.org/wiki/Tag:tactile_paving%3Dyes) | | | 2364696 | |
-| [kerb=lowered](https://wiki.openstreetmap.org/wiki/Tag:kerb%3Dlowered) | | | 1991948 | |
 | [ford=yes](https://wiki.openstreetmap.org/wiki/Tag:ford%3Dyes) | | | 1433137 | |
 | [power=generator](https://wiki.openstreetmap.org/wiki/Tag:power%3Dgenerator) | | | 1348446 | |
 | [support=pole](https://wiki.openstreetmap.org/wiki/Tag:support%3Dpole) | | | 1341992 | |
-| [barrier=bollard](https://wiki.openstreetmap.org/wiki/Tag:barrier%3Dbollard) | | | 935804 | |
 | [lamp_type=electric](https://wiki.openstreetmap.org/wiki/Tag:lamp_type%3Delectric) | | | 924028 | |
 | [bench=yes](https://wiki.openstreetmap.org/wiki/Tag:bench%3Dyes) | | | 893365 | |
 | [covered=no](https://wiki.openstreetmap.org/wiki/Tag:covered%3Dno) | | | 849115 | |

@@ -59,6 +59,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ## Recent Accomplishments
 
 ### Aug 4, 2026
+*   **Barrier Support (Point Objects):**
+    *   Added 3D visualization for `barrier=block` (concrete rectangular blocks) and `barrier=bollard` (red-white striped posts).
+    *   Implemented intelligent automatic orientation for blocks: they automatically align perpendicular to the road if placed on a road node, or perpendicular to the road direction if placed nearby.
+    *   Updated the asset management system and documentation to include these new models.
 *   **Turning Circle Visualization:** Added MapCSS support for `highway=turning_circle`. These are now rendered as filled asphalt-colored circles in the 2D ground plane.
 *   **Tag Popularity Analysis Tools:**
     *   Updated `popular_tags.py` to export data to JSON for further processing.

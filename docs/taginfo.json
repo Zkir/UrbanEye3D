@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260804T133003Z",
+  "data_updated" : "20260804T152013Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -49,6 +49,14 @@
   }, {
     "key" : "barrier",
     "description" : "The feature is interpreted as barrier, in case it does not have the building tag."
+  }, {
+    "key" : "barrier",
+    "value" : "block",
+    "description" : "A concrete rectangular block, often used to prevent vehicle access."
+  }, {
+    "key" : "barrier",
+    "value" : "bollard",
+    "description" : "A sturdy, short, vertical post. Rendered as a red-and-white striped bollard."
   }, {
     "key" : "building",
     "description" : "The main tag for identifying a building outline."

@@ -28,6 +28,7 @@ for t in data.get("data", [])[:300]:
        key in ('crossing', 'crossing_ref') or  key.startswith('crossing:') or tag in ('highway=crossing') or \
        key in ('entrance') or \
        tag in ('railway=switch', 'railway=level_crossing') or \
+       tag in ('barrier=kerb', 'kerb=lowered') or \
        tag in ('amenity=restaurant', 'amenity=place_of_worship', 'amenity=cafe', 'amenity=school', 'amenity=fast_food', 'amenity=pharmacy', 'amenity=toilets', 'amenity=fuel', 'amenity=bank' ,'amenity=parking' ) or \
        tag in ('natural=peak'):  
         continue

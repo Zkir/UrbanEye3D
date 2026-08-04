@@ -366,7 +366,14 @@ public class Scene {
 
                         // Automatic orientation if direction is missing and snap_to_roads is enabled
                         if (direction == null && isSnapToRoads){
-                            direction = calculateDirectionToNearestRoad(node, roads);
+                            if (node.hasTag("barrier", "block") && (direction = calculateRoadDirectionAtNode(node)) != null) {
+                                // direction is already set by the assignment in the condition
+                            } else {
+                                direction = calculateDirectionToNearestRoad(node, roads);
+                                if (node.hasTag("barrier", "block") && direction != null) {
+                                    direction = (direction + 90.0) % 360.0;
+                                }
+                            }
                         }
                         
                         // Special case for power towers/poles orientation
@@ -650,6 +657,46 @@ public class Scene {
             }
         }
         return bounds;
+    }
+
+    private Double calculateRoadDirectionAtNode(Node node) {
+        List<Way> referrers = node.getParentWays();
+        List<String> nonRoadHighwayValues = Arrays.asList("footway", "cycleway", "path", "pedestrian", "steps", "corridor", "bridleway", "track", "service", "platform", "sidewalk");
+        
+        for (Way way : referrers) {
+            if (way.hasKey("highway") && !nonRoadHighwayValues.contains(way.get("highway"))) {
+                List<Node> wayNodes = way.getNodes();
+                List<Point2D> neighbors = new ArrayList<>();
+                LatLon nodeCoor = node.getCoor();
+
+                for (int i = 0; i < wayNodes.size(); i++) {
+                    if (wayNodes.get(i).equals(node)) {
+                        if (i > 0) neighbors.add(FlatEarth.getLocalCoords(wayNodes.get(i-1).lat(), wayNodes.get(i-1).lon(), nodeCoor));
+                        if (i < wayNodes.size() - 1) neighbors.add(FlatEarth.getLocalCoords(wayNodes.get(i+1).lat(), wayNodes.get(i+1).lon(), nodeCoor));
+                    }
+                }
+
+                if (!neighbors.isEmpty()) {
+                    Point2D direction;
+                    if (neighbors.size() >= 2) {
+                        Point2D v1 = neighbors.get(0).normalized();
+                        Point2D v2 = neighbors.get(1).normalized();
+                        direction = new Point2D(v2.x - v1.x, v2.y - v1.y);
+                        if (direction.length() < 1e-6) direction = v2;
+                    } else {
+                        Point2D v1 = neighbors.get(0).normalized();
+                        direction = new Point2D(-v1.x, -v1.y);
+                    }
+                    // Convert CCW-from-East to CW-from-North
+                    double ccwFromEast = Math.toDegrees(Math.atan2(direction.y, direction.x));
+                    double cwFromNorth = 90.0 - ccwFromEast;
+                    if (cwFromNorth < 0) cwFromNorth += 360.0;
+                    return cwFromNorth;
+                }
+                // If we found a road but couldn't calculate direction, keep looking or return null
+            }
+        }
+        return null;
     }
 
     private Double calculateDirectionToNearestRoad(Node node, List<Way> roads) {

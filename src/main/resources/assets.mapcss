@@ -109,6 +109,17 @@ node[amenity=drinking_water] {
 	rotatable: true;
 }
 
+/* Barriers */
+node[barrier=block] {
+    model: "/models/barrier_block.obj";
+    rotatable: true;
+    snap_to_roads: yes;
+}
+
+node[barrier=bollard] {
+    model: "/models/barrier_bollard.obj";
+}
+
 /* Recycling Container */
 node[amenity=recycling][recycling_type=container] {
     model: "/models/recycling_container.obj";

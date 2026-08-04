@@ -223,6 +223,12 @@ The plugin also supports rendering of `barrier` objects (`barrier=*`)
 - `barrier=fence`: Rendered as a fence with a default width of 0.1m and height of 1.5m.
 - `barrier=city_wall`: Rendered as a wall with a default width of 1m and height of 5m.
 
+### Point Barriers
+
+- `barrier=block`: Rendered as a concrete rectangular block.
+    - **Automatic Alignment:** If placed on a road node, it automatically rotates to be perpendicular to the road. If placed beside a road, it aligns to stay perpendicular to the road direction. The `direction` tag, if present, overrides this behavior.
+- `barrier=bollard`: Rendered as a red-and-white striped post (bollard).
+
 For all barrier types, the following tags can be used to override the default values:
 
 - `height`: The height of the barrier.

@@ -205,6 +205,27 @@
     <tag k='emergency' v='fire_hydrant' />
     <tag k='fire_hydrant:type' v='underground' />
   </node>
+  <node id='-3368221' action='modify' visible='true' lat='55.04750715815' lon='37.05173622057' />
+  <node id='-3373774' action='modify' visible='true' lat='55.04786862481' lon='37.05335183009' />
+  <node id='-3379345' action='modify' visible='true' lat='55.0476639015' lon='37.05243648002'>
+    <tag k='barrier' v='block' />
+  </node>
+  <node id='-3384916' action='modify' visible='true' lat='55.04771096952' lon='37.05264800625'>
+    <tag k='barrier' v='bollard' />
+  </node>
+  <node id='-3562588' action='modify' visible='true' lat='55.04751810694' lon='37.05258466293' />
+  <node id='-3623728' action='modify' visible='true' lat='55.04772964743' lon='37.05262170723'>
+    <tag k='barrier' v='bollard' />
+  </node>
+  <node id='-3629281' action='modify' visible='true' lat='55.04769404846' lon='37.0526659214'>
+    <tag k='barrier' v='bollard' />
+  </node>
+  <node id='-3645920' action='modify' visible='true' lat='55.04767761815' lon='37.05269340588'>
+    <tag k='barrier' v='bollard' />
+  </node>
+  <node id='-3662559' action='modify' visible='true' lat='55.04774881609' lon='37.05259541773'>
+    <tag k='barrier' v='bollard' />
+  </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />
@@ -420,6 +441,18 @@
     <nd ref='-3239949' />
     <nd ref='-705417' />
     <tag k='power' v='line' />
+  </way>
+  <way id='-13631' action='modify' visible='true'>
+    <nd ref='-3368221' />
+    <nd ref='-3379345' />
+    <nd ref='-3384916' />
+    <nd ref='-3373774' />
+    <tag k='highway' v='secondary' />
+  </way>
+  <way id='-13660' action='modify' visible='true'>
+    <nd ref='-3379345' />
+    <nd ref='-3562588' />
+    <tag k='highway' v='tertiary' />
   </way>
   <relation id='-2721' action='modify' visible='true'>
     <member type='way' ref='-13300' role='outer' />

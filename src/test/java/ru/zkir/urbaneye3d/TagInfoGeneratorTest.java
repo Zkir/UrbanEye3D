@@ -75,6 +75,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("backrest=yes", "Used in combination with amenity=bench to signify whether the bench has a backrest ");
         TAG_DESCRIPTIONS.put("amenity=waste_basket", "A waste basket, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("barrier", "The feature is interpreted as barrier, in case it does not have the building tag.");
+        TAG_DESCRIPTIONS.put("barrier=block", "A concrete rectangular block, often used to prevent vehicle access.");
+        TAG_DESCRIPTIONS.put("barrier=bollard", "A sturdy, short, vertical post. Rendered as a red-and-white striped bollard.");
         TAG_DESCRIPTIONS.put("building", "The main tag for identifying a building outline.");
         TAG_DESCRIPTIONS.put("building:part", "Identifies a part of a building, which is rendered as a separate 3D element.");
         TAG_DESCRIPTIONS.put("building:colour", "Specifies the color of the building's walls.");
