@@ -241,6 +241,30 @@ way|z15-[highway=track][!area]::right_wheel {
     z-index: 3;
 }
 
+/* 
+ * Turning circle
+ */
+node|z14[highway=turning_circle] {
+    symbol-shape: circle;
+    symbol-size: 8;
+    symbol-fill-color: #444444;
+    z-index: 2;
+}
+
+node|z15[highway=turning_circle] {
+    symbol-shape: circle;
+    symbol-size: 14;
+    symbol-fill-color: #444444;
+    z-index: 2;
+}
+
+node|z16-[highway=turning_circle] {
+    symbol-shape: circle;
+    symbol-size: 18;
+    symbol-fill-color: #444444;
+    z-index: 2;
+}
+
 /* Footways and other non-car roads*/
 
 way|z14-[highway=pedestrian][!is_prop_set("underground", "default")]::fill {

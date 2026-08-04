@@ -143,7 +143,9 @@
     <tag k='highway' v='bus_stop' />
     <tag k='shelter' v='yes' />
   </node>
-  <node id='-335571' action='modify' visible='true' lat='55.05069931144' lon='37.04253848748' />
+  <node id='-335571' action='modify' visible='true' lat='55.05069931144' lon='37.04248590847'>
+    <tag k='highway' v='turning_circle' />
+  </node>
   <node id='-345844' action='modify' visible='true' lat='55.05069828462' lon='37.04315031593' />
   <node id='-402230' action='modify' visible='true' lat='55.05074671578' lon='37.04289817628'>
     <tag k='emergency' v='fire_hydrant' />

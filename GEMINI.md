@@ -59,6 +59,7 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ## Recent Accomplishments
 
 ### Aug 4, 2026
+*   **Turning Circle Visualization:** Added MapCSS support for `highway=turning_circle`. These are now rendered as filled asphalt-colored circles in the 2D ground plane.
 *   **Tag Popularity Analysis Tools:**
     *   Updated `popular_tags.py` to export data to JSON for further processing.
     *   Created `find_missing_tags.py` to identify popular OSM tags not yet implemented in the plugin.
