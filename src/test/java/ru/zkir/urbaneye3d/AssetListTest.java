@@ -42,6 +42,7 @@ public class AssetListTest {
         MASTER_ASSET_LIST.put("/models/street_lamp.obj",  new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/street_lamp_bent.obj",  new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/bus_stop_001.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bus_stop_002.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/bus_stop_sign.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/guidepost.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/info_board.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
@@ -55,6 +56,8 @@ public class AssetListTest {
         MASTER_ASSET_LIST.put("/models/power_tower_billboard.png", new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/barrier_block.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/barrier_bollard.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/barrier_gate.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/barrier_lift_gate.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
 
         // Textures
         MASTER_ASSET_LIST.put("/textures/trees/tree_000.png",

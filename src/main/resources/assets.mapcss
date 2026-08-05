@@ -53,9 +53,19 @@ node[highway=bus_stop][shelter=no] {
     snap_to_roads: yes;
 }
 
+/* bus stop with shelter and bench*/
 node[public_transport=platform][shelter=yes],
-node[highway=bus_stop][shelter=yes] {
+node[highway=bus_stop][shelter=yes],
+node[public_transport=platform][shelter=yes][bench=yes],
+node[highway=bus_stop][shelter=yes][bench=yes] {
     model: "/models/bus_stop_001.obj";
+    snap_to_roads: yes;
+}
+
+/* bus stop with shelter but without bench*/
+node[public_transport=platform][shelter=yes][bench=no],
+node[highway=bus_stop][shelter=yes][bench=no] {
+    model: "/models/bus_stop_002.obj";
     snap_to_roads: yes;
 }
 
@@ -126,6 +136,17 @@ node[barrier=block] {
 
 node[barrier=bollard] {
     model: "/models/barrier_bollard.obj";
+}
+
+node[barrier=gate] {
+    model: "/models/barrier_gate.obj";
+    orientation: align_with_parent;
+}
+
+node[barrier=lift_gate] {
+    model: "/models/barrier_lift_gate.obj";
+    orientation: align_with_parent;
+	rotatable: true;
 }
 
 /* Recycling Container */

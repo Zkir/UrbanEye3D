@@ -71,12 +71,16 @@ public class TagInfoGeneratorTest {
     private final Map<String, String> TAG_DESCRIPTIONS = new HashMap<>();
     {
         TAG_DESCRIPTIONS.put("amenity=bench", "A bench, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("bench=yes", "Indicates the presence of a bench. Used for example on highway=bus_stop nodes.");
+        TAG_DESCRIPTIONS.put("bench=no", "Used to explicitly indicate the absence of a bench, for example on a bus stop.");
         TAG_DESCRIPTIONS.put("backrest=no", "Used in combination with amenity=bench to signify that the bench does not have a backrest");
         TAG_DESCRIPTIONS.put("backrest=yes", "Used in combination with amenity=bench to signify whether the bench has a backrest ");
         TAG_DESCRIPTIONS.put("amenity=waste_basket", "A waste basket, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("barrier", "The feature is interpreted as barrier, in case it does not have the building tag.");
         TAG_DESCRIPTIONS.put("barrier=block", "A concrete rectangular block, often used to prevent vehicle access.");
         TAG_DESCRIPTIONS.put("barrier=bollard", "A sturdy, short, vertical post. Rendered as a red-and-white striped bollard.");
+        TAG_DESCRIPTIONS.put("barrier=gate", "A swinging double-leaf gate. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier.");
+        TAG_DESCRIPTIONS.put("barrier=lift_gate", "A boom barrier (шлагбаум). Rendered as a 3D model, and also creates a physical gap in the parent linear barrier.");
         TAG_DESCRIPTIONS.put("building", "The main tag for identifying a building outline.");
         TAG_DESCRIPTIONS.put("building:part", "Identifies a part of a building, which is rendered as a separate 3D element.");
         TAG_DESCRIPTIONS.put("building:colour", "Specifies the color of the building's walls.");

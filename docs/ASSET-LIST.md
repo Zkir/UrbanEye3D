@@ -6,10 +6,13 @@ This file provides an inventory of all 3D models and textures used in the projec
 |---|---|---|---|
 | `/models/barrier_block.obj` | 9&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/barrier_bollard.obj` | 35&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/barrier_gate.obj` | 22&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/barrier_lift_gate.obj` | 12&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/basket.obj` | 300&nbsp;faces | [OSM2World](https://github.com/tordanik/OSM2World) | [MIT license](https://opensource.org/license/mit) |
 | `/models/bench.obj` | 14&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/bench_002.obj` | 38&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/bus_stop_001.obj` | 60&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/bus_stop_002.obj` | 48&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/bus_stop_sign.obj` | 19&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/colored_cube.obj` | 6&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/fire_hydrant.obj` | 112&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |

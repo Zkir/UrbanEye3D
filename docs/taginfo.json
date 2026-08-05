@@ -58,6 +58,22 @@
     "value" : "bollard",
     "description" : "A sturdy, short, vertical post. Rendered as a red-and-white striped bollard."
   }, {
+    "key" : "barrier",
+    "value" : "gate",
+    "description" : "A swinging double-leaf gate. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier."
+  }, {
+    "key" : "barrier",
+    "value" : "lift_gate",
+    "description" : "A boom barrier (шлагбаум). Rendered as a 3D model, and also creates a physical gap in the parent linear barrier."
+  }, {
+    "key" : "bench",
+    "value" : "no",
+    "description" : "Used to explicitly indicate the absence of a bench, for example on a bus stop."
+  }, {
+    "key" : "bench",
+    "value" : "yes",
+    "description" : "Indicates the presence of a bench. Used for example on highway=bus_stop nodes."
+  }, {
     "key" : "building",
     "description" : "The main tag for identifying a building outline."
   }, {
