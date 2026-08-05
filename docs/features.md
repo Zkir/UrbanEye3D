@@ -223,6 +223,17 @@ The plugin also supports rendering of `barrier` objects (`barrier=*`)
 - `barrier=fence`: Rendered as a fence with a default width of 0.1m and height of 1.5m.
 - `barrier=city_wall`: Rendered as a wall with a default width of 1m and height of 5m.
 
+### Gates and Gaps
+
+The plugin supports gates that are typically placed as nodes on linear barriers (walls, fences).
+
+- `barrier=gate`: Rendered as a swinging double-leaf gate.
+- `barrier=lift_gate`: Rendered as a boom barrier (шлагбаум).
+
+**Features:**
+- **Physical Gaps:** The plugin automatically creates a physical gap in the parent linear barrier at the location of the gate node.
+- **Intelligent Orientation:** Gate models are automatically aligned to be flush with the parent barrier way.
+
 ### Point Barriers
 
 - `barrier=block`: Rendered as a concrete rectangular block.

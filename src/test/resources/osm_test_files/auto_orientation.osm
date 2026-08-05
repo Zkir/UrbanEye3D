@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <node id='-5007303' action='modify' visible='true' lat='55.00000585303' lon='37.00000627966' />
+  <node id='-5007304' action='modify' visible='true' lat='55.0001' lon='37.0001'>
+    <tag k='barrier' v='gate' />
+    <tag k='note' v='gate is aligned with parrent barrier, roads do not affect it' />
+    <tag k='ref' v='1' />
+  </node>
+  <node id='-5007305' visible='true' lat='55.0002' lon='37.0002' />
+  <node id='-5007306' action='modify' visible='true' lat='54.999909825' lon='37.00022655192' />
+  <node id='-5007307' action='modify' visible='true' lat='55.00012013222' lon='37.00042702653'>
+    <tag k='barrier' v='bollard' />
+    <tag k='note' v='Bollard is symmetrical and does not get anything but 0' />
+    <tag k='ref' v='7' />
+  </node>
+  <node id='-5007308' action='modify' visible='true' lat='55.00016610443' lon='37.00047600426' />
+  <node id='-5007405' action='modify' visible='true' lat='55.00008208834' lon='36.99999604424' />
+  <node id='-5007697' action='modify' visible='true' lat='55.00014489571' lon='37.00034417307'>
+    <tag k='barrier' v='block' />
+    <tag k='note' v='Blocks sit accross the road' />
+    <tag k='ref' v='4' />
+  </node>
+  <node id='-5007888' action='modify' visible='true' lat='55.00012609842' lon='37.00025037079'>
+    <tag k='barrier' v='lift_gate' />
+    <tag k='note' v='but without fence, gate is oriented across the road' />
+    <tag k='ref' v='2' />
+  </node>
+  <node id='-5008472' action='modify' visible='true' lat='55.0001689831' lon='37.00027784412'>
+    <tag k='barrier' v='block' />
+    <tag k='note' v='&quot;Free&quot; blocks should be oriented parallel to roads' />
+    <tag k='ref' v='3' />
+  </node>
+  <node id='-5008753' action='modify' visible='true' lat='55.00002963622' lon='37.00033671597'>
+    <tag k='barrier' v='block' />
+    <tag k='note' v='Blocks sit accross the road' />
+    <tag k='ref' v='6' />
+  </node>
+  <node id='-5009113' action='modify' visible='true' lat='55.00010730134' lon='37.00050705183'>
+    <tag k='barrier' v='block' />
+    <tag k='note' v='&quot;Free&quot; blocks should be oriented parallel to roads' />
+    <tag k='ref' v='5' />
+  </node>
+  <node id='-5010109' action='modify' visible='true' lat='55.0000926688' lon='37.00031277475'>
+    <tag k='bench' v='yes' />
+    <tag k='highway' v='bus_stop' />
+    <tag k='note' v='Bus stop is oriented across major roads and is NOT affected by footways or services (in normal situation at least)' />
+    <tag k='ref' v='8' />
+    <tag k='shelter' v='yes' />
+  </node>
+  <node id='-5010662' action='modify' visible='true' lat='54.9999100994' lon='37.00031041948'>
+    <tag k='highway' v='street_lamp' />
+    <tag k='lamp_mount' v='bent_mast' />
+    <tag k='note' v='Street lamps on a bent mast are looking to the nearest [major] road segment' />
+    <tag k='ref' v='9' />
+  </node>
+  <node id='-5010693' action='modify' visible='true' lat='55.00015727731' lon='37.00037557099'>
+    <tag k='highway' v='street_lamp' />
+    <tag k='lamp_mount' v='bent_mast' />
+    <tag k='note' v='Street lamps on a bent mast are looking to the nearest [major] road segment' />
+    <tag k='ref' v='10' />
+  </node>
+  <node id='-5011729' action='modify' visible='true' lat='55.00020140043' lon='36.99995954251' />
+  <node id='-5011808' action='modify' visible='true' lat='54.99996330013' lon='37.0002757212' />
+  <node id='-5011839' action='modify' visible='true' lat='54.99987723228' lon='37.00039048519' />
+  <node id='-5013481' action='modify' visible='true' lat='55.00003571504' lon='36.99808035329'>
+    <tag k='note' v='In normal situation, power towers/poles are oriented along power lines.' />
+    <tag k='power' v='pole' />
+    <tag k='ref' v='11' />
+  </node>
+  <node id='-5013524' action='modify' visible='true' lat='54.99982320452' lon='36.99977272253'>
+    <tag k='note' v='In normal situation, power towers/poles are oriented along power lines.' />
+    <tag k='power' v='pole' />
+    <tag k='ref' v='12' />
+  </node>
+  <node id='-5013579' action='modify' visible='true' lat='54.99956296765' lon='37.00034888164'>
+    <tag k='note' v='In case of sharp angle (power line turns backwards), pole is oriented across bisector.' />
+    <tag k='power' v='pole' />
+    <tag k='ref' v='13' />
+  </node>
+  <node id='-5013634' action='modify' visible='true' lat='54.99952154571' lon='36.99923895116'>
+    <tag k='note' v='In normal situation, power towers/poles are oriented along power lines.' />
+    <tag k='power' v='pole' />
+    <tag k='ref' v='14' />
+  </node>
+  <way id='-13726' action='modify' visible='true'>
+    <nd ref='-5007303' />
+    <nd ref='-5007304' />
+    <nd ref='-5007305' />
+    <tag k='barrier' v='wall' />
+    <tag k='height' v='2.0' />
+    <tag k='note' v='Line barriers just get 0' />
+    <tag k='width' v='0.5' />
+  </way>
+  <way id='-13727' action='modify' visible='true'>
+    <nd ref='-5007306' />
+    <nd ref='-5011808' />
+    <nd ref='-5008753' />
+    <tag k='highway' v='residential' />
+  </way>
+  <way id='-13728' action='modify' visible='true'>
+    <nd ref='-5007405' />
+    <nd ref='-5007304' />
+    <nd ref='-5007888' />
+    <nd ref='-5007697' />
+    <nd ref='-5007307' />
+    <tag k='highway' v='service' />
+  </way>
+  <way id='-13807' action='modify' visible='true'>
+    <nd ref='-5011729' />
+    <nd ref='-5007304' />
+    <nd ref='-5011808' />
+    <nd ref='-5011839' />
+    <tag k='highway' v='footway' />
+    <tag k='note' v='footway does not affect much (except benches)' />
+  </way>
+  <way id='-13897' action='modify' visible='true'>
+    <nd ref='-5013481' />
+    <nd ref='-5013524' />
+    <nd ref='-5013579' />
+    <tag k='power' v='line' />
+  </way>
+  <way id='-13899' action='modify' visible='true'>
+    <nd ref='-5013634' />
+    <nd ref='-5013579' />
+    <tag k='power' v='line' />
+  </way>
+  <way id='-13946' action='modify' visible='true'>
+    <nd ref='-5008753' />
+    <nd ref='-5007307' />
+    <nd ref='-5007308' />
+    <tag k='highway' v='residential' />
+  </way>
+</osm>

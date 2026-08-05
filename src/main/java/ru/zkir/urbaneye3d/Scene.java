@@ -247,72 +247,16 @@ public class Scene {
         // Get asset config singleton or initialize it if we haven't
         AssetConfig assetConfig = AssetConfigLoader.getInstance().getConfig();
 
-        // Pre-filter roads for automatic orientation
+        // Pre-filter roads for automatic orientation (still needed for nearest road calculation)
         List<Way> roads = new ArrayList<>();
-        List<String> nonRoadHighwayValues = Arrays.asList("footway", "cycleway", "path", "pedestrian", "steps", "corridor", "bridleway", "track", "service", "platform", "sidewalk");
         for (Way way : dataSet.getWays()) {
-            if (way.hasKey("highway") && !nonRoadHighwayValues.contains(way.get("highway"))) {
+            if (way.hasKey("highway") && !NON_ROAD_FOR_SNAPPING.contains(way.get("highway"))) {
                 roads.add(way);
             }
         }
 
-        // Pre-filter power lines for tower orientation
+        // Cache for power node angles, as they are used both for towers and for wires
         Map<Node, Double> powerNodeAngles = new HashMap<>();
-        Map<Node, List<Way>> powerLinesPerNode = new HashMap<>();
-        for (Way way : dataSet.getWays()) {
-            if (way.hasKey("power") && ("line".equals(way.get("power")) || "minor_line".equals(way.get("power")))) {
-                for (Node n : way.getNodes()) {
-                    powerLinesPerNode.computeIfAbsent(n, k -> new ArrayList<>()).add(way);
-                }
-            }
-        }
-
-        // Pre-calculate angles for all power nodes
-        for (Node node : powerLinesPerNode.keySet()) {
-            List<Way> lines = powerLinesPerNode.get(node);
-            List<Point2D> neighbors = new ArrayList<>();
-            LatLon nodeCoor = node.getCoor();
-
-            for (Way line : lines) {
-                List<Node> wayNodes = line.getNodes();
-                for (int i = 0; i < wayNodes.size(); i++) {
-                    if (wayNodes.get(i).equals(node)) {
-                        if (i > 0) neighbors.add(FlatEarth.getLocalCoords(wayNodes.get(i-1).lat(), wayNodes.get(i-1).lon(), nodeCoor));
-                        if (i < wayNodes.size() - 1) neighbors.add(FlatEarth.getLocalCoords(wayNodes.get(i+1).lat(), wayNodes.get(i+1).lon(), nodeCoor));
-                    }
-                }
-            }
-
-            if (!neighbors.isEmpty()) {
-                Point2D direction;
-                double rotationOffset = 90.0; // Standard perpendicular orientation
-
-                if (neighbors.size() >= 2) {
-                    // v1 and v2 are vectors FROM node TO neighbors.
-                    Point2D v1 = neighbors.get(0).normalized();
-                    Point2D v2 = neighbors.get(1).normalized();
-                    
-                    // Chord vector (v2 - v1)
-                    direction = new Point2D(v2.x - v1.x, v2.y - v1.y);
-                    
-                    // Check if the turn is sharp (angle between v1 and v2 is < 90 degrees)
-                    // Dot product > 0 means acute angle (sharp turn)
-                    if (v1.x * v2.x + v1.y * v2.y > 0) {
-                        rotationOffset = 0.0; // Snap! Align traverse with the chord
-                    }
-
-                    if (direction.length() < 1e-6) {
-                        direction = v2;
-                        rotationOffset = 90.0;
-                    }
-                } else {
-                    // End node
-                    Point2D v1 = neighbors.get(0).normalized();
-                    direction = new Point2D(-v1.x, -v1.y);
-                }
-                powerNodeAngles.put(node, Math.toDegrees(Math.atan2(direction.y, direction.x)) + rotationOffset);
-            }
-        }
 
         /*
          * Trees, street furniture, and other objects (using AssetConfig).
@@ -329,7 +273,6 @@ public class Scene {
             }
 
             // Find best matching rule for LOD 0 (currently using LOD 0 by default)
-            // In future we will get all the LODs
             AssetRule rule = assetConfig.findBestMatch(nodeForConfig);
 
             if (rule != null) {
@@ -358,52 +301,66 @@ public class Scene {
                         Double direction = null;
                         if (isRotatable) { //rotatable means that direction tag is defined for this object
                             if (node.hasKey("direction")) {
-                                // JOSM direction is Degrees CW from North. 
-                                // Our Mesh.rotate expects Degrees CCW from East OR model's Y+ matches North.
                                 direction = OsmDataWasher.parseDirection(node.get("direction"));
+                            }
+                        }
+
+                        //Special case for barrier=block
+                        //TODO: those cases are not so special.
+                        //   we just need to determine who is the proper parent
+                        //       (e.g. for node barriers parent could be both a linear barrier and a road.)
+                        //   and what is orientation: along/across
+
+                        if (direction == null && node.hasTag("barrier", "block") ) {
+                            direction = calculateOrientationByParent(node, way -> way.hasKey("highway") && !NON_ROAD_FOR_ORIENTATION.contains(way.get("highway")), false);
+                        }
+                        
+                        // Special case for power towers/poles orientation
+                        if (direction == null && node.hasKey("power") && (node.hasTag("power", "tower") || node.hasTag("power", "pole"))) {
+                            Double lineAngle = powerNodeAngles.computeIfAbsent(node, n -> {
+                                Double a = calculateOrientationByParent(n, way -> way.hasKey("power") && ("line".equals(way.get("power")) || "minor_line".equals(way.get("power"))), true);
+                                return a != null ? a : 0.0;
+                            });
+                            direction = -lineAngle;
+                        }
+
+                        // Special case for node barriers: gate and lift gate
+                        if (direction == null && "align_with_parent".equals(rule.properties.get("orientation"))) {
+                            // First, try to align along the parent barrier (fence, wall, etc.)
+                            direction = calculateOrientationByParent(node, way -> way.hasKey("barrier") && !"yes".equals(way.get("area")), false);
+                            if (direction != null) {
+                                // Model is perpendicular to its local Y axis, so we add 90 to align along the barrier
+                                direction = (direction + 90.0) % 360.0;
+                            } else {
+                                // If no barrier found, fall back to road-based orientation (perpendicular to the road)
+                                direction = calculateOrientationByParent(node, way -> way.hasKey("highway") && !NON_ROAD_FOR_ORIENTATION.contains(way.get("highway")), false);
                             }
                         }
 
                         // Automatic orientation if direction is missing and snap_to_roads is enabled
                         if (direction == null && isSnapToRoads){
-                            if (node.hasTag("barrier", "block") && (direction = calculateRoadDirectionAtNode(node)) != null) {
-                                // direction is already set by the assignment in the condition
-                            } else {
-                                direction = calculateDirectionToNearestRoad(node, roads);
-                                if (node.hasTag("barrier", "block") && direction != null) {
-                                    direction = (direction + 90.0) % 360.0;
-                                }
-                            }
+                            direction = calculateDirectionToNearestRoad(node, roads);
                         }
-                        
-                        // Special case for power towers/poles orientation
-                        if (direction == null && node.hasKey("power") && (node.hasTag("power", "tower") || node.hasTag("power", "pole"))) {
-                            Double lineAngle = powerNodeAngles.get(node);
-                            if (lineAngle != null) {
-                                instanceMesh = mesh.clone();
-                                // lineAngle already includes the necessary offset (0 or 90)
-                                instanceMesh.rotate(lineAngle);
-                                direction = 0.0; // Handled
-                            }
-                        }
+
 
                         if (direction != null && direction != 0.0) {
                             instanceMesh = mesh.clone();
-                            // If model faces North (Y+) by default, rotate(-directionCWFromNorth) works perfectly.
                             instanceMesh.rotate(-direction);
+                        } else {
+                            direction = 0.0;
                         }
 
-                        element = RenderableElement.createFromModel(node, instanceMesh);
+                        element = RenderableElement.createFromModel(node, instanceMesh, direction);
+
                     }
                 } else if (rule.properties.containsKey("billboard")) {
                     String texturePath = rule.properties.get("billboard");
                     Map<String, String> tags = nodeForConfig.getInterestingTags();
                     
-                    // Determine dimensions
                     double defaultHeight = rule.properties.containsKey("height") ? Double.parseDouble(rule.properties.get("height")) : 1.0;
-                    double height = getTagD("height", tags, defaultHeight); //height is a proper tag
+                    double height = getTagD("height", tags, defaultHeight);
                     double defaultWidth = rule.properties.containsKey("width") ? Double.parseDouble(rule.properties.get("width")) : 0.9*defaultHeight;
-                    double width = height * ( defaultWidth/defaultHeight); //width is not a tag, default width is just a rate.
+                    double width = height * ( defaultWidth/defaultHeight);
 
                     element = RenderableElement.createBillboard(node, node.getCoor(), texturePath, width, height);
                 }
@@ -430,8 +387,14 @@ public class Scene {
                 Node n1 = wayNodes.get(i);
                 Node n2 = wayNodes.get(i + 1);
 
-                double angle1 = powerNodeAngles.getOrDefault(n1, 0.0);
-                double angle2 = powerNodeAngles.getOrDefault(n2, 0.0);
+                double angle1 = powerNodeAngles.computeIfAbsent(n1, n -> {
+                    Double a = calculateOrientationByParent(n, w -> w.hasKey("power") && ("line".equals(w.get("power")) || "minor_line".equals(w.get("power"))), true);
+                    return a != null ? a : 0.0;
+                });
+                double angle2 = powerNodeAngles.computeIfAbsent(n2, n -> {
+                    Double a = calculateOrientationByParent(n, w -> w.hasKey("power") && ("line".equals(w.get("power")) || "minor_line".equals(w.get("power"))), true);
+                    return a != null ? a : 0.0;
+                });
 
                 List<Point3D> offsets1 = getAttachmentOffsets(n1);
                 List<Point3D> offsets2 = getAttachmentOffsets(n2);
@@ -659,48 +622,71 @@ public class Scene {
         return bounds;
     }
 
-    private Double calculateRoadDirectionAtNode(Node node) {
-        List<Way> referrers = node.getParentWays();
-        List<String> nonRoadHighwayValues = Arrays.asList("footway", "cycleway", "path", "pedestrian", "steps", "corridor", "bridleway", "track", "service", "platform", "sidewalk");
-        
-        for (Way way : referrers) {
-            if (way.hasKey("highway") && !nonRoadHighwayValues.contains(way.get("highway"))) {
-                List<Node> wayNodes = way.getNodes();
-                List<Point2D> neighbors = new ArrayList<>();
-                LatLon nodeCoor = node.getCoor();
+    private List<Point2D> getNeighbors(Node node, java.util.function.Predicate<Way> wayFilter) {
+        List<Way> parentWays = node.getParentWays();
+        List<Point2D> neighbors = new ArrayList<>();
+        LatLon nodeCoor = node.getCoor();
 
+        for (Way way : parentWays) {
+            if (wayFilter.test(way)) {
+                List<Node> wayNodes = way.getNodes();
                 for (int i = 0; i < wayNodes.size(); i++) {
                     if (wayNodes.get(i).equals(node)) {
                         if (i > 0) neighbors.add(FlatEarth.getLocalCoords(wayNodes.get(i-1).lat(), wayNodes.get(i-1).lon(), nodeCoor));
                         if (i < wayNodes.size() - 1) neighbors.add(FlatEarth.getLocalCoords(wayNodes.get(i+1).lat(), wayNodes.get(i+1).lon(), nodeCoor));
                     }
                 }
-
-                if (!neighbors.isEmpty()) {
-                    Point2D direction;
-                    if (neighbors.size() >= 2) {
-                        Point2D v1 = neighbors.get(0).normalized();
-                        Point2D v2 = neighbors.get(1).normalized();
-                        direction = new Point2D(v2.x - v1.x, v2.y - v1.y);
-                        if (direction.length() < 1e-6) direction = v2;
-                    } else {
-                        Point2D v1 = neighbors.get(0).normalized();
-                        direction = new Point2D(-v1.x, -v1.y);
-                    }
-                    // Convert CCW-from-East to CW-from-North
-                    double ccwFromEast = Math.toDegrees(Math.atan2(direction.y, direction.x));
-                    double cwFromNorth = 90.0 - ccwFromEast;
-                    if (cwFromNorth < 0) cwFromNorth += 360.0;
-                    return cwFromNorth;
-                }
-                // If we found a road but couldn't calculate direction, keep looking or return null
             }
         }
-        return null;
+        return neighbors;
+    }
+
+    private static final List<String> NON_ROAD_FOR_ORIENTATION = Arrays.asList(
+        "footway", "cycleway", "path", "pedestrian", "steps", "corridor", "bridleway", "track", "platform", "sidewalk"
+    );
+
+    private static final List<String> NON_ROAD_FOR_SNAPPING = Arrays.asList(
+        "footway", "cycleway", "path", "pedestrian", "steps", "corridor", "bridleway", "track", "service", "platform", "sidewalk"
+    );
+
+    private Point2D getDirectionVector(List<Point2D> neighbors) {
+        if (neighbors.isEmpty()) return null;
+        if (neighbors.size() >= 2) {
+            Point2D v1 = neighbors.get(0).normalized();
+            Point2D v2 = neighbors.get(1).normalized();
+            Point2D direction = new Point2D(v2.x - v1.x, v2.y - v1.y);
+            return (direction.length() < 1e-6) ? v2 : direction;
+        } else {
+            Point2D v1 = neighbors.get(0).normalized();
+            return new Point2D(-v1.x, -v1.y);
+        }
+    }
+
+    private Double calculateOrientationByParent(Node node, java.util.function.Predicate<Way> wayFilter, boolean isPower) {
+        List<Point2D> neighbors = getNeighbors(node, wayFilter);
+        if (neighbors.isEmpty()) return null;
+
+        Point2D direction = getDirectionVector(neighbors);
+        double angle = Math.toDegrees(Math.atan2(direction.y, direction.x));
+
+        if (isPower) {
+            double rotationOffset = 90.0;
+            if (neighbors.size() >= 2) {
+                Point2D v1 = neighbors.get(0).normalized();
+                Point2D v2 = neighbors.get(1).normalized();
+                if (v1.x * v2.x + v1.y * v2.y > 0) {
+                    rotationOffset = 0.0; // Snap logic for power lines
+                }
+            }
+            return angle + rotationOffset;
+        } else {
+            double azimuth = 90.0 - angle;
+            return azimuth < 0 ? azimuth + 360.0 : azimuth;
+        }
     }
 
     private Double calculateDirectionToNearestRoad(Node node, List<Way> roads) {
-        if (roads.isEmpty()) return null;
+        if (roads.isEmpty()) return null; 
 
         LatLon nodeCoor = node.getCoor();
         double minDistSq = Double.POSITIVE_INFINITY;

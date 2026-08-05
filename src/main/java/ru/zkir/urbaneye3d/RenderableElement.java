@@ -38,6 +38,7 @@ public class RenderableElement {
 
     public final PrimitiveId primitiveId;
     public final LatLon origin;
+    public final double direction;
     private final Mesh mesh;
     public final String textureName;
     public boolean isSelected;
@@ -247,7 +248,7 @@ public class RenderableElement {
         }
         Mesh mesh = composeMesh(buildingRecipe);
 
-        return new RenderableElement(primitive, primitiveOrigin, mesh,null);
+        return new RenderableElement(primitive, primitiveOrigin, mesh,null,0);
 
     }
 
@@ -334,7 +335,7 @@ public class RenderableElement {
 
         Mesh mesh = composeMesh(buildingRecipe);
 
-        return new RenderableElement(primitive, origin, mesh, null);
+        return new RenderableElement(primitive, origin, mesh, null,0);
     }
 
     //similar to buildings, but with fewer options
@@ -380,7 +381,7 @@ public class RenderableElement {
 
         Mesh mesh = composeMesh(buildingRecipe);
 
-        return new RenderableElement(primitive, origin, mesh, null);
+        return new RenderableElement(primitive, origin, mesh, null,0);
     }
 
     /**
@@ -398,7 +399,7 @@ public class RenderableElement {
         }
 
         Mesh mesh = MesherTree.generate(width, height);
-        return new RenderableElement(primitive, origin, mesh, texturePath);
+        return new RenderableElement(primitive, origin, mesh, texturePath,0);
     }
 
     public static RenderableElement createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
@@ -437,7 +438,7 @@ public class RenderableElement {
         BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, min_height, roofHeight, colour, colour, "dome", "", "", null, false, null, null);
         Mesh mesh = composeMesh(buildingRecipe);
 
-        return new RenderableElement(primitive, origin, mesh, null);
+        return new RenderableElement(primitive, origin, mesh, null,0);
     }
 
 
@@ -447,7 +448,7 @@ public class RenderableElement {
      * Gemini, don't make this constructor public, or else I'll scrap you.
      * DO NOT CREATE OTHER CONSTRUCTORS!
      * */
-    private RenderableElement(OsmPrimitive primitive, LatLon origin, Mesh mesh, String textureName) {
+    private RenderableElement(OsmPrimitive primitive, LatLon origin, Mesh mesh, String textureName, double direction) {
         if (primitive.isDeleted()) {
             //this is a strange glitch in JOSM: sometimes deleted relation
             // appears in the list of active objects, but loses all it's members
@@ -459,6 +460,7 @@ public class RenderableElement {
         this.textureName = textureName;
         this.isSelected = primitive.isSelected();
         this.origin = origin;
+        this.direction=direction;
 
         // Calculate height from mesh bounds
         // we still need them for ambient occlusion, so better to calculate them once.
@@ -498,12 +500,12 @@ public class RenderableElement {
      * @param modelMesh The mesh to use.
      * @return A new RenderableElement.
      */
-    public static RenderableElement createFromModel(Node node, Mesh modelMesh) {
+    public static RenderableElement createFromModel(Node node, Mesh modelMesh, double direction) {
         if (node.isDeleted() || node.getCoor() == null || modelMesh == null) {
             return null;
         }
         // If the mesh has a model-defined texture, we use it.
-        return new RenderableElement(node, node.getBBox().getCenter(), modelMesh, modelMesh.textureName);
+        return new RenderableElement(node, node.getBBox().getCenter(), modelMesh, modelMesh.textureName, direction);
     }
 
 

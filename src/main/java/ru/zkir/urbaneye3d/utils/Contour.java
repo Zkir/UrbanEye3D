@@ -100,19 +100,75 @@ public class Contour {
 
             Polygon polygon = (Polygon) line.buffer(width / 2, 1, BufferParameters.CAP_FLAT);
 
-            ArrayList<Point2D> polygonPoints1 = new ArrayList<>();
-            for (Coordinate coord : polygon.getExteriorRing().getCoordinates()) {
-                polygonPoints1.add(new Point2D(coord.x, coord.y));
-            }
-            this.outerRings.add(polygonPoints1);
+            // Gaps for gates
+            Geometry finalGeom = polygon;
+            for (int i = 0; i < way.getNodesCount(); i++) {
+                Node node = way.getNode(i);
+                if (node.hasTag("barrier", "gate") || node.hasTag("barrier", "lift_gate")) {
+                    Point2D localPos = getNodeLocalCoords(node, center);
 
-            for (int i=0; i<polygon.getNumInteriorRing(); i++){
-                ArrayList<Point2D> polygonPoints2 = new ArrayList<>();
-                for (Coordinate coord : polygon.getInteriorRingN(i).getCoordinates()) {
-                    polygonPoints2.add(new Point2D(coord.x, coord.y));
+                    // Calculate direction at this node index
+                    Point2D dir = null;
+                    if (way.getNodesCount() >= 2) {
+                        if (i > 0 && i < way.getNodesCount() - 1) {
+                            Point2D prev = getNodeLocalCoords(way.getNode(i - 1), center);
+                            Point2D next = getNodeLocalCoords(way.getNode(i + 1), center);
+                            dir = next.subtract(prev);
+                        } else if (i == 0) {
+                            Point2D next = getNodeLocalCoords(way.getNode(1), center);
+                            dir = next.subtract(localPos);
+                        } else {
+                            Point2D prev = getNodeLocalCoords(way.getNode(i - 1), center);
+                            dir = localPos.subtract(prev);
+                        }
+                    }
+
+                    if (dir != null && dir.length() > 1e-6) {
+                        double angle = Math.atan2(dir.y, dir.x);
+                        double cosA = Math.cos(angle);
+                        double sinA = Math.sin(angle);
+
+                        // We want the gap to be ALONG the barrier.
+                        double hx = 1.75; // 3.5m wide gate
+                        double hy = Math.max(hx, width * 1.5); // enough to cover the barrier width
+
+                        Coordinate[] gapCoords = new Coordinate[5];
+                        double[][] offsets = {{-hx, -hy}, {hx, -hy}, {hx, hy}, {-hx, hy}, {-hx, -hy}};
+                        for (int j = 0; j < 5; j++) {
+                            double rx = offsets[j][0] * cosA - offsets[j][1] * sinA;
+                            double ry = offsets[j][0] * sinA + offsets[j][1] * cosA;
+                            gapCoords[j] = new Coordinate(localPos.x + rx, localPos.y + ry);
+                        }
+                        Polygon gap = geometryFactory.createPolygon(gapCoords);
+                        finalGeom = finalGeom.difference(gap);
+                    }
                 }
-                this.innerRings.add(polygonPoints2);
             }
+
+            if (finalGeom instanceof Polygon) {
+                addPolygonToContour((Polygon) finalGeom);
+            } else if (finalGeom instanceof MultiPolygon) {
+                MultiPolygon mp = (MultiPolygon) finalGeom;
+                for (int i = 0; i < mp.getNumGeometries(); i++) {
+                    addPolygonToContour((Polygon) mp.getGeometryN(i));
+                }
+            }
+        }
+    }
+
+    private void addPolygonToContour(Polygon p) {
+        ArrayList<Point2D> polygonPoints1 = new ArrayList<>();
+        for (Coordinate coord : p.getExteriorRing().getCoordinates()) {
+            polygonPoints1.add(new Point2D(coord.x, coord.y));
+        }
+        this.outerRings.add(polygonPoints1);
+
+        for (int i = 0; i < p.getNumInteriorRing(); i++) {
+            ArrayList<Point2D> polygonPoints2 = new ArrayList<>();
+            for (Coordinate coord : p.getInteriorRingN(i).getCoordinates()) {
+                polygonPoints2.add(new Point2D(coord.x, coord.y));
+            }
+            this.innerRings.add(polygonPoints2);
         }
     }
 

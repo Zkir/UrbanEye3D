@@ -213,7 +213,9 @@
   <node id='-3384916' action='modify' visible='true' lat='55.04771096952' lon='37.05264800625'>
     <tag k='barrier' v='bollard' />
   </node>
-  <node id='-3562588' action='modify' visible='true' lat='55.04751810694' lon='37.05258466293' />
+  <node id='-3562588' action='modify' visible='true' lat='55.04751810694' lon='37.05258466293'>
+    <tag k='barrier' v='lift_gate' />
+  </node>
   <node id='-3623728' action='modify' visible='true' lat='55.04772964743' lon='37.05262170723'>
     <tag k='barrier' v='bollard' />
   </node>
@@ -225,6 +227,49 @@
   </node>
   <node id='-3662559' action='modify' visible='true' lat='55.04774881609' lon='37.05259541773'>
     <tag k='barrier' v='bollard' />
+  </node>
+  <node id='-3703393' action='modify' visible='true' lat='55.04742377116' lon='37.05339105967' />
+  <node id='-3723936' action='modify' visible='true' lat='55.04762971469' lon='37.05440119163' />
+  <node id='-3744087' action='modify' visible='true' lat='55.04723842107' lon='37.05502308782' />
+  <node id='-3763658' action='modify' visible='true' lat='55.04693774023' lon='37.05495478708' />
+  <node id='-3784787' action='modify' visible='true' lat='55.04695009702' lon='37.05403811929' />
+  <node id='-3804352' action='modify' visible='true' lat='55.04683270734' lon='37.05348811861' />
+  <node id='-3817923' action='modify' visible='true' lat='55.04709631876' lon='37.05331916415' />
+  <node id='-3893439' action='modify' visible='true' lat='55.04754012938' lon='37.05391050475'>
+    <tag k='barrier' v='gate' />
+  </node>
+  <node id='-3934156' action='modify' visible='true' lat='55.04730226398' lon='37.05334432758'>
+    <tag k='barrier' v='gate' />
+  </node>
+  <node id='-3961316' action='modify' visible='true' lat='55.0474258306' lon='37.05472831622'>
+    <tag k='barrier' v='gate' />
+  </node>
+  <node id='-4029227' action='modify' visible='true' lat='55.0469912863' lon='37.05364628874'>
+    <tag k='barrier' v='gate' />
+  </node>
+  <node id='-4327976' action='modify' visible='true' lat='55.04694700679' lon='37.05449465759'>
+    <tag k='barrier' v='lift_gate' />
+  </node>
+  <node id='-4341689' action='modify' visible='true' lat='55.04728945233' lon='37.05287503886' />
+  <node id='-4395982' action='modify' visible='true' lat='55.04729492915' lon='37.05386567518' />
+  <node id='-4423117' action='modify' visible='true' lat='55.04709502467' lon='37.05443926436' />
+  <node id='-4477383' action='modify' visible='true' lat='55.04681844286' lon='37.05467347994' />
+  <node id='-4504581' action='modify' visible='true' lat='55.04739952743' lon='37.05272321649'>
+    <tag k='barrier' v='gate' />
+  </node>
+  <node id='-4518265' action='modify' visible='true' lat='55.04698343132' lon='37.05361376318' />
+  <node id='-4599682' action='modify' visible='true' lat='55.04699975494' lon='37.05368131674' />
+  <node id='-4613368' action='modify' visible='true' lat='55.05065036615' lon='37.04263468376'>
+    <tag k='highway' v='street_lamp' />
+    <tag k='lamp_mount' v='bent_mast' />
+  </node>
+  <node id='-4640509' action='modify' visible='true' lat='55.05073935694' lon='37.04262452645'>
+    <tag k='highway' v='street_lamp' />
+    <tag k='lamp_mount' v='bent_mast' />
+  </node>
+  <node id='-4966222' action='modify' visible='true' lat='55.05069725747' lon='37.04238015356'>
+    <tag k='highway' v='street_lamp' />
+    <tag k='lamp_mount' v='bent_mast' />
   </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
@@ -452,7 +497,32 @@
   <way id='-13660' action='modify' visible='true'>
     <nd ref='-3379345' />
     <nd ref='-3562588' />
-    <tag k='highway' v='tertiary' />
+    <nd ref='-4504581' />
+    <nd ref='-4341689' />
+    <nd ref='-3934156' />
+    <nd ref='-4395982' />
+    <nd ref='-4423117' />
+    <nd ref='-4327976' />
+    <nd ref='-4477383' />
+    <tag k='highway' v='service' />
+  </way>
+  <way id='-13695' action='modify' visible='true'>
+    <nd ref='-3703393' />
+    <nd ref='-3893439' />
+    <nd ref='-3723936' />
+    <nd ref='-3961316' />
+    <nd ref='-3744087' />
+    <nd ref='-3763658' />
+    <nd ref='-4327976' />
+    <nd ref='-3784787' />
+    <nd ref='-4599682' />
+    <nd ref='-4029227' />
+    <nd ref='-4518265' />
+    <nd ref='-3804352' />
+    <nd ref='-3817923' />
+    <nd ref='-3934156' />
+    <nd ref='-3703393' />
+    <tag k='barrier' v='fence' />
   </way>
   <relation id='-2721' action='modify' visible='true'>
     <member type='way' ref='-13300' role='outer' />

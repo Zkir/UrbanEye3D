@@ -59,6 +59,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ## Recent Accomplishments
 
 ### Aug 4, 2026
+*   **Barrier Gate Support:**
+    *   **New 3D Models:** Created dedicated 3D models for `barrier=gate` (swinging double-leaf gate) and `barrier=lift_gate` (boom barrier/шлагбаум) in Wavefront OBJ format with custom materials.
+    *   **Precise Gaps:** Implemented physical gaps in linear barriers (walls, fences) at nodes tagged with `barrier=gate` or `barrier=lift_gate`. The gaps are correctly oriented along the barrier's direction using JTS boolean operations.
+    *   **Intelligent Orientation:** Added automatic orientation for gate models: they now align flush with their parent barrier ways using a new MapCSS property `orientation: align_with_parent`.
 *   **Barrier Support (Point Objects):**
     *   Added 3D visualization for `barrier=block` (concrete rectangular blocks) and `barrier=bollard` (red-white striped posts).
     *   Implemented intelligent automatic orientation for blocks: they automatically align perpendicular to the road if placed on a road node, or perpendicular to the road direction if placed nearby.

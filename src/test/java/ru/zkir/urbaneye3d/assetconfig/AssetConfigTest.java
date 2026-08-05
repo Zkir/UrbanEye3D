@@ -63,7 +63,7 @@ public class AssetConfigTest {
 
     @Test
     public void testNonStandardProperties() {
-        String configText = "node[amenity=bench] { model: \"bench.obj\"; my_custom_prop: \"ignored\"; }";
+        String configText = "node[amenity=bench] { model: \"bench.obj\"; orientation: align_with_parent; my_custom_prop: \"ignored\"; }";
         MapCSSStyleSource source = new MapCSSStyleSource(configText);
         source.loadStyleSource(false);
         AssetConfig config = new AssetConfig(source);
@@ -74,6 +74,7 @@ public class AssetConfigTest {
         AssetRule match = config.findBestMatch(bench);
         assertNotNull(match);
         assertEquals("bench.obj", match.properties.get("model"));
+        assertEquals("align_with_parent", match.properties.get("orientation"));
         // 'my_custom_prop' is not in our extracted list in AssetConfig.java, so it should be absent in AssetRule.properties
         assertNull(match.properties.get("my_custom_prop"));
     }
