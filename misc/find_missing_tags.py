@@ -6,6 +6,30 @@ def load_json(path):
         return None
     with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
+        
+def ignored_tags(key, value):
+    ignored = False
+    tag = key + '=' + value  
+    
+    if key.startswith("addr:") or key.startswith("source:") or key.startswith("payment:") or \
+       key in ('source', 'created_by', 'place', 'operator', 'operator:wikidata', 'access', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', 'building', 'attribution' \
+               'hiking', 'wheelchair','fee', 'religion', 'denotation', 'material','colour', 'tactile_paving','lamp_type','lit','bin', 'internet_access','attribution') or \
+       tag in ('public_transport=stop_position', 'noexit=yes', 'highway=traffic_signals', 'highway=stop', 'highway=give_way') or \
+       tag in ('hiking=yes') or \
+       key in ('traffic_signals', 'traffic_signals:direction', 'traffic_signals:sound', 'stop') or\
+       tag in ('direction=forward', 'direction=backward', 'bus=yes', 'foot=yes', 'bicycle=yes') or \
+       key in ('crossing', 'crossing_ref') or  key.startswith('crossing:') or tag in ('highway=crossing') or \
+       key in ('entrance') or \
+       tag in ('railway=switch', 'railway=level_crossing') or \
+       tag in ('barrier=kerb', 'kerb=lowered', 'kerb=flush') or \
+       tag in ('ford=yes') or \
+       key in ('fire_hydrant:position','fire_hydrant:diameter') or tag in ('water_source=main') or \
+       tag in ('amenity=restaurant', 'amenity=place_of_worship', 'amenity=cafe', 'amenity=school', 'amenity=fast_food', \
+               'amenity=pharmacy', 'amenity=toilets', 'amenity=fuel', 'amenity=bank' ,'amenity=parking', 'healthcare=pharmacy', 'tourism=hotel', 'leisure=swimming_pool' ) or \
+       tag in ('natural=peak'):  
+        ignored = True
+        
+    return ignored
 
 def find_missing_tags():
     # Paths relative to the script location (misc/)
@@ -40,6 +64,9 @@ def find_missing_tags():
         value = p_tag['value']
         tag_str = f"{key}={value}"
         
+        if ignored_tags(key, value):
+            continue
+        
         # Check if the tag is supported either specifically or by wildcard key
         if tag_str in supported_specific:
             continue
@@ -55,8 +82,8 @@ def find_missing_tags():
         "This report lists popular OSM tags (for nodes) that are currently not documented as supported in `taginfo.json`.",
         "These are candidates for future implementation.",
         "",
-        "| Object | Additional tags | Notes | Count | Implemented |",
-        "| :--- | :--- | :--- | :--- | :--- |"
+        "| Object | Count | Additional tags | ",
+        "| :--- | :--- | :--- |"
     ]
 
     for m_tag in missing_tags:
@@ -65,7 +92,7 @@ def find_missing_tags():
         count = m_tag['count']
         # Wiki links for tags usually follow the Tag:key=value pattern
         link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{value})"
-        lines.append(f"| {link} | | | {count} | |")
+        lines.append(f"| {link} | {count} |  |")
 
     with open(output_report_path, 'w', encoding='utf-8') as f:
         f.write("\n".join(lines))

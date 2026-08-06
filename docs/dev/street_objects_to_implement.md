@@ -14,7 +14,7 @@
 |[power=tower](https://wiki.openstreetmap.org/wiki/Tag:power=tower) || Linear 3D cables are rendered as special object|YES| 
 |[amenity=recycling](https://wiki.openstreetmap.org/wiki/Tag:amenity=recycling)|[recycling_type=container](https://wiki.openstreetmap.org/wiki/Tag:recycling_type=container)|Implemented as a generic green container.|YES|
 |[amenity=drinking_water](https://wiki.openstreetmap.org/wiki/Tag:amenity=drinking_water)||is it the same as `man_made=water_tap`??|To some extent|
-|[barrier=bollard](https://wiki.openstreetmap.org/wiki/Tag:barrier=bollard)||||
+|[barrier=bollard](https://wiki.openstreetmap.org/wiki/Tag:barrier=bollard)|||YES|
 |[amenity=bicycle_parking](https://wiki.openstreetmap.org/wiki/Tag:amenity=bicycle_parking)||||
 |[man_made=mast](https://wiki.openstreetmap.org/wiki/Tag:man_made=mast)||||
 |[leisure=picnic_table](https://wiki.openstreetmap.org/wiki/Tag:leisure=picnic_table)||||
