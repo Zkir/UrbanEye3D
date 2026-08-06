@@ -32,11 +32,19 @@ node[amenity=bench][backrest=yes] {
 }
 
 /* Street Lamp */
-node[highway=street_lamp] {
+node[highway=street_lamp],
+node[highway=street_lamp][lamp_mount=straight_mast] {
     model: "/models/street_lamp.obj";
 }
 
-/* Bus Stop */
+node[highway=street_lamp][lamp_mount=bent_mast] {
+    model: "/models/street_lamp_bent.obj";
+	snap_to_roads: yes;
+    rotatable: true;
+}
+
+/* Bus Stops */
+/* Just a bus stop sign, no shelter*/
 node[public_transport=platform],
 node[highway=bus_stop],
 node[public_transport=platform][shelter=no],

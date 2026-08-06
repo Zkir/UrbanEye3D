@@ -255,7 +255,8 @@ This section describes various standalone 3D objects rendered by the plugin.
 ### Street Lamps
 
 -   Nodes tagged with `highway=street_lamp` are rendered using a pre-defined 3D model.
--   Currently, the model is always rendered with a default gray color, and the `colour` tag is not supported for this object.
+-   Specialized model is supported for `lamp_mount=bent_mast` (street lamps with curved masts).
+-   Lamps with bent mast are oriented automatically towards a road, but can be oriented manually using the `direction` tag.
 
 ### Benches
 

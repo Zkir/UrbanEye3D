@@ -91,6 +91,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("shelter=yes", "Indicates that a bus stop has a shelter, triggering appropriate 3D model rendering.");
         TAG_DESCRIPTIONS.put("shelter=no", "Indicates that a bus stop does NOT have a shelter, triggering appropriate 3D model rendering.");
         TAG_DESCRIPTIONS.put("highway=street_lamp", "A single street lamp, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("lamp_mount=bent_mast", "A street lamp with a curved (bent) mast.");
+        TAG_DESCRIPTIONS.put("lamp_mount=straight_mast", "A street lamp with a standard straight mast.");
         TAG_DESCRIPTIONS.put("emergency=fire_hydrant", "A fire hydrant, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=pillar", "Traditional fire hydrant shape. Also the default one.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=underground", "Underground hydrants are NOT rendered!");

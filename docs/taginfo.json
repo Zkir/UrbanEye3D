@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260804T152013Z",
+  "data_updated" : "20260806T183307Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -303,6 +303,14 @@
     "key" : "information",
     "value" : "post",
     "description" : "A generic information post."
+  }, {
+    "key" : "lamp_mount",
+    "value" : "bent_mast",
+    "description" : "A street lamp with a curved (bent) mast."
+  }, {
+    "key" : "lamp_mount",
+    "value" : "straight_mast",
+    "description" : "A street lamp with a standard straight mast."
   }, {
     "key" : "landuse",
     "value" : "forest",

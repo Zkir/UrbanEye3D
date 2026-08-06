@@ -58,6 +58,11 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Aug 6, 2026
+*   **Bent-Mast Street Lamp Support:**
+    *   **New 3D Model:** Created a specialized 3D model for street lamps with curved masts (`lamp_mount=bent_mast`). The model is 6.5 meters high and follows modern urban lighting designs.
+
+
 ### Aug 4, 2026
 *   **Barrier Gate Support:**
     *   **New 3D Models:** Created dedicated 3D models for `barrier=gate` (swinging double-leaf gate) and `barrier=lift_gate` (boom barrier/шлагбаум) in Wavefront OBJ format with custom materials.
