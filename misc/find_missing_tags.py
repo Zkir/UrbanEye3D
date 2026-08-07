@@ -12,11 +12,11 @@ def ignored_tags(key, value):
     tag = key + '=' + value  
     
     if key.startswith("addr:") or key.startswith("source:") or key.startswith("payment:") or \
-       key in ('source', 'created_by', 'place', 'operator', 'operator:wikidata', 'access', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', 'building', 'attribution' \
-               'hiking', 'wheelchair','fee', 'religion', 'denotation', 'material','colour', 'tactile_paving','lamp_type','lit','bin', 'internet_access','attribution') or \
+       key in ('source', 'created_by', 'place', 'operator', 'operator:wikidata', 'access', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', 'building', \
+               'hiking', 'wheelchair','fee', 'religion', 'denotation', 'material','colour', 'tactile_paving','lamp_type','lit','bin', 'internet_access','attribution','outdoor_seating','frequency', 'office') or \
        tag in ('public_transport=stop_position', 'noexit=yes', 'highway=traffic_signals', 'highway=stop', 'highway=give_way') or \
        tag in ('hiking=yes') or \
-       key in ('traffic_signals', 'traffic_signals:direction', 'traffic_signals:sound', 'stop') or\
+       key in ('traffic_signals', 'traffic_signals:direction', 'traffic_signals:sound','traffic_signals:vibration', 'stop') or\
        tag in ('direction=forward', 'direction=backward', 'bus=yes', 'foot=yes', 'bicycle=yes') or \
        key in ('crossing', 'crossing_ref') or  key.startswith('crossing:') or tag in ('highway=crossing') or \
        key in ('entrance') or \
@@ -91,8 +91,9 @@ def find_missing_tags():
         value = m_tag['value']
         count = m_tag['count']
         # Wiki links for tags usually follow the Tag:key=value pattern
-        link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{value})"
-        lines.append(f"| {link} | {count} |  |")
+        wiki_link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{value})"
+        taginfo_link = f"[{count}](https://taginfo.openstreetmap.org/tags/{key}%3D{value})"
+        lines.append(f"| {wiki_link} | {taginfo_link} |  |")
 
     with open(output_report_path, 'w', encoding='utf-8') as f:
         f.write("\n".join(lines))
