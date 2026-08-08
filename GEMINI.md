@@ -58,6 +58,11 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Aug 7, 2026
+*   **Bicycle Parking Support:**
+    *   **New 3D Model:** Created a low-poly 3D model for `amenity=bicycle_parking` (staple/U-rack design) in Wavefront OBJ format.
+    *   **Asset Integration:** Registered the new model in `assets.mapcss`, enabling 3D visualization for bicycle parking nodes. The model supports the `direction` tag for correct orientation.
+
 ### Aug 6, 2026
 *   **Bent-Mast Street Lamp Support:**
     *   **New 3D Model:** Created a specialized 3D model for street lamps with curved masts (`lamp_mount=bent_mast`). The model is 6.5 meters high and follows modern urban lighting designs.

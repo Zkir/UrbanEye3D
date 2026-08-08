@@ -165,3 +165,9 @@ node[amenity=waste_disposal]
     model: "/models/recycling_container.obj";
     rotatable: true;
 }
+
+/* Bicycle Parking */
+node[amenity=bicycle_parking] {
+    model: "/models/bicycle_parking.obj";
+    rotatable: true;
+}

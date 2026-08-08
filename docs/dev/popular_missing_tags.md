@@ -12,7 +12,6 @@ These are candidates for future implementation.
 | [generator:output:electricity=yes](https://wiki.openstreetmap.org/wiki/Tag:generator:output:electricity%3Dyes) | [839057](https://taginfo.openstreetmap.org/tags/generator:output:electricity%3Dyes) |  |
 | [generator:method=photovoltaic](https://wiki.openstreetmap.org/wiki/Tag:generator:method%3Dphotovoltaic) | [832281](https://taginfo.openstreetmap.org/tags/generator:method%3Dphotovoltaic) |  |
 | [generator:type=solar_photovoltaic_panel](https://wiki.openstreetmap.org/wiki/Tag:generator:type%3Dsolar_photovoltaic_panel) | [825751](https://taginfo.openstreetmap.org/tags/generator:type%3Dsolar_photovoltaic_panel) |  |
-| [amenity=bicycle_parking](https://wiki.openstreetmap.org/wiki/Tag:amenity%3Dbicycle_parking) | [782923](https://taginfo.openstreetmap.org/tags/amenity%3Dbicycle_parking) |  |
 | [location=roof](https://wiki.openstreetmap.org/wiki/Tag:location%3Droof) | [712835](https://taginfo.openstreetmap.org/tags/location%3Droof) |  |
 | [man_made=surveillance](https://wiki.openstreetmap.org/wiki/Tag:man_made%3Dsurveillance) | [545884](https://taginfo.openstreetmap.org/tags/man_made%3Dsurveillance) |  |
 | [tower:type=communication](https://wiki.openstreetmap.org/wiki/Tag:tower:type%3Dcommunication) | [515518](https://taginfo.openstreetmap.org/tags/tower:type%3Dcommunication) |  |

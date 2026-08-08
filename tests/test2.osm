@@ -271,6 +271,9 @@
     <tag k='highway' v='street_lamp' />
     <tag k='lamp_mount' v='bent_mast' />
   </node>
+  <node id='-4970508' action='modify' visible='true' lat='55.05074483329' lon='37.0431198446'>
+    <tag k='amenity' v='bicycle_parking' />
+  </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />
