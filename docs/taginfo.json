@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260807T152023Z",
+  "data_updated" : "20260808T084335Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -68,7 +68,7 @@
   }, {
     "key" : "barrier",
     "value" : "lift_gate",
-    "description" : "A boom barrier (шлагбаум). Rendered as a 3D model, and also creates a physical gap in the parent linear barrier."
+    "description" : "A boom barrier. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier."
   }, {
     "key" : "bench",
     "value" : "no",

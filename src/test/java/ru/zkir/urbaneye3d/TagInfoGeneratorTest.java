@@ -81,7 +81,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("barrier=block", "A concrete rectangular block, often used to prevent vehicle access.");
         TAG_DESCRIPTIONS.put("barrier=bollard", "A sturdy, short, vertical post. Rendered as a red-and-white striped bollard.");
         TAG_DESCRIPTIONS.put("barrier=gate", "A swinging double-leaf gate. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier.");
-        TAG_DESCRIPTIONS.put("barrier=lift_gate", "A boom barrier (шлагбаум). Rendered as a 3D model, and also creates a physical gap in the parent linear barrier.");
+        TAG_DESCRIPTIONS.put("barrier=lift_gate", "A boom barrier. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier.");
         TAG_DESCRIPTIONS.put("building", "The main tag for identifying a building outline.");
         TAG_DESCRIPTIONS.put("building:part", "Identifies a part of a building, which is rendered as a separate 3D element.");
         TAG_DESCRIPTIONS.put("building:colour", "Specifies the color of the building's walls.");
