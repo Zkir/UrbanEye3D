@@ -271,8 +271,24 @@
     <tag k='highway' v='street_lamp' />
     <tag k='lamp_mount' v='bent_mast' />
   </node>
-  <node id='-4970508' action='modify' visible='true' lat='55.05074483329' lon='37.0431198446'>
+  <node id='-4970508' action='modify' visible='true' lat='55.05074449102' lon='37.04315210899'>
     <tag k='amenity' v='bicycle_parking' />
+    <tag k='bicycle_parking' v='stands' />
+    <tag k='capacity' v='5' />
+  </node>
+  <node id='-4974818' action='modify' visible='true' lat='55.05065276188' lon='37.04269532916'>
+    <tag k='amenity' v='drinking_water' />
+    <tag k='direction' v='160' />
+    <tag k='natural' v='spring' />
+  </node>
+  <node id='-5020873' action='modify' visible='true' lat='55.05069828429' lon='37.04281512535'>
+    <tag k='man_made' v='manhole' />
+  </node>
+  <node id='-5025147' action='modify' visible='true' lat='55.05064386331' lon='37.04284559668'>
+    <tag k='man_made' v='manhole' />
+  </node>
+  <node id='-5087773' action='modify' visible='true' lat='55.0507941204' lon='37.04261556412'>
+    <tag k='leisure' v='picnic_table' />
   </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
@@ -464,6 +480,7 @@
   </way>
   <way id='-13487' action='modify' visible='true'>
     <nd ref='-335571' />
+    <nd ref='-5020873' />
     <nd ref='-345844' />
     <tag k='highway' v='unclassified' />
   </way>

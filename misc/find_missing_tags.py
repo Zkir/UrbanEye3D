@@ -11,13 +11,14 @@ def ignored_tags(key, value):
     ignored = False
     tag = key + '=' + value  
     
-    if key.startswith("addr:") or key.startswith("source:") or key.startswith("payment:") or \
-       key in ('source', 'source_ref', 'survey:date', 'created_by', 'place', 'operator', 'operator:wikidata', 'access', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', 'building', \
+    if key.startswith("addr:") or key.startswith("source:") or key.startswith("payment:") or key.startswith('LINZ:') or\
+       key in ('source', 'source_ref', 'survey:date', 'created_by', 'place', 'operator', 'operator:wikidata', 'operator:type', 'access', 'access:delivery', 'ownership', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', 'building', \
                'hiking', 'wheelchair','fee', 'religion', 'denotation', 'material','colour', 'tactile_paving','lamp_type','lit','bin', 'internet_access','attribution','outdoor_seating','frequency', 'office') or \
-       tag in ('public_transport=stop_position', 'noexit=yes', 'highway=traffic_signals', 'highway=stop', 'highway=give_way') or \
+       tag in ('public_transport=stop_position', 'noexit=yes', 'highway=traffic_signals', 'highway=stop', 'highway=give_way', 'highway=motorway_junction') or \
        tag in ('hiking=yes') or \
        key in ('traffic_signals', 'traffic_signals:direction', 'traffic_signals:sound','traffic_signals:vibration', 'stop', 'button_operated') or\
-       tag in ('direction=forward', 'direction=backward', 'bus=yes', 'foot=yes', 'bicycle=yes') or \
+       tag in ('direction=forward', 'direction=backward') or \
+       tag in ('bus=yes', 'foot=yes', 'foot=no', 'bicycle=yes', 'bicycle=no', 'mtb=yes', 'motor_vehicle=yes', 'motor_vehicle=no','motor_vehicle=private', 'motorcar=yes', 'horse=no', 'horse=yes', 'motorcycle=yes', 'motorcycle=no', 'network=lcn') or \
        key in ('crossing', 'crossing_ref') or  key.startswith('crossing:') or tag in ('highway=crossing') or \
        key in ('entrance') or \
        tag in ('railway=switch', 'railway=level_crossing') or \
@@ -26,7 +27,8 @@ def ignored_tags(key, value):
        key in ('fire_hydrant:position','fire_hydrant:diameter') or tag in ('water_source=main') or \
        tag in ('amenity=restaurant', 'amenity=place_of_worship', 'amenity=cafe', 'amenity=school', 'amenity=fast_food', \
                'amenity=pharmacy', 'amenity=toilets', 'amenity=fuel', 'amenity=bank' ,'amenity=parking', 'healthcare=pharmacy', 'tourism=hotel', 'leisure=swimming_pool' ) or \
-       tag in ('natural=peak'):  
+       tag in ('natural=peak') or \
+       tag in ('drinking_water=yes', 'bottle=yes'):  
         ignored = True
         
     return ignored

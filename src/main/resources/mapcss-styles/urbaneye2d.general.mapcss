@@ -1555,6 +1555,19 @@ node|z16-[natural=tree] {
 	symbol-size: 8;
 	symbol-fill-color: #aed1a0;
 }
+
+node|z15-[natural=spring] {
+	symbol-shape: circle;
+	symbol-size: 3;
+	symbol-fill-color: #4050C0;
+}
+
+node|z16-[man_made=manhole] {
+	symbol-shape: circle;
+	symbol-size: 1;
+	symbol-fill-color: black;
+}
+
 area|z16-[natural=tree] {
     fill-color: #aed1a0;
 }

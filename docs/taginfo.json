@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260808T085417Z",
+  "data_updated" : "20260808T173255Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -77,6 +77,10 @@
     "key" : "bench",
     "value" : "yes",
     "description" : "Indicates the presence of a bench. Used for example on highway=bus_stop nodes."
+  }, {
+    "key" : "bicycle_parking",
+    "value" : "stands",
+    "description" : "Stands (staple/U-rack) type of bicycle parking. This is the default type in UrbanEye3D."
   }, {
     "key" : "building",
     "description" : "The main tag for identifying a building outline."
@@ -383,6 +387,10 @@
     "description" : "Can be rendered as 3D object"
   }, {
     "key" : "man_made",
+    "value" : "manhole",
+    "description" : "A manhole cover, rendered as a tiny black dot on the 2D ground plane."
+  }, {
+    "key" : "man_made",
     "value" : "tower",
     "description" : "Can be rendered as 3D object"
   }, {
@@ -399,6 +407,10 @@
     "key" : "natural",
     "value" : "shrub",
     "description" : "A single shrub or bush, rendered as a 3D billboard model."
+  }, {
+    "key" : "natural",
+    "value" : "spring",
+    "description" : "A natural spring, rendered as a small blue circle on the 2D ground plane."
   }, {
     "key" : "natural",
     "value" : "tree",

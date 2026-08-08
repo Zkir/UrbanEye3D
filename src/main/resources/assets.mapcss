@@ -122,7 +122,7 @@ node[power=pole] {
 }
 
 /* Drinking Water */
-node[amenity=drinking_water] {
+node[amenity=drinking_water][natural!=spring] {
     model: "/models/water_column.obj";
 	rotatable: true;
 }
@@ -167,7 +167,8 @@ node[amenity=waste_disposal]
 }
 
 /* Bicycle Parking */
-node[amenity=bicycle_parking] {
+node[amenity=bicycle_parking],
+node[amenity=bicycle_parking][bicycle_parking=stands] {
     model: "/models/bicycle_parking.obj";
     rotatable: true;
 }
