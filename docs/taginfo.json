@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260808T084335Z",
+  "data_updated" : "20260808T085417Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -358,6 +358,10 @@
     "key" : "leaf_type",
     "value" : "palm",
     "description" : "Used to select an appropriate texture/model for trees."
+  }, {
+    "key" : "leisure",
+    "value" : "picnic_table",
+    "description" : "A picnic table, rendered as a 3D model."
   }, {
     "key" : "leisure",
     "value" : "pitch",

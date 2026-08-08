@@ -171,3 +171,9 @@ node[amenity=bicycle_parking] {
     model: "/models/bicycle_parking.obj";
     rotatable: true;
 }
+
+/* Picnic Table */
+node[leisure=picnic_table] {
+    model: "/models/picnic_table.obj";
+    rotatable: true;
+}

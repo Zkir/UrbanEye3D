@@ -20,6 +20,7 @@ This file provides an inventory of all 3D models and textures used in the projec
 | `/models/guidepost.obj` | 48&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/info_board.obj` | 20&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/info_post.obj` | 16&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/picnic_table.obj` | 42&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/power_pole.obj` | 11&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/power_tower.obj` | 144&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/power_tower_billboard.obj` | 1&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |

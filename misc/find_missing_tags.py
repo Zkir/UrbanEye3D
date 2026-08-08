@@ -12,11 +12,11 @@ def ignored_tags(key, value):
     tag = key + '=' + value  
     
     if key.startswith("addr:") or key.startswith("source:") or key.startswith("payment:") or \
-       key in ('source', 'created_by', 'place', 'operator', 'operator:wikidata', 'access', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', 'building', \
+       key in ('source', 'source_ref', 'survey:date', 'created_by', 'place', 'operator', 'operator:wikidata', 'access', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', 'building', \
                'hiking', 'wheelchair','fee', 'religion', 'denotation', 'material','colour', 'tactile_paving','lamp_type','lit','bin', 'internet_access','attribution','outdoor_seating','frequency', 'office') or \
        tag in ('public_transport=stop_position', 'noexit=yes', 'highway=traffic_signals', 'highway=stop', 'highway=give_way') or \
        tag in ('hiking=yes') or \
-       key in ('traffic_signals', 'traffic_signals:direction', 'traffic_signals:sound','traffic_signals:vibration', 'stop') or\
+       key in ('traffic_signals', 'traffic_signals:direction', 'traffic_signals:sound','traffic_signals:vibration', 'stop', 'button_operated') or\
        tag in ('direction=forward', 'direction=backward', 'bus=yes', 'foot=yes', 'bicycle=yes') or \
        key in ('crossing', 'crossing_ref') or  key.startswith('crossing:') or tag in ('highway=crossing') or \
        key in ('entrance') or \
@@ -30,6 +30,18 @@ def ignored_tags(key, value):
         ignored = True
         
     return ignored
+
+def filter_combinations(combinations):
+    filtered = []
+    for tag_str in combinations:
+        parts = tag_str.split("=", 1)
+        if len(parts) == 2:
+            key, value = parts
+            if not ignored_tags(key, value):
+                filtered.append(tag_str)
+        if len(filtered) >= 5:
+            break
+    return filtered
 
 def find_missing_tags():
     # Paths relative to the script location (misc/)
@@ -99,9 +111,11 @@ def find_missing_tags():
         key = m_tag['key']
         value = m_tag['value']
         count = m_tag['count']
+        combinations = filter_combinations(m_tag.get('combinations', []))
         wiki_link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{value})"
         taginfo_link = f"[{count:,}](https://taginfo.openstreetmap.org/tags/{key}%3D{value})"
-        lines.append(f"| {wiki_link} | {taginfo_link} |  |")
+        combs_str = ", ".join([f"`{c}`" for c in combinations])
+        lines.append(f"| {wiki_link} | {taginfo_link} | {combs_str} |")
 
     with open(output_report_path, 'w', encoding='utf-8') as f:
         f.write("\n".join(lines))
@@ -116,8 +130,8 @@ def find_missing_tags():
         "",
         "This report lists popular OSM tags (for nodes) that are already supported and documented in `taginfo.json`.",
         "",
-        "| Object | Count | Description |",
-        "| :--- | :--- | :--- |"
+        "| Object | Count | Description | Additional tags |",
+        "| :--- | :--- | :--- | :--- |"
     ]
 
     for s_tag in supported_popular_tags:
@@ -125,9 +139,11 @@ def find_missing_tags():
         value = s_tag['value']
         count = s_tag['count']
         desc = s_tag['description']
+        combinations = filter_combinations(s_tag.get('combinations', []))
         wiki_link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{value})"
         taginfo_link = f"[{count:,}](https://taginfo.openstreetmap.org/tags/{key}%3D{value})"
-        lines_s.append(f"| {wiki_link} | {taginfo_link} | {desc} |")
+        combs_str = ", ".join([f"`{c}`" for c in combinations])
+        lines_s.append(f"| {wiki_link} | {taginfo_link} | {desc} | {combs_str} |")
 
     with open(output_supported_path, 'w', encoding='utf-8') as f:
         f.write("\n".join(lines_s))
