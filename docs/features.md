@@ -284,6 +284,15 @@ This section describes various standalone 3D objects rendered by the plugin.
 -   **Automatic Alignment:** The bus stop model automatically rotates to face the nearest road (`highway=*`, excluding footways). If the `direction` tag is explicitly provided, it overrides this automatic behavior.
 -   The model features semi-transparent glass panels and an integrated bench.
 
+## Memorials
+
+The plugin visualizes various types of memorials.
+
+- `historic=memorial`: Rendered as a 3D model. By default, it uses a stone obelisk model.
+- `memorial=bust`: Rendered as a bronze bust on a stone pedestal.
+- `memorial=plaque`, `memorial=stolperstein`, `memorial=blue_plaque`: These are currently hidden to avoid visual clutter in the 3D scene.
+- The `direction` tag can be used to rotate the memorial.
+
 ## Power Infrastructure
 
 The plugin provides 3D visualization for electrical power networks.

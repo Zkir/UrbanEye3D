@@ -59,10 +59,8 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ## Recent Accomplishments
 
 ### Aug 7, 2026
-*   **Picnic Table and Bicycle Parking Support:**
-    *   **New 3D Models:** Created low-poly 3D models for `leisure=picnic_table` (massive wooden table with two benches) and `amenity=bicycle_parking` (section of three parallel U-racks) in Wavefront OBJ format.
-    *   **Asset Integration:** Registered both models in `assets.mapcss`, enabling 3D visualization for these common urban objects. They both support the `direction` tag for precise orientation.
-    *   **Automated Validation:** Updated `AssetListTest.java` and `TagInfoGeneratorTest.java` to ensure the new assets are correctly documented, licensed, and verified.
+*    **New models support**: different types of `historic=memorial` and `leisure=picnic_table`  
+    
 *   **Enhanced Tag Analysis Tools:**
     *   Updated `find_missing_tags.py` to generate a new report: `docs/dev/popular_supported_tags.md`, which lists popular OSM tags that are already implemented, along with their world-wide counts and implementation descriptions.
     *   Improved report formatting by adding thousands separators (commas) to object counts for better readability.

@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260808T173255Z",
+  "data_updated" : "20260808T222257Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -310,6 +310,10 @@
     "value" : "unclassified",
     "description" : "Used for 2D ground plane rendering"
   }, {
+    "key" : "historic",
+    "value" : "memorial",
+    "description" : "A memorial or monument, rendered as a 3D model (default is obelisk)."
+  }, {
     "key" : "hyperboloid:middle_rate",
     "description" : "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width"
   }, {
@@ -400,6 +404,34 @@
   }, {
     "key" : "material",
     "description" : "Material for barrier or man-made object. This can influence the default color. "
+  }, {
+    "key" : "memorial",
+    "value" : "blue_plaque",
+    "description" : "A historical blue plaque. In UrbanEye3D, these are currently hidden to avoid clutter."
+  }, {
+    "key" : "memorial",
+    "value" : "bust",
+    "description" : "A memorial bust, rendered as a 3D model on a pedestal."
+  }, {
+    "key" : "memorial",
+    "value" : "obelisk",
+    "description" : "A memorial obelisk, rendered as a 3D model."
+  }, {
+    "key" : "memorial",
+    "value" : "plaque",
+    "description" : "A memorial plaque, typically mounted on a wall. In UrbanEye3D, these are currently hidden to avoid clutter."
+  }, {
+    "key" : "memorial",
+    "value" : "stolperstein",
+    "description" : "A 'stumbling stone' memorial. In UrbanEye3D, these are currently hidden to avoid clutter."
+  }, {
+    "key" : "memorial",
+    "value" : "stone",
+    "description" : "A memorial stone or boulder with a plaque, rendered as a 3D model."
+  }, {
+    "key" : "memorial",
+    "value" : "war_memorial",
+    "description" : "A war memorial, often rendered as an obelisk."
   }, {
     "key" : "min_height",
     "description" : "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes."

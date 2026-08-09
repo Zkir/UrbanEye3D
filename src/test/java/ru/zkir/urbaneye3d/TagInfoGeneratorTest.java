@@ -101,6 +101,14 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("lamp_mount=bent_mast", "A street lamp with a curved (bent) mast.");
         TAG_DESCRIPTIONS.put("lamp_mount=straight_mast", "A street lamp with a standard straight mast.");
         TAG_DESCRIPTIONS.put("emergency=fire_hydrant", "A fire hydrant, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("historic=memorial", "A memorial or monument, rendered as a 3D model (default is obelisk).");
+        TAG_DESCRIPTIONS.put("memorial=bust", "A memorial bust, rendered as a 3D model on a pedestal.");
+        TAG_DESCRIPTIONS.put("memorial=obelisk", "A memorial obelisk, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("memorial=war_memorial", "A war memorial, often rendered as an obelisk.");
+        TAG_DESCRIPTIONS.put("memorial=stone", "A memorial stone or boulder with a plaque, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("memorial=plaque", "A memorial plaque, typically mounted on a wall. In UrbanEye3D, these are currently hidden to avoid clutter.");
+        TAG_DESCRIPTIONS.put("memorial=stolperstein", "A 'stumbling stone' memorial. In UrbanEye3D, these are currently hidden to avoid clutter.");
+        TAG_DESCRIPTIONS.put("memorial=blue_plaque", "A historical blue plaque. In UrbanEye3D, these are currently hidden to avoid clutter.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=pillar", "Traditional fire hydrant shape. Also the default one.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=underground", "Underground hydrants are NOT rendered!");
         TAG_DESCRIPTIONS.put("public_transport=platform", "A public transport platform. Rendered as a bus stop model if applicable.");

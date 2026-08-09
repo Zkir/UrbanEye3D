@@ -178,3 +178,28 @@ node[leisure=picnic_table] {
     model: "/models/picnic_table.obj";
     rotatable: true;
 }
+
+/* Memorial */
+node[historic=memorial],
+node[historic=memorial][memorial=bust] {
+    model: "/models/memorial_bust.obj";
+    rotatable: true;
+}
+
+node[historic=memorial][memorial=stone] {
+    model: "/models/memorial_stone.obj";
+    rotatable: true;
+}
+
+node[historic=memorial][memorial=obelisk],
+node[historic=memorial][memorial=war_memorial] {
+    model: "/models/memorial_obelisk.obj";
+    rotatable: true;
+}
+
+
+node[historic=memorial][memorial=plaque],
+node[historic=memorial][memorial=stolperstein],
+node[historic=memorial][memorial=blue_plaque] {
+    display: false;
+}
