@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260808T222257Z",
+  "data_updated" : "20260809T204206Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -420,6 +420,10 @@
     "key" : "memorial",
     "value" : "plaque",
     "description" : "A memorial plaque, typically mounted on a wall. In UrbanEye3D, these are currently hidden to avoid clutter."
+  }, {
+    "key" : "memorial",
+    "value" : "stele",
+    "description" : "A stone stele or vertical slab with carvings, rendered as a 3D model."
   }, {
     "key" : "memorial",
     "value" : "stolperstein",

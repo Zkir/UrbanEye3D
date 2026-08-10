@@ -191,6 +191,11 @@ node[historic=memorial][memorial=stone] {
     rotatable: true;
 }
 
+node[historic=memorial][memorial=stele] {
+    model: "/models/memorial_stele.obj";
+    rotatable: true;
+}
+
 node[historic=memorial][memorial=obelisk],
 node[historic=memorial][memorial=war_memorial] {
     model: "/models/memorial_obelisk.obj";

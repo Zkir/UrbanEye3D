@@ -146,7 +146,7 @@
   <node id='-335571' action='modify' visible='true' lat='55.05069931144' lon='37.04248590847'>
     <tag k='highway' v='turning_circle' />
   </node>
-  <node id='-345844' action='modify' visible='true' lat='55.05069828462' lon='37.04315031593' />
+  <node id='-345844' action='modify' visible='true' lat='55.05069280826' lon='37.04372390511' />
   <node id='-402230' action='modify' visible='true' lat='55.05074671578' lon='37.04289817628'>
     <tag k='emergency' v='fire_hydrant' />
   </node>
@@ -289,6 +289,30 @@
   </node>
   <node id='-5087773' action='modify' visible='true' lat='55.0507941204' lon='37.04261556412'>
     <tag k='leisure' v='picnic_table' />
+  </node>
+  <node id='-5141870' action='modify' visible='true' lat='55.05074483312' lon='37.04318526992'>
+    <tag k='direction' v='180' />
+    <tag k='historic' v='memorial' />
+  </node>
+  <node id='-5150185' action='modify' visible='true' lat='55.05074260835' lon='37.04324292758'>
+    <tag k='direction' v='180' />
+    <tag k='historic' v='memorial' />
+    <tag k='memorial' v='statue' />
+  </node>
+  <node id='-5158494' action='modify' visible='true' lat='55.05074192381' lon='37.04327698444'>
+    <tag k='direction' v='180' />
+    <tag k='historic' v='memorial' />
+    <tag k='memorial' v='stele' />
+  </node>
+  <node id='-5166815' action='modify' visible='true' lat='55.05074158153' lon='37.04332149735'>
+    <tag k='direction' v='180' />
+    <tag k='historic' v='memorial' />
+    <tag k='memorial' v='stone' />
+  </node>
+  <node id='-5216992' action='modify' visible='true' lat='55.05074295062' lon='37.04321633933'>
+    <tag k='direction' v='180' />
+    <tag k='historic' v='memorial' />
+    <tag k='memorial' v='obelisk' />
   </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
