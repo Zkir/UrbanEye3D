@@ -64,6 +64,8 @@ public class AssetListTest {
         MASTER_ASSET_LIST.put("/models/memorial_bust.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/memorial_stone.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/memorial_stele.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/memorial_stele_star.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/sculpture_abstract_spiral.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
 
         // Textures
         MASTER_ASSET_LIST.put("/textures/trees/tree_000.png",

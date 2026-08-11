@@ -288,9 +288,8 @@ This section describes various standalone 3D objects rendered by the plugin.
 
 The plugin visualizes various types of memorials.
 
-- `historic=memorial`: Rendered as a 3D model. By default, it uses a stone obelisk model.
-- `memorial=bust`: Rendered as a bronze bust on a stone pedestal.
-- `memorial=plaque`, `memorial=stolperstein`, `memorial=blue_plaque`: These are currently hidden to avoid visual clutter in the 3D scene.
+- `historic=memorial`: Rendered as a 3D model.
+- The `memorial=*` tag defines the subtype: statue, sculpture, bust or other forms.
 - The `direction` tag can be used to rotate the memorial.
 
 ## Power Infrastructure

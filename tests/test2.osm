@@ -291,10 +291,12 @@
     <tag k='leisure' v='picnic_table' />
   </node>
   <node id='-5141870' action='modify' visible='true' lat='55.05074483312' lon='37.04318526992'>
+    <tag k='artwork_type' v='sculpture' />
     <tag k='direction' v='180' />
-    <tag k='historic' v='memorial' />
+    <tag k='subject' v='spiral' />
+    <tag k='tourism' v='artwork' />
   </node>
-  <node id='-5150185' action='modify' visible='true' lat='55.05074260835' lon='37.04324292758'>
+  <node id='-5150185' action='modify' visible='true' lat='55.05074226608' lon='37.04324531753'>
     <tag k='direction' v='180' />
     <tag k='historic' v='memorial' />
     <tag k='memorial' v='statue' />
@@ -313,6 +315,19 @@
     <tag k='direction' v='180' />
     <tag k='historic' v='memorial' />
     <tag k='memorial' v='obelisk' />
+  </node>
+  <node id='-5221302' action='modify' visible='true' lat='55.05074243739' lon='37.04335704763'>
+    <tag k='direction' v='180' />
+    <tag k='historic' v='memorial' />
+    <tag k='memorial' v='bust' />
+  </node>
+  <node id='-5258812' action='modify' visible='true' lat='55.05074209511' lon='37.04342575883'>
+    <tag k='artwork_type' v='statue' />
+    <tag k='tourism' v='artwork' />
+  </node>
+  <node id='-5267121' action='modify' visible='true' lat='55.05074141057' lon='37.04347296044'>
+    <tag k='artwork_type' v='sculpture' />
+    <tag k='tourism' v='artwork' />
   </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />

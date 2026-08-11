@@ -101,15 +101,14 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("lamp_mount=bent_mast", "A street lamp with a curved (bent) mast.");
         TAG_DESCRIPTIONS.put("lamp_mount=straight_mast", "A street lamp with a standard straight mast.");
         TAG_DESCRIPTIONS.put("emergency=fire_hydrant", "A fire hydrant, rendered as a 3D model.");
-        TAG_DESCRIPTIONS.put("historic=memorial", "A memorial or monument, rendered as a 3D model (default is obelisk).");
+        TAG_DESCRIPTIONS.put("historic=memorial", "A memorial or monument, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("memorial=statue", "A memorial statue (personage/animal), rendered as 3D model.");
+        TAG_DESCRIPTIONS.put("memorial=sculpture", "A memorial non figurative sculpture, rendered as 3D model.");
         TAG_DESCRIPTIONS.put("memorial=bust", "A memorial bust, rendered as a 3D model on a pedestal.");
         TAG_DESCRIPTIONS.put("memorial=obelisk", "A memorial obelisk, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("memorial=war_memorial", "A war memorial, often rendered as an obelisk.");
         TAG_DESCRIPTIONS.put("memorial=stone", "A memorial stone or boulder with a plaque, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("memorial=stele", "A stone stele or vertical slab with carvings, rendered as a 3D model.");
-        TAG_DESCRIPTIONS.put("memorial=plaque", "A memorial plaque, typically mounted on a wall. In UrbanEye3D, these are currently hidden to avoid clutter.");
-        TAG_DESCRIPTIONS.put("memorial=stolperstein", "A 'stumbling stone' memorial. In UrbanEye3D, these are currently hidden to avoid clutter.");
-        TAG_DESCRIPTIONS.put("memorial=blue_plaque", "A historical blue plaque. In UrbanEye3D, these are currently hidden to avoid clutter.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=pillar", "Traditional fire hydrant shape. Also the default one.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=underground", "Underground hydrants are NOT rendered!");
         TAG_DESCRIPTIONS.put("public_transport=platform", "A public transport platform. Rendered as a bus stop model if applicable.");
@@ -158,6 +157,10 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("building:part=steps", "Produces steps-shaped structure or a flight of stairs. Should be used together with roof:shape=skillion" );
 
         TAG_DESCRIPTIONS.put("roof:shape=apse_gabled", "A gabled roof with a semicircular apse at one end. The apex of the apse is located above the middle of the longest side of the base.");
+        TAG_DESCRIPTIONS.put("tourism=artwork", "General tag for a work of art.");
+        TAG_DESCRIPTIONS.put("artwork_type=statue", "A three-dimensional work of art representing a person or animal, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("artwork_type=sculpture", "A three-dimensional non-figurative work of art, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("shape=star", "A star-shaped object, used for some types of memorials.");
         TAG_DESCRIPTIONS.put("roof:shape=cone", "A synonym for pyramidal. Rises to a single point. To generate a smooth cone, the building outline should be a circle with a sufficient number of nodes.");
         TAG_DESCRIPTIONS.put("roof:shape=cross_gabled" , "Two gabled roof sections at right angles. Only supported for quadrangular footprints. `roof:orientation` and `roof:direction` have no effect.");
         TAG_DESCRIPTIONS.put("roof:shape=crosspitched" , "A synonym for cross_gabled. Two gabled roof sections put together at right angles. Only quadrangular footprints are supported.");

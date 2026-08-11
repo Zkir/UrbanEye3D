@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260809T204206Z",
+  "data_updated" : "20260811T103826Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -42,6 +42,14 @@
     "key" : "area",
     "value" : "yes",
     "description" : "This tag causes a feature that would otherwise be considered linear to be considered polygonal."
+  }, {
+    "key" : "artwork_type",
+    "value" : "sculpture",
+    "description" : "A three-dimensional non-figurative work of art, rendered as a 3D model."
+  }, {
+    "key" : "artwork_type",
+    "value" : "statue",
+    "description" : "A three-dimensional work of art representing a person or animal, rendered as a 3D model."
   }, {
     "key" : "backrest",
     "value" : "no",
@@ -312,7 +320,7 @@
   }, {
     "key" : "historic",
     "value" : "memorial",
-    "description" : "A memorial or monument, rendered as a 3D model (default is obelisk)."
+    "description" : "A memorial or monument, rendered as a 3D model."
   }, {
     "key" : "hyperboloid:middle_rate",
     "description" : "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width"
@@ -406,10 +414,6 @@
     "description" : "Material for barrier or man-made object. This can influence the default color. "
   }, {
     "key" : "memorial",
-    "value" : "blue_plaque",
-    "description" : "A historical blue plaque. In UrbanEye3D, these are currently hidden to avoid clutter."
-  }, {
-    "key" : "memorial",
     "value" : "bust",
     "description" : "A memorial bust, rendered as a 3D model on a pedestal."
   }, {
@@ -418,16 +422,16 @@
     "description" : "A memorial obelisk, rendered as a 3D model."
   }, {
     "key" : "memorial",
-    "value" : "plaque",
-    "description" : "A memorial plaque, typically mounted on a wall. In UrbanEye3D, these are currently hidden to avoid clutter."
+    "value" : "sculpture",
+    "description" : "A memorial non figurative sculpture, rendered as 3D model."
+  }, {
+    "key" : "memorial",
+    "value" : "statue",
+    "description" : "A memorial statue (personage/animal), rendered as 3D model."
   }, {
     "key" : "memorial",
     "value" : "stele",
     "description" : "A stone stele or vertical slab with carvings, rendered as a 3D model."
-  }, {
-    "key" : "memorial",
-    "value" : "stolperstein",
-    "description" : "A 'stumbling stone' memorial. In UrbanEye3D, these are currently hidden to avoid clutter."
   }, {
     "key" : "memorial",
     "value" : "stone",
@@ -673,6 +677,10 @@
     "value" : "hyperboloid",
     "description" : "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension"
   }, {
+    "key" : "shape",
+    "value" : "star",
+    "description" : "A star-shaped object, used for some types of memorials."
+  }, {
     "key" : "shelter",
     "value" : "no",
     "description" : "Indicates that a bus stop does NOT have a shelter, triggering appropriate 3D model rendering."
@@ -726,6 +734,10 @@
     "key" : "surface",
     "value" : "unpaved",
     "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "tourism",
+    "value" : "artwork",
+    "description" : "General tag for a work of art."
   }, {
     "key" : "tourism",
     "value" : "information",
