@@ -163,7 +163,7 @@ class SceneTest {
         // Assert: Verify the outcome
         //resulting number of  buildings is not so important.
         //Just to understand how the picture changes.
-        long NumberOfBuildings = scene.renderableElements.stream().filter(e -> e.textureName == null).count();
+        long NumberOfBuildings = scene.renderableElements.stream().filter(e -> e.getMesh().textureName == null).count();
         int MIN_BUILDINGS = 5152;
         int MAX_BUILDINGS = 5550;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance); 5458 -- with gates; 5509 -- current state
         assertTrue(NumberOfBuildings >= MIN_BUILDINGS && NumberOfBuildings <= MAX_BUILDINGS, "Number of building " + NumberOfBuildings + " is NOT in the reasonable range " + MIN_BUILDINGS + ".." + MAX_BUILDINGS);
@@ -214,7 +214,8 @@ class SceneTest {
         assertEquals(1, scene.renderableElements.size());
         var re = scene.renderableElements.get(0);
         //ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), "tests/output/skillion_steps.obj");
-        RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, "unknown");
+        //We do not have original height and min_height, so constraint test is just formal
+        RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, "unknown");
 
     }
 
@@ -231,7 +232,7 @@ class SceneTest {
         // Assert: Verify the outcome
         assertEquals(4, scene.renderableElements.size(), "Expected 4 barrier, but got " + scene.renderableElements.size());
         for (var re : scene.renderableElements) {
-            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, "unknown");
+            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, "unknown");
         }
     }
 
@@ -254,7 +255,7 @@ class SceneTest {
         // Assert: Verify the outcome
         assertEquals(6, scene.renderableElements.size(), "Expected 6 building parts rendered, but got " + scene.renderableElements.size());
         for (var re : scene.renderableElements) {
-            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.minHeight, re.height, "unknown");
+            RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, "unknown");
         }
     }
 
@@ -296,8 +297,8 @@ class SceneTest {
         assertEquals(1, scene.renderableElements.size(), "Should have exactly one renderable element for the tree.");
 
         RenderableElement treeElement = scene.renderableElements.get(0);
-        assertNotNull(treeElement.textureName, "The texture name should be set for the tree.");
-        assertTrue(treeElement.textureName.contains("tree_"), "The texture name should contain 'tree_'.");
+        assertNotNull(treeElement.getMesh().textureName, "The texture name should be set for the tree.");
+        assertTrue(treeElement.getMesh().textureName.contains("tree_"), "The texture name should contain 'tree_'.");
 
         Mesh treeMesh = treeElement.getMesh();
         assertNotNull(treeMesh, "Tree mesh should not be null.");
@@ -340,8 +341,7 @@ class SceneTest {
         assertTrue(scene.renderableElements.size() > 10, "Should have generated multiple trees for the forest. Got: " + scene.renderableElements.size());
 
         for (RenderableElement element : scene.renderableElements) {
-
-            assertTrue(element.textureName.contains("tree_"), "Unexpected tree texture name '" + element.textureName + "'");
+            assertTrue(element.getMesh().textureName.contains("tree_"), "Unexpected tree texture name '" + element.getMesh().textureName + "'");
             assertTrue(element.origin.lat() >= 55.7499 && element.origin.lat() <= 55.7511);
             assertTrue(element.origin.lon() >= 37.6099 && element.origin.lon() <= 37.6111);
         }
@@ -379,10 +379,10 @@ class SceneTest {
         assertTrue(scene.renderableElements.size() > 20, "Should have generated many trees for the mixed forest.");
 
         long broadleavedCount = scene.renderableElements.stream()
-                .filter(e -> "/textures/trees/tree_000.png".equals(e.textureName))
+                .filter(e -> "/textures/trees/tree_000.png".equals(e.getMesh().textureName))
                 .count();
         long needleleavedCount = scene.renderableElements.stream()
-                .filter(e -> "/textures/trees/tree_001.png".equals(e.textureName))
+                .filter(e -> "/textures/trees/tree_001.png".equals(e.getMesh().textureName))
                 .count();
 
         assertTrue(broadleavedCount > 0, "Mixed forest should contain broadleaved trees (/textures/trees/tree_000.png).");
@@ -441,7 +441,7 @@ class SceneTest {
         RenderableElement lampElement = scene.renderableElements.get(0);
         assertNotNull(lampElement.getMesh(), "Street lamp mesh should not be null.");
         assertTrue(!lampElement.getMesh().verts.isEmpty(), "Street lamp mesh should have vertices.");
-        assertNull(lampElement.textureName, "The texture name should be null for the street lamp.");
+        assertNull(lampElement.getMesh().textureName, "The texture name should be null for the street lamp.");
     }
 
     @Test
@@ -494,7 +494,7 @@ class SceneTest {
 
         // Abies alba should be enriched to needleleaved, so it should get tree_001.png
         // (based on current textures.cfg)
-        assertEquals("/textures/trees/tree_001.png", treeElement.textureName);
+        assertEquals("/textures/trees/tree_001.png", treeElement.getMesh().textureName);
     }
 
     @Test

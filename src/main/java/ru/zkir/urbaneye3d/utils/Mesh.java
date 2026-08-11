@@ -147,6 +147,17 @@ public class Mesh {
         }
         
         // Invalidate bounding box and vertex cache as coordinates have changed
+        invalidateBBOX();
+
+    }
+    public void translate(Point3D translation){
+        for (int i = 0; i < verts.size(); i++) {
+            verts.set(i, verts.get(i).add(translation));
+        }
+        invalidateBBOX();
+    }
+
+    private void invalidateBBOX(){
         minBounds = null;
         maxBounds = null;
         vertexCache.clear();
@@ -154,9 +165,9 @@ public class Mesh {
             Point3D p = verts.get(i);
             double scale = 1e6;
             Point3D roundedP = new Point3D(
-                Math.round(p.x * scale) / scale,
-                Math.round(p.y * scale) / scale,
-                Math.round(p.z * scale) / scale
+                    Math.round(p.x * scale) / scale,
+                    Math.round(p.y * scale) / scale,
+                    Math.round(p.z * scale) / scale
             );
             vertexCache.put(roundedP, i);
         }

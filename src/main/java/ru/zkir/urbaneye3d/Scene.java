@@ -299,6 +299,7 @@ public class Scene {
 
                         // Check if rotation is allowed or automatic orientation is requested
                         Double direction = null;
+                        Double translationZ = OsmDataWasher.getTagD("min_height",node,0);
                         if (isRotatable) { //rotatable means that direction tag is defined for this object
                             if (node.hasKey("direction")) {
                                 direction = OsmDataWasher.parseDirection(node.get("direction"));
@@ -350,7 +351,16 @@ public class Scene {
                             direction = 0.0;
                         }
 
-                        element = RenderableElement.createFromModel(node, instanceMesh, direction);
+                        /*
+                        if (translationZ!= 0.0){
+                            if (instanceMesh==mesh){
+                                instanceMesh = mesh.clone();
+                            }
+                            instanceMesh.translate(new Point3D(0,0, translationZ));
+                        }
+                        */
+
+                        element = RenderableElement.createFromModel(node, instanceMesh, direction, translationZ);
 
                     }
                 } else if (rule.properties.containsKey("billboard")) {

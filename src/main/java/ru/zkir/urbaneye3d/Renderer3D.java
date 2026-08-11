@@ -388,7 +388,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             gl.glPushMatrix();
             gl.glTranslated(transX, transY, 0);
             Texture texture = tile.render(gl);
-            drawMesh(gl, tileMesh, false, 0, 0, texture);
+            drawMesh(gl, tileMesh, false,  texture);
             gl.glPopMatrix();
             objectCount += 1;
             faceCount += tileMesh.faces.size();
@@ -411,12 +411,13 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 double dyMap = element.origin.lat() - mapCenter.lat();
                 double transX = dxMap * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
                 double transY = dyMap * 111320.0;
+                double transZ = element.zOffset;
 
                 // Real 3D distance from the camera eye
                 double distToEye = Math.sqrt(
                     Math.pow(transX - eyeX, 2) +
                     Math.pow(transY - eyeY, 2) +
-                    Math.pow(0 - eyeZ, 2) // assuming ground Z=0 for distance check
+                    Math.pow(transZ - eyeZ, 2)
                 );
 
                 // --- Pixel-based Culling ---
@@ -433,22 +434,22 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 Point3D minB = mesh.getMinBounds();
                 Point3D maxB = mesh.getMaxBounds();
 
-                if (!isBoxInFrustum(frustum, minB.x + transX, minB.y + transY, minB.z, maxB.x + transX, maxB.y + transY, maxB.z)) {
+                if (!isBoxInFrustum(frustum, minB.x + transX, minB.y + transY, minB.z+transZ, maxB.x + transX, maxB.y + transY, maxB.z+transZ)) {
                     continue;
                 }
 
                 gl.glPushMatrix();
-                gl.glTranslated(transX, transY, 0);
+                gl.glTranslated(transX, transY, transZ);
 
-                if (element.textureName != null) {
+                if (element.getMesh().textureName != null) {
                     // It's a textured object (like a tree)
-                    Texture texture = TextureManager.getInstance().get(gl, element.textureName);
+                    Texture texture = TextureManager.getInstance().get(gl, element.getMesh().textureName);
                     if (texture != null) {
-                        drawMesh(gl, mesh, element.isSelected, 0, 0, texture);
+                        drawMesh(gl, mesh, element.isSelected,  texture);
                     }
                 } else {
                     // It's a colored object (like a building)
-                    drawMesh(gl, mesh, element.isSelected, element.height, element.minHeight, null);
+                    drawMesh(gl, mesh, element.isSelected,null);
                 }
                 objectCount += 1;
                 faceCount += mesh.faces.size();
@@ -581,7 +582,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         }
     }
 
-    private void drawMesh(GL2 gl, Mesh mesh, boolean isSelected, double maxHeightForAO, double minHeightForAO, Texture texture){
+    private void drawMesh(GL2 gl, Mesh mesh, boolean isSelected, Texture texture){
+        double maxHeightForAO = mesh.getMaxBounds().z;
+        double minHeightForAO = mesh.getMinBounds().z;
         // Draw all faces
         for(int i=0; i<mesh.faces.size(); i++){
             var face = mesh.faces.get(i);
@@ -814,6 +817,11 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             //UrbanEye3dPlugin.debugMsg("Tessellation Error (" + errnum + "): " + glu.gluErrorString(errnum));
         }
     }
+
+    /**
+     * Find the first object by screen coordinates
+     * Used for select-by-click feature
+     */
     public RenderableElement getPickedElement(int x, int y) {
         if (lastViewport[2] == 0 || lastViewport[3] == 0) return null;
 
@@ -846,7 +854,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             double dy = element.origin.lat() - mapCenter.lat();
             double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
             double transY = dy * 111320.0;
-            Point3D translation = new Point3D(transX, transY, 0);
+            double transZ = element.zOffset;
+            Point3D translation = new Point3D(transX, transY, transZ);
 
             // Move ray to element's local space
             GeometryUtils.Ray localRay = new GeometryUtils.Ray(ray.origin.subtract(translation), ray.direction);
