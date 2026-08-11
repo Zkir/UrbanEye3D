@@ -314,6 +314,9 @@ public class Scene {
 
                         if (direction == null && node.hasTag("barrier", "block") ) {
                             direction = calculateOrientationByParent(node, way -> way.hasKey("highway") && !NON_ROAD_FOR_ORIENTATION.contains(way.get("highway")), false);
+                            if (direction == null) {
+                                direction = calculateOrientationByParent(node, way -> way.hasKey("highway"), false);
+                            }
                         }
                         
                         // Special case for power towers/poles orientation
@@ -335,6 +338,9 @@ public class Scene {
                             } else {
                                 // If no barrier found, fall back to road-based orientation (perpendicular to the road)
                                 direction = calculateOrientationByParent(node, way -> way.hasKey("highway") && !NON_ROAD_FOR_ORIENTATION.contains(way.get("highway")), false);
+                                if (direction == null) {
+                                    direction = calculateOrientationByParent(node, way -> way.hasKey("highway"), false);
+                                }
                             }
                         }
 
