@@ -199,6 +199,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("power=tower", "A large lattice power tower support.");
         TAG_DESCRIPTIONS.put("power=pole", "A standard power pole support.");
 
+        TAG_DESCRIPTIONS.put("railway=buffer_stop", "A railway buffer stop, rendered as a 3D model.");
+
         TAG_DESCRIPTIONS.put("place", "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance");
 
         TAG_DESCRIPTIONS.put("advertising=column",           "Can be rendered as 3D object");

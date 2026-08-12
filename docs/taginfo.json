@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260812T162755Z",
+  "data_updated" : "20260812T203036Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -510,6 +510,10 @@
     "key" : "public_transport",
     "value" : "platform",
     "description" : "A public transport platform. Rendered as a bus stop model if applicable."
+  }, {
+    "key" : "railway",
+    "value" : "buffer_stop",
+    "description" : "A railway buffer stop, rendered as a 3D model."
   }, {
     "key" : "recycling_type",
     "value" : "centre",

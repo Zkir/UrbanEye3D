@@ -90,6 +90,16 @@
   <node id='-5280843' action='modify' visible='true' lat='55.00010472872' lon='37.00022827581' />
   <node id='-5280922' action='modify' visible='true' lat='55.00014729147' lon='37.00027169429' />
   <node id='-5281325' action='modify' visible='true' lat='55.00006488269' lon='37.00014380712' />
+  <node id='-5281422' action='modify' visible='true' lat='54.99923693828' lon='36.99944792447'>
+    <tag k='note' v='Buffer stop is usually located at the dead end of a rail, so it shoul look along rail' />
+    <tag k='railway' v='buffer_stop' />
+    <tag k='ref' v='16' />
+  </node>
+  <node id='-5281453' action='modify' visible='true' lat='54.99940719272' lon='37.00027840166'>
+    <tag k='note' v='Buffer stop is usually located at the dead end of a rail, so it shoul look along rail' />
+    <tag k='railway' v='buffer_stop' />
+    <tag k='ref' v='17' />
+  </node>
   <way id='-16215' action='modify' visible='true'>
     <nd ref='-5280481' />
     <nd ref='-5280482' />
@@ -150,5 +160,10 @@
     <nd ref='-5281325' />
     <tag k='highway' v='footway' />
     <tag k='note' v='footway does not affect much (except benches)' />
+  </way>
+  <way id='-16279' action='modify' visible='true'>
+    <nd ref='-5281422' />
+    <nd ref='-5281453' />
+    <tag k='railway' v='rail' />
   </way>
 </osm>

@@ -284,6 +284,11 @@ This section describes various standalone 3D objects rendered by the plugin.
 -   **Automatic Alignment:** The bus stop model automatically rotates to face the nearest road (`highway=*`, excluding footways). If the `direction` tag is explicitly provided, it overrides this automatic behavior.
 -   The model features semi-transparent glass panels and an integrated bench.
 
+### Railway Objects
+
+- `railway=buffer_stop`: Rendered using a specialized 3D model (metal supports with a horizontal wooden beam).
+- **Automatic Alignment:** Buffer stops automatically align with the railway track they are placed on.
+
 ## Memorials and Artworks
 
 The plugin visualizes various types of memorials and artworks.

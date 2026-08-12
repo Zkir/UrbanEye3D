@@ -27,6 +27,7 @@ def ignored_tags(key, value):
        key in ('fire_hydrant:position','fire_hydrant:diameter') or tag in ('water_source=main') or \
        tag in ('amenity=restaurant', 'amenity=place_of_worship', 'amenity=cafe', 'amenity=school', 'amenity=fast_food', \
                'amenity=pharmacy', 'amenity=toilets', 'amenity=fuel', 'amenity=bank' ,'amenity=parking', 'healthcare=pharmacy', 'tourism=hotel', 'leisure=swimming_pool' ) or \
+       tag in ('tourism=viewpoint') or \
        tag in ('natural=peak') or \
        tag in ('drinking_water=yes', 'bottle=yes'):
         ignored = True

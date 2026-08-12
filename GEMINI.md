@@ -59,6 +59,9 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ## Recent Accomplishments
 
 ### Aug 12, 2026
+*   **Railway Support:**
+    *   **Buffer Stop:** Implemented 3D visualization for `railway=buffer_stop`. Created a custom low-poly model based on reference imagery (weathered wooden beam with metal supports and a signal plate).
+    *   **Enhanced Track Snapping:** Updated the orientation engine to include railway tracks in the automatic alignment logic, ensuring buffer stops are correctly oriented across the rails.
 *   **New 3D Model & Artwork Support:**
     *   **Stolperstein Memorial:** Created a specialized 0.1m x 0.1m x 0.01m 3D model for Stolperstein memorials (stumbling stones) with concrete sides and a brass top. Integrated it into the MapCSS asset configuration for `historic=memorial` + `memorial=stolperstein`.
     *   **Cube Sculpture:** Created a specialized 3D model for stacked-cube sculptures (based on `sculpture4.jpg`) and integrated it into the rendering engine.

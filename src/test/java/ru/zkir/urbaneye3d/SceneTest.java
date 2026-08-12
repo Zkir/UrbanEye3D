@@ -557,7 +557,7 @@ class SceneTest {
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
-        assertEquals(16, scene.renderableElements.size(), "Expected 15 elements, but got " + scene.renderableElements.size());
+        assertEquals(18, scene.renderableElements.size(), "Expected 18 elements, but got " + scene.renderableElements.size());
 
         // Mapping ref -> expected orientation (rounded and normalized to [0..359])
         java.util.Map<String, Integer> expectedOrientations = new java.util.HashMap<>();
@@ -576,6 +576,8 @@ class SceneTest {
         expectedOrientations.put("13", 107);
         expectedOrientations.put("14", 86);
         expectedOrientations.put("15", 143);
+        expectedOrientations.put("16", 70);
+        expectedOrientations.put("17", 250);
 
         for (var re : scene.renderableElements) {
             OsmPrimitive primitive = dataSet.getPrimitiveById(re.primitiveId);

@@ -327,6 +327,11 @@ public class Scene {
                             });
                             direction = -lineAngle;
                         }
+                        //Special case for railway buffer stop
+                        if (direction == null  && node.hasTag("railway", "buffer_stop") ) {
+                            Double a = calculateOrientationByParent(node, way -> way.hasKey("railway"), true);
+                            direction = -(a != null ? a : 0.0);
+                        }
 
                         // Special case for node barriers: gate and lift gate
                         if (direction == null && "align_with_parent".equals(rule.properties.get("orientation"))) {
