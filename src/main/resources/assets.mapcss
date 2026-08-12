@@ -210,7 +210,8 @@ node[historic=memorial][memorial=war_memorial] {
 
 /* Artwork */
 node[tourism=artwork][artwork_type=statue], 
-node[tourism=artwork][artwork_type=sculpture] {
+node[tourism=artwork][artwork_type=sculpture],
+node[tourism=artwork][artwork_type=installation] {
     model: "/models/sculpture_abstract_spiral.obj";
     rotatable: true;
 }

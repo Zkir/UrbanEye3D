@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260811T103826Z",
+  "data_updated" : "20260812T092433Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -42,6 +42,10 @@
     "key" : "area",
     "value" : "yes",
     "description" : "This tag causes a feature that would otherwise be considered linear to be considered polygonal."
+  }, {
+    "key" : "artwork_type",
+    "value" : "installation",
+    "description" : "Installation is considered to be a non-figurative sculpture, rendered as a 3D model."
   }, {
     "key" : "artwork_type",
     "value" : "sculpture",

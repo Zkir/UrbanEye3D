@@ -58,12 +58,28 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Aug 12, 2026
+*   **New 3D Model & Artwork Support:**
+    *   **Cube Sculpture:** Created a specialized 3D model for stacked-cube sculptures (based on `sculpture4.jpg`) and integrated it into the rendering engine.
+    *   **Expanded Artwork Tagging:** Added dedicated support for `tourism=artwork`. The system now distinguishes between `artwork_type=statue` and `artwork_type=sculpture`, with the new cube model automatically applied for concrete sculptures.
+
+### Aug 11, 2026
+*   **New 3D Models & Expanded Tag Support:**
+    *   **Artworks:** Initial support for `tourism=artwork` with `artwork_type=statue` and non-figurative `artwork_type=sculpture` (using a spiral model).
+*   **Validation & Maintenance:**
+    *   **Asset Configuration Validation:** Created `AssetMapCSSValidationTest.java` to automatically verify `assets.mapcss` syntax and resource paths, ensuring all referenced models and textures are present.
+    
+
 ### Aug 7, 2026
-*    **New models support**: different types of `historic=memorial` and `leisure=picnic_table`  
+*    **New models for street objects**: 
+     * Different types of `historic=memorial` (`memorial=bust`, `memorial=obelisk`, and `memorial=stone` and `memorial=stele`)
+	 * leisure=picnic_table`  
+     * `amenity=bicycle_parking`, and a second variant of `highway=bus_stop` (shelter without a bench).
+*   **Enhanced 2D Ground Plane:**
+    *   Added visual representation for `natural=spring` (blue circles) and `man_made=manhole` (small black dots) in the MapCSS-based ground plane.
     
 *   **Enhanced Tag Analysis Tools:**
     *   Updated `find_missing_tags.py` to generate a new report: `docs/dev/popular_supported_tags.md`, which lists popular OSM tags that are already implemented, along with their world-wide counts and implementation descriptions.
-    *   Improved report formatting by adding thousands separators (commas) to object counts for better readability.
 
 ### Aug 6, 2026
 *   **Bent-Mast Street Lamp Support:**

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-01 23:18:38+0300\n"
+"POT-Creation-Date: 2026-08-12 16:01:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:477
+#: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:479
 msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
 msgstr ""
 

@@ -113,6 +113,10 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("fire_hydrant:type=underground", "Underground hydrants are NOT rendered!");
         TAG_DESCRIPTIONS.put("public_transport=platform", "A public transport platform. Rendered as a bus stop model if applicable.");
         TAG_DESCRIPTIONS.put("tourism=information", "General tourism information point.");
+        TAG_DESCRIPTIONS.put("tourism=artwork", "An artwork, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("artwork_type=statue", "A figurative statue, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("artwork_type=sculpture", "A non-figurative sculpture, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("artwork_type=installation", "Installation is considered to be a non-figurative sculpture, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("information=board", "An information board, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("information=post", "A generic information post.");
         TAG_DESCRIPTIONS.put("information=guidepost", "A signpost with arrows pointing to different locations.");

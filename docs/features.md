@@ -289,8 +289,9 @@ This section describes various standalone 3D objects rendered by the plugin.
 The plugin visualizes various types of memorials.
 
 - `historic=memorial`: Rendered as a 3D model.
-- The `memorial=*` tag defines the subtype: statue, sculpture, bust or other forms.
+- The `memorial=*` tag defines the subtype: statue, sculpture, bust, stone, stele or obelisk.
 - The `direction` tag can be used to rotate the memorial.
+
 
 ## Power Infrastructure
 
