@@ -109,9 +109,11 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("memorial=war_memorial", "A war memorial, often rendered as an obelisk.");
         TAG_DESCRIPTIONS.put("memorial=stone", "A memorial stone or boulder with a plaque, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("memorial=stele", "A stone stele or vertical slab with carvings, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("memorial=stolperstein", "A Stolperstein (stumbling stone) memorial, rendered as a small concrete block with a brass top.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=pillar", "Traditional fire hydrant shape. Also the default one.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=underground", "Underground hydrants are NOT rendered!");
         TAG_DESCRIPTIONS.put("public_transport=platform", "A public transport platform. Rendered as a bus stop model if applicable.");
+        TAG_DESCRIPTIONS.put("indoor=yes", "Indicates that an object is located indoors. Such objects are not rendered in the 3D view.");
         TAG_DESCRIPTIONS.put("tourism=information", "General tourism information point.");
         TAG_DESCRIPTIONS.put("tourism=artwork", "An artwork, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("artwork_type=statue", "A figurative statue, rendered as a 3D model.");

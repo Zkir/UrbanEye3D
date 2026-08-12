@@ -1,3 +1,17 @@
+/*
+* Hide undeground and indor objects
+*/
+
+node[location=underground],
+node[indoor=yes] {
+    display: false;
+}
+
+
+/*
+* Various object types
+*/
+
 /* Trees */
 node[natural=tree][leaf_type=broadleaved] {
     billboard: "/textures/trees/tree_000.png";
@@ -185,26 +199,36 @@ node[historic=memorial][memorial=bust],
 node[historic=memorial][memorial=statue] {
     model: "/models/memorial_bust.obj";
     rotatable: true;
+	scalable: true;
 }
 
 node[historic=memorial][memorial=stone] {
     model: "/models/memorial_stone.obj";
     rotatable: true;
+	scalable: true;
 }
 
 node[historic=memorial][memorial=stele] {
     model: "/models/memorial_stele.obj";
     rotatable: true;
+	scalable: true;
 }
 
 node[historic=memorial][memorial=stele][shape=star] {
     model: "/models/memorial_stele_star.obj";
     rotatable: true;
+	scalable: true;
 }
 
 node[historic=memorial][memorial=obelisk],
 node[historic=memorial][memorial=war_memorial] {
     model: "/models/memorial_obelisk.obj";
+    rotatable: true;
+	scalable: true;
+}
+
+node[historic=memorial][memorial=stolperstein] {
+    model: "/models/memorial_stolperstein.obj";
     rotatable: true;
 }
 
@@ -214,6 +238,7 @@ node[tourism=artwork][artwork_type=sculpture],
 node[tourism=artwork][artwork_type=installation] {
     model: "/models/sculpture_abstract_spiral.obj";
     rotatable: true;
+	scalable: true;
 }
 
 

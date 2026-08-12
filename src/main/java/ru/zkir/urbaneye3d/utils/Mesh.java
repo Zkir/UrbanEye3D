@@ -157,6 +157,14 @@ public class Mesh {
         invalidateBBOX();
     }
 
+    public void scale(double scaleFactor){
+        for (int i = 0; i < verts.size(); i++) {
+            verts.set(i, verts.get(i).mult(scaleFactor));
+        }
+        // Invalidate bounding box and vertex cache as coordinates have changed
+        invalidateBBOX();
+    }
+
     private void invalidateBBOX(){
         minBounds = null;
         maxBounds = null;

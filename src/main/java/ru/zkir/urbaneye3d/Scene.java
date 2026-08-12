@@ -357,14 +357,18 @@ public class Scene {
                             direction = 0.0;
                         }
 
-                        /*
-                        if (translationZ!= 0.0){
-                            if (instanceMesh==mesh){
-                                instanceMesh = mesh.clone();
+                        if("true".equals(rule.properties.get("scalable"))) {
+                            double model_height = mesh.getMaxBounds().z;
+                            double nominal_height = OsmDataWasher.getTagD("height", node, model_height);
+                            double scale_factor = (nominal_height - translationZ) / model_height;
+
+                            if (scale_factor != 1.0) {
+                                if (instanceMesh == mesh) {
+                                    instanceMesh = mesh.clone();
+                                }
+                                instanceMesh.scale(scale_factor);
                             }
-                            instanceMesh.translate(new Point3D(0,0, translationZ));
                         }
-                        */
 
                         element = RenderableElement.createFromModel(node, instanceMesh, direction, translationZ);
 

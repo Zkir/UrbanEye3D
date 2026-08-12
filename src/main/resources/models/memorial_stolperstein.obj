@@ -1,0 +1,23 @@
+mtllib memorial_stolperstein.mtl
+o stolperstein
+
+# Vertices
+v -0.05 0.0 -0.05
+v 0.05 0.0 -0.05
+v 0.05 0.0 0.05
+v -0.05 0.0 0.05
+v -0.05 0.01 -0.05
+v 0.05 0.01 -0.05
+v 0.05 0.01 0.05
+v -0.05 0.01 0.05
+
+usemtl concrete
+# Sides
+f 1 2 6 5
+f 2 3 7 6
+f 3 4 8 7
+f 4 1 5 8
+
+usemtl brass
+# Top
+f 5 8 7 6

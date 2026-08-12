@@ -60,6 +60,7 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ### Aug 12, 2026
 *   **New 3D Model & Artwork Support:**
+    *   **Stolperstein Memorial:** Created a specialized 0.1m x 0.1m x 0.01m 3D model for Stolperstein memorials (stumbling stones) with concrete sides and a brass top. Integrated it into the MapCSS asset configuration for `historic=memorial` + `memorial=stolperstein`.
     *   **Cube Sculpture:** Created a specialized 3D model for stacked-cube sculptures (based on `sculpture4.jpg`) and integrated it into the rendering engine.
     *   **Expanded Artwork Tagging:** Added dedicated support for `tourism=artwork`. The system now distinguishes between `artwork_type=statue` and `artwork_type=sculpture`, with the new cube model automatically applied for concrete sculptures.
 

@@ -24,6 +24,7 @@ This file provides an inventory of all 3D models and textures used in the projec
 | `/models/memorial_obelisk.obj` | 40&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/memorial_stele.obj` | 23&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/memorial_stele_star.obj` | 22&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/memorial_stolperstein.obj` | 5&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/memorial_stone.obj` | 28&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/picnic_table.obj` | 42&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/power_pole.obj` | 11&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |

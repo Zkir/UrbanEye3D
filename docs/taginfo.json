@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260812T092433Z",
+  "data_updated" : "20260812T162755Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -332,6 +332,10 @@
     "key" : "hyperboloid:top_rate",
     "description" : "Defines the relative width of the top of the structure compared to its base"
   }, {
+    "key" : "indoor",
+    "value" : "yes",
+    "description" : "Indicates that an object is located indoors. Such objects are not rendered in the 3D view."
+  }, {
     "key" : "information",
     "value" : "board",
     "description" : "An information board, rendered as a 3D model."
@@ -436,6 +440,10 @@
     "key" : "memorial",
     "value" : "stele",
     "description" : "A stone stele or vertical slab with carvings, rendered as a 3D model."
+  }, {
+    "key" : "memorial",
+    "value" : "stolperstein",
+    "description" : "A Stolperstein (stumbling stone) memorial, rendered as a small concrete block with a brass top."
   }, {
     "key" : "memorial",
     "value" : "stone",
