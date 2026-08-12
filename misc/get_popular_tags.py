@@ -48,12 +48,19 @@ response = requests.get(url, params=params)
 data = response.json()
 
 results = []
-node_data = data.get("data", [])[:400]
+node_data = []
+
+for t in data.get("data", []):
+    if t['count_nodes']<200_000:
+        break
+    node_data += [t]
+
 total = len(node_data)
 
 session = requests.Session()
 
 print(f"Fetching combinations for {total} tags...")
+
 for i, t in enumerate(node_data):
     key = t['key']
     value = t['value']
