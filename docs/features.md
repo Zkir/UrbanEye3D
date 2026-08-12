@@ -284,13 +284,26 @@ This section describes various standalone 3D objects rendered by the plugin.
 -   **Automatic Alignment:** The bus stop model automatically rotates to face the nearest road (`highway=*`, excluding footways). If the `direction` tag is explicitly provided, it overrides this automatic behavior.
 -   The model features semi-transparent glass panels and an integrated bench.
 
-## Memorials
+## Memorials and Artworks
 
-The plugin visualizes various types of memorials.
+The plugin visualizes various types of memorials and artworks.
+
+### Memorials
 
 - `historic=memorial`: Rendered as a 3D model.
-- The `memorial=*` tag defines the subtype: statue, sculpture, bust, stone, stele or obelisk.
+- The `memorial=*` tag defines the subtype: `statue`, `sculpture`, `bust`, `stone`, `stele`, `obelisk` or `war_memorial`.
 - The `direction` tag can be used to rotate the memorial.
+
+### Artworks
+
+- `tourism=artwork`: Rendered as a 3D model.
+- The `artwork_type=*` tag defines the subtype: `statue`, `sculpture` or `installation`.
+
+### Dynamic Scaling
+
+Unlike most other point objects that have fixed-size pre-defined models (like benches or street lamps), memorials and artworks are **automatically scaled** according to the `height` tag. This allows for accurate representation of both small commemorative stones and massive monuments using the same base models.
+
+- `height`: The total height of the object. If not specified, the default model height is used.
 
 
 ## Power Infrastructure

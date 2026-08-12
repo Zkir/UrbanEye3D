@@ -9,8 +9,8 @@ def load_json(path):
         
 def ignored_tags(key, value):
     ignored = False
-    tag = key + '=' + value  
-    
+    tag = key + '=' + value
+
     if key.startswith("addr:") or key.startswith("source:") or key.startswith("payment:") or key.startswith('LINZ:') or\
        key in ('source', 'source_ref', 'survey:date', 'created_by', 'place', 'operator', 'operator:wikidata', 'operator:type', 'access', 'access:delivery', 'ownership', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', 'building', \
                'hiking', 'wheelchair','fee', 'religion', 'denotation', 'material','colour', 'tactile_paving','lamp_type','lit','bin', 'internet_access','attribution','outdoor_seating','frequency', 'office') or \
@@ -28,28 +28,43 @@ def ignored_tags(key, value):
        tag in ('amenity=restaurant', 'amenity=place_of_worship', 'amenity=cafe', 'amenity=school', 'amenity=fast_food', \
                'amenity=pharmacy', 'amenity=toilets', 'amenity=fuel', 'amenity=bank' ,'amenity=parking', 'healthcare=pharmacy', 'tourism=hotel', 'leisure=swimming_pool' ) or \
        tag in ('natural=peak') or \
-       tag in ('drinking_water=yes', 'bottle=yes'):  
+       tag in ('drinking_water=yes', 'bottle=yes'):
         ignored = True
-        
+
     return ignored
 
-def filter_combinations(combinations):
-    filtered = []
+def filter_and_format_combinations(combinations, supported_specific, supported_wildcard, highlight_missing=False):
+    tags_to_show = []
+    supported = []
+    missing = []
     for tag_str in combinations:
         parts = tag_str.split("=", 1)
-        if len(parts) == 2:
-            key, value = parts
-            if not ignored_tags(key, value):
-                filtered.append(tag_str)
-        if len(filtered) >= 5:
+        if len(parts) != 2: continue
+        key, value = parts
+        if ignored_tags(key, value): continue
+        
+        if not highlight_missing:
+            tags_to_show.append(f"`{tag_str}`")
+        else:
+            is_supported = (tag_str in supported_specific) or (key in supported_wildcard)
+            if is_supported:
+                supported.append(f"`{tag_str}`")
+            else:
+                missing.append(f"<span style=\"color:red\">`{tag_str}`</span>")
+        
+        if len(tags_to_show) + len(supported) + len(missing) >= 5:
             break
-    return filtered
+            
+    if highlight_missing:
+        return ", ".join(supported + missing)
+    else:
+        return ", ".join(tags_to_show)
 
 def find_missing_tags():
     # Paths relative to the script location (misc/)
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(script_dir)
-    
+
     taginfo_path = os.path.join(project_root, "docs", "taginfo.json")
     popular_tags_path = os.path.join(script_dir, "data/20_tags", "popular_tags.json")
     output_report_path = os.path.join(project_root, "docs", "dev", "popular_missing_tags.md")
@@ -80,18 +95,12 @@ def find_missing_tags():
         key = p_tag['key']
         value = p_tag['value']
         tag_str = f"{key}={value}"
-        
+
         if ignored_tags(key, value):
             continue
-        
+
         # Check if the tag is supported
         desc = supported_specific.get(tag_str)
-        if desc is None:
-             # Check wildcard key (optional, as per original logic)
-             # if key in supported_wildcard:
-             #     desc = supported_wildcard[key]
-             pass
-
         if desc is not None:
             p_tag['description'] = desc
             supported_popular_tags.append(p_tag)
@@ -113,10 +122,9 @@ def find_missing_tags():
         key = m_tag['key']
         value = m_tag['value']
         count = m_tag['count']
-        combinations = filter_combinations(m_tag.get('combinations', []))
+        combs_str = filter_and_format_combinations(m_tag.get('combinations', []), supported_specific, supported_wildcard, highlight_missing=False)
         wiki_link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{value})"
         taginfo_link = f"[{count:,}](https://taginfo.openstreetmap.org/tags/{key}%3D{value})"
-        combs_str = ", ".join([f"`{c}`" for c in combinations])
         lines.append(f"| {wiki_link} | {taginfo_link} | {combs_str} |")
 
     with open(output_report_path, 'w', encoding='utf-8') as f:
@@ -141,10 +149,9 @@ def find_missing_tags():
         value = s_tag['value']
         count = s_tag['count']
         desc = s_tag['description']
-        combinations = filter_combinations(s_tag.get('combinations', []))
+        combs_str = filter_and_format_combinations(s_tag.get('combinations', []), supported_specific, supported_wildcard, highlight_missing=True)
         wiki_link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{value})"
         taginfo_link = f"[{count:,}](https://taginfo.openstreetmap.org/tags/{key}%3D{value})"
-        combs_str = ", ".join([f"`{c}`" for c in combinations])
         lines_s.append(f"| {wiki_link} | {taginfo_link} | {desc} | {combs_str} |")
 
     with open(output_supported_path, 'w', encoding='utf-8') as f:
