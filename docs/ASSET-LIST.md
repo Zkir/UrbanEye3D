@@ -36,6 +36,8 @@ This file provides an inventory of all 3D models and textures used in the projec
 | `/models/sculpture_abstract_spiral.obj` | 36&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/street_lamp.obj` | 36&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/street_lamp_bent.obj` | 70&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/traffic_bump.obj` | 38&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/traffic_hump.obj` | 56&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/water_column.obj` | 77&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/textures/bushes/rose_bush.png` | 512x512&nbsp;px | [Pngtree](https://pngtree.com/freepng/blooming-red-rose-bush_19859191.html?sol=downref&id=bef) | [Pngtree Free]() |
 | `/textures/trees/tree_000.png` | 512x512&nbsp;px | [OSM2World-default-style](https://github.com/tordanik/OSM2World-default-style) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |

@@ -329,6 +329,15 @@
     <tag k='artwork_type' v='sculpture' />
     <tag k='tourism' v='artwork' />
   </node>
+  <node id='-5271353' action='modify' visible='true' lat='55.05069588873' lon='37.04302723325'>
+    <tag k='traffic_calming' v='bump' />
+  </node>
+  <node id='-5300426' action='modify' visible='true' lat='55.05069451964' lon='37.04318855521'>
+    <tag k='traffic_calming' v='hump' />
+  </node>
+  <node id='-5325351' action='modify' visible='true' lat='55.05069315055' lon='37.04337616667'>
+    <tag k='traffic_calming' v='table' />
+  </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />
@@ -520,6 +529,9 @@
   <way id='-13487' action='modify' visible='true'>
     <nd ref='-335571' />
     <nd ref='-5020873' />
+    <nd ref='-5271353' />
+    <nd ref='-5300426' />
+    <nd ref='-5325351' />
     <nd ref='-345844' />
     <tag k='highway' v='unclassified' />
   </way>

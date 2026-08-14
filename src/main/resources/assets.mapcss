@@ -193,6 +193,18 @@ node[leisure=picnic_table] {
     rotatable: true;
 }
 
+/* Traffic Calming */
+node[traffic_calming=bump] {
+    model: "/models/traffic_bump.obj";
+    orientation: align_with_parent;
+}
+
+node[traffic_calming=hump],
+node[traffic_calming=table] {
+    model: "/models/traffic_hump.obj";
+    orientation: align_with_parent;
+}
+
 /* Memorial */
 node[historic=memorial][!memorial],
 node[historic=memorial][memorial=bust],

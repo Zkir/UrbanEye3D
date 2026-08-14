@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260812T203036Z",
+  "data_updated" : "20260814T200159Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -49,7 +49,7 @@
   }, {
     "key" : "artwork_type",
     "value" : "sculpture",
-    "description" : "A three-dimensional non-figurative work of art, rendered as a 3D model."
+    "description" : "A non-figurative sculpture, rendered as a 3D model."
   }, {
     "key" : "artwork_type",
     "value" : "statue",
@@ -753,11 +753,23 @@
   }, {
     "key" : "tourism",
     "value" : "artwork",
-    "description" : "General tag for a work of art."
+    "description" : "Certain artwork types are rendered as 3D models."
   }, {
     "key" : "tourism",
     "value" : "information",
     "description" : "General tourism information point."
+  }, {
+    "key" : "traffic_calming",
+    "value" : "bump",
+    "description" : "A short, steep artificial convexity on a road. Rendered as a 3D model with white stripes on edges."
+  }, {
+    "key" : "traffic_calming",
+    "value" : "hump",
+    "description" : "A longer, smoother artificial convexity on a road. Rendered as a 3D model with white stripes on edges."
+  }, {
+    "key" : "traffic_calming",
+    "value" : "table",
+    "description" : "A speed table used for encouraging motorists to drive slower. More gradual than speed humps and speed bumps. Rendered as a 3D model."
   }, {
     "key" : "tunnel",
     "description" : "Used for 2D ground plane rendering"

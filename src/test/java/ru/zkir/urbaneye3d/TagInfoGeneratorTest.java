@@ -98,6 +98,9 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("shelter=yes", "Indicates that a bus stop has a shelter, triggering appropriate 3D model rendering.");
         TAG_DESCRIPTIONS.put("shelter=no", "Indicates that a bus stop does NOT have a shelter, triggering appropriate 3D model rendering.");
         TAG_DESCRIPTIONS.put("highway=street_lamp", "A single street lamp, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("traffic_calming=bump", "A short, steep artificial convexity on a road. Rendered as a 3D model with white stripes on edges.");
+        TAG_DESCRIPTIONS.put("traffic_calming=hump", "A longer, smoother artificial convexity on a road. Rendered as a 3D model with white stripes on edges.");
+        TAG_DESCRIPTIONS.put("traffic_calming=table", "A speed table used for encouraging motorists to drive slower. More gradual than speed humps and speed bumps. Rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("lamp_mount=bent_mast", "A street lamp with a curved (bent) mast.");
         TAG_DESCRIPTIONS.put("lamp_mount=straight_mast", "A street lamp with a standard straight mast.");
         TAG_DESCRIPTIONS.put("emergency=fire_hydrant", "A fire hydrant, rendered as a 3D model.");
@@ -115,13 +118,13 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("public_transport=platform", "A public transport platform. Rendered as a bus stop model if applicable.");
         TAG_DESCRIPTIONS.put("indoor=yes", "Indicates that an object is located indoors. Such objects are not rendered in the 3D view.");
         TAG_DESCRIPTIONS.put("tourism=information", "General tourism information point.");
-        TAG_DESCRIPTIONS.put("tourism=artwork", "An artwork, rendered as a 3D model.");
-        TAG_DESCRIPTIONS.put("artwork_type=statue", "A figurative statue, rendered as a 3D model.");
-        TAG_DESCRIPTIONS.put("artwork_type=sculpture", "A non-figurative sculpture, rendered as a 3D model.");
-        TAG_DESCRIPTIONS.put("artwork_type=installation", "Installation is considered to be a non-figurative sculpture, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("information=board", "An information board, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("information=post", "A generic information post.");
         TAG_DESCRIPTIONS.put("information=guidepost", "A signpost with arrows pointing to different locations.");
+        TAG_DESCRIPTIONS.put("tourism=artwork", "Certain artwork types are rendered as 3D models.");
+        TAG_DESCRIPTIONS.put("artwork_type=statue", "A three-dimensional work of art representing a person or animal, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("artwork_type=sculpture", "A non-figurative sculpture, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("artwork_type=installation", "Installation is considered to be a non-figurative sculpture, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("layer", "Objects with layer<0 are considered to be located underground -- and are not displayed");
         TAG_DESCRIPTIONS.put("material","Material for barrier or man-made object. This can influence the default color. ");
         TAG_DESCRIPTIONS.put("min_height", "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes.");
@@ -163,9 +166,6 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("building:part=steps", "Produces steps-shaped structure or a flight of stairs. Should be used together with roof:shape=skillion" );
 
         TAG_DESCRIPTIONS.put("roof:shape=apse_gabled", "A gabled roof with a semicircular apse at one end. The apex of the apse is located above the middle of the longest side of the base.");
-        TAG_DESCRIPTIONS.put("tourism=artwork", "General tag for a work of art.");
-        TAG_DESCRIPTIONS.put("artwork_type=statue", "A three-dimensional work of art representing a person or animal, rendered as a 3D model.");
-        TAG_DESCRIPTIONS.put("artwork_type=sculpture", "A three-dimensional non-figurative work of art, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("shape=star", "A star-shaped object, used for some types of memorials.");
         TAG_DESCRIPTIONS.put("roof:shape=cone", "A synonym for pyramidal. Rises to a single point. To generate a smooth cone, the building outline should be a circle with a sufficient number of nodes.");
         TAG_DESCRIPTIONS.put("roof:shape=cross_gabled" , "Two gabled roof sections at right angles. Only supported for quadrangular footprints. `roof:orientation` and `roof:direction` have no effect.");

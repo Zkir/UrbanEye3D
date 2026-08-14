@@ -58,6 +58,12 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Aug 14, 2026
+*   **Traffic Calming Support:**
+    *   **Speed Bump & Hump:** Implemented 3D visualization for `traffic_calming=bump` and `traffic_calming=hump`.
+    *   **Custom Models:** Created specialized 3D models for both types: a short, steep bump (0.8m length) and a longer, smoother hump (3.5m length), both featuring alternating black and white asphalt markings.
+    *   **Automatic Alignment:** Configured both types to automatically align perpendicular to the parent road way using the `orientation: align_with_parent` property.
+
 ### Aug 12, 2026
 *   **Railway Support:**
     *   **Buffer Stop:** Implemented 3D visualization for `railway=buffer_stop`. Created a custom low-poly model based on reference imagery (weathered wooden beam with metal supports and a signal plate).
