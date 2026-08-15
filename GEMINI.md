@@ -59,10 +59,13 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 ## Recent Accomplishments
 
 ### Aug 15, 2026
+*   **Enhanced Power Tower Support:**
+    *   **New 3D Model:** Added a specialized 3D model for solid/tubular power towers (`power_tower_solid.obj`).
+    *   **Tag-Based Selection:** Updated MapCSS logic to distinguish between lattice structures (using the framework model) and solid/tubular structures (`structure=solid` or `structure=tubular`), applying the appropriate model automatically.
 *   **Water Well Support:**
     *   **Classic Well Model:** Created a 3D model for `man_made=water_well` featuring a wooden log base, side posts, a winch, and a gable roof.
-    *   **Pump Support:** Integrated existing manual pump models; `man_made=water_well` with `pump=yes` now automatically renders as a 3D water column.
-
+    *   **Pump Support:** Integrated existing water tap model; `man_made=water_well` with `pump=yes` now automatically renders as a 3D water column.
+ 
 ### Aug 14, 2026
 *   **Traffic Calming Support:**
     *   **Speed Bump & Hump:** Implemented 3D visualization for `traffic_calming=bump` and `traffic_calming=hump`.

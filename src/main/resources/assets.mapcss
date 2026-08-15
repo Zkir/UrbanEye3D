@@ -127,9 +127,17 @@ node[emergency=fire_hydrant][fire_hydrant:type=underground] {
 }
 
 /* Power */
-node[power=tower] {
+node[power=tower],
+node[power=tower][structure=lattice] {
     model: "/models/power_tower.obj";
 }
+
+node[power=tower][structure=solid],
+node[power=tower][structure=tubular] {
+    model: "/models/power_tower_solid.obj";
+}
+
+
 
 node[power=pole] {
     model: "/models/power_pole.obj";

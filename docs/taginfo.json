@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260815T092933Z",
+  "data_updated" : "20260815T195200Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -738,6 +738,18 @@
   }, {
     "key" : "step:height",
     "description" : "Defines the height of each individual step for building:part=steps. 0.16 is used as default "
+  }, {
+    "key" : "structure",
+    "value" : "lattice",
+    "description" : "Lattice structure for power towers, typically framework of steel beams."
+  }, {
+    "key" : "structure",
+    "value" : "solid",
+    "description" : "Solid or tubular structure for power towers."
+  }, {
+    "key" : "structure",
+    "value" : "tubular",
+    "description" : "Tubular structure for power towers. Synonym for solid."
   }, {
     "key" : "surface",
     "value" : "dirt",

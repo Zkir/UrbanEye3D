@@ -328,6 +328,7 @@ The plugin provides 3D visualization for electrical power networks.
 
 - Nodes tagged with `power=tower` or `power=pole` are rendered as 3D structures.
 - **Automatic Alignment:** Supports automatically rotate to align with the direction of the connected power lines.
+- **Lattice vs Solid Structures:** The plugin distinguishes between lattice structures (`structure=lattice` or default for `power=tower`) and solid/tubular structures (`structure=solid` or `structure=tubular`), applying the appropriate 3D model for each type.
 - **Traverses (Cross-arms):** Towers are equipped with traverses of varying widths. Wires are precisely attached to the tips of these arms. On sharp turns, the traverses automatically reorient to prevent wire crossing.
 
 ## Natural Features

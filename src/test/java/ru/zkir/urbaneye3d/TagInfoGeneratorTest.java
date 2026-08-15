@@ -198,6 +198,9 @@ public class TagInfoGeneratorTest {
 
         TAG_DESCRIPTIONS.put("power=line", "A high-voltage power line, rendered with multiple sagging wires.");
         TAG_DESCRIPTIONS.put("power=minor_line", "A low-voltage or service power line, rendered with two sagging wires.");
+        TAG_DESCRIPTIONS.put("structure=lattice", "Lattice structure for power towers, typically framework of steel beams.");
+        TAG_DESCRIPTIONS.put("structure=solid", "Solid or tubular structure for power towers.");
+        TAG_DESCRIPTIONS.put("structure=tubular", "Tubular structure for power towers. Synonym for solid.");
         TAG_DESCRIPTIONS.put("power=tower", "A large lattice power tower support.");
         TAG_DESCRIPTIONS.put("power=pole", "A standard power pole support.");
 
