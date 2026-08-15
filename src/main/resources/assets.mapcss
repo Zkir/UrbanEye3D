@@ -141,6 +141,18 @@ node[amenity=drinking_water][natural!=spring] {
 	rotatable: true;
 }
 
+/* Water Well */
+node[man_made=water_well],
+node[man_made=water_well][pump=no] {
+    model: "/models/water_well.obj";
+    rotatable: true;
+}
+
+node[man_made=water_well][pump][pump!=no] {
+    model: "/models/water_column.obj";
+    rotatable: true;
+}
+
 /* Barriers */
 node[barrier=block] {
     model: "/models/barrier_block.obj";

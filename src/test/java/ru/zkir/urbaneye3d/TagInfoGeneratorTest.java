@@ -193,6 +193,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("man_made=manhole",              "A manhole cover, rendered as a tiny black dot on the 2D ground plane.");
         TAG_DESCRIPTIONS.put("man_made=tower",                "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=water_tower",          "Can be rendered as 3D object");
+        TAG_DESCRIPTIONS.put("man_made=water_well",           "A water well, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("pump=no",                       "Used with water wells to trigger a 'traditional' windlass well model.");
 
         TAG_DESCRIPTIONS.put("power=line", "A high-voltage power line, rendered with multiple sagging wires.");
         TAG_DESCRIPTIONS.put("power=minor_line", "A low-voltage or service power line, rendered with two sagging wires.");

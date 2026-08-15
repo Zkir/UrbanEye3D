@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260814T200159Z",
+  "data_updated" : "20260815T092933Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -418,6 +418,10 @@
     "value" : "water_tower",
     "description" : "Can be rendered as 3D object"
   }, {
+    "key" : "man_made",
+    "value" : "water_well",
+    "description" : "A water well, rendered as a 3D model."
+  }, {
     "key" : "material",
     "description" : "Material for barrier or man-made object. This can influence the default color. "
   }, {
@@ -510,6 +514,10 @@
     "key" : "public_transport",
     "value" : "platform",
     "description" : "A public transport platform. Rendered as a bus stop model if applicable."
+  }, {
+    "key" : "pump",
+    "value" : "no",
+    "description" : "Used with water wells to trigger a 'traditional' windlass well model."
   }, {
     "key" : "railway",
     "value" : "buffer_stop",

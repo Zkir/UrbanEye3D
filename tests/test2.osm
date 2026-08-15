@@ -338,6 +338,18 @@
   <node id='-5325351' action='modify' visible='true' lat='55.05069315055' lon='37.04337616667'>
     <tag k='traffic_calming' v='table' />
   </node>
+  <node id='-5329612' action='modify' visible='true' lat='55.05073935694' lon='37.04351597963'>
+    <tag k='man_made' v='water_well' />
+    <tag k='pump' v='manual' />
+  </node>
+  <node id='-5350570' action='modify' visible='true' lat='55.05073935694' lon='37.04354884151'>
+    <tag k='amenity' v='drinking_water' />
+    <tag k='man_made' v='water_well' />
+  </node>
+  <node id='-5379661' action='modify' visible='true' lat='55.05073901467' lon='37.04358230088'>
+    <tag k='amenity' v='drinking_water' />
+    <tag k='man_made' v='water_tap' />
+  </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />

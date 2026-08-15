@@ -70,6 +70,7 @@ public class AssetListTest {
         MASTER_ASSET_LIST.put("/models/railway_buffer_stop.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/traffic_bump.obj",       new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/traffic_hump.obj",       new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/water_well.obj",         new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
 
         // Textures
         MASTER_ASSET_LIST.put("/textures/trees/tree_000.png",

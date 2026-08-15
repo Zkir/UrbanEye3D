@@ -58,6 +58,11 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Aug 15, 2026
+*   **Water Well Support:**
+    *   **Classic Well Model:** Created a 3D model for `man_made=water_well` featuring a wooden log base, side posts, a winch, and a gable roof.
+    *   **Pump Support:** Integrated existing manual pump models; `man_made=water_well` with `pump=yes` now automatically renders as a 3D water column.
+
 ### Aug 14, 2026
 *   **Traffic Calming Support:**
     *   **Speed Bump & Hump:** Implemented 3D visualization for `traffic_calming=bump` and `traffic_calming=hump`.
