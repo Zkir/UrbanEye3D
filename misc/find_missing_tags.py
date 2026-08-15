@@ -12,8 +12,8 @@ def ignored_tags(key, value):
     tag = key + '=' + value
 
     if key.startswith("addr:") or key.startswith("source:") or key.startswith("payment:") or key.startswith('LINZ:') or\
-       key in ('source', 'source_ref', 'survey:date', 'created_by', 'place', 'operator', 'operator:wikidata', 'operator:type', 'access', 'access:delivery', 'ownership', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', 'building', \
-               'hiking', 'wheelchair','fee', 'religion', 'denotation', 'material','colour', 'tactile_paving','lamp_type','lit','bin', 'internet_access','attribution','outdoor_seating','frequency', 'office') or \
+       key in ('note', 'source', 'source_ref', 'survey:date', 'created_by', 'place', 'operator', 'operator:wikidata', 'operator:type', 'access', 'access:delivery', 'ownership', 'leaf_cycle', 'level', 'shop', 'opening_hours', 'takeaway', 'building', \
+               'hiking', 'wheelchair','fee', 'religion', 'denotation', 'material','colour', 'tactile_paving','lamp_type','lit','bin', 'internet_access','attribution','outdoor_seating','frequency', 'office','bollard') or \
        key in ('nysgissam:review', 'naptan:verified') or \
        tag in ('public_transport=stop_position', 'noexit=yes', 'highway=traffic_signals', 'highway=stop', 'highway=give_way', 'highway=motorway_junction') or \
        key in ('royal_cypher','royal_cypher:wikidata') or \
@@ -22,8 +22,8 @@ def ignored_tags(key, value):
        tag in ('bus=yes', 'foot=yes', 'foot=no', 'bicycle=yes', 'bicycle=no', 'mtb=yes', 'vehicle=no', 'motor_vehicle=yes', 'motor_vehicle=no','motor_vehicle=private', 'motorcar=yes', 'motorcar=no', 'horse=no', 'horse=yes', 'motorcycle=yes', 'motorcycle=no', 'network=lcn') or \
        key in ('crossing', 'crossing_ref') or  key.startswith('crossing:') or tag in ('highway=crossing') or \
        key in ('entrance', 'door') or \
-       tag in ('railway=switch', 'railway=level_crossing') or \
-       tag in ('barrier=kerb', 'kerb=lowered', 'kerb=flush') or \
+       tag in ('railway=switch', 'railway=level_crossing','railway=crossing') or \
+       tag in ('barrier=kerb', 'kerb=lowered', 'kerb=flush', 'kerb=raised') or \
        tag in ('ford=yes') or \
        key in ('fire_hydrant:position','fire_hydrant:diameter') or tag in ('water_source=main') or \
        tag in ('amenity=restaurant', 'amenity=bar', 'amenity=place_of_worship', 'amenity=cafe', 'amenity=school', 'amenity=fast_food', \
@@ -31,8 +31,11 @@ def ignored_tags(key, value):
        tag in ('amenity=shelter') or \
        tag in ('tourism=viewpoint') or \
        tag in ('natural=peak') or \
+       tag in ('man_made=survey_point') or \
        tag in ('drinking_water=yes', 'bottle=yes') or \
-       tag in ('waste=trash'):
+       key.startswith('recycling:') or tag in ('waste=trash') or \
+       tag in ('construction=yes') or \
+       key.startswith('light:'):
         ignored = True
 
     return ignored
@@ -127,8 +130,9 @@ def find_missing_tags():
         value = m_tag['value']
         count = m_tag['count']
         combs_str = filter_and_format_combinations(m_tag.get('combinations', []), supported_specific, supported_wildcard, highlight_missing=False)
-        wiki_link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{value})"
-        taginfo_link = f"[{count:,}](https://taginfo.openstreetmap.org/tags/{key}%3D{value})"
+        v1=value.replace(' ','%20')
+        wiki_link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{v1})"
+        taginfo_link = f"[{count:,}](https://taginfo.openstreetmap.org/tags/{key}%3D{v1})"
         lines.append(f"| {wiki_link} | {taginfo_link} | {combs_str} |")
 
     with open(output_report_path, 'w', encoding='utf-8') as f:
@@ -154,8 +158,9 @@ def find_missing_tags():
         count = s_tag['count']
         desc = s_tag['description']
         combs_str = filter_and_format_combinations(s_tag.get('combinations', []), supported_specific, supported_wildcard, highlight_missing=True)
-        wiki_link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{value})"
-        taginfo_link = f"[{count:,}](https://taginfo.openstreetmap.org/tags/{key}%3D{value})"
+        v1=value.replace(' ','%20')
+        wiki_link = f"[{key}={value}](https://wiki.openstreetmap.org/wiki/Tag:{key}%3D{v1})"
+        taginfo_link = f"[{count:,}](https://taginfo.openstreetmap.org/tags/{key}%3D{v1})"
         lines_s.append(f"| {wiki_link} | {taginfo_link} | {desc} | {combs_str} |")
 
     with open(output_supported_path, 'w', encoding='utf-8') as f:

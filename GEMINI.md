@@ -34,7 +34,12 @@
 
 ### Feature candidates
 
-1. **Support windows/facades**
+1. **New generation procedures**  We need generation procedures the following objects. Pre-made models do not fit, because the `height` tag should be respected.
+	1. Wind generator: `power=generator` + `generator:source=wind`/`generator:method=wind_turbine` - F4 supports it.
+	2. Communication towers/masts: `man_made=mast`
+	3. `man_made=flagpole`
+
+2. **Support windows/facades**
     * Buildings with windows are nice.  This feature is present in osm2world, so we also want it. 
     * There is a tag in osm for windows: [window=*](https://wiki.openstreetmap.org/wiki/Key:window).
     * We want to implement "facade" feature similar to X-plane one. https://developer.x-plane.com/article/facade-creation
@@ -47,10 +52,6 @@
     * F4 displays chimneys (`man_made=chimney`), we currently do not. To make chimneys look realistic, we need to support 'shape=frustum', like we already support 'shape=hyperboloid'. probably explicit shape=prism should be supported too.
 
 
-5. **Improve Forest Support**
-    * We have now support for `natural=wood` and `landuse=forest`, but it can be improved.
-    * What can be done: subtraction of road corridors to prevent trees from growing on highways, and considering manual trees for density calculations.
-	* We already have a plan for it: [NATURAL-WOOD.md](docs/dev/NATURAL-WOOD.md)
 
 ### Ideas for the Further Development
 
