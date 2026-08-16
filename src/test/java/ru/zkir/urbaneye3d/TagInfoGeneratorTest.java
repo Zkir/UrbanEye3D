@@ -104,6 +104,9 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("lamp_mount=bent_mast", "A street lamp with a curved (bent) mast.");
         TAG_DESCRIPTIONS.put("lamp_mount=straight_mast", "A street lamp with a standard straight mast.");
         TAG_DESCRIPTIONS.put("emergency=fire_hydrant", "A fire hydrant, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("historic=wayside_cross", "A wayside cross, rendered as a 3D model (Latin or Orthodox variant).");
+        TAG_DESCRIPTIONS.put("man_made=cross", "A cross, often rendered as a wayside cross.");
+        TAG_DESCRIPTIONS.put("denomination=orthodox", "Used with wayside crosses to select the Orthodox cross model.");
         TAG_DESCRIPTIONS.put("historic=memorial", "A memorial or monument, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("memorial=statue", "A memorial statue (personage/animal), rendered as 3D model.");
         TAG_DESCRIPTIONS.put("memorial=sculpture", "A memorial non figurative sculpture, rendered as 3D model.");
@@ -303,8 +306,16 @@ public class TagInfoGeneratorTest {
         // Assert that all described tags are actually used in the code (no obsolete tags)
         Set<String> usedKeys = usedTags.stream().map(ParsedTag::key).collect(Collectors.toSet());
         for (ParsedTag describedTag : describedTags) {
+            // Test for keys
             if(!usedKeys.contains(describedTag.key())) {
                 errorMessages.add("Tag '" + describedTag.originalKey() + "' is described in TAG_DESCRIPTIONS but its key is not used in the code.");
+            }
+            // Test for key values.
+            //TODO: this test cannot be done yet, because not all values are properly reported in code.
+            if (describedTag.value()!=null){
+               /*if(!usedTags.contains(describedTag)){
+                   errorMessages.add("Tag '" + describedTag.originalKey() + "' is described in TAG_DESCRIPTIONS but it is not used in the code.");
+               }*/
             }
         }
         assertEquals(0, errorMessages.size(), String.join("\n", errorMessages));

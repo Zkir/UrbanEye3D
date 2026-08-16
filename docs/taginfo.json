@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260815T195200Z",
+  "data_updated" : "20260816T113725Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -189,6 +189,10 @@
     "key" : "colour",
     "description" : "Specifies the color of the object, especially barrier or man-made."
   }, {
+    "key" : "denomination",
+    "value" : "orthodox",
+    "description" : "Used with wayside crosses to select the Orthodox cross model."
+  }, {
     "key" : "direction",
     "description" : "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points."
   }, {
@@ -326,6 +330,10 @@
     "value" : "memorial",
     "description" : "A memorial or monument, rendered as a 3D model."
   }, {
+    "key" : "historic",
+    "value" : "wayside_cross",
+    "description" : "A wayside cross, rendered as a 3D model (Latin or Orthodox variant)."
+  }, {
     "key" : "hyperboloid:middle_rate",
     "description" : "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width"
   }, {
@@ -405,6 +413,10 @@
     "key" : "man_made",
     "value" : "cooling_tower",
     "description" : "Can be rendered as 3D object"
+  }, {
+    "key" : "man_made",
+    "value" : "cross",
+    "description" : "A cross, often rendered as a wayside cross."
   }, {
     "key" : "man_made",
     "value" : "manhole",

@@ -295,7 +295,7 @@ public class Scene {
                         Mesh instanceMesh = mesh;
                         
                         boolean isRotatable = "true".equals(rule.properties.get("rotatable"));
-                        boolean isSnapToRoads = "yes".equals(rule.properties.get("snap_to_roads"));
+                        boolean isSnapToRoads = "true".equals(rule.properties.get("snap_to_roads"));
 
                         // Check if rotation is allowed or automatic orientation is requested
                         Double direction = null;

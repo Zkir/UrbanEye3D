@@ -53,7 +53,7 @@ node[highway=street_lamp][lamp_mount=straight_mast] {
 
 node[highway=street_lamp][lamp_mount=bent_mast] {
     model: "/models/street_lamp_bent.obj";
-	snap_to_roads: yes;
+	snap_to_roads: true;
     rotatable: true;
 }
 
@@ -64,7 +64,7 @@ node[highway=bus_stop],
 node[public_transport=platform][shelter=no],
 node[highway=bus_stop][shelter=no] {
     model: "/models/bus_stop_sign.obj";
-    snap_to_roads: yes;
+    snap_to_roads: true;
 }
 
 /* bus stop with shelter and bench*/
@@ -73,14 +73,14 @@ node[highway=bus_stop][shelter=yes],
 node[public_transport=platform][shelter=yes][bench=yes],
 node[highway=bus_stop][shelter=yes][bench=yes] {
     model: "/models/bus_stop_001.obj";
-    snap_to_roads: yes;
+    snap_to_roads: true;
 }
 
 /* bus stop with shelter but without bench*/
 node[public_transport=platform][shelter=yes][bench=no],
 node[highway=bus_stop][shelter=yes][bench=no] {
     model: "/models/bus_stop_002.obj";
-    snap_to_roads: yes;
+    snap_to_roads: true;
 }
 
 /* Tourism Information */
@@ -165,7 +165,7 @@ node[man_made=water_well][pump][pump!=no] {
 node[barrier=block] {
     model: "/models/barrier_block.obj";
     rotatable: true;
-    snap_to_roads: yes;
+    snap_to_roads: true;
 }
 
 node[barrier=bollard] {
@@ -278,6 +278,24 @@ node[railway=buffer_stop] {
     model: "/models/railway_buffer_stop.obj";
     orientation: align_with_parent;
 }
+
+/* Wayside Crosses */
+node[historic=wayside_cross],
+node[man_made=cross] {
+    model: "/models/wayside_cross_latin.obj";
+    rotatable: true;
+    scalable: true;
+	snap_to_roads: true;
+}
+
+node[historic=wayside_cross][denomination=orthodox],
+node[man_made=cross][denomination=orthodox] {
+    model: "/models/wayside_cross_orthodox.obj";
+    rotatable: true;
+    scalable: true;
+	snap_to_roads: true;
+}
+
 
 
 

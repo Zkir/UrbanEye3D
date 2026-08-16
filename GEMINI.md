@@ -59,6 +59,11 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Aug 16, 2026
+*   **Wayside Cross Support:**
+    *   **New 3D Models:** Created specialized 3D models for wayside crosses: a classic Latin cross and an Orthodox cross (with titulus and slanted suppedaneum).
+    *   **Tag Integration:** Added support for `historic=wayside_cross` and `man_made=cross`. The system automatically selects the Orthodox model when `denomination=orthodox` is present.
+
 ### Aug 15, 2026
 *   **Enhanced Power Tower Support:**
     *   **New 3D Model:** Added a specialized 3D model for solid/tubular power towers (`power_tower_solid.obj`).

@@ -299,6 +299,13 @@ The plugin visualizes various types of memorials and artworks.
 - The `memorial=*` tag defines the subtype: `statue`, `sculpture`, `bust`, `stone`, `stele`, `obelisk` or `war_memorial`.
 - The `direction` tag can be used to rotate the memorial.
 
+### Wayside Crosses
+
+- `historic=wayside_cross` or `man_made=cross`: Rendered as a 3D model.
+- **Denomination Support:** The plugin distinguishes between a classic Latin cross (default) and an Orthodox cross (selected if `denomination=orthodox` is present).
+- The `direction` tag can be used to rotate the cross.
+- **Dynamic Scaling:** Like memorials, crosses respect the `height` tag for accurate representation.
+
 ### Artworks
 
 - `tourism=artwork`: Rendered as a 3D model.
