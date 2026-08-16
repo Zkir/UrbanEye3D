@@ -83,6 +83,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("barrier=block", "A concrete rectangular block, often used to prevent vehicle access.");
         TAG_DESCRIPTIONS.put("barrier=bollard", "A sturdy, short, vertical post. Rendered as a red-and-white striped bollard.");
         TAG_DESCRIPTIONS.put("barrier=gate", "A swinging double-leaf gate. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier.");
+        TAG_DESCRIPTIONS.put("barrier=entrance", "A gap in a linear barrier without a physical gate. Creates a physical gap in the parent linear barrier.");
         TAG_DESCRIPTIONS.put("barrier=lift_gate", "A boom barrier. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier.");
         TAG_DESCRIPTIONS.put("building", "The main tag for identifying a building outline.");
         TAG_DESCRIPTIONS.put("building:part", "Identifies a part of a building, which is rendered as a separate 3D element.");
@@ -156,6 +157,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("type=building", "Members of building relation can be downloaded automatically, to prevent incomplete buildings");
 
         TAG_DESCRIPTIONS.put("width", "Width of the feature. Primarily used for barriers");
+        TAG_DESCRIPTIONS.put("maxwidth:physical", "Physical width limit of a passage or entrance. Used to define gap width in linear barriers.");
         TAG_DESCRIPTIONS.put("hyperboloid:top_rate", "Defines the relative width of the top of the structure compared to its base");
         TAG_DESCRIPTIONS.put("hyperboloid:middle_rate", "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width");
 

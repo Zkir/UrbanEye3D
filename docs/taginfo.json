@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260816T113725Z",
+  "data_updated" : "20260816T185519Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -73,6 +73,10 @@
     "key" : "barrier",
     "value" : "bollard",
     "description" : "A sturdy, short, vertical post. Rendered as a red-and-white striped bollard."
+  }, {
+    "key" : "barrier",
+    "value" : "entrance",
+    "description" : "A gap in a linear barrier without a physical gate. Creates a physical gap in the parent linear barrier."
   }, {
     "key" : "barrier",
     "value" : "gate",
@@ -436,6 +440,9 @@
   }, {
     "key" : "material",
     "description" : "Material for barrier or man-made object. This can influence the default color. "
+  }, {
+    "key" : "maxwidth:physical",
+    "description" : "Physical width limit of a passage or entrance. Used to define gap width in linear barriers."
   }, {
     "key" : "memorial",
     "value" : "bust",

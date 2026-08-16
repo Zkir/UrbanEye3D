@@ -64,6 +64,12 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   **New 3D Models:** Created specialized 3D models for wayside crosses: a classic Latin cross and an Orthodox cross (with titulus and slanted suppedaneum).
     *   **Tag Integration:** Added support for `historic=wayside_cross` and `man_made=cross`. The system automatically selects the Orthodox model when `denomination=orthodox` is present.
 
+### Aug 16, 2026
+*   **Barrier Entrance Support:**
+    *   **Simple Gaps:** Implemented support for `barrier=entrance`. These nodes now create a physical gap in the parent linear barrier (wall, fence, etc.) without rendering any 3D model, as per OSM conventions.
+    *   **Customizable Width:** The width of the gap for both entrances and gates can now be controlled using the `width` or `maxwidth:physical` tags on the node.
+    *   **Smart Defaults:** Added intelligent default widths: 1.5m for simple entrances and 3.5m for gates/lift gates when explicit tags are missing.
+
 ### Aug 15, 2026
 *   **Enhanced Power Tower Support:**
     *   **New 3D Model:** Added a specialized 3D model for solid/tubular power towers (`power_tower_solid.obj`).

@@ -350,6 +350,9 @@
     <tag k='amenity' v='drinking_water' />
     <tag k='man_made' v='water_tap' />
   </node>
+  <node id='-5420496' action='modify' visible='true' lat='55.04694851733' lon='37.05427913977'>
+    <tag k='barrier' v='entrance' />
+  </node>
   <way id='-13300' action='modify' visible='true'>
     <nd ref='-37578' />
     <nd ref='-37579' />
@@ -597,6 +600,7 @@
     <nd ref='-3744087' />
     <nd ref='-3763658' />
     <nd ref='-4327976' />
+    <nd ref='-5420496' />
     <nd ref='-3784787' />
     <nd ref='-4599682' />
     <nd ref='-4029227' />

@@ -100,11 +100,11 @@ public class Contour {
 
             Polygon polygon = (Polygon) line.buffer(width / 2, 1, BufferParameters.CAP_FLAT);
 
-            // Gaps for gates
+            // Gaps for gates and entrances
             Geometry finalGeom = polygon;
             for (int i = 0; i < way.getNodesCount(); i++) {
                 Node node = way.getNode(i);
-                if (node.hasTag("barrier", "gate") || node.hasTag("barrier", "lift_gate")) {
+                if (node.hasTag("barrier", "gate") || node.hasTag("barrier", "lift_gate") || node.hasTag("barrier", "entrance")) {
                     Point2D localPos = getNodeLocalCoords(node, center);
 
                     // Calculate direction at this node index
@@ -129,7 +129,19 @@ public class Contour {
                         double sinA = Math.sin(angle);
 
                         // We want the gap to be ALONG the barrier.
-                        double hx = 1.75; // 3.5m wide gate
+                        // For entrances, we can respect the width tag.
+                        // For gates, we MUST use a fixed width (3.5m) because the 3D models have fixed dimensions.
+                        double gapWidth;
+                        if (node.hasTag("barrier", "entrance")) {
+                            double defaultEntranceWidth = 1.5;
+                            gapWidth = OsmDataWasher.getTagD("width", node, 
+                                          OsmDataWasher.getTagD("maxwidth:physical", node, defaultEntranceWidth));
+                        } else {
+                            // barrier=gate or barrier=lift_gate
+                            gapWidth = 3.5;
+                        }
+                        
+                        double hx = gapWidth / 2.0; 
                         double hy = Math.max(hx, width * 1.5); // enough to cover the barrier width
 
                         Coordinate[] gapCoords = new Coordinate[5];
