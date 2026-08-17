@@ -7,6 +7,7 @@ import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Way;
 import ru.zkir.urbaneye3d.generators.MesherTree;
 
+import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
@@ -15,6 +16,7 @@ import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
 import ru.zkir.urbaneye3d.utils.TreeSpeciesDatabase;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -436,6 +438,134 @@ public class RenderableElement {
 
         BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, min_height, roofHeight, colour, colour, "dome", "", "", null, false, null, null);
         Mesh mesh = composeMesh(buildingRecipe);
+
+        return new RenderableElement(primitive, origin, mesh, 0, 0);
+    }
+
+    public static RenderableElement createFlagpole(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
+        final int poleSegments = 8;
+        final int flagSegments = 8;
+        final double DEFAULT_FLAGPOLE_HEIGHT = 10.0;
+
+        if (primitive.isDeleted()) return null;
+        if (isPrimitiveUnderground(primitive)) return null;
+
+        double height = getTagD("height", primitive, DEFAULT_FLAGPOLE_HEIGHT);
+        double flagHeight = Math.pow(height, 0.5) / 1.9;
+        double flagWidth = flagHeight * 1.5;
+
+
+        double estimatedPolyRadius = Math.pow(height, 0.5) / 63.0;
+        double polyRadius = getTagD("diameter", primitive, estimatedPolyRadius*2*1000)/2/1000; //NOTE: default unit for diameter tag is MILLIMETER!
+        polyRadius = Math.max(polyRadius, 0.02); // pole should not be too narrow, even if units have messed up, e.g. diameter=1
+        double finialRadius = polyRadius * 1.5;
+        double finialHeight = finialRadius * 2;
+
+        String mastColorStr = getTagStr("colour", primitive, "#C0C0C0");
+        String flagColorStr = getTagStr("flag:colour", primitive, "#AFA0A0");
+        java.awt.Color mastColor = ColorUtils.parseColor(mastColorStr);
+        java.awt.Color flagColor = ColorUtils.parseColor(flagColorStr);
+        java.awt.Color finialColor = ColorUtils.parseColor("#FFD700"); // Gold
+
+        Mesh mesh = new Mesh();
+        // Materials: 0: mast, 1: finial, 2: flag
+        mesh.materials.add(mastColor);
+        mesh.materials.add(finialColor);
+        mesh.materials.add(flagColor);
+
+        // 1. Mast
+        int[] bottomIndices = new int[poleSegments];
+        int[] topIndices = new int[poleSegments];
+        for (int i = 0; i < poleSegments; i++) {
+            double angle = (2 * Math.PI / poleSegments) * i;
+            double x = polyRadius * Math.cos(angle);
+            double y = polyRadius * Math.sin(angle);
+            bottomIndices[i] = mesh.addVertex(new Point3D(x, y, 0));
+            topIndices[i] = mesh.addVertex(new Point3D(x, y, height));
+        }
+        // Walls of the mast
+        for (int i = 0; i < poleSegments; i++) {
+            int next = (i + 1) % poleSegments;
+            mesh.addFace(new int[]{bottomIndices[i], bottomIndices[next], topIndices[next], topIndices[i]}, 0);
+        }
+        // Top cap of the mast (under the finial)
+        int[] topCap = new int[poleSegments];
+        for (int i = 0; i < poleSegments; i++) topCap[i] = topIndices[poleSegments - 1 - i];
+        mesh.addFace(topCap, 0);
+
+        // 2. Finial (A small diamond/octahedron at the top)
+        Point3D pTop = new Point3D(0, 0, height + finialHeight);
+        Point3D pBottom = new Point3D(0, 0, height);
+        int vTop = mesh.addVertex(pTop);
+        int vBottom = mesh.addVertex(pBottom);
+        int[] midRing = new int[4];
+        midRing[0] = mesh.addVertex(new Point3D(finialRadius, 0, height + finialHeight / 2.0));
+        midRing[1] = mesh.addVertex(new Point3D(0, finialRadius, height + finialHeight / 2.0));
+        midRing[2] = mesh.addVertex(new Point3D(-finialRadius, 0, height + finialHeight / 2.0));
+        midRing[3] = mesh.addVertex(new Point3D(0, -finialRadius, height + finialHeight / 2.0));
+
+        for (int i = 0; i < 4; i++) {
+            int next = (i + 1) % 4;
+            mesh.addFace(new int[]{vTop, midRing[i], midRing[next]}, 1);
+            mesh.addFace(new int[]{vBottom, midRing[next], midRing[i]}, 1);
+        }
+
+        // 3. Flag (Waving strip with thickness)
+        double windAngle = 90 * Math.PI / 180.0; // Global wind direction (same for all flags)
+        double phaseOffset = (Math.abs(primitive.getUniqueId()) % 100) / 10.0; // Random phase start for variety
+        double cosW = Math.cos(windAngle);
+        double sinW = Math.sin(windAngle);
+
+        double flagTopZ = height - 0.15; // slightly below finial
+        double flagBottomZ = flagTopZ - flagHeight;
+        double thickness = 0.01; // 1cm thick
+
+        int[] topFront = new int[flagSegments + 1];
+        int[] bottomFront = new int[flagSegments + 1];
+        int[] topBack = new int[flagSegments + 1];
+        int[] bottomBack = new int[flagSegments + 1];
+
+        for (int i = 0; i <= flagSegments; i++) {
+            double progress = (double) i / flagSegments;
+            double x = progress * flagWidth;
+            // The wave amplitude must be zero at the attachment point (x=0)
+            double damping = progress; 
+            double waveH = damping * 0.1 * flagWidth * Math.sin(phaseOffset + progress * 1.5 * Math.PI); // Horizontal wave
+            double waveV = damping * 0.04 * flagHeight * Math.sin(phaseOffset * 1.3 + progress * 2.0 * Math.PI); // Vertical wave
+            double drop = x * Math.tan(Math.toRadians(20.0)); // 20-degree downward tilt
+
+            // Surface normal to the flag (perpendicular to wind)
+            double nx = -sinW;
+            double ny = cosW;
+
+            // Front vertices
+            double fx = x * cosW - waveH * sinW + nx * (thickness / 2.0);
+            double fy = x * sinW + waveH * cosW + ny * (thickness / 2.0);
+            topFront[i] = mesh.addVertex(new Point3D(fx, fy, flagTopZ + waveV - drop));
+            bottomFront[i] = mesh.addVertex(new Point3D(fx, fy, flagBottomZ + waveV - drop));
+
+            // Back vertices
+            double bx = x * cosW - waveH * sinW - nx * (thickness / 2.0);
+            double by = x * sinW + waveH * cosW - ny * (thickness / 2.0);
+            topBack[i] = mesh.addVertex(new Point3D(bx, by, flagTopZ + waveV - drop));
+            bottomBack[i] = mesh.addVertex(new Point3D(bx, by, flagBottomZ + waveV - drop));
+        }
+
+        // Faces for the flag (watertight mesh)
+        for (int i = 0; i < flagSegments; i++) {
+            // Front face
+            mesh.addFace(new int[]{topFront[i], topFront[i + 1], bottomFront[i + 1], bottomFront[i]}, 2);
+            // Back face
+            mesh.addFace(new int[]{topBack[i], bottomBack[i], bottomBack[i + 1], topBack[i + 1]}, 2);
+            // Top edge
+            mesh.addFace(new int[]{topFront[i], topBack[i], topBack[i + 1], topFront[i + 1]}, 2);
+            // Bottom edge
+            mesh.addFace(new int[]{bottomFront[i], bottomFront[i + 1], bottomBack[i + 1], bottomBack[i]}, 2);
+        }
+        // Left edge (near mast)
+        mesh.addFace(new int[]{topFront[0], bottomFront[0], bottomBack[0], topBack[0]}, 2);
+        // Right edge (far end)
+        mesh.addFace(new int[]{topFront[flagSegments], topBack[flagSegments], bottomBack[flagSegments], bottomFront[flagSegments]}, 2);
 
         return new RenderableElement(primitive, origin, mesh, 0, 0);
     }

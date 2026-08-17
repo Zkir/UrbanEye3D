@@ -30,10 +30,13 @@ public class UrbanEye3dPlugin extends Plugin {
     public UrbanEye3dPlugin(PluginInformation info) {
         super(info);
         
-        ru.zkir.urbaneye3d.assetconfig.GeneratorRegistry.getInstance().register("ad_column", 
+        ru.zkir.urbaneye3d.assetconfig.GeneratorRegistry.getInstance().register("ad_column",
             (primitive, origin, rule, random) -> RenderableElement.createAdColumn(primitive, origin, primitive.getInterestingTags(), random)
         );
 
+        ru.zkir.urbaneye3d.assetconfig.GeneratorRegistry.getInstance().register("flagpole",
+            (primitive, origin, rule, random) -> RenderableElement.createFlagpole(primitive, origin, primitive.getInterestingTags(), random)
+        );
         OsmValidator.addTest(SpatialConsistencyChecks.class);
         OsmValidator.addTest(TagChecks.class);
         OsmValidator.addTest(OverlappingWallsCheck.class);

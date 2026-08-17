@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260816T185519Z",
+  "data_updated" : "20260817T201532Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -197,6 +197,9 @@
     "value" : "orthodox",
     "description" : "Used with wayside crosses to select the Orthodox cross model."
   }, {
+    "key" : "diameter",
+    "description" : "Used for diameter of the flagpole feature. Note that unit is millimeter!"
+  }, {
     "key" : "direction",
     "description" : "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points."
   }, {
@@ -211,6 +214,9 @@
     "key" : "fire_hydrant:type",
     "value" : "underground",
     "description" : "Underground hydrants are NOT rendered!"
+  }, {
+    "key" : "flag:colour",
+    "description" : "The color of the flag on a flagpole."
   }, {
     "key" : "genus",
     "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."
@@ -421,6 +427,10 @@
     "key" : "man_made",
     "value" : "cross",
     "description" : "A cross, often rendered as a wayside cross."
+  }, {
+    "key" : "man_made",
+    "value" : "flagpole",
+    "description" : "A flagpole rendered with a procedural mast and a waving flag."
   }, {
     "key" : "man_made",
     "value" : "manhole",

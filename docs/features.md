@@ -293,6 +293,18 @@ This section describes various standalone 3D objects rendered by the plugin.
 - `railway=buffer_stop`: Rendered using a specialized 3D model (metal supports with a horizontal wooden beam).
 - **Automatic Alignment:** Buffer stops automatically align with the railway track they are placed on.
 
+### Flagpoles
+
+- `man_made=flagpole`: Rendered as a procedural 3D flagpole with a mast, a gold finial, and a waving flag.
+- **Dynamic Sizing:** The height of the flagpole and dimensions of the flag scale according to the `height` tag (default 10m).
+- **Customizable Colors:** Supports `colour` for the mast and `flag:colour` for the flag itself.
+- **Realistic Wind:** The flag is modeled with a sine-wave displacement to simulate wind. The wind direction is pseudo-randomly determined for each flagpole.
+
+### Water Wells
+
+- `man_made=water_well`: Rendered as a traditional wooden well with side posts and a gable roof. 
+- If some value for `pump` is present (except 'no'), it is rendered as a standpipe.
+
 ## Memorials and Artworks
 
 The plugin visualizes various types of memorials and artworks.

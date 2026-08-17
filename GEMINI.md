@@ -65,6 +65,10 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   **Tag Integration:** Added support for `historic=wayside_cross` and `man_made=cross`. The system automatically selects the Orthodox model when `denomination=orthodox` is present.
 
 ### Aug 16, 2026
+*   **Flagpole Support:**
+    *   **Procedural Generator:** Implemented a new procedural generator for `man_made=flagpole`. It creates a 3D structure with an 8-sided mast, a golden diamond-shaped finial, and a waving flag.
+    *   **Wind Simulation:** The flag uses a sine-wave displacement to simulate a waving effect. Each flagpole has a pseudo-random wind direction based on its OSM ID.
+    *   **Dynamic Styling:** Supports `height` (default 10m), `colour` (for the mast), and `flag:colour` (for the flag).
 *   **Barrier Entrance Support:**
     *   **Simple Gaps:** Implemented support for `barrier=entrance`. These nodes now create a physical gap in the parent linear barrier (wall, fence, etc.) without rendering any 3D model, as per OSM conventions.
     *   **Customizable Width:** The width of the gap for both entrances and gates can now be controlled using the `width` or `maxwidth:physical` tags on the node.

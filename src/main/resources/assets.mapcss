@@ -110,6 +110,11 @@ node[advertising=column] {
     procedure: "ad_column";
 }
 
+/* Flagpole */
+node[man_made=flagpole] {
+    procedure: "flagpole";
+}
+
 /* Busket */
 node[amenity=waste_basket] {
     model: "/models/basket.obj";

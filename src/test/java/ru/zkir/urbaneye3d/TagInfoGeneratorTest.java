@@ -107,6 +107,9 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("emergency=fire_hydrant", "A fire hydrant, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("historic=wayside_cross", "A wayside cross, rendered as a 3D model (Latin or Orthodox variant).");
         TAG_DESCRIPTIONS.put("man_made=cross", "A cross, often rendered as a wayside cross.");
+        TAG_DESCRIPTIONS.put("man_made=flagpole", "A flagpole rendered with a procedural mast and a waving flag.");
+        TAG_DESCRIPTIONS.put("flag:colour", "The color of the flag on a flagpole.");
+        TAG_DESCRIPTIONS.put("diameter", "Used for diameter of the flagpole feature. Note that unit is millimeter!");
         TAG_DESCRIPTIONS.put("denomination=orthodox", "Used with wayside crosses to select the Orthodox cross model.");
         TAG_DESCRIPTIONS.put("historic=memorial", "A memorial or monument, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("memorial=statue", "A memorial statue (personage/animal), rendered as 3D model.");
@@ -526,4 +529,3 @@ public class TagInfoGeneratorTest {
         }
     }
 }
-
