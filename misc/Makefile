@@ -26,11 +26,14 @@ data/00_planet/planet-latest.osm.pbf:
 data/00_planet/planet-latest-updated.osm.pbf:  data/00_planet/planet-latest.osm.pbf	
 	osmupdate data\00_planet\planet-latest.osm.pbf data\00_planet\planet-latest-updated.osm.pbf -v --base-url=https://planet.maps.mail.ru/replication/
 
-data/05_extracts/trees.osm: data/00_planet/planet-latest-updated.osm.pbf |  data/05_extracts ## Rule to generate the source OSM file from the planet data
+data/05_extracts/trees.osm: data/00_planet/planet-latest-updated.osm.pbf |  data/05_extracts ## Rule extract tree nodes
 	osmosis --rbf data/00_planet/planet-latest-updated.osm.pbf --tf accept-nodes natural=tree --tf reject-ways --tf reject-relations --wx data/05_extracts/trees.osm
 	
-data/05_extracts/buildings.osm: data/00_planet/planet-latest-updated.osm.pbf | data/05_extracts ## Rule to generate the source OSM file from the planet data
+data/05_extracts/buildings.osm: data/00_planet/planet-latest-updated.osm.pbf | data/05_extracts ## Rule extract buildings
 	osmosis --rbf data/00_planet/planet-latest-updated.osm.pbf --tf reject-nodes --tf accept-ways building=* --tf accept-ways  building:levels=*  height=* --tf reject-ways building=yes building=no --tf reject-relations --wx data/05_extracts/buildings.osm	
+	
+data/05_extracts/flags.osm: data/00_planet/planet-latest-updated.osm.pbf |  data/05_extracts ## Rule extract flags
+	osmosis --rbf data/00_planet/planet-latest-updated.osm.pbf --tf accept-nodes man_made=flagpole --tf reject-ways --tf reject-relations --wx data/05_extracts/flags.osm	
 
 # Generic pattern rule to generate any analysis file.
 # The stem (%) will be 'species', 'genus', or 'leaf_type'.
@@ -62,7 +65,11 @@ data/15_trees_output/tree_species_invalid.md: data/10_trees/tree_species_all.csv
 
 data/15_trees_output/leaf_type_family_violations.csv: data/15_trees_output/tree_species.csv
 	python verify_leaf_types.py
-	
+
+data/25_flags_output/flag_rules.json: data/05_extracts/flags.osm
+	python analyze_flags.py
+	cmd /c "copy /b /v /y data\25_flags_output\flag_rules.json ..\src\main\resources\data\"
+
 data/20_buildings/buildings.csv: data/05_extracts/buildings.osm
 	python osm_to_csv.py --input $< --output $@ --columns $(BUILDING_COLUMNS)
 

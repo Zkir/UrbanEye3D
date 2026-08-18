@@ -1,0 +1,2751 @@
+{
+  "country": {
+    "CA": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 985
+    },
+    "AU": {
+      "colour": "blue",
+      "prob": 0.78,
+      "count": 9
+    },
+    "EU": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 3
+    }
+  },
+  "flag:name": {
+    "Vietnam": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 94
+    },
+    "Connecticut": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 22
+    },
+    "McDonald’s": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 24
+    },
+    "Canada": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 947
+    },
+    "California": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 153
+    },
+    "Illinois": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 335
+    },
+    "Chicago": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 333
+    },
+    "Florida": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 59
+    },
+    "Oregon": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 55
+    },
+    "United States;POW/MIA": {
+      "colour": "black",
+      "prob": 0.99,
+      "count": 317
+    },
+    "POW/MIA": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 170
+    },
+    "McDonald's": {
+      "colour": "red",
+      "prob": 0.94,
+      "count": 131
+    },
+    "Massachusetts": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 44
+    },
+    "Minnesota": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 24
+    },
+    "Iowa": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 18
+    },
+    "Kansas": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "West Virginia": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Nevada": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 10
+    },
+    "Nebraska": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 17
+    },
+    "Colorado": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 37
+    },
+    "North Dakota": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "South Dakota": {
+      "colour": "cyan",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Montana": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Idaho": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Wyoming": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Arkansas": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 17
+    },
+    "Maine": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Alabama": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 14
+    },
+    "Indiana": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 53
+    },
+    "Louisiana": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 39
+    },
+    "Tennessee": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 17
+    },
+    "Kentucky": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 25
+    },
+    "Vermont": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Rhode Island": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 9
+    },
+    "New York": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 60
+    },
+    "Virginia": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 64
+    },
+    "New Hampshire": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 24
+    },
+    "South Carolina": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 40
+    },
+    "Georgia": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 28
+    },
+    "Pennsylvania": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 25
+    },
+    "Delaware": {
+      "colour": "cyan",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Alaska": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Arizona": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 26
+    },
+    "New Mexico": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 22
+    },
+    "Oklahoma": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 36
+    },
+    "Utah": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 22
+    },
+    "Michigan": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 44
+    },
+    "Tropical Isle": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Wisconsin": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 48
+    },
+    "Washington": {
+      "colour": "green",
+      "prob": 0.88,
+      "count": 26
+    },
+    "pennsylvania": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Hilton": {
+      "colour": "white",
+      "prob": 0.88,
+      "count": 8
+    },
+    "illinois": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 4
+    },
+    "Marian": {
+      "colour": "blue;white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Saint Joseph": {
+      "colour": "red;white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "South Vietnam": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 73
+    },
+    "canada": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 26
+    },
+    "SM Group": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 15
+    },
+    "United States;Indiana": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 20
+    },
+    "World Organization of the Scout Movement": {
+      "colour": "purple",
+      "prob": 1.0,
+      "count": 2
+    },
+    "ca": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "United States Marine Corps": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "United States Air Force": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "University at Buffalo": {
+      "colour": "#005BBB",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Chicago": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 54
+    },
+    "Lee’s Sandwiches": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Alberta": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 27
+    },
+    "Monroe": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States Army": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "usa;POW/MIA": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Wendy’s": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "International Association of Fire Fighters": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Quebec": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Fairfield": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "ILB": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "WFBB": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Québec": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 32
+    },
+    "Drees Homes": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Christianity": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 17
+    },
+    "United States;Christianity": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 7
+    },
+    "United States;California": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 14
+    },
+    "Australia": {
+      "colour": "blue",
+      "prob": 0.83,
+      "count": 6
+    },
+    "Wilder": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "KüchenRaum": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Việt Nam": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Washington, D.C.": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 5
+    },
+    "New Jersey": {
+      "colour": "wheat",
+      "prob": 1.0,
+      "count": 23
+    },
+    "Mississippi": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Chevrolet Corvette": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Kentucky": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Subic Bay Metropolitan Authority": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Florida": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Association of Southeast Asian Nations": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 12
+    },
+    "Barnes & Noble": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "National Louis University": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Christian": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 4
+    },
+    "Navajo Nation": {
+      "colour": "tan",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Magdalo Faction": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Bandila ni Andres Bonifacio": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Bungo ni Llanera": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Single K Flag": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Katipunan Acronym in Triangle Flag": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Katipunan Acronym Flag": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Katipunan Sun with Face Flag": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "National Museum of the Philippines": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Marriott": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "City of Muntinlupa": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Quezon City": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 2
+    },
+    "City of Pasig": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Tree City USA": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Iloilo Province": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "florida": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "indiana": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Lincoln Park": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Dannebrog": {
+      "colour": "#E31836",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Illinois": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 25
+    },
+    "Riverpark Towers": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "POW-MIA": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 5
+    },
+    "Illinois;Chicago": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 4
+    },
+    "POW MIA": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 3
+    },
+    "United States;McDonald's": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 14
+    },
+    "US;POW/MIA": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 4
+    },
+    "Washington State": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "POW": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 5
+    },
+    "United States;New Hampshire": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "POWMIA": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 3
+    },
+    "McDonalds": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "New York State": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Dolton": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 4
+    },
+    "United States;South Carolina": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "pow": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Federal Bureau of Investigation": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "christian": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Flag of British Columbia": {
+      "colour": "#0047BB",
+      "prob": 1.0,
+      "count": 2
+    },
+    "UFA": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Prisoner of War": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 4
+    },
+    "United States;POW": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Michigan": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "georgia": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "United States;POW/MIA;Chicago": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "chicago": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Tree City USA": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Beehive Flag": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "usa": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;POW/MIA;Illinois": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "colorado": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Supreme Court of the Philippines": {
+      "colour": "purple",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Đảng Cộng sản Việt Nam": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 6
+    },
+    "CA": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "california": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Hilton Garden Inn": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Illinois;POW/MIA": {
+      "colour": "white;black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Firing range warning": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "quebec": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Zwemmen verboden": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Bewaakte badderszone": {
+      "colour": "red;yellow",
+      "prob": 1.0,
+      "count": 3
+    },
+    "wisconsin": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 5
+    },
+    "National League of Families POW/MIA flag": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 3
+    },
+    "United States;Virginia": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "montana": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 4
+    },
+    "PS": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Cornwall": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Budva": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;POW/MIA;Illinois;Chicago": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "alberta": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "TCB Tennis Club Buckenhof": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    }
+  },
+  "flag:wikidata": {
+    "Q131204": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 97
+    },
+    "Q752573": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 23
+    },
+    "Q64300176": {
+      "colour": "red",
+      "prob": 0.95,
+      "count": 153
+    },
+    "Q80110": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 982
+    },
+    "Q330517": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 158
+    },
+    "Q752837": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 341
+    },
+    "Q1402799": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 335
+    },
+    "Q730106": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 62
+    },
+    "Q19427": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 57
+    },
+    "Q42537;Q1463762": {
+      "colour": "black",
+      "prob": 0.99,
+      "count": 326
+    },
+    "Q1463762": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 208
+    },
+    "Q221881": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 45
+    },
+    "Q828147": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 25
+    },
+    "Q492541": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 20
+    },
+    "Q284396": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q843879": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Q752562": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 10
+    },
+    "Q734071": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 18
+    },
+    "Q492546": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 40
+    },
+    "Q837312": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q567838": {
+      "colour": "cyan",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Q633087": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 13
+    },
+    "Q736760": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Q492524": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q369833": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 19
+    },
+    "Q499127": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Q497997": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 14
+    },
+    "Q673117": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 55
+    },
+    "Q19374": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 39
+    },
+    "Q605195": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 18
+    },
+    "Q590821": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 25
+    },
+    "Q524824": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Q520966": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Q19016": {
+      "colour": "blue",
+      "prob": 0.98,
+      "count": 63
+    },
+    "Q18993": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 64
+    },
+    "Q248102": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 24
+    },
+    "Q19373": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 41
+    },
+    "Q676623": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 33
+    },
+    "Q18983": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 28
+    },
+    "Q752566": {
+      "colour": "cyan",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q156564": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 10
+    },
+    "Q632491": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 27
+    },
+    "Q642998": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 22
+    },
+    "Q258262": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 36
+    },
+    "Q736625": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 24
+    },
+    "Q285418": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 45
+    },
+    "Q63874423": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 11
+    },
+    "Q241083": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 53
+    },
+    "Q731163": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 27
+    },
+    "Q77795712": {
+      "colour": "white",
+      "prob": 0.88,
+      "count": 8
+    },
+    "Q1740429": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 73
+    },
+    "Q77783292": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q96602193": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 5
+    },
+    "Q42537;Q673117": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 20
+    },
+    "Q5456897": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q5456894": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q79678237": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 12
+    },
+    "Q42537;Q1402799": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 54
+    },
+    "Q1122078": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 29
+    },
+    "Q64840938": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q5456898": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q116986686": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q392167": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 48
+    },
+    "Q70143393": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1084035": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 24
+    },
+    "Q42537;Q1084035": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q42537;Q330517": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 15
+    },
+    "Q81676": {
+      "colour": "blue",
+      "prob": 0.88,
+      "count": 8
+    },
+    "Q80907988": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q906340": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Q6950149": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q119605": {
+      "colour": "wheat",
+      "prob": 1.0,
+      "count": 23
+    },
+    "Q301628": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Q122482": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q42537;Q590821": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q42537;Q730106": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q783490": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 12
+    },
+    "Q20020313": {
+      "colour": "tan",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q135472669": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q42537;Q100711795": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q42537;Q752837": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 26
+    },
+    "Q752837;Q1402799": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 4
+    },
+    "Q42537;Q64300176": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 15
+    },
+    "Q42537;Q285418": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q42537;Q248102": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1463762;Q42537": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 4
+    },
+    "Q42537;Q19373": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q113518795": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1402967": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q168925": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q42537;Q1463762;Q1402799": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q100711795": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Q42537;Q1463762;Q752837": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q34494": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q74052383": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q752837;Q1463762": {
+      "colour": "white;black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q126489298": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q42537;Q18993": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q130739387": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q1919103": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q42537;Q1463762;Q752837;Q1402799": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 2
+    }
+  },
+  "operator": {
+    "SM Prime Holdings": {
+      "colour": "blue",
+      "prob": 0.94,
+      "count": 16
+    },
+    "McDonald's": {
+      "colour": "red",
+      "prob": 0.81,
+      "count": 16
+    },
+    "Boy Scouts of the Philippines": {
+      "colour": "purple",
+      "prob": 1.0,
+      "count": 2
+    },
+    "University at Buffalo": {
+      "colour": "#005BBB",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Franklin Baker Company of the Philippines": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Stadt Mainz": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 12
+    },
+    "Investitionsbank des Landes Brandenburg": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 4
+    },
+    "Subic Bay Metropolitan Authority": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Municipal Government of Indang, Cavite": {
+      "colour": "red",
+      "prob": 0.86,
+      "count": 7
+    },
+    "National Museum of the Philippines": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "The Bayleaf Intramuros": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Metropolitan Bank and Trust Company": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Lungsod Quezon": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Philippine Veterans Affairs Office": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 18
+    },
+    "710th Special Operations Wing, Philippine Air Force": {
+      "colour": "blue",
+      "prob": 0.83,
+      "count": 6
+    },
+    "City Government of Manila": {
+      "colour": "red",
+      "prob": 0.86,
+      "count": 7
+    },
+    "City Government of Pasig": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Provincial Government of Iloilo": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Village of Beiseker": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "REWE": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Vlaggenparade": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Oral Roberts University": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States Postal Service": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 3
+    },
+    "McDonalds": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "The E.W. Scripps Company": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "City of Delta": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "UFA GmbH": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Landwirtschaflocation=surfacetskammer Niedersachsen": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Copper Hills High School": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Vietnam": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Makati Central Estate Association": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Supreme Court of the Philippines": {
+      "colour": "purple",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Hilton Garden Inn": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "MOD": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Hochschule Furtwangen University": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Jan-Thorsten Gluth, Gluth Systemgastronomie e.K.": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Minnesota Department of Transportation": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "City of Charleston": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Town of Groton": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Easy Fit I GmbH": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Parcs Canada": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    }
+  },
+  "subject": {
+    "Vietnam": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 97
+    },
+    "Connecticut": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 23
+    },
+    "McDonald's": {
+      "colour": "red",
+      "prob": 0.96,
+      "count": 144
+    },
+    "Canada": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 981
+    },
+    "California": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 158
+    },
+    "Illinois": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 341
+    },
+    "Chicago": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 336
+    },
+    "Florida": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 62
+    },
+    "Oregon": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 57
+    },
+    "United States;National League of POW/MIA Families": {
+      "colour": "black",
+      "prob": 0.99,
+      "count": 327
+    },
+    "National League of POW/MIA Families": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 208
+    },
+    "Massachusetts": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 45
+    },
+    "Minnesota": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 25
+    },
+    "Iowa": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 20
+    },
+    "Kansas": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "West Virginia": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Nevada": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 10
+    },
+    "Nebraska": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 18
+    },
+    "Colorado": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 40
+    },
+    "North Dakota": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 7
+    },
+    "South Dakota": {
+      "colour": "cyan",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Montana": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 13
+    },
+    "Idaho": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Wyoming": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Arkansas": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 19
+    },
+    "Maine": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Alabama": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 14
+    },
+    "Indiana": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 55
+    },
+    "Louisiana": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 39
+    },
+    "Tennessee": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 18
+    },
+    "Kentucky": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 25
+    },
+    "Vermont": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Rhode Island": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 9
+    },
+    "New York": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 62
+    },
+    "Virginia": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 64
+    },
+    "New Hampshire": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 24
+    },
+    "South Carolina": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 41
+    },
+    "Georgia": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 33
+    },
+    "Pennsylvania": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 28
+    },
+    "Delaware": {
+      "colour": "cyan",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Alaska": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 10
+    },
+    "Arizona": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 27
+    },
+    "New Mexico": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 22
+    },
+    "Oklahoma": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 36
+    },
+    "Utah": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 24
+    },
+    "Michigan": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 45
+    },
+    "Tropical Isle": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Wisconsin": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 53
+    },
+    "Washington": {
+      "colour": "green",
+      "prob": 0.9,
+      "count": 30
+    },
+    "Hilton": {
+      "colour": "white",
+      "prob": 0.88,
+      "count": 8
+    },
+    "Saint Joseph": {
+      "colour": "red",
+      "prob": 0.75,
+      "count": 8
+    },
+    "South Vietnam": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 73
+    },
+    "SM Group": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 15
+    },
+    "United States;Indiana": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 20
+    },
+    "World Organization of the Scout Movement": {
+      "colour": "purple",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States Marine Corps": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "United States Air Force": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "University at Buffalo": {
+      "colour": "#005BBB",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Chicago": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 55
+    },
+    "McDonald’s": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 12
+    },
+    "Lee’s Sandwiches": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Alberta": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 30
+    },
+    "Monroe": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States Army": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Wendy’s": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "International Association of Fire Fighters": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Québec": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 48
+    },
+    "Fairfield": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Drees Homes": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Christianity": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 24
+    },
+    "United States;Christianity": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 8
+    },
+    "United States;California": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 15
+    },
+    "Australia": {
+      "colour": "blue",
+      "prob": 0.83,
+      "count": 6
+    },
+    "Wilder": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Jesus": {
+      "colour": "gold",
+      "prob": 1.0,
+      "count": 5
+    },
+    "Washington, D.C.": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 6
+    },
+    "New Jersey": {
+      "colour": "wheat",
+      "prob": 1.0,
+      "count": 23
+    },
+    "Mississippi": {
+      "colour": "blue",
+      "prob": 0.88,
+      "count": 8
+    },
+    "Chevrolet Corvette": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Kentucky": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Subic Bay Metropolitan Authority": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "ASEAN": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Barnes & Noble": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Association of Southeast Asian Nations": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 9
+    },
+    "National Louis University": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Navajo Nation": {
+      "colour": "tan",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Magdalo Faction": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Andres Bonifacio": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Mariano Llanera": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Katipunan": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Katipunan;Republic of Biak-na-Bato": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "National Museum of the Philippines": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "City of Muntinlupa": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Quezon City": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 2
+    },
+    "City of Pasig": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Tree City USA": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Iloilo Province": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Lincoln Park": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Denmark": {
+      "colour": "#E31836",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Illinois": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 28
+    },
+    "Riverpark Towers": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Illinois;Chicago": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 4
+    },
+    "United States;McDonald's": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 14
+    },
+    "United States;Michigan": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 3
+    },
+    "United States;New Hampshire": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "National League of POW/MIA Families;United States": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 4
+    },
+    "United States;South Carolina": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Federal Bureau of Investigation": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "La Galerie": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "United States;National League of POW/MIA Families;Chicago": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Tree City USA": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Santo André": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;National League of POW/MIA Families;Illinois": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Supreme Court of the Philippines": {
+      "colour": "purple",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Đảng Cộng sản Việt Nam": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Hilton Garden Inn": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Illinois;National League of POW/MIA Families": {
+      "colour": "white;black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;Virginia": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "United States;National League of POW/MIA Families;Illinois;Chicago": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 2
+    }
+  },
+  "subject:wikidata": {
+    "Q881": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 97
+    },
+    "Q779": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 23
+    },
+    "Q38076": {
+      "colour": "red",
+      "prob": 0.96,
+      "count": 156
+    },
+    "Q16": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 981
+    },
+    "Q99": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 158
+    },
+    "Q1204": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 341
+    },
+    "Q1297": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 336
+    },
+    "Q812": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 62
+    },
+    "Q824": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 57
+    },
+    "Q30;Q6974069": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 325
+    },
+    "Q6974069": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 208
+    },
+    "Q771": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 45
+    },
+    "Q1527": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 25
+    },
+    "Q1546": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 20
+    },
+    "Q1558": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q1371": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Q1227": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 10
+    },
+    "Q1553": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 18
+    },
+    "Q1261": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 40
+    },
+    "Q1207": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q1211": {
+      "colour": "cyan",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Q1212": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 13
+    },
+    "Q1221": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Q1214": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q1612": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 19
+    },
+    "Q724": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Q173": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 14
+    },
+    "Q1415": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 55
+    },
+    "Q1588": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 39
+    },
+    "Q1509": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 18
+    },
+    "Q1603": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 25
+    },
+    "Q16551": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Q1387": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 9
+    },
+    "Q1384": {
+      "colour": "blue",
+      "prob": 0.98,
+      "count": 63
+    },
+    "Q1370": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 64
+    },
+    "Q759": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 24
+    },
+    "Q1456": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 41
+    },
+    "Q1428": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 33
+    },
+    "Q1400": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 28
+    },
+    "Q1393": {
+      "colour": "cyan",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q797": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 10
+    },
+    "Q816": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 27
+    },
+    "Q1522": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 22
+    },
+    "Q1649": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 36
+    },
+    "Q829": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 24
+    },
+    "Q1166": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 45
+    },
+    "Q1537": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 53
+    },
+    "Q1223": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 27
+    },
+    "Q598884": {
+      "colour": "white",
+      "prob": 0.88,
+      "count": 8
+    },
+    "Q128267": {
+      "colour": "red",
+      "prob": 0.75,
+      "count": 8
+    },
+    "Q180573": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 73
+    },
+    "Q761885": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q7391498": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 15
+    },
+    "Q30;Q1415": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 20
+    },
+    "Q210347": {
+      "colour": "purple",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q11218": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q11223": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q681025": {
+      "colour": "#005BBB",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q1297": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 55
+    },
+    "Q6512823": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q1951": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 29
+    },
+    "Q1018314": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q9212": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q550258": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q15220388": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Q176": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 48
+    },
+    "Q1002506": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q5043": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 24
+    },
+    "Q30;Q5043": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 8
+    },
+    "Q30;Q99": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 15
+    },
+    "Q408": {
+      "colour": "blue",
+      "prob": 0.83,
+      "count": 6
+    },
+    "Q940060": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q61": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Q1408": {
+      "colour": "wheat",
+      "prob": 1.0,
+      "count": 23
+    },
+    "Q1494": {
+      "colour": "blue",
+      "prob": 0.88,
+      "count": 8
+    },
+    "Q56166": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q1603": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q83133": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q812": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q7768": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 12
+    },
+    "Q795454": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q6974219": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1783171": {
+      "colour": "tan",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q6729984": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q313604": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q12967763": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q673018": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Q673018;Q575132": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1667156": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q17176": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1475": {
+      "colour": "yellow",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1624": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q7837537": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q13825": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1642036": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q35": {
+      "colour": "#E31836",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q1204": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 28
+    },
+    "Q1204;Q1297": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 4
+    },
+    "Q30;Q38076": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 15
+    },
+    "Q30;Q1204;Q6974069": {
+      "colour": "white;black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q1166": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q30;Q759": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q6974069;Q30": {
+      "colour": "black",
+      "prob": 1.0,
+      "count": 4
+    },
+    "Q30;Q1456": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q8333": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q6974069;Q1297": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q7837537": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 7
+    },
+    "Q191652": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q6974069;Q1204": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Q514212": {
+      "colour": "purple",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q427325": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Q36687": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1162859": {
+      "colour": "white",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1204;Q6974069": {
+      "colour": "white;black",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q1370": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q30;Q6974069;Q1204;Q1297": {
+      "colour": "black;white",
+      "prob": 1.0,
+      "count": 2
+    }
+  },
+  "brand": {
+    "McDonald’s": {
+      "colour": "red",
+      "prob": 1.0,
+      "count": 5
+    }
+  }
+}

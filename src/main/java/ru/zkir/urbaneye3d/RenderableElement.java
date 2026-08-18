@@ -9,6 +9,7 @@ import ru.zkir.urbaneye3d.generators.MesherTree;
 
 import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
+import ru.zkir.urbaneye3d.utils.FlagColorInference;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -462,7 +463,17 @@ public class RenderableElement {
         double finialHeight = finialRadius * 2;
 
         String mastColorStr = getTagStr("colour", primitive, "#C0C0C0");
-        String flagColorStr = getTagStr("flag:colour", primitive, "#AFA0A0");
+        String flagColorStr = getTagStr("flag:colour", primitive, null);
+        
+        // If explicit color is missing, try data-driven inference
+        if (flagColorStr == null) {
+            flagColorStr = FlagColorInference.getInstance().getInferredColor(primitive);
+        }
+        // If still null, use the default
+        if (flagColorStr == null) {
+            flagColorStr = "#AFA0A0";
+        }
+        
         java.awt.Color mastColor = ColorUtils.parseColor(mastColorStr);
         java.awt.Color flagColor = ColorUtils.parseColor(flagColorStr);
         java.awt.Color finialColor = ColorUtils.parseColor("#FFD700"); // Gold
