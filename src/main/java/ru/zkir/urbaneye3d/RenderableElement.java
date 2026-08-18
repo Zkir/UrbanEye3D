@@ -523,7 +523,7 @@ public class RenderableElement {
 
         // 3. Flag (Waving strip with thickness)
         double windAngle = 90 * Math.PI / 180.0; // Global wind direction (same for all flags)
-        double phaseOffset = (Math.abs(primitive.getUniqueId()) % 100) / 10.0; // Random phase start for variety
+        double phaseOffset =  random.nextDouble(10.0) ;//Math.abs(primitive.getUniqueId()) % 100) / 10.0; // Random phase start for variety
         double cosW = Math.cos(windAngle);
         double sinW = Math.sin(windAngle);
 

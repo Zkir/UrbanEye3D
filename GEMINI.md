@@ -37,7 +37,6 @@
 1. **New generation procedures**  We need generation procedures the following objects. Pre-made models do not fit, because the `height` tag should be respected.
 	1. Wind generator: `power=generator` + `generator:source=wind`/`generator:method=wind_turbine` - F4 supports it.
 	2. Communication towers/masts: `man_made=mast`
-	3. `man_made=flagpole`
 
 2. **Support windows/facades**
     * Buildings with windows are nice.  This feature is present in osm2world, so we also want it. 
@@ -59,20 +58,27 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
+### Aug 18, 2026
+*   **Flagpole Support & Smart Color Inference:**
+    *   **Procedural 3D Flagpoles:** Implemented advanced procedural generation for `man_made=flagpole`. The model features an 8-sided mast, a golden finial, and a waving flag with a natural 20-degree downward tilt.
+    *   **Advantages over Static Models:** 
+        *   **Superior Scaling:** Unlike static OBJ models, the procedural generator supports both `height` and `diameter` tags. It "grows" the mast to the exact height while maintaining proper proportions for the flag and finial—an impossible feat with simple uniform or axis-specific scaling of a 3D file.
+        *   **Dynamic Styling:** The procedural approach enables seamless multi-material coloring, respecting `colour` for the mast and `flag:colour` for the fabric.
+        *   **No Clones:** Randomized procedural generation ensures that each flagpole has a unique flutter phase, preventing repetitive "stamped" visuals and making groups of flags look dynamic and alive.
+    *   **Data-Driven Color Inference:** Developed a **Maximum Likelihood inference** that predicts flag colors based on other tags (`flag:name`, `subject`, `country`, `wikidata`). It uses a pre-calculated statistical database (`flag_rules.json`) to provide highly accurate defaults when explicit color tags are missing.
+    *   **Realistic Wind Flutter:** The flag geometry uses dual-axis sine-wave displacement with realistic damping at the mast. A uniform global wind direction ensures physical consistency across the scene, while individual phase offsets provide visual variety.
+*   **Automated Data Pipeline:**
+    *   Updated the `misc` processing pipeline to automatically extract flag color statistics from global OSM data and generate the inference rule-set used by the plugin.
+
+### Aug 17, 2026
+*   **Barrier Entrance Support:**
+    *   **Physical Gaps:** Implemented support for `barrier=entrance`. These nodes now create physical openings in linear barriers (walls, fences), improving 3D scene realism.
+    *   **Smart Width Support:** Entrances now respect `width` and `maxwidth:physical` tags for precise gap sizing. Automobile gates maintain their fixed 3.5m width to match their 3D models and prevent visual artifacts.
+
 ### Aug 16, 2026
 *   **Wayside Cross Support:**
     *   **New 3D Models:** Created specialized 3D models for wayside crosses: a classic Latin cross and an Orthodox cross (with titulus and slanted suppedaneum).
     *   **Tag Integration:** Added support for `historic=wayside_cross` and `man_made=cross`. The system automatically selects the Orthodox model when `denomination=orthodox` is present.
-
-### Aug 16, 2026
-*   **Flagpole Support:**
-    *   **Procedural Generator:** Implemented a new procedural generator for `man_made=flagpole`. It creates a 3D structure with an 8-sided mast, a golden diamond-shaped finial, and a waving flag.
-    *   **Wind Simulation:** The flag uses a sine-wave displacement to simulate a waving effect. Each flagpole has a pseudo-random wind direction based on its OSM ID.
-    *   **Dynamic Styling:** Supports `height` (default 10m), `colour` (for the mast), and `flag:colour` (for the flag).
-*   **Barrier Entrance Support:**
-    *   **Simple Gaps:** Implemented support for `barrier=entrance`. These nodes now create a physical gap in the parent linear barrier (wall, fence, etc.) without rendering any 3D model, as per OSM conventions.
-    *   **Customizable Width:** The width of the gap for both entrances and gates can now be controlled using the `width` or `maxwidth:physical` tags on the node.
-    *   **Smart Defaults:** Added intelligent default widths: 1.5m for simple entrances and 3.5m for gates/lift gates when explicit tags are missing.
 
 ### Aug 15, 2026
 *   **Enhanced Power Tower Support:**
@@ -267,6 +273,14 @@ src
 *    There is an autotest that enforces that all po files are converted to lang files and print [report of translation completeness](docs/translation-status.md). 
 *    There is still `I18n.bat`, which include calls to traditional josm toolchain. It should not be used in normal process, only in case of bugs in `ru.zkir.easytext` java solution. Note that you are on your own regarding  the installation of gettext and JOSM I18n. 
 
+
+### Data-Driven Inference
+In 3D rendering, many objects require specific attributes that are often missing in OSM for particular objects. For instance, the engine cannot render a "generic" tree; it must choose between broadleaved, needleleaved, or palm models. Usually, this choice could be made according to the `leaf_type` tag, but if it is missing, it  can be inferred from other tags (like `species`) or even from geographic location (e.g., palms are appropriate in Greece but impossible in Siberia). 
+
+To keep the JOSM plugin lightweight and maintainable, UrbanEye3D avoids the two extremes: either fragile hardcoded heuristics or heavy machine learning libraries. Instead, it utilizes a **Maximum Likelihood inference** powered by pre-calculated global OSM statistics:
+*   **Spatial Grid for Vegetation:** When explicit tags are missing, the engine uses a weighted spatial grid (`spatial_stats_5x5.json`) to predict the most likely `leaf_type` based on coordinates.
+*   **Statistical Rules for Flags:** The `FlagColorInference` system uses `flag_rules.json` to predict flag colors based on metadata like `subject`, `country`, or `wikidata`.
+The heavy statistical lifting is done offline in the Python data pipeline (See [some documentation](misc/GEMINI.md) in the `misc` folder), while the Java plugin remains simple, fast, and data-driven.
 
 ### Botanical Engine
 *   **Species Normalization:** The `TreeSpeciesDatabase` class handles the normalization of botanical names, including hybrid symbols (standardizing to '×') and cultivar formatting.

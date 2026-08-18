@@ -295,10 +295,12 @@ This section describes various standalone 3D objects rendered by the plugin.
 
 ### Flagpoles
 
-- `man_made=flagpole`: Rendered as a procedural 3D flagpole with a mast, a gold finial, and a waving flag.
-- **Dynamic Sizing:** The height of the flagpole and dimensions of the flag scale according to the `height` tag (default 10m).
-- **Customizable Colors:** Supports `colour` for the mast and `flag:colour` for the flag itself.
-- **Realistic Wind:** The flag is modeled with a sine-wave displacement to simulate wind. The wind direction is pseudo-randomly determined for each flagpole.
+- Nodes tagged with `man_made=flagpole` are rendered as a procedural 3D flagpole with a mast, a gold finial, and a waving flag.
+- You can control the height of the object via the `height` tag. Additionnaly, you can set the diameter of the mast via the `diameter` tag. Note that default unit for diameter is **millimeters**.
+- The size of the flag cloth is not directly controllable, but flag cloth is scaled non-linear to based on height for aesthetic proportions.
+- Tags `flag:colour` for the flag and `colour` for the mast are supported. Of course, just one color for national flags is a rough approximation, but still better than nothing at all.
+- To make things more fun, if `flag:colour` isn't specified, the plugin tries to determine it from other tags, such as `flag:name`, `subject`, `country`, `subject:wikidata`, and `flag:wikidata`. The correlation between these tags and flag color is determined based on existing osm data (statistics is extracted from planet.osm).
+
 
 ### Water Wells
 

@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260817T201532Z",
+  "data_updated" : "20260818T205839Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -98,6 +98,9 @@
     "value" : "stands",
     "description" : "Stands (staple/U-rack) type of bicycle parking. This is the default type in UrbanEye3D."
   }, {
+    "key" : "brand",
+    "description" : "Used to infer flag colour for man_mad=flagpole objects"
+  }, {
     "key" : "building",
     "description" : "The main tag for identifying a building outline."
   }, {
@@ -193,6 +196,9 @@
     "key" : "colour",
     "description" : "Specifies the color of the object, especially barrier or man-made."
   }, {
+    "key" : "country",
+    "description" : "Used to infer flag colour for man_mad=flagpole objects"
+  }, {
     "key" : "denomination",
     "value" : "orthodox",
     "description" : "Used with wayside crosses to select the Orthodox cross model."
@@ -217,6 +223,12 @@
   }, {
     "key" : "flag:colour",
     "description" : "The color of the flag on a flagpole."
+  }, {
+    "key" : "flag:name",
+    "description" : "Used to infer flag colour for man_mad=flagpole objects"
+  }, {
+    "key" : "flag:wikidata",
+    "description" : "Used to infer flag colour for man_mad=flagpole objects"
   }, {
     "key" : "genus",
     "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."
@@ -521,6 +533,9 @@
     "value" : "yes",
     "description" : "Used for 2D ground plane rendering"
   }, {
+    "key" : "operator",
+    "description" : "Used to infer flag colour for man_mad=flagpole objects"
+  }, {
     "key" : "place",
     "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"
   }, {
@@ -779,6 +794,12 @@
     "key" : "structure",
     "value" : "tubular",
     "description" : "Tubular structure for power towers. Synonym for solid."
+  }, {
+    "key" : "subject",
+    "description" : "Used to infer flag colour for man_mad=flagpole objects"
+  }, {
+    "key" : "subject:wikidata",
+    "description" : "Used to infer flag colour for man_mad=flagpole objects"
   }, {
     "key" : "surface",
     "value" : "dirt",

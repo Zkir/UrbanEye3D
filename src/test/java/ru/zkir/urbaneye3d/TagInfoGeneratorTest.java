@@ -242,13 +242,24 @@ public class TagInfoGeneratorTest {
         }
 
         //add values from 2D mapCSS.
-        HashSet<ParsedTag> usedTags = new HashSet<>();
-        extractTagsFromMapCSS(usedTags, "/mapcss-styles/urbaneye2d.roads.mapcss");
-        for (var usedTag: usedTags){
+        HashSet<ParsedTag> usedTagsMapCSS = new HashSet<>();
+        extractTagsFromMapCSS(usedTagsMapCSS, "/mapcss-styles/urbaneye2d.roads.mapcss");
+        for (var usedTag: usedTagsMapCSS){
             if (!TAG_DESCRIPTIONS.containsKey(usedTag.originalKey())){
                 TAG_DESCRIPTIONS.put(usedTag.originalKey(), "Used for 2D ground plane rendering" );
             }
         }
+
+        //add values for predictor tags from
+        HashSet<ParsedTag> usedTagsFlagRules = new HashSet<>();
+        extractTagsFromFlagRules(usedTagsFlagRules, "/data/flag_rules.json");
+        for (var usedTag: usedTagsFlagRules){
+            if (!TAG_DESCRIPTIONS.containsKey(usedTag.originalKey())){
+                TAG_DESCRIPTIONS.put(usedTag.originalKey(), "Used to infer flag colour for man_mad=flagpole objects" );
+            }
+        }
+
+
     }
 
     /** This list contains keys for which reporting of each particular value is not required.*/
@@ -268,6 +279,7 @@ public class TagInfoGeneratorTest {
                 .forEach(usedTags::add);
 
         extractTagsFromMapCSS(usedTags, "/assets.mapcss");
+        extractTagsFromFlagRules(usedTags, "/data/flag_rules.json");
 
         // this file is not parsed properly, because it contains too many comments, which are still fetch by RE
         //extractTagsFromMapCSS(usedTags, "/mapcss-styles/urbaneye2d.general.mapcss");
@@ -409,10 +421,28 @@ public class TagInfoGeneratorTest {
                     usedTags.add(new ParsedTag(key, value, value == null ? key : key + "=" + value));
                 }
             } else {
-                throw new IllegalStateException("/assets.mapcss not found");
+                throw new IllegalStateException(filename + " not found");
             }
         } catch (Exception e) {
-            throw new RuntimeException("Could not parse assets.mapcss for TagInfo", e);
+            throw new RuntimeException("Could not parse " + filename + " for TagInfo", e);
+        }
+    }
+
+    private void extractTagsFromFlagRules(Set<ParsedTag> usedTags, String filename) {
+        try (InputStream is = getClass().getResourceAsStream(filename)) {
+            if (is != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode root = mapper.readTree(is);
+                Iterator<String> fieldNames = root.fieldNames();
+                while (fieldNames.hasNext()) {
+                    String predictorTag = fieldNames.next();
+                    usedTags.add(new ParsedTag(predictorTag, null, predictorTag));
+                }
+            } else {
+                throw new IllegalStateException(filename + " not found");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Could not parse " + filename + " for TagInfo", e);
         }
     }
 
