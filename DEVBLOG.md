@@ -1,6 +1,14 @@
 # Development History
 
-## Nov 21, 2026
+### Nov 10, 2026
+* Chimneys (`man_made=chimney`) now emit animated smoke: a soft plume of particles rises from the stack top, expanding and gradually fading out.
+Smoke is animated entirely on the GPU (vertex shader), so it costs almost nothing in performance even with many chimneys in the scene.
+Animations are turned on and off with the new "Enable animation" checkbox in the 3D viewer settings. <br />
+![smoke](docs/images/smoke.png)
+
+## Version 2.9.3 (Nov 22, 2026)
+
+### Nov 21, 2026
 
 * The algorithm for the double-sloped roofs (`roof:shape=quadruple_saltbox` and `mansard`) has been corrected.
     * **The problem:** we want the lower tier of such a roof to be built with a fixed slope, and with a fixed slope not every roof height is attainable —
@@ -11,13 +19,13 @@
       for roof contruction purposes we take exactly it. The result is that up to a certain roof height — which depends on the width of the base — the lower tier is built with a fixed 67.5° slope, and past that height the whole roof is scaled up instead: the roof gets steeper, but the height is not limited anymore,
       and the upper tier is always constructed.
 
-## Nov 20, 2026
+### Nov 20, 2026
 
 * Fixed a bug where a building outline was rendered as a massing model covering its own parts, when those parts (incorrectly, of course)
   are members of two `type=building` relations with different outlines. A building part cannot have more than one parent building,
   so in this case the relations are not taken into account at all and the geometric check is performed. The validator acts the same way.
 
-## Nov 19, 2026
+### Nov 19, 2026
 
 * The plugin now speaks Spanish: the 3D window dialogs, the settings panel, the actions with their keyboard shortcuts, and the messages of the built-in
   validator are shown in Spanish (`es`) for users whose JOSM works in Spanish.
@@ -28,7 +36,7 @@
 
 ## Version 2.9.2 (Nov 16, 2026)
 
-## Nov 15, 2026
+### Nov 15, 2026
 
 * The report of this project on [taginfo](https://taginfo.openstreetmap.org/projects/urbaneye3d#tags) has been updated substantially.
   Such reports help OSM users and editors understand which tags a project uses, and roughly how it uses them.
@@ -41,7 +49,6 @@
 
 * Buildings tagged `roof:shape=double_gabled` now get a pitched roof instead of a flat one: such a roof is rendered like an ordinary `gabled` roof. 
 It's not a full support for the `roof:shape=double_gabled` tag, but better then nothing. The `roof:direction` tag does not influence it, because the meaning of that tag for such roof is not defined.
-
 
 ## Version 2.9.1 (Nov 10, 2026)
 

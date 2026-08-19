@@ -33,6 +33,10 @@ public class UrbanEye3dPlugin extends Plugin {
     public UrbanEye3dPlugin(PluginInformation info) {
         super(info);
 
+        ru.zkir.urbaneye3d.assetconfig.GeneratorRegistry.getInstance().register("fountain",
+            ru.zkir.urbaneye3d.meshers.custom.MesherFountain::generate
+        );
+
         OsmValidator.addTest(SpatialConsistencyChecks.class);
         OsmValidator.addTest(TagChecks.class);
         OsmValidator.addTest(OverlappingWallsCheck.class);

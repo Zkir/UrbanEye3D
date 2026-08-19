@@ -9,6 +9,7 @@ import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.meshers.s3db.RoofShapes;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class RenderableElement {
     public final double direction; // mesh can be rotated.
     public final double zOffset; //mesh can be shifted up, due to min_height tag.
     private final Mesh mesh;
+    public final List<Mesh> subMeshes = new ArrayList<>();
     public boolean isSelected;
 
 
@@ -479,6 +481,13 @@ public class RenderableElement {
 
     public Mesh getMesh() {
         return this.mesh;
+    }
+
+    public List<Mesh> getMeshes() {
+        List<Mesh> all = new ArrayList<>();
+        all.add(mesh);
+        all.addAll(subMeshes);
+        return all;
     }
 	
     public static Mesh composeMesh(BuildingRecipe buildingRecipe){

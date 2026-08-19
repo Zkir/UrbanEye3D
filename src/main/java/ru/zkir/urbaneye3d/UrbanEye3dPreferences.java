@@ -25,6 +25,7 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
     private JCheckBox downloadIncompleteMultipolygonsCheckBox;
     private JCheckBox showStatsCheckBox;
     private JCheckBox useSatelliteCheckBox;
+    private JCheckBox enableAnimationCheckBox;
     private JSlider forestDensitySlider;
     private JSlider msaaSlider;
 
@@ -105,7 +106,13 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
         msaaSlider.setToolTipText(tr("Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."));
         panel.add(msaaSlider, gbc);
 
-        gbc.gridy = 10; 
+        gbc.gridy = 10;
+        enableAnimationCheckBox = new JCheckBox(tr("Enable animation (experimental)"));
+        enableAnimationCheckBox.setSelected(Config.getPref().getBoolean("urbaneye3d.animation.enabled", false));
+        enableAnimationCheckBox.setToolTipText(tr("If checked, dynamic objects like smoke and fountains will be animated. This improves realism but increases CPU/GPU usage."));
+        panel.add(enableAnimationCheckBox, gbc);
+
+        gbc.gridy = 11; 
         gbc.weighty = 1.0; // This component takes all remaining vertical space
         gbc.fill = GridBagConstraints.BOTH; // Fill both horizontally and vertically
         panel.add(new JPanel(), gbc); // Add an empty JPanel as glue
@@ -140,9 +147,13 @@ public class UrbanEye3dPreferences implements TabPreferenceSetting {
                 restartRequired = true;
             }
         }
+        if (enableAnimationCheckBox != null) {
+            Config.getPref().putBoolean("urbaneye3d.animation.enabled", enableAnimationCheckBox.isSelected());
+        }
         // Force a redraw of the 3D view to apply changes immediately
         DialogWindow3D dialog = UrbanEye3dPlugin.get3DWindow();
         if (dialog != null) {
+            dialog.updateAnimationTimer();
             dialog.requestSceneUpdate(null);
         }
         return restartRequired;
