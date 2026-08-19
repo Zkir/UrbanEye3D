@@ -9,6 +9,7 @@ import org.locationtech.jts.geom.prep.PreparedGeometry;
 import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
 import ru.zkir.urbaneye3d.utils.*;
 import ru.zkir.urbaneye3d.utils.Contour;
+import ru.zkir.urbaneye3d.meshers.custom.MesherChimney;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.ObjImporter;
 import ru.zkir.urbaneye3d.utils.Point2D;
@@ -323,8 +324,8 @@ public class Scene {
                 }
 
                 Mesh mesh = null;
-                if (rule.properties.containsKey("procedure")) {
-                    String procedure = rule.properties.get("procedure");
+                String procedure = rule.properties.get("procedure");
+                if (procedure != null) {
 
                     ProceduralGenerator generator = GeneratorRegistry.getInstance().get(procedure);
                     if (generator == null) {
@@ -474,6 +475,10 @@ public class Scene {
 
 
                 if (element != null) {
+                    if ("chimney".equals(procedure)) {
+                        // Attach GPU smoke particles as a submesh (see MesherChimney.createSmokeMesh)
+                        element.subMeshes.add(MesherChimney.createSmokeMesh(instanceMesh.getMaxBounds().z, new SplittableRandom(node.getId())));
+                    }
                     newElements.add(element);
                 }
             }

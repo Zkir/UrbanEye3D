@@ -23,6 +23,7 @@ import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.utils.GeometryUtils;
+import ru.zkir.urbaneye3d.utils.ShaderManager;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -44,6 +45,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     public boolean isWireframeMode;
     public boolean isFakeAOEnabled;
     public boolean isStatsEnabled;
+
+    private final long startTimeMillis = System.currentTimeMillis();
 
     // Frame time statistics
     private final long[] frameTimes = new long[60];
@@ -236,6 +239,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     public void dispose(GLAutoDrawable glAutoDrawable) {
         GL2 gl = glAutoDrawable.getGL().getGL2();
         TextureManager.getInstance().disposeAll(gl);
+        ShaderManager.getInstance().disposeAll(gl);
         textRenderer = null;
     }
 
@@ -401,61 +405,18 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             // --- Render All Elements (Buildings, Trees, etc.) ---
             double screenHeight = glAutoDrawable.getSurfaceHeight();
+            
+            // Pass 1: Opaque and Hard-Transparent (Trees, etc.)
             for (RenderableElement element : scene.renderableElements) {
-                if (visibleArea != null && !visibleArea.contains(element.origin)) {
-                    continue;
-                }
-
-                // Check distance visibility
-                double dxMap = element.origin.lon() - mapCenter.lon();
-                double dyMap = element.origin.lat() - mapCenter.lat();
-                double transX = dxMap * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
-                double transY = dyMap * 111320.0;
-                double transZ = element.zOffset;
-
-                // Real 3D distance from the camera eye
-                double distToEye = Math.sqrt(
-                    Math.pow(transX - eyeX, 2) +
-                    Math.pow(transY - eyeY, 2) +
-                    Math.pow(transZ - eyeZ, 2)
-                );
-
-                // --- Pixel-based Culling ---
-                // Projected pixel area formula: (AreaMeters * ScreenHeight^2) / (Dist^2 * fovFactor^2)
-                double pixelArea = (element.physicalArea * screenHeight * screenHeight) / (distToEye * distToEye * FOV_FACTOR * FOV_FACTOR);
-
-                if (pixelArea < 5.0) {
-                    continue;
-                }
-
-                Mesh mesh = element.getMesh();
-                if (mesh == null) continue;
-
-                Point3D minB = mesh.getMinBounds();
-                Point3D maxB = mesh.getMaxBounds();
-
-                if (!isBoxInFrustum(frustum, minB.x + transX, minB.y + transY, minB.z+transZ, maxB.x + transX, maxB.y + transY, maxB.z+transZ)) {
-                    continue;
-                }
-
-                gl.glPushMatrix();
-                gl.glTranslated(transX, transY, transZ);
-
-                if (element.getMesh().textureName != null) {
-                    // It's a textured object (like a tree)
-                    Texture texture = TextureManager.getInstance().get(gl, element.getMesh().textureName);
-                    if (texture != null) {
-                        drawMesh(gl, mesh, element.isSelected,  texture);
-                    }
-                } else {
-                    // It's a colored object (like a building)
-                    drawMesh(gl, mesh, element.isSelected,null);
-                }
-                objectCount += 1;
-                faceCount += mesh.faces.size();
-
-                gl.glPopMatrix();
+                renderElement(gl, element, mapCenter, eyeX, eyeY, eyeZ, screenHeight, frustum, false);
             }
+
+            // Pass 2: Soft-Transparent (Smoke, Water, etc.)
+            gl.glDepthMask(false);
+            for (RenderableElement element : scene.renderableElements) {
+                renderElement(gl, element, mapCenter, eyeX, eyeY, eyeZ, screenHeight, frustum, true);
+            }
+            gl.glDepthMask(true);
         }
 
         // --- Render Wires (Power Lines) ---
@@ -582,9 +543,94 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         }
     }
 
+    private void renderElement(GL2 gl, RenderableElement element, LatLon mapCenter, double eyeX, double eyeY, double eyeZ, double screenHeight, double[][] frustum, boolean transparentPass) {
+        // Visible area check
+        Bounds visibleArea = this.scene.getVisibleArea();
+        if (visibleArea != null && !visibleArea.contains(element.origin)) {
+            return;
+        }
+
+        // Check distance visibility
+        double dxMap = element.origin.lon() - mapCenter.lon();
+        double dyMap = element.origin.lat() - mapCenter.lat();
+        double transX = dxMap * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+        double transY = dyMap * 111320.0;
+        double transZ = element.zOffset;
+
+        // Real 3D distance from the camera eye
+        double distToEye = Math.sqrt(
+                Math.pow(transX - eyeX, 2) +
+                Math.pow(transY - eyeY, 2) +
+                Math.pow(transZ - eyeZ, 2)
+        );
+
+        // --- Pixel-based Culling ---
+        double pixelArea = (element.physicalArea * screenHeight * screenHeight) / (distToEye * distToEye * FOV_FACTOR * FOV_FACTOR);
+        if (pixelArea < 5.0) {
+            return;
+        }
+
+        Mesh elementMesh = element.getMesh();
+        if (elementMesh == null) return;
+
+        Point3D minB = elementMesh.getMinBounds();
+        Point3D maxB = elementMesh.getMaxBounds();
+        if (!isBoxInFrustum(frustum, minB.x + transX, minB.y + transY, minB.z+transZ, maxB.x + transX, maxB.y + transY, maxB.z+transZ)) {
+            return;
+        }
+
+        boolean hasMatchingMeshes = false;
+        for (Mesh mesh : element.getMeshes()) {
+            boolean isMeshTransparent = (mesh.shaderName != null);
+            if (isMeshTransparent == transparentPass) {
+                hasMatchingMeshes = true;
+                break;
+            }
+        }
+        if (!hasMatchingMeshes) return;
+
+        gl.glPushMatrix();
+        gl.glTranslated(transX, transY, transZ);
+
+        for (Mesh mesh : element.getMeshes()) {
+            boolean isMeshTransparent = (mesh.shaderName != null);
+            if (isMeshTransparent != transparentPass) continue;
+
+            if (mesh.textureName != null) {
+                Texture texture = TextureManager.getInstance().get(gl, mesh.textureName);
+                if (texture != null) {
+                    drawMesh(gl, mesh, element.isSelected, texture);
+                }
+            } else {
+                drawMesh(gl, mesh, element.isSelected, null);
+            }
+        }
+        gl.glPopMatrix();
+    }
+
     private void drawMesh(GL2 gl, Mesh mesh, boolean isSelected, Texture texture){
         double maxHeightForAO = mesh.getMaxBounds().z;
         double minHeightForAO = mesh.getMinBounds().z;
+
+        boolean animationEnabled = Config.getPref().getBoolean("urbaneye3d.animation.enabled", false);
+        int shaderProgram = 0;
+        if (animationEnabled && mesh.shaderName != null) {
+            shaderProgram = ShaderManager.getInstance().getProgram(gl, mesh.shaderName);
+        }
+
+        if (shaderProgram != 0) {
+            gl.glUseProgram(shaderProgram);
+            int timeLoc = gl.glGetUniformLocation(shaderProgram, "u_time");
+            if (timeLoc != -1) {
+                float u_time = (System.currentTimeMillis() - startTimeMillis) / 1000.0f;
+                gl.glUniform1f(timeLoc, u_time);
+            }
+            int texLoc = gl.glGetUniformLocation(shaderProgram, "u_texture");
+            if (texLoc != -1) {
+                gl.glUniform1i(texLoc, 0); // Use texture unit 0
+            }
+        }
+
         // Draw all faces
         for(int i=0; i<mesh.faces.size(); i++){
             var face = mesh.faces.get(i);
@@ -592,16 +638,29 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             if (faceUV != null && texture != null && !isWireframeMode) {
                 // It's a textured face
-                drawPolygonUV(gl, face, faceUV,  mesh.verts, mesh.uvs, texture, isSelected);
+                Color color = null;
+                int matIdx = mesh.faceMaterials.get(i);
+                if (matIdx >= 0 && matIdx < mesh.materials.size()) {
+                    color = mesh.materials.get(matIdx);
+                }
+                drawPolygonUV(gl, face, faceUV,  mesh.verts, mesh.uvs, texture, isSelected, color);
                 //TODO: empty ground tile should be rendered rather as wireframe.
             } else {
                 // It's a colored face
-                var color = mesh.materials.get(mesh.faceMaterials.get(i));
+                Color color = null;
+                int matIdx = mesh.faceMaterials.get(i);
+                if (matIdx >= 0 && matIdx < mesh.materials.size()) {
+                    color = mesh.materials.get(matIdx);
+                }
                 if (color == null){
                     color = Color.decode("#f1eee8");
                 }
                 drawPolygon(gl, face, mesh.verts, color, isSelected, maxHeightForAO, minHeightForAO);
             }
+        }
+
+        if (shaderProgram != 0) {
+            gl.glUseProgram(0);
         }
     }
 
@@ -619,7 +678,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     }
 
-    private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture, boolean isSelected ) {
+    private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture, boolean isSelected, Color color ) {
 
         if (face.length!=4){
             throw new RuntimeException("Only quads are supported currently for textured faces");
@@ -632,11 +691,22 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         texture.bind(gl);
         gl.glEnable(GL2.GL_TEXTURE_2D);
-        gl.glColor4d(1.0, 1.0, 1.0, 1.0);
+        
+        if (color != null) {
+            gl.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f);
+        } else {
+            gl.glColor4d(1.0, 1.0, 1.0, 1.0);
+        }
 
         // Enable alpha testing to handle transparency in tree textures
-        gl.glEnable(GL2.GL_ALPHA_TEST);
-        gl.glAlphaFunc(GL2.GL_GREATER, 0.5f); // Discard fragments with alpha <= 0.5
+        // However, if we use a shader (like smoke/fountain), we usually want smooth blending, so we disable testing.
+        int[] currentProgram = new int[1];
+        gl.glGetIntegerv(GL2.GL_CURRENT_PROGRAM, currentProgram, 0);
+        boolean useAlphaTest = (currentProgram[0] == 0);
+        if (useAlphaTest) {
+            gl.glEnable(GL2.GL_ALPHA_TEST);
+            gl.glAlphaFunc(GL2.GL_GREATER, 0.5f); // Discard fragments with alpha <= 0.5
+        }
 
         gl.glBegin(GL2.GL_QUADS);
         for (int i=0; i<face.length; i++){
@@ -647,7 +717,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         }
         gl.glEnd();
         // Disable states
-        gl.glDisable(GL2.GL_ALPHA_TEST);
+        if (useAlphaTest) {
+            gl.glDisable(GL2.GL_ALPHA_TEST);
+        }
         gl.glDisable(GL2.GL_TEXTURE_2D);
     }
 

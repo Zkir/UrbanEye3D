@@ -77,6 +77,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("backrest=yes", "Used in combination with amenity=bench to signify whether the bench has a backrest ");
         TAG_DESCRIPTIONS.put("amenity=waste_basket", "A waste basket, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("amenity=bicycle_parking", "A bicycle parking, rendered as a 3D model.");
+        TAG_DESCRIPTIONS.put("amenity=fountain", "A fountain, rendered with animated procedural water jets.");
         TAG_DESCRIPTIONS.put("bicycle_parking=stands", "Stands (staple/U-rack) type of bicycle parking. This is the default type in UrbanEye3D.");
         TAG_DESCRIPTIONS.put("bicycle_parking=floor", "Since this is just a piece of ground without any rack/stand, such bicycle parkings are EXCLUDED from 3D rendering.");
         TAG_DESCRIPTIONS.put("leisure=picnic_table", "A picnic table, rendered as a 3D model.");

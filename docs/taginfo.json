@@ -28,6 +28,10 @@
     "description" : "A drinking water point, rendered as a 3D model (water column)."
   }, {
     "key" : "amenity",
+    "value" : "fountain",
+    "description" : "A fountain, rendered with animated procedural water jets."
+  }, {
+    "key" : "amenity",
     "value" : "recycling",
     "description" : "A recycling point. Rendered as a 3D container model."
   }, {
