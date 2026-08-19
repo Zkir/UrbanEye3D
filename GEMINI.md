@@ -63,6 +63,14 @@ See: [IDEAS.md](docs/dev/IDEAS.md)
     *   Point chimneys feature a 12-sided circular base and an automatic 50% tapering at the top, providing a realistic industrial look.
     *   Both point and polygon chimneys respect the `shape` tag (`frustum`, `hyperboloid`, `prism`), matching polygon behavior.
 
+### Aug 20, 2026
+*   **Animation System & Special Effects:**
+    *   **Real-time Animation Loop:** Introduced a high-performance repaint timer (30 FPS) controlled via a new "Enable animation" setting. This transitions the renderer from a static viewer to a dynamic 3D engine.
+    *   **GLSL Shader Infrastructure:** Implemented `ShaderManager` for dynamic loading and compilation of vertex and fragment shaders. This enables modern GPU-based effects while maintaining compatibility with the existing fixed-function pipeline.
+    *   **Animated Fountains:** Added support for `amenity=fountain` using a procedural geometry generator and a **UV-scrolling shader**. This creates the illusion of continuous water flow with minimal performance impact.
+    *   **GPU-Powered Smoke Particles:** Implemented a particle system for `man_made=chimney`. Instead of heavy CPU calculations, smoke quads are animated directly on the GPU using a vertex shader. This includes realistic upward motion, expansion (scaling), and smooth alpha fading.
+    *   **Multi-Mesh Rendering:** Refactored `RenderableElement` to support multiple meshes per OSM object. This allows combining static structures (chimney stacks) with dynamic effects (smoke) within a single logical element.
+
 ### Aug 18, 2026
 *   **Flagpole Support & Smart Color Inference:**
     *   **Procedural 3D Flagpoles:** Implemented advanced procedural generation for `man_made=flagpole`. The model features an 8-sided mast, a golden finial, and a waving flag with a natural 20-degree downward tilt.

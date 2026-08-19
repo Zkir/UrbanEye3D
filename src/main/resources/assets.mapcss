@@ -115,6 +115,11 @@ node[man_made=flagpole] {
     procedure: "flagpole";
 }	
 
+/* Fountain */
+node[amenity=fountain] {
+    procedure: "fountain";
+}
+
 /* Chimney */
 node[man_made=chimney] {
     procedure: "chimney";

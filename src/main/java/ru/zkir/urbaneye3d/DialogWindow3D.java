@@ -50,6 +50,7 @@ public class DialogWindow3D extends ToggleDialog
     private boolean isDestroyed = false;
     private final ExecutorService sceneUpdateExecutor = Executors.newSingleThreadExecutor();
     private Future<?> pendingSceneUpdate;
+    private Timer animationTimer;
 
     //private long lastDataChangedTimestamp = 0; //TODO: remove when no longer needed
 
@@ -115,6 +116,26 @@ public class DialogWindow3D extends ToggleDialog
 
         updateListenedLayer();
         requestSceneUpdate(null);
+        updateAnimationTimer();
+    }
+
+    public void updateAnimationTimer() {
+        boolean enabled = Config.getPref().getBoolean("urbaneye3d.animation.enabled", false);
+        if (enabled) {
+            if (animationTimer == null) {
+                animationTimer = new Timer(33, e -> {
+                    if (this.isVisible() && !this.isCollapsed && renderer3D.isShowing() && renderer3D.isValid()) {
+                        renderer3D.repaint();
+                    }
+                });
+                animationTimer.start();
+            }
+        } else {
+            if (animationTimer != null) {
+                animationTimer.stop();
+                animationTimer = null;
+            }
+        }
     }
 
     @Override
@@ -126,6 +147,9 @@ public class DialogWindow3D extends ToggleDialog
     public void destroy() {
         if(isDestroyed){
             return;
+        }
+        if (animationTimer != null) {
+            animationTimer.stop();
         }
         sceneUpdateExecutor.shutdownNow();
         NavigatableComponent.removeZoomChangeListener(this);

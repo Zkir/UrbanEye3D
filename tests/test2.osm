@@ -368,9 +368,16 @@
     <tag k='man_made' v='flagpole' />
     <tag k='shape' v='frustum' />
   </node>
-  <node id='-5515045' action='modify' visible='true' lat='55.05102789145' lon='37.04311924652'>
+  <node id='-5515045' action='modify' visible='true' lat='55.05097655101' lon='37.04029790475'>
     <tag k='diameter' v='1000' />
     <tag k='man_made' v='chimney' />
+  </node>
+  <node id='-5542900' action='modify' visible='true' lat='55.05091563081' lon='37.04322898228' />
+  <node id='-5549817' action='modify' visible='true' lat='55.05091251078' lon='37.04325636332' />
+  <node id='-5556734' action='modify' visible='true' lat='55.0508968256' lon='37.04325091681' />
+  <node id='-5563657' action='modify' visible='true' lat='55.05089994562' lon='37.04322353577' />
+  <node id='-5674447' action='modify' visible='true' lat='55.05088824528' lon='37.04306905746'>
+    <tag k='amenity' v='fountain' />
   </node>
   <way id='-13717' action='modify' visible='true'>
     <nd ref='-5438022' />
@@ -629,6 +636,14 @@
     <nd ref='-5438171' />
     <nd ref='-5438163' />
     <tag k='barrier' v='fence' />
+  </way>
+  <way id='-13770' action='modify' visible='true'>
+    <nd ref='-5542900' />
+    <nd ref='-5549817' />
+    <nd ref='-5556734' />
+    <nd ref='-5563657' />
+    <nd ref='-5542900' />
+    <tag k='man_made' v='chimney' />
   </way>
   <relation id='-2799' action='modify' visible='true'>
     <member type='way' ref='-13717' role='outer' />

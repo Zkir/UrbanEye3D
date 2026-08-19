@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260819T205936Z",
+  "data_updated" : "20260819T221337Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -26,6 +26,10 @@
     "key" : "amenity",
     "value" : "drinking_water",
     "description" : "A drinking water point, rendered as a 3D model (water column)."
+  }, {
+    "key" : "amenity",
+    "value" : "fountain",
+    "description" : "A fountain, rendered with animated procedural water jets."
   }, {
     "key" : "amenity",
     "value" : "recycling",

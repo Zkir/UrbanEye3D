@@ -45,6 +45,7 @@ public class RenderableElement {
     public final double direction; // mesh can be rotated.
     public final double zOffset; //mesh can be shifted up, due to min_height tag.
     private final Mesh mesh;
+    public final List<Mesh> subMeshes = new ArrayList<>();
     public boolean isSelected;
 
 
@@ -625,7 +626,43 @@ public class RenderableElement {
         BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, min_height, 0.1, colour, colour, buildingShape, "", "", null, false, topRate, middleRate);
         Mesh mesh = composeMesh(buildingRecipe);
 
-        return new RenderableElement(primitive, origin, mesh, 0,0);
+        RenderableElement element = new RenderableElement(primitive, origin, mesh, 0,0);
+
+        // Add smoke particles
+        Mesh smokeMesh = new Mesh();
+        smokeMesh.textureName = "/textures/smoke.png";
+        smokeMesh.shaderName = "smoke";
+
+        int numParticles = 15;
+        for (int i = 0; i < numParticles; i++) {
+            // Add jitter to phase to break periodic spawning
+            double phase = ((double) i + random.nextDouble()) / numParticles;
+            double size = 3.0 + random.nextDouble() * 4.0; // Larger smoke clouds
+            
+            // We use UV coordinates for the particle quad
+            int uv00 = smokeMesh.addUV(0, 0);
+            int uv10 = smokeMesh.addUV(1, 0);
+            int uv11 = smokeMesh.addUV(1, 1);
+            int uv01 = smokeMesh.addUV(0, 1);
+            int[] texIndices = {uv00, uv10, uv11, uv01};
+
+            // We use glColor to pass extra data: R=phase, G=size, B=random_offset
+            Color particleData = new Color((float)phase, (float)Math.min(1.0, size/10.0), (float)random.nextDouble());
+            int matIdx = smokeMesh.materials.size();
+            smokeMesh.materials.add(particleData);
+
+            double hs = size / 2.0;
+            int v0 = smokeMesh.addVertex(new Point3D(-hs, -hs, height));
+            int v1 = smokeMesh.addVertex(new Point3D( hs, -hs, height));
+            int v2 = smokeMesh.addVertex(new Point3D( hs,  hs, height));
+            int v3 = smokeMesh.addVertex(new Point3D(-hs,  hs, height));
+
+            smokeMesh.addFace(new int[]{v0, v1, v2, v3}, matIdx);
+            smokeMesh.faceUVs.set(smokeMesh.faceUVs.size()-1, texIndices);
+        }
+        element.subMeshes.add(smokeMesh);
+
+        return element;
     }
 
 
@@ -701,6 +738,13 @@ public class RenderableElement {
 
     public Mesh getMesh() {
         return this.mesh;
+    }
+
+    public List<Mesh> getMeshes() {
+        List<Mesh> all = new ArrayList<>();
+        all.add(mesh);
+        all.addAll(subMeshes);
+        return all;
     }
 	
     private static Mesh composeMesh(BuildingRecipe buildingRecipe){

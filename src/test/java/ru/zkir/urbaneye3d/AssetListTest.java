@@ -87,6 +87,12 @@ public class AssetListTest {
 
         MASTER_ASSET_LIST.put("/textures/bushes/rose_bush.png",
                 new AssetInfo("https://pngtree.com/freepng/blooming-red-rose-bush_19859191.html?sol=downref&id=bef", "Pngtree", "Pngtree Free"));
+
+        MASTER_ASSET_LIST.put("/textures/smoke.png",
+                new AssetInfo("UrbanEye3D own work", "Zkir/Gemini (Procedural)", "CC0 1.0"));
+
+        MASTER_ASSET_LIST.put("/textures/water.png",
+                new AssetInfo("UrbanEye3D own work", "Zkir/Gemini (Procedural)", "CC0 1.0"));
     }
     private static final Map<String, String> LICENSE_URLS = new HashMap<>();
     static {

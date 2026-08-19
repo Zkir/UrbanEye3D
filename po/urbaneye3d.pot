@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-12 16:01:32+0300\n"
+"POT-Creation-Date: 2026-08-20 00:54:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:84
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:85
 msgid "Adjust the number of trees generated in forest polygons. This setting affects performance."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:85
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:86
 msgid "Anti-aliasing (MSAA) samples"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:59
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:60
 msgid "Automatically download incomplete multipolygons"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Checks for tag validity for buildings and building parts."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:162
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:173
 msgid "Configure rendering options for the 3D Viewer."
 msgstr ""
 
@@ -58,11 +58,15 @@ msgstr ""
 msgid "Detects overlapping 3D walls that cause Z-fighting."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:53
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:54
 msgid "Enable Ambient Occlusion Mode"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:48
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:106
+msgid "Enable animation (experimental)"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:49
 msgid "Enable wireframe rendering mode"
 msgstr ""
 
@@ -70,27 +74,31 @@ msgstr ""
 msgid "Fake AO"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:77
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:78
 msgid "Forest density"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:58
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:59
 msgid "If checked, a fake ambient occlusion effect will be applied."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:76
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:77
 msgid "If checked, active satellite imagery will be used in 3D ground plane when available. If unchecked, plugin's own 2D style will be used to render flat objects."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:52
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:53
 msgid "If checked, buildings will be rendered as outlines instead of solid polygons."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:70
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:111
+msgid "If checked, dynamic objects like smoke and fountains will be animated. This improves realism but increases CPU/GPU usage."
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:71
 msgid "If checked, the number of objects, faces and frame time will be displayed in the top-left corner."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:64
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:65
 msgid "If checked, the plugin will attempt to download missing members of multipolygons."
 msgstr ""
 
@@ -106,11 +114,11 @@ msgstr ""
 msgid "Missing tag: roof:shape={0} without ''roof:direction''"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:101
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:102
 msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:479
+#: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:485
 msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
 msgstr ""
 
@@ -139,11 +147,11 @@ msgstr ""
 msgid "Satellite imagery"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:158
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:169
 msgid "Settings for the Urban Eye 3D plugin"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:65
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:66
 msgid "Show scene statistics"
 msgstr ""
 
@@ -179,9 +187,9 @@ msgstr ""
 msgid "Unknown tree species: {0}"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:57
-#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:60
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:153
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:58
+#: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:61
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:164
 msgid "Urban Eye 3D"
 msgstr ""
 
@@ -196,7 +204,7 @@ msgstr ""
 msgid "UrbanEye3D: {0}"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:71
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:72
 msgid "Use satellite imagery for ground plane"
 msgstr ""
 

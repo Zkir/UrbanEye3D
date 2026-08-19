@@ -43,6 +43,10 @@ public class UrbanEye3dPlugin extends Plugin {
             (primitive, origin, rule, random) -> RenderableElement.createChimney(primitive, origin, random)
         );
 
+        ru.zkir.urbaneye3d.assetconfig.GeneratorRegistry.getInstance().register("fountain",
+            new ru.zkir.urbaneye3d.generators.MesherFountain()
+        );
+
         OsmValidator.addTest(SpatialConsistencyChecks.class);
         OsmValidator.addTest(TagChecks.class);
         OsmValidator.addTest(OverlappingWallsCheck.class);

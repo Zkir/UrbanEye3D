@@ -15,6 +15,7 @@ public class Mesh {
     public final List<Point2D> uvs;     //UV coordinates  (2D)
     public final List<Color> materials; //currently we have Color only.
     public String textureName;          // Optional texture name for the whole mesh
+    public String shaderName;           // Optional shader program name for the mesh
 
     /** Main array for faces. Contains Vertex indices*/
     public final List<int[]> faces;
