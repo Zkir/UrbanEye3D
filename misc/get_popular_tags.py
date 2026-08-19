@@ -81,7 +81,7 @@ for i, t in enumerate(node_data):
     # Be polite to the Taginfo server
     time.sleep(0.1)
 
-output_path = os.path.join(os.path.dirname(__file__), "data/20_tags", "popular_tags.json")
+output_path = os.path.join(os.path.dirname(__file__), "data/26_tags", "popular_tags.json")
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 with open(output_path, 'w', encoding='utf-8') as f:
     json.dump(results, f, ensure_ascii=False, indent=2)

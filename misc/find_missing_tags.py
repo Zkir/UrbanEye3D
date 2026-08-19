@@ -73,15 +73,16 @@ def find_missing_tags():
     project_root = os.path.dirname(script_dir)
 
     taginfo_path = os.path.join(project_root, "docs", "taginfo.json")
-    popular_tags_path = os.path.join(script_dir, "data/20_tags", "popular_tags.json")
-    output_report_path = os.path.join(project_root, "docs", "dev", "popular_missing_tags.md")
+    popular_tags_path = os.path.join(script_dir, "data/26_tags", "popular_tags.json")
+    output_report_path = os.path.join(script_dir, "data/26_tags",  "popular_missing_tags.md")
+    output_supported_path = os.path.join(script_dir, "data/26_tags", "popular_supported_tags.md")
 
     taginfo_data = load_json(taginfo_path)
     popular_tags = load_json(popular_tags_path)
 
     if not taginfo_data or not popular_tags:
         print("Error: Could not load input files.")
-        return
+        exit(1)
 
     supported_specific = {}
     supported_wildcard = {}
@@ -142,7 +143,6 @@ def find_missing_tags():
     print(f"Total missing popular tags found: {len(missing_tags)}")
 
     # Generate Supported Popular Tags Markdown
-    output_supported_path = os.path.join(project_root, "docs", "dev", "popular_supported_tags.md")
     lines_s = [
         "# Popular tags ALREADY implemented in Urban Eye 3D",
         "",

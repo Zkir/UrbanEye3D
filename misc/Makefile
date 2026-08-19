@@ -10,7 +10,7 @@ TREE_STATS_FILES := $(patsubst %,data/10_trees/tree_stats_%.csv,$(ANALYSIS_TYPES
 
 # Default goal, executed when 'make' is run without arguments
 #all: $(TREE_STATS_FILES) data/building_analysis_full.csv 
-all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/15_trees_output/spatial_stats_5x5.json
+all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/15_trees_output/spatial_stats_5x5.json data/25_flags_output/flag_rules.json data/26_tags/popular_missing_tags.md
 
 # Define the columns to be extracted for the trees CSV
 TREE_COLUMNS = id lat lon height circumference age start_date \
@@ -66,15 +66,23 @@ data/15_trees_output/tree_species_invalid.md: data/10_trees/tree_species_all.csv
 data/15_trees_output/leaf_type_family_violations.csv: data/15_trees_output/tree_species.csv
 	python verify_leaf_types.py
 
-data/25_flags_output/flag_rules.json: data/05_extracts/flags.osm
-	python analyze_flags.py
-	cmd /c "copy /b /v /y data\25_flags_output\flag_rules.json ..\src\main\resources\data\"
-
 data/20_buildings/buildings.csv: data/05_extracts/buildings.osm
 	python osm_to_csv.py --input $< --output $@ --columns $(BUILDING_COLUMNS)
 
 data/20_buildings/building_analysis_full.csv: data/20_buildings/buildings.csv
 	python analyze_buildings.py
+
+data/25_flags_output/flag_rules.json: data/05_extracts/flags.osm
+	python analyze_flags.py
+	cmd /c "copy /b /v /y data\25_flags_output\flag_rules.json ..\src\main\resources\data\"
+
+data/26_tags/popular_tags.json: data/00_planet/planet-latest.osm.pbf ##it does not really depends on planet.osm, but we want to update it, when we get new planet.
+	python get_popular_tags.py	
+
+data/26_tags/popular_missing_tags.md: data/26_tags/popular_tags.json
+	python find_missing_tags.py	
+	cmd /c "copy /b /v /y data\26_tags\popular_missing_tags.md ..\docs\dev\"
+	cmd /c "copy /b /v /y data\26_tags\popular_supported_tags.md ..\docs\dev\"	
 	
 data:
 	@mkdir data
@@ -87,6 +95,8 @@ data/10_trees :	| data
 	
 data/15_trees_output: | data	
 	@mkdir data\15_trees_output
+
+
 
 # Rule to clean up all generated files.
 # The '-' prefix ignores errors if files do not exist.
