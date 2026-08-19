@@ -211,8 +211,11 @@ public class TextureManager {
     private static void applyTextureParameters(GL2 gl, Texture texture) {
         texture.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
         texture.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-        texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
-        texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
+        // Repeating wrap (not clamp-to-edge) is required by the animated shaders: the fountain
+        // jet scrolls its V coordinate far outside 0..1 over time. Ground tiles always sample
+        // inside 0..1, so they are not affected by this.
+        texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
+        texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
     }
 
     /**

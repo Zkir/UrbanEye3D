@@ -1,5 +1,13 @@
 # Development History
 
+### Nov 10, 2026
+* Chimneys (`man_made=chimney`) now emit animated smoke: a soft plume of particles rises from the stack top, expanding and gradually fading out.
+Smoke is animated entirely on the GPU (vertex shader), so it costs almost nothing in performance even with many chimneys in the scene.
+Animations are turned on and off with the new "Enable animation" checkbox in the 3D viewer settings. <br />
+![smoke](docs/images/smoke.png)
+
+## Version 2.9.1 (Oct 09, 2026)
+
 ### Nov 8, 2026
 
 * The plugin now supports **relations with type=building**. 
