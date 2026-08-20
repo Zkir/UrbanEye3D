@@ -58,11 +58,13 @@ Contributions are welcome!
 * See the [the Contribution guide](CONTRIBUTING.md) in case you would like to contribute code or artwork.
 * You can also contribute to this project by giving us a star :)
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Zkir/UrbanEye3D&type=Date&theme=dark" />
-  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Zkir/UrbanEye3D&type=Date" />
-  <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Zkir/UrbanEye3D&type=Date" />
-</picture>
+<a href="https://www.star-history.com/?repos=Zkir%2FUrbanEye3D&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=Zkir/UrbanEye3D&type=date&theme=dark&legend=top-left&sealed_token=eIh3Jv4BPXiLMCqGWcxjPJ5A0y2RjgmxT6SNJcL7cx065vmd54JFkTaBkMjANlSpCBRZNdALRFCoHIa9-PgDpzy4bqTOQPX0UR7M7lUuXt5Ok9HbIOrJ7xpMR18J5Ygx-A8vEvtwCEQ3iJKO-gaHfmPEzljGGHz1GhSAlZgeaj3-h9XaMvs_hkJgIMP3" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=Zkir/UrbanEye3D&type=date&legend=top-left&sealed_token=eIh3Jv4BPXiLMCqGWcxjPJ5A0y2RjgmxT6SNJcL7cx065vmd54JFkTaBkMjANlSpCBRZNdALRFCoHIa9-PgDpzy4bqTOQPX0UR7M7lUuXt5Ok9HbIOrJ7xpMR18J5Ygx-A8vEvtwCEQ3iJKO-gaHfmPEzljGGHz1GhSAlZgeaj3-h9XaMvs_hkJgIMP3" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=Zkir/UrbanEye3D&type=date&legend=top-left&sealed_token=eIh3Jv4BPXiLMCqGWcxjPJ5A0y2RjgmxT6SNJcL7cx065vmd54JFkTaBkMjANlSpCBRZNdALRFCoHIa9-PgDpzy4bqTOQPX0UR7M7lUuXt5Ok9HbIOrJ7xpMR18J5Ygx-A8vEvtwCEQ3iJKO-gaHfmPEzljGGHz1GhSAlZgeaj3-h9XaMvs_hkJgIMP3" />
+ </picture>
+</a>
 
 ---
 
