@@ -364,8 +364,11 @@ public class Scene {
 
                         if("true".equals(rule.properties.get("scalable"))) {
                             double model_height = mesh.getMaxBounds().z;
-                            double nominal_height = OsmDataWasher.getTagD("height", node, model_height);
-                            double scale_factor = (nominal_height - translationZ) / model_height;
+                            double object_height = OsmDataWasher.getTagD("height", node, model_height + translationZ)- translationZ;
+                            if (object_height<0) {
+                                object_height=model_height;
+                            }
+                            double scale_factor = (object_height) / model_height;
 
                             if (scale_factor != 1.0) {
                                 if (instanceMesh == mesh) {
