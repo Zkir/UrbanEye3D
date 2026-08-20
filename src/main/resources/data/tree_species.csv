@@ -32,6 +32,7 @@ Abies veitchii,Abies,,evergreen,needleleaved
 Abies × vilmorinii,Abies,,deciduous,needleleaved
 Acacia acinacea,Acacia,,deciduous,broadleaved
 Acacia aegyptiaca,Acacia,,deciduous,broadleaved
+Acacia auriculiformis,Acacia,,evergreen,broadleaved
 Acacia baileyana,Acacia,Q9562555,evergreen,broadleaved
 Acacia caven,Acacia,,evergreen,broadleaved
 Acacia dealbata,Acacia,Q757123,evergreen,broadleaved
@@ -248,6 +249,7 @@ Asimina triloba,Asimina,,deciduous,broadleaved
 Aspidosperma polyneuron,Aspidosperma,,deciduous,broadleaved
 Aspidosperma spruceanum,Aspidosperma,,evergreen,broadleaved
 Astronium graveolens,Astronium,,evergreen,broadleaved
+Astronium urundeuva,Astronium,,deciduous,broadleaved
 Attalea amygdalina,Attalea,,evergreen,palm
 Aucuba japonica,Aucuba,,deciduous,broadleaved
 Austrocedrus chilensis,Austrocedrus,,evergreen,needleleaved
@@ -258,7 +260,7 @@ Azalea japonica,Azalea,,evergreen,broadleaved
 Azara lanceolata,Azara,,evergreen,broadleaved
 Azara serrata,Azara,,evergreen,broadleaved
 Bactris gasipaes,Bactris,,evergreen,palm
-Banksia integrifolia,Banksia,,deciduous,broadleaved
+Banksia integrifolia,Banksia,,evergreen,broadleaved
 Banksia marginata,Banksia,,deciduous,broadleaved
 Banksia serrata,Banksia,,deciduous,broadleaved
 Barringtonia racemosa,Barringtonia,Q2718437,evergreen,broadleaved
@@ -331,8 +333,8 @@ Buxus balearica,Buxus,,evergreen,broadleaved
 Buxus sempervirens,Buxus,Q27344,evergreen,broadleaved
 Byrsonima crassifolia,Byrsonima,,evergreen,broadleaved
 Caesalpinia ebano,Caesalpinia,,evergreen,broadleaved
-Caesalpinia pluviosa,Caesalpinia,,evergreen,broadleaved
-Caesalpinia pulcherrima,Caesalpinia,,deciduous,broadleaved
+Caesalpinia pluviosa,Caesalpinia,,deciduous,broadleaved
+Caesalpinia pulcherrima,Caesalpinia,,evergreen,broadleaved
 Calliandra haematocephala,Calliandra,,evergreen,broadleaved
 Calliandra pittieri,Calliandra,,evergreen,broadleaved
 Callistemon citrinus,Callistemon,,evergreen,broadleaved
@@ -382,10 +384,14 @@ Cassia grandis,Cassia,,evergreen,broadleaved
 Cassia javanica,Cassia,,deciduous,broadleaved
 Cassia leptophylla,Cassia,,deciduous,broadleaved
 Cassia siamea,Cassia,,evergreen,broadleaved
-Castanea dentata,Castanea,,deciduous,broadleaved
-Castanea mollissima,Castanea,,deciduous,broadleaved
+Castanea crenata,Castanea,Q717827,deciduous,broadleaved
+Castanea dentata,Castanea,Q468698,deciduous,broadleaved
+Castanea mollissima,Castanea,Q699584,deciduous,broadleaved
+Castanea ozarkensis,Castanea,Q5756707,deciduous,broadleaved
+Castanea pumila,Castanea,Q3662068,deciduous,broadleaved
 Castanea sativa,Castanea,Q22699,deciduous,broadleaved
 Castanopsis sieboldii,Castanopsis,,evergreen,broadleaved
+Castanospermum australe,Castanospermum,,evergreen,broadleaved
 Castilla elastica,Castilla,,evergreen,broadleaved
 Casuarina cunninghamiana,Casuarina,Q662316,evergreen,broadleaved
 Casuarina equisetifolia,Casuarina,,evergreen,broadleaved
@@ -423,7 +429,7 @@ Celtis occidentalis,Celtis,Q470006,deciduous,broadleaved
 Celtis rugosa,Celtis,,deciduous,broadleaved
 Celtis sinensis,Celtis,,deciduous,broadleaved
 Celtis tala,Celtis,,evergreen,broadleaved
-Cenostigma pluviosum,Cenostigma,,evergreen,broadleaved
+Cenostigma pluviosum,Cenostigma,,deciduous,broadleaved
 Cephalotaxus fortunei,Cephalotaxus,,evergreen,needleleaved
 Cephalotaxus harringtonia,Cephalotaxus,,evergreen,needleleaved
 Cerasus avium,Cerasus,Q165137,deciduous,broadleaved
@@ -539,6 +545,7 @@ Corymbia eximia,Corymbia,,deciduous,broadleaved
 Corymbia ficifolia,Corymbia,,evergreen,broadleaved
 Corymbia maculata,Corymbia,Q3337015,evergreen,broadleaved
 Corymbia tessellaris,Corymbia,,evergreen,broadleaved
+Corynocarpus laevigatus,Corynocarpus,,deciduous,broadleaved
 Corypha umbraculifera,Corypha,,evergreen,palm
 Cotinus coggygria,Cotinus,Q161406,deciduous,broadleaved
 Cotinus obovatus,Cotinus,Q5175390,deciduous,broadleaved
@@ -631,7 +638,7 @@ Cupaniopsis anacardioides,Cupaniopsis,,evergreen,broadleaved
 Cupressus arizonica,Cupressus,Q670040,evergreen,needleleaved
 Cupressus cashmeriana,Cupressus,Q917216,evergreen,needleleaved
 Cupressus funebris,Cupressus,,evergreen,needleleaved
-Cupressus glabra,Cupressus,,deciduous,needleleaved
+Cupressus glabra,Cupressus,,evergreen,needleleaved
 Cupressus glauca,Cupressus,Q50843037,evergreen,needleleaved
 Cupressus leylandii,Cupressus,Q42688380,evergreen,needleleaved
 Cupressus lusitanica,Cupressus,Q50843037,evergreen,needleleaved
@@ -887,7 +894,7 @@ Heptapleurum actinophyllum,Heptapleurum,,evergreen,broadleaved
 Hesperocyparis abramsiana,Hesperocyparis,Q32856048,evergreen,needleleaved
 Hesperocyparis arizonica,Hesperocyparis,Q670040,evergreen,needleleaved
 Hesperocyparis bakeri,Hesperocyparis,Q32856049,evergreen,needleleaved
-Hesperocyparis glabra,Hesperocyparis,,deciduous,needleleaved
+Hesperocyparis glabra,Hesperocyparis,,evergreen,needleleaved
 Hesperocyparis guadalupensis,Hesperocyparis,Q67192921,evergreen,needleleaved
 Hesperocyparis lusitanica,Hesperocyparis,Q50843037,evergreen,needleleaved
 Hesperocyparis macrocarpa,Hesperocyparis,Q32856056,evergreen,needleleaved
@@ -934,6 +941,7 @@ Ilex verticillata,Ilex,Q3487324,deciduous,broadleaved
 Ilex vomitoria,Ilex,Q1010694,evergreen,broadleaved
 Ilex × altaclarensis,Ilex,Q21169985,evergreen,broadleaved
 Ilex × aquipernyi,Ilex,,deciduous,broadleaved
+Inga edulis,Inga,,evergreen,broadleaved
 Iriartea deltoidea,Iriartea,,deciduous,palm
 Jacaranda acutifolia,Jacaranda,,deciduous,broadleaved
 Jacaranda caucana,Jacaranda,,deciduous,broadleaved
@@ -1163,6 +1171,7 @@ Musa basjoo,Musa,,deciduous,broadleaved
 Musa × paradisiaca,Musa,,evergreen,broadleaved
 Myoporum insulare,Myoporum,,deciduous,broadleaved
 Myoporum laetum,Myoporum,,evergreen,broadleaved
+Myracrodruon urundeuva,Myracrodruon,,deciduous,broadleaved
 Myrcianthes coquimbensis,Myrcianthes,,evergreen,broadleaved
 Myrcianthes rhopaloides,Myrcianthes,,evergreen,broadleaved
 Myrica pensylvanica,Myrica,,deciduous,broadleaved
@@ -1834,6 +1843,7 @@ Toona sinensis,Toona,,deciduous,broadleaved
 Torminalis glaberrima,Torminalis,Q41297526,deciduous,broadleaved
 Torreya californica,Torreya,,evergreen,needleleaved
 Torreya nucifera,Torreya,,evergreen,needleleaved
+Toxicodendron vernicifluum,Toxicodendron,,deciduous,broadleaved
 Trachycarpus fortunei,Trachycarpus,Q158383,evergreen,palm
 Trachycarpus martianus,Trachycarpus,Q145672,evergreen,palm
 Trema micranthum,Trema,,deciduous,broadleaved

@@ -3,7 +3,7 @@
     "CA": {
       "colour": "red",
       "prob": 1.0,
-      "count": 985
+      "count": 1028
     },
     "AU": {
       "colour": "blue",
@@ -20,7 +20,7 @@
     "Vietnam": {
       "colour": "red",
       "prob": 1.0,
-      "count": 94
+      "count": 95
     },
     "Connecticut": {
       "colour": "blue",
@@ -35,22 +35,22 @@
     "Canada": {
       "colour": "red",
       "prob": 1.0,
-      "count": 947
+      "count": 990
     },
     "California": {
       "colour": "white",
       "prob": 1.0,
-      "count": 153
+      "count": 161
     },
     "Illinois": {
       "colour": "white",
       "prob": 1.0,
-      "count": 335
+      "count": 336
     },
     "Chicago": {
       "colour": "white",
       "prob": 1.0,
-      "count": 333
+      "count": 334
     },
     "Florida": {
       "colour": "white",
@@ -60,37 +60,37 @@
     "Oregon": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 55
+      "count": 56
     },
     "United States;POW/MIA": {
       "colour": "black",
       "prob": 0.99,
-      "count": 317
+      "count": 324
     },
     "POW/MIA": {
       "colour": "black",
       "prob": 1.0,
-      "count": 170
+      "count": 173
     },
     "McDonald's": {
       "colour": "red",
       "prob": 0.94,
-      "count": 131
+      "count": 138
     },
     "Massachusetts": {
       "colour": "white",
       "prob": 1.0,
-      "count": 44
+      "count": 47
     },
     "Minnesota": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 24
+      "count": 26
     },
     "Iowa": {
       "colour": "white",
       "prob": 1.0,
-      "count": 18
+      "count": 20
     },
     "Kansas": {
       "colour": "blue",
@@ -115,7 +115,7 @@
     "Colorado": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 37
+      "count": 39
     },
     "North Dakota": {
       "colour": "blue",
@@ -140,7 +140,7 @@
     "Wyoming": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 8
+      "count": 9
     },
     "Arkansas": {
       "colour": "red",
@@ -155,7 +155,7 @@
     "Alabama": {
       "colour": "white",
       "prob": 1.0,
-      "count": 14
+      "count": 19
     },
     "Indiana": {
       "colour": "blue",
@@ -190,12 +190,12 @@
     "New York": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 60
+      "count": 61
     },
     "Virginia": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 64
+      "count": 67
     },
     "New Hampshire": {
       "colour": "blue",
@@ -215,7 +215,7 @@
     "Pennsylvania": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 25
+      "count": 26
     },
     "Delaware": {
       "colour": "cyan",
@@ -230,7 +230,7 @@
     "Arizona": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 26
+      "count": 30
     },
     "New Mexico": {
       "colour": "yellow",
@@ -240,7 +240,7 @@
     "Oklahoma": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 36
+      "count": 37
     },
     "Utah": {
       "colour": "blue",
@@ -260,12 +260,17 @@
     "Wisconsin": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 48
+      "count": 50
+    },
+    "Québec": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 40
     },
     "Washington": {
       "colour": "green",
-      "prob": 0.88,
-      "count": 26
+      "prob": 0.89,
+      "count": 27
     },
     "pennsylvania": {
       "colour": "blue",
@@ -276,6 +281,11 @@
       "colour": "white",
       "prob": 0.88,
       "count": 8
+    },
+    "United States;Illinois;POW/MIA": {
+      "colour": "white;black",
+      "prob": 1.0,
+      "count": 2
     },
     "illinois": {
       "colour": "white",
@@ -350,7 +360,7 @@
     "Alberta": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 27
+      "count": 30
     },
     "Monroe": {
       "colour": "white",
@@ -380,7 +390,7 @@
     "Quebec": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 6
+      "count": 8
     },
     "Fairfield": {
       "colour": "red",
@@ -396,11 +406,6 @@
       "colour": "white",
       "prob": 1.0,
       "count": 2
-    },
-    "Québec": {
-      "colour": "blue",
-      "prob": 1.0,
-      "count": 32
     },
     "Drees Homes": {
       "colour": "green",
@@ -420,12 +425,12 @@
     "United States;California": {
       "colour": "white",
       "prob": 1.0,
-      "count": 14
+      "count": 15
     },
     "Australia": {
       "colour": "blue",
-      "prob": 0.83,
-      "count": 6
+      "prob": 0.86,
+      "count": 7
     },
     "Wilder": {
       "colour": "white",
@@ -575,7 +580,7 @@
     "florida": {
       "colour": "white",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "indiana": {
       "colour": "blue",
@@ -740,7 +745,7 @@
     "United States;POW/MIA;Illinois": {
       "colour": "black;white",
       "prob": 1.0,
-      "count": 3
+      "count": 5
     },
     "colorado": {
       "colour": "blue",
@@ -777,6 +782,11 @@
       "prob": 1.0,
       "count": 2
     },
+    "washington": {
+      "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
     "Firing range warning": {
       "colour": "red",
       "prob": 1.0,
@@ -785,7 +795,7 @@
     "quebec": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 9
+      "count": 8
     },
     "Zwemmen verboden": {
       "colour": "red",
@@ -842,8 +852,13 @@
       "prob": 1.0,
       "count": 2
     },
-    "TCB Tennis Club Buckenhof": {
+    "TCB Tennisclub Buckenhof": {
       "colour": "green",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Expressway sign": {
+      "colour": "blue",
       "prob": 1.0,
       "count": 2
     }
@@ -852,7 +867,7 @@
     "Q131204": {
       "colour": "red",
       "prob": 1.0,
-      "count": 97
+      "count": 98
     },
     "Q752573": {
       "colour": "blue",
@@ -862,52 +877,52 @@
     "Q64300176": {
       "colour": "red",
       "prob": 0.95,
-      "count": 153
+      "count": 160
     },
     "Q80110": {
       "colour": "red",
       "prob": 1.0,
-      "count": 982
+      "count": 1025
     },
     "Q330517": {
       "colour": "white",
       "prob": 1.0,
-      "count": 158
+      "count": 166
     },
     "Q752837": {
       "colour": "white",
       "prob": 1.0,
-      "count": 341
+      "count": 342
     },
     "Q1402799": {
       "colour": "white",
       "prob": 1.0,
-      "count": 335
+      "count": 336
     },
     "Q730106": {
       "colour": "white",
       "prob": 1.0,
-      "count": 62
+      "count": 63
     },
     "Q19427": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 57
+      "count": 58
     },
     "Q42537;Q1463762": {
       "colour": "black",
       "prob": 0.99,
-      "count": 326
+      "count": 333
     },
     "Q1463762": {
       "colour": "black",
       "prob": 1.0,
-      "count": 208
+      "count": 211
     },
     "Q221881": {
       "colour": "white",
       "prob": 1.0,
-      "count": 45
+      "count": 48
     },
     "Q828147": {
       "colour": "blue",
@@ -917,7 +932,7 @@
     "Q492541": {
       "colour": "white",
       "prob": 1.0,
-      "count": 20
+      "count": 22
     },
     "Q284396": {
       "colour": "blue",
@@ -942,7 +957,7 @@
     "Q492546": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 40
+      "count": 42
     },
     "Q837312": {
       "colour": "blue",
@@ -967,7 +982,7 @@
     "Q492524": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 8
+      "count": 9
     },
     "Q369833": {
       "colour": "red",
@@ -982,7 +997,7 @@
     "Q497997": {
       "colour": "white",
       "prob": 1.0,
-      "count": 14
+      "count": 19
     },
     "Q673117": {
       "colour": "blue",
@@ -1012,17 +1027,17 @@
     "Q520966": {
       "colour": "white",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Q19016": {
       "colour": "blue",
       "prob": 0.98,
-      "count": 63
+      "count": 64
     },
     "Q18993": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 64
+      "count": 67
     },
     "Q248102": {
       "colour": "blue",
@@ -1042,7 +1057,7 @@
     "Q18983": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 28
+      "count": 29
     },
     "Q752566": {
       "colour": "cyan",
@@ -1057,7 +1072,7 @@
     "Q632491": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 27
+      "count": 31
     },
     "Q642998": {
       "colour": "yellow",
@@ -1067,7 +1082,7 @@
     "Q258262": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 36
+      "count": 37
     },
     "Q736625": {
       "colour": "blue",
@@ -1082,22 +1097,32 @@
     "Q63874423": {
       "colour": "white",
       "prob": 1.0,
-      "count": 11
+      "count": 10
     },
     "Q241083": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 53
+      "count": 55
+    },
+    "Q392167": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 57
     },
     "Q731163": {
       "colour": "green",
       "prob": 1.0,
-      "count": 27
+      "count": 29
     },
     "Q77795712": {
       "colour": "white",
       "prob": 0.88,
       "count": 8
+    },
+    "Q42537;Q752837;Q1463762": {
+      "colour": "white;black",
+      "prob": 1.0,
+      "count": 2
     },
     "Q1740429": {
       "colour": "yellow",
@@ -1142,7 +1167,7 @@
     "Q1122078": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 29
+      "count": 32
     },
     "Q64840938": {
       "colour": "white",
@@ -1158,11 +1183,6 @@
       "colour": "red",
       "prob": 1.0,
       "count": 3
-    },
-    "Q392167": {
-      "colour": "blue",
-      "prob": 1.0,
-      "count": 48
     },
     "Q70143393": {
       "colour": "red",
@@ -1182,7 +1202,7 @@
     "Q42537;Q330517": {
       "colour": "white",
       "prob": 1.0,
-      "count": 15
+      "count": 16
     },
     "Q81676": {
       "colour": "blue",
@@ -1312,7 +1332,7 @@
     "Q42537;Q1463762;Q752837": {
       "colour": "black;white",
       "prob": 1.0,
-      "count": 3
+      "count": 5
     },
     "Q34494": {
       "colour": "blue",
@@ -1566,7 +1586,7 @@
     "Vietnam": {
       "colour": "red",
       "prob": 1.0,
-      "count": 97
+      "count": 98
     },
     "Connecticut": {
       "colour": "blue",
@@ -1576,62 +1596,62 @@
     "McDonald's": {
       "colour": "red",
       "prob": 0.96,
-      "count": 144
+      "count": 151
     },
     "Canada": {
       "colour": "red",
       "prob": 1.0,
-      "count": 981
+      "count": 1024
     },
     "California": {
       "colour": "white",
       "prob": 1.0,
-      "count": 158
+      "count": 166
     },
     "Illinois": {
       "colour": "white",
       "prob": 1.0,
-      "count": 341
+      "count": 342
     },
     "Chicago": {
       "colour": "white",
       "prob": 1.0,
-      "count": 336
+      "count": 337
     },
     "Florida": {
       "colour": "white",
       "prob": 1.0,
-      "count": 62
+      "count": 63
     },
     "Oregon": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 57
+      "count": 58
     },
     "United States;National League of POW/MIA Families": {
       "colour": "black",
       "prob": 0.99,
-      "count": 327
+      "count": 334
     },
     "National League of POW/MIA Families": {
       "colour": "black",
       "prob": 1.0,
-      "count": 208
+      "count": 211
     },
     "Massachusetts": {
       "colour": "white",
       "prob": 1.0,
-      "count": 45
+      "count": 48
     },
     "Minnesota": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 25
+      "count": 27
     },
     "Iowa": {
       "colour": "white",
       "prob": 1.0,
-      "count": 20
+      "count": 22
     },
     "Kansas": {
       "colour": "blue",
@@ -1656,7 +1676,7 @@
     "Colorado": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 40
+      "count": 42
     },
     "North Dakota": {
       "colour": "blue",
@@ -1681,7 +1701,7 @@
     "Wyoming": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 8
+      "count": 9
     },
     "Arkansas": {
       "colour": "red",
@@ -1696,7 +1716,7 @@
     "Alabama": {
       "colour": "white",
       "prob": 1.0,
-      "count": 14
+      "count": 19
     },
     "Indiana": {
       "colour": "blue",
@@ -1726,17 +1746,17 @@
     "Rhode Island": {
       "colour": "white",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "New York": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 62
+      "count": 63
     },
     "Virginia": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 64
+      "count": 67
     },
     "New Hampshire": {
       "colour": "blue",
@@ -1756,7 +1776,7 @@
     "Pennsylvania": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 28
+      "count": 29
     },
     "Delaware": {
       "colour": "cyan",
@@ -1771,7 +1791,7 @@
     "Arizona": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 27
+      "count": 31
     },
     "New Mexico": {
       "colour": "yellow",
@@ -1781,7 +1801,7 @@
     "Oklahoma": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 36
+      "count": 37
     },
     "Utah": {
       "colour": "blue",
@@ -1801,17 +1821,27 @@
     "Wisconsin": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 53
+      "count": 55
+    },
+    "Québec": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 57
     },
     "Washington": {
       "colour": "green",
-      "prob": 0.9,
-      "count": 30
+      "prob": 0.91,
+      "count": 32
     },
     "Hilton": {
       "colour": "white",
       "prob": 0.88,
       "count": 8
+    },
+    "United States;Illinois;National League of POW/MIA Families": {
+      "colour": "white;black",
+      "prob": 1.0,
+      "count": 2
     },
     "Saint Joseph": {
       "colour": "red",
@@ -1871,7 +1901,7 @@
     "Alberta": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 30
+      "count": 33
     },
     "Monroe": {
       "colour": "white",
@@ -1892,11 +1922,6 @@
       "colour": "red",
       "prob": 1.0,
       "count": 7
-    },
-    "Québec": {
-      "colour": "blue",
-      "prob": 1.0,
-      "count": 48
     },
     "Fairfield": {
       "colour": "red",
@@ -1921,12 +1946,12 @@
     "United States;California": {
       "colour": "white",
       "prob": 1.0,
-      "count": 15
+      "count": 16
     },
     "Australia": {
       "colour": "blue",
-      "prob": 0.83,
-      "count": 6
+      "prob": 0.86,
+      "count": 7
     },
     "Wilder": {
       "colour": "white",
@@ -1971,7 +1996,7 @@
     "ASEAN": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 3
+      "count": 5
     },
     "Barnes & Noble": {
       "colour": "green",
@@ -1981,7 +2006,7 @@
     "Association of Southeast Asian Nations": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 9
+      "count": 7
     },
     "National Louis University": {
       "colour": "blue",
@@ -2126,7 +2151,7 @@
     "United States;National League of POW/MIA Families;Illinois": {
       "colour": "black;white",
       "prob": 1.0,
-      "count": 3
+      "count": 5
     },
     "Supreme Court of the Philippines": {
       "colour": "purple",
@@ -2163,7 +2188,7 @@
     "Q881": {
       "colour": "red",
       "prob": 1.0,
-      "count": 97
+      "count": 98
     },
     "Q779": {
       "colour": "blue",
@@ -2173,52 +2198,52 @@
     "Q38076": {
       "colour": "red",
       "prob": 0.96,
-      "count": 156
+      "count": 163
     },
     "Q16": {
       "colour": "red",
       "prob": 1.0,
-      "count": 981
+      "count": 1024
     },
     "Q99": {
       "colour": "white",
       "prob": 1.0,
-      "count": 158
+      "count": 166
     },
     "Q1204": {
       "colour": "white",
       "prob": 1.0,
-      "count": 341
+      "count": 342
     },
     "Q1297": {
       "colour": "white",
       "prob": 1.0,
-      "count": 336
+      "count": 337
     },
     "Q812": {
       "colour": "white",
       "prob": 1.0,
-      "count": 62
+      "count": 63
     },
     "Q824": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 57
+      "count": 58
     },
     "Q30;Q6974069": {
       "colour": "black",
       "prob": 1.0,
-      "count": 325
+      "count": 332
     },
     "Q6974069": {
       "colour": "black",
       "prob": 1.0,
-      "count": 208
+      "count": 211
     },
     "Q771": {
       "colour": "white",
       "prob": 1.0,
-      "count": 45
+      "count": 48
     },
     "Q1527": {
       "colour": "blue",
@@ -2228,7 +2253,7 @@
     "Q1546": {
       "colour": "white",
       "prob": 1.0,
-      "count": 20
+      "count": 22
     },
     "Q1558": {
       "colour": "blue",
@@ -2253,7 +2278,7 @@
     "Q1261": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 40
+      "count": 42
     },
     "Q1207": {
       "colour": "blue",
@@ -2278,7 +2303,7 @@
     "Q1214": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 8
+      "count": 9
     },
     "Q1612": {
       "colour": "red",
@@ -2293,7 +2318,7 @@
     "Q173": {
       "colour": "white",
       "prob": 1.0,
-      "count": 14
+      "count": 19
     },
     "Q1415": {
       "colour": "blue",
@@ -2323,17 +2348,17 @@
     "Q1387": {
       "colour": "white",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Q1384": {
       "colour": "blue",
       "prob": 0.98,
-      "count": 63
+      "count": 64
     },
     "Q1370": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 64
+      "count": 67
     },
     "Q759": {
       "colour": "blue",
@@ -2353,7 +2378,7 @@
     "Q1400": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 28
+      "count": 29
     },
     "Q1393": {
       "colour": "cyan",
@@ -2368,7 +2393,7 @@
     "Q816": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 27
+      "count": 31
     },
     "Q1522": {
       "colour": "yellow",
@@ -2378,7 +2403,7 @@
     "Q1649": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 36
+      "count": 37
     },
     "Q829": {
       "colour": "blue",
@@ -2393,17 +2418,27 @@
     "Q1537": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 53
+      "count": 55
+    },
+    "Q176": {
+      "colour": "blue",
+      "prob": 1.0,
+      "count": 57
     },
     "Q1223": {
       "colour": "green",
       "prob": 1.0,
-      "count": 27
+      "count": 29
     },
     "Q598884": {
       "colour": "white",
       "prob": 0.88,
       "count": 8
+    },
+    "Q30;Q1204;Q6974069": {
+      "colour": "white;black",
+      "prob": 1.0,
+      "count": 3
     },
     "Q128267": {
       "colour": "red",
@@ -2463,7 +2498,7 @@
     "Q1951": {
       "colour": "blue",
       "prob": 1.0,
-      "count": 29
+      "count": 32
     },
     "Q1018314": {
       "colour": "white",
@@ -2485,11 +2520,6 @@
       "prob": 1.0,
       "count": 7
     },
-    "Q176": {
-      "colour": "blue",
-      "prob": 1.0,
-      "count": 48
-    },
     "Q1002506": {
       "colour": "red",
       "prob": 1.0,
@@ -2508,12 +2538,12 @@
     "Q30;Q99": {
       "colour": "white",
       "prob": 1.0,
-      "count": 15
+      "count": 16
     },
     "Q408": {
       "colour": "blue",
-      "prob": 0.83,
-      "count": 6
+      "prob": 0.86,
+      "count": 7
     },
     "Q940060": {
       "colour": "white",
@@ -2655,11 +2685,6 @@
       "prob": 1.0,
       "count": 15
     },
-    "Q30;Q1204;Q6974069": {
-      "colour": "white;black",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q30;Q1166": {
       "colour": "blue",
       "prob": 1.0,
@@ -2703,7 +2728,7 @@
     "Q30;Q6974069;Q1204": {
       "colour": "black;white",
       "prob": 1.0,
-      "count": 3
+      "count": 5
     },
     "Q514212": {
       "colour": "purple",
