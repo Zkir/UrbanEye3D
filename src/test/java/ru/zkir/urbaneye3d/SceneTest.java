@@ -518,12 +518,14 @@ class SceneTest {
         RenderableElement wall = null;
         RenderableElement gate = null;
         for (var re : scene.renderableElements) {
-            UrbanEye3dPlugin.debugMsg(re.primitiveId.toString());
-            if (re.primitiveId.toString().equals("way -13723")) {
+            OsmPrimitive primitive = dataSet.getPrimitiveById(re.primitiveId);
+            String ref = primitive.get("ref");
+            UrbanEye3dPlugin.debugMsg(ref);
+            if ("0".equals(ref)) {
                 wall = re;
             }
 
-            if (re.primitiveId.toString().equals("node -5007079")) {
+            if ("1".equals(ref)) {
                 gate = re;
             }
         }

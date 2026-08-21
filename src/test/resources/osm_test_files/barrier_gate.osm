@@ -3,6 +3,7 @@
   <node id='-5007078' visible='true' lat='55.0000' lon='37.0' />
   <node id='-5007079' visible='true' lat='55.0001' lon='37.0001'>
     <tag k='barrier' v='gate' />
+	<tag k='ref' v='1' />
   </node>
   <node id='-5007080' visible='true' lat='55.0002' lon='37.0002' />
   <way id='-13723' visible='true'>
@@ -11,6 +12,7 @@
     <nd ref='-5007080' />
     <tag k='barrier' v='wall' />
     <tag k='height' v='2.0' />
+    <tag k='ref' v='0' />
     <tag k='width' v='0.5' />
   </way>
 </osm>
