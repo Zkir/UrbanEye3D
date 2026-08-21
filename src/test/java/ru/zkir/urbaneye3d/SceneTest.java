@@ -518,6 +518,7 @@ class SceneTest {
         RenderableElement wall = null;
         RenderableElement gate = null;
         for (var re : scene.renderableElements) {
+            UrbanEye3dPlugin.debugMsg(re.primitiveId.toString());
             if (re.primitiveId.toString().equals("way -13723")) {
                 wall = re;
             }
