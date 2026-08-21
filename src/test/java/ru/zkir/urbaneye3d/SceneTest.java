@@ -520,7 +520,7 @@ class SceneTest {
         for (var re : scene.renderableElements) {
             OsmPrimitive primitive = dataSet.getPrimitiveById(re.primitiveId);
             String ref = primitive.get("ref");
-            UrbanEye3dPlugin.debugMsg(ref);
+            
             if ("0".equals(ref)) {
                 wall = re;
             }
