@@ -203,7 +203,7 @@ The plugin also supports the `shape` tag to define the overall geometry of a bui
 ### `hyperboloid`
 This shape is used to model hyperboloid structures, common in cooling towers, observation towers, and other architectural designs.
 
-![Tags for hyperboloid shape](release_notes/hyperboloid_tags.png)
+![Tags for hyperboloid shape](release_notes/v1.9.0/hyperboloid_tags.png)
 
 This tag can be applied to `building=*`, `building:part=*`, and the following `man_made` features: `tower`, `water_tower`, `communications_tower`, and `cooling_tower`. It works on closed ways and multipolygons without inner rings.
 
@@ -230,6 +230,8 @@ The plugin supports gates and entrances that are typically placed as nodes on li
 - `barrier=gate`: Rendered as a swinging double-leaf gate.
 - `barrier=lift_gate`: Rendered as a boom barrier (шлагбаум).
 - `barrier=entrance`: A simple gap or opening in the barrier without a physical gate. It creates a physical hole in the barrier but no 3D model is rendered.
+
+![barrier=gate](images/barrier_gate_small.png)
 
 **Features:**
 - **Physical Gaps:** The plugin automatically creates a physical gap in the parent linear barrier at the location of the gate or entrance node.
@@ -346,6 +348,8 @@ Unlike most other point objects that have fixed-size pre-defined models (like be
 ## Power Infrastructure
 
 The plugin provides 3D visualization for electrical power networks.
+
+![power lines](images/power_lines.png)
 
 ### Power Lines
 

@@ -1,13 +1,151 @@
 # Development History
 
-# Version 2.4.2 (Jul 22, 2026)
+## Version 2.6.0 (Aug 21, 2026)
+
+1. Gates in linear barriers (nobody has done that yet!) 
+2. Power lines and power towers!
+3. Chimneys, frustum or truncated cone shape.
+3. Various new street objects! Most popular tags supported!
+4. Anti-aliasing! Everything looks much better!
+	
+
+### Gates in Walls and Fences	
+
+Support for gates and entrances in linear barriers has been added. As far as I know, no one has done it yet! :)
+
+Not only dedicated models have been created for `barrier=gate` and `barrier=lift_gate`, but, if they are part of linear barrier, like wall or fence, suitable physical gap is created, to give space for the gate model.
+
+![barrier=gate](docs/images/barrier_gate_small.png)
+
+*   **New 3D Models:** `barrier=gate` (swinging double-leaf gate) and `barrier=lift_gate` (boom barrier).
+*   **Entrances**: `barrier=entrance` has no model, but just creates gap (entrance). The `width` and `maxwidth:physical` tags are respected for `barrier=entrance`.
+*   **Correct orientation:** Gates are automatically oriented along parent barrier, or across the road (`barrier=lift_gate` very often free-standing)
+	
+
+### Power Lines and Power Towers	
+
+Power lines (`power=line`, `power=minor_line`) and their supports are now rendered in 3D.
+
+![power lines](docs/images/power_lines.png)
+
+*   **Power Wires:** Wires are modeled with realistic parabolic sagging. Large towers now feature 5 parallel wires (including a lightning protection wire at the top), while standard poles have 2 parallel wires.
+*   **Power Tower and Pole Models:**
+    *    Introduced detailed 3D models for `power=tower` and `power=pole` equipped with traverses (cross-arms) of varying widths.
+    *    Both solid/tubular and lattice power towers are supported (Yes, we distinguish between `structure=solid` and `structure=lattice`)
+	*    Towers automatically rotate to align with the line direction. Wires are precisely attached to the tips of the cross-arms, maintaining correct geometry even on sharp turns.
+*   **Visual Fidelity:** Wires dynamically adjust their thickness as the camera moves, remaining visible but proportional. Aerial perspective makes wires progressively transparent in the distance, blending into the horizon; the effect uses quadratic fading and an effective visibility range of 2000 m for a stronger sense of depth.
+
+
+
+### Chimneys
+
+*   **Chimney:** Added procedural 3D generation for `man_made=chimney`, for both nodes and polygons 
+    *   Point chimneys feature a 12-sided circular base and an automatic 50% tapering at the top, providing a realistic industrial look.
+    *   Both node and polygon chimneys respect the `shape` tag (`frustum`, `hyperboloid`, `prism`).
+	
+![chimneys](docs/images/man_made_chimney.png)	
+
+### New Street Objects	
+
+A lot of new street objects has been added, using both pre-made and procedurial models. 
+
+![New street objects 2.6.0](docs/images/street_objects_260.png)
+	
+*   **Street lamp with bent mast:** `highway=street_lamp` + `lamp_mount=bent_mast`. The model is 6.5 meters high and follows modern urban lighting designs.
+	
+*   **Memorials:** Different types of `historic=memorial` (`memorial=bust`, `memorial=obelisk`, `memorial=stone` and `memorial=stele` even `memorial=stolperstein`) are supported. `memorial=statue` uses the same model as `memorial=bust`. It is not that easy to create a convincing low poly statue! 
+
+*   **Artworks:** Different types of 'tourism=artwork' have been added. `artwork_type=statue`, `artwork_type=sculpture`, `artwork_type=installation` are rendered with the same abstract Sculpture model.
+
+*   **Flagpole:** `man_made=flagpole`. **Procedural** generation for `man_made=flagpole` has beed added. The model features an 8-sided mast, a golden finial, and a waving flag with a natural 20-degree downward tilt.
+    *   **Advantages over pre-made model:** 
+        *   **Better Scaling:** Unlike static OBJ models, the procedural generator supports both `height` and `diameter` tags. It "grows" the mast to the exact height while maintaining proper proportions for the flag and finial—an impossible feat with simple uniform or axis-specific scaling of a 3D file.
+        *   **Dynamic Styling:** The procedural approach enables seamless multi-material coloring, respecting `colour` for the mast and `flag:colour` for the fabric.
+        *   **No Clones:** Randomized procedural generation ensures that each flagpole has a unique flutter phase, preventing repetitive "stamped" visuals and making groups of flags look dynamic and alive.
+    *   **Data-Driven Color Inference:** Developed a **Maximum Likelihood inference** that predicts flag colors based on other tags (`flag:name`, `subject`, `country`, `wikidata`). It uses a pre-calculated statistical database (`flag_rules.json`) to provide highly accurate defaults when explicit color tags are missing.
+    *   **Realistic Wind Flutter:** The flag geometry uses dual-axis sine-wave displacement with realistic damping at the mast. A uniform global wind direction ensures physical consistency across the scene, while individual phase offsets provide visual variety.
+	
+*   **Street Standpipe:** `amenity=drinking_water`. Actually, `amenity=drinking_water` could be of different designs. Currently, a blue standpipe model, type popular in former USSR, has been implemented.	
+*   **Water Well:** `man_made=water_well`. Models for classic water well, featuring a wooden base, side posts, a winch, and a gable roof has been added. 
+    *   Wells with pump (`pump=yes`) are rather rendered as a standpipe.
+*   **Wayside Cross:** `historic=wayside_cross` and `man_made=cross`
+    *   Added 3D models for : a classic Latin cross and an Orthodox cross (with titulus and slanted suppedaneum). The system automatically selects the Orthodox model when `denomination=orthodox` is present.	
+
+*   **Traffic Calming:** `traffic_calming=bump` and `traffic_calming=hump`
+    *   **Speed Bump & Hump:** Implemented 3D models for `traffic_calming=bump` and `traffic_calming=hump`, both featuring alternating black and white asphalt markings.
+    *   **Automatic Alignment:** Configured both types to automatically align perpendicular to the parent road! 
+	
+*   **Block and bollard  Barriers:**  `barrier=block` (concrete rectangular blocks) and barrier=bollard` (red-white striped posts)
+	
+*   **Buffer Stop:** `railway=buffer_stop`. Oriented automatically to be aligned with parent railway.
+*   **Picnic Table:** `leisure=picnic_table`. Just a very simple 3D model 
+*   **Bicycle parking:** `amenity=bicycle_parking`. A single model, no variations.
+	
+
+### Anti-aliasing
+*   **Enabled Anti-aliasing:** Implemented MSAA 4x support in the 3D renderer. This significantly improves visual quality by smoothing jagged edges on buildings, power towers, and other objects, providing a much cleaner look for the 3D scene.
+
+	
+### Ground plane (2D) Rendering Enhancements	
+*   **Spring and manholes:**  `natural=spring` (blue circles) and `man_made=manhole` (small black dots) are now rendered.
+*   **Turning Circle:** Added MapCSS support for `highway=turning_circle`. These are now rendered as filled asphalt-colored circles.
+*   **Futsal Pitch Markings:** Added support for FIFA-standard futsal markings for `leisure=pitch` + `sport=futsal`.
+	
+### Miscellaneous Enhancements
+
+*   **Automated Data Pipeline:**
+    *   Updated the `misc` processing pipeline to automatically extract [**flag color statistics**](src/main/resources/data/flag_rules.json) from global OSM data and generate the inference rule-set used by the plugin to colorise flags.
+	* Two new reports created for supported and missing (not yet supported) tags for node objects.
+	    *  [Popular Missing Tags](docs/dev/popular_missing_tags.md)
+	    *  [Popular Supported Tags](docs/dev/popular_supported_tags.md)
+	
+*   **Asset Configuration Validation:** Created `AssetMapCSSValidationTest.java` to automatically verify `assets.mapcss` syntax and resource paths, ensuring all referenced models and textures are present.
+	
+
+## Version 2.5.1 (Jul 31, 2026)
+* Bbus/tram stops, marked via public_transport=platform added to the show.
+* Underground fire hydrants are suppressed
+*   **Integrated JOSM MapCSS Engine for Assets:**
+    *   **Native Parser Adoption:** Replaced the custom regex-based `AssetRuleParser` and `Selector` implementations with JOSM's native `MapCSSStyleSource` and `Cascade` engine. This significantly reduces custom code and ensures 100% compatibility with standard MapCSS features (expressions, complex selectors, operators).
+    *   **Support for CSS Cascading:** The asset configuration now supports standard CSS cascading and property inheritance. Common properties (like `rotatable` or `snap_to_roads`) can be defined in base rules and automatically inherited by more specific rules, reducing duplication in `assets.mapcss`.
+    *   **Refactored Asset Configuration:** Simplified the `AssetRule` data model and updated `AssetConfigLoader` to utilize the JOSM style loading pipeline.
+    *   **Updated Tooling:** Adjusted `TagInfoGeneratorTest` to maintain tag extraction capabilities using the new configuration structure.
+
+## Version 2.5.0 (Jul 27, 2026)
+
+### Street Furniture
+*   **Added support for `amenity=bench`:**  `amenity=bench` is rendered using pre-generated 3D model.
+*   **Implemented OBJ Material (.mtl) support:** the `ObjImporter` was significantly refactored to parse `.mtl` files and apply material *colors* to faces based on `usemtl` commands.
+*   **Added support for `direction` tag for benches:** Models for `amenity=bench` can now be correctly rotated by reading the `direction` tag.
+*   Support for `natural=shrub`. 
+    * Rose bush texture	added
+	* Refactoring for more general billboards done
+	
+* Support for street furniture via pre-made models:
+    * **Recycling Container:** Added support for `amenity=recycling` using a new 3D model with a green body and grey lid.
+    * Bus stop, both with shelter and just a post with sign.
+ The plugin  distinguishes between sheltered stops (`shelter=yes`) and standard sign-on-a-pole stops.
+	    *  Some support for transparency for glass panels. Enhanced the rendering pipeline and `ObjImporter` to support semi-transparent materials. The system now correctly parses the `d` (dissolve) parameter from `.mtl` files and applies alpha blending in OpenGL. This allows for realistic rendering of glass surfaces, such as those in the new 3D bus stop model.
+    * Set of models for `tourism=information`.
+        *   `information=board`: Large information stands with a sturdy wooden-post design.
+        *   `information=post`: Smaller pillar with information plate.
+        *   `information=guidepost`: Signposts with arrow-shaped indicators pointing in multiple directions.
+    *   **Fire Hydrant Model:** Low-poly 3D model for `emergency=fire_hydrant`.	
+
+### Technical Enhancements
+*   **Universal Asset Configuration:** Replaced hardcoded object mappings and `textures.cfg` with a new, extensible `assets.mapcss` format. The new system cleanly separates configuration from code, uses MapCSS-like specificity rules (e.g., handling OSM taxonomy like `species` > `leaf_type`), and routes assets to their respective procedural, model, or billboard generators dynamically.
+
+*   **Implemented Automatic Pixel-Based Culling:** Removed manual distance thresholds (`maxVisibleDistance`) in favor of a professional engine-like approach. The renderer now automatically calculates the projected screen area of each object in pixels based on its 3D bounding box and camera distance. Objects smaller than N pixels are automatically culled, significantly improving performance in dense scenes without any manual configuration.
+
+
+## Version 2.4.2 (Jul 22, 2026)
 * Fixed bug with gabled roof direction: opposite directions are considered equal.
 
-# Version 2.4.1 (Jul 17, 2026)
+## Version 2.4.1 (Jul 17, 2026)
 
 *   **Fixed a crash in the JOSM validator:** The `OverlappingWallsCheck` validator no longer incorrectly processes primitives tagged with `building=no` or `building:part=no`. This prevents an invalid input `RuntimeException` when `RenderableElement.createBuildingOrPartRecipe` is strictly called to create a building recipe.
 
-# Version 2.4.0 (Jul 15, 2026)
+## Version 2.4.0 (Jul 15, 2026)
 
 *   **Enhanced Botanical Support & Spatial Statistics:**
     *   Implemented full support for `leaf_type=palm`, including new textures and botanical database enrichment.
@@ -23,7 +161,7 @@
     *   Enhanced `DialogWindow3D` to sync the selection with the main JOSM window.
     *   Verified the implementation with new unit tests and a full build.
 	
-# Version 2.3.3 (Jun 28, 2026)
+## Version 2.3.3 (Jun 28, 2026)
 
 * Validator check for building parts covering building outline has been improved.
     * Home-made code replaced with Java Topology Suite (JTS) calls.
@@ -32,15 +170,15 @@
 	
 * Forest multipolygons with several outer rings supported
 
-# Version 2.3.2 (Jun 18, 2026)
+## Version 2.3.2 (Jun 18, 2026)
 
 *  More proper defaults for the `leaf_type` tag, based on taxonomic family. Species belonging to the families 'Araucariaceae', 'Cephalotaxaceae', 'Cupressaceae', 'Pinaceae', 'Podocarpaceae', 'Sciadopityaceae', 'Taxaceae' are considered needleleaved by default. 
 
-# Version 2.3.1 (Jun 10, 2026)
+## Version 2.3.1 (Jun 10, 2026)
 
 * Support for `lane_markings=no` in MapCSS
 
-# Version 2.3.0 (May 29, 2026)
+## Version 2.3.0 (May 29, 2026)
 
 * Species database: If `leaf_type` tag is missing but `species` or `genus` tags are present, `leaf_type` is now inferred, and appropriate tree texture is selected.
 
