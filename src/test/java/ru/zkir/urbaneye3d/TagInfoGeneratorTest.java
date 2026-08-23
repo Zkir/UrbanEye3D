@@ -256,7 +256,7 @@ public class TagInfoGeneratorTest {
 
         //add values for predictor tags from
         HashSet<ParsedTag> usedTagsFlagRules = new HashSet<>();
-        extractTagsFromFlagRules(usedTagsFlagRules, "/data/flag_rules.json");
+        extractTagsFromFlagRules(usedTagsFlagRules, "/data/flag_rules_colour.json");
         for (var usedTag: usedTagsFlagRules){
             if (!TAG_DESCRIPTIONS.containsKey(usedTag.originalKey())){
                 TAG_DESCRIPTIONS.put(usedTag.originalKey(), "Used to infer flag colour for man_mad=flagpole objects" );
@@ -283,7 +283,7 @@ public class TagInfoGeneratorTest {
                 .forEach(usedTags::add);
 
         extractTagsFromMapCSS(usedTags, "/assets.mapcss");
-        extractTagsFromFlagRules(usedTags, "/data/flag_rules.json");
+        extractTagsFromFlagRules(usedTags, "/data/flag_rules_colour.json");
 
         // this file is not parsed properly, because it contains too many comments, which are still fetch by RE
         //extractTagsFromMapCSS(usedTags, "/mapcss-styles/urbaneye2d.general.mapcss");

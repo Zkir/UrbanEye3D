@@ -5,6 +5,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -38,9 +39,10 @@ public class FlagColorInference {
     }
 
     private void loadRules() {
-        try (InputStream is = getClass().getResourceAsStream("/data/flag_rules.json")) {
+        String RULES_FILE_NAME= "/data/flag_rules_colour.json";
+        try (InputStream is = getClass().getResourceAsStream(RULES_FILE_NAME)) {
             if (is == null) {
-                return;
+               throw new RuntimeException("Resource not found: " + RULES_FILE_NAME);
             }
             try (JsonReader reader = Json.createReader(is)) {
                 JsonObject root = reader.readObject();
@@ -52,7 +54,7 @@ public class FlagColorInference {
                     for (String value : valuesObj.keySet()) {
                         JsonObject ruleObj = valuesObj.getJsonObject(value);
                         valueMap.put(value, new FlagRule(
-                                ruleObj.getString("colour"),
+                                ruleObj.getString("flag:colour"),
                                 ruleObj.getJsonNumber("prob").doubleValue(),
                                 ruleObj.getInt("count")
                         ));
@@ -61,7 +63,7 @@ public class FlagColorInference {
                 }
             }
         } catch (Exception e) {
-            // Log error if necessary
+            throw new RuntimeException ("Error reading flag rules file "+RULES_FILE_NAME + " "+ e.getMessage());
         }
     }
 

@@ -3,14 +3,12 @@ from collections import defaultdict, Counter
 import os
 import json
 
-def analyze_flags(osm_file, output_json):
+def analyze_flags(target_tag, predictor_tags, osm_file, output_json):
     """
     Parses the OSM file, calculates correlations, and saves them to a JSON file.
     """
     # stats[predictor_tag][value] = Counter({color: count})
     stats = defaultdict(lambda: defaultdict(Counter))
-    
-    predictor_tags = {'flag:name', 'subject', 'subject:wikidata', 'flag:wikidata', 'country', 'operator', 'brand'}
     
     count = 0
     try:
@@ -21,11 +19,11 @@ def analyze_flags(osm_file, output_json):
         current_tags = {}
         for event, elem in context:
             if event == 'end' and elem.tag == 'node':
-                color = current_tags.get('flag:colour')
-                if color:
+                target_value = current_tags.get(target_tag)
+                if target_value:
                     for k, v in current_tags.items():
                         if k in predictor_tags:
-                            stats[k][v][color] += 1
+                            stats[k][v][target_value] += 1
                 
                 current_tags = {}
                 root.clear()
@@ -45,18 +43,18 @@ def analyze_flags(osm_file, output_json):
     rules = defaultdict(dict)
     
     for tag in stats:
-        for val, colors in stats[tag].items():
-            total = sum(colors.values())
+        for val, target_values in stats[tag].items():
+            total = sum(target_values.values())
             if total < 2:
                 continue
                 
-            most_common_color, most_common_count = colors.most_common(1)[0]
+            most_common_value, most_common_count = target_values.most_common(1)[0]
             prob = most_common_count / total
             
             # Only keep high-confidence rules
             if prob >= 0.7:
                 rules[tag][val] = {
-                    "colour": most_common_color,
+                    target_tag: most_common_value,
                     "prob": round(prob, 2),
                     "count": total
                 }
@@ -72,9 +70,17 @@ def analyze_flags(osm_file, output_json):
 if __name__ == "__main__":
     base_dir = os.path.dirname(__file__)
     flags_path = os.path.join(base_dir, 'data', '05_extracts', 'flags.osm')
-    output_path = os.path.join(base_dir, 'data', '25_flags_output', 'flag_rules.json')
+    output_path1 = os.path.join(base_dir, 'data', '25_flags_output', 'flag_rules_colour.json')
+    output_path2 = os.path.join(base_dir, 'data', '25_flags_output', 'flag_rules_country.json')
     
-    if os.path.exists(flags_path):
-        analyze_flags(flags_path, output_path)
-    else:
-        print(f"Error: {flags_path} not found.")
+    if not os.path.exists(flags_path):
+        print(f"Error: source file {flags_path} not found.")
+        exit(1)
+        
+    target_tag = 'flag:colour'
+    predictor_tags = {'flag:name', 'subject', 'subject:wikidata', 'flag:wikidata', 'country', 'operator', 'brand'}
+    analyze_flags(target_tag, predictor_tags, flags_path, output_path1)
+    
+    target_tag = 'country'
+    predictor_tags = {'flag:name', 'subject', 'subject:wikidata', 'flag:wikidata',  'operator', 'brand'}    
+    analyze_flags(target_tag, predictor_tags, flags_path, output_path2)
