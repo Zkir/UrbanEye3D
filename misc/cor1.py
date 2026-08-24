@@ -4,12 +4,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import stats
 import warnings
+import os
 warnings.filterwarnings('ignore')
 
 # ------------------------------
 # 1. Настройки
 # ------------------------------
-file_path = 'data/trees_cleaned.csv'  # укажите путь к вашему CSV-файлу
+WORK_DIR = 'data/10_trees'
+file_path = os.path.join(WORK_DIR, 'trees_cleaned.csv')  # укажите путь к вашему CSV-файлу
 chunk_size = 1_000_000       # читаем по 1 млн строк за раз (можно менять)
 sample_size = 20_000         # размер выборки для графиков
 
@@ -74,7 +76,9 @@ sns.heatmap(corr_matrix, annot=True, fmt='.2f', cmap='coolwarm',
             square=True, linewidths=0.5)
 plt.title('Матрица корреляции Пирсона')
 plt.tight_layout()
-plt.show()
+#plt.show()
+plt.savefig(os.path.join(WORK_DIR, 'correlation_heatmap.png'), dpi=300, bbox_inches='tight')
+plt.close() 
 
 # ------------------------------
 # 7. Графики рассеяния для небольшой выборки
@@ -92,7 +96,9 @@ else:
 
 sns.pairplot(sample_df[plot_cols], diag_kind='kde', plot_kws={'alpha':0.5})
 plt.suptitle('Попарные графики рассеяния (выборка)', y=1.02)
-plt.show()
+#plt.show()
+plt.savefig(os.path.join(WORK_DIR,'pairplot.png'), dpi=300, bbox_inches='tight')
+plt.close()
 
 # ------------------------------
 # 8. Дополнительно: проверка значимости корреляции (пример для двух столбцов)
@@ -114,7 +120,7 @@ if len(numeric_cols) >= 2:
     print("\nПостроение модели для предсказания 'height'...")
 
     # Выбираем нужные столбцы и удаляем строки с пропусками
-    regression_df = df[['height', 'age', 'circumference']].dropna()
+    regression_df = df[['height', 'age', 'circumference', 'diameter_crown']].dropna()
 
     # Определяем зависимую (y) и независимые (X) переменные
     y = regression_df['height']
@@ -166,3 +172,17 @@ if len(numeric_cols) >= 2:
         print(f"Уравнение: height = {coeffs2[0]:.2f} + {coeffs2[1]:.2f} * age")
     except np.linalg.LinAlgError as e:
         print(f"Ошибка при вычислении регрессии: {e}")
+        
+        
+    # --- Модель 3: height ~ diameter_crown ---
+    print("\nМодель 3: height в зависимости от diameter_crown")
+    simple_df_2 = df[['height', 'diameter_crown']].dropna()
+    y2 = simple_df_2['height']
+    X2_vars = simple_df_2['diameter_crown']
+    X2 = np.c_[np.ones(X2_vars.shape[0]), X2_vars]
+
+    try:
+        coeffs2, _, _, _ = np.linalg.lstsq(X2, y2, rcond=None)
+        print(f"Уравнение: height = {coeffs2[0]:.2f} + {coeffs2[1]:.2f} * diameter_crown")
+    except np.linalg.LinAlgError as e:
+        print(f"Ошибка при вычислении регрессии: {e}")        
