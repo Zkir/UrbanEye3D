@@ -461,6 +461,7 @@ public class RenderableElement {
         if (primitive.isDeleted()) return null;
         if (isPrimitiveUnderground(primitive)) return null;
 
+        String shape = getTagStr("shape", primitive, "prism");
         double height = getTagD("height", primitive, DEFAULT_FLAGPOLE_HEIGHT);
         double flagHeight = Math.pow(height, 0.5) / 1.9;
         double flagWidth = flagHeight * 1.5;
@@ -469,7 +470,10 @@ public class RenderableElement {
         double estimatedPolyRadius = Math.pow(height, 0.5) / 63.0;
         double polyRadius = getTagD("diameter", primitive, estimatedPolyRadius*2*1000)/2/1000; //NOTE: default unit for diameter tag is MILLIMETER!
         polyRadius = Math.max(polyRadius, 0.02); // pole should not be too narrow, even if units have messed up, e.g. diameter=1
-        double finialRadius = polyRadius * 1.5;
+
+        double top_rate = shape.equals("frustum") || shape.equals("hyperboloid") ? 0.5 : 1;
+
+        double finialRadius = polyRadius * 1.5 * top_rate;
         double finialHeight = finialRadius * 2;
 
         String mastColorStr = getTagStr("colour", primitive, "#C0C0C0");
@@ -484,9 +488,9 @@ public class RenderableElement {
             flagColorStr = "#AFA0A0";
         }
         
-        java.awt.Color mastColor = ColorUtils.parseColor(mastColorStr);
-        java.awt.Color flagColor = ColorUtils.parseColor(flagColorStr);
-        java.awt.Color finialColor = ColorUtils.parseColor("#FFD700"); // Gold
+        Color mastColor = ColorUtils.parseColor(mastColorStr);
+        Color flagColor = ColorUtils.parseColor(flagColorStr);
+        Color finialColor = ColorUtils.parseColor("#FFD700"); // Gold
 
         Mesh mesh = new Mesh();
         // Materials: 0: mast, 1: finial, 2: flag
@@ -502,7 +506,7 @@ public class RenderableElement {
             double x = polyRadius * Math.cos(angle);
             double y = polyRadius * Math.sin(angle);
             bottomIndices[i] = mesh.addVertex(new Point3D(x, y, 0));
-            topIndices[i] = mesh.addVertex(new Point3D(x, y, height));
+            topIndices[i] = mesh.addVertex(new Point3D(top_rate*x, top_rate*y, height));
         }
         // Walls of the mast
         for (int i = 0; i < poleSegments; i++) {
