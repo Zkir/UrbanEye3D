@@ -506,7 +506,7 @@ public class RenderableElement {
             double x = polyRadius * Math.cos(angle);
             double y = polyRadius * Math.sin(angle);
             bottomIndices[i] = mesh.addVertex(new Point3D(x, y, 0));
-            topIndices[i] = mesh.addVertex(new Point3D(top_rate*x, top_rate*y, height));
+            topIndices[i] = mesh.addVertex(new Point3D(top_rate*x, top_rate*y, height-finialHeight));
         }
         // Walls of the mast
         for (int i = 0; i < poleSegments; i++) {
@@ -519,15 +519,15 @@ public class RenderableElement {
         mesh.addFace(topCap, 0);
 
         // 2. Finial (A small diamond/octahedron at the top)
-        Point3D pTop = new Point3D(0, 0, height + finialHeight);
-        Point3D pBottom = new Point3D(0, 0, height);
+        Point3D pTop = new Point3D(0, 0, height );
+        Point3D pBottom = new Point3D(0, 0, height - finialHeight);
         int vTop = mesh.addVertex(pTop);
         int vBottom = mesh.addVertex(pBottom);
         int[] midRing = new int[4];
-        midRing[0] = mesh.addVertex(new Point3D(finialRadius, 0, height + finialHeight / 2.0));
-        midRing[1] = mesh.addVertex(new Point3D(0, finialRadius, height + finialHeight / 2.0));
-        midRing[2] = mesh.addVertex(new Point3D(-finialRadius, 0, height + finialHeight / 2.0));
-        midRing[3] = mesh.addVertex(new Point3D(0, -finialRadius, height + finialHeight / 2.0));
+        midRing[0] = mesh.addVertex(new Point3D(finialRadius, 0, pBottom.z + finialHeight / 2.0));
+        midRing[1] = mesh.addVertex(new Point3D(0, finialRadius, pBottom.z + finialHeight / 2.0));
+        midRing[2] = mesh.addVertex(new Point3D(-finialRadius, 0, pBottom.z + finialHeight / 2.0));
+        midRing[3] = mesh.addVertex(new Point3D(0, -finialRadius, pBottom.z + finialHeight / 2.0));
 
         for (int i = 0; i < 4; i++) {
             int next = (i + 1) % 4;
@@ -541,7 +541,7 @@ public class RenderableElement {
         double cosW = Math.cos(windAngle);
         double sinW = Math.sin(windAngle);
 
-        double flagTopZ = height - 0.15; // slightly below finial
+        double flagTopZ = height - finialHeight - 0.15; // slightly below finial
         double flagBottomZ = flagTopZ - flagHeight;
         double thickness = 0.01; // 1cm thick
 
