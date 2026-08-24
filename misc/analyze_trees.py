@@ -206,29 +206,43 @@ def extract_height_circ(input_filename, csv_outfile, numeric_cols):
         reader = csv.DictReader(infile)
         for row in reader:
             row1 = {}
+            skip_row = False
             for col in numeric_cols:
                 value_str = row.get(col)
                 
-                if col in ["height", "circumference"]:
+                if col in ["height", "circumference","diameter_crown"]:
                     value_str=clean_height_or_circumference(value_str)
-                    if col in ["circumference"]:
-                        if value_str:
-                            x=float(value_str)
+                    if value_str:
+                        x=float(value_str)
+                        if col in ["circumference"]:
                             if x>45:
-                                value_str = str(x/100)
+                                x=x/100       
+                        if col in ["diameter_crown"]: 
+                            if x>150:
+                                x=x/100 
+                            if x>150:   
+                                x=150                                 
+                        if x>0:        
+                            value_str = math.log(x)        
+                        else:
+                            value_str = None                             
                         
                     
                 if col == 'age':
                     # we would like to find age, but we need to check two columns.
                     stage, age = clean_age(row.get('age'), row.get('start_date')) 
-                    value_str = age
+                    if age:
+                        value_str = math.log(float(age))
+                    else:    
+                        value_str = age
                     
                 row1[col]=value_str
                 
-            if (row1["height"] and row1["circumference"]) or (row1["height"] and row1["age"]):
-                flat_data.append(row1)
+            if not skip_row:    
+                if (row1["height"] and row1["circumference"]) or (row1["height"] and row1["age"]) or (row1["height"] and row1["diameter_crown"]):
+                    flat_data.append(row1)
             
-    final_header = ["height", "circumference", "age"]
+    final_header = ["height", "circumference", "age", 'diameter_crown']
                         
     with open(csv_outfile, 'w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=final_header)
@@ -238,7 +252,7 @@ def extract_height_circ(input_filename, csv_outfile, numeric_cols):
                         
     
     print("done")
-    exit(1)
+    #exit(1)
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Analyze tree data from a CSV file.")
@@ -255,10 +269,11 @@ if __name__ == "__main__":
     INPUT_FILE = os.path.join(script_dir, 'data', '10_trees', 'trees.csv')
     
     JSON_OUTPUT_FILE = os.path.join(script_dir, 'data', '10_trees', f'tree_stats_{GROUP_BY_COLUMN}_errors.json')
-    CSV_OUTPUT_FILE = os.path.join(script_dir, 'data', '10_trees', f'tree_stats_{GROUP_BY_COLUMN}.csv')
+    CSV_OUTPUT_FILE  = os.path.join(script_dir, 'data', '10_trees', f'tree_stats_{GROUP_BY_COLUMN}.csv')
+    CLEANED_CSV =      os.path.join(script_dir, 'data', '10_trees', 'trees_cleaned.csv')
     
-    NUMERIC_COLUMNS = ['height', 'circumference', 'age']
-    #extract_height_circ(INPUT_FILE, 'data/trees_cleaned.csv', NUMERIC_COLUMNS)
+    NUMERIC_COLUMNS = ['height', 'circumference', 'age', 'diameter_crown']
+    extract_height_circ(INPUT_FILE, CLEANED_CSV, NUMERIC_COLUMNS)
     
     # When grouping by a categorical column, we should not include it in the inner categorical analysis
     CATEGORICAL_COLUMNS = ['leaf_type', 'leaf_cycle' ] # 'species', 'genus' cannot be categorical columns, there are too many values
