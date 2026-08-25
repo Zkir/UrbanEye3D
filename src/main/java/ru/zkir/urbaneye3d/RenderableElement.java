@@ -593,17 +593,17 @@ public class RenderableElement {
 
             if (texturedFlag) {
                 // Front face with UVs
-                int uvTL = mesh.addUV(u0, 1.0);
-                int uvTR = mesh.addUV(u1, 1.0);
-                int uvBR = mesh.addUV(u1, 0.0);
-                int uvBL = mesh.addUV(u0, 0.0);
+                int uvTL = mesh.addUV(u0, 0.0);
+                int uvTR = mesh.addUV(u1, 0.0);
+                int uvBR = mesh.addUV(u1, 1.0);
+                int uvBL = mesh.addUV(u0, 1.0);
                 mesh.addFace(new int[]{topFront[i], topFront[i + 1], bottomFront[i + 1], bottomFront[i]},
                              new int[]{uvTL, uvTR, uvBR, uvBL});
                 // Back face with mirrored UVs (so the flag image isn't backward)
-                int uvTLb = mesh.addUV(u0, 1.0);
-                int uvBLb = mesh.addUV(u0, 0.0);
-                int uvBRb = mesh.addUV(u1, 0.0);
-                int uvTRb = mesh.addUV(u1, 1.0);
+                int uvTLb = mesh.addUV(u0, 0.0);
+                int uvBLb = mesh.addUV(u0, 1.0);
+                int uvBRb = mesh.addUV(u1, 1.0);
+                int uvTRb = mesh.addUV(u1, 0.0);
                 mesh.addFace(new int[]{topBack[i], bottomBack[i], bottomBack[i + 1], topBack[i + 1]},
                              new int[]{uvTLb, uvBLb, uvBRb, uvTRb});
             } else {
