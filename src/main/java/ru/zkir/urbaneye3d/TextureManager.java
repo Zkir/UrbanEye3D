@@ -47,6 +47,17 @@ public class TextureManager {
             return textureCache.get(path);
         }
 
+        // Delegate country-flag textures (e.g. "flag:ru") to the lazy SVG generator.
+        if (path.startsWith("flag:")) {
+            String cc = path.substring("flag:".length());
+            Texture tex = ru.zkir.urbaneye3d.utils.FlagTextureGenerator.getInstance()
+                    .getFlagTexture(gl, cc);
+            if (tex != null) {
+                textureCache.put(path, tex);
+            }
+            return tex;
+        }
+
         String fullPath = path.startsWith("/") ? path : "/textures/" + path;
 
         try (InputStream stream = TextureManager.class.getResourceAsStream(fullPath)) {

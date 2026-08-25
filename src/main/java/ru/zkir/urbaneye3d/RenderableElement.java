@@ -480,7 +480,8 @@ public class RenderableElement {
 
         String mastColorStr = getTagStr("colour", primitive, "#C0C0C0");
         String flagColorStr = getTagStr("flag:colour", primitive, null);
-        
+        String countryCode = getTagStr("country", primitive, null);
+
         // If explicit color is missing, try data-driven inference
         if (flagColorStr == null) {
             flagColorStr = FlagColorInference.getInstance().getInferredColor(primitive);
@@ -499,6 +500,12 @@ public class RenderableElement {
         mesh.materials.add(mastColor);
         mesh.materials.add(finialColor);
         mesh.materials.add(flagColor);
+
+        // If the OSM feature has a country tag, use a rasterised flag texture
+        // for the front/back faces of the flag. The texture is generated lazily.
+        if (countryCode != null && countryCode.length() == 2) {
+            mesh.textureName = "flag:" + countryCode.toLowerCase();
+        }
 
         // 1. Mast
         int[] bottomIndices = new int[poleSegments];
@@ -579,11 +586,32 @@ public class RenderableElement {
         }
 
         // Faces for the flag (watertight mesh)
+        boolean texturedFlag = mesh.textureName != null && mesh.textureName.startsWith("flag:");
         for (int i = 0; i < flagSegments; i++) {
-            // Front face
-            mesh.addFace(new int[]{topFront[i], topFront[i + 1], bottomFront[i + 1], bottomFront[i]}, 2);
-            // Back face
-            mesh.addFace(new int[]{topBack[i], bottomBack[i], bottomBack[i + 1], topBack[i + 1]}, 2);
+            double u0 = (double) i / flagSegments;
+            double u1 = (double) (i + 1) / flagSegments;
+
+            if (texturedFlag) {
+                // Front face with UVs
+                int uvTL = mesh.addUV(u0, 1.0);
+                int uvTR = mesh.addUV(u1, 1.0);
+                int uvBR = mesh.addUV(u1, 0.0);
+                int uvBL = mesh.addUV(u0, 0.0);
+                mesh.addFace(new int[]{topFront[i], topFront[i + 1], bottomFront[i + 1], bottomFront[i]},
+                             new int[]{uvTL, uvTR, uvBR, uvBL});
+                // Back face with mirrored UVs (so the flag image isn't backward)
+                int uvTLb = mesh.addUV(u0, 1.0);
+                int uvBLb = mesh.addUV(u0, 0.0);
+                int uvBRb = mesh.addUV(u1, 0.0);
+                int uvTRb = mesh.addUV(u1, 1.0);
+                mesh.addFace(new int[]{topBack[i], bottomBack[i], bottomBack[i + 1], topBack[i + 1]},
+                             new int[]{uvTLb, uvBLb, uvBRb, uvTRb});
+            } else {
+                // Front face
+                mesh.addFace(new int[]{topFront[i], topFront[i + 1], bottomFront[i + 1], bottomFront[i]}, 2);
+                // Back face
+                mesh.addFace(new int[]{topBack[i], bottomBack[i], bottomBack[i + 1], topBack[i + 1]}, 2);
+            }
             // Top edge
             mesh.addFace(new int[]{topFront[i], topBack[i], topBack[i + 1], topFront[i + 1]}, 2);
             // Bottom edge
