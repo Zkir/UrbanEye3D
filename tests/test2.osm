@@ -395,7 +395,8 @@
     <tag k='tower:type' v='communication' />
   </node>
   <node id='-5647168' action='modify' visible='true' lat='55.0511078325' lon='37.0431308605'>
-    <tag k='diameter' v='1000' />
+    <tag k='country' v='BY' />
+    <tag k='diameter' v='500' />
     <tag k='height' v='20' />
     <tag k='man_made' v='flagpole' />
     <tag k='shape' v='frustum' />
