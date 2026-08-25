@@ -1,2774 +1,2774 @@
 {
   "country": {
     "CA": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 1028
     },
     "AU": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.78,
       "count": 9
     },
     "EU": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 3
     }
   },
   "flag:name": {
     "Vietnam": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 95
     },
     "Connecticut": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 22
     },
     "McDonald’s": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 24
     },
     "Canada": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 990
     },
     "California": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 161
     },
     "Illinois": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 336
     },
     "Chicago": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 334
     },
     "Florida": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 59
     },
     "Oregon": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 56
     },
     "United States;POW/MIA": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 0.99,
       "count": 324
     },
     "POW/MIA": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 173
     },
     "McDonald's": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 0.94,
       "count": 138
     },
     "Massachusetts": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 47
     },
     "Minnesota": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 26
     },
     "Iowa": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 20
     },
     "Kansas": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 8
     },
     "West Virginia": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 9
     },
     "Nevada": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 10
     },
     "Nebraska": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 17
     },
     "Colorado": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 39
     },
     "North Dakota": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 8
     },
     "South Dakota": {
-      "flag:colour": "cyan",
+      "value": "cyan",
       "prob": 1.0,
       "count": 9
     },
     "Montana": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 9
     },
     "Idaho": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 6
     },
     "Wyoming": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 9
     },
     "Arkansas": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 17
     },
     "Maine": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 7
     },
     "Alabama": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 19
     },
     "Indiana": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 53
     },
     "Louisiana": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 39
     },
     "Tennessee": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 17
     },
     "Kentucky": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 25
     },
     "Vermont": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 7
     },
     "Rhode Island": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 9
     },
     "New York": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 61
     },
     "Virginia": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 67
     },
     "New Hampshire": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 24
     },
     "South Carolina": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 40
     },
     "Georgia": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 28
     },
     "Pennsylvania": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 26
     },
     "Delaware": {
-      "flag:colour": "cyan",
+      "value": "cyan",
       "prob": 1.0,
       "count": 7
     },
     "Alaska": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 9
     },
     "Arizona": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 30
     },
     "New Mexico": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 22
     },
     "Oklahoma": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 37
     },
     "Utah": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 22
     },
     "Michigan": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 44
     },
     "Tropical Isle": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 3
     },
     "Wisconsin": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 50
     },
     "Québec": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 40
     },
     "Washington": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 0.89,
       "count": 27
     },
     "pennsylvania": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 3
     },
     "Hilton": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 0.88,
       "count": 8
     },
     "United States;Illinois;POW/MIA": {
-      "flag:colour": "white;black",
+      "value": "white;black",
       "prob": 1.0,
       "count": 2
     },
     "illinois": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 4
     },
     "Marian": {
-      "flag:colour": "blue;white",
+      "value": "blue;white",
       "prob": 1.0,
       "count": 3
     },
     "Saint Joseph": {
-      "flag:colour": "red;white",
+      "value": "red;white",
       "prob": 1.0,
       "count": 2
     },
     "South Vietnam": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 73
     },
     "canada": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 26
     },
     "SM Group": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 15
     },
     "United States;Indiana": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 20
     },
     "World Organization of the Scout Movement": {
-      "flag:colour": "purple",
+      "value": "purple",
       "prob": 1.0,
       "count": 2
     },
     "ca": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "United States Marine Corps": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "United States Air Force": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "University at Buffalo": {
-      "flag:colour": "#005BBB",
+      "value": "#005BBB",
       "prob": 1.0,
       "count": 2
     },
     "United States;Chicago": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 54
     },
     "Lee’s Sandwiches": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 8
     },
     "Alberta": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 30
     },
     "Monroe": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "United States Army": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "usa;POW/MIA": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 2
     },
     "United States;Wendy’s": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "International Association of Fire Fighters": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 7
     },
     "Quebec": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 8
     },
     "Fairfield": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "ILB": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "WFBB": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Drees Homes": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "Christianity": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 17
     },
     "United States;Christianity": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 7
     },
     "United States;California": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 15
     },
     "Australia": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.86,
       "count": 7
     },
     "Wilder": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "KüchenRaum": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "Việt Nam": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Washington, D.C.": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 5
     },
     "New Jersey": {
-      "flag:colour": "wheat",
+      "value": "wheat",
       "prob": 1.0,
       "count": 23
     },
     "Mississippi": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 7
     },
     "Chevrolet Corvette": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 2
     },
     "United States;Kentucky": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Subic Bay Metropolitan Authority": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "United States;Florida": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Association of Southeast Asian Nations": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 12
     },
     "Barnes & Noble": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "National Louis University": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Christian": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 4
     },
     "Navajo Nation": {
-      "flag:colour": "tan",
+      "value": "tan",
       "prob": 1.0,
       "count": 3
     },
     "Magdalo Faction": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Bandila ni Andres Bonifacio": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Bungo ni Llanera": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 3
     },
     "Single K Flag": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Katipunan Acronym in Triangle Flag": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Katipunan Acronym Flag": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Katipunan Sun with Face Flag": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "National Museum of the Philippines": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Marriott": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "City of Muntinlupa": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Quezon City": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 2
     },
     "City of Pasig": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "United States;Tree City USA": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Iloilo Province": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "florida": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 3
     },
     "indiana": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Lincoln Park": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Dannebrog": {
-      "flag:colour": "#E31836",
+      "value": "#E31836",
       "prob": 1.0,
       "count": 2
     },
     "United States;Illinois": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 25
     },
     "Riverpark Towers": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "POW-MIA": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 5
     },
     "Illinois;Chicago": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 4
     },
     "POW MIA": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 3
     },
     "United States;McDonald's": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 14
     },
     "US;POW/MIA": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 4
     },
     "Washington State": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "POW": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 5
     },
     "United States;New Hampshire": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "POWMIA": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 3
     },
     "McDonalds": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "New York State": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Dolton": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 4
     },
     "United States;South Carolina": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "pow": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 7
     },
     "Federal Bureau of Investigation": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "christian": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 3
     },
     "Flag of British Columbia": {
-      "flag:colour": "#0047BB",
+      "value": "#0047BB",
       "prob": 1.0,
       "count": 2
     },
     "UFA": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Prisoner of War": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 4
     },
     "United States;POW": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 2
     },
     "United States;Michigan": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "georgia": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "United States;POW/MIA;Chicago": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 3
     },
     "chicago": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Tree City USA": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 6
     },
     "Beehive Flag": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "usa": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 2
     },
     "United States;POW/MIA;Illinois": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 5
     },
     "colorado": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 3
     },
     "Supreme Court of the Philippines": {
-      "flag:colour": "purple",
+      "value": "purple",
       "prob": 1.0,
       "count": 2
     },
     "Đảng Cộng sản Việt Nam": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 6
     },
     "CA": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "california": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 3
     },
     "Hilton Garden Inn": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Illinois;POW/MIA": {
-      "flag:colour": "white;black",
+      "value": "white;black",
       "prob": 1.0,
       "count": 2
     },
     "washington": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "Firing range warning": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "quebec": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 8
     },
     "Zwemmen verboden": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Bewaakte badderszone": {
-      "flag:colour": "red;yellow",
+      "value": "red;yellow",
       "prob": 1.0,
       "count": 3
     },
     "wisconsin": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 5
     },
     "National League of Families POW/MIA flag": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 3
     },
     "United States;Virginia": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "montana": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 4
     },
     "PS": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 3
     },
     "Cornwall": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 2
     },
     "Budva": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "United States;POW/MIA;Illinois;Chicago": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 2
     },
     "alberta": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "TCB Tennisclub Buckenhof": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "Expressway sign": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     }
   },
   "flag:wikidata": {
     "Q131204": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 98
     },
     "Q752573": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 23
     },
     "Q64300176": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 0.95,
       "count": 160
     },
     "Q80110": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 1025
     },
     "Q330517": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 166
     },
     "Q752837": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 342
     },
     "Q1402799": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 336
     },
     "Q730106": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 63
     },
     "Q19427": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 58
     },
     "Q42537;Q1463762": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 0.99,
       "count": 333
     },
     "Q1463762": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 211
     },
     "Q221881": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 48
     },
     "Q828147": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 25
     },
     "Q492541": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 22
     },
     "Q284396": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 8
     },
     "Q843879": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 9
     },
     "Q752562": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 10
     },
     "Q734071": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 18
     },
     "Q492546": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 42
     },
     "Q837312": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 8
     },
     "Q567838": {
-      "flag:colour": "cyan",
+      "value": "cyan",
       "prob": 1.0,
       "count": 9
     },
     "Q633087": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 13
     },
     "Q736760": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 6
     },
     "Q492524": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 9
     },
     "Q369833": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 19
     },
     "Q499127": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 7
     },
     "Q497997": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 19
     },
     "Q673117": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 55
     },
     "Q19374": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 39
     },
     "Q605195": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 18
     },
     "Q590821": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 25
     },
     "Q524824": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 9
     },
     "Q520966": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 10
     },
     "Q19016": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.98,
       "count": 64
     },
     "Q18993": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 67
     },
     "Q248102": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 24
     },
     "Q19373": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 41
     },
     "Q676623": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 33
     },
     "Q18983": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 29
     },
     "Q752566": {
-      "flag:colour": "cyan",
+      "value": "cyan",
       "prob": 1.0,
       "count": 8
     },
     "Q156564": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 10
     },
     "Q632491": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 31
     },
     "Q642998": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 22
     },
     "Q258262": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 37
     },
     "Q736625": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 24
     },
     "Q285418": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 45
     },
     "Q63874423": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 10
     },
     "Q241083": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 55
     },
     "Q392167": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 57
     },
     "Q731163": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 29
     },
     "Q77795712": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 0.88,
       "count": 8
     },
     "Q42537;Q752837;Q1463762": {
-      "flag:colour": "white;black",
+      "value": "white;black",
       "prob": 1.0,
       "count": 2
     },
     "Q1740429": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 73
     },
     "Q77783292": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 3
     },
     "Q96602193": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 5
     },
     "Q42537;Q673117": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 20
     },
     "Q5456897": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "Q5456894": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q79678237": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 12
     },
     "Q42537;Q1402799": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 54
     },
     "Q1122078": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 32
     },
     "Q64840938": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q5456898": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q116986686": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "Q70143393": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Q1084035": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 24
     },
     "Q42537;Q1084035": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 8
     },
     "Q42537;Q330517": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 16
     },
     "Q81676": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.88,
       "count": 8
     },
     "Q80907988": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q906340": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 6
     },
     "Q6950149": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q119605": {
-      "flag:colour": "wheat",
+      "value": "wheat",
       "prob": 1.0,
       "count": 23
     },
     "Q301628": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 7
     },
     "Q122482": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q590821": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q730106": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q783490": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 12
     },
     "Q20020313": {
-      "flag:colour": "tan",
+      "value": "tan",
       "prob": 1.0,
       "count": 3
     },
     "Q135472669": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 3
     },
     "Q42537;Q100711795": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q752837": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 26
     },
     "Q752837;Q1402799": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 4
     },
     "Q42537;Q64300176": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 15
     },
     "Q42537;Q285418": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 3
     },
     "Q42537;Q248102": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q1463762;Q42537": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 4
     },
     "Q42537;Q19373": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q113518795": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q1402967": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q168925": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 3
     },
     "Q42537;Q1463762;Q1402799": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 3
     },
     "Q100711795": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 7
     },
     "Q42537;Q1463762;Q752837": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 5
     },
     "Q34494": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q74052383": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q752837;Q1463762": {
-      "flag:colour": "white;black",
+      "value": "white;black",
       "prob": 1.0,
       "count": 2
     },
     "Q126489298": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 3
     },
     "Q42537;Q18993": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q130739387": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 3
     },
     "Q1919103": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q1463762;Q752837;Q1402799": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 2
     }
   },
   "operator": {
     "SM Prime Holdings": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.94,
       "count": 16
     },
     "McDonald's": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 0.81,
       "count": 16
     },
     "Boy Scouts of the Philippines": {
-      "flag:colour": "purple",
+      "value": "purple",
       "prob": 1.0,
       "count": 2
     },
     "University at Buffalo": {
-      "flag:colour": "#005BBB",
+      "value": "#005BBB",
       "prob": 1.0,
       "count": 2
     },
     "Franklin Baker Company of the Philippines": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Stadt Mainz": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 12
     },
     "Investitionsbank des Landes Brandenburg": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 4
     },
     "Subic Bay Metropolitan Authority": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Municipal Government of Indang, Cavite": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 0.86,
       "count": 7
     },
     "National Museum of the Philippines": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "The Bayleaf Intramuros": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Metropolitan Bank and Trust Company": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 2
     },
     "Lungsod Quezon": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 2
     },
     "Philippine Veterans Affairs Office": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 18
     },
     "710th Special Operations Wing, Philippine Air Force": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.83,
       "count": 6
     },
     "City Government of Manila": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 0.86,
       "count": 7
     },
     "City Government of Pasig": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "Provincial Government of Iloilo": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Village of Beiseker": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "REWE": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "Vlaggenparade": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Oral Roberts University": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "United States Postal Service": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 3
     },
     "McDonalds": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "The E.W. Scripps Company": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "City of Delta": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "UFA GmbH": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Landwirtschaflocation=surfacetskammer Niedersachsen": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Copper Hills High School": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Vietnam": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "Makati Central Estate Association": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Supreme Court of the Philippines": {
-      "flag:colour": "purple",
+      "value": "purple",
       "prob": 1.0,
       "count": 2
     },
     "Hilton Garden Inn": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "MOD": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Hochschule Furtwangen University": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 3
     },
     "Jan-Thorsten Gluth, Gluth Systemgastronomie e.K.": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "Minnesota Department of Transportation": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "City of Charleston": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Town of Groton": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 3
     },
     "Easy Fit I GmbH": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 2
     },
     "Parcs Canada": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     }
   },
   "subject": {
     "Vietnam": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 98
     },
     "Connecticut": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 23
     },
     "McDonald's": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 0.96,
       "count": 151
     },
     "Canada": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 1024
     },
     "California": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 166
     },
     "Illinois": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 342
     },
     "Chicago": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 337
     },
     "Florida": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 63
     },
     "Oregon": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 58
     },
     "United States;National League of POW/MIA Families": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 0.99,
       "count": 334
     },
     "National League of POW/MIA Families": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 211
     },
     "Massachusetts": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 48
     },
     "Minnesota": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 27
     },
     "Iowa": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 22
     },
     "Kansas": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 8
     },
     "West Virginia": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 9
     },
     "Nevada": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 10
     },
     "Nebraska": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 18
     },
     "Colorado": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 42
     },
     "North Dakota": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 7
     },
     "South Dakota": {
-      "flag:colour": "cyan",
+      "value": "cyan",
       "prob": 1.0,
       "count": 9
     },
     "Montana": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 13
     },
     "Idaho": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 6
     },
     "Wyoming": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 9
     },
     "Arkansas": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 19
     },
     "Maine": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 7
     },
     "Alabama": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 19
     },
     "Indiana": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 55
     },
     "Louisiana": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 39
     },
     "Tennessee": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 18
     },
     "Kentucky": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 25
     },
     "Vermont": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 9
     },
     "Rhode Island": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 10
     },
     "New York": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 63
     },
     "Virginia": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 67
     },
     "New Hampshire": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 24
     },
     "South Carolina": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 41
     },
     "Georgia": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 33
     },
     "Pennsylvania": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 29
     },
     "Delaware": {
-      "flag:colour": "cyan",
+      "value": "cyan",
       "prob": 1.0,
       "count": 8
     },
     "Alaska": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 10
     },
     "Arizona": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 31
     },
     "New Mexico": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 22
     },
     "Oklahoma": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 37
     },
     "Utah": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 24
     },
     "Michigan": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 45
     },
     "Tropical Isle": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 3
     },
     "Wisconsin": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 55
     },
     "Québec": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 57
     },
     "Washington": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 0.91,
       "count": 32
     },
     "Hilton": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 0.88,
       "count": 8
     },
     "United States;Illinois;National League of POW/MIA Families": {
-      "flag:colour": "white;black",
+      "value": "white;black",
       "prob": 1.0,
       "count": 2
     },
     "Saint Joseph": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 0.75,
       "count": 8
     },
     "South Vietnam": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 73
     },
     "SM Group": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 15
     },
     "United States;Indiana": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 20
     },
     "World Organization of the Scout Movement": {
-      "flag:colour": "purple",
+      "value": "purple",
       "prob": 1.0,
       "count": 2
     },
     "United States Marine Corps": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "United States Air Force": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "University at Buffalo": {
-      "flag:colour": "#005BBB",
+      "value": "#005BBB",
       "prob": 1.0,
       "count": 2
     },
     "United States;Chicago": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 55
     },
     "McDonald’s": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 12
     },
     "Lee’s Sandwiches": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 8
     },
     "Alberta": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 33
     },
     "Monroe": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "United States Army": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "United States;Wendy’s": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "International Association of Fire Fighters": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 7
     },
     "Fairfield": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Drees Homes": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "Christianity": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 24
     },
     "United States;Christianity": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 8
     },
     "United States;California": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 16
     },
     "Australia": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.86,
       "count": 7
     },
     "Wilder": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Jesus": {
-      "flag:colour": "gold",
+      "value": "gold",
       "prob": 1.0,
       "count": 5
     },
     "Washington, D.C.": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 6
     },
     "New Jersey": {
-      "flag:colour": "wheat",
+      "value": "wheat",
       "prob": 1.0,
       "count": 23
     },
     "Mississippi": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.88,
       "count": 8
     },
     "Chevrolet Corvette": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 2
     },
     "United States;Kentucky": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Subic Bay Metropolitan Authority": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "ASEAN": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 5
     },
     "Barnes & Noble": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "Association of Southeast Asian Nations": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 7
     },
     "National Louis University": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Navajo Nation": {
-      "flag:colour": "tan",
+      "value": "tan",
       "prob": 1.0,
       "count": 3
     },
     "Magdalo Faction": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Andres Bonifacio": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Mariano Llanera": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 3
     },
     "Katipunan": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 6
     },
     "Katipunan;Republic of Biak-na-Bato": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "National Museum of the Philippines": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "City of Muntinlupa": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Quezon City": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 2
     },
     "City of Pasig": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "United States;Tree City USA": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Iloilo Province": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Lincoln Park": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Denmark": {
-      "flag:colour": "#E31836",
+      "value": "#E31836",
       "prob": 1.0,
       "count": 2
     },
     "United States;Illinois": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 28
     },
     "Riverpark Towers": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Illinois;Chicago": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 4
     },
     "United States;McDonald's": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 14
     },
     "United States;Michigan": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 3
     },
     "United States;New Hampshire": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "National League of POW/MIA Families;United States": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 4
     },
     "United States;South Carolina": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Federal Bureau of Investigation": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "La Galerie": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "United States;National League of POW/MIA Families;Chicago": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 3
     },
     "Tree City USA": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 7
     },
     "Santo André": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "United States;National League of POW/MIA Families;Illinois": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 5
     },
     "Supreme Court of the Philippines": {
-      "flag:colour": "purple",
+      "value": "purple",
       "prob": 1.0,
       "count": 2
     },
     "Đảng Cộng sản Việt Nam": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 6
     },
     "Hilton Garden Inn": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Illinois;National League of POW/MIA Families": {
-      "flag:colour": "white;black",
+      "value": "white;black",
       "prob": 1.0,
       "count": 2
     },
     "United States;Virginia": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "United States;National League of POW/MIA Families;Illinois;Chicago": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 2
     }
   },
   "subject:wikidata": {
     "Q881": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 98
     },
     "Q779": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 23
     },
     "Q38076": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 0.96,
       "count": 163
     },
     "Q16": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 1024
     },
     "Q99": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 166
     },
     "Q1204": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 342
     },
     "Q1297": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 337
     },
     "Q812": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 63
     },
     "Q824": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 58
     },
     "Q30;Q6974069": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 332
     },
     "Q6974069": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 211
     },
     "Q771": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 48
     },
     "Q1527": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 25
     },
     "Q1546": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 22
     },
     "Q1558": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 8
     },
     "Q1371": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 9
     },
     "Q1227": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 10
     },
     "Q1553": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 18
     },
     "Q1261": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 42
     },
     "Q1207": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 8
     },
     "Q1211": {
-      "flag:colour": "cyan",
+      "value": "cyan",
       "prob": 1.0,
       "count": 9
     },
     "Q1212": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 13
     },
     "Q1221": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 6
     },
     "Q1214": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 9
     },
     "Q1612": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 19
     },
     "Q724": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 7
     },
     "Q173": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 19
     },
     "Q1415": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 55
     },
     "Q1588": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 39
     },
     "Q1509": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 18
     },
     "Q1603": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 25
     },
     "Q16551": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 9
     },
     "Q1387": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 10
     },
     "Q1384": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.98,
       "count": 64
     },
     "Q1370": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 67
     },
     "Q759": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 24
     },
     "Q1456": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 41
     },
     "Q1428": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 33
     },
     "Q1400": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 29
     },
     "Q1393": {
-      "flag:colour": "cyan",
+      "value": "cyan",
       "prob": 1.0,
       "count": 8
     },
     "Q797": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 10
     },
     "Q816": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 31
     },
     "Q1522": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 22
     },
     "Q1649": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 37
     },
     "Q829": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 24
     },
     "Q1166": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 45
     },
     "Q1537": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 55
     },
     "Q176": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 57
     },
     "Q1223": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 29
     },
     "Q598884": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 0.88,
       "count": 8
     },
     "Q30;Q1204;Q6974069": {
-      "flag:colour": "white;black",
+      "value": "white;black",
       "prob": 1.0,
       "count": 3
     },
     "Q128267": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 0.75,
       "count": 8
     },
     "Q180573": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 73
     },
     "Q761885": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 3
     },
     "Q7391498": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 15
     },
     "Q30;Q1415": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 20
     },
     "Q210347": {
-      "flag:colour": "purple",
+      "value": "purple",
       "prob": 1.0,
       "count": 2
     },
     "Q11218": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 3
     },
     "Q11223": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q681025": {
-      "flag:colour": "#005BBB",
+      "value": "#005BBB",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q1297": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 55
     },
     "Q6512823": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 8
     },
     "Q1951": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 32
     },
     "Q1018314": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q9212": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q550258": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Q15220388": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 7
     },
     "Q1002506": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Q5043": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 24
     },
     "Q30;Q5043": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 8
     },
     "Q30;Q99": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 16
     },
     "Q408": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.86,
       "count": 7
     },
     "Q940060": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q61": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 6
     },
     "Q1408": {
-      "flag:colour": "wheat",
+      "value": "wheat",
       "prob": 1.0,
       "count": 23
     },
     "Q1494": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 0.88,
       "count": 8
     },
     "Q56166": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q1603": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q83133": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q812": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q7768": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 12
     },
     "Q795454": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "Q6974219": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q1783171": {
-      "flag:colour": "tan",
+      "value": "tan",
       "prob": 1.0,
       "count": 3
     },
     "Q6729984": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Q313604": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Q12967763": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 3
     },
     "Q673018": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 6
     },
     "Q673018;Q575132": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 2
     },
     "Q1667156": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q17176": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q1475": {
-      "flag:colour": "yellow",
+      "value": "yellow",
       "prob": 1.0,
       "count": 2
     },
     "Q1624": {
-      "flag:colour": "green",
+      "value": "green",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q7837537": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q13825": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q1642036": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q35": {
-      "flag:colour": "#E31836",
+      "value": "#E31836",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q1204": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 28
     },
     "Q1204;Q1297": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 4
     },
     "Q30;Q38076": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 15
     },
     "Q30;Q1166": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 3
     },
     "Q30;Q759": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q6974069;Q30": {
-      "flag:colour": "black",
+      "value": "black",
       "prob": 1.0,
       "count": 4
     },
     "Q30;Q1456": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q8333": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q6974069;Q1297": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 3
     },
     "Q7837537": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 7
     },
     "Q191652": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q6974069;Q1204": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 5
     },
     "Q514212": {
-      "flag:colour": "purple",
+      "value": "purple",
       "prob": 1.0,
       "count": 2
     },
     "Q427325": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 6
     },
     "Q36687": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q1162859": {
-      "flag:colour": "white",
+      "value": "white",
       "prob": 1.0,
       "count": 2
     },
     "Q1204;Q6974069": {
-      "flag:colour": "white;black",
+      "value": "white;black",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q1370": {
-      "flag:colour": "blue",
+      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q6974069;Q1204;Q1297": {
-      "flag:colour": "black;white",
+      "value": "black;white",
       "prob": 1.0,
       "count": 2
     }
   },
   "brand": {
     "McDonald’s": {
-      "flag:colour": "red",
+      "value": "red",
       "prob": 1.0,
       "count": 5
     }

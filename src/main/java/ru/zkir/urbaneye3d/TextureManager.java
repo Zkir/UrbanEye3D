@@ -3,12 +3,10 @@ package ru.zkir.urbaneye3d;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
-import ru.zkir.urbaneye3d.utils.FlagTextureGenerator;
+import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
+import ru.zkir.urbaneye3d.utils.FlagsDatabase;
 
 import java.io.InputStream;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set;
@@ -48,40 +46,41 @@ public class TextureManager {
             return textureCache.get(path);
         }
 
-        // Delegate country-flag textures (e.g. "flag:ru") to the lazy SVG generator.
+
+
+        Texture texture;
         if (path.startsWith("flag:")) {
             String cc = path.substring("flag:".length());
-            Texture tex = FlagTextureGenerator.getInstance()
-                    .getFlagTexture(gl, cc);
-            if (tex != null) {
-                textureCache.put(path, tex);
-            }
-            return tex;
-        }
-
-        String fullPath = path.startsWith("/") ? path : "/textures/" + path;
-
-        try (InputStream stream = TextureManager.class.getResourceAsStream(fullPath)) {
-            if (stream == null) {
-                UrbanEye3dPlugin.debugMsg("Could not find texture: " + fullPath);
+            var flagsDatabase = FlagsDatabase.getInstance();
+            var img  = flagsDatabase.getFlagTexture(cc);
+            texture = AWTTextureIO.newTexture(gl.getGLProfile(), img, false);
+        }else {
+            String fullPath = path.startsWith("/") ? path : "/textures/" + path;
+            try (InputStream stream = TextureManager.class.getResourceAsStream(fullPath)) {
+                if (stream == null) {
+                    UrbanEye3dPlugin.debugMsg("Could not find texture: " + fullPath);
+                    return null;
+                }
+                // Determine suffix (e.g., ".png")
+                String suffix = fullPath.substring(fullPath.lastIndexOf('.'));
+                texture = TextureIO.newTexture(stream, true, suffix);
+            } catch (Exception e) {
+                UrbanEye3dPlugin.debugMsg("Error loading texture: " + fullPath + " " + e.getMessage());
                 return null;
             }
-            // Determine suffix (e.g., ".png")
-            String suffix = fullPath.substring(fullPath.lastIndexOf('.'));
-            Texture texture = TextureIO.newTexture(stream, true, suffix);
+        }
 
-            texture.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
-            texture.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-            texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
-            texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
-
-            textureCache.put(path, texture);
-            return texture;
-        } catch (Exception e) {
-            UrbanEye3dPlugin.debugMsg("Error loading texture: " + fullPath);
-            e.printStackTrace();
+        if (texture == null) {
+            UrbanEye3dPlugin.debugMsg("Error loading texture: " + path);
             return null;
         }
+
+        texture.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+        texture.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
+        texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
+        texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
+        textureCache.put(path, texture);
+        return texture;
     }
 
     /**

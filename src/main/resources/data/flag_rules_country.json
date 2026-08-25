@@ -1,7870 +1,7870 @@
 {
   "flag:name": {
     "United States": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 15433
     },
     "Israel": {
-      "country": "IL",
+      "value": "IL",
       "prob": 1.0,
       "count": 53
     },
     "Australia": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 332
     },
     "Vietnam": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 96
     },
     "Burundi": {
-      "country": "BI",
+      "value": "BI",
       "prob": 1.0,
       "count": 5
     },
     "Germany": {
-      "country": "DE",
+      "value": "DE",
       "prob": 1.0,
       "count": 273
     },
     "Kyrgyzstan": {
-      "country": "KG",
+      "value": "KG",
       "prob": 1.0,
       "count": 18
     },
     "Spain": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 349
     },
     "Philippines": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 1201
     },
     "Canada": {
-      "country": "CA",
+      "value": "CA",
       "prob": 1.0,
       "count": 1002
     },
     "American Samoa": {
-      "country": "AS",
+      "value": "AS",
       "prob": 1.0,
       "count": 3
     },
     "Nicaragua": {
-      "country": "NI",
+      "value": "NI",
       "prob": 1.0,
       "count": 23
     },
     "Italy": {
-      "country": "IT",
+      "value": "IT",
       "prob": 1.0,
       "count": 548
     },
     "China 中国": {
-      "country": "CN",
+      "value": "CN",
       "prob": 1.0,
       "count": 3
     },
     "Romania": {
-      "country": "RO",
+      "value": "RO",
       "prob": 1.0,
       "count": 104
     },
     "Slovakia": {
-      "country": "SK",
+      "value": "SK",
       "prob": 1.0,
       "count": 90
     },
     "usa": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 145
     },
     "France": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 2325
     },
     "USA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 43
     },
     "Chile": {
-      "country": "CL",
+      "value": "CL",
       "prob": 1.0,
       "count": 412
     },
     "Estonia": {
-      "country": "EE",
+      "value": "EE",
       "prob": 1.0,
       "count": 111
     },
     "Latvia": {
-      "country": "LV",
+      "value": "LV",
       "prob": 1.0,
       "count": 59
     },
     "Sudan": {
-      "country": "SD",
+      "value": "SD",
       "prob": 1.0,
       "count": 7
     },
     "Marshall Islands": {
-      "country": "MH",
+      "value": "MH",
       "prob": 1.0,
       "count": 3
     },
     "Europe": {
-      "country": "EU",
+      "value": "EU",
       "prob": 0.98,
       "count": 1431
     },
     "Turkey": {
-      "country": "TR",
+      "value": "TR",
       "prob": 1.0,
       "count": 253
     },
     "Albania": {
-      "country": "AL",
+      "value": "AL",
       "prob": 1.0,
       "count": 23
     },
     "Isle of Man": {
-      "country": "IM",
+      "value": "IM",
       "prob": 1.0,
       "count": 28
     },
     "Greece": {
-      "country": "GR",
+      "value": "GR",
       "prob": 1.0,
       "count": 251
     },
     "China": {
-      "country": "CN",
+      "value": "CN",
       "prob": 1.0,
       "count": 946
     },
     "Finland": {
-      "country": "FI",
+      "value": "FI",
       "prob": 1.0,
       "count": 276
     },
     "Chicago": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Georgia": {
-      "country": "GE",
+      "value": "GE",
       "prob": 1.0,
       "count": 44
     },
     "Maldives": {
-      "country": "MV",
+      "value": "MV",
       "prob": 1.0,
       "count": 7
     },
     "Norway": {
-      "country": "NO",
+      "value": "NO",
       "prob": 1.0,
       "count": 406
     },
     "Kazakhstan": {
-      "country": "KZ",
+      "value": "KZ",
       "prob": 1.0,
       "count": 77
     },
     "Sweden": {
-      "country": "SE",
+      "value": "SE",
       "prob": 1.0,
       "count": 642
     },
     "South Korea": {
-      "country": "KR",
+      "value": "KR",
       "prob": 1.0,
       "count": 64
     },
     "New Zealand": {
-      "country": "NZ",
+      "value": "NZ",
       "prob": 1.0,
       "count": 156
     },
     "Mexico": {
-      "country": "MX",
+      "value": "MX",
       "prob": 1.0,
       "count": 254
     },
     "United States;California": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 84
     },
     "Ukraine": {
-      "country": "UA",
+      "value": "UA",
       "prob": 1.0,
       "count": 286
     },
     "Portugal": {
-      "country": "PT",
+      "value": "PT",
       "prob": 1.0,
       "count": 90
     },
     "Belarus": {
-      "country": "BY",
+      "value": "BY",
       "prob": 0.99,
       "count": 71
     },
     "Holy See": {
-      "country": "VA",
+      "value": "VA",
       "prob": 0.93,
       "count": 15
     },
     "Zimbabwe": {
-      "country": "ZW",
+      "value": "ZW",
       "prob": 1.0,
       "count": 9
     },
     "Zambia": {
-      "country": "ZM",
+      "value": "ZM",
       "prob": 1.0,
       "count": 10
     },
     "Yemen": {
-      "country": "YE",
+      "value": "YE",
       "prob": 1.0,
       "count": 4
     },
     "Venezuela": {
-      "country": "VE",
+      "value": "VE",
       "prob": 1.0,
       "count": 22
     },
     "Vanuatu": {
-      "country": "VU",
+      "value": "VU",
       "prob": 1.0,
       "count": 6
     },
     "Uzbekistan": {
-      "country": "UZ",
+      "value": "UZ",
       "prob": 1.0,
       "count": 15
     },
     "Uruguay": {
-      "country": "UY",
+      "value": "UY",
       "prob": 1.0,
       "count": 16
     },
     "Tanzania": {
-      "country": "TZ",
+      "value": "TZ",
       "prob": 1.0,
       "count": 9
     },
     "United Kingdom": {
-      "country": "GB",
+      "value": "GB",
       "prob": 1.0,
       "count": 21
     },
     "United Arab Emirates": {
-      "country": "AE",
+      "value": "AE",
       "prob": 1.0,
       "count": 15
     },
     "Uganda": {
-      "country": "UG",
+      "value": "UG",
       "prob": 1.0,
       "count": 7
     },
     "Tuvalu": {
-      "country": "TV",
+      "value": "TV",
       "prob": 1.0,
       "count": 4
     },
     "Turkmenistan": {
-      "country": "TM",
+      "value": "TM",
       "prob": 1.0,
       "count": 276
     },
     "Tunisia": {
-      "country": "TN",
+      "value": "TN",
       "prob": 1.0,
       "count": 26
     },
     "Trinidad and Tobago": {
-      "country": "TT",
+      "value": "TT",
       "prob": 1.0,
       "count": 12
     },
     "Tonga": {
-      "country": "TO",
+      "value": "TO",
       "prob": 1.0,
       "count": 4
     },
     "Togo": {
-      "country": "TG",
+      "value": "TG",
       "prob": 1.0,
       "count": 5
     },
     "East Timor": {
-      "country": "TL",
+      "value": "TL",
       "prob": 1.0,
       "count": 5
     },
     "Thailand": {
-      "country": "TH",
+      "value": "TH",
       "prob": 1.0,
       "count": 154
     },
     "Tajikistan": {
-      "country": "TJ",
+      "value": "TJ",
       "prob": 1.0,
       "count": 6
     },
     "Syria": {
-      "country": "SY",
+      "value": "SY",
       "prob": 1.0,
       "count": 8
     },
     "Switzerland": {
-      "country": "CH",
+      "value": "CH",
       "prob": 1.0,
       "count": 127
     },
     "Suriname": {
-      "country": "SR",
+      "value": "SR",
       "prob": 1.0,
       "count": 8
     },
     "Sri Lanka": {
-      "country": "LK",
+      "value": "LK",
       "prob": 1.0,
       "count": 9
     },
     "South Sudan": {
-      "country": "SS",
+      "value": "SS",
       "prob": 1.0,
       "count": 2
     },
     "South Africa": {
-      "country": "ZA",
+      "value": "ZA",
       "prob": 1.0,
       "count": 21
     },
     "Somalia": {
-      "country": "SO",
+      "value": "SO",
       "prob": 1.0,
       "count": 9
     },
     "Solomon Islands": {
-      "country": "SB",
+      "value": "SB",
       "prob": 1.0,
       "count": 5
     },
     "Slovenia": {
-      "country": "SI",
+      "value": "SI",
       "prob": 1.0,
       "count": 120
     },
     "Singapore": {
-      "country": "SG",
+      "value": "SG",
       "prob": 1.0,
       "count": 22
     },
     "Sierra Leone": {
-      "country": "SL",
+      "value": "SL",
       "prob": 1.0,
       "count": 5
     },
     "Seychelles": {
-      "country": "SC",
+      "value": "SC",
       "prob": 1.0,
       "count": 7
     },
     "Serbia": {
-      "country": "RS",
+      "value": "RS",
       "prob": 1.0,
       "count": 119
     },
     "Senegal": {
-      "country": "SN",
+      "value": "SN",
       "prob": 1.0,
       "count": 8
     },
     "Saudi Arabia": {
-      "country": "SA",
+      "value": "SA",
       "prob": 1.0,
       "count": 72
     },
     "São Tomé and Príncipe": {
-      "country": "ST",
+      "value": "ST",
       "prob": 1.0,
       "count": 3
     },
     "San Marino": {
-      "country": "SM",
+      "value": "SM",
       "prob": 1.0,
       "count": 8
     },
     "Samoa": {
-      "country": "WS",
+      "value": "WS",
       "prob": 1.0,
       "count": 5
     },
     "Saint Vincent and the Grenadines": {
-      "country": "VC",
+      "value": "VC",
       "prob": 1.0,
       "count": 9
     },
     "Saint Lucia": {
-      "country": "LC",
+      "value": "LC",
       "prob": 1.0,
       "count": 10
     },
     "Saint Kitts and Nevis": {
-      "country": "KN",
+      "value": "KN",
       "prob": 1.0,
       "count": 9
     },
     "Rwanda": {
-      "country": "RW",
+      "value": "RW",
       "prob": 1.0,
       "count": 2
     },
     "Russia": {
-      "country": "RU",
+      "value": "RU",
       "prob": 1.0,
       "count": 133
     },
     "Moldova": {
-      "country": "MD",
+      "value": "MD",
       "prob": 1.0,
       "count": 14
     },
     "Qatar": {
-      "country": "QA",
+      "value": "QA",
       "prob": 1.0,
       "count": 13
     },
     "Poland": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 545
     },
     "Peru": {
-      "country": "PE",
+      "value": "PE",
       "prob": 1.0,
       "count": 34
     },
     "Paraguay": {
-      "country": "PY",
+      "value": "PY",
       "prob": 1.0,
       "count": 19
     },
     "Papua New Guinea": {
-      "country": "PG",
+      "value": "PG",
       "prob": 1.0,
       "count": 14
     },
     "Panama": {
-      "country": "PA",
+      "value": "PA",
       "prob": 1.0,
       "count": 41
     },
     "Palau": {
-      "country": "PW",
+      "value": "PW",
       "prob": 1.0,
       "count": 4
     },
     "Pakistan": {
-      "country": "PK",
+      "value": "PK",
       "prob": 1.0,
       "count": 15
     },
     "Oman": {
-      "country": "OM",
+      "value": "OM",
       "prob": 1.0,
       "count": 9
     },
     "North Macedonia": {
-      "country": "MK",
+      "value": "MK",
       "prob": 1.0,
       "count": 32
     },
     "Nigeria": {
-      "country": "NG",
+      "value": "NG",
       "prob": 1.0,
       "count": 12
     },
     "Niger": {
-      "country": "NE",
+      "value": "NE",
       "prob": 1.0,
       "count": 7
     },
     "Netherlands": {
-      "country": "NL",
+      "value": "NL",
       "prob": 1.0,
       "count": 92
     },
     "Nepal": {
-      "country": "NP",
+      "value": "NP",
       "prob": 1.0,
       "count": 11
     },
     "Nauru": {
-      "country": "NR",
+      "value": "NR",
       "prob": 1.0,
       "count": 3
     },
     "Namibia": {
-      "country": "NA",
+      "value": "NA",
       "prob": 1.0,
       "count": 4
     },
     "Myanmar": {
-      "country": "MM",
+      "value": "MM",
       "prob": 1.0,
       "count": 19
     },
     "Mozambique": {
-      "country": "MZ",
+      "value": "MZ",
       "prob": 1.0,
       "count": 6
     },
     "Morocco": {
-      "country": "MA",
+      "value": "MA",
       "prob": 1.0,
       "count": 21
     },
     "Montenegro": {
-      "country": "ME",
+      "value": "ME",
       "prob": 1.0,
       "count": 8
     },
     "Mongolia": {
-      "country": "MN",
+      "value": "MN",
       "prob": 1.0,
       "count": 7
     },
     "Monaco": {
-      "country": "MC",
+      "value": "MC",
       "prob": 1.0,
       "count": 8
     },
     "Federated States of Micronesia": {
-      "country": "FM",
+      "value": "FM",
       "prob": 1.0,
       "count": 3
     },
     "Mauritius": {
-      "country": "MU",
+      "value": "MU",
       "prob": 1.0,
       "count": 7
     },
     "Mauritania": {
-      "country": "MR",
+      "value": "MR",
       "prob": 1.0,
       "count": 6
     },
     "Malta": {
-      "country": "MT",
+      "value": "MT",
       "prob": 1.0,
       "count": 24
     },
     "Mali": {
-      "country": "ML",
+      "value": "ML",
       "prob": 1.0,
       "count": 6
     },
     "Malaysia": {
-      "country": "MY",
+      "value": "MY",
       "prob": 1.0,
       "count": 30
     },
     "Malawi": {
-      "country": "MW",
+      "value": "MW",
       "prob": 1.0,
       "count": 7
     },
     "Madagascar": {
-      "country": "MG",
+      "value": "MG",
       "prob": 1.0,
       "count": 7
     },
     "Luxembourg": {
-      "country": "LU",
+      "value": "LU",
       "prob": 1.0,
       "count": 37
     },
     "Lithuania": {
-      "country": "LT",
+      "value": "LT",
       "prob": 1.0,
       "count": 57
     },
     "Liechtenstein": {
-      "country": "LI",
+      "value": "LI",
       "prob": 1.0,
       "count": 9
     },
     "Libya": {
-      "country": "LY",
+      "value": "LY",
       "prob": 1.0,
       "count": 6
     },
     "Liberia": {
-      "country": "LR",
+      "value": "LR",
       "prob": 1.0,
       "count": 6
     },
     "Lesotho": {
-      "country": "LS",
+      "value": "LS",
       "prob": 1.0,
       "count": 6
     },
     "Lebanon": {
-      "country": "LB",
+      "value": "LB",
       "prob": 1.0,
       "count": 17
     },
     "Laos": {
-      "country": "LA",
+      "value": "LA",
       "prob": 1.0,
       "count": 9
     },
     "Kuwait": {
-      "country": "KW",
+      "value": "KW",
       "prob": 1.0,
       "count": 17
     },
     "Kiribati": {
-      "country": "KI",
+      "value": "KI",
       "prob": 1.0,
       "count": 3
     },
     "Kenya": {
-      "country": "KE",
+      "value": "KE",
       "prob": 1.0,
       "count": 13
     },
     "Jordan": {
-      "country": "JO",
+      "value": "JO",
       "prob": 1.0,
       "count": 18
     },
     "Japan": {
-      "country": "JP",
+      "value": "JP",
       "prob": 1.0,
       "count": 97
     },
     "Jamaica": {
-      "country": "JM",
+      "value": "JM",
       "prob": 1.0,
       "count": 19
     },
     "Ireland": {
-      "country": "IE",
+      "value": "IE",
       "prob": 1.0,
       "count": 111
     },
     "Iraq": {
-      "country": "IQ",
+      "value": "IQ",
       "prob": 1.0,
       "count": 127
     },
     "Iran": {
-      "country": "IR",
+      "value": "IR",
       "prob": 1.0,
       "count": 50
     },
     "Indonesia": {
-      "country": "ID",
+      "value": "ID",
       "prob": 1.0,
       "count": 228
     },
     "India": {
-      "country": "IN",
+      "value": "IN",
       "prob": 1.0,
       "count": 103
     },
     "Iceland": {
-      "country": "IS",
+      "value": "IS",
       "prob": 1.0,
       "count": 15
     },
     "Hungary": {
-      "country": "HU",
+      "value": "HU",
       "prob": 1.0,
       "count": 117
     },
     "Honduras": {
-      "country": "HN",
+      "value": "HN",
       "prob": 1.0,
       "count": 19
     },
     "Haiti": {
-      "country": "HT",
+      "value": "HT",
       "prob": 1.0,
       "count": 18
     },
     "Guyana": {
-      "country": "GY",
+      "value": "GY",
       "prob": 1.0,
       "count": 11
     },
     "Guinea-Bissau": {
-      "country": "GW",
+      "value": "GW",
       "prob": 1.0,
       "count": 3
     },
     "Guinea": {
-      "country": "GN",
+      "value": "GN",
       "prob": 1.0,
       "count": 5
     },
     "Guatemala": {
-      "country": "GT",
+      "value": "GT",
       "prob": 1.0,
       "count": 24
     },
     "Grenada": {
-      "country": "GD",
+      "value": "GD",
       "prob": 1.0,
       "count": 8
     },
     "Ghana": {
-      "country": "GH",
+      "value": "GH",
       "prob": 1.0,
       "count": 11
     },
     "Gabon": {
-      "country": "GA",
+      "value": "GA",
       "prob": 1.0,
       "count": 8
     },
     "Fiji": {
-      "country": "FJ",
+      "value": "FJ",
       "prob": 1.0,
       "count": 8
     },
     "Ethiopia": {
-      "country": "ET",
+      "value": "ET",
       "prob": 1.0,
       "count": 7
     },
     "Eswatini": {
-      "country": "SZ",
+      "value": "SZ",
       "prob": 1.0,
       "count": 5
     },
     "Eritrea": {
-      "country": "ER",
+      "value": "ER",
       "prob": 1.0,
       "count": 8
     },
     "Equatorial Guinea": {
-      "country": "GQ",
+      "value": "GQ",
       "prob": 1.0,
       "count": 4
     },
     "El Salvador": {
-      "country": "SV",
+      "value": "SV",
       "prob": 1.0,
       "count": 28
     },
     "Egypt": {
-      "country": "EG",
+      "value": "EG",
       "prob": 1.0,
       "count": 19
     },
     "Ecuador": {
-      "country": "EC",
+      "value": "EC",
       "prob": 1.0,
       "count": 22
     },
     "Dominican Republic": {
-      "country": "DO",
+      "value": "DO",
       "prob": 1.0,
       "count": 18
     },
     "Dominica": {
-      "country": "DM",
+      "value": "DM",
       "prob": 1.0,
       "count": 8
     },
     "Djibouti": {
-      "country": "DJ",
+      "value": "DJ",
       "prob": 1.0,
       "count": 5
     },
     "Denmark": {
-      "country": "DK",
+      "value": "DK",
       "prob": 1.0,
       "count": 588
     },
     "Democratic Republic of the Congo": {
-      "country": "CD",
+      "value": "CD",
       "prob": 1.0,
       "count": 12
     },
     "North Korea": {
-      "country": "KP",
+      "value": "KP",
       "prob": 1.0,
       "count": 116
     },
     "Czech Republic": {
-      "country": "CZ",
+      "value": "CZ",
       "prob": 1.0,
       "count": 101
     },
     "Cyprus": {
-      "country": "CY",
+      "value": "CY",
       "prob": 1.0,
       "count": 30
     },
     "Cuba": {
-      "country": "CU",
+      "value": "CU",
       "prob": 1.0,
       "count": 57
     },
     "Croatia": {
-      "country": "HR",
+      "value": "HR",
       "prob": 1.0,
       "count": 79
     },
     "Ivory Coast": {
-      "country": "CI",
+      "value": "CI",
       "prob": 1.0,
       "count": 7
     },
     "Costa Rica": {
-      "country": "CR",
+      "value": "CR",
       "prob": 1.0,
       "count": 34
     },
     "Comoros": {
-      "country": "KM",
+      "value": "KM",
       "prob": 1.0,
       "count": 5
     },
     "Colombia": {
-      "country": "CO",
+      "value": "CO",
       "prob": 1.0,
       "count": 49
     },
     "Chad": {
-      "country": "TD",
+      "value": "TD",
       "prob": 1.0,
       "count": 6
     },
     "Central African Republic": {
-      "country": "CF",
+      "value": "CF",
       "prob": 1.0,
       "count": 6
     },
     "Cameroon": {
-      "country": "CM",
+      "value": "CM",
       "prob": 1.0,
       "count": 11
     },
     "Cambodia": {
-      "country": "KH",
+      "value": "KH",
       "prob": 1.0,
       "count": 18
     },
     "Cape Verde": {
-      "country": "CV",
+      "value": "CV",
       "prob": 1.0,
       "count": 6
     },
     "Burkina Faso": {
-      "country": "BF",
+      "value": "BF",
       "prob": 1.0,
       "count": 7
     },
     "Bulgaria": {
-      "country": "BG",
+      "value": "BG",
       "prob": 1.0,
       "count": 109
     },
     "Brunei": {
-      "country": "BN",
+      "value": "BN",
       "prob": 1.0,
       "count": 7
     },
     "Brazil": {
-      "country": "BR",
+      "value": "BR",
       "prob": 1.0,
       "count": 115
     },
     "Botswana": {
-      "country": "BW",
+      "value": "BW",
       "prob": 1.0,
       "count": 10
     },
     "Bosnia and Herzegovina": {
-      "country": "BA",
+      "value": "BA",
       "prob": 1.0,
       "count": 25
     },
     "Bolivia": {
-      "country": "BO",
+      "value": "BO",
       "prob": 1.0,
       "count": 41
     },
     "Bhutan": {
-      "country": "BT",
+      "value": "BT",
       "prob": 1.0,
       "count": 4
     },
     "Benin": {
-      "country": "BJ",
+      "value": "BJ",
       "prob": 1.0,
       "count": 7
     },
     "Belize": {
-      "country": "BZ",
+      "value": "BZ",
       "prob": 1.0,
       "count": 14
     },
     "Belgium": {
-      "country": "BE",
+      "value": "BE",
       "prob": 1.0,
       "count": 166
     },
     "Barbados": {
-      "country": "BB",
+      "value": "BB",
       "prob": 1.0,
       "count": 13
     },
     "Bangladesh": {
-      "country": "BD",
+      "value": "BD",
       "prob": 1.0,
       "count": 12
     },
     "Bahrain": {
-      "country": "BH",
+      "value": "BH",
       "prob": 1.0,
       "count": 7
     },
     "Azerbaijan": {
-      "country": "AZ",
+      "value": "AZ",
       "prob": 1.0,
       "count": 26
     },
     "Austria": {
-      "country": "AT",
+      "value": "AT",
       "prob": 1.0,
       "count": 82
     },
     "Armenia": {
-      "country": "AM",
+      "value": "AM",
       "prob": 1.0,
       "count": 51
     },
     "Argentina": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 597
     },
     "Antigua and Barbuda": {
-      "country": "AG",
+      "value": "AG",
       "prob": 1.0,
       "count": 10
     },
     "Angola": {
-      "country": "AO",
+      "value": "AO",
       "prob": 1.0,
       "count": 7
     },
     "Andorra": {
-      "country": "AD",
+      "value": "AD",
       "prob": 1.0,
       "count": 9
     },
     "Algeria": {
-      "country": "DZ",
+      "value": "DZ",
       "prob": 0.97,
       "count": 40
     },
     "Islamic Republic of Afghanistan": {
-      "country": "AF",
+      "value": "AF",
       "prob": 1.0,
       "count": 7
     },
     "United States;POW/MIA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 409
     },
     "US": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 266
     },
     "Union Jack": {
-      "country": "GB",
+      "value": "GB",
       "prob": 0.94,
       "count": 246
     },
     "Bermuda": {
-      "country": "BM",
+      "value": "BM",
       "prob": 1.0,
       "count": 5
     },
     "Kosovo": {
-      "country": "XK",
+      "value": "XK",
       "prob": 1.0,
       "count": 9
     },
     "Vatican City": {
-      "country": "VA",
+      "value": "VA",
       "prob": 1.0,
       "count": 33
     },
     "European Union": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 247
     },
     "eu": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 28
     },
     "United States of America": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 10
     },
     "Allemagne": {
-      "country": "DE",
+      "value": "DE",
       "prob": 1.0,
       "count": 2
     },
     "Taiwan": {
-      "country": "TW",
+      "value": "TW",
       "prob": 1.0,
       "count": 47
     },
     "Flag of Europe": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 3
     },
     "Hong Kong": {
-      "country": "HK",
+      "value": "HK",
       "prob": 1.0,
       "count": 9
     },
     "United States;Cincinnati": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "United States;Symmes Township": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Ohio": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 83
     },
     "Finlandia": {
-      "country": "FI",
+      "value": "FI",
       "prob": 1.0,
       "count": 2
     },
     "Europa": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 6
     },
     "Polska": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 3
     },
     "Bourbon": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 15
     },
     "España": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 16
     },
     "United States;Georgia": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "pl": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 6
     },
     "Cook Islands": {
-      "country": "CK",
+      "value": "CK",
       "prob": 1.0,
       "count": 2
     },
     "United States;McDonald’s": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 12
     },
     "TR": {
-      "country": "TR",
+      "value": "TR",
       "prob": 1.0,
       "count": 22
     },
     "Provincia de Buenos Aires": {
-      "country": "AR-B",
+      "value": "AR-B",
       "prob": 1.0,
       "count": 2
     },
     "Dannebrog": {
-      "country": "DK",
+      "value": "DK",
       "prob": 1.0,
       "count": 28
     },
     "United States;Illinois;POW/MIA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Florida": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 13
     },
     "Bendera Indonesia": {
-      "country": "ID",
+      "value": "ID",
       "prob": 1.0,
       "count": 3
     },
     "United States;Oklahoma": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 8
     },
     "us": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 63
     },
     "United States;Greece": {
-      "country": "US;GR",
+      "value": "US;GR",
       "prob": 1.0,
       "count": 2
     },
     "Santa Catarina": {
-      "country": "BR",
+      "value": "BR",
       "prob": 1.0,
       "count": 3
     },
     "Brasil": {
-      "country": "BR",
+      "value": "BR",
       "prob": 0.75,
       "count": 8
     },
     "Pomerode": {
-      "country": "BR",
+      "value": "BR",
       "prob": 1.0,
       "count": 2
     },
     "United States;Christian": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 17
     },
     "South Vietnam": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 75
     },
     "United States;South Carolina": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "canada": {
-      "country": "CA",
+      "value": "CA",
       "prob": 1.0,
       "count": 26
     },
     "Puerto Rico": {
-      "country": "PR",
+      "value": "PR",
       "prob": 1.0,
       "count": 20
     },
     "United States;Alabama": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Castile and León": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 5
     },
     "Great Britain": {
-      "country": "GB",
+      "value": "GB",
       "prob": 1.0,
       "count": 7
     },
     "flag of the United States of America": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "中华人民共和国国旗": {
-      "country": "CN",
+      "value": "CN",
       "prob": 0.75,
       "count": 4
     },
     "United States;Florida;POW/MIA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "EU": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 64
     },
     "Italia": {
-      "country": "IT",
+      "value": "IT",
       "prob": 1.0,
       "count": 6
     },
     "United States;Indiana": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 21
     },
     "ca": {
-      "country": "CA",
+      "value": "CA",
       "prob": 1.0,
       "count": 3
     },
     "RSL Flag": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 2
     },
     "New South Wales": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 4
     },
     "latvia": {
-      "country": "LV",
+      "value": "LV",
       "prob": 1.0,
       "count": 2
     },
     "United States;Alaska": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "United States;Pennsylvania": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Europäische Union": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 6
     },
     "Tristan da Cunha": {
-      "country": "TA",
+      "value": "TA",
       "prob": 1.0,
       "count": 2
     },
     "México": {
-      "country": "MX",
+      "value": "MX",
       "prob": 1.0,
       "count": 6
     },
     "United States;United States Marine Corps": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 11
     },
     "United States;Kentucky": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 32
     },
     "United States;Chicago": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 54
     },
     "FR": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 22
     },
     "United States;International Association of Fire Fighters": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "usa;POW/MIA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Afghanistan": {
-      "country": "AF",
+      "value": "AF",
       "prob": 1.0,
       "count": 20
     },
     "United States;Wendy’s": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Sharonville": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "United States;United States Army": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;United States Coast Guard": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Louisiana": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Republic of China": {
-      "country": "TW",
+      "value": "TW",
       "prob": 1.0,
       "count": 3
     },
     "Palestine": {
-      "country": "PS",
+      "value": "PS",
       "prob": 1.0,
       "count": 2
     },
     "United States;Christianity": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 9
     },
     "United States;Mississippi": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "România": {
-      "country": "RO",
+      "value": "RO",
       "prob": 1.0,
       "count": 2
     },
     "United States;Kentucky;Florence": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;POW/MIA;Ohio": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Việt Nam": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 3
     },
     "European": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 2
     },
     "United States Virgin Islands": {
-      "country": "VI",
+      "value": "VI",
       "prob": 1.0,
       "count": 4
     },
     "Northern Mariana Islands": {
-      "country": "MP",
+      "value": "MP",
       "prob": 1.0,
       "count": 2
     },
     "Guam": {
-      "country": "GU",
+      "value": "GU",
       "prob": 1.0,
       "count": 5
     },
     "United States;Kentucky;POW/MIA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "POW/MIA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "sweden": {
-      "country": "SE",
+      "value": "SE",
       "prob": 1.0,
       "count": 2
     },
     "Deutschland": {
-      "country": "DE",
+      "value": "DE",
       "prob": 1.0,
       "count": 9
     },
     "United States;Arizona": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "United States;Tennessee": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Betsy Ross": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Dänemark": {
-      "country": "DK",
+      "value": "DK",
       "prob": 1.0,
       "count": 2
     },
     "Union Européenne": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 14
     },
     "United States;Tree City USA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Texas": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Republic of the Congo": {
-      "country": "CG",
+      "value": "CG",
       "prob": 1.0,
       "count": 5
     },
     "Gwenn ha Du": {
-      "country": "BZH",
+      "value": "BZH",
       "prob": 1.0,
       "count": 9
     },
     "Soviet Union": {
-      "country": "SU",
+      "value": "SU",
       "prob": 1.0,
       "count": 2
     },
     "Yugoslavia": {
-      "country": "YU",
+      "value": "YU",
       "prob": 1.0,
       "count": 2
     },
     "Nederland": {
-      "country": "NL",
+      "value": "NL",
       "prob": 1.0,
       "count": 2
     },
     "Europese Unie": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 3
     },
     "no": {
-      "country": "NO",
+      "value": "NO",
       "prob": 1.0,
       "count": 3
     },
     "The Bahamas": {
-      "country": "BS",
+      "value": "BS",
       "prob": 1.0,
       "count": 9
     },
     "Gambia": {
-      "country": "GM",
+      "value": "GM",
       "prob": 1.0,
       "count": 2
     },
     "United States;Illinois": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 25
     },
     "Österreich": {
-      "country": "AT",
+      "value": "AT",
       "prob": 1.0,
       "count": 3
     },
     "Australian Aboriginal": {
-      "country": "AU",
+      "value": "AU",
       "prob": 0.92,
       "count": 12
     },
     "افغانستان": {
-      "country": "AF",
+      "value": "AF",
       "prob": 1.0,
       "count": 2
     },
     "United States Army": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States Navy": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States Marine Corps": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States Coast Guard": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States Air Force": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;McDonald's": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 14
     },
     "Cayman Islands": {
-      "country": "KY",
+      "value": "KY",
       "prob": 1.0,
       "count": 3
     },
     "Macau": {
-      "country": "MO",
+      "value": "MO",
       "prob": 1.0,
       "count": 2
     },
     "Anguilla": {
-      "country": "AI",
+      "value": "AI",
       "prob": 1.0,
       "count": 2
     },
     "Montserrat": {
-      "country": "MS",
+      "value": "MS",
       "prob": 1.0,
       "count": 3
     },
     "Liên minh châu Âu": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 4
     },
     "United States;Ukraine": {
-      "country": "US;UA",
+      "value": "US;UA",
       "prob": 1.0,
       "count": 6
     },
     "Ukraina": {
-      "country": "UA",
+      "value": "UA",
       "prob": 1.0,
       "count": 2
     },
     "United States;Maryland": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Illinois": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 6
     },
     "UE": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 2
     },
     "si": {
-      "country": "SI",
+      "value": "SI",
       "prob": 1.0,
       "count": 8
     },
     "Michigan": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Village of Wauconda": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Flag of Australia": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 2
     },
     "United States;New Hampshire": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "State of Palestine": {
-      "country": "PS",
+      "value": "PS",
       "prob": 1.0,
       "count": 5
     },
     "china": {
-      "country": "CN",
+      "value": "CN",
       "prob": 1.0,
       "count": 2
     },
     "pr": {
-      "country": "PR",
+      "value": "PR",
       "prob": 1.0,
       "count": 6
     },
     "Россия": {
-      "country": "RU",
+      "value": "RU",
       "prob": 1.0,
       "count": 2
     },
     "Hungría": {
-      "country": "HU",
+      "value": "HU",
       "prob": 1.0,
       "count": 2
     },
     "United States Flag": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Vereinigte Staaten von Amerika": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Schweden": {
-      "country": "SE",
+      "value": "SE",
       "prob": 1.0,
       "count": 3
     },
     "Polen": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 3
     },
     "Torres Strait Islander": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 3
     },
     "europe": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 4
     },
     "de": {
-      "country": "DE",
+      "value": "DE",
       "prob": 1.0,
       "count": 2
     },
     "Bendera Malaysia": {
-      "country": "MY",
+      "value": "MY",
       "prob": 1.0,
       "count": 4
     },
     "france": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 4
     },
     "RU": {
-      "country": "RU",
+      "value": "RU",
       "prob": 1.0,
       "count": 2
     },
     "태극기": {
-      "country": "KR",
+      "value": "KR",
       "prob": 1.0,
       "count": 4
     },
     "Прапор України": {
-      "country": "UA",
+      "value": "UA",
       "prob": 1.0,
       "count": 2
     },
     "British Virgin Islands": {
-      "country": "VG",
+      "value": "VG",
       "prob": 1.0,
       "count": 2
     },
     "Flag of Canada": {
-      "country": "CA",
+      "value": "CA",
       "prob": 1.0,
       "count": 2
     },
     "Tiranga": {
-      "country": "IN",
+      "value": "IN",
       "prob": 1.0,
       "count": 2
     },
     "PL": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 13
     },
     "PR": {
-      "country": "PR",
+      "value": "PR",
       "prob": 1.0,
       "count": 4
     },
     "السعودية": {
-      "country": "SA",
+      "value": "SA",
       "prob": 1.0,
       "count": 2
     },
     "dk": {
-      "country": "DK",
+      "value": "DK",
       "prob": 1.0,
       "count": 4
     },
     "United States;Michigan": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "ES": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 4
     },
     "Philippine National Flag": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 9
     },
     "United States;Israel": {
-      "country": "US;IL",
+      "value": "US;IL",
       "prob": 1.0,
       "count": 4
     },
     "United States;POW/MIA;Chicago": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "germany": {
-      "country": "DE",
+      "value": "DE",
       "prob": 1.0,
       "count": 3
     },
     "estonia": {
-      "country": "EE",
+      "value": "EE",
       "prob": 1.0,
       "count": 2
     },
     "italy": {
-      "country": "IT",
+      "value": "IT",
       "prob": 1.0,
       "count": 4
     },
     "austria": {
-      "country": "AT",
+      "value": "AT",
       "prob": 1.0,
       "count": 2
     },
     "netherlands": {
-      "country": "NL",
+      "value": "NL",
       "prob": 1.0,
       "count": 2
     },
     "united states": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 35
     },
     "Frankreich": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 2
     },
     "British Columbia": {
-      "country": "CA",
+      "value": "CA",
       "prob": 0.75,
       "count": 4
     },
     "Ohio;United States": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;POW/MIA;Illinois": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "South Carolina": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "CA": {
-      "country": "CA",
+      "value": "CA",
       "prob": 1.0,
       "count": 3
     },
     "American Flag": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Carabineros de Chile": {
-      "country": "CL",
+      "value": "CL",
       "prob": 1.0,
       "count": 2
     },
     "Australian White Ensign": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 2
     },
     "Mémorial de la Libération": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 3
     },
     "US;POW/MIA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Eu": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 2
     },
     "Hu": {
-      "country": "HU",
+      "value": "HU",
       "prob": 1.0,
       "count": 6
     },
     "flag of the United States Of America": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "hungary": {
-      "country": "HU",
+      "value": "HU",
       "prob": 1.0,
       "count": 2
     },
     "United States;Pan-African": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Tschechische Republik": {
-      "country": "CZ",
+      "value": "CZ",
       "prob": 1.0,
       "count": 2
     },
     "Åland Islands": {
-      "country": "AX",
+      "value": "AX",
       "prob": 1.0,
       "count": 2
     },
     "Türk Bayrağı": {
-      "country": "TR",
+      "value": "TR",
       "prob": 0.89,
       "count": 9
     },
     "Philippine Flag": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 5
     },
     "United States;Virginia": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "HU": {
-      "country": "HU",
+      "value": "HU",
       "prob": 1.0,
       "count": 6
     },
     "belgium": {
-      "country": "BE",
+      "value": "BE",
       "prob": 1.0,
       "count": 2
     },
     "United States;United States Army Corps of Engineers": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "SM": {
-      "country": "SM",
+      "value": "SM",
       "prob": 1.0,
       "count": 2
     },
     "República Dominicana": {
-      "country": "DO",
+      "value": "DO",
       "prob": 1.0,
       "count": 2
     },
     "35": {
-      "country": "IN",
+      "value": "IN",
       "prob": 1.0,
       "count": 2
     },
     "Türkiye": {
-      "country": "TR",
+      "value": "TR",
       "prob": 1.0,
       "count": 2
     },
     "United States;Evanston;Pan-African": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Niue": {
-      "country": "NU",
+      "value": "NU",
       "prob": 1.0,
       "count": 2
     },
     "United States;POW/MIA flag": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;POW/MIA;Illinois;Chicago": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Flag of the United States of America": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Funchal": {
-      "country": "PT",
+      "value": "PT",
       "prob": 1.0,
       "count": 2
     },
     "georgia": {
-      "country": "GE",
+      "value": "GE",
       "prob": 1.0,
       "count": 2
     },
     "Byzantine and Greek Orthodox Church": {
-      "country": "GR",
+      "value": "GR",
       "prob": 1.0,
       "count": 3
     },
     "Cờ Việt Nam": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 2
     },
     "Es": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 3
     },
     "national flag of Romania": {
-      "country": "RO",
+      "value": "RO",
       "prob": 1.0,
       "count": 2
     },
     "Vytis": {
-      "country": "LT",
+      "value": "LT",
       "prob": 1.0,
       "count": 3
     },
     "AR": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "CH": {
-      "country": "CH",
+      "value": "CH",
       "prob": 1.0,
       "count": 2
     },
     "DE": {
-      "country": "DE",
+      "value": "DE",
       "prob": 1.0,
       "count": 2
     },
     "Zastava Republike Srbije": {
-      "country": "RS",
+      "value": "RS",
       "prob": 1.0,
       "count": 4
     }
   },
   "flag:wikidata": {
     "Q42537": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 16070
     },
     "Q128480": {
-      "country": "IL",
+      "value": "IL",
       "prob": 1.0,
       "count": 54
     },
     "Q81676": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 337
     },
     "Q131204": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 100
     },
     "Q103084": {
-      "country": "BI",
+      "value": "BI",
       "prob": 1.0,
       "count": 5
     },
     "Q48160": {
-      "country": "DE",
+      "value": "DE",
       "prob": 1.0,
       "count": 305
     },
     "Q165641": {
-      "country": "KG",
+      "value": "KG",
       "prob": 1.0,
       "count": 20
     },
     "Q121688": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 384
     },
     "Q134627": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 1225
     },
     "Q80110": {
-      "country": "CA",
+      "value": "CA",
       "prob": 1.0,
       "count": 1037
     },
     "Q242502": {
-      "country": "AS",
+      "value": "AS",
       "prob": 1.0,
       "count": 3
     },
     "Q172533": {
-      "country": "NI",
+      "value": "NI",
       "prob": 1.0,
       "count": 23
     },
     "Q42876": {
-      "country": "IT",
+      "value": "IT",
       "prob": 1.0,
       "count": 574
     },
     "Q131147": {
-      "country": "CN",
+      "value": "CN",
       "prob": 1.0,
       "count": 954
     },
     "Q130811": {
-      "country": "RO",
+      "value": "RO",
       "prob": 1.0,
       "count": 123
     },
     "Q160861": {
-      "country": "SK",
+      "value": "SK",
       "prob": 1.0,
       "count": 93
     },
     "Q43192": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 2384
     },
     "Q160872": {
-      "country": "CL",
+      "value": "CL",
       "prob": 1.0,
       "count": 416
     },
     "Q81471": {
-      "country": "EE",
+      "value": "EE",
       "prob": 1.0,
       "count": 114
     },
     "Q130449": {
-      "country": "LV",
+      "value": "LV",
       "prob": 1.0,
       "count": 60
     },
     "Q102198": {
-      "country": "SD",
+      "value": "SD",
       "prob": 1.0,
       "count": 7
     },
     "Q200260": {
-      "country": "MH",
+      "value": "MH",
       "prob": 1.0,
       "count": 3
     },
     "Q122482": {
-      "country": "EU",
+      "value": "EU",
       "prob": 0.98,
       "count": 1531
     },
     "Q81952": {
-      "country": "TR",
+      "value": "TR",
       "prob": 1.0,
       "count": 286
     },
     "Q48409": {
-      "country": "AL",
+      "value": "AL",
       "prob": 1.0,
       "count": 23
     },
     "Q186226": {
-      "country": "IM",
+      "value": "IM",
       "prob": 1.0,
       "count": 28
     },
     "Q129132": {
-      "country": "GR",
+      "value": "GR",
       "prob": 1.0,
       "count": 257
     },
     "Q47891": {
-      "country": "FI",
+      "value": "FI",
       "prob": 1.0,
       "count": 283
     },
     "Q1402799": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q26491": {
-      "country": "GE",
+      "value": "GE",
       "prob": 1.0,
       "count": 47
     },
     "Q169441": {
-      "country": "MV",
+      "value": "MV",
       "prob": 1.0,
       "count": 7
     },
     "Q83149": {
-      "country": "NO",
+      "value": "NO",
       "prob": 1.0,
       "count": 410
     },
     "Q131650": {
-      "country": "KZ",
+      "value": "KZ",
       "prob": 1.0,
       "count": 77
     },
     "Q81286": {
-      "country": "SE",
+      "value": "SE",
       "prob": 1.0,
       "count": 652
     },
     "Q127296": {
-      "country": "KR",
+      "value": "KR",
       "prob": 1.0,
       "count": 67
     },
     "Q130774": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 600
     },
     "Q160260": {
-      "country": "NZ",
+      "value": "NZ",
       "prob": 1.0,
       "count": 156
     },
     "Q122462": {
-      "country": "MX",
+      "value": "MX",
       "prob": 1.0,
       "count": 262
     },
     "Q42537;Q330517": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 84
     },
     "Q127974": {
-      "country": "UA",
+      "value": "UA",
       "prob": 1.0,
       "count": 300
     },
     "Q170064": {
-      "country": "JO",
+      "value": "JO",
       "prob": 1.0,
       "count": 19
     },
     "Q128812": {
-      "country": "PT",
+      "value": "PT",
       "prob": 1.0,
       "count": 93
     },
     "Q132633": {
-      "country": "BY",
+      "value": "BY",
       "prob": 1.0,
       "count": 69
     },
     "Q79198": {
-      "country": "VA",
+      "value": "VA",
       "prob": 0.96,
       "count": 51
     },
     "Q159986": {
-      "country": "ZW",
+      "value": "ZW",
       "prob": 1.0,
       "count": 9
     },
     "Q170814": {
-      "country": "ZM",
+      "value": "ZM",
       "prob": 1.0,
       "count": 10
     },
     "Q162699": {
-      "country": "YE",
+      "value": "YE",
       "prob": 1.0,
       "count": 4
     },
     "Q165538": {
-      "country": "VE",
+      "value": "VE",
       "prob": 1.0,
       "count": 23
     },
     "Q185285": {
-      "country": "VU",
+      "value": "VU",
       "prob": 1.0,
       "count": 6
     },
     "Q483774": {
-      "country": "UZ",
+      "value": "UZ",
       "prob": 1.0,
       "count": 16
     },
     "Q171103": {
-      "country": "UY",
+      "value": "UY",
       "prob": 1.0,
       "count": 17
     },
     "Q170809": {
-      "country": "TZ",
+      "value": "TZ",
       "prob": 1.0,
       "count": 9
     },
     "Q83278": {
-      "country": "GB",
+      "value": "GB",
       "prob": 0.94,
       "count": 274
     },
     "Q134247": {
-      "country": "AE",
+      "value": "AE",
       "prob": 1.0,
       "count": 16
     },
     "Q103037": {
-      "country": "UG",
+      "value": "UG",
       "prob": 1.0,
       "count": 7
     },
     "Q105643": {
-      "country": "TV",
+      "value": "TV",
       "prob": 1.0,
       "count": 4
     },
     "Q41327": {
-      "country": "TM",
+      "value": "TM",
       "prob": 1.0,
       "count": 276
     },
     "Q162789": {
-      "country": "TN",
+      "value": "TN",
       "prob": 1.0,
       "count": 26
     },
     "Q184283": {
-      "country": "TT",
+      "value": "TT",
       "prob": 1.0,
       "count": 12
     },
     "Q188072": {
-      "country": "TO",
+      "value": "TO",
       "prob": 1.0,
       "count": 4
     },
     "Q103070": {
-      "country": "TG",
+      "value": "TG",
       "prob": 1.0,
       "count": 5
     },
     "Q30768": {
-      "country": "TL",
+      "value": "TL",
       "prob": 1.0,
       "count": 5
     },
     "Q134885": {
-      "country": "TH",
+      "value": "TH",
       "prob": 1.0,
       "count": 158
     },
     "Q160124": {
-      "country": "TJ",
+      "value": "TJ",
       "prob": 1.0,
       "count": 6
     },
     "Q45136": {
-      "country": "SY",
+      "value": "SY",
       "prob": 1.0,
       "count": 9
     },
     "Q124020": {
-      "country": "CH",
+      "value": "CH",
       "prob": 1.0,
       "count": 140
     },
     "Q180725": {
-      "country": "SR",
+      "value": "SR",
       "prob": 1.0,
       "count": 8
     },
     "Q154823": {
-      "country": "LK",
+      "value": "LK",
       "prob": 1.0,
       "count": 9
     },
     "Q182782": {
-      "country": "SS",
+      "value": "SS",
       "prob": 1.0,
       "count": 2
     },
     "Q160250": {
-      "country": "ZA",
+      "value": "ZA",
       "prob": 1.0,
       "count": 23
     },
     "Q159538": {
-      "country": "SO",
+      "value": "SO",
       "prob": 1.0,
       "count": 9
     },
     "Q75374": {
-      "country": "SB",
+      "value": "SB",
       "prob": 1.0,
       "count": 5
     },
     "Q130807": {
-      "country": "SI",
+      "value": "SI",
       "prob": 0.99,
       "count": 131
     },
     "Q483659": {
-      "country": "SG",
+      "value": "SG",
       "prob": 1.0,
       "count": 22
     },
     "Q168912": {
-      "country": "SL",
+      "value": "SL",
       "prob": 1.0,
       "count": 5
     },
     "Q173201": {
-      "country": "SC",
+      "value": "SC",
       "prob": 1.0,
       "count": 7
     },
     "Q163832": {
-      "country": "RS",
+      "value": "RS",
       "prob": 1.0,
       "count": 118
     },
     "Q134933": {
-      "country": "SN",
+      "value": "SN",
       "prob": 1.0,
       "count": 9
     },
     "Q160877": {
-      "country": "SA",
+      "value": "SA",
       "prob": 1.0,
       "count": 76
     },
     "Q169907": {
-      "country": "ST",
+      "value": "ST",
       "prob": 1.0,
       "count": 3
     },
     "Q168925": {
-      "country": "SM",
+      "value": "SM",
       "prob": 1.0,
       "count": 10
     },
     "Q188477": {
-      "country": "WS",
+      "value": "WS",
       "prob": 1.0,
       "count": 5
     },
     "Q184584": {
-      "country": "VC",
+      "value": "VC",
       "prob": 1.0,
       "count": 9
     },
     "Q184596": {
-      "country": "LC",
+      "value": "LC",
       "prob": 1.0,
       "count": 10
     },
     "Q181120": {
-      "country": "KN",
+      "value": "KN",
       "prob": 1.0,
       "count": 9
     },
     "Q170543": {
-      "country": "RW",
+      "value": "RW",
       "prob": 1.0,
       "count": 2
     },
     "Q16611": {
-      "country": "RU",
+      "value": "RU",
       "prob": 1.0,
       "count": 141
     },
     "Q167584": {
-      "country": "MD",
+      "value": "MD",
       "prob": 1.0,
       "count": 14
     },
     "Q172530": {
-      "country": "QA",
+      "value": "QA",
       "prob": 1.0,
       "count": 13
     },
     "Q42436": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 668
     },
     "Q160255": {
-      "country": "PE",
+      "value": "PE",
       "prob": 1.0,
       "count": 34
     },
     "Q170465": {
-      "country": "PY",
+      "value": "PY",
       "prob": 1.0,
       "count": 19
     },
     "Q185271": {
-      "country": "PG",
+      "value": "PG",
       "prob": 1.0,
       "count": 16
     },
     "Q168941": {
-      "country": "PA",
+      "value": "PA",
       "prob": 1.0,
       "count": 42
     },
     "Q188609": {
-      "country": "PW",
+      "value": "PW",
       "prob": 1.0,
       "count": 4
     },
     "Q128347": {
-      "country": "PK",
+      "value": "PK",
       "prob": 1.0,
       "count": 14
     },
     "Q165550": {
-      "country": "OM",
+      "value": "OM",
       "prob": 1.0,
       "count": 9
     },
     "Q167119": {
-      "country": "MK",
+      "value": "MK",
       "prob": 1.0,
       "count": 33
     },
     "Q102960": {
-      "country": "NG",
+      "value": "NG",
       "prob": 1.0,
       "count": 12
     },
     "Q103046": {
-      "country": "NE",
+      "value": "NE",
       "prob": 1.0,
       "count": 7
     },
     "Q46585": {
-      "country": "NL",
+      "value": "NL",
       "prob": 1.0,
       "count": 101
     },
     "Q159741": {
-      "country": "NP",
+      "value": "NP",
       "prob": 1.0,
       "count": 11
     },
     "Q185277": {
-      "country": "NR",
+      "value": "NR",
       "prob": 1.0,
       "count": 3
     },
     "Q165822": {
-      "country": "NA",
+      "value": "NA",
       "prob": 1.0,
       "count": 4
     },
     "Q163753": {
-      "country": "MM",
+      "value": "MM",
       "prob": 1.0,
       "count": 19
     },
     "Q484249": {
-      "country": "MZ",
+      "value": "MZ",
       "prob": 1.0,
       "count": 6
     },
     "Q159865": {
-      "country": "MA",
+      "value": "MA",
       "prob": 1.0,
       "count": 21
     },
     "Q162980": {
-      "country": "ME",
+      "value": "ME",
       "prob": 1.0,
       "count": 8
     },
     "Q165552": {
-      "country": "MN",
+      "value": "MN",
       "prob": 1.0,
       "count": 7
     },
     "Q159746": {
-      "country": "MC",
+      "value": "MC",
       "prob": 1.0,
       "count": 8
     },
     "Q190648": {
-      "country": "FM",
+      "value": "FM",
       "prob": 1.0,
       "count": 3
     },
     "Q173548": {
-      "country": "MU",
+      "value": "MU",
       "prob": 1.0,
       "count": 7
     },
     "Q102977": {
-      "country": "MR",
+      "value": "MR",
       "prob": 1.0,
       "count": 6
     },
     "Q131469": {
-      "country": "MT",
+      "value": "MT",
       "prob": 1.0,
       "count": 25
     },
     "Q169903": {
-      "country": "ML",
+      "value": "ML",
       "prob": 1.0,
       "count": 6
     },
     "Q168935": {
-      "country": "MY",
+      "value": "MY",
       "prob": 1.0,
       "count": 34
     },
     "Q103001": {
-      "country": "MW",
+      "value": "MW",
       "prob": 1.0,
       "count": 7
     },
     "Q103019": {
-      "country": "MG",
+      "value": "MG",
       "prob": 1.0,
       "count": 7
     },
     "Q133022": {
-      "country": "LU",
+      "value": "LU",
       "prob": 1.0,
       "count": 39
     },
     "Q81477": {
-      "country": "LT",
+      "value": "LT",
       "prob": 1.0,
       "count": 59
     },
     "Q103055": {
-      "country": "LI",
+      "value": "LI",
       "prob": 1.0,
       "count": 9
     },
     "Q34599": {
-      "country": "LY",
+      "value": "LY",
       "prob": 1.0,
       "count": 6
     },
     "Q170795": {
-      "country": "LR",
+      "value": "LR",
       "prob": 1.0,
       "count": 6
     },
     "Q104969": {
-      "country": "LS",
+      "value": "LS",
       "prob": 1.0,
       "count": 6
     },
     "Q36005": {
-      "country": "LB",
+      "value": "LB",
       "prob": 1.0,
       "count": 18
     },
     "Q46008": {
-      "country": "LA",
+      "value": "LA",
       "prob": 1.0,
       "count": 9
     },
     "Q165545": {
-      "country": "KW",
+      "value": "KW",
       "prob": 1.0,
       "count": 18
     },
     "Q117758": {
-      "country": "KI",
+      "value": "KI",
       "prob": 1.0,
       "count": 3
     },
     "Q165905": {
-      "country": "KE",
+      "value": "KE",
       "prob": 1.0,
       "count": 13
     },
     "Q43175": {
-      "country": "JP",
+      "value": "JP",
       "prob": 1.0,
       "count": 98
     },
     "Q172517": {
-      "country": "JM",
+      "value": "JM",
       "prob": 1.0,
       "count": 19
     },
     "Q82205": {
-      "country": "IE",
+      "value": "IE",
       "prob": 1.0,
       "count": 114
     },
     "Q162781": {
-      "country": "IQ",
+      "value": "IQ",
       "prob": 1.0,
       "count": 127
     },
     "Q126622": {
-      "country": "IR",
+      "value": "IR",
       "prob": 1.0,
       "count": 51
     },
     "Q101472": {
-      "country": "ID",
+      "value": "ID",
       "prob": 1.0,
       "count": 231
     },
     "Q41673": {
-      "country": "IN",
+      "value": "IN",
       "prob": 1.0,
       "count": 119
     },
     "Q93335": {
-      "country": "IS",
+      "value": "IS",
       "prob": 1.0,
       "count": 15
     },
     "Q81970": {
-      "country": "HU",
+      "value": "HU",
       "prob": 0.99,
       "count": 138
     },
     "Q102939": {
-      "country": "HN",
+      "value": "HN",
       "prob": 1.0,
       "count": 19
     },
     "Q102987": {
-      "country": "HT",
+      "value": "HT",
       "prob": 1.0,
       "count": 18
     },
     "Q171124": {
-      "country": "GY",
+      "value": "GY",
       "prob": 1.0,
       "count": 11
     },
     "Q102953": {
-      "country": "GW",
+      "value": "GW",
       "prob": 1.0,
       "count": 3
     },
     "Q165500": {
-      "country": "GN",
+      "value": "GN",
       "prob": 1.0,
       "count": 5
     },
     "Q178179": {
-      "country": "GT",
+      "value": "GT",
       "prob": 1.0,
       "count": 24
     },
     "Q103414": {
-      "country": "GD",
+      "value": "GD",
       "prob": 1.0,
       "count": 8
     },
     "Q160676": {
-      "country": "GH",
+      "value": "GH",
       "prob": 1.0,
       "count": 11
     },
     "Q135014": {
-      "country": "GM",
+      "value": "GM",
       "prob": 1.0,
       "count": 3
     },
     "Q101769": {
-      "country": "GA",
+      "value": "GA",
       "prob": 1.0,
       "count": 8
     },
     "Q182514": {
-      "country": "FJ",
+      "value": "FJ",
       "prob": 1.0,
       "count": 8
     },
     "Q162068": {
-      "country": "ET",
+      "value": "ET",
       "prob": 1.0,
       "count": 6
     },
     "Q102993": {
-      "country": "SZ",
+      "value": "SZ",
       "prob": 1.0,
       "count": 5
     },
     "Q170555": {
-      "country": "ER",
+      "value": "ER",
       "prob": 1.0,
       "count": 8
     },
     "Q170554": {
-      "country": "GQ",
+      "value": "GQ",
       "prob": 1.0,
       "count": 4
     },
     "Q173554": {
-      "country": "SV",
+      "value": "SV",
       "prob": 1.0,
       "count": 28
     },
     "Q130458": {
-      "country": "EG",
+      "value": "EG",
       "prob": 1.0,
       "count": 19
     },
     "Q165542": {
-      "country": "EC",
+      "value": "EC",
       "prob": 1.0,
       "count": 22
     },
     "Q184265": {
-      "country": "DO",
+      "value": "DO",
       "prob": 1.0,
       "count": 20
     },
     "Q179383": {
-      "country": "DM",
+      "value": "DM",
       "prob": 1.0,
       "count": 8
     },
     "Q102184": {
-      "country": "DJ",
+      "value": "DJ",
       "prob": 1.0,
       "count": 5
     },
     "Q60149": {
-      "country": "DK",
+      "value": "DK",
       "prob": 1.0,
       "count": 821
     },
     "Q164584": {
-      "country": "CD",
+      "value": "CD",
       "prob": 1.0,
       "count": 12
     },
     "Q103064": {
-      "country": "KP",
+      "value": "KP",
       "prob": 1.0,
       "count": 116
     },
     "Q127155": {
-      "country": "CZ",
+      "value": "CZ",
       "prob": 1.0,
       "count": 107
     },
     "Q4633": {
-      "country": "CY",
+      "value": "CY",
       "prob": 1.0,
       "count": 33
     },
     "Q163008": {
-      "country": "CU",
+      "value": "CU",
       "prob": 1.0,
       "count": 58
     },
     "Q133015": {
-      "country": "HR",
+      "value": "HR",
       "prob": 1.0,
       "count": 81
     },
     "Q102967": {
-      "country": "CI",
+      "value": "CI",
       "prob": 1.0,
       "count": 7
     },
     "Q170289": {
-      "country": "CR",
+      "value": "CR",
       "prob": 1.0,
       "count": 34
     },
     "Q163333": {
-      "country": "CG",
+      "value": "CG",
       "prob": 1.0,
       "count": 6
     },
     "Q168917": {
-      "country": "KM",
+      "value": "KM",
       "prob": 1.0,
       "count": 5
     },
     "Q160425": {
-      "country": "CO",
+      "value": "CO",
       "prob": 1.0,
       "count": 49
     },
     "Q165811": {
-      "country": "TD",
+      "value": "TD",
       "prob": 1.0,
       "count": 6
     },
     "Q165775": {
-      "country": "CF",
+      "value": "CF",
       "prob": 1.0,
       "count": 6
     },
     "Q159872": {
-      "country": "CM",
+      "value": "CM",
       "prob": 1.0,
       "count": 11
     },
     "Q162999": {
-      "country": "KH",
+      "value": "KH",
       "prob": 1.0,
       "count": 19
     },
     "Q102944": {
-      "country": "CV",
+      "value": "CV",
       "prob": 1.0,
       "count": 6
     },
     "Q134252": {
-      "country": "BF",
+      "value": "BF",
       "prob": 1.0,
       "count": 7
     },
     "Q225360": {
-      "country": "BG",
+      "value": "BG",
       "prob": 1.0,
       "count": 112
     },
     "Q165872": {
-      "country": "BN",
+      "value": "BN",
       "prob": 1.0,
       "count": 7
     },
     "Q82194": {
-      "country": "BR",
+      "value": "BR",
       "prob": 0.98,
       "count": 124
     },
     "Q160242": {
-      "country": "BW",
+      "value": "BW",
       "prob": 1.0,
       "count": 10
     },
     "Q162033": {
-      "country": "BA",
+      "value": "BA",
       "prob": 1.0,
       "count": 24
     },
     "Q134874": {
-      "country": "BO",
+      "value": "BO",
       "prob": 1.0,
       "count": 41
     },
     "Q134521": {
-      "country": "BT",
+      "value": "BT",
       "prob": 1.0,
       "count": 4
     },
     "Q130442": {
-      "country": "BJ",
+      "value": "BJ",
       "prob": 1.0,
       "count": 7
     },
     "Q169192": {
-      "country": "BZ",
+      "value": "BZ",
       "prob": 1.0,
       "count": 14
     },
     "Q12990": {
-      "country": "BE",
+      "value": "BE",
       "prob": 1.0,
       "count": 179
     },
     "Q104351": {
-      "country": "BB",
+      "value": "BB",
       "prob": 1.0,
       "count": 13
     },
     "Q127179": {
-      "country": "BD",
+      "value": "BD",
       "prob": 1.0,
       "count": 12
     },
     "Q130481": {
-      "country": "BH",
+      "value": "BH",
       "prob": 1.0,
       "count": 7
     },
     "Q103447": {
-      "country": "BS",
+      "value": "BS",
       "prob": 1.0,
       "count": 10
     },
     "Q82236": {
-      "country": "AZ",
+      "value": "AZ",
       "prob": 1.0,
       "count": 26
     },
     "Q46835": {
-      "country": "AT",
+      "value": "AT",
       "prob": 1.0,
       "count": 89
     },
     "Q33213": {
-      "country": "AM",
+      "value": "AM",
       "prob": 1.0,
       "count": 51
     },
     "Q135034": {
-      "country": "AG",
+      "value": "AG",
       "prob": 1.0,
       "count": 10
     },
     "Q124329": {
-      "country": "AO",
+      "value": "AO",
       "prob": 1.0,
       "count": 8
     },
     "Q81526": {
-      "country": "AD",
+      "value": "AD",
       "prob": 1.0,
       "count": 9
     },
     "Q83392": {
-      "country": "DZ",
+      "value": "DZ",
       "prob": 1.0,
       "count": 39
     },
     "Q108111555": {
-      "country": "AF",
+      "value": "AF",
       "prob": 1.0,
       "count": 7
     },
     "Q42537;Q1463762": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 422
     },
     "Q190064": {
-      "country": "BM",
+      "value": "BM",
       "prob": 1.0,
       "count": 5
     },
     "Q168711": {
-      "country": "XK",
+      "value": "XK",
       "prob": 1.0,
       "count": 9
     },
     "Q98055852": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 324
     },
     "Q173535": {
-      "country": "TW",
+      "value": "TW",
       "prob": 1.0,
       "count": 52
     },
     "Q186456": {
-      "country": "HK",
+      "value": "HK",
       "prob": 1.0,
       "count": 10
     },
     "Q42537;Q5456721": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q42537;Q752559": {
-      "country": "US",
+      "value": "US",
       "prob": 0.99,
       "count": 88
     },
     "Q63874423": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 10
     },
     "Q42537;Q676623": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Q193693": {
-      "country": "CK",
+      "value": "CK",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q64300176": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 25
     },
     "Q2403145": {
-      "country": "AR-B",
+      "value": "AR-B",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q752837;Q1463762": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q730106": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 13
     },
     "Q42537;Q258262": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 10
     },
     "Q42537;Q129132": {
-      "country": "US;GR",
+      "value": "US;GR",
       "prob": 1.0,
       "count": 2
     },
     "Q730106": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q19374": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 6
     },
     "Q2191442": {
-      "country": "BR",
+      "value": "BR",
       "prob": 1.0,
       "count": 3
     },
     "Q42537;Q1084035": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 26
     },
     "Q1740429": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 76
     },
     "Q42537;Q19373": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Q15994084": {
-      "country": "PR",
+      "value": "PR",
       "prob": 1.0,
       "count": 30
     },
     "Q42537;Q497997": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q1073663": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 5
     },
     "Q2361840": {
-      "country": "GB",
+      "value": "GB",
       "prob": 1.0,
       "count": 7
     },
     "Q42537;Q70119112": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q96602193": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 5
     },
     "Q42537;Q730106;Q1463762": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q673117": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 21
     },
     "Q16630001": {
-      "country": "FR-74",
+      "value": "FR-74",
       "prob": 1.0,
       "count": 24
     },
     "Q7317376": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 2
     },
     "Q1064042": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 4
     },
     "Q42537;Q156564": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q42537;Q18983": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q818665": {
-      "country": "TA",
+      "value": "TA",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q5456897": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 11
     },
     "Q42537;Q590821": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 31
     },
     "Q42537;Q1402799": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 54
     },
     "Q42537;Q632491": {
-      "country": "US",
+      "value": "US",
       "prob": 0.83,
       "count": 6
     },
     "Q79874": {
-      "country": "AF",
+      "value": "AF",
       "prob": 1.0,
       "count": 22
     },
     "Q42537;Q66363800": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q42537;Q5456898": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q5456895": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q191731": {
-      "country": "PS",
+      "value": "PS",
       "prob": 1.0,
       "count": 7
     },
     "Q42537;Q752569": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q42537;Q96761402": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q42537;Q590821;Q80606550": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q1463762;Q752559": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q204666": {
-      "country": "VI",
+      "value": "VI",
       "prob": 1.0,
       "count": 4
     },
     "Q328889": {
-      "country": "MP",
+      "value": "MP",
       "prob": 1.0,
       "count": 2
     },
     "Q235829": {
-      "country": "GU",
+      "value": "GU",
       "prob": 1.0,
       "count": 5
     },
     "Q42537;Q590821;Q1463762": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q1463762": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Q12188": {
-      "country": "BZH",
+      "value": "BZH",
       "prob": 0.71,
       "count": 14
     },
     "Q42537;Q605195": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q4898324": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q2509336": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q65036980": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q4889892": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q65036972": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q760401": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q100711795": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q19000": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Q42537;Q104202987": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q3173323": {
-      "country": "GB",
+      "value": "GB",
       "prob": 1.0,
       "count": 3
     },
     "Q165230": {
-      "country": "SU",
+      "value": "SU",
       "prob": 1.0,
       "count": 3
     },
     "Q381988": {
-      "country": "YU",
+      "value": "YU",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q752837": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 26
     },
     "Q1285625": {
-      "country": "AU",
+      "value": "AU",
       "prob": 0.91,
       "count": 11
     },
     "Q462621": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 4
     },
     "Q5456898": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q5456899": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q5456897": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q5456895": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q5456894": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q174487": {
-      "country": "KY",
+      "value": "KY",
       "prob": 1.0,
       "count": 3
     },
     "Q238759": {
-      "country": "MO",
+      "value": "MO",
       "prob": 1.0,
       "count": 2
     },
     "Q189604": {
-      "country": "AI",
+      "value": "AI",
       "prob": 1.0,
       "count": 2
     },
     "Q245269": {
-      "country": "MS",
+      "value": "MS",
       "prob": 1.0,
       "count": 3
     },
     "Q42537;Q127974": {
-      "country": "US;UA",
+      "value": "US;UA",
       "prob": 1.0,
       "count": 6
     },
     "Q752837": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 6
     },
     "Q42537;Q285418": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q42537;Q248102": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q1463762;Q42537": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q204120": {
-      "country": "VG",
+      "value": "VG",
       "prob": 1.0,
       "count": 2
     },
     "Q285418": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q1073859": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q104781511": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q128480": {
-      "country": "US;IL",
+      "value": "US;IL",
       "prob": 1.0,
       "count": 4
     },
     "Q42537;Q1463762;Q1402799": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q752559;Q42537": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q1463762;Q752837": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Q42537;Q96676582": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q19373": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q782773": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q2029729": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q202610": {
-      "country": "AX",
+      "value": "AX",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q18993": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q140002976": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q42537;Q140002968;Q2029729": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q202189": {
-      "country": "NU",
+      "value": "NU",
       "prob": 1.0,
       "count": 2
     },
     "Q42537;Q1463762;Q752837;Q1402799": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q25444": {
-      "country": "PT",
+      "value": "PT",
       "prob": 1.0,
       "count": 2
     },
     "Q23925186": {
-      "country": "GR",
+      "value": "GR",
       "prob": 1.0,
       "count": 3
     },
     "Q23297": {
-      "country": "RS",
+      "value": "RS",
       "prob": 1.0,
       "count": 4
     }
   },
   "subject": {
     "United States": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 16047
     },
     "Israel": {
-      "country": "IL",
+      "value": "IL",
       "prob": 1.0,
       "count": 54
     },
     "Australia": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 334
     },
     "Vietnam": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 99
     },
     "Burundi": {
-      "country": "BI",
+      "value": "BI",
       "prob": 1.0,
       "count": 5
     },
     "Germany": {
-      "country": "DE",
+      "value": "DE",
       "prob": 0.99,
       "count": 294
     },
     "Kyrgyzstan": {
-      "country": "KG",
+      "value": "KG",
       "prob": 1.0,
       "count": 19
     },
     "Spain": {
-      "country": "ES",
+      "value": "ES",
       "prob": 0.99,
       "count": 380
     },
     "Philippines": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 1218
     },
     "Canada": {
-      "country": "CA",
+      "value": "CA",
       "prob": 1.0,
       "count": 1033
     },
     "American Samoa": {
-      "country": "AS",
+      "value": "AS",
       "prob": 1.0,
       "count": 3
     },
     "Nicaragua": {
-      "country": "NI",
+      "value": "NI",
       "prob": 1.0,
       "count": 23
     },
     "Italy": {
-      "country": "IT",
+      "value": "IT",
       "prob": 1.0,
       "count": 564
     },
     "People's Republic of China": {
-      "country": "CN",
+      "value": "CN",
       "prob": 1.0,
       "count": 954
     },
     "Romania": {
-      "country": "RO",
+      "value": "RO",
       "prob": 0.99,
       "count": 110
     },
     "Slovakia": {
-      "country": "SK",
+      "value": "SK",
       "prob": 0.99,
       "count": 93
     },
     "France": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 2355
     },
     "Chile": {
-      "country": "CL",
+      "value": "CL",
       "prob": 1.0,
       "count": 416
     },
     "Estonia": {
-      "country": "EE",
+      "value": "EE",
       "prob": 0.99,
       "count": 112
     },
     "Latvia": {
-      "country": "LV",
+      "value": "LV",
       "prob": 0.98,
       "count": 60
     },
     "Sudan": {
-      "country": "SD",
+      "value": "SD",
       "prob": 1.0,
       "count": 7
     },
     "Marshall Islands": {
-      "country": "MH",
+      "value": "MH",
       "prob": 1.0,
       "count": 3
     },
     "Europe": {
-      "country": "EU",
+      "value": "EU",
       "prob": 0.98,
       "count": 1491
     },
     "Turkey": {
-      "country": "TR",
+      "value": "TR",
       "prob": 1.0,
       "count": 286
     },
     "Albania": {
-      "country": "AL",
+      "value": "AL",
       "prob": 1.0,
       "count": 23
     },
     "Isle of Man": {
-      "country": "IM",
+      "value": "IM",
       "prob": 1.0,
       "count": 28
     },
     "Greece": {
-      "country": "GR",
+      "value": "GR",
       "prob": 1.0,
       "count": 260
     },
     "Finland": {
-      "country": "FI",
+      "value": "FI",
       "prob": 1.0,
       "count": 279
     },
     "Chicago": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Georgia": {
-      "country": "GE",
+      "value": "GE",
       "prob": 1.0,
       "count": 46
     },
     "Maldives": {
-      "country": "MV",
+      "value": "MV",
       "prob": 1.0,
       "count": 7
     },
     "Norway": {
-      "country": "NO",
+      "value": "NO",
       "prob": 1.0,
       "count": 408
     },
     "Kazakhstan": {
-      "country": "KZ",
+      "value": "KZ",
       "prob": 1.0,
       "count": 77
     },
     "Sweden": {
-      "country": "SE",
+      "value": "SE",
       "prob": 1.0,
       "count": 649
     },
     "South Korea": {
-      "country": "KR",
+      "value": "KR",
       "prob": 1.0,
       "count": 66
     },
     "New Zealand": {
-      "country": "NZ",
+      "value": "NZ",
       "prob": 1.0,
       "count": 156
     },
     "Mexico": {
-      "country": "MX",
+      "value": "MX",
       "prob": 1.0,
       "count": 259
     },
     "United States;California": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 84
     },
     "Ukraine": {
-      "country": "UA",
+      "value": "UA",
       "prob": 1.0,
       "count": 291
     },
     "Jordan": {
-      "country": "JO",
+      "value": "JO",
       "prob": 1.0,
       "count": 21
     },
     "Portugal": {
-      "country": "PT",
+      "value": "PT",
       "prob": 0.99,
       "count": 91
     },
     "Belarus": {
-      "country": "BY",
+      "value": "BY",
       "prob": 0.99,
       "count": 71
     },
     "Holy See": {
-      "country": "VA",
+      "value": "VA",
       "prob": 0.86,
       "count": 14
     },
     "Zimbabwe": {
-      "country": "ZW",
+      "value": "ZW",
       "prob": 1.0,
       "count": 9
     },
     "Zambia": {
-      "country": "ZM",
+      "value": "ZM",
       "prob": 1.0,
       "count": 10
     },
     "Yemen": {
-      "country": "YE",
+      "value": "YE",
       "prob": 1.0,
       "count": 4
     },
     "Venezuela": {
-      "country": "VE",
+      "value": "VE",
       "prob": 1.0,
       "count": 22
     },
     "Vanuatu": {
-      "country": "VU",
+      "value": "VU",
       "prob": 1.0,
       "count": 6
     },
     "Uzbekistan": {
-      "country": "UZ",
+      "value": "UZ",
       "prob": 1.0,
       "count": 16
     },
     "Uruguay": {
-      "country": "UY",
+      "value": "UY",
       "prob": 1.0,
       "count": 17
     },
     "Tanzania": {
-      "country": "TZ",
+      "value": "TZ",
       "prob": 1.0,
       "count": 9
     },
     "United Kingdom": {
-      "country": "GB",
+      "value": "GB",
       "prob": 0.95,
       "count": 270
     },
     "United Arab Emirates": {
-      "country": "AE",
+      "value": "AE",
       "prob": 1.0,
       "count": 16
     },
     "Uganda": {
-      "country": "UG",
+      "value": "UG",
       "prob": 1.0,
       "count": 7
     },
     "Tuvalu": {
-      "country": "TV",
+      "value": "TV",
       "prob": 1.0,
       "count": 4
     },
     "Turkmenistan": {
-      "country": "TM",
+      "value": "TM",
       "prob": 1.0,
       "count": 276
     },
     "Tunisia": {
-      "country": "TN",
+      "value": "TN",
       "prob": 1.0,
       "count": 26
     },
     "Trinidad and Tobago": {
-      "country": "TT",
+      "value": "TT",
       "prob": 1.0,
       "count": 12
     },
     "Tonga": {
-      "country": "TO",
+      "value": "TO",
       "prob": 1.0,
       "count": 4
     },
     "Togo": {
-      "country": "TG",
+      "value": "TG",
       "prob": 1.0,
       "count": 5
     },
     "East Timor": {
-      "country": "TL",
+      "value": "TL",
       "prob": 1.0,
       "count": 5
     },
     "Thailand": {
-      "country": "TH",
+      "value": "TH",
       "prob": 1.0,
       "count": 156
     },
     "Tajikistan": {
-      "country": "TJ",
+      "value": "TJ",
       "prob": 1.0,
       "count": 6
     },
     "Syria": {
-      "country": "SY",
+      "value": "SY",
       "prob": 1.0,
       "count": 9
     },
     "Switzerland": {
-      "country": "CH",
+      "value": "CH",
       "prob": 1.0,
       "count": 135
     },
     "Suriname": {
-      "country": "SR",
+      "value": "SR",
       "prob": 1.0,
       "count": 8
     },
     "Sri Lanka": {
-      "country": "LK",
+      "value": "LK",
       "prob": 1.0,
       "count": 9
     },
     "South Sudan": {
-      "country": "SS",
+      "value": "SS",
       "prob": 1.0,
       "count": 2
     },
     "South Africa": {
-      "country": "ZA",
+      "value": "ZA",
       "prob": 1.0,
       "count": 21
     },
     "Somalia": {
-      "country": "SO",
+      "value": "SO",
       "prob": 0.9,
       "count": 10
     },
     "Solomon Islands": {
-      "country": "SB",
+      "value": "SB",
       "prob": 1.0,
       "count": 5
     },
     "Slovenia": {
-      "country": "SI",
+      "value": "SI",
       "prob": 0.99,
       "count": 131
     },
     "Singapore": {
-      "country": "SG",
+      "value": "SG",
       "prob": 1.0,
       "count": 22
     },
     "Sierra Leone": {
-      "country": "SL",
+      "value": "SL",
       "prob": 1.0,
       "count": 5
     },
     "Seychelles": {
-      "country": "SC",
+      "value": "SC",
       "prob": 1.0,
       "count": 7
     },
     "Serbia": {
-      "country": "RS",
+      "value": "RS",
       "prob": 1.0,
       "count": 118
     },
     "Senegal": {
-      "country": "SN",
+      "value": "SN",
       "prob": 1.0,
       "count": 9
     },
     "Saudi Arabia": {
-      "country": "SA",
+      "value": "SA",
       "prob": 1.0,
       "count": 75
     },
     "São Tomé and Principe": {
-      "country": "ST",
+      "value": "ST",
       "prob": 1.0,
       "count": 3
     },
     "San Marino": {
-      "country": "SM",
+      "value": "SM",
       "prob": 1.0,
       "count": 9
     },
     "Samoa": {
-      "country": "WS",
+      "value": "WS",
       "prob": 1.0,
       "count": 5
     },
     "St. Vincent and the Grenadines": {
-      "country": "VC",
+      "value": "VC",
       "prob": 1.0,
       "count": 9
     },
     "St. Lucia": {
-      "country": "LC",
+      "value": "LC",
       "prob": 1.0,
       "count": 10
     },
     "St. Kitts and Nevis": {
-      "country": "KN",
+      "value": "KN",
       "prob": 1.0,
       "count": 9
     },
     "Rwanda": {
-      "country": "RW",
+      "value": "RW",
       "prob": 1.0,
       "count": 2
     },
     "Russia": {
-      "country": "RU",
+      "value": "RU",
       "prob": 1.0,
       "count": 138
     },
     "Moldova": {
-      "country": "MD",
+      "value": "MD",
       "prob": 1.0,
       "count": 14
     },
     "Qatar": {
-      "country": "QA",
+      "value": "QA",
       "prob": 1.0,
       "count": 13
     },
     "Poland": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 573
     },
     "Peru": {
-      "country": "PE",
+      "value": "PE",
       "prob": 1.0,
       "count": 34
     },
     "Paraguay": {
-      "country": "PY",
+      "value": "PY",
       "prob": 1.0,
       "count": 19
     },
     "Papua New Guinea": {
-      "country": "PG",
+      "value": "PG",
       "prob": 1.0,
       "count": 16
     },
     "Panama": {
-      "country": "PA",
+      "value": "PA",
       "prob": 1.0,
       "count": 42
     },
     "Palau": {
-      "country": "PW",
+      "value": "PW",
       "prob": 1.0,
       "count": 4
     },
     "Pakistan": {
-      "country": "PK",
+      "value": "PK",
       "prob": 1.0,
       "count": 14
     },
     "Oman": {
-      "country": "OM",
+      "value": "OM",
       "prob": 1.0,
       "count": 9
     },
     "North Macedonia": {
-      "country": "MK",
+      "value": "MK",
       "prob": 1.0,
       "count": 33
     },
     "Nigeria": {
-      "country": "NG",
+      "value": "NG",
       "prob": 1.0,
       "count": 12
     },
     "Niger": {
-      "country": "NE",
+      "value": "NE",
       "prob": 1.0,
       "count": 7
     },
     "Netherlands": {
-      "country": "NL",
+      "value": "NL",
       "prob": 0.99,
       "count": 98
     },
     "Nepal": {
-      "country": "NP",
+      "value": "NP",
       "prob": 1.0,
       "count": 11
     },
     "Nauru": {
-      "country": "NR",
+      "value": "NR",
       "prob": 1.0,
       "count": 3
     },
     "Namibia": {
-      "country": "NA",
+      "value": "NA",
       "prob": 1.0,
       "count": 4
     },
     "Myanmar": {
-      "country": "MM",
+      "value": "MM",
       "prob": 1.0,
       "count": 19
     },
     "Mozambique": {
-      "country": "MZ",
+      "value": "MZ",
       "prob": 1.0,
       "count": 6
     },
     "Morocco": {
-      "country": "MA",
+      "value": "MA",
       "prob": 1.0,
       "count": 21
     },
     "Montenegro": {
-      "country": "ME",
+      "value": "ME",
       "prob": 1.0,
       "count": 8
     },
     "Mongolia": {
-      "country": "MN",
+      "value": "MN",
       "prob": 1.0,
       "count": 7
     },
     "Monaco": {
-      "country": "MC",
+      "value": "MC",
       "prob": 1.0,
       "count": 8
     },
     "Federated States of Micronesia": {
-      "country": "FM",
+      "value": "FM",
       "prob": 1.0,
       "count": 3
     },
     "Mauritius": {
-      "country": "MU",
+      "value": "MU",
       "prob": 1.0,
       "count": 7
     },
     "Mauritania": {
-      "country": "MR",
+      "value": "MR",
       "prob": 1.0,
       "count": 6
     },
     "Malta": {
-      "country": "MT",
+      "value": "MT",
       "prob": 0.96,
       "count": 25
     },
     "Mali": {
-      "country": "ML",
+      "value": "ML",
       "prob": 1.0,
       "count": 6
     },
     "Malaysia": {
-      "country": "MY",
+      "value": "MY",
       "prob": 1.0,
       "count": 32
     },
     "Malawi": {
-      "country": "MW",
+      "value": "MW",
       "prob": 1.0,
       "count": 7
     },
     "Madagascar": {
-      "country": "MG",
+      "value": "MG",
       "prob": 1.0,
       "count": 7
     },
     "Luxembourg": {
-      "country": "LU",
+      "value": "LU",
       "prob": 0.97,
       "count": 39
     },
     "Lithuania": {
-      "country": "LT",
+      "value": "LT",
       "prob": 0.98,
       "count": 59
     },
     "Liechtenstein": {
-      "country": "LI",
+      "value": "LI",
       "prob": 1.0,
       "count": 9
     },
     "Libya": {
-      "country": "LY",
+      "value": "LY",
       "prob": 1.0,
       "count": 6
     },
     "Liberia": {
-      "country": "LR",
+      "value": "LR",
       "prob": 1.0,
       "count": 6
     },
     "Lesotho": {
-      "country": "LS",
+      "value": "LS",
       "prob": 1.0,
       "count": 6
     },
     "Lebanon": {
-      "country": "LB",
+      "value": "LB",
       "prob": 1.0,
       "count": 18
     },
     "Laos": {
-      "country": "LA",
+      "value": "LA",
       "prob": 1.0,
       "count": 9
     },
     "Kuwait": {
-      "country": "KW",
+      "value": "KW",
       "prob": 1.0,
       "count": 18
     },
     "Kiribati": {
-      "country": "KI",
+      "value": "KI",
       "prob": 1.0,
       "count": 3
     },
     "Kenya": {
-      "country": "KE",
+      "value": "KE",
       "prob": 1.0,
       "count": 13
     },
     "Japan": {
-      "country": "JP",
+      "value": "JP",
       "prob": 1.0,
       "count": 97
     },
     "Jamaica": {
-      "country": "JM",
+      "value": "JM",
       "prob": 1.0,
       "count": 19
     },
     "Republic of Ireland": {
-      "country": "IE",
+      "value": "IE",
       "prob": 1.0,
       "count": 112
     },
     "Iraq": {
-      "country": "IQ",
+      "value": "IQ",
       "prob": 1.0,
       "count": 127
     },
     "Iran": {
-      "country": "IR",
+      "value": "IR",
       "prob": 1.0,
       "count": 51
     },
     "Indonesia": {
-      "country": "ID",
+      "value": "ID",
       "prob": 1.0,
       "count": 231
     },
     "India": {
-      "country": "IN",
+      "value": "IN",
       "prob": 1.0,
       "count": 106
     },
     "Iceland": {
-      "country": "IS",
+      "value": "IS",
       "prob": 1.0,
       "count": 15
     },
     "Hungary": {
-      "country": "HU",
+      "value": "HU",
       "prob": 0.99,
       "count": 133
     },
     "Honduras": {
-      "country": "HN",
+      "value": "HN",
       "prob": 1.0,
       "count": 19
     },
     "Haiti": {
-      "country": "HT",
+      "value": "HT",
       "prob": 1.0,
       "count": 18
     },
     "Guyana": {
-      "country": "GY",
+      "value": "GY",
       "prob": 1.0,
       "count": 11
     },
     "Guinea-Bissau": {
-      "country": "GW",
+      "value": "GW",
       "prob": 1.0,
       "count": 3
     },
     "Guinea": {
-      "country": "GN",
+      "value": "GN",
       "prob": 1.0,
       "count": 5
     },
     "Guatemala": {
-      "country": "GT",
+      "value": "GT",
       "prob": 1.0,
       "count": 24
     },
     "Grenada": {
-      "country": "GD",
+      "value": "GD",
       "prob": 1.0,
       "count": 8
     },
     "Ghana": {
-      "country": "GH",
+      "value": "GH",
       "prob": 1.0,
       "count": 10
     },
     "Gambia": {
-      "country": "GM",
+      "value": "GM",
       "prob": 1.0,
       "count": 3
     },
     "Gabon": {
-      "country": "GA",
+      "value": "GA",
       "prob": 1.0,
       "count": 8
     },
     "Fiji": {
-      "country": "FJ",
+      "value": "FJ",
       "prob": 1.0,
       "count": 8
     },
     "Ethiopia": {
-      "country": "ET",
+      "value": "ET",
       "prob": 1.0,
       "count": 7
     },
     "Eswatini": {
-      "country": "SZ",
+      "value": "SZ",
       "prob": 1.0,
       "count": 5
     },
     "Eritrea": {
-      "country": "ER",
+      "value": "ER",
       "prob": 1.0,
       "count": 8
     },
     "Equatorial Guinea": {
-      "country": "GQ",
+      "value": "GQ",
       "prob": 1.0,
       "count": 4
     },
     "El Salvador": {
-      "country": "SV",
+      "value": "SV",
       "prob": 1.0,
       "count": 28
     },
     "Egypt": {
-      "country": "EG",
+      "value": "EG",
       "prob": 1.0,
       "count": 19
     },
     "Ecuador": {
-      "country": "EC",
+      "value": "EC",
       "prob": 1.0,
       "count": 22
     },
     "Dominican Republic": {
-      "country": "DO",
+      "value": "DO",
       "prob": 1.0,
       "count": 20
     },
     "Dominica": {
-      "country": "DM",
+      "value": "DM",
       "prob": 1.0,
       "count": 8
     },
     "Djibouti": {
-      "country": "DJ",
+      "value": "DJ",
       "prob": 1.0,
       "count": 5
     },
     "Denmark": {
-      "country": "DK",
+      "value": "DK",
       "prob": 1.0,
       "count": 620
     },
     "Democratic Republic of the Congo": {
-      "country": "CD",
+      "value": "CD",
       "prob": 1.0,
       "count": 12
     },
     "North Korea": {
-      "country": "KP",
+      "value": "KP",
       "prob": 1.0,
       "count": 116
     },
     "Czechia": {
-      "country": "CZ",
+      "value": "CZ",
       "prob": 1.0,
       "count": 106
     },
     "Republic of Cyprus": {
-      "country": "CY",
+      "value": "CY",
       "prob": 1.0,
       "count": 33
     },
     "Cuba": {
-      "country": "CU",
+      "value": "CU",
       "prob": 1.0,
       "count": 58
     },
     "Croatia": {
-      "country": "HR",
+      "value": "HR",
       "prob": 0.99,
       "count": 82
     },
     "Côte d'Ivoire": {
-      "country": "CI",
+      "value": "CI",
       "prob": 1.0,
       "count": 7
     },
     "Costa Rica": {
-      "country": "CR",
+      "value": "CR",
       "prob": 1.0,
       "count": 34
     },
     "Republic of the Congo": {
-      "country": "CG",
+      "value": "CG",
       "prob": 1.0,
       "count": 6
     },
     "Comoros": {
-      "country": "KM",
+      "value": "KM",
       "prob": 1.0,
       "count": 5
     },
     "Colombia": {
-      "country": "CO",
+      "value": "CO",
       "prob": 1.0,
       "count": 49
     },
     "Chad": {
-      "country": "TD",
+      "value": "TD",
       "prob": 1.0,
       "count": 6
     },
     "Central African Republic": {
-      "country": "CF",
+      "value": "CF",
       "prob": 1.0,
       "count": 6
     },
     "Cameroon": {
-      "country": "CM",
+      "value": "CM",
       "prob": 1.0,
       "count": 11
     },
     "Cambodia": {
-      "country": "KH",
+      "value": "KH",
       "prob": 1.0,
       "count": 18
     },
     "Cape Verde": {
-      "country": "CV",
+      "value": "CV",
       "prob": 1.0,
       "count": 6
     },
     "Burkina Faso": {
-      "country": "BF",
+      "value": "BF",
       "prob": 1.0,
       "count": 7
     },
     "Bulgaria": {
-      "country": "BG",
+      "value": "BG",
       "prob": 0.99,
       "count": 112
     },
     "Brunei": {
-      "country": "BN",
+      "value": "BN",
       "prob": 1.0,
       "count": 7
     },
     "Brazil": {
-      "country": "BR",
+      "value": "BR",
       "prob": 1.0,
       "count": 117
     },
     "Botswana": {
-      "country": "BW",
+      "value": "BW",
       "prob": 1.0,
       "count": 10
     },
     "Bosnia and Herzegovina": {
-      "country": "BA",
+      "value": "BA",
       "prob": 1.0,
       "count": 25
     },
     "Bolivia": {
-      "country": "BO",
+      "value": "BO",
       "prob": 1.0,
       "count": 42
     },
     "Bhutan": {
-      "country": "BT",
+      "value": "BT",
       "prob": 1.0,
       "count": 4
     },
     "Benin": {
-      "country": "BJ",
+      "value": "BJ",
       "prob": 1.0,
       "count": 7
     },
     "Belize": {
-      "country": "BZ",
+      "value": "BZ",
       "prob": 1.0,
       "count": 14
     },
     "Belgium": {
-      "country": "BE",
+      "value": "BE",
       "prob": 0.99,
       "count": 171
     },
     "Barbados": {
-      "country": "BB",
+      "value": "BB",
       "prob": 1.0,
       "count": 13
     },
     "Bangladesh": {
-      "country": "BD",
+      "value": "BD",
       "prob": 1.0,
       "count": 12
     },
     "Bahrain": {
-      "country": "BH",
+      "value": "BH",
       "prob": 1.0,
       "count": 7
     },
     "The Bahamas": {
-      "country": "BS",
+      "value": "BS",
       "prob": 1.0,
       "count": 10
     },
     "Azerbaijan": {
-      "country": "AZ",
+      "value": "AZ",
       "prob": 1.0,
       "count": 26
     },
     "Austria": {
-      "country": "AT",
+      "value": "AT",
       "prob": 0.99,
       "count": 88
     },
     "Armenia": {
-      "country": "AM",
+      "value": "AM",
       "prob": 1.0,
       "count": 51
     },
     "Argentina": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 600
     },
     "Antigua and Barbuda": {
-      "country": "AG",
+      "value": "AG",
       "prob": 1.0,
       "count": 10
     },
     "Angola": {
-      "country": "AO",
+      "value": "AO",
       "prob": 1.0,
       "count": 8
     },
     "Andorra": {
-      "country": "AD",
+      "value": "AD",
       "prob": 1.0,
       "count": 9
     },
     "Algeria": {
-      "country": "DZ",
+      "value": "DZ",
       "prob": 1.0,
       "count": 39
     },
     "Islamic Republic of Afghanistan": {
-      "country": "AF",
+      "value": "AF",
       "prob": 1.0,
       "count": 7
     },
     "United States;National League of POW/MIA Families": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 414
     },
     "Bermuda": {
-      "country": "BM",
+      "value": "BM",
       "prob": 1.0,
       "count": 5
     },
     "Kosovo": {
-      "country": "XK",
+      "value": "XK",
       "prob": 1.0,
       "count": 9
     },
     "Vatican City": {
-      "country": "VA",
+      "value": "VA",
       "prob": 1.0,
       "count": 35
     },
     "European Union": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 321
     },
     "Taiwan": {
-      "country": "TW",
+      "value": "TW",
       "prob": 1.0,
       "count": 52
     },
     "Hong Kong": {
-      "country": "HK",
+      "value": "HK",
       "prob": 1.0,
       "count": 10
     },
     "United States;Cincinnati": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "United States;Symmes Township": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Ohio": {
-      "country": "US",
+      "value": "US",
       "prob": 0.99,
       "count": 87
     },
     "Polska": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 2
     },
     "Kingdom of France": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 15
     },
     "United States;Georgia": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Cook Islands": {
-      "country": "CK",
+      "value": "CK",
       "prob": 1.0,
       "count": 2
     },
     "United States;McDonald’s": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 12
     },
     "Provincia de Buenos Aires": {
-      "country": "AR-B",
+      "value": "AR-B",
       "prob": 1.0,
       "count": 2
     },
     "United States;Illinois;National League of POW/MIA Families": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Florida": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 12
     },
     "United States;Oklahoma": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 9
     },
     "United States;Greece": {
-      "country": "US;GR",
+      "value": "US;GR",
       "prob": 1.0,
       "count": 2
     },
     "Florida": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Christianity": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 26
     },
     "South Vietnam": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 75
     },
     "United States;South Carolina": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Puerto Rico": {
-      "country": "PR",
+      "value": "PR",
       "prob": 1.0,
       "count": 30
     },
     "United States;Alabama": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Crown of Castile": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 5
     },
     "Great Britain": {
-      "country": "GB",
+      "value": "GB",
       "prob": 1.0,
       "count": 6
     },
     "United States;Hampton by Hilton": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Florida;National League of POW/MIA Families": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Indiana": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 21
     },
     "RSL": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 2
     },
     "New South Wales": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 4
     },
     "United States;Alaska": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "United States;Pennsylvania": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Tristan da Cunha": {
-      "country": "TA",
+      "value": "TA",
       "prob": 1.0,
       "count": 2
     },
     "México": {
-      "country": "MX",
+      "value": "MX",
       "prob": 1.0,
       "count": 2
     },
     "United States;United States Marine Corps": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 11
     },
     "United States;Kentucky": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 32
     },
     "United States;Chicago": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 55
     },
     "United States;International Association of Fire Fighters": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Afghanistan": {
-      "country": "AF",
+      "value": "AF",
       "prob": 1.0,
       "count": 22
     },
     "United States;Wendy’s": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Sharonville": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "United States;United States Army": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;United States Coast Guard": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Louisiana": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Palestine": {
-      "country": "PS",
+      "value": "PS",
       "prob": 1.0,
       "count": 7
     },
     "United States;Mississippi": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "United States;Kentucky;Florence": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;National League of POW/MIA Families;Ohio": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "United States Virgin Islands": {
-      "country": "VI",
+      "value": "VI",
       "prob": 1.0,
       "count": 4
     },
     "Northern Mariana Islands": {
-      "country": "MP",
+      "value": "MP",
       "prob": 1.0,
       "count": 2
     },
     "Guam": {
-      "country": "GU",
+      "value": "GU",
       "prob": 1.0,
       "count": 5
     },
     "United States;Kentucky;National League of POW/MIA Families": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "National League of POW/MIA Families": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Bretagne": {
-      "country": "BZH",
+      "value": "BZH",
       "prob": 0.71,
       "count": 14
     },
     "United States;Arizona": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "United States;Tennessee": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Savoie": {
-      "country": "FR-74",
+      "value": "FR-74",
       "prob": 1.0,
       "count": 15
     },
     "Andalucía": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 2
     },
     "United States;Tree City USA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Texas": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 6
     },
     "United States;Carl’s Jr.": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Soviet Union": {
-      "country": "SU",
+      "value": "SU",
       "prob": 1.0,
       "count": 3
     },
     "United States;Illinois": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 28
     },
     "Aboriginal Australians": {
-      "country": "AU",
+      "value": "AU",
       "prob": 0.9,
       "count": 10
     },
     "Torres Strait Islanders": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 4
     },
     "United States Army": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States Navy": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States Marine Corps": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States Coast Guard": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States Air Force": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;McDonald's": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 14
     },
     "Cayman Islands": {
-      "country": "KY",
+      "value": "KY",
       "prob": 1.0,
       "count": 3
     },
     "Macau": {
-      "country": "MO",
+      "value": "MO",
       "prob": 1.0,
       "count": 2
     },
     "Anguilla": {
-      "country": "AI",
+      "value": "AI",
       "prob": 1.0,
       "count": 2
     },
     "Montserrat": {
-      "country": "MS",
+      "value": "MS",
       "prob": 1.0,
       "count": 3
     },
     "United States;Ukraine": {
-      "country": "US;UA",
+      "value": "US;UA",
       "prob": 1.0,
       "count": 6
     },
     "United States;Maryland": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Illinois": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 6
     },
     "United States;Michigan": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "United States;New Hampshire": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "National League of POW/MIA Families;United States": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "British Virgin Islands": {
-      "country": "VG",
+      "value": "VG",
       "prob": 1.0,
       "count": 2
     },
     "Michigan": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Assyrian Nation": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;Israel": {
-      "country": "US;IL",
+      "value": "US;IL",
       "prob": 1.0,
       "count": 4
     },
     "United States;National League of POW/MIA Families;Chicago": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Ohio;United States": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;National League of POW/MIA Families;Illinois": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "South Carolina": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "United States;Pan-Africanism": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Åland Islands": {
-      "country": "AX",
+      "value": "AX",
       "prob": 1.0,
       "count": 2
     },
     "Chablais": {
-      "country": "FR-74",
+      "value": "FR-74",
       "prob": 1.0,
       "count": 2
     },
     "United States;Virginia": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Niue": {
-      "country": "NU",
+      "value": "NU",
       "prob": 1.0,
       "count": 2
     },
     "United States;": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "United States;National League of POW/MIA Families;Illinois;Chicago": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Funchal": {
-      "country": "PT",
+      "value": "PT",
       "prob": 1.0,
       "count": 2
     }
   },
   "subject:wikidata": {
     "Q30": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 16050
     },
     "Q801": {
-      "country": "IL",
+      "value": "IL",
       "prob": 1.0,
       "count": 54
     },
     "Q408": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 334
     },
     "Q881": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 100
     },
     "Q967": {
-      "country": "BI",
+      "value": "BI",
       "prob": 1.0,
       "count": 5
     },
     "Q183": {
-      "country": "DE",
+      "value": "DE",
       "prob": 0.99,
       "count": 295
     },
     "Q813": {
-      "country": "KG",
+      "value": "KG",
       "prob": 1.0,
       "count": 19
     },
     "Q29": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 382
     },
     "Q928": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 1218
     },
     "Q16": {
-      "country": "CA",
+      "value": "CA",
       "prob": 1.0,
       "count": 1033
     },
     "Q16641": {
-      "country": "AS",
+      "value": "AS",
       "prob": 1.0,
       "count": 3
     },
     "Q811": {
-      "country": "NI",
+      "value": "NI",
       "prob": 1.0,
       "count": 23
     },
     "Q38": {
-      "country": "IT",
+      "value": "IT",
       "prob": 1.0,
       "count": 564
     },
     "Q148": {
-      "country": "CN",
+      "value": "CN",
       "prob": 1.0,
       "count": 954
     },
     "Q218": {
-      "country": "RO",
+      "value": "RO",
       "prob": 0.99,
       "count": 110
     },
     "Q214": {
-      "country": "SK",
+      "value": "SK",
       "prob": 0.99,
       "count": 93
     },
     "Q142": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 2355
     },
     "Q298": {
-      "country": "CL",
+      "value": "CL",
       "prob": 1.0,
       "count": 416
     },
     "Q191": {
-      "country": "EE",
+      "value": "EE",
       "prob": 0.99,
       "count": 112
     },
     "Q211": {
-      "country": "LV",
+      "value": "LV",
       "prob": 0.98,
       "count": 60
     },
     "Q1049": {
-      "country": "SD",
+      "value": "SD",
       "prob": 1.0,
       "count": 7
     },
     "Q709": {
-      "country": "MH",
+      "value": "MH",
       "prob": 1.0,
       "count": 3
     },
     "Q46": {
-      "country": "EU",
+      "value": "EU",
       "prob": 0.98,
       "count": 1490
     },
     "Q43": {
-      "country": "TR",
+      "value": "TR",
       "prob": 1.0,
       "count": 286
     },
     "Q222": {
-      "country": "AL",
+      "value": "AL",
       "prob": 1.0,
       "count": 23
     },
     "Q9676": {
-      "country": "IM",
+      "value": "IM",
       "prob": 1.0,
       "count": 28
     },
     "Q41": {
-      "country": "GR",
+      "value": "GR",
       "prob": 1.0,
       "count": 260
     },
     "Q33": {
-      "country": "FI",
+      "value": "FI",
       "prob": 1.0,
       "count": 280
     },
     "Q1297": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q230": {
-      "country": "GE",
+      "value": "GE",
       "prob": 1.0,
       "count": 46
     },
     "Q826": {
-      "country": "MV",
+      "value": "MV",
       "prob": 1.0,
       "count": 7
     },
     "Q20": {
-      "country": "NO",
+      "value": "NO",
       "prob": 1.0,
       "count": 408
     },
     "Q232": {
-      "country": "KZ",
+      "value": "KZ",
       "prob": 1.0,
       "count": 77
     },
     "Q34": {
-      "country": "SE",
+      "value": "SE",
       "prob": 0.99,
       "count": 121
     },
     "Q884": {
-      "country": "KR",
+      "value": "KR",
       "prob": 1.0,
       "count": 66
     },
     "Q664": {
-      "country": "NZ",
+      "value": "NZ",
       "prob": 1.0,
       "count": 156
     },
     "Q96": {
-      "country": "MX",
+      "value": "MX",
       "prob": 1.0,
       "count": 261
     },
     "Q30;Q99": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 83
     },
     "Q212": {
-      "country": "UA",
+      "value": "UA",
       "prob": 1.0,
       "count": 292
     },
     "Q810": {
-      "country": "JO",
+      "value": "JO",
       "prob": 1.0,
       "count": 21
     },
     "Q45": {
-      "country": "PT",
+      "value": "PT",
       "prob": 0.99,
       "count": 91
     },
     "Q184": {
-      "country": "BY",
+      "value": "BY",
       "prob": 0.99,
       "count": 71
     },
     "Q159583": {
-      "country": "VA",
+      "value": "VA",
       "prob": 0.86,
       "count": 14
     },
     "Q954": {
-      "country": "ZW",
+      "value": "ZW",
       "prob": 1.0,
       "count": 9
     },
     "Q953": {
-      "country": "ZM",
+      "value": "ZM",
       "prob": 1.0,
       "count": 10
     },
     "Q805": {
-      "country": "YE",
+      "value": "YE",
       "prob": 1.0,
       "count": 4
     },
     "Q717": {
-      "country": "VE",
+      "value": "VE",
       "prob": 1.0,
       "count": 22
     },
     "Q686": {
-      "country": "VU",
+      "value": "VU",
       "prob": 1.0,
       "count": 6
     },
     "Q265": {
-      "country": "UZ",
+      "value": "UZ",
       "prob": 1.0,
       "count": 16
     },
     "Q77": {
-      "country": "UY",
+      "value": "UY",
       "prob": 1.0,
       "count": 17
     },
     "Q924": {
-      "country": "TZ",
+      "value": "TZ",
       "prob": 1.0,
       "count": 9
     },
     "Q145": {
-      "country": "GB",
+      "value": "GB",
       "prob": 0.95,
       "count": 270
     },
     "Q878": {
-      "country": "AE",
+      "value": "AE",
       "prob": 1.0,
       "count": 16
     },
     "Q1036": {
-      "country": "UG",
+      "value": "UG",
       "prob": 1.0,
       "count": 7
     },
     "Q672": {
-      "country": "TV",
+      "value": "TV",
       "prob": 1.0,
       "count": 4
     },
     "Q874": {
-      "country": "TM",
+      "value": "TM",
       "prob": 1.0,
       "count": 276
     },
     "Q948": {
-      "country": "TN",
+      "value": "TN",
       "prob": 1.0,
       "count": 26
     },
     "Q754": {
-      "country": "TT",
+      "value": "TT",
       "prob": 1.0,
       "count": 12
     },
     "Q678": {
-      "country": "TO",
+      "value": "TO",
       "prob": 1.0,
       "count": 4
     },
     "Q945": {
-      "country": "TG",
+      "value": "TG",
       "prob": 1.0,
       "count": 5
     },
     "Q574": {
-      "country": "TL",
+      "value": "TL",
       "prob": 1.0,
       "count": 5
     },
     "Q869": {
-      "country": "TH",
+      "value": "TH",
       "prob": 1.0,
       "count": 156
     },
     "Q863": {
-      "country": "TJ",
+      "value": "TJ",
       "prob": 1.0,
       "count": 6
     },
     "Q858": {
-      "country": "SY",
+      "value": "SY",
       "prob": 1.0,
       "count": 9
     },
     "Q39": {
-      "country": "CH",
+      "value": "CH",
       "prob": 1.0,
       "count": 136
     },
     "Q730": {
-      "country": "SR",
+      "value": "SR",
       "prob": 1.0,
       "count": 8
     },
     "Q854": {
-      "country": "LK",
+      "value": "LK",
       "prob": 1.0,
       "count": 9
     },
     "Q958": {
-      "country": "SS",
+      "value": "SS",
       "prob": 1.0,
       "count": 2
     },
     "Q258": {
-      "country": "ZA",
+      "value": "ZA",
       "prob": 1.0,
       "count": 21
     },
     "Q1045": {
-      "country": "SO",
+      "value": "SO",
       "prob": 0.9,
       "count": 10
     },
     "Q685": {
-      "country": "SB",
+      "value": "SB",
       "prob": 1.0,
       "count": 5
     },
     "Q215": {
-      "country": "SI",
+      "value": "SI",
       "prob": 0.98,
       "count": 132
     },
     "Q334": {
-      "country": "SG",
+      "value": "SG",
       "prob": 1.0,
       "count": 22
     },
     "Q1044": {
-      "country": "SL",
+      "value": "SL",
       "prob": 1.0,
       "count": 5
     },
     "Q1042": {
-      "country": "SC",
+      "value": "SC",
       "prob": 1.0,
       "count": 7
     },
     "Q403": {
-      "country": "RS",
+      "value": "RS",
       "prob": 1.0,
       "count": 118
     },
     "Q1041": {
-      "country": "SN",
+      "value": "SN",
       "prob": 1.0,
       "count": 9
     },
     "Q851": {
-      "country": "SA",
+      "value": "SA",
       "prob": 1.0,
       "count": 75
     },
     "Q1039": {
-      "country": "ST",
+      "value": "ST",
       "prob": 1.0,
       "count": 3
     },
     "Q238": {
-      "country": "SM",
+      "value": "SM",
       "prob": 1.0,
       "count": 9
     },
     "Q683": {
-      "country": "WS",
+      "value": "WS",
       "prob": 1.0,
       "count": 5
     },
     "Q757": {
-      "country": "VC",
+      "value": "VC",
       "prob": 1.0,
       "count": 9
     },
     "Q760": {
-      "country": "LC",
+      "value": "LC",
       "prob": 1.0,
       "count": 10
     },
     "Q763": {
-      "country": "KN",
+      "value": "KN",
       "prob": 1.0,
       "count": 9
     },
     "Q1037": {
-      "country": "RW",
+      "value": "RW",
       "prob": 1.0,
       "count": 2
     },
     "Q159": {
-      "country": "RU",
+      "value": "RU",
       "prob": 1.0,
       "count": 138
     },
     "Q217": {
-      "country": "MD",
+      "value": "MD",
       "prob": 1.0,
       "count": 14
     },
     "Q846": {
-      "country": "QA",
+      "value": "QA",
       "prob": 1.0,
       "count": 13
     },
     "Q36": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 579
     },
     "Q419": {
-      "country": "PE",
+      "value": "PE",
       "prob": 1.0,
       "count": 34
     },
     "Q733": {
-      "country": "PY",
+      "value": "PY",
       "prob": 1.0,
       "count": 19
     },
     "Q691": {
-      "country": "PG",
+      "value": "PG",
       "prob": 1.0,
       "count": 16
     },
     "Q804": {
-      "country": "PA",
+      "value": "PA",
       "prob": 1.0,
       "count": 42
     },
     "Q695": {
-      "country": "PW",
+      "value": "PW",
       "prob": 1.0,
       "count": 4
     },
     "Q843": {
-      "country": "PK",
+      "value": "PK",
       "prob": 1.0,
       "count": 14
     },
     "Q842": {
-      "country": "OM",
+      "value": "OM",
       "prob": 1.0,
       "count": 9
     },
     "Q221": {
-      "country": "MK",
+      "value": "MK",
       "prob": 1.0,
       "count": 33
     },
     "Q1033": {
-      "country": "NG",
+      "value": "NG",
       "prob": 1.0,
       "count": 12
     },
     "Q1032": {
-      "country": "NE",
+      "value": "NE",
       "prob": 1.0,
       "count": 7
     },
     "Q55": {
-      "country": "NL",
+      "value": "NL",
       "prob": 0.99,
       "count": 98
     },
     "Q837": {
-      "country": "NP",
+      "value": "NP",
       "prob": 1.0,
       "count": 11
     },
     "Q697": {
-      "country": "NR",
+      "value": "NR",
       "prob": 1.0,
       "count": 3
     },
     "Q1030": {
-      "country": "NA",
+      "value": "NA",
       "prob": 1.0,
       "count": 4
     },
     "Q836": {
-      "country": "MM",
+      "value": "MM",
       "prob": 1.0,
       "count": 19
     },
     "Q1029": {
-      "country": "MZ",
+      "value": "MZ",
       "prob": 1.0,
       "count": 6
     },
     "Q1028": {
-      "country": "MA",
+      "value": "MA",
       "prob": 1.0,
       "count": 21
     },
     "Q236": {
-      "country": "ME",
+      "value": "ME",
       "prob": 1.0,
       "count": 8
     },
     "Q711": {
-      "country": "MN",
+      "value": "MN",
       "prob": 1.0,
       "count": 7
     },
     "Q235": {
-      "country": "MC",
+      "value": "MC",
       "prob": 1.0,
       "count": 8
     },
     "Q702": {
-      "country": "FM",
+      "value": "FM",
       "prob": 1.0,
       "count": 3
     },
     "Q1027": {
-      "country": "MU",
+      "value": "MU",
       "prob": 1.0,
       "count": 7
     },
     "Q1025": {
-      "country": "MR",
+      "value": "MR",
       "prob": 1.0,
       "count": 6
     },
     "Q233": {
-      "country": "MT",
+      "value": "MT",
       "prob": 0.96,
       "count": 25
     },
     "Q912": {
-      "country": "ML",
+      "value": "ML",
       "prob": 1.0,
       "count": 6
     },
     "Q833": {
-      "country": "MY",
+      "value": "MY",
       "prob": 1.0,
       "count": 32
     },
     "Q1020": {
-      "country": "MW",
+      "value": "MW",
       "prob": 1.0,
       "count": 7
     },
     "Q1019": {
-      "country": "MG",
+      "value": "MG",
       "prob": 1.0,
       "count": 7
     },
     "Q32": {
-      "country": "LU",
+      "value": "LU",
       "prob": 0.97,
       "count": 40
     },
     "Q37": {
-      "country": "LT",
+      "value": "LT",
       "prob": 0.98,
       "count": 59
     },
     "Q347": {
-      "country": "LI",
+      "value": "LI",
       "prob": 1.0,
       "count": 9
     },
     "Q1016": {
-      "country": "LY",
+      "value": "LY",
       "prob": 1.0,
       "count": 6
     },
     "Q1014": {
-      "country": "LR",
+      "value": "LR",
       "prob": 1.0,
       "count": 6
     },
     "Q1013": {
-      "country": "LS",
+      "value": "LS",
       "prob": 1.0,
       "count": 6
     },
     "Q822": {
-      "country": "LB",
+      "value": "LB",
       "prob": 1.0,
       "count": 18
     },
     "Q819": {
-      "country": "LA",
+      "value": "LA",
       "prob": 1.0,
       "count": 9
     },
     "Q817": {
-      "country": "KW",
+      "value": "KW",
       "prob": 1.0,
       "count": 18
     },
     "Q710": {
-      "country": "KI",
+      "value": "KI",
       "prob": 1.0,
       "count": 3
     },
     "Q114": {
-      "country": "KE",
+      "value": "KE",
       "prob": 1.0,
       "count": 13
     },
     "Q17": {
-      "country": "JP",
+      "value": "JP",
       "prob": 1.0,
       "count": 97
     },
     "Q766": {
-      "country": "JM",
+      "value": "JM",
       "prob": 1.0,
       "count": 19
     },
     "Q27": {
-      "country": "IE",
+      "value": "IE",
       "prob": 0.99,
       "count": 114
     },
     "Q796": {
-      "country": "IQ",
+      "value": "IQ",
       "prob": 1.0,
       "count": 127
     },
     "Q794": {
-      "country": "IR",
+      "value": "IR",
       "prob": 1.0,
       "count": 51
     },
     "Q252": {
-      "country": "ID",
+      "value": "ID",
       "prob": 1.0,
       "count": 231
     },
     "Q668": {
-      "country": "IN",
+      "value": "IN",
       "prob": 1.0,
       "count": 106
     },
     "Q189": {
-      "country": "IS",
+      "value": "IS",
       "prob": 1.0,
       "count": 15
     },
     "Q28": {
-      "country": "HU",
+      "value": "HU",
       "prob": 0.99,
       "count": 134
     },
     "Q783": {
-      "country": "HN",
+      "value": "HN",
       "prob": 1.0,
       "count": 19
     },
     "Q790": {
-      "country": "HT",
+      "value": "HT",
       "prob": 1.0,
       "count": 18
     },
     "Q734": {
-      "country": "GY",
+      "value": "GY",
       "prob": 1.0,
       "count": 11
     },
     "Q1007": {
-      "country": "GW",
+      "value": "GW",
       "prob": 1.0,
       "count": 3
     },
     "Q1006": {
-      "country": "GN",
+      "value": "GN",
       "prob": 1.0,
       "count": 5
     },
     "Q774": {
-      "country": "GT",
+      "value": "GT",
       "prob": 1.0,
       "count": 24
     },
     "Q769": {
-      "country": "GD",
+      "value": "GD",
       "prob": 1.0,
       "count": 8
     },
     "Q117": {
-      "country": "GH",
+      "value": "GH",
       "prob": 1.0,
       "count": 10
     },
     "Q1005": {
-      "country": "GM",
+      "value": "GM",
       "prob": 1.0,
       "count": 3
     },
     "Q1000": {
-      "country": "GA",
+      "value": "GA",
       "prob": 1.0,
       "count": 8
     },
     "Q712": {
-      "country": "FJ",
+      "value": "FJ",
       "prob": 1.0,
       "count": 8
     },
     "Q115": {
-      "country": "ET",
+      "value": "ET",
       "prob": 1.0,
       "count": 7
     },
     "Q1050": {
-      "country": "SZ",
+      "value": "SZ",
       "prob": 1.0,
       "count": 5
     },
     "Q986": {
-      "country": "ER",
+      "value": "ER",
       "prob": 1.0,
       "count": 8
     },
     "Q983": {
-      "country": "GQ",
+      "value": "GQ",
       "prob": 1.0,
       "count": 4
     },
     "Q792": {
-      "country": "SV",
+      "value": "SV",
       "prob": 1.0,
       "count": 28
     },
     "Q79": {
-      "country": "EG",
+      "value": "EG",
       "prob": 1.0,
       "count": 19
     },
     "Q736": {
-      "country": "EC",
+      "value": "EC",
       "prob": 1.0,
       "count": 22
     },
     "Q786": {
-      "country": "DO",
+      "value": "DO",
       "prob": 1.0,
       "count": 20
     },
     "Q784": {
-      "country": "DM",
+      "value": "DM",
       "prob": 1.0,
       "count": 8
     },
     "Q977": {
-      "country": "DJ",
+      "value": "DJ",
       "prob": 1.0,
       "count": 5
     },
     "Q35": {
-      "country": "DK",
+      "value": "DK",
       "prob": 1.0,
       "count": 621
     },
     "Q974": {
-      "country": "CD",
+      "value": "CD",
       "prob": 1.0,
       "count": 12
     },
     "Q423": {
-      "country": "KP",
+      "value": "KP",
       "prob": 1.0,
       "count": 116
     },
     "Q213": {
-      "country": "CZ",
+      "value": "CZ",
       "prob": 0.99,
       "count": 107
     },
     "Q229": {
-      "country": "CY",
+      "value": "CY",
       "prob": 0.97,
       "count": 34
     },
     "Q241": {
-      "country": "CU",
+      "value": "CU",
       "prob": 1.0,
       "count": 58
     },
     "Q224": {
-      "country": "HR",
+      "value": "HR",
       "prob": 0.99,
       "count": 82
     },
     "Q1008": {
-      "country": "CI",
+      "value": "CI",
       "prob": 1.0,
       "count": 7
     },
     "Q800": {
-      "country": "CR",
+      "value": "CR",
       "prob": 1.0,
       "count": 34
     },
     "Q971": {
-      "country": "CG",
+      "value": "CG",
       "prob": 1.0,
       "count": 6
     },
     "Q970": {
-      "country": "KM",
+      "value": "KM",
       "prob": 1.0,
       "count": 5
     },
     "Q739": {
-      "country": "CO",
+      "value": "CO",
       "prob": 1.0,
       "count": 49
     },
     "Q657": {
-      "country": "TD",
+      "value": "TD",
       "prob": 1.0,
       "count": 6
     },
     "Q929": {
-      "country": "CF",
+      "value": "CF",
       "prob": 1.0,
       "count": 6
     },
     "Q1009": {
-      "country": "CM",
+      "value": "CM",
       "prob": 1.0,
       "count": 11
     },
     "Q424": {
-      "country": "KH",
+      "value": "KH",
       "prob": 1.0,
       "count": 18
     },
     "Q1011": {
-      "country": "CV",
+      "value": "CV",
       "prob": 1.0,
       "count": 6
     },
     "Q965": {
-      "country": "BF",
+      "value": "BF",
       "prob": 1.0,
       "count": 7
     },
     "Q219": {
-      "country": "BG",
+      "value": "BG",
       "prob": 0.99,
       "count": 112
     },
     "Q921": {
-      "country": "BN",
+      "value": "BN",
       "prob": 1.0,
       "count": 7
     },
     "Q155": {
-      "country": "BR",
+      "value": "BR",
       "prob": 1.0,
       "count": 117
     },
     "Q963": {
-      "country": "BW",
+      "value": "BW",
       "prob": 1.0,
       "count": 10
     },
     "Q225": {
-      "country": "BA",
+      "value": "BA",
       "prob": 1.0,
       "count": 25
     },
     "Q750": {
-      "country": "BO",
+      "value": "BO",
       "prob": 1.0,
       "count": 42
     },
     "Q917": {
-      "country": "BT",
+      "value": "BT",
       "prob": 1.0,
       "count": 4
     },
     "Q962": {
-      "country": "BJ",
+      "value": "BJ",
       "prob": 1.0,
       "count": 7
     },
     "Q242": {
-      "country": "BZ",
+      "value": "BZ",
       "prob": 1.0,
       "count": 14
     },
     "Q31": {
-      "country": "BE",
+      "value": "BE",
       "prob": 0.99,
       "count": 173
     },
     "Q244": {
-      "country": "BB",
+      "value": "BB",
       "prob": 1.0,
       "count": 13
     },
     "Q902": {
-      "country": "BD",
+      "value": "BD",
       "prob": 1.0,
       "count": 12
     },
     "Q398": {
-      "country": "BH",
+      "value": "BH",
       "prob": 1.0,
       "count": 7
     },
     "Q778": {
-      "country": "BS",
+      "value": "BS",
       "prob": 1.0,
       "count": 10
     },
     "Q227": {
-      "country": "AZ",
+      "value": "AZ",
       "prob": 1.0,
       "count": 26
     },
     "Q40": {
-      "country": "AT",
+      "value": "AT",
       "prob": 0.99,
       "count": 88
     },
     "Q399": {
-      "country": "AM",
+      "value": "AM",
       "prob": 1.0,
       "count": 51
     },
     "Q414": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 600
     },
     "Q781": {
-      "country": "AG",
+      "value": "AG",
       "prob": 1.0,
       "count": 10
     },
     "Q916": {
-      "country": "AO",
+      "value": "AO",
       "prob": 1.0,
       "count": 8
     },
     "Q228": {
-      "country": "AD",
+      "value": "AD",
       "prob": 1.0,
       "count": 9
     },
     "Q262": {
-      "country": "DZ",
+      "value": "DZ",
       "prob": 1.0,
       "count": 39
     },
     "Q30747910": {
-      "country": "AF",
+      "value": "AF",
       "prob": 1.0,
       "count": 7
     },
     "Q30;Q6974069": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 414
     },
     "Q23635": {
-      "country": "BM",
+      "value": "BM",
       "prob": 1.0,
       "count": 5
     },
     "Q1246": {
-      "country": "XK",
+      "value": "XK",
       "prob": 1.0,
       "count": 9
     },
     "Q237": {
-      "country": "VA",
+      "value": "VA",
       "prob": 1.0,
       "count": 35
     },
     "Q458": {
-      "country": "EU",
+      "value": "EU",
       "prob": 1.0,
       "count": 325
     },
     "Q865": {
-      "country": "TW",
+      "value": "TW",
       "prob": 1.0,
       "count": 52
     },
     "Q8646": {
-      "country": "HK",
+      "value": "HK",
       "prob": 1.0,
       "count": 10
     },
     "Q30;Q43196": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q30;Q7661298": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q1397": {
-      "country": "US",
+      "value": "US",
       "prob": 0.99,
       "count": 85
     },
     "Q70972": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 15
     },
     "Q30;Q1428": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Q26988": {
-      "country": "CK",
+      "value": "CK",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q38076": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 25
     },
     "Q30;Q1204;Q6974069": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q30;Q812": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 13
     },
     "Q30;Q1649": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 9
     },
     "Q30;Q41": {
-      "country": "US;GR",
+      "value": "US;GR",
       "prob": 1.0,
       "count": 2
     },
     "Q812": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q5043": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 26
     },
     "Q180573": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 75
     },
     "Q30;Q1456": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Q1183": {
-      "country": "PR",
+      "value": "PR",
       "prob": 1.0,
       "count": 30
     },
     "Q30;Q173": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q217196": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 5
     },
     "Q161885": {
-      "country": "GB",
+      "value": "GB",
       "prob": 1.0,
       "count": 6
     },
     "Q30;Q5646230": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q30;Q812;Q6974069": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q1415": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 21
     },
     "Q7317376": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 2
     },
     "Q3224": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 4
     },
     "Q30;Q797": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q30;Q1400": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q220982": {
-      "country": "TA",
+      "value": "TA",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q11218": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 11
     },
     "Q30;Q1603": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 32
     },
     "Q30;Q1297": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 55
     },
     "Q30;Q15220388": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Q889": {
-      "country": "AF",
+      "value": "AF",
       "prob": 1.0,
       "count": 22
     },
     "Q30;Q550258": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q605220": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q30;Q9212": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q11224": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q1588": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Q219060": {
-      "country": "PS",
+      "value": "PS",
       "prob": 1.0,
       "count": 7
     },
     "Q30;Q1494": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Q30;Q1603;Q985560": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q6974069;Q1397": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q11703": {
-      "country": "VI",
+      "value": "VI",
       "prob": 1.0,
       "count": 4
     },
     "Q16644": {
-      "country": "MP",
+      "value": "MP",
       "prob": 1.0,
       "count": 2
     },
     "Q16635": {
-      "country": "GU",
+      "value": "GU",
       "prob": 1.0,
       "count": 5
     },
     "Q30;Q1603;Q6974069": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q6974069": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Q12130": {
-      "country": "BZH",
+      "value": "BZH",
       "prob": 0.71,
       "count": 14
     },
     "Q30;Q816": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q30;Q1509": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q14118": {
-      "country": "FR-74",
+      "value": "FR-74",
       "prob": 1.0,
       "count": 15
     },
     "Q5783": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q7837537": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q1439": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Q30;Q1043486": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q99;Q30": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q15180": {
-      "country": "SU",
+      "value": "SU",
       "prob": 1.0,
       "count": 3
     },
     "Q30;Q1204": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 28
     },
     "Q12060728": {
-      "country": "AU",
+      "value": "AU",
       "prob": 0.91,
       "count": 11
     },
     "Q379636": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 4
     },
     "Q9212": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q11220": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q11218": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q11224": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q11223": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q5785": {
-      "country": "KY",
+      "value": "KY",
       "prob": 1.0,
       "count": 3
     },
     "Q14773": {
-      "country": "MO",
+      "value": "MO",
       "prob": 1.0,
       "count": 2
     },
     "Q25228": {
-      "country": "AI",
+      "value": "AI",
       "prob": 1.0,
       "count": 2
     },
     "Q13353": {
-      "country": "MS",
+      "value": "MS",
       "prob": 1.0,
       "count": 3
     },
     "Q30;Q212": {
-      "country": "US;UA",
+      "value": "US;UA",
       "prob": 1.0,
       "count": 6
     },
     "Q30;Q1391": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q1204": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 6
     },
     "Q30;Q1166": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q30;Q759": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q6974069;Q30": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q25305": {
-      "country": "VG",
+      "value": "VG",
       "prob": 1.0,
       "count": 2
     },
     "Q1166": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q746054": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q801": {
-      "country": "US;IL",
+      "value": "US;IL",
       "prob": 1.0,
       "count": 4
     },
     "Q30;Q6974069;Q1297": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Q1397;Q30": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q6974069;Q1204": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Q1456": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q30;Q282739": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q5689": {
-      "country": "AX",
+      "value": "AX",
       "prob": 1.0,
       "count": 2
     },
     "Q869650": {
-      "country": "FR-74",
+      "value": "FR-74",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q1370": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q462799;Q282739": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Q34020": {
-      "country": "NU",
+      "value": "NU",
       "prob": 1.0,
       "count": 2
     },
     "Q30;": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q30;Q6974069;Q1204;Q1297": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Q188047": {
-      "country": "LT",
+      "value": "LT",
       "prob": 1.0,
       "count": 3
     }
   },
   "operator": {
     "City Government of San Juan": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Philippine High School for the Arts": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Office of the President": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 5
     },
     "National Historical Commission of the Philippines": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 30
     },
     "United States Coast Guard": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 16
     },
     "Air Force ROTC": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Provincial Government of Laguna": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Philippine Veterans Affairs Office": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 48
     },
     "Civil Aviation Authority of the Philippines": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 7
     },
     "United States Postal Service": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 55
     },
     "San Pablo Central Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Calantas Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Department of Veteran's Affairs": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Philippine Coconut Authority": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Massachusetts Institute of Technology": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "National Museum of the Philippines": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 4
     },
     "Secretaría de la Defensa Nacional": {
-      "country": "MX",
+      "value": "MX",
       "prob": 1.0,
       "count": 3
     },
     "JCDecaux": {
-      "country": "FR",
+      "value": "FR",
       "prob": 0.72,
       "count": 81
     },
     "Bureau of Fire Protection National Capital Region": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "National Irrigation Administration": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "City Government of Marikina": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "City Government of San Pablo": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 6
     },
     "Boy Scouts of the Philippines": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Department of Public Works and Highways": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 6
     },
     "National Economic and Development Authority": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "City Government of Lapu-Lapu": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "U.S. Coast Guard": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 146
     },
     "City Government of Imus": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Bangko Sentral ng Pilipinas": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 4
     },
     "中国科学技术大学": {
-      "country": "CN",
+      "value": "CN",
       "prob": 1.0,
       "count": 2
     },
     "National Park Service": {
-      "country": "US",
+      "value": "US",
       "prob": 0.8,
       "count": 15
     },
     "Municipal Government of Santa Barbara, Iloilo": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "United States Embassy in the Philippines": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Royal Australian Navy": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 2
     },
     "Municipalidad de Plaza Huincul": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 3
     },
     "Technical Education and Skills Development Authority": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Philippine Navy": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 4
     },
     "Bureau of Corrections": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Philippine Ports Authority": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "U.S. Army": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 9
     },
     "Prefeitura Municipal de Pomerode": {
-      "country": "BR",
+      "value": "BR",
       "prob": 0.75,
       "count": 4
     },
     "Bureau of Fisheries and Aquatic Resources": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Philippine Marine Corps": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Santa Lucia Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "United States Army Corps of Engineers": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 35
     },
     "Municipio Arroyito": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "Municipal Government of Indang, Cavite": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Préfecture": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 7
     },
     "City Government of General Santos": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "U.S. Air Force": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "USCG": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 46
     },
     "SM Prime Holdings": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 10
     },
     "ARCOR SAIC": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "Guardia Civil": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 2
     },
     "Philippine Coast Guard": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "City Government of Manila": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Municipal Government of Basud, Camarines Norte": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Cavite State University": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Gendarmerie nationale": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 6
     },
     "Municipalidad de Cipolletti": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "Pemerintah Kabupaten Ciamis": {
-      "country": "ID",
+      "value": "ID",
       "prob": 1.0,
       "count": 7
     },
     "Provincial Government of La Union": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Ministerio de Defensa": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 2
     },
     "Municipalidad de San Martín de los Andes": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "Lakewood Church": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 14
     },
     "Municipalidad de General Paz": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 4
     },
     "Gendarmerie Nationale": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 5
     },
     "Boy Scouts of America": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Municipalidad de Neuquén": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 3
     },
     "United States Department of Veterans Affairs": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Riverside Cemetery": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Veterans of Foreign Wars": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "NRSR": {
-      "country": "SK",
+      "value": "SK",
       "prob": 1.0,
       "count": 3
     },
     "Fort Bend County Libraries": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "ParqueMet": {
-      "country": "CL",
+      "value": "CL",
       "prob": 1.0,
       "count": 3
     },
     "Manchester Local School District": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Exército Brasileiro": {
-      "country": "BR",
+      "value": "BR",
       "prob": 1.0,
       "count": 3
     },
     "San Juan Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Private": {
-      "country": "NO",
+      "value": "NO",
       "prob": 1.0,
       "count": 5
     },
     "City of Rosemount": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Ministério da Agricultura": {
-      "country": "AO",
+      "value": "AO",
       "prob": 1.0,
       "count": 2
     },
     "San Miguel Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Social Security System": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "پرچم ایران": {
-      "country": "IR",
+      "value": "IR",
       "prob": 1.0,
       "count": 3
     },
     "Philippine Postal Corporation": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Escuela": {
-      "country": "PE",
+      "value": "PE",
       "prob": 1.0,
       "count": 2
     },
     "태극기": {
-      "country": "KR",
+      "value": "KR",
       "prob": 1.0,
       "count": 3
     },
     "San Antonio Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Rizal Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "City Government of Calamba": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Municipal Government of Alaminos, Laguna": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "City Government of Antipolo": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Bureau of Internal Revenue": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "City Government of Muntinlupa": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Development Bank of the Philippines": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Manila International Airport Authority": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Philippine Air Force": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Municipalidad de Río Grande": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "City Government of Biñan": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "City Government of Naga": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "San Jose Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 4
     },
     "Provincial Government of Batangas": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Municipalidad de Santa Rosa": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "City of Broken Arrow": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Ejército de Chile": {
-      "country": "CL",
+      "value": "CL",
       "prob": 1.0,
       "count": 23
     },
     "City Government of Caloocan": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 14
     },
     "City Government of Pasig": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Department of Budget and Management": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "City of Danbury": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Armée de Terre": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 2
     },
     "San Agustin Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "San Pedro Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Municipal Government of Sarrat, Ilocos Norte": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "San Vicente Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Ascomo Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "St. Joseph School": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "City Government of Butuan": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 5
     },
     "National Grid Corporation of the Philippines": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "NOAA": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 9
     },
     "Heka-Laajasalo Oy": {
-      "country": "FI",
+      "value": "FI",
       "prob": 1.0,
       "count": 4
     },
     "Treston International College": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "San Andres Elementary School": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "City Government of Iloilo": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "National Bureau of Investigation": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "ESVEL": {
-      "country": "CO",
+      "value": "CO",
       "prob": 1.0,
       "count": 2
     },
     "U.S. Army Reserve": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "U.S. Navy": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 14
     },
     "Australian Army": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 2
     },
     "Chick-fil-A": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Embassy of Bolivia": {
-      "country": "BO",
+      "value": "BO",
       "prob": 1.0,
       "count": 2
     },
     "Fort Taber Park": {
-      "country": "US",
+      "value": "US",
       "prob": 0.75,
       "count": 4
     },
     "Municipal Government of Mulanay, Quezon": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Gymnasium Hittfeld": {
-      "country": "DE",
+      "value": "DE",
       "prob": 1.0,
       "count": 3
     },
     "Incorporated Village of Flower Hill": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Camping World": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Manteo Parks": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Auckland System Management": {
-      "country": "NZ",
+      "value": "NZ",
       "prob": 1.0,
       "count": 2
     },
     "Federal Bureau of Investigation": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Tripoli Community Schools": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "New York City Department of Parks and Recreation": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Land Transportation Office": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Quezon Police Provincial Office": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "City Government of Cebu": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Balan": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 2
     },
     "City of Brighton": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Dom-le-Mesnil": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 6
     },
     "Floing": {
-      "country": "FR",
+      "value": "FR",
       "prob": 0.8,
       "count": 5
     },
     "Municipal Government of Cabugao, Ilocos Sur": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "IR": {
-      "country": "IN",
+      "value": "IN",
       "prob": 1.0,
       "count": 2
     },
     "Municipality of Zarraga": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Concordia College": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Municipal Government of Santa Barbara, Pangasinan": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "U.S. Army Corps of Engineers": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 8
     },
     "Springfield Public Schools": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Nouvion-sur-Meuse": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 4
     },
     "Assaí Atacadista": {
-      "country": "BR",
+      "value": "BR",
       "prob": 1.0,
       "count": 2
     },
     "Policía de Río Negro": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "IR:SER": {
-      "country": "IN",
+      "value": "IN",
       "prob": 1.0,
       "count": 3
     },
     "Cape Hatteras National Seashore": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "IR:ECR": {
-      "country": "IN",
+      "value": "IN",
       "prob": 1.0,
       "count": 3
     },
     "Школа № 31": {
-      "country": "RU",
+      "value": "RU",
       "prob": 1.0,
       "count": 2
     },
     "Supreme Court of the Philippines": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 3
     },
     "Ayuntamiento de Majadahonda": {
-      "country": "ES",
+      "value": "ES",
       "prob": 0.8,
       "count": 5
     },
     "Ayuntamiento de Las Rozas": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 3
     },
     "د افغانستان اسلامي امارت": {
-      "country": "AF",
+      "value": "AF",
       "prob": 1.0,
       "count": 4
     },
     "Bloomington Fire Department": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Bandera Argentina": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "City Government of Cabadbaran": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Government Service Insurance System": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "National Food Authority": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 4
     },
     "Village of Malverne": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Ohio University Zanesville": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Six Flags": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 11
     },
     "Provincial Government of Pangasinan": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Hilton Garden Inn": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Drammen kommune": {
-      "country": "NO",
+      "value": "NO",
       "prob": 1.0,
       "count": 2
     },
     "Cordova Fire Department": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "IR:ER:MLDT": {
-      "country": "IN",
+      "value": "IN",
       "prob": 1.0,
       "count": 2
     },
     "Heart of Virginia Council": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Northrop Athletics Association": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "WHPG": {
-      "country": "PG",
+      "value": "PG",
       "prob": 1.0,
       "count": 6
     },
     "Vigili del Fuoco": {
-      "country": "IT",
+      "value": "IT",
       "prob": 1.0,
       "count": 2
     },
     "Gobierno de la CDMX": {
-      "country": "MX",
+      "value": "MX",
       "prob": 1.0,
       "count": 4
     },
     "Slippery Rock University": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "USPS": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 13
     },
     "USAF": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Rocky River City Schools": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Incorporated Village of Munsey Park": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 6
     },
     "Ελληνική Σημαία": {
-      "country": "GR",
+      "value": "GR",
       "prob": 1.0,
       "count": 2
     },
     "church": {
-      "country": "DK",
+      "value": "DK",
       "prob": 1.0,
       "count": 2
     },
     "National Aeronautics and Space Administration": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "U.S. Marine Corps": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Yayasan Al-Fath Bina Insan Sakinah": {
-      "country": "ID",
+      "value": "ID",
       "prob": 1.0,
       "count": 2
     },
     "Akademia Wychowania Fizycznego i Sportu": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 3
     },
     "USC": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Slagelse Kommune": {
-      "country": "DK",
+      "value": "DK",
       "prob": 1.0,
       "count": 2
     },
     "Bundeswehr": {
-      "country": "DE",
+      "value": "DE",
       "prob": 1.0,
       "count": 3
     },
     "Câmara de Vereadores de Pomerode": {
-      "country": "BR",
+      "value": "BR",
       "prob": 1.0,
       "count": 3
     },
     "Policía de la Provincia de Neuquén": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "Douglas County, Nebraska": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "U.S. Department of Veterans Affairs": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Municipalidad de Cutral Có": {
-      "country": "AR",
+      "value": "AR",
       "prob": 1.0,
       "count": 2
     },
     "Hauseigentümer": {
-      "country": "DE",
+      "value": "DE",
       "prob": 1.0,
       "count": 7
     },
     "Copper Hills High School": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Australian Defence Force": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 4
     },
     "Moss kommune": {
-      "country": "NO",
+      "value": "NO",
       "prob": 1.0,
       "count": 4
     },
     "Lincoln Center for the Performing Arts": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Vietnam": {
-      "country": "VN",
+      "value": "VN",
       "prob": 1.0,
       "count": 3
     },
     "Lier kommune": {
-      "country": "NO",
+      "value": "NO",
       "prob": 1.0,
       "count": 2
     },
     "Fábrica de Papel - Real Casa de la Moneda (F.N.M.T.)": {
-      "country": "ES",
+      "value": "ES",
       "prob": 1.0,
       "count": 2
     },
     "Flagstar Bank": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "I. Municipalidad de Casablanca": {
-      "country": "CL",
+      "value": "CL",
       "prob": 1.0,
       "count": 2
     },
     "Uniwersyteckie Centrum Kliniczne": {
-      "country": "PL",
+      "value": "PL",
       "prob": 1.0,
       "count": 2
     },
     "City of Madelia": {
-      "country": "us_-_united_states",
+      "value": "us_-_united_states",
       "prob": 1.0,
       "count": 2
     },
     "Commune d'Orelle": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 3
     },
     "Boys & Girls Club Of Burbank": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "MTÜ Tartu Üliõpilasküla": {
-      "country": "EE",
+      "value": "EE",
       "prob": 1.0,
       "count": 2
     },
     "Gobierno del Estado de Yucatán": {
-      "country": "MX",
+      "value": "MX",
       "prob": 1.0,
       "count": 2
     },
     "Southside Christian School": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Commune de Lons-le-Saunier": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 4
     },
     "Espoon kaupunki": {
-      "country": "FI",
+      "value": "FI",
       "prob": 1.0,
       "count": 5
     },
     "VCFD": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Canada Post": {
-      "country": "CA",
+      "value": "CA",
       "prob": 1.0,
       "count": 2
     },
     "City of Springfield": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "Municipalidad de Santiago": {
-      "country": "CL",
+      "value": "CL",
       "prob": 1.0,
       "count": 4
     },
     "Green Bay Yachting Club": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "SM": {
-      "country": "SM",
+      "value": "SM",
       "prob": 1.0,
       "count": 2
     },
     "Three Mile Creek Elementary School": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Adams County Ohio Valley School District": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "SDIS 73": {
-      "country": "FR",
+      "value": "FR",
       "prob": 1.0,
       "count": 2
     },
     "广州航海学院": {
-      "country": "CN",
+      "value": "CN",
       "prob": 1.0,
       "count": 2
     },
     "Marina Militare Italiana": {
-      "country": "IT",
+      "value": "IT",
       "prob": 1.0,
       "count": 2
     },
     "Minnesota Department of Transportation": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Cootamundra Ex-Services Club": {
-      "country": "AU",
+      "value": "AU",
       "prob": 1.0,
       "count": 2
     },
     "ANAS": {
-      "country": "IT",
+      "value": "IT",
       "prob": 1.0,
       "count": 99
     },
     "El Tesoro": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Armada Boliviana": {
-      "country": "BO",
+      "value": "BO",
       "prob": 1.0,
       "count": 2
     },
     "City of Charleston": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 6
     },
     "Team One Chevrolet GMC": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 7
     },
     "Vestre Viken HF": {
-      "country": "NO",
+      "value": "NO",
       "prob": 1.0,
       "count": 2
     },
     "Incorporated Village of Baxter Estates": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "Veterans Health Administration": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "School District of South Milwaukee": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 4
     },
     "St. Louis County Parks & Recreation": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Living Waters Worship Center": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 34
     },
     "Charleston County School District": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 5
     },
     "КП «Коммунтрас»": {
-      "country": "UA",
+      "value": "UA",
       "prob": 1.0,
       "count": 14
     },
     "United States Customs and Border Protection": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Horseheads High School": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "ΑΒ Βασιλόπουλος": {
-      "country": "GR",
+      "value": "GR",
       "prob": 1.0,
       "count": 2
     },
     "Beemok Hospitality Collection": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Σκλαβενίτης": {
-      "country": "GR",
+      "value": "GR",
       "prob": 1.0,
       "count": 2
     },
     "Municipality of Lantapan": {
-      "country": "PH",
+      "value": "PH",
       "prob": 1.0,
       "count": 2
     },
     "Colchester City Council": {
-      "country": "GB",
+      "value": "GB",
       "prob": 1.0,
       "count": 2
     },
     "Parcs Canada": {
-      "country": "CA",
+      "value": "CA",
       "prob": 1.0,
       "count": 2
     },
     "Groton-Dunstable School District": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Manhasset Park District": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 3
     },
     "Philip Simmons High School": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Seventh Day Adventist": {
-      "country": "PG",
+      "value": "PG",
       "prob": 1.0,
       "count": 2
     },
     "Appogge on Quincy industrial park": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Town of Sterling": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     },
     "Prefeitura Municipal de Timbó": {
-      "country": "BR",
+      "value": "BR",
       "prob": 1.0,
       "count": 3
     },
     "Union City Community Schools": {
-      "country": "US",
+      "value": "US",
       "prob": 1.0,
       "count": 2
     }

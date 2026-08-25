@@ -9,19 +9,14 @@ import ru.zkir.urbaneye3d.generators.MesherTree;
 
 import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
-import ru.zkir.urbaneye3d.utils.FlagColorInference;
-import ru.zkir.urbaneye3d.utils.FlagTextureGenerator;
+import ru.zkir.urbaneye3d.utils.FlagsDatabase;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
-import ru.zkir.urbaneye3d.utils.TreeSpeciesDatabase;
-
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -33,9 +28,7 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVELS_NUMBER;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_CHIMNEY_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
-import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.INHERIT_HEIGHT_FROM_PARENT;
-import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_STEP_HEIGHT;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
@@ -480,15 +473,23 @@ public class RenderableElement {
         double finialHeight = finialRadius * 2;
 
         String mastColorStr = getTagStr("colour", primitive, "#C0C0C0");
-        String flagColorStr = getTagStr("flag:colour", primitive, null);
+        String flagColorStr = getTagStr("flag:colour", primitive, "");
         String countryCode = getTagStr("country", primitive, "").toLowerCase();
 
         // If explicit color is missing, try data-driven inference
-        if (flagColorStr == null) {
-            flagColorStr = FlagColorInference.getInstance().getInferredColor(primitive);
+        var flagDatabase =  FlagsDatabase.getInstance();
+        if (countryCode.isBlank()) {
+            //TODO: Currently we use ISO country code as a key (and we have only national flags in the DB),
+            //  It seems however that flag:wikidata could be used instead, it could cover also regional and commercial flags,
+            //  to say nothing of UN flag (Q172446), Olympic flag (Q14624058) and Red Cross flag (Q63991554)
+            countryCode = flagDatabase.getInferredCountryCode(primitive);
+        }
+
+        if (flagColorStr.isBlank()) {
+            flagColorStr = flagDatabase.getInferredColor(primitive);
         }
         // If still null, use the default
-        if (flagColorStr == null) {
+        if (flagColorStr.isBlank()) {
             flagColorStr = "#AFA0A0";
         }
         
@@ -506,7 +507,7 @@ public class RenderableElement {
         // for the front/back faces of the flag. The texture is generated lazily.
         boolean texturedFlag = false;
         if (countryCode.length() == 2) {
-            if (FlagTextureGenerator.getInstance().checkCountryCode(countryCode)) {
+            if (flagDatabase.checkCountryCode(countryCode)) {
                 mesh.textureName = "flag:" + countryCode;
                 texturedFlag = true;
             }

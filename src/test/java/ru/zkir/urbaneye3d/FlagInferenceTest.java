@@ -3,15 +3,11 @@ package ru.zkir.urbaneye3d;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.osm.Node;
-import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.preferences.JosmBaseDirectories;
 import org.openstreetmap.josm.data.preferences.JosmUrls;
 import org.openstreetmap.josm.spi.preferences.Config;
 import org.openstreetmap.josm.spi.preferences.MemoryPreferences;
-import ru.zkir.urbaneye3d.utils.FlagColorInference;
-
-import java.util.HashMap;
-import java.util.Map;
+import ru.zkir.urbaneye3d.utils.FlagsDatabase;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +25,7 @@ public class FlagInferenceTest {
         Node node = new Node();
         node.put("subject", "Vietnam");
         
-        String color = FlagColorInference.getInstance().getInferredColor(node);
+        String color = FlagsDatabase.getInstance().getInferredColor(node);
         assertEquals("red", color, "Subject Vietnam should infer red color.");
     }
 
@@ -38,9 +34,19 @@ public class FlagInferenceTest {
         Node node = new Node();
         node.put("country", "CA");
         
-        String color = FlagColorInference.getInstance().getInferredColor(node);
+        String color = FlagsDatabase.getInstance().getInferredColor(node);
         assertEquals("red", color, "Country CA should infer red color.");
     }
+    @Test
+    void testUnitedStatesInference() {
+        Node node = new Node();
+        node.put("flag:name", "United States");
+
+        String country = FlagsDatabase.getInstance().getInferredCountryCode(node);
+        assertEquals("us", country, "flag:name=United States should infer 'us' country code.");
+    }
+
+
 
     @Test
     void testMaximumLikelihoodTieBreak() {
@@ -57,7 +63,7 @@ public class FlagInferenceTest {
         // Both point to 'red', but 'country=CA' has slightly higher count.
         // Since we return color, it's hard to see which one was picked if they match.
         // But the logic is there.
-        String color = FlagColorInference.getInstance().getInferredColor(node);
+        String color = FlagsDatabase.getInstance().getInferredColor(node);
         assertEquals("red", color);
     }
 
@@ -66,7 +72,7 @@ public class FlagInferenceTest {
         Node node = new Node();
         node.put("subject", "NonExistentSubject123");
         
-        String color = FlagColorInference.getInstance().getInferredColor(node);
-        assertNull(color, "Unknown subject should return null.");
+        String color = FlagsDatabase.getInstance().getInferredColor(node);
+        assertEquals("", color, "Unknown subject should return blank string.");
     }
 }

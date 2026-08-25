@@ -54,7 +54,7 @@ def analyze_flags(target_tag, predictor_tags, osm_file, output_json):
             # Only keep high-confidence rules
             if prob >= 0.7:
                 rules[tag][val] = {
-                    target_tag: most_common_value,
+                    "value": most_common_value,
                     "prob": round(prob, 2),
                     "count": total
                 }

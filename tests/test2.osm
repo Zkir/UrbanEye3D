@@ -368,7 +368,7 @@
     <tag k='man_made' v='flagpole' />
     <tag k='shape' v='frustum' />
   </node>
-  <node id='-5644961' action='modify' visible='true' lat='55.05110729788' lon='37.04309773693'>
+  <node id='-5644961' action='modify' visible='true' lat='55.0514481961' lon='37.0437669243'>
     <tag k='diameter' v='1000' />
     <tag k='height' v='20' />
     <tag k='man_made' v='chimney' />
