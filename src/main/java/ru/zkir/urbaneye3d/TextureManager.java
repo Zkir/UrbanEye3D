@@ -103,7 +103,6 @@ public class TextureManager {
      * @param gl The GL2 context.
      */
     public void disposeAll(GL2 gl) {
-        FlagTextureGenerator.getInstance().disposeAll(gl);
         for (Texture texture : textureCache.values()) {
             texture.destroy(gl);
         }

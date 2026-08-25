@@ -32,7 +32,6 @@ public class FlagTextureGenerator {
     private static final int FLAG_SIZE = 128;
 
     private static FlagTextureGenerator instance;
-    private final Map<String, Texture> textureCache = new ConcurrentHashMap<>();
 
     private FlagTextureGenerator() {
     }
@@ -57,34 +56,25 @@ public class FlagTextureGenerator {
             return null;
         }
         final String key = countryCode.toLowerCase();
-        Texture cached = textureCache.get(key);
-        if (cached != null) {
-            return cached;
+
+        BufferedImage img = rasterizeSvg(key);
+        if (img == null) {
+            return null;
         }
-        synchronized (textureCache) {
-            cached = textureCache.get(key);
-            if (cached != null) {
-                return cached;
-            }
-            BufferedImage img = rasterizeSvg(key);
-            if (img == null) {
-                return null;
-            }
-            Texture tex = AWTTextureIO.newTexture(gl.getGLProfile(), img, false);
-            tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
-            tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-            tex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
-            tex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
-            textureCache.put(key, tex);
-            return tex;
-        }
+        Texture tex = AWTTextureIO.newTexture(gl.getGLProfile(), img, false);
+        tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+        tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
+        tex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
+        tex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
+
+        return tex;
     }
 
     private BufferedImage rasterizeSvg(String countryCode) {
         String resourcePath = "/textures/flags/" + countryCode + ".svg";
         URL svgUrl = FlagTextureGenerator.class.getResource(resourcePath);
         if (svgUrl == null) {
-            return null;
+            throw new RuntimeException("Unable to load flag texture: " + resourcePath);
         }
         // Read the SVG to learn its viewBox so we can render it at the right
         // aspect ratio. Forcing a fixed WIDTH/HEIGHT would letterbox the flag
@@ -117,9 +107,19 @@ public class FlagTextureGenerator {
         }
         BufferedImage img = transcoder.getImage();
         if (img == null) {
+            UrbanEye3dPlugin.debugMsg("Failed to rasterise flag " + countryCode  );
             return null;
         }
         return img;
+    }
+
+    public boolean checkCountryCode(String countryCode) {
+        String resourcePath = "/textures/flags/" + countryCode + ".svg";
+        URL svgUrl = FlagTextureGenerator.class.getResource(resourcePath);
+        if (svgUrl == null) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -145,12 +145,6 @@ public class FlagTextureGenerator {
         }
     }
 
-    public void disposeAll(GL2 gl) {
-        for (Texture tex : textureCache.values()) {
-            tex.destroy(gl);
-        }
-        textureCache.clear();
-    }
 
     /**
      * Parse the SVG header to extract its intrinsic dimensions.

@@ -10,6 +10,7 @@ import ru.zkir.urbaneye3d.generators.MesherTree;
 import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.FlagColorInference;
+import ru.zkir.urbaneye3d.utils.FlagTextureGenerator;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -480,7 +481,7 @@ public class RenderableElement {
 
         String mastColorStr = getTagStr("colour", primitive, "#C0C0C0");
         String flagColorStr = getTagStr("flag:colour", primitive, null);
-        String countryCode = getTagStr("country", primitive, null);
+        String countryCode = getTagStr("country", primitive, "").toLowerCase();
 
         // If explicit color is missing, try data-driven inference
         if (flagColorStr == null) {
@@ -503,8 +504,12 @@ public class RenderableElement {
 
         // If the OSM feature has a country tag, use a rasterised flag texture
         // for the front/back faces of the flag. The texture is generated lazily.
-        if (countryCode != null && countryCode.length() == 2) {
-            mesh.textureName = "flag:" + countryCode.toLowerCase();
+        boolean texturedFlag = false;
+        if (countryCode.length() == 2) {
+            if (FlagTextureGenerator.getInstance().checkCountryCode(countryCode)) {
+                mesh.textureName = "flag:" + countryCode;
+                texturedFlag = true;
+            }
         }
 
         // 1. Mast
@@ -586,7 +591,6 @@ public class RenderableElement {
         }
 
         // Faces for the flag (watertight mesh)
-        boolean texturedFlag = mesh.textureName != null && mesh.textureName.startsWith("flag:");
         for (int i = 0; i < flagSegments; i++) {
             double u0 = (double) i / flagSegments;
             double u1 = (double) (i + 1) / flagSegments;
