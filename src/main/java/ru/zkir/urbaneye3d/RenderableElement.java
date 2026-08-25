@@ -462,8 +462,10 @@ public class RenderableElement {
         if (isPrimitiveUnderground(primitive)) return null;
 
         String shape = getTagStr("shape", primitive, "prism");
-        double height = getTagD("height", primitive, DEFAULT_FLAGPOLE_HEIGHT);
-        double flagHeight = Math.pow(height, 0.5) / 1.9;
+        double min_height = getTagD("min_height", primitive, 0);
+        double height = getTagD("height", primitive, DEFAULT_FLAGPOLE_HEIGHT+min_height);
+
+        double flagHeight = Math.pow(height-min_height, 0.5) / 1.9;
         double flagWidth = flagHeight * 1.5;
 
 
@@ -505,7 +507,7 @@ public class RenderableElement {
             double angle = (2 * Math.PI / poleSegments) * i;
             double x = polyRadius * Math.cos(angle);
             double y = polyRadius * Math.sin(angle);
-            bottomIndices[i] = mesh.addVertex(new Point3D(x, y, 0));
+            bottomIndices[i] = mesh.addVertex(new Point3D(x, y, min_height));
             topIndices[i] = mesh.addVertex(new Point3D(top_rate*x, top_rate*y, height-finialHeight));
         }
         // Walls of the mast
