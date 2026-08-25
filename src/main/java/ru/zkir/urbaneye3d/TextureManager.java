@@ -3,6 +3,7 @@ package ru.zkir.urbaneye3d;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
+import ru.zkir.urbaneye3d.utils.FlagTextureGenerator;
 
 import java.io.InputStream;
 import java.util.AbstractMap;
@@ -50,7 +51,7 @@ public class TextureManager {
         // Delegate country-flag textures (e.g. "flag:ru") to the lazy SVG generator.
         if (path.startsWith("flag:")) {
             String cc = path.substring("flag:".length());
-            Texture tex = ru.zkir.urbaneye3d.utils.FlagTextureGenerator.getInstance()
+            Texture tex = FlagTextureGenerator.getInstance()
                     .getFlagTexture(gl, cc);
             if (tex != null) {
                 textureCache.put(path, tex);
@@ -102,6 +103,7 @@ public class TextureManager {
      * @param gl The GL2 context.
      */
     public void disposeAll(GL2 gl) {
+        FlagTextureGenerator.getInstance().disposeAll(gl);
         for (Texture texture : textureCache.values()) {
             texture.destroy(gl);
         }
