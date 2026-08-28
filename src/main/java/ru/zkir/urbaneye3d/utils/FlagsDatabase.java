@@ -13,12 +13,11 @@ import java.util.Map;
 
 public class FlagsDatabase {
     private static final int FLAG_TEXTURE_SIZE = 128;
-    String COLOUR_RULES_FILE_NAME= "/data/flag_rules_colour.json";
-    String COUNTRY_RULES_FILE_NAME= "/data/flag_rules_country.json";
+    String COLOUR_RULES_FILE_NAME = "/data/flag_rules_colour.json";
+    String QID_RULES_FILE_NAME = "/data/flag_rules_wd.json";
     private static FlagsDatabase instance;
     private final Map<String, Map<String, FlagRule>> flagRulesColour1;
-    private final Map<String, Map<String, FlagRule>> flagRulesCountryCode;
-
+    private final Map<String, Map<String, FlagRule>> flagRulesQID;
 
     private static class FlagRule {
         final String value;
@@ -34,7 +33,7 @@ public class FlagsDatabase {
 
     private FlagsDatabase() {
         flagRulesColour1     = loadRules(COLOUR_RULES_FILE_NAME);
-        flagRulesCountryCode = loadRules(COUNTRY_RULES_FILE_NAME);
+        flagRulesQID = loadRules(QID_RULES_FILE_NAME);
     }
 
     public static synchronized FlagsDatabase getInstance() {
@@ -60,7 +59,7 @@ public class FlagsDatabase {
 
                     for (String value : valuesObj.keySet()) {
                         JsonObject ruleObj = valuesObj.getJsonObject(value);
-                        valueMap.put(value, new FlagRule(
+                        valueMap.put(value.toLowerCase(), new FlagRule(
                                 ruleObj.getString("value"),
                                 ruleObj.getJsonNumber("prob").doubleValue(),
                                 ruleObj.getInt("count")
@@ -78,8 +77,8 @@ public class FlagsDatabase {
     public String getInferredColor(OsmPrimitive primitive) {
         return getInferredValue(primitive, flagRulesColour1);
     }
-    public String getInferredCountryCode(OsmPrimitive primitive) {
-        return getInferredValue(primitive, flagRulesCountryCode).toLowerCase();
+    public String getInferredQID(OsmPrimitive primitive) {
+        return getInferredValue(primitive, flagRulesQID);
     }
 
     private String getInferredValue(OsmPrimitive primitive, Map<String, Map<String, FlagRule>> flagRules) {
@@ -88,7 +87,7 @@ public class FlagsDatabase {
 
         for (Map.Entry<String, String> entry : tags.entrySet()) {
             String key = entry.getKey();
-            String value = entry.getValue();
+            String value = entry.getValue().toLowerCase();
 
             Map<String, FlagRule> valueMap = flagRules.get(key);
             if (valueMap != null) {
@@ -108,8 +107,9 @@ public class FlagsDatabase {
         return (bestRule != null) ? bestRule.value : "";
     }
 
-    public boolean checkCountryCode(String countryCode) {
-        String resourcePath = "/textures/flags/" + countryCode + ".svg";
+
+    public boolean checkQID(String flagQID){
+        String resourcePath = "/textures/flags/" + flagQID + ".svg";
         URL svgUrl = FlagsDatabase.class.getResource(resourcePath);
         if (svgUrl == null) {
             return false;

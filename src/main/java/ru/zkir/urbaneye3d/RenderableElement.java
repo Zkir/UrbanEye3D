@@ -474,15 +474,15 @@ public class RenderableElement {
 
         String mastColorStr = getTagStr("colour", primitive, "#C0C0C0");
         String flagColorStr = getTagStr("flag:colour", primitive, "");
-        String countryCode = getTagStr("country", primitive, "").toLowerCase();
+        String flagQID =  getTagStr("flag:wikidata", primitive, "");
 
         // If explicit color is missing, try data-driven inference
         var flagDatabase =  FlagsDatabase.getInstance();
-        if (countryCode.isBlank()) {
+        if (flagQID.isBlank()) {
             //TODO: Currently we use ISO country code as a key (and we have only national flags in the DB),
             //  It seems however that flag:wikidata could be used instead, it could cover also regional and commercial flags,
             //  to say nothing of UN flag (Q172446), Olympic flag (Q14624058) and Red Cross flag (Q63991554)
-            countryCode = flagDatabase.getInferredCountryCode(primitive);
+            flagQID = flagDatabase.getInferredQID(primitive);
         }
 
         if (flagColorStr.isBlank()) {
@@ -506,12 +506,12 @@ public class RenderableElement {
         // If the OSM feature has a country tag, use a rasterised flag texture
         // for the front/back faces of the flag. The texture is generated lazily.
         boolean texturedFlag = false;
-        if (countryCode.length() == 2) {
-            if (flagDatabase.checkCountryCode(countryCode)) {
-                mesh.textureName = "flag:" + countryCode;
-                texturedFlag = true;
-            }
+
+        if (flagDatabase.checkQID(flagQID)) {
+            mesh.textureName = "flag:" + flagQID;
+            texturedFlag = true;
         }
+
 
         // 1. Mast
         int[] bottomIndices = new int[poleSegments];

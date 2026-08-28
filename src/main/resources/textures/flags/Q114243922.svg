@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="300" viewBox="0 0 10800 5400">
+<style type="text/css">path{fill:none}</style>
+<defs><polygon id="star" fill="#fff" points="0 -400 -67.73496753 -163.52667725 -282.84271247 -282.84271247 -163.52667725 -67.73496753 -400 0 -163.52667725 67.73496753 -282.84271247 282.84271247 -67.73496753 163.52667725 0 400 67.73496753 163.52667725 282.84271247 282.84271247 163.52667725 67.73496753 400 0 163.52667725 -67.73496753 282.84271247 -282.84271247 67.73496753 -163.52667725"/></defs>
+<rect fill="#fff" width="10800" height="5400"/>
+<rect fill="#002b7f" width="5400" height="2700"/>
+<path stroke="#fff" stroke-width="520" d="
+	M 0 1170
+	h 5040
+	M 2520 0
+	v 2340
+"/>
+<path stroke="#ce1126" stroke-width="312" d="
+	M 0 1170
+	h 5040
+	M 2520 0
+	v 2340
+"/>
+<path stroke="#ce1126" stroke-width="720" d="
+	M 0 2700
+	h 10800
+	M 5400 0
+	v 5400
+"/>
+<use xlink:href="#star" x="1130" y="455"/>
+<use xlink:href="#star" x="3910" y="455"/>
+<use xlink:href="#star" x="1130" y="1885"/>
+<use xlink:href="#star" x="3910" y="1885"/>
+</svg>

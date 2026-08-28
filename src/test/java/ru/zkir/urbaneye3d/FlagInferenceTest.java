@@ -42,8 +42,20 @@ public class FlagInferenceTest {
         Node node = new Node();
         node.put("flag:name", "United States");
 
-        String country = FlagsDatabase.getInstance().getInferredCountryCode(node);
-        assertEquals("us", country, "flag:name=United States should infer 'us' country code.");
+        String qid = FlagsDatabase.getInstance().getInferredQID(node);
+        assertEquals("Q42537", qid, "flag:name=United States should infer 'Q42537' QID.");
+
+        Node node2 = new Node();
+        node2.put("country", "US");
+
+        qid = FlagsDatabase.getInstance().getInferredQID(node2);
+        assertEquals("Q42537", qid, "country=US should infer 'Q42537' QID.");
+
+        Node node3 = new Node();
+        node3.put("country", "us");
+
+        qid = FlagsDatabase.getInstance().getInferredQID(node3);
+        assertEquals("Q42537", qid, "country=us should infer 'Q42537' QID.");
     }
 
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="600" viewBox="0 0 1008 504" fill="#c8102e">
+<defs>
+<path id="a" d="M-21-6.823314h42L-12.978714 17.863667 0-22.080707 12.978714 17.863667z"/>
+<clipPath id="c1"><path d="M0 0H65V35H0z"/></clipPath>
+<clipPath id="c2"><path d="M0 0V15H65V30H60zM0,30V35H30V0H60z"/></clipPath>
+</defs>
+<g transform="scale(8.4)">
+<rect width="120" height="60" fill="#012169"/>
+<path d="M0 0 70 35M60 0 0 30" stroke="#fff" stroke-width="6" clip-path="url(#c1)"/>
+<path d="M0 0 70 35M60 0 0 30" stroke="#c8102e" stroke-width="4" clip-path="url(#c2)"/>
+<path d="M0 15H65M30 0V35" stroke="#fff" stroke-width="10"/>
+<path d="M0 15H65M30 0V35" stroke="#c8102e" stroke-width="6"/>
+<path d="M0 30H60V0H120V60H0z" fill="#fff"/>
+</g>
+<g stroke="#c8102e">
+<use xlink:href="#a" transform="translate(756 100.8) scale(1.2)" stroke-width="7"/>
+<use xlink:href="#a" transform="translate(756 403.2) scale(1.4)" stroke-width="6"/>
+<g transform="rotate(-8 756 201.6)">
+<use xlink:href="#a" transform="translate(638.4 201.6) rotate(8) scale(1.2)" stroke-width="7"/>
+<use xlink:href="#a" transform="translate(856.8 201.6) rotate(8)" stroke-width="8.4"/>
+</g>
+</g>
+</svg>

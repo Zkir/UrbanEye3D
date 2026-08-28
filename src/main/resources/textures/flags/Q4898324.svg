@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1235" height="650" viewBox="0 0 1235 650" version="1.1" id="svg890" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<rect width="1235" height="650" fill="#bf0a30" id="rect860" x="0" y="0" style="stroke-width:0.5" />
+<g fill="#ffffff" id="g888" transform="scale(0.5)">
+<g id="Stripes3">
+<rect id="Stripe" width="2470" height="100" y="100" x="0" />
+<use xlink:href="#Stripe" y="200" id="use863" x="0" width="100%" height="100%" />
+<use xlink:href="#Stripe" y="400" id="use865" x="0" width="100%" height="100%" />
+</g>
+<use xlink:href="#Stripes3" y="600" id="use868" x="0" width="100%" height="100%" />
+<rect width="823.33331" height="700" fill="#00205B" id="rect870" x="0" y="0" />
+<g transform="translate(411.66667,350)" id="g886">
+<path transform="matrix(0.047,0,0,0.047,0,-233)" id="Star" d="M 0,-1000 -587.78525,809.01699 951.05652,-309.01699 H -951.05652 L 587.78525,809.01699 Z" />
+<g id="Stars4">
+<use xlink:href="#Star" transform="rotate(27.692308)" id="use873" x="0" y="0" width="100%" height="100%" />
+<use xlink:href="#Star" transform="rotate(55.384615)" id="use875" x="0" y="0" width="100%" height="100%" />
+<use xlink:href="#Star" transform="rotate(83.076923)" id="use877" x="0" y="0" width="100%" height="100%" />
+<use xlink:href="#Star" transform="rotate(110.76923)" id="use879" x="0" y="0" width="100%" height="100%" />
+</g>
+<use xlink:href="#Stars4" transform="rotate(110.76923)" id="use882" x="0" y="0" width="100%" height="100%" />
+<use xlink:href="#Stars4" transform="rotate(-138.46154)" id="use884" x="0" y="0" width="100%" height="100%" />
+</g>
+</g>
+</svg>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns="http://www.w3.org/2000/svg"
+   width="720" height="480" viewBox="0 0 45 30">
+<metadata><rdf:RDF><cc:Work rdf:about="">
+  <dc:format>image/svg+xml</dc:format>
+  <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+  <dc:title>Flag of Acadia proper</dc:title>
+</cc:Work></rdf:RDF></metadata>
+<rect style="fill:#ffffff" width="45" height="30"/>
+<rect style="fill:#003896" width="15" height="30"/>
+<rect style="fill:#cf142b" width="15" height="30" x="30"/>
+<path style="fill:#ffd700" transform="translate(7.5,9.44696)scale(0.5584,0.5584)" id="Pentagram" d="M0,-10L-5.8778525,8.0901699L9.5105652,-3.0901699H-9.5105652L5.8778525,8.0901699Z"/></svg>

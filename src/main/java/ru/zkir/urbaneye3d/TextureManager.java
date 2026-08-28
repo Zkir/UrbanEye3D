@@ -53,7 +53,11 @@ public class TextureManager {
             String cc = path.substring("flag:".length());
             var flagsDatabase = FlagsDatabase.getInstance();
             var img  = flagsDatabase.getFlagTexture(cc);
-            texture = AWTTextureIO.newTexture(gl.getGLProfile(), img, false);
+            if (img!=null) {
+                texture = AWTTextureIO.newTexture(gl.getGLProfile(), img, false);
+            } else {
+                texture = null;
+            }
         }else {
             String fullPath = path.startsWith("/") ? path : "/textures/" + path;
             try (InputStream stream = TextureManager.class.getResourceAsStream(fullPath)) {

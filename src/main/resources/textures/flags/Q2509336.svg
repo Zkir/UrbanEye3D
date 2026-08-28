@@ -1,0 +1,9 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 117 78">
+<title>Grand Union Flag</title>
+<clipPath id="c"><path d="M0 0H50V50H0z"/></clipPath>
+<path d="M0 0H45V45H0z" fill="#012169"/>
+<path d="M0,21H45 M21,0V45" stroke="#fff" stroke-width="10"/>
+<path d="M0,0L45,45 M42,0L0,42" stroke="#fff" stroke-width="6" clip-path="url(#c)"/>
+<path d="M42 0l6 3-6 3v6l6 3-6 3v6l6 3-6 3v6l6 3-6 3H0V78H117V0z" fill="#fff"/>
+<path d="M0,21H42 M21,0V42M42 3H117m0 12H42m0 12H117m0 12H42M0 51H117m0 12H0m0 12H117" stroke="#C8102E" stroke-width="6"/>
+</svg>
