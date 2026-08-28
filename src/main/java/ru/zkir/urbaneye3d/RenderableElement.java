@@ -490,7 +490,7 @@ public class RenderableElement {
         }
         // If still null, use the default
         if (flagColorStr.isBlank()) {
-            flagColorStr = "#AFA0A0";
+            flagColorStr = "#FFFFFF";
         }
         
         Color mastColor = ColorUtils.parseColor(mastColorStr);
