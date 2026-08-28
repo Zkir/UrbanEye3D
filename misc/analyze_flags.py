@@ -54,7 +54,7 @@ def analyze_flags(target_tag, predictor_tags, osm_file, output_json):
             # Only keep high-confidence rules
             if prob >= 0.7:
                 rules[tag][val] = {
-                    target_tag: most_common_value,
+                    "value": most_common_value,
                     "prob": round(prob, 2),
                     "count": total
                 }
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     base_dir = os.path.dirname(__file__)
     flags_path = os.path.join(base_dir, 'data', '05_extracts', 'flags.osm')
     output_path1 = os.path.join(base_dir, 'data', '25_flags_output', 'flag_rules_colour.json')
-    output_path2 = os.path.join(base_dir, 'data', '25_flags_output', 'flag_rules_country.json')
+    output_path2 = os.path.join(base_dir, 'data', '25_flags_output', 'flag_rules_wd_pre.json')
     
     if not os.path.exists(flags_path):
         print(f"Error: source file {flags_path} not found.")
@@ -81,6 +81,6 @@ if __name__ == "__main__":
     predictor_tags = {'flag:name', 'subject', 'subject:wikidata', 'flag:wikidata', 'country', 'operator', 'brand'}
     analyze_flags(target_tag, predictor_tags, flags_path, output_path1)
     
-    target_tag = 'country'
-    predictor_tags = {'flag:name', 'subject', 'subject:wikidata', 'flag:wikidata',  'operator', 'brand'}    
+    target_tag = 'flag:wikidata'
+    predictor_tags = {'flag:name', 'subject', 'subject:wikidata', 'country',  'brand'}    
     analyze_flags(target_tag, predictor_tags, flags_path, output_path2)

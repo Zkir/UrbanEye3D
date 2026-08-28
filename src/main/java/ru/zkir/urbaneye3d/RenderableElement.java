@@ -9,18 +9,14 @@ import ru.zkir.urbaneye3d.generators.MesherTree;
 
 import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
-import ru.zkir.urbaneye3d.utils.FlagColorInference;
+import ru.zkir.urbaneye3d.utils.FlagsDatabase;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
-import ru.zkir.urbaneye3d.utils.TreeSpeciesDatabase;
-
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -32,9 +28,7 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVELS_NUMBER;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_CHIMNEY_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
-import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.INHERIT_HEIGHT_FROM_PARENT;
-import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_STEP_HEIGHT;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
@@ -479,15 +473,21 @@ public class RenderableElement {
         double finialHeight = finialRadius * 2;
 
         String mastColorStr = getTagStr("colour", primitive, "#C0C0C0");
-        String flagColorStr = getTagStr("flag:colour", primitive, null);
-        
-        // If explicit color is missing, try data-driven inference
-        if (flagColorStr == null) {
-            flagColorStr = FlagColorInference.getInstance().getInferredColor(primitive);
+        String flagColorStr = getTagStr("flag:colour", primitive, "");
+        String flagQID =  getTagStr("flag:wikidata", primitive, "");
+
+        // If explicit colour or flag:wikidata value is missing, try data-driven inference
+        var flagDatabase =  FlagsDatabase.getInstance();
+        if (flagQID.isBlank()) {
+            flagQID = flagDatabase.getInferredQID(primitive);
+        }
+
+        if (flagColorStr.isBlank()) {
+            flagColorStr = flagDatabase.getInferredColor(primitive);
         }
         // If still null, use the default
-        if (flagColorStr == null) {
-            flagColorStr = "#AFA0A0";
+        if (flagColorStr.isBlank()) {
+            flagColorStr = "#FFFFFF";
         }
         
         Color mastColor = ColorUtils.parseColor(mastColorStr);
@@ -499,6 +499,15 @@ public class RenderableElement {
         mesh.materials.add(mastColor);
         mesh.materials.add(finialColor);
         mesh.materials.add(flagColor);
+
+        // If the OSM feature has a country tag, use a rasterised flag texture
+        // for the front/back faces of the flag. The texture is generated lazily.
+        boolean texturedFlag = false;
+
+        if (flagDatabase.checkQID(flagQID)) {
+            mesh.textureName = flagDatabase.getFlagTextureName(flagQID);
+            texturedFlag = true;
+        }
 
         // 1. Mast
         int[] bottomIndices = new int[poleSegments];
@@ -580,10 +589,30 @@ public class RenderableElement {
 
         // Faces for the flag (watertight mesh)
         for (int i = 0; i < flagSegments; i++) {
-            // Front face
-            mesh.addFace(new int[]{topFront[i], topFront[i + 1], bottomFront[i + 1], bottomFront[i]}, 2);
-            // Back face
-            mesh.addFace(new int[]{topBack[i], bottomBack[i], bottomBack[i + 1], topBack[i + 1]}, 2);
+            double u0 = (double) i / flagSegments;
+            double u1 = (double) (i + 1) / flagSegments;
+
+            if (texturedFlag) {
+                // Front face with UVs
+                int uvTL = mesh.addUV(u0, 1.0);
+                int uvTR = mesh.addUV(u1, 1.0);
+                int uvBR = mesh.addUV(u1, 0.0);
+                int uvBL = mesh.addUV(u0, 0.0);
+                mesh.addFace(new int[]{topFront[i], topFront[i + 1], bottomFront[i + 1], bottomFront[i]},
+                             new int[]{uvTL, uvTR, uvBR, uvBL});
+                // Back face with mirrored UVs (so the flag image isn't backward)
+                int uvTLb = mesh.addUV(u0, 1.0);
+                int uvBLb = mesh.addUV(u0, 0.0);
+                int uvBRb = mesh.addUV(u1, 0.0);
+                int uvTRb = mesh.addUV(u1, 1.0);
+                mesh.addFace(new int[]{topBack[i], bottomBack[i], bottomBack[i + 1], topBack[i + 1]},
+                             new int[]{uvTLb, uvBLb, uvBRb, uvTRb});
+            } else {
+                // Front face
+                mesh.addFace(new int[]{topFront[i], topFront[i + 1], bottomFront[i + 1], bottomFront[i]}, 2);
+                // Back face
+                mesh.addFace(new int[]{topBack[i], bottomBack[i], bottomBack[i + 1], topBack[i + 1]}, 2);
+            }
             // Top edge
             mesh.addFace(new int[]{topFront[i], topBack[i], topBack[i + 1], topFront[i + 1]}, 2);
             // Bottom edge

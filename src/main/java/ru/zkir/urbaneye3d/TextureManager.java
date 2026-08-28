@@ -5,9 +5,6 @@ import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
 import java.io.InputStream;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set;
@@ -47,8 +44,11 @@ public class TextureManager {
             return textureCache.get(path);
         }
 
-        String fullPath = path.startsWith("/") ? path : "/textures/" + path;
 
+
+        Texture texture;
+
+        String fullPath = path.startsWith("/") ? path : "/textures/" + path;
         try (InputStream stream = TextureManager.class.getResourceAsStream(fullPath)) {
             if (stream == null) {
                 UrbanEye3dPlugin.debugMsg("Could not find texture: " + fullPath);
@@ -56,20 +56,24 @@ public class TextureManager {
             }
             // Determine suffix (e.g., ".png")
             String suffix = fullPath.substring(fullPath.lastIndexOf('.'));
-            Texture texture = TextureIO.newTexture(stream, true, suffix);
-
-            texture.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
-            texture.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-            texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
-            texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
-
-            textureCache.put(path, texture);
-            return texture;
+            texture = TextureIO.newTexture(stream, true, suffix);
         } catch (Exception e) {
-            UrbanEye3dPlugin.debugMsg("Error loading texture: " + fullPath);
-            e.printStackTrace();
+            UrbanEye3dPlugin.debugMsg("Error loading texture: " + fullPath + " " + e.getMessage());
             return null;
         }
+
+
+        if (texture == null) {
+            UrbanEye3dPlugin.debugMsg("Error loading texture: " + path);
+            return null;
+        }
+
+        texture.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+        texture.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
+        texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
+        texture.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
+        textureCache.put(path, texture);
+        return texture;
     }
 
     /**
