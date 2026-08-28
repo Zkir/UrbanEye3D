@@ -3,8 +3,6 @@ package ru.zkir.urbaneye3d;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
-import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
-import ru.zkir.urbaneye3d.utils.FlagsDatabase;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -49,30 +47,21 @@ public class TextureManager {
 
 
         Texture texture;
-        if (path.startsWith("flag:")) {
-            String cc = path.substring("flag:".length());
-            var flagsDatabase = FlagsDatabase.getInstance();
-            var img  = flagsDatabase.getFlagTexture(cc);
-            if (img!=null) {
-                texture = AWTTextureIO.newTexture(gl.getGLProfile(), img, false);
-            } else {
-                texture = null;
-            }
-        }else {
-            String fullPath = path.startsWith("/") ? path : "/textures/" + path;
-            try (InputStream stream = TextureManager.class.getResourceAsStream(fullPath)) {
-                if (stream == null) {
-                    UrbanEye3dPlugin.debugMsg("Could not find texture: " + fullPath);
-                    return null;
-                }
-                // Determine suffix (e.g., ".png")
-                String suffix = fullPath.substring(fullPath.lastIndexOf('.'));
-                texture = TextureIO.newTexture(stream, true, suffix);
-            } catch (Exception e) {
-                UrbanEye3dPlugin.debugMsg("Error loading texture: " + fullPath + " " + e.getMessage());
+
+        String fullPath = path.startsWith("/") ? path : "/textures/" + path;
+        try (InputStream stream = TextureManager.class.getResourceAsStream(fullPath)) {
+            if (stream == null) {
+                UrbanEye3dPlugin.debugMsg("Could not find texture: " + fullPath);
                 return null;
             }
+            // Determine suffix (e.g., ".png")
+            String suffix = fullPath.substring(fullPath.lastIndexOf('.'));
+            texture = TextureIO.newTexture(stream, true, suffix);
+        } catch (Exception e) {
+            UrbanEye3dPlugin.debugMsg("Error loading texture: " + fullPath + " " + e.getMessage());
+            return null;
         }
+
 
         if (texture == null) {
             UrbanEye3dPlugin.debugMsg("Error loading texture: " + path);

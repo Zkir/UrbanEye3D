@@ -5,7 +5,6 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 
-import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
@@ -109,7 +108,7 @@ public class FlagsDatabase {
 
 
     public boolean checkQID(String flagQID){
-        String resourcePath = "/textures/flags/" + flagQID + ".svg";
+        String resourcePath = "/textures/flags/" + flagQID + ".png";
         URL svgUrl = FlagsDatabase.class.getResource(resourcePath);
         if (svgUrl == null) {
             return false;
@@ -117,12 +116,10 @@ public class FlagsDatabase {
         return true;
     }
 
-    public BufferedImage getFlagTexture(String countryCode) {
-        String resourcePath = "/textures/flags/" + countryCode + ".svg";
-        URL svgUrl = FlagsDatabase.class.getResource(resourcePath);
-        if (svgUrl == null) {
-            throw new RuntimeException("Unable to load flag texture: " + resourcePath);
-        }
-        return SvgRasterizer.rasterizeSvg(svgUrl, FLAG_TEXTURE_SIZE);
+    public String getFlagTextureName(String qid) {
+        //unlike checkQID, we just need relative path for resources/textures. TextureManager will handle that
+        String resourcePath = "flags/" + qid + ".png";
+
+        return resourcePath;
     }
 }

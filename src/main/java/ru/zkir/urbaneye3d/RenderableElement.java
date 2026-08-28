@@ -476,12 +476,9 @@ public class RenderableElement {
         String flagColorStr = getTagStr("flag:colour", primitive, "");
         String flagQID =  getTagStr("flag:wikidata", primitive, "");
 
-        // If explicit color is missing, try data-driven inference
+        // If explicit colour or flag:wikidata value is missing, try data-driven inference
         var flagDatabase =  FlagsDatabase.getInstance();
         if (flagQID.isBlank()) {
-            //TODO: Currently we use ISO country code as a key (and we have only national flags in the DB),
-            //  It seems however that flag:wikidata could be used instead, it could cover also regional and commercial flags,
-            //  to say nothing of UN flag (Q172446), Olympic flag (Q14624058) and Red Cross flag (Q63991554)
             flagQID = flagDatabase.getInferredQID(primitive);
         }
 
@@ -508,10 +505,9 @@ public class RenderableElement {
         boolean texturedFlag = false;
 
         if (flagDatabase.checkQID(flagQID)) {
-            mesh.textureName = "flag:" + flagQID;
+            mesh.textureName = flagDatabase.getFlagTextureName(flagQID);
             texturedFlag = true;
         }
-
 
         // 1. Mast
         int[] bottomIndices = new int[poleSegments];
@@ -598,17 +594,17 @@ public class RenderableElement {
 
             if (texturedFlag) {
                 // Front face with UVs
-                int uvTL = mesh.addUV(u0, 0.0);
-                int uvTR = mesh.addUV(u1, 0.0);
-                int uvBR = mesh.addUV(u1, 1.0);
-                int uvBL = mesh.addUV(u0, 1.0);
+                int uvTL = mesh.addUV(u0, 1.0);
+                int uvTR = mesh.addUV(u1, 1.0);
+                int uvBR = mesh.addUV(u1, 0.0);
+                int uvBL = mesh.addUV(u0, 0.0);
                 mesh.addFace(new int[]{topFront[i], topFront[i + 1], bottomFront[i + 1], bottomFront[i]},
                              new int[]{uvTL, uvTR, uvBR, uvBL});
                 // Back face with mirrored UVs (so the flag image isn't backward)
-                int uvTLb = mesh.addUV(u0, 0.0);
-                int uvBLb = mesh.addUV(u0, 1.0);
-                int uvBRb = mesh.addUV(u1, 1.0);
-                int uvTRb = mesh.addUV(u1, 0.0);
+                int uvTLb = mesh.addUV(u0, 1.0);
+                int uvBLb = mesh.addUV(u0, 0.0);
+                int uvBRb = mesh.addUV(u1, 0.0);
+                int uvTRb = mesh.addUV(u1, 1.0);
                 mesh.addFace(new int[]{topBack[i], bottomBack[i], bottomBack[i + 1], topBack[i + 1]},
                              new int[]{uvTLb, uvBLb, uvBRb, uvTRb});
             } else {

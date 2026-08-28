@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 100 60">
-<clipPath id="c1"><path d="M0 0H65V35H0z"/></clipPath>
-<rect width="100" height="60" fill="#012169"/>
-<path d="M0 0 50 30M50 0 0 30" stroke="#fff" stroke-width="6" clip-path="url(#c1)"/>
-<path d="M0 15H65M25 0V35" stroke="#fff" stroke-width="10"/>
-<path d="M0 15H65M25 0V35" stroke="#c8102e" stroke-width="6"/>
-<path d="M0 30H50V0H100V60H0z" fill="#c8102e"/>
-</svg>

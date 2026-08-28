@@ -96,8 +96,6 @@ public class AssetListTest {
         LICENSE_URLS.put("MIT license", "https://opensource.org/license/mit");
         LICENSE_URLS.put("Pngtree Free", "");
 
-
-
     }
 
 
@@ -114,7 +112,7 @@ public class AssetListTest {
                     .map(Path::toString)
                     .map(p -> "/" + p.replace('\\', '/')) // Convert to resource path format
                     .filter(p -> p.endsWith(".obj") || p.endsWith(".png"))
-                    .filter(p -> p.startsWith("/models/") || p.startsWith("/textures/"))
+                    .filter(p -> p.startsWith("/models/") || (p.startsWith("/textures/") && !p.startsWith("/textures/flags/")))
                     .collect(Collectors.toSet());
         }
 

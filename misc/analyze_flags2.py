@@ -133,7 +133,7 @@ def save_stats_markdown(stats2, output_file="report.md"):
         f.write("|---|-----|-------|-----------|-----------|---------------|\n")
         for idx, (qid, count, flagtype, flagname) in enumerate(sorted_data, start=1):
             link = f"[{qid}](https://www.wikidata.org/wiki/{qid})"
-            image = f"![{qid}](images/{qid}.svg)"
+            image = f"![{qid}](images-png/{qid}.png)"
             f.write(f"| {idx} | {link} | {count:,} | {flagtype} | {flagname} | {image} |\n")
         
         f.write("\n---\n")
