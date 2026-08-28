@@ -12,6 +12,7 @@ TREE_STATS_FILES := $(patsubst %,data/10_trees/tree_stats_%.csv,$(ANALYSIS_TYPES
 #all: $(TREE_STATS_FILES) data/building_analysis_full.csv 
 all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/15_trees_output/spatial_stats_5x5.json data/25_flags_output/flag_rules_colour.json data\25_flags_output\flag_rules_wd.json data/26_tags/popular_missing_tags.md data/10_trees/correlations.txt
 
+
 # Define the columns to be extracted for the trees CSV
 TREE_COLUMNS = id lat lon height circumference age start_date \
                species genus species:wikidata leaf_type leaf_cycle diameter_crown
