@@ -280,7 +280,7 @@ This section describes various standalone 3D objects rendered by the plugin.
 -   Point and polygon objects tagged with `man_made=chimney` are rendered as procedural 3D objects.
 -   Supported shapes via the `shape` tag: `frustum` (default for points), `hyperboloid`, and `prism` (via `shape=prism` or default for polygons).
 -   For hyperboloid shapes tapering can be controlled via `hyperboloid:top_rate` and `hyperboloid:middle_rate` tags.
--   The base size for point chimneys is determined by the `diameter` tag.
+-   The base size for point chimneys is determined by the `diameter` tag. Note that unit for diameter is **millimeters**!
 
 ### Waste Baskets
 
@@ -307,8 +307,9 @@ This section describes various standalone 3D objects rendered by the plugin.
 - Nodes tagged with `man_made=flagpole` are rendered as a procedural 3D flagpole with a mast, a gold finial, and a waving flag.
 - You can control the height of the object via the `height` tag. Additionnaly, you can set the diameter of the mast via the `diameter` tag. Note that default unit for diameter is **millimeters**.
 - The size of the flag cloth is not directly controllable, but flag cloth is scaled non-linear to based on height for aesthetic proportions.
-- Tags `flag:colour` for the flag and `colour` for the mast are supported. Of course, just one color for national flags is a rough approximation, but still better than nothing at all.
-- To make things more fun, if `flag:colour` isn't specified, the plugin tries to determine it from other tags, such as `flag:name`, `subject`, `country`, `subject:wikidata`, and `flag:wikidata`. The correlation between these tags and flag color is determined based on existing osm data (statistics is extracted from planet.osm).
+- Tags `flag:colour` for the flag and `colour` for the mast are supported. Of course, just one color for a flag is a rough approximation, but still better than nothing at all.
+![Textured flags example: UN building, NY US](images/flags_un.png)
+- The plugin knows texutures of all the national flags and some regional and commercial flags. The `flag:wikidata` tag is mainly considered, but other popular tags, like `flag:name`, `subject`, `subject:wikidata`, `country`,  `brand` are also used to select the flag texture. The correlation between these tags and flag texture/color is determined based on existing osm data (statistics is extracted from planet.osm).
 
 
 ### Water Wells
