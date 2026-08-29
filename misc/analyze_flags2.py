@@ -67,10 +67,41 @@ def get_from_wikimedia_api(url):
     return(response)        
         
 def extract_image_name(wikidata):        
+    """
+    If there are several images, we need to find the latest (by P582 end time property)
+    Also we should prefer SVG.
+    """
+    start_date = None
     image = None
-    if 'claims' in wikidata:
-        if 'P18' in wikidata['claims'] and 'datavalue' in wikidata['claims']['P18'][0]['mainsnak']:     
-            image = wikidata['claims']['P18'][0]['mainsnak']['datavalue']['value']
+    if 'claims' in wikidata and 'P18' in wikidata['claims']:
+        for image_record in wikidata['claims']['P18']:
+            
+            if  'datavalue' in image_record['mainsnak']:     
+                current_image = image_record['mainsnak']['datavalue']['value']
+
+            # record with preferred rank has highest priority                 
+            if 'rank' in image_record and image_record['rank']=='preferred':
+                image = current_image
+                break                
+                
+            # if there is no record with prefered rank, let's find the most 'recent' one                     
+            if "qualifiers" in image_record and "P580" in image_record["qualifiers"]:    
+                current_start_date = image_record["qualifiers"]["P580"][0]["datavalue"]['value']['time']
+                    
+                if not start_date:
+                    start_date = current_start_date
+                    image = current_image
+                    
+                if current_start_date >  start_date:  
+                    start_date = current_start_date
+                    image = current_image
+            else:
+                # if there is no start date, we assume that it is at least one of the acceptable modern variants
+                image = current_image
+                if image.endswith('.svg'):
+                    break
+                
+
     return image        
     
 def extract_logo_image_name(wikidata):        
@@ -226,6 +257,8 @@ def analyze_flags(osm_file, output_json):
     rules_filename = "data/25_flags_output/flag_rules_wd_pre.json"
     rules_output_filename = "data/25_flags_output/flag_rules_wd.json"
     
+    os.makedirs(FLAG_IMAGE_DIRECTORY, exist_ok=True)
+    
     #read pre-made country codes --> flag QIDS map
     with open('data/25_flags_output/wd_national_flags.csv', 'r', encoding='utf-8') as f:
         national_flags = list(csv.DictReader(f))   
@@ -336,9 +369,10 @@ def analyze_flags(osm_file, output_json):
                 if "imageinfo" in yyy:
                     image_download_url = yyy["imageinfo"][0]["url"] 
                 else:
-                    #print('ERROR: wikimedia site did not provided url for the image '+ api_url)
-                    #continue
-                    pass
+                    image_download_url = None
+                    print('Wikimedia site did not provided url for the image '+ image_metadata_url)
+                    errors += [(qid, stats[qid][1], flagname, f'Wikimedia site did not provided url for the image `{image_metadata_url}`')]
+                    
                 if image_download_url:    
                     
                     print("DOWNLOAD: "+image_download_url)

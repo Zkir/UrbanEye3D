@@ -10,8 +10,7 @@ TREE_STATS_FILES := $(patsubst %,data/10_trees/tree_stats_%.csv,$(ANALYSIS_TYPES
 
 # Default goal, executed when 'make' is run without arguments
 #all: $(TREE_STATS_FILES) data/building_analysis_full.csv 
-all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/15_trees_output/spatial_stats_5x5.json data/25_flags_output/flag_rules_colour.json data\25_flags_output\flag_rules_wd.json data/26_tags/popular_missing_tags.md data/10_trees/correlations.txt
-
+all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/15_trees_output/spatial_stats_5x5.json data/25_flags_output/flag_rules_colour.json data\25_flags_output\flag_rules_wd.json data\25_flags_output\images-png.milestone data/26_tags/popular_missing_tags.md data/10_trees/correlations.txt
 
 # Define the columns to be extracted for the trees CSV
 TREE_COLUMNS = id lat lon height circumference age start_date \
@@ -86,10 +85,11 @@ data\25_flags_output\wd_national_flags.csv:
 data\25_flags_output\flag_rules_wd.json: data\25_flags_output\wd_national_flags.csv data/25_flags_output/flag_rules_colour.json	
 	python analyze_flags2.py
 	cmd /c "copy /b /v /y data\25_flags_output\flag_rules_wd.json ..\src\main\resources\data\"
-	cmd /c "copy /b /v /y data\25_flags_output\images\*.svg ..\src\main\resources\textures\flags\"
 	
-data\25_flags_output\images-png.milestone:	
+	
+data\25_flags_output\images-png.milestone:	data\25_flags_output\flag_rules_wd.json | data/25_flags_output/images-png
 	for %%f in (data\25_flags_output\images\*.svg) do "C:\Program Files\Inkscape\bin\inkscape.com" "%%f" --export-type=png --export-filename=data\25_flags_output\images-png\%%~nf.png --export-height=128	
+	cmd /c "copy /b /v /y data\25_flags_output\images-png\*.png ..\src\main\resources\textures\flags\"
 	touch data\25_flags_output\images-png.milestone
 
 
@@ -112,6 +112,9 @@ data/10_trees :	| data
 	
 data/15_trees_output: | data	
 	@mkdir data\15_trees_output
+
+data/25_flags_output/images-png: | data	
+	@mkdir data\25_flags_output\images-png
 
 
 
