@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <bounds minlat='55.75' minlon='37.61' maxlat='55.76' maxlon='37.62' origin='openstreetmap-cgimap 2.1.0 (4030715 spike-07.openstreetmap.org)' />
+  
+  <!-- Street cabinet with all tags -->
+  <node id='1000001' timestamp='2024-01-01T00:00:00Z' uid='1' user='test' visible='true' version='1' changeset='1' lat='55.751' lon='37.611'>
+    <tag k='man_made' v='street_cabinet' />
+    <tag k='height' v='2.0' />
+    <tag k='length' v='1.2' />
+    <tag k='width' v='0.6' />
+    <tag k='direction' v='90' />
+    <tag k='colour' v='#8B7355' />
+  </node>
+  
+  <!-- Street cabinet with defaults -->
+  <node id='1000002' timestamp='2024-01-01T00:00:00Z' uid='1' user='test' visible='true' version='1' changeset='1' lat='55.752' lon='37.612'>
+    <tag k='man_made' v='street_cabinet' />
+  </node>
+  
+  <!-- Street cabinet with min_height -->
+  <node id='1000003' timestamp='2024-01-01T00:00:00Z' uid='1' user='test' visible='true' version='1' changeset='1' lat='55.753' lon='37.612'>
+    <tag k='man_made' v='street_cabinet' />
+    <tag k='height' v='1.8' />
+    <tag k='length' v='1.0' />
+    <tag k='width' v='0.5' />
+    <tag k='min_height' v='0.3' />
+  </node>
+  
+  <!-- Street cabinet with ground level = 0 reference -->
+  <node id='1000004' timestamp='2024-01-01T00:00:00Z' uid='1' user='test' visible='true' version='1' changeset='1' lat='55.754' lon='37.611'>
+    <tag k='man_made' v='street_cabinet' />
+    <tag k='height' v='2.0' />
+    <tag k='length' v='1.0' />
+    <tag k='width' v='0.5' />
+  </node>
+</osm>

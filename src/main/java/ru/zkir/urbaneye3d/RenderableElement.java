@@ -11,6 +11,7 @@ import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.FlagsDatabase;
 import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.OsmDataWasher;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
@@ -334,6 +335,84 @@ public class RenderableElement {
         return new RenderableElement(primitive, origin, mesh, 0, 0);
     }
 
+    private static Mesh createCube(){
+
+        Mesh mesh = new Mesh();
+        // Base dimensions: length along Y axle, widthParam along X axle
+        double halfX = 0.5;
+        double halfY = 0.5;
+
+        Point3D[] verts = new Point3D[8];
+
+        // Bottom ring (4 vertices) -- added as bottom faces group
+        verts[0] = new Point3D(halfX, halfY, 0);              // +X, +Y
+        verts[1] = new Point3D(-halfX, halfY, 0);             // -X, +Y
+        verts[2] = new Point3D(-halfX, -halfY, 0);            // -X, -Y
+        verts[3] = new Point3D(halfX, -halfY, 0);             // +X, -Y
+
+        // Top ring (4 vertices) -- added as roof faces group
+        verts[4] = new Point3D(halfX, halfY, 1);         // +X, +Y, +Z
+        verts[5] = new Point3D(-halfX, halfY, 1);        // -X, +Y, +Z
+        verts[6] = new Point3D(-halfX, -halfY, 1);       // -X, -Y, +Z
+        verts[7] = new Point3D(halfX, -halfY, 1);        // +X, -Y, +Z
+
+        for (int i = 0; i < 8; i++) {
+            mesh.addVertex(verts[i]);
+        }
+
+        int[][] faces = new int[][]{
+                {3, 2, 1, 0},           // bottom face
+                {4, 5, 6, 7},           // top face
+                {0, 1, 5, 4},           // front face
+                {1, 2, 6, 5},           // left face
+                {2, 3, 7, 6},           // back face
+                {3, 0, 4, 7}            // right face
+        };
+        mesh.addBottomFace(faces[0]);
+        mesh.addRoofFace(faces[1]);
+        mesh.addWallFace(faces[2]);
+        mesh.addWallFace(faces[3]);
+        mesh.addWallFace(faces[4]);
+        mesh.addWallFace(faces[5]);
+
+        return mesh;
+    }
+    private static void scale(Mesh mesh, double sx, double sy,  double sz){
+        mesh.scale(sx, sy, sz);
+    }
+
+    public static Mesh createStreetCabinet(OsmPrimitive primitive, LatLon origin) {
+        // ignore polygon street_cabinets - processed by createManMade()
+        if (primitive instanceof Way || primitive instanceof Relation){
+            throw new RuntimeException("Only node objects are supported");
+        }
+        
+        double length =     getTagD("length", primitive, 1.0);
+        double width =      getTagD("width", primitive, 0.5);
+        double min_height = getTagD("min_height",primitive,0);
+        double height =     getTagD("height", primitive, 1.8 + min_height);
+        
+        // Defaults based on OSM typical values
+        if (length <= 0) length = 1.0;
+        if (width <= 0) width = Math.min(length, 0.5);
+        if (height <= 0) height = 1.8;
+
+        Mesh mesh = createCube();
+        scale(mesh, width, length, height - min_height);
+
+        String color = getTagStr("colour", primitive, "");
+        if (color.isEmpty()) {
+            color = "#8B7355"; // default brown-ish for street cabinets
+        }
+        
+        Color matColor = ColorUtils.parseColor(color);
+        mesh.materials.add(matColor);
+        mesh.materials.add(matColor);
+        mesh.materials.add(matColor);
+
+        return mesh;
+    }
+
     //similar to buildings, but with fewer options
     public static RenderableElement createManMade(OsmPrimitive primitive,  Contour contour){
         if (primitive.isDeleted()){
@@ -398,25 +477,25 @@ public class RenderableElement {
      * @param height - height in meters
      * @return RenderableElement
      */
-    public static RenderableElement createBillboard(OsmPrimitive primitive, LatLon origin, String texturePath, double width, double height) {
-        if (primitive.isDeleted() || origin == null || texturePath == null) {
+    public static Mesh createBillboard(String texturePath, double width, double height) {
+        if (texturePath == null) {
             return null;
         }
 
         Mesh mesh = MesherTree.generate(width, height);
         mesh.textureName = texturePath;
-        return new RenderableElement(primitive, origin, mesh, 0, 0);
+        return mesh;
     }
 
-    public static RenderableElement createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
+    public static Mesh createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
         if (primitive.isDeleted()) return null;
 
         // ignore underground ad columns
         if(isPrimitiveUnderground(primitive)) return null;
 
         double width = getTagD("width", primitive, 1.5);
-        double height = getTagD("height", primitive, 4.0);
         double min_height = getTagD("min_height", primitive, 0.0);
+        double height = getTagD("height", primitive, 4.0+min_height)-min_height;
         var colour = getTagStr("colour", primitive, null);
         
 
@@ -441,13 +520,13 @@ public class RenderableElement {
         contour.removeRedundantNodes();
         double roofHeight = width / 2;
 
-        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, min_height, roofHeight, colour, colour, "dome", "", "", null, false, null, null);
+        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, 0, roofHeight, colour, colour, "dome", "", "", null, false, null, null);
         Mesh mesh = composeMesh(buildingRecipe);
 
-        return new RenderableElement(primitive, origin, mesh, 0, 0);
+        return mesh;
     }
 
-    public static RenderableElement createFlagpole(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
+    public static Mesh createFlagpole(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
         final int poleSegments = 8;
         final int flagSegments = 8;
         final double DEFAULT_FLAGPOLE_HEIGHT = 10.0;
@@ -457,9 +536,9 @@ public class RenderableElement {
 
         String shape = getTagStr("shape", primitive, "prism");
         double min_height = getTagD("min_height", primitive, 0);
-        double height = getTagD("height", primitive, DEFAULT_FLAGPOLE_HEIGHT+min_height);
+        double height = getTagD("height", primitive, DEFAULT_FLAGPOLE_HEIGHT+min_height)-min_height;
 
-        double flagHeight = Math.pow(height-min_height, 0.5) / 1.9;
+        double flagHeight = Math.pow(height, 0.5) / 1.9;
         double flagWidth = flagHeight * 1.5;
 
 
@@ -516,7 +595,7 @@ public class RenderableElement {
             double angle = (2 * Math.PI / poleSegments) * i;
             double x = polyRadius * Math.cos(angle);
             double y = polyRadius * Math.sin(angle);
-            bottomIndices[i] = mesh.addVertex(new Point3D(x, y, min_height));
+            bottomIndices[i] = mesh.addVertex(new Point3D(x, y, 0));
             topIndices[i] = mesh.addVertex(new Point3D(top_rate*x, top_rate*y, height-finialHeight));
         }
         // Walls of the mast
@@ -623,17 +702,15 @@ public class RenderableElement {
         // Right edge (far end)
         mesh.addFace(new int[]{topFront[flagSegments], topBack[flagSegments], bottomBack[flagSegments], bottomFront[flagSegments]}, 2);
 
-        return new RenderableElement(primitive, origin, mesh, 0, 0);
+        return mesh;
     }
 
-    public static RenderableElement createChimney(OsmPrimitive primitive, LatLon origin, Random random) {
-        if (primitive.isDeleted()) return null;
-
-        if (isPrimitiveUnderground(primitive)) return null;
+    public static Mesh createChimney(OsmPrimitive primitive, LatLon origin, Random random) {
 
         double diameter = getTagD("diameter", primitive, 2000.0)/1000; //Default unit for diameter tag is MILLIMETER!
-        double height = getTagD("height", primitive, DEFAULT_CHIMNEY_HEIGHT);
         double min_height = getTagD("min_height", primitive, 0.0);
+        double height = getTagD("height", primitive, DEFAULT_CHIMNEY_HEIGHT + min_height) - min_height;
+
         var colour = getTagStr("colour", primitive, ""); // Unified default (BuildingRecipe will handle it)
 
         // Points only for this procedural generator
@@ -657,10 +734,10 @@ public class RenderableElement {
         Contour contour = new Contour(circle, "XY");
         contour.removeRedundantNodes();
 
-        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, min_height, 0.1, colour, colour, buildingShape, "", "", null, false, topRate, middleRate);
+        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, 0, 0.1, colour, colour, buildingShape, "", "", null, false, topRate, middleRate);
         Mesh mesh = composeMesh(buildingRecipe);
 
-        return new RenderableElement(primitive, origin, mesh, 0,0);
+        return mesh;
     }
 
 
@@ -725,12 +802,12 @@ public class RenderableElement {
      * @param modelMesh The mesh to use.
      * @return A new RenderableElement.
      */
-    public static RenderableElement createFromModel(Node node, Mesh modelMesh, double direction, double translationZ) {
-        if (node.isDeleted() || node.getCoor() == null || modelMesh == null) {
+    public static RenderableElement createFromModel(OsmPrimitive primitive, LatLon origin, Mesh modelMesh, double direction, double translationZ) {
+        if (primitive.isDeleted() || primitive.getBBox().getCenter() == null || modelMesh == null) {
             return null;
         }
         // If the mesh has a model-defined texture, we use it.
-        return new RenderableElement(node, node.getBBox().getCenter(), modelMesh,  direction, translationZ);
+        return new RenderableElement(primitive, origin, modelMesh,  direction, translationZ);
     }
 
 
@@ -752,11 +829,11 @@ public class RenderableElement {
         return mesh;
     }
 
-    private static boolean isPrimitiveUnderground(OsmPrimitive primitive) {
+    public static boolean isPrimitiveUnderground(OsmPrimitive primitive) {
         return isPrimitiveUnderground(primitive, primitive.getInterestingTags());
     }
 
-    private static boolean isPrimitiveUnderground(OsmPrimitive primitive, Map<String, String> primitiveTags) {
+    public static boolean isPrimitiveUnderground(OsmPrimitive primitive, Map<String, String> primitiveTags) {
         Double layer = getTagD("layer", primitiveTags, 0);
         String location = getTagStr("location", primitiveTags, "");
 

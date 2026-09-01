@@ -1,11 +1,8 @@
 package ru.zkir.urbaneye3d;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
-import org.openstreetmap.josm.data.osm.OsmPrimitiveType;
-import org.openstreetmap.josm.data.Preferences;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.io.OsmReader;
 import org.openstreetmap.josm.spi.preferences.Config;
@@ -16,12 +13,12 @@ import ru.zkir.urbaneye3d.utils.Settings;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.coor.LatLon;
-
 import java.awt.Color;
-import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
 import ru.zkir.urbaneye3d.utils.ObjImporter;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -559,11 +556,8 @@ class SceneTest {
         Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
         scene.applyUpdate(update);
 
-        // Assert: Verify the outcome
-        assertEquals(18, scene.renderableElements.size(), "Expected 18 elements, but got " + scene.renderableElements.size());
-
         // Mapping ref -> expected orientation (rounded and normalized to [0..359])
-        java.util.Map<String, Integer> expectedOrientations = new java.util.HashMap<>();
+        Map<String, Integer> expectedOrientations = new HashMap<>();
         expectedOrientations.put("1", 120);
         expectedOrientations.put("2", 72);
         expectedOrientations.put("3", 120);
@@ -581,6 +575,11 @@ class SceneTest {
         expectedOrientations.put("15", 143);
         expectedOrientations.put("16", 70);
         expectedOrientations.put("17", 250);
+        expectedOrientations.put("18", 30);
+
+        // Assert: Verify the outcome
+        assertEquals(expectedOrientations.size() + 1 , scene.renderableElements.size(),
+                "Expected "+expectedOrientations.size()+" elements, but got " + scene.renderableElements.size());
 
         for (var re : scene.renderableElements) {
             OsmPrimitive primitive = dataSet.getPrimitiveById(re.primitiveId);
@@ -595,5 +594,53 @@ class SceneTest {
             //UrbanEye3dPlugin.debugMsg(ref + " "   + Math.round(re.direction+360) % 360 + " Note: " + primitive.get("note"));
         }
 
+    }
+
+    @Test
+    void testStreetCabinet() throws Exception {
+        DataSet dataSet = loadDataSetFromOsmFile("street_cabinet.osm");
+        Scene scene = new Scene();
+
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        assertEquals(4, scene.renderableElements.size(), "Expected 4 street cabinet elements, but got " + scene.renderableElements.size());
+
+        RenderableElement cab1 = null;
+        for (var re : scene.renderableElements) {
+            OsmPrimitive primitive = dataSet.getPrimitiveById(re.primitiveId);
+            if (primitive.getId() == 1000001) {
+                cab1 = re;
+                break;
+            }
+        }
+
+        assertNotNull(cab1, "Street cabinet with id 1000001 not found");
+        assertNotNull(cab1.getMesh(), "Street cabinet mesh should not be null");
+
+        RoofGeneratorTopologyTest.AssertMeshTopology(cab1.getMesh(), 0,2,"street_cabinet");
+
+        RenderableElement cabDefault = null;
+        for (var re : scene.renderableElements) {
+            OsmPrimitive primitive = dataSet.getPrimitiveById(re.primitiveId);
+            if (primitive.getId() == 1000002) {
+                cabDefault = re;
+                break;
+            }
+        }
+        assertNotNull(cabDefault, "Street cabinet with id=1000002 (defaults) not found");
+        assertNotNull(cabDefault.getMesh(), "Default street cabinet mesh should not be null");
+
+        RenderableElement cabMinH = null;
+        for (var re : scene.renderableElements) {
+            OsmPrimitive primitive = dataSet.getPrimitiveById(re.primitiveId);
+            if (primitive.getId() == 1000003) {
+                cabMinH = re;
+                break;
+            }
+        }
+        assertNotNull(cabMinH, "Street cabinet with id=1000003 (min_height) not found");
+        assertTrue(cabMinH.zOffset >= 0.25,
+            "Cabinet with min_height=0.3 should have bottom above z=0.25");
     }
 }

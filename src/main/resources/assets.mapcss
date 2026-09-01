@@ -120,6 +120,13 @@ node[man_made=chimney] {
     procedure: "chimney";
 }
 
+/* Street Cabinet */
+node[man_made=street_cabinet] {
+    procedure: "street_cabinet";
+    rotatable: true;
+	snap_to_roads: true;
+}	
+
 /* Busket */
 node[amenity=waste_basket] {
     model: "/models/basket.obj";

@@ -1,169 +1,174 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <osm version='0.6' generator='JOSM'>
-  <node id='-5280481' action='modify' visible='true' lat='55.00000585303' lon='37.00000627966' />
-  <node id='-5280482' action='modify' visible='true' lat='55.0001' lon='37.0001'>
+  <node id='-6406814' action='modify' visible='true' lat='55.00000585303' lon='37.00000627966' />
+  <node id='-6406815' action='modify' visible='true' lat='55.0001' lon='37.0001'>
     <tag k='barrier' v='gate' />
     <tag k='note' v='gate is aligned with parrent barrier, roads do not affect it' />
     <tag k='ref' v='1' />
   </node>
-  <node id='-5280483' visible='true' lat='55.0002' lon='37.0002' />
-  <node id='-5280484' action='modify' visible='true' lat='54.999909825' lon='37.00022655192' />
-  <node id='-5280485' action='modify' visible='true' lat='55.00012013222' lon='37.00042702653'>
+  <node id='-6406816' visible='true' lat='55.0002' lon='37.0002' />
+  <node id='-6406817' action='modify' visible='true' lat='54.999909825' lon='37.00022655192' />
+  <node id='-6406818' action='modify' visible='true' lat='55.00012013222' lon='37.00042702653'>
     <tag k='barrier' v='bollard' />
     <tag k='note' v='Bollard is symmetrical and does not get anything but 0' />
     <tag k='ref' v='7' />
   </node>
-  <node id='-5280486' action='modify' visible='true' lat='55.00016610443' lon='37.00047600426' />
-  <node id='-5280487' action='modify' visible='true' lat='55.00008208834' lon='36.99999604424' />
-  <node id='-5280488' action='modify' visible='true' lat='55.00014489571' lon='37.00034417307'>
+  <node id='-6406819' action='modify' visible='true' lat='55.00016610443' lon='37.00047600426' />
+  <node id='-6406820' action='modify' visible='true' lat='55.00008208834' lon='36.99999604424' />
+  <node id='-6406821' action='modify' visible='true' lat='55.00014489571' lon='37.00034417307'>
     <tag k='barrier' v='block' />
     <tag k='note' v='Blocks sit accross the road' />
     <tag k='ref' v='4' />
   </node>
-  <node id='-5280489' action='modify' visible='true' lat='55.00012609842' lon='37.00025037079'>
+  <node id='-6406822' action='modify' visible='true' lat='55.00012609842' lon='37.00025037079'>
     <tag k='barrier' v='lift_gate' />
     <tag k='note' v='but without fence, gate is oriented across the major (!) road' />
     <tag k='ref' v='2' />
   </node>
-  <node id='-5280490' action='modify' visible='true' lat='55.0001689831' lon='37.00027784412'>
+  <node id='-6406823' action='modify' visible='true' lat='55.0001689831' lon='37.00027784412'>
     <tag k='barrier' v='block' />
     <tag k='note' v='&quot;Free&quot; blocks should be oriented parallel to roads' />
     <tag k='ref' v='3' />
   </node>
-  <node id='-5280491' action='modify' visible='true' lat='55.00002963622' lon='37.00033671597'>
+  <node id='-6406824' action='modify' visible='true' lat='55.00002963622' lon='37.00033671597'>
     <tag k='barrier' v='block' />
     <tag k='note' v='Blocks sit accross the road' />
     <tag k='ref' v='6' />
   </node>
-  <node id='-5280492' action='modify' visible='true' lat='55.00010730134' lon='37.00050705183'>
+  <node id='-6406825' action='modify' visible='true' lat='55.00010730134' lon='37.00050705183'>
     <tag k='barrier' v='block' />
     <tag k='note' v='&quot;Free&quot; blocks should be oriented parallel to roads' />
     <tag k='ref' v='5' />
   </node>
-  <node id='-5280493' action='modify' visible='true' lat='55.0000926688' lon='37.00031277475'>
+  <node id='-6406826' action='modify' visible='true' lat='55.0000926688' lon='37.00031277475'>
     <tag k='bench' v='yes' />
     <tag k='highway' v='bus_stop' />
     <tag k='note' v='Bus stop is oriented across major roads and is NOT affected by footways or services (in normal situation at least)' />
     <tag k='ref' v='8' />
     <tag k='shelter' v='yes' />
   </node>
-  <node id='-5280494' action='modify' visible='true' lat='54.9999100994' lon='37.00031041948'>
+  <node id='-6406827' action='modify' visible='true' lat='54.9999100994' lon='37.00031041948'>
     <tag k='highway' v='street_lamp' />
     <tag k='lamp_mount' v='bent_mast' />
     <tag k='note' v='Street lamps on a bent mast are looking to the nearest [major] road segment' />
     <tag k='ref' v='9' />
   </node>
-  <node id='-5280495' action='modify' visible='true' lat='55.00015727731' lon='37.00037557099'>
+  <node id='-6406828' action='modify' visible='true' lat='55.00015727731' lon='37.00037557099'>
     <tag k='highway' v='street_lamp' />
     <tag k='lamp_mount' v='bent_mast' />
     <tag k='note' v='Street lamps on a bent mast are looking to the nearest [major] road segment' />
     <tag k='ref' v='10' />
   </node>
-  <node id='-5280496' action='modify' visible='true' lat='55.00020140043' lon='36.99995954251' />
-  <node id='-5280497' action='modify' visible='true' lat='54.99996330013' lon='37.0002757212' />
-  <node id='-5280498' action='modify' visible='true' lat='54.99987723228' lon='37.00039048519' />
-  <node id='-5280499' action='modify' visible='true' lat='55.00003571504' lon='36.99808035329'>
+  <node id='-6406829' action='modify' visible='true' lat='55.00020140043' lon='36.99995954251' />
+  <node id='-6406830' action='modify' visible='true' lat='54.99996330013' lon='37.0002757212' />
+  <node id='-6406831' action='modify' visible='true' lat='54.99987723228' lon='37.00039048519' />
+  <node id='-6406832' action='modify' visible='true' lat='55.00003571504' lon='36.99808035329'>
     <tag k='note' v='In normal situation, power towers/poles are oriented along power lines.' />
     <tag k='power' v='pole' />
     <tag k='ref' v='11' />
   </node>
-  <node id='-5280500' action='modify' visible='true' lat='54.99982320452' lon='36.99977272253'>
+  <node id='-6406833' action='modify' visible='true' lat='54.99982320452' lon='36.99977272253'>
     <tag k='note' v='In normal situation, power towers/poles are oriented along power lines.' />
     <tag k='power' v='pole' />
     <tag k='ref' v='12' />
   </node>
-  <node id='-5280501' action='modify' visible='true' lat='54.99956296765' lon='37.00034888164'>
+  <node id='-6406834' action='modify' visible='true' lat='54.99956296765' lon='37.00034888164'>
     <tag k='note' v='In case of sharp angle (power line turns backwards), pole is oriented across bisector.' />
     <tag k='power' v='pole' />
     <tag k='ref' v='13' />
   </node>
-  <node id='-5280502' action='modify' visible='true' lat='54.99952154571' lon='36.99923895116'>
+  <node id='-6406835' action='modify' visible='true' lat='54.99952154571' lon='36.99923895116'>
     <tag k='note' v='In normal situation, power towers/poles are oriented along power lines.' />
     <tag k='power' v='pole' />
     <tag k='ref' v='14' />
   </node>
-  <node id='-5280626' action='modify' visible='true' lat='55.00003228137' lon='37.00018683089'>
+  <node id='-6406836' action='modify' visible='true' lat='55.00003228137' lon='37.00018683089'>
     <tag k='barrier' v='gate' />
     <tag k='note' v='If there is no major road, barrier should be oriented accross a minor road' />
     <tag k='ref' v='15' />
   </node>
-  <node id='-5280843' action='modify' visible='true' lat='55.00010472872' lon='37.00022827581' />
-  <node id='-5280922' action='modify' visible='true' lat='55.00014729147' lon='37.00027169429' />
-  <node id='-5281325' action='modify' visible='true' lat='55.00006488269' lon='37.00014380712' />
-  <node id='-5281422' action='modify' visible='true' lat='54.99923693828' lon='36.99944792447'>
+  <node id='-6406837' action='modify' visible='true' lat='55.00010472872' lon='37.00022827581' />
+  <node id='-6406838' action='modify' visible='true' lat='55.00014729147' lon='37.00027169429' />
+  <node id='-6406839' action='modify' visible='true' lat='55.00006488269' lon='37.00014380712' />
+  <node id='-6406840' action='modify' visible='true' lat='54.99923693828' lon='36.99944792447'>
     <tag k='note' v='Buffer stop is usually located at the dead end of a rail, so it shoul look along rail' />
     <tag k='railway' v='buffer_stop' />
     <tag k='ref' v='16' />
   </node>
-  <node id='-5281453' action='modify' visible='true' lat='54.99940719272' lon='37.00027840166'>
+  <node id='-6406841' action='modify' visible='true' lat='54.99940719272' lon='37.00027840166'>
     <tag k='note' v='Buffer stop is usually located at the dead end of a rail, so it shoul look along rail' />
     <tag k='railway' v='buffer_stop' />
     <tag k='ref' v='17' />
   </node>
+  <node id='-6406939' action='modify' visible='true' lat='55.00003915376' lon='37.00044024804'>
+    <tag k='man_made' v='street_cabinet' />
+    <tag k='note' v='Street cabinet is oriented along road, counting strange wiki direction definition' />
+    <tag k='ref' v='18' />
+  </node>
   <way id='-16215' action='modify' visible='true'>
-    <nd ref='-5280481' />
-    <nd ref='-5280482' />
-    <nd ref='-5280483' />
+    <nd ref='-6406814' />
+    <nd ref='-6406815' />
+    <nd ref='-6406816' />
     <tag k='barrier' v='wall' />
     <tag k='height' v='2.0' />
     <tag k='note' v='Line barriers just get 0' />
     <tag k='width' v='0.5' />
   </way>
   <way id='-16216' action='modify' visible='true'>
-    <nd ref='-5280484' />
-    <nd ref='-5280497' />
-    <nd ref='-5280491' />
+    <nd ref='-6406817' />
+    <nd ref='-6406830' />
+    <nd ref='-6406824' />
     <tag k='highway' v='residential' />
   </way>
   <way id='-16217' action='modify' visible='true'>
-    <nd ref='-5280487' />
-    <nd ref='-5280482' />
-    <nd ref='-5280489' />
-    <nd ref='-5280488' />
-    <nd ref='-5280485' />
+    <nd ref='-6406820' />
+    <nd ref='-6406815' />
+    <nd ref='-6406822' />
+    <nd ref='-6406821' />
+    <nd ref='-6406818' />
     <tag k='highway' v='service' />
   </way>
   <way id='-16218' action='modify' visible='true'>
-    <nd ref='-5281325' />
-    <nd ref='-5280626' />
-    <nd ref='-5280497' />
-    <nd ref='-5280498' />
+    <nd ref='-6406839' />
+    <nd ref='-6406836' />
+    <nd ref='-6406830' />
+    <nd ref='-6406831' />
     <tag k='highway' v='footway' />
     <tag k='note' v='footway does not affect much (except benches)' />
   </way>
   <way id='-16219' action='modify' visible='true'>
-    <nd ref='-5280499' />
-    <nd ref='-5280500' />
-    <nd ref='-5280501' />
+    <nd ref='-6406832' />
+    <nd ref='-6406833' />
+    <nd ref='-6406834' />
     <tag k='power' v='line' />
   </way>
   <way id='-16220' action='modify' visible='true'>
-    <nd ref='-5280502' />
-    <nd ref='-5280501' />
+    <nd ref='-6406835' />
+    <nd ref='-6406834' />
     <tag k='power' v='line' />
   </way>
   <way id='-16221' action='modify' visible='true'>
-    <nd ref='-5280491' />
-    <nd ref='-5280485' />
-    <nd ref='-5280486' />
+    <nd ref='-6406824' />
+    <nd ref='-6406818' />
+    <nd ref='-6406819' />
     <tag k='highway' v='residential' />
   </way>
   <way id='-16245' action='modify' visible='true'>
-    <nd ref='-5280843' />
-    <nd ref='-5280489' />
-    <nd ref='-5280922' />
+    <nd ref='-6406837' />
+    <nd ref='-6406822' />
+    <nd ref='-6406838' />
     <tag k='highway' v='footway' />
   </way>
   <way id='-16278' action='modify' visible='true'>
-    <nd ref='-5280496' />
-    <nd ref='-5280482' />
-    <nd ref='-5281325' />
+    <nd ref='-6406829' />
+    <nd ref='-6406815' />
+    <nd ref='-6406839' />
     <tag k='highway' v='footway' />
     <tag k='note' v='footway does not affect much (except benches)' />
   </way>
   <way id='-16279' action='modify' visible='true'>
-    <nd ref='-5281422' />
-    <nd ref='-5281453' />
+    <nd ref='-6406840' />
+    <nd ref='-6406841' />
     <tag k='railway' v='rail' />
   </way>
 </osm>

@@ -146,7 +146,7 @@
   <node id='-5644888' action='modify' visible='true' lat='55.05069931144' lon='37.04248590847'>
     <tag k='highway' v='turning_circle' />
   </node>
-  <node id='-5644889' action='modify' visible='true' lat='55.05069280826' lon='37.04372390511' />
+  <node id='-5644889' action='modify' visible='true' lat='55.05054357726' lon='37.04354585347' />
   <node id='-5644890' action='modify' visible='true' lat='55.05074671578' lon='37.04289817628'>
     <tag k='emergency' v='fire_hydrant' />
   </node>
@@ -368,10 +368,12 @@
     <tag k='man_made' v='flagpole' />
     <tag k='shape' v='frustum' />
   </node>
-  <node id='-5644961' action='modify' visible='true' lat='55.0514481961' lon='37.0437669243'>
+  <node id='-5644961' action='modify' visible='true' lat='55.05194105587' lon='37.04304037801'>
     <tag k='diameter' v='1000' />
     <tag k='height' v='20' />
     <tag k='man_made' v='chimney' />
+    <tag k='material' v='brick' />
+    <tag k='min_height' v='0' />
     <tag k='shape' v='frustum' />
   </node>
   <node id='-5644962' action='modify' visible='true' lat='55.05101078003' lon='37.04351717042'>
@@ -394,12 +396,74 @@
     <tag k='tower:construction' v='freestanding' />
     <tag k='tower:type' v='communication' />
   </node>
-  <node id='-5647168' action='modify' visible='true' lat='55.0511078325' lon='37.0431308605'>
+  <node id='-5647168' action='modify' visible='true' lat='55.05192653096' lon='37.04286318555'>
     <tag k='country' v='BY' />
     <tag k='diameter' v='500' />
     <tag k='height' v='20' />
     <tag k='man_made' v='flagpole' />
+    <tag k='min_height' v='0' />
     <tag k='shape' v='frustum' />
+  </node>
+  <node id='-5649368' action='modify' visible='true' lat='55.05194037202' lon='37.04262332968'>
+    <tag k='direction' v='90' />
+    <tag k='height' v='6' />
+    <tag k='man_made' v='street_cabinet' />
+    <tag k='min_height' v='5' />
+  </node>
+  <node id='-5715060' action='modify' visible='true' lat='55.05209248736' lon='37.04228211032' />
+  <node id='-5719265' action='modify' visible='true' lat='55.05208648968' lon='37.04322891883' />
+  <node id='-5723476' action='modify' visible='true' lat='55.05176224686' lon='37.04322265939' />
+  <node id='-5727687' action='modify' visible='true' lat='55.05176824459' lon='37.04227585087' />
+  <node id='-5835148' action='modify' visible='true' lat='55.05184932965' lon='37.04247395869'>
+    <tag k='height' v='6' />
+    <tag k='highway' v='bus_stop' />
+    <tag k='min_height' v='5' />
+  </node>
+  <node id='-5896595' action='modify' visible='true' lat='55.05186739528' lon='37.04290995637'>
+    <tag k='country' v='BY' />
+    <tag k='diameter' v='500' />
+    <tag k='height' v='20' />
+    <tag k='man_made' v='flagpole' />
+    <tag k='min_height' v='5' />
+    <tag k='shape' v='frustum' />
+  </node>
+  <node id='-5896596' action='modify' visible='true' lat='55.0518819202' lon='37.04308714883'>
+    <tag k='diameter' v='1000' />
+    <tag k='height' v='20' />
+    <tag k='man_made' v='chimney' />
+    <tag k='material' v='brick' />
+    <tag k='min_height' v='5' />
+    <tag k='shape' v='frustum' />
+  </node>
+  <node id='-5905125' action='modify' visible='true' lat='55.05183016295' lon='37.04263647562'>
+    <tag k='advertising' v='column' />
+    <tag k='min_height' v='5' />
+  </node>
+  <node id='-5917915' action='modify' visible='true' lat='55.05204784135' lon='37.04314553602'>
+    <tag k='diameter' v='1000' />
+    <tag k='man_made' v='chimney' />
+    <tag k='material' v='brick' />
+    <tag k='min_height' v='5' />
+    <tag k='shape' v='frustum' />
+  </node>
+  <node id='-5966360' action='modify' visible='true' lat='55.05169668101' lon='37.0428025763'>
+    <tag k='advertising' v='column' />
+  </node>
+  <node id='-6004420' action='modify' visible='true' lat='55.05171447872' lon='37.04244886297'>
+    <tag k='height' v='11' />
+    <tag k='natural' v='tree' />
+  </node>
+  <node id='-6008643' action='modify' visible='true' lat='55.05191572918' lon='37.0423891141'>
+    <tag k='height' v='11' />
+    <tag k='min_height' v='5' />
+    <tag k='natural' v='tree' />
+  </node>
+  <node id='-6010857' action='modify' visible='true' lat='55.0506452324' lon='37.04350761419'>
+    <tag k='man_made' v='street_cabinet' />
+  </node>
+  <node id='-6396050' action='modify' visible='true' lat='55.05064797058' lon='37.04307622733'>
+    <tag k='direction' v='90' />
+    <tag k='man_made' v='street_cabinet' />
   </node>
   <way id='-14496' action='modify' visible='true'>
     <nd ref='-5644775' />
@@ -658,6 +722,15 @@
     <nd ref='-5644924' />
     <nd ref='-5644916' />
     <tag k='barrier' v='fence' />
+  </way>
+  <way id='-14564' action='modify' visible='true'>
+    <nd ref='-5715060' />
+    <nd ref='-5719265' />
+    <nd ref='-5723476' />
+    <nd ref='-5727687' />
+    <nd ref='-5715060' />
+    <tag k='building' v='yes' />
+    <tag k='height' v='5' />
   </way>
   <relation id='-3283' action='modify' visible='true'>
     <member type='way' ref='-14496' role='outer' />

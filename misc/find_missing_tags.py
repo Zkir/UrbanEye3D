@@ -32,6 +32,7 @@ def ignored_tags(key, value):
        tag in ('tourism=viewpoint') or \
        tag in ('natural=peak') or \
        tag in ('man_made=survey_point') or \
+       key in ('manhole') or \
        tag in ('drinking_water=yes', 'bottle=yes') or \
        key.startswith('recycling:') or tag in ('waste=trash') or \
        tag in ('construction=yes') or \

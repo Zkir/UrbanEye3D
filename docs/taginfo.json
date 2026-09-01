@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260819T205936Z",
+  "data_updated" : "20260901T134041Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -421,6 +421,9 @@
     "value" : "pitch",
     "description" : "A sports pitch. If sport=soccer, tennis, volleyball, badminton or futsal, characteristic markings are rendered on the ground texture."
   }, {
+    "key" : "length",
+    "description" : "Length of the long side of man_made=street_cabinet features. Direction is along this side."
+  }, {
     "key" : "location",
     "value" : "underground",
     "description" : "An object is located underground. Can be ignored for 3D rendering"
@@ -451,6 +454,10 @@
     "key" : "man_made",
     "value" : "manhole",
     "description" : "A manhole cover, rendered as a tiny black dot on the 2D ground plane."
+  }, {
+    "key" : "man_made",
+    "value" : "street_cabinet",
+    "description" : "A utility cabinet for street infrastructure (electrical, telecom). Box-like structure respecting width/length/height tags."
   }, {
     "key" : "man_made",
     "value" : "tower",

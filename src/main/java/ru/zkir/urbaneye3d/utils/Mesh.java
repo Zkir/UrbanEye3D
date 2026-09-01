@@ -165,6 +165,17 @@ public class Mesh {
         invalidateBBOX();
     }
 
+    public void scale(double sx, double sy, double sz){
+        for (int i = 0; i < verts.size(); i++) {
+            var v=verts.get(i);
+            v.x = v.x * sx;
+            v.y = v.y * sy;
+            v.z = v.z * sz;
+        }
+        // Invalidate bounding box and vertex cache as coordinates have changed
+        invalidateBBOX();
+    }
+
     private void invalidateBBOX(){
         minBounds = null;
         maxBounds = null;

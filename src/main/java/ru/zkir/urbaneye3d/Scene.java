@@ -21,6 +21,7 @@ import ru.zkir.urbaneye3d.assetconfig.ProceduralGenerator;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static ru.zkir.urbaneye3d.RenderableElement.isPrimitiveUnderground;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
@@ -262,7 +263,13 @@ public class Scene {
          * Trees, street furniture, and other objects (using AssetConfig).
          */
         for (Node node : dataSet.getNodes()) {
-            if (alreadyRenderedPrimitiveIds.contains(node.getPrimitiveId())) continue;
+            if (node.isDeleted() || alreadyRenderedPrimitiveIds.contains(node.getPrimitiveId())) {
+                continue;
+            }
+
+            if (isPrimitiveUnderground(node))  {
+                continue;
+            }
 
             // For trees, we want to enrich tags BEFORE querying the config so that specific leaf_type rules can match
             Node nodeForConfig = node;
@@ -272,7 +279,7 @@ public class Scene {
                 nodeForConfig.setKeys(enrichedTags);
             }
 
-            // Find best matching rule for LOD 0 (currently using LOD 0 by default)
+            // Find best matching rule
             AssetRule rule = assetConfig.findBestMatch(nodeForConfig);
 
             if (rule != null) {
@@ -280,118 +287,132 @@ public class Scene {
                 if ("false".equals(display)) {
                     continue;
                 }
-                RenderableElement element = null;
+
+                Mesh mesh = null;
                 if (rule.properties.containsKey("procedure")) {
                     String procedure = rule.properties.get("procedure");
 
                     ProceduralGenerator generator = GeneratorRegistry.getInstance().get(procedure);
-                    if (generator != null) {
-                        element = generator.generate(node, node.getCoor(), rule, new Random(node.getId()));
+                    if (generator == null) {
+                        UrbanEye3dPlugin.debugMsg("Procedure for '" + procedure + "' not found");
+                        continue;
                     }
+                    mesh = generator.generate(node, node.getCoor(), rule, new Random(node.getId()));
+
                 } else if (rule.properties.containsKey("model")) {
                     String modelPath = rule.properties.get("model");
-                    Mesh mesh = loadModel(modelPath);
-                    if (mesh != null) {
-                        Mesh instanceMesh = mesh;
-                        
-                        boolean isRotatable = "true".equals(rule.properties.get("rotatable"));
-                        boolean isSnapToRoads = "true".equals(rule.properties.get("snap_to_roads"));
-
-                        // Check if rotation is allowed or automatic orientation is requested
-                        Double direction = null;
-                        Double translationZ = OsmDataWasher.getTagD("min_height",node,0);
-                        if (isRotatable) { //rotatable means that direction tag is defined for this object
-                            if (node.hasKey("direction")) {
-                                direction = OsmDataWasher.parseDirection(node.get("direction"));
-                            }
-                        }
-
-                        //Special case for barrier=block
-                        //TODO: those cases are not so special.
-                        //   we just need to determine who is the proper parent
-                        //       (e.g. for node barriers parent could be both a linear barrier and a road.)
-                        //   and what is orientation: along/across
-
-                        if (direction == null && node.hasTag("barrier", "block") ) {
-                            direction = calculateOrientationByParent(node, way -> way.hasKey("highway") && !NON_ROAD_FOR_ORIENTATION.contains(way.get("highway")), false);
-                            if (direction == null) {
-                                direction = calculateOrientationByParent(node, way -> way.hasKey("highway"), false);
-                            }
-                        }
-                        
-                        // Special case for power towers/poles orientation
-                        if (direction == null && node.hasKey("power") && (node.hasTag("power", "tower") || node.hasTag("power", "pole"))) {
-                            Double lineAngle = powerNodeAngles.computeIfAbsent(node, n -> {
-                                Double a = calculateOrientationByParent(n, way -> way.hasKey("power") && ("line".equals(way.get("power")) || "minor_line".equals(way.get("power"))), true);
-                                return a != null ? a : 0.0;
-                            });
-                            direction = -lineAngle;
-                        }
-                        //Special case for railway buffer stop
-                        if (direction == null  && node.hasTag("railway", "buffer_stop") ) {
-                            Double a = calculateOrientationByParent(node, way -> way.hasKey("railway"), true);
-                            direction = -(a != null ? a : 0.0);
-                        }
-
-                        // Special case for node barriers: gate and lift gate
-                        if (direction == null && "align_with_parent".equals(rule.properties.get("orientation"))) {
-                            // First, try to align along the parent barrier (fence, wall, etc.)
-                            direction = calculateOrientationByParent(node, way -> way.hasKey("barrier") && !"yes".equals(way.get("area")), false);
-                            if (direction != null) {
-                                // Model is perpendicular to its local Y axis, so we add 90 to align along the barrier
-                                direction = (direction + 90.0) % 360.0;
-                            } else {
-                                // If no barrier found, fall back to road-based orientation (perpendicular to the road)
-                                direction = calculateOrientationByParent(node, way -> way.hasKey("highway") && !NON_ROAD_FOR_ORIENTATION.contains(way.get("highway")), false);
-                                if (direction == null) {
-                                    direction = calculateOrientationByParent(node, way -> way.hasKey("highway"), false);
-                                }
-                            }
-                        }
-
-                        // Automatic orientation if direction is missing and snap_to_roads is enabled
-                        if (direction == null && isSnapToRoads){
-                            direction = calculateDirectionToNearestRoad(node, roads);
-                        }
-
-
-                        if (direction != null && direction != 0.0) {
-                            instanceMesh = mesh.clone();
-                            instanceMesh.rotate(-direction);
-                        } else {
-                            direction = 0.0;
-                        }
-
-                        if("true".equals(rule.properties.get("scalable"))) {
-                            double model_height = mesh.getMaxBounds().z;
-                            double object_height = OsmDataWasher.getTagD("height", node, model_height + translationZ)- translationZ;
-                            if (object_height<0) {
-                                object_height=model_height;
-                            }
-                            double scale_factor = (object_height) / model_height;
-
-                            if (scale_factor != 1.0) {
-                                if (instanceMesh == mesh) {
-                                    instanceMesh = mesh.clone();
-                                }
-                                instanceMesh.scale(scale_factor);
-                            }
-                        }
-
-                        element = RenderableElement.createFromModel(node, instanceMesh, direction, translationZ);
-
+                    mesh = loadModel(modelPath);
+                    if (mesh == null) {
+                        UrbanEye3dPlugin.debugMsg("Unable to load model: " + modelPath);
+                        continue;
                     }
                 } else if (rule.properties.containsKey("billboard")) {
                     String texturePath = rule.properties.get("billboard");
                     Map<String, String> tags = nodeForConfig.getInterestingTags();
-                    
+
                     double defaultHeight = rule.properties.containsKey("height") ? Double.parseDouble(rule.properties.get("height")) : 1.0;
-                    double height = getTagD("height", tags, defaultHeight);
+                    double min_height = getTagD("min_height", tags, 0);
+                    double height = getTagD("height", tags, defaultHeight + min_height) - min_height;
                     double defaultWidth = rule.properties.containsKey("width") ? Double.parseDouble(rule.properties.get("width")) : 0.9*defaultHeight;
                     double width = height * ( defaultWidth/defaultHeight);
 
-                    element = RenderableElement.createBillboard(node, node.getCoor(), texturePath, width, height);
+                    mesh = RenderableElement.createBillboard(texturePath, width, height);
                 }
+
+                Mesh instanceMesh = mesh;
+
+                boolean isRotatable = "true".equals(rule.properties.get("rotatable"));
+                boolean isSnapToRoads = "true".equals(rule.properties.get("snap_to_roads"));
+
+                // Check if rotation is allowed or automatic orientation is requested
+                Double direction = null;
+                Double translationZ = OsmDataWasher.getTagD("min_height", node, 0);
+                if (isRotatable) { //rotatable means that direction tag is defined for this object
+                    if (node.hasKey("direction")) {
+                        direction = OsmDataWasher.parseDirection(node.get("direction"));
+                    }
+                }
+
+                //Special case for barrier=block
+                //TODO: those cases are not so special.
+                //   we just need to determine who is the proper parent
+                //       (e.g. for node barriers parent could be both a linear barrier and a road.)
+                //   and what is orientation: along/across
+
+                if (direction == null && node.hasTag("barrier", "block")) {
+                    direction = calculateOrientationByParent(node, way -> way.hasKey("highway") && !NON_ROAD_FOR_ORIENTATION.contains(way.get("highway")), false);
+                    if (direction == null) {
+                        direction = calculateOrientationByParent(node, way -> way.hasKey("highway"), false);
+                    }
+                }
+
+                // Special case for power towers/poles orientation
+                if (direction == null && node.hasKey("power") && (node.hasTag("power", "tower") || node.hasTag("power", "pole"))) {
+                    Double lineAngle = powerNodeAngles.computeIfAbsent(node, n -> {
+                        Double a = calculateOrientationByParent(n, way -> way.hasKey("power") && ("line".equals(way.get("power")) || "minor_line".equals(way.get("power"))), true);
+                        return a != null ? a : 0.0;
+                    });
+                    direction = -lineAngle;
+                }
+                //Special case for railway buffer stop
+                if (direction == null && node.hasTag("railway", "buffer_stop")) {
+                    Double a = calculateOrientationByParent(node, way -> way.hasKey("railway"), true);
+                    direction = -(a != null ? a : 0.0);
+                }
+
+                // Special case for node barriers: gate and lift gate
+                if (direction == null && "align_with_parent".equals(rule.properties.get("orientation"))) {
+                    // First, try to align along the parent barrier (fence, wall, etc.)
+                    direction = calculateOrientationByParent(node, way -> way.hasKey("barrier") && !"yes".equals(way.get("area")), false);
+                    if (direction != null) {
+                        // Model is perpendicular to its local Y axis, so we add 90 to align along the barrier
+                        direction = (direction + 90.0) % 360.0;
+                    } else {
+                        // If no barrier found, fall back to road-based orientation (perpendicular to the road)
+                        direction = calculateOrientationByParent(node, way -> way.hasKey("highway") && !NON_ROAD_FOR_ORIENTATION.contains(way.get("highway")), false);
+                        if (direction == null) {
+                            direction = calculateOrientationByParent(node, way -> way.hasKey("highway"), false);
+                        }
+                    }
+                }
+
+                // Automatic orientation if direction is missing and snap_to_roads is enabled
+                if (direction == null && isSnapToRoads) {
+                    direction = calculateDirectionToNearestRoad(node, roads);
+                    if (direction != null) {
+                        if (node.hasTag("man_made", "street_cabinet")) {
+                            direction += 90; //See strange definition of direction for street cabinet on the OSM-WIKI.
+                        }
+                    }
+                }
+
+
+                if (direction != null && direction != 0.0) {
+                    instanceMesh = mesh.clone();
+                    instanceMesh.rotate(-direction);
+                } else {
+                    direction = 0.0;
+                }
+
+                if ("true".equals(rule.properties.get("scalable"))) {
+                    double model_height = mesh.getMaxBounds().z;
+                    double object_height = OsmDataWasher.getTagD("height", node, model_height + translationZ) - translationZ;
+                    if (object_height < 0) {
+                        object_height = model_height;
+                    }
+                    double scale_factor = (object_height) / model_height;
+
+                    if (scale_factor != 1.0) {
+                        if (instanceMesh == mesh) {
+                            instanceMesh = mesh.clone();
+                        }
+                        instanceMesh.scale(scale_factor);
+                    }
+                }
+
+                RenderableElement element = null;
+                element = RenderableElement.createFromModel(node, node.getCoor(), instanceMesh, direction, translationZ);
+
 
                 if (element != null) {
                     newElements.add(element);
@@ -557,7 +578,8 @@ public class Scene {
                             }
 
                             double width = baseHeight * 0.9;
-                            RenderableElement element = RenderableElement.createBillboard(primitive, treeOrigin, texturePath, width, baseHeight);
+                            var mesh =  RenderableElement.createBillboard(texturePath, width, baseHeight);
+                            RenderableElement element = RenderableElement.createFromModel(primitive, treeOrigin, mesh, 0 ,0);
                             if (element != null) {
                                 newElements.add(element);
                             }
