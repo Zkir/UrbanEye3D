@@ -297,6 +297,8 @@ public class TreeSpeciesDatabase {
             } else {
                 height = DEFAULT_TREE_HEIGHT;
             }
+            double min_height = getTagD("min_height", tags, 0);
+            height += min_height;
             tags.put("height", String.valueOf(height));
         }
         return tags;

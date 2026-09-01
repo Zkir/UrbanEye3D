@@ -428,10 +428,10 @@
     <tag k='shape' v='frustum' />
   </node>
   <node id='-5896596' action='modify' visible='true' lat='55.0518819202' lon='37.04308714883'>
+    <tag k='building:material' v='brick' />
     <tag k='diameter' v='1000' />
     <tag k='height' v='20' />
     <tag k='man_made' v='chimney' />
-    <tag k='material' v='brick' />
     <tag k='min_height' v='5' />
     <tag k='shape' v='frustum' />
   </node>
@@ -440,6 +440,7 @@
     <tag k='min_height' v='5' />
   </node>
   <node id='-5917915' action='modify' visible='true' lat='55.05204784135' lon='37.04314553602'>
+    <tag k='building:material' v='metal' />
     <tag k='diameter' v='1000' />
     <tag k='man_made' v='chimney' />
     <tag k='material' v='brick' />
@@ -454,8 +455,7 @@
     <tag k='natural' v='tree' />
   </node>
   <node id='-6008643' action='modify' visible='true' lat='55.05191572918' lon='37.0423891141'>
-    <tag k='height' v='11' />
-    <tag k='min_height' v='5' />
+    <tag k='min_height' v='10' />
     <tag k='natural' v='tree' />
   </node>
   <node id='-6010857' action='modify' visible='true' lat='55.0506452324' lon='37.04350761419'>
@@ -465,6 +465,10 @@
     <tag k='direction' v='90' />
     <tag k='man_made' v='street_cabinet' />
   </node>
+  <node id='-6415402' action='modify' visible='true' lat='55.05218220436' lon='37.04301009015' />
+  <node id='-6419611' action='modify' visible='true' lat='55.05218646437' lon='37.04311995578' />
+  <node id='-6423826' action='modify' visible='true' lat='55.05212352998' lon='37.04312739256' />
+  <node id='-6428035' action='modify' visible='true' lat='55.05211926996' lon='37.04301752693' />
   <way id='-14496' action='modify' visible='true'>
     <nd ref='-5644775' />
     <nd ref='-5644776' />
@@ -731,6 +735,16 @@
     <nd ref='-5715060' />
     <tag k='building' v='yes' />
     <tag k='height' v='5' />
+  </way>
+  <way id='-14590' action='modify' visible='true'>
+    <nd ref='-6415402' />
+    <nd ref='-6419611' />
+    <nd ref='-6423826' />
+    <nd ref='-6428035' />
+    <nd ref='-6415402' />
+    <tag k='building:material' v='metal' />
+    <tag k='man_made' v='chimney' />
+    <tag k='material' v='brick' />
   </way>
   <relation id='-3283' action='modify' visible='true'>
     <member type='way' ref='-14496' role='outer' />

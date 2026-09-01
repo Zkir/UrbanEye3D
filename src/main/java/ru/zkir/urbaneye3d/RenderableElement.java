@@ -431,7 +431,12 @@ public class RenderableElement {
         }
 
         LatLon origin = primitive.getBBox().getCenter();
-        String color =  getTagStr("colour", primitive, "");
+        var default_colour = ""; // Unified default (BuildingRecipe will handle it)
+        var material = Materials.fromString(getTagStr("material", primitive, ""));
+        if (material!=null){
+            default_colour = material.defaultColour;
+        }
+        String color =  getTagStr("colour", primitive, default_colour);
         double minHeight = getTagD("min_height", primitive, 0);
         
         double defaultHeight = DEFAULT_LEVEL_HEIGHT * DEFAULT_LEVELS_NUMBER * 2;
@@ -711,7 +716,12 @@ public class RenderableElement {
         double min_height = getTagD("min_height", primitive, 0.0);
         double height = getTagD("height", primitive, DEFAULT_CHIMNEY_HEIGHT + min_height) - min_height;
 
-        var colour = getTagStr("colour", primitive, ""); // Unified default (BuildingRecipe will handle it)
+        var material = Materials.fromString(getTagStr("material", primitive, ""));
+        var default_colour = ""; // Unified default (BuildingRecipe will handle it)
+        if (material!=null){
+            default_colour=material.defaultColour;
+        }
+        var colour = getTagStr("colour", primitive, default_colour);
 
         // Points only for this procedural generator
         if (primitive instanceof Way || primitive instanceof Relation) return null;
