@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260901T134041Z",
+  "data_updated" : "20260902T094127Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -205,6 +205,9 @@
   }, {
     "key" : "diameter",
     "description" : "Used for diameter of the flagpole and chimney features. Note that unit is millimeter!"
+  }, {
+    "key" : "diameter_crown",
+    "description" : "Specifies the diameter of the crown of foliage of a tree. Also used to estimate height of trees (natural=tree)"
   }, {
     "key" : "direction",
     "description" : "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points."

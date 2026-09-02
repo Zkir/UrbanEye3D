@@ -42,6 +42,7 @@
   <node id='-5644813' action='modify' visible='true' lat='55.04672590168' lon='37.05058838545' />
   <node id='-5644814' action='modify' visible='true' lat='55.0417877795' lon='37.05045707695' />
   <node id='-5644815' action='modify' visible='true' lat='55.05026296861' lon='37.04350313041'>
+    <tag k='diameter_crown' v='15' />
     <tag k='natural' v='tree' />
   </node>
   <node id='-5644816' action='modify' visible='true' lat='55.0507463441' lon='37.04268092059'>
@@ -49,7 +50,8 @@
     <tag k='leaf_type' v='broadleaved' />
     <tag k='natural' v='tree' />
   </node>
-  <node id='-5644817' action='modify' visible='true' lat='55.0504775625' lon='37.04384857209'>
+  <node id='-5644817' action='modify' visible='true' lat='55.05039747027' lon='37.04389876114'>
+    <tag k='height' v='15' />
     <tag k='leaf_type' v='needleleaved' />
     <tag k='natural' v='tree' />
   </node>

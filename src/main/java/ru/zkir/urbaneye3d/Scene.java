@@ -309,12 +309,24 @@ public class Scene {
                 } else if (rule.properties.containsKey("billboard")) {
                     String texturePath = rule.properties.get("billboard");
                     Map<String, String> tags = nodeForConfig.getInterestingTags();
-
+                    //default height and width from rule. It is mostly used for determining aspect ratio.
                     double defaultHeight = rule.properties.containsKey("height") ? Double.parseDouble(rule.properties.get("height")) : 1.0;
+                    double defaultWidth = rule.properties.containsKey("width") ? Double.parseDouble(rule.properties.get("width")) : 0.9*defaultHeight;
+
+                    double defaultAspectRatio = defaultWidth/defaultHeight;
+
                     double min_height = getTagD("min_height", tags, 0);
                     double height = getTagD("height", tags, defaultHeight + min_height) - min_height;
-                    double defaultWidth = rule.properties.containsKey("width") ? Double.parseDouble(rule.properties.get("width")) : 0.9*defaultHeight;
-                    double width = height * ( defaultWidth/defaultHeight);
+
+                    double width = height * defaultAspectRatio;
+                    width = getTagD("diameter_crown", tags,width);
+
+                    //dirty hack: bypass height value, calculated during enrichment.
+                    // if there was not height originally, we will recalculate it using just aspect ratio
+                    // TODO: implement it more accurately.
+                    if (!node.hasTag("height")){
+                        height = width/ defaultAspectRatio;
+                    }
 
                     mesh = RenderableElement.createBillboard(texturePath, width, height);
                 }

@@ -15,14 +15,20 @@ node[indoor=yes] {
 /* Trees */
 node[natural=tree][leaf_type=broadleaved] {
     billboard: "/textures/trees/tree_000.png";
+	height: 10;
+    width:  10;
 }
 
 node[natural=tree][leaf_type=needleleaved] {
     billboard: "/textures/trees/tree_001.png";
+	height: 10;
+    width:  6.9;
 }
 
 node[natural=tree][leaf_type=palm] {
     billboard: "/textures/trees/tree_002.png";
+	height: 10;
+    width:  8.7;
 }
 
 /* Bushes */

@@ -92,7 +92,6 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("building:height", "An alternative tag for the total height of the building, including the roof, in meters.");
         TAG_DESCRIPTIONS.put("building:levels", "The number of floors (levels) in the main part of the building. Used to calculate height if not specified explicitly.");
         TAG_DESCRIPTIONS.put("building:min_level", "The number of floors to offset the building from the ground. Used to calculate min_height if not specified explicitly.");
-        TAG_DESCRIPTIONS.put("circumference", "Used to estimate height of trees (natural=tree)");
         TAG_DESCRIPTIONS.put("colour", "Specifies the color of the object, especially barrier or man-made.");
         TAG_DESCRIPTIONS.put("height", "The total height of the building, including the roof, in meters.");
         TAG_DESCRIPTIONS.put("highway=bus_stop", "A bus stop, rendered as a 3D model if it has shelter=yes.");
@@ -136,6 +135,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("material","Material for barrier or man-made object. This can influence the default color. ");
         TAG_DESCRIPTIONS.put("min_height", "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes.");
         TAG_DESCRIPTIONS.put("natural=tree", "A single tree, rendered as a 3D billboard model.");
+        TAG_DESCRIPTIONS.put("circumference", "Used to estimate height of trees (natural=tree)");
+        TAG_DESCRIPTIONS.put("diameter_crown", "Specifies the diameter of the crown of foliage of a tree. Also used to estimate height of trees (natural=tree)");
         TAG_DESCRIPTIONS.put("natural=shrub", "A single shrub or bush, rendered as a 3D billboard model.");
         TAG_DESCRIPTIONS.put("natural=spring", "A natural spring, rendered as a small blue circle on the 2D ground plane.");
         TAG_DESCRIPTIONS.put("natural=wood", "A forested area. Automatically populated with 3D tree objects based on the forest density setting.");
