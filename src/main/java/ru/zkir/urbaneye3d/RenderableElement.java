@@ -10,6 +10,7 @@ import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.FlagsDatabase;
 import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.OsmDataWasher;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
@@ -33,6 +34,7 @@ import static ru.zkir.urbaneye3d.utils.MeshOperations.createCube;
 import static ru.zkir.urbaneye3d.utils.MeshOperations.insertHorizontalEdgeRing;
 import static ru.zkir.urbaneye3d.utils.MeshOperations.scale;
 import static ru.zkir.urbaneye3d.utils.MeshOperations.selectVerticesByZ;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getFirstValue;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
@@ -529,9 +531,9 @@ public class RenderableElement {
         double finialRadius = polyRadius * 1.5 * top_rate;
         double finialHeight = finialRadius * 2;
 
-        String mastColorStr = getTagStr("colour", primitive, "#C0C0C0");
-        String flagColorStr = getTagStr("flag:colour", primitive, "");
-        String flagQID =  getTagStr("flag:wikidata", primitive, "");
+        String mastColorStr = getFirstValue(getTagStr("colour", primitive, "#C0C0C0"));
+        String flagColorStr = getFirstValue(getTagStr("flag:colour", primitive, ""));
+        String flagQID =  getFirstValue(getTagStr("flag:wikidata", primitive, ""));
 
         // If explicit colour or flag:wikidata value is missing, try data-driven inference
         var flagDatabase =  FlagsDatabase.getInstance();

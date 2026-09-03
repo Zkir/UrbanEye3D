@@ -120,4 +120,12 @@ public class OsmDataWasher {
         return result;
 
     }
+    public static String getFirstValue(String tag){
+        if (tag.contains(";")) {
+            //TODO: implement several flags on the same pole
+            //  For now just the first one.
+            tag = tag.substring(0, tag.indexOf(';')).trim();
+        }
+        return tag;
+    }
 }
