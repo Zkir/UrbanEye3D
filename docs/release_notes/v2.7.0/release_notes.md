@@ -1,4 +1,6 @@
-# v2.6.2 All Nations, All Flags
+# v2.7.0 All Nations, All Flags
+
+## Textured flags
 
 In this version we present textured flags.
 The `flag:wikidata` is mainly considered, but other popular tags, like `flag:name`, `subject`, `subject:wikidata`, `country`,  `brand` are also used to select texture.
@@ -17,10 +19,6 @@ From the OSM Note:
 ![United Nantions building](flags2.png)
 
 
-**The White House**
-
-![The White House](flags3.png)
-
 
 ### How does it work
 
@@ -30,3 +28,24 @@ For a flag to appear in the plugin, three things are required:
 * The flag must be tagged with the `flag:wikidata` tag at least five times in OSM (in this example, `flag:wikidata=Q172446`).
 
 Since the flag textures are stored in the plugin file itself, new flags will be added to the plugin as new versions are released.
+
+## Advertising flags
+
+For advertising flags, a vertical format is used, if no specific texture is found:
+
+![Advertising flags](flags4.png)
+
+`man_made=flagpole` + `flag:type=advertising` + `flag:colour=red|white|blue`
+
+## New Object: `man_made=street_cabinet`
+
+The `man_made=street_cabinet` tag is supported via a procedural model. The `width`, `length` and `height` tags are respected!
+
+![street_cabinet](street_cabinet.png)
+
+## The `diameter_crown` Tag for Trees. 
+`diameter_crown` is a popular tag ([730K occurences in the OSM database](https://taginfo.openstreetmap.org/keys/diameter_crown#chronology)), and has been gaining popularity in the recent months, so the plugin now supports it. 
+Tree models are scaled according to the tag value.
+
+---
+The Urban Eye is watching you! 
