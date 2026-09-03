@@ -108,6 +108,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("man_made=cross", "A cross, often rendered as a wayside cross.");
         TAG_DESCRIPTIONS.put("man_made=flagpole", "A flagpole rendered with a procedural mast and a waving flag.");
         TAG_DESCRIPTIONS.put("flag:colour", "The color of the flag on a flagpole.");
+        TAG_DESCRIPTIONS.put("flag:wikidata", "Used to select the proper flag texture.");
+        TAG_DESCRIPTIONS.put("flag:type=advertising", "Advertising flags use vertical format by default");
         TAG_DESCRIPTIONS.put("diameter", "Used for diameter of the flagpole and chimney features. Note that unit is millimeter!");
         TAG_DESCRIPTIONS.put("denomination=orthodox", "Used with wayside crosses to select the Orthodox cross model.");
         TAG_DESCRIPTIONS.put("historic=memorial", "A memorial or monument, rendered as a 3D model.");
@@ -259,6 +261,14 @@ public class TagInfoGeneratorTest {
 
         //add values for predictor tags from
         HashSet<ParsedTag> usedTagsFlagRules = new HashSet<>();
+        extractTagsFromFlagRules(usedTagsFlagRules, "/data/flag_rules_wd.json");
+        for (var usedTag: usedTagsFlagRules){
+            if (!TAG_DESCRIPTIONS.containsKey(usedTag.originalKey())){
+                TAG_DESCRIPTIONS.put(usedTag.originalKey(), "Used to infer flag texture for man_mad=flagpole objects" );
+            }
+        }
+
+        usedTagsFlagRules = new HashSet<>();
         extractTagsFromFlagRules(usedTagsFlagRules, "/data/flag_rules_colour.json");
         for (var usedTag: usedTagsFlagRules){
             if (!TAG_DESCRIPTIONS.containsKey(usedTag.originalKey())){

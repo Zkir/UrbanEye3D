@@ -513,6 +513,9 @@ public class RenderableElement {
         double min_height = getTagD("min_height", primitive, 0);
         double height = getTagD("height", primitive, DEFAULT_FLAGPOLE_HEIGHT+min_height)-min_height;
 
+
+        boolean advertising = primitive.hasTag("flag:type", "advertising");
+
         double flagHeight = Math.pow(height, 0.5) / 1.9;
         double flagWidth = flagHeight * 1.5;
 
@@ -561,6 +564,12 @@ public class RenderableElement {
         if (flagDatabase.checkQID(flagQID)) {
             mesh.textureName = flagDatabase.getFlagTextureName(flagQID);
             texturedFlag = true;
+        }
+
+        //hack. Most advertising flags use vertical format.
+        if (advertising && ! texturedFlag) {
+            flagWidth  = flagWidth * 0.4;
+            flagHeight = height * 0.4;
         }
 
         // 1. Mast
