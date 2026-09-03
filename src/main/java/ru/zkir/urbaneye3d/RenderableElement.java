@@ -2,7 +2,6 @@ package ru.zkir.urbaneye3d;
 
 import com.drew.lang.annotations.Nullable;
 import org.openstreetmap.josm.data.coor.LatLon;
-import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Way;
 import ru.zkir.urbaneye3d.generators.MesherTree;
@@ -11,13 +10,13 @@ import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.FlagsDatabase;
 import ru.zkir.urbaneye3d.utils.Mesh;
-import ru.zkir.urbaneye3d.utils.OsmDataWasher;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -30,6 +29,10 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_CHIMNEY_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.INHERIT_HEIGHT_FROM_PARENT;
+import static ru.zkir.urbaneye3d.utils.MeshOperations.createCube;
+import static ru.zkir.urbaneye3d.utils.MeshOperations.insertHorizontalEdgeRing;
+import static ru.zkir.urbaneye3d.utils.MeshOperations.scale;
+import static ru.zkir.urbaneye3d.utils.MeshOperations.selectVerticesByZ;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
@@ -335,57 +338,13 @@ public class RenderableElement {
         return new RenderableElement(primitive, origin, mesh, 0, 0);
     }
 
-    private static Mesh createCube(){
-
-        Mesh mesh = new Mesh();
-        // Base dimensions: length along Y axle, widthParam along X axle
-        double halfX = 0.5;
-        double halfY = 0.5;
-
-        Point3D[] verts = new Point3D[8];
-
-        // Bottom ring (4 vertices) -- added as bottom faces group
-        verts[0] = new Point3D(halfX, halfY, 0);              // +X, +Y
-        verts[1] = new Point3D(-halfX, halfY, 0);             // -X, +Y
-        verts[2] = new Point3D(-halfX, -halfY, 0);            // -X, -Y
-        verts[3] = new Point3D(halfX, -halfY, 0);             // +X, -Y
-
-        // Top ring (4 vertices) -- added as roof faces group
-        verts[4] = new Point3D(halfX, halfY, 1);         // +X, +Y, +Z
-        verts[5] = new Point3D(-halfX, halfY, 1);        // -X, +Y, +Z
-        verts[6] = new Point3D(-halfX, -halfY, 1);       // -X, -Y, +Z
-        verts[7] = new Point3D(halfX, -halfY, 1);        // +X, -Y, +Z
-
-        for (int i = 0; i < 8; i++) {
-            mesh.addVertex(verts[i]);
-        }
-
-        int[][] faces = new int[][]{
-                {3, 2, 1, 0},           // bottom face
-                {4, 5, 6, 7},           // top face
-                {0, 1, 5, 4},           // front face
-                {1, 2, 6, 5},           // left face
-                {2, 3, 7, 6},           // back face
-                {3, 0, 4, 7}            // right face
-        };
-        mesh.addBottomFace(faces[0]);
-        mesh.addRoofFace(faces[1]);
-        mesh.addWallFace(faces[2]);
-        mesh.addWallFace(faces[3]);
-        mesh.addWallFace(faces[4]);
-        mesh.addWallFace(faces[5]);
-
-        return mesh;
-    }
-    private static void scale(Mesh mesh, double sx, double sy,  double sz){
-        mesh.scale(sx, sy, sz);
-    }
-
     public static Mesh createStreetCabinet(OsmPrimitive primitive, LatLon origin) {
         // ignore polygon street_cabinets - processed by createManMade()
         if (primitive instanceof Way || primitive instanceof Relation){
             throw new RuntimeException("Only node objects are supported");
         }
+
+        final double DELTA = 0.001;
         
         double length =     getTagD("length", primitive, 1.0);
         double width =      getTagD("width", primitive, 0.5);
@@ -398,6 +357,17 @@ public class RenderableElement {
         if (height <= 0) height = 1.8;
 
         Mesh mesh = createCube();
+        insertHorizontalEdgeRing(mesh, 0.1);  // первое кольцо
+        insertHorizontalEdgeRing(mesh, 0.2);  // первое кольцо
+        insertHorizontalEdgeRing(mesh, 0.95);  // третье кольцо
+        insertHorizontalEdgeRing(mesh, 0.96); // четвертое кольцо
+
+        var v = selectVerticesByZ(mesh, 0-DELTA, 0.1+DELTA);
+        scale(mesh, v, 1-0.15/width, 1-0.15/length, 1);
+
+        v = selectVerticesByZ(mesh, 0.96-DELTA, 1+DELTA);
+        scale(mesh, v, 1 + 0.05/width, 1+0.05/length, 1);
+
         scale(mesh, width, length, height - min_height);
 
         String color = getTagStr("colour", primitive, "");

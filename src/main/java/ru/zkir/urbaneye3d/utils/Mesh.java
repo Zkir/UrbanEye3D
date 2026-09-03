@@ -25,12 +25,6 @@ public class Mesh {
     /**  Contains color indices for each face  */
     public final List<Integer> faceMaterials;
 
-
-    //face groups for "backward compatibility" with mesher logic.
-    private final List<Integer> roofFaces;
-    private final List<Integer> wallFaces;
-    private final List<Integer> bottomFaces;
-
     private static final int BOTTOM_COLOUR_IDX = 0;
     private static final int WALL_COLOUR_IDX = 1;
     private static final int ROOF_COLOUR_IDX = 2;
@@ -51,9 +45,6 @@ public class Mesh {
         this.faceUVs = new ArrayList<>();
         this.faceMaterials = new ArrayList<>();
 
-        this.bottomFaces = new ArrayList<>();
-        this.wallFaces = new ArrayList<>();
-        this.roofFaces = new ArrayList<>();
     }
 
     /** For buildings, colors should be specified */
@@ -97,7 +88,6 @@ public class Mesh {
         faces.add(indices);
         faceMaterials.add(BOTTOM_COLOUR_IDX);
         faceUVs.add(null);
-        bottomFaces.add(faces.size()-1);
     }
 
     /** Adds face to "wall" group */
@@ -105,7 +95,6 @@ public class Mesh {
         faces.add(indices);
         faceMaterials.add(WALL_COLOUR_IDX);
         faceUVs.add(null);
-        wallFaces.add(faces.size()-1);
     }
 
     /** Adds face to "roof" group */
@@ -113,7 +102,6 @@ public class Mesh {
         faces.add(indices);
         faceMaterials.add(ROOF_COLOUR_IDX);
         faceUVs.add(null);
-        roofFaces.add(faces.size()-1);
     }
 
     /*Adds face to general group. UV texture is used instead of material  */
@@ -176,7 +164,7 @@ public class Mesh {
         invalidateBBOX();
     }
 
-    private void invalidateBBOX(){
+    void invalidateBBOX(){
         minBounds = null;
         maxBounds = null;
         vertexCache.clear();
@@ -214,11 +202,7 @@ public class Mesh {
             cloned.faceUVs.add(faceUV != null ? Arrays.copyOf(faceUV, faceUV.length) : null);
         }
         cloned.faceMaterials.addAll(this.faceMaterials);
-        
-        cloned.bottomFaces.addAll(this.bottomFaces);
-        cloned.wallFaces.addAll(this.wallFaces);
-        cloned.roofFaces.addAll(this.roofFaces);
-        
+
         for (Map.Entry<Point3D, Integer> entry : this.vertexCache.entrySet()) {
             Point3D p = entry.getKey();
             cloned.vertexCache.put(new Point3D(p.x, p.y, p.z), entry.getValue());
@@ -297,7 +281,7 @@ public class Mesh {
      */
     public Mesh extrude(double depth) {
         // Validation: Ensure the mesh is a roof-like surface.
-        if (!this.bottomFaces.isEmpty() || !this.wallFaces.isEmpty()) {
+        if (!this.getBottomFaces().isEmpty() || !this.getWallFaces().isEmpty()) {
             throw new IllegalArgumentException("Cannot extrude a mesh that already contains bottom or wall faces.");
         }
 
@@ -382,24 +366,31 @@ public class Mesh {
     // Getters for face groups are still needed for special operations, like roof extrusion for building=roof
     //TODO: reduce usage of those getters.
     public final List<int[]> getRoofFaces(){
-        List<int[]> result = new ArrayList<>(roofFaces.size());
-        for (int index : roofFaces) {
-            result.add(faces.get(index));
+        List<int[]> result = new ArrayList<>();
+        for (int index=0; index<faces.size(); index++ ) {
+            if (faceMaterials.get(index) == ROOF_COLOUR_IDX) {
+                result.add(faces.get(index));
+            }
         }
         return result;
     }
     public final List<int[]> getWallFaces() {
-        List<int[]> result = new ArrayList<>(wallFaces.size());
-        for (int index : wallFaces) {
-            result.add(faces.get(index));
+        List<int[]> result = new ArrayList<>();
+        for (int index=0; index<faces.size(); index++ ) {
+            if (faceMaterials.get(index) == WALL_COLOUR_IDX) {
+                //the only way to fetch wall faces is by material index
+                result.add(faces.get(index));
+            }
         }
         return result;
     }
 
     public final List<int[]> getBottomFaces() {
-        List<int[]> result = new ArrayList<>(bottomFaces.size());
-        for (int index : bottomFaces) {
-            result.add(faces.get(index));
+        List<int[]> result = new ArrayList<>();
+        for (int index=0; index<faces.size(); index++ ) {
+            if (faceMaterials.get(index) == BOTTOM_COLOUR_IDX) {
+                result.add(faces.get(index));
+            }
         }
         return result;
     }
