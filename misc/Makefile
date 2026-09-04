@@ -77,7 +77,6 @@ data/20_buildings/building_analysis_full.csv: data/20_buildings/buildings.csv
 
 data/25_flags_output/flag_rules_colour.json: data/05_extracts/flags.osm
 	python analyze_flags.py
-	cmd /c "copy /b /v /y data\25_flags_output\flag_rules_colour.json ..\src\main\resources\data\"
 
 data\25_flags_output\wd_national_flags.csv:	
 	python fetch_wikidata_countries.py
@@ -85,6 +84,7 @@ data\25_flags_output\wd_national_flags.csv:
 data\25_flags_output\flag_rules_wd.json: data\25_flags_output\wd_national_flags.csv data/25_flags_output/flag_rules_colour.json	
 	python analyze_flags2.py
 	cmd /c "copy /b /v /y data\25_flags_output\flag_rules_wd.json ..\src\main\resources\data\"
+	cmd /c "copy /b /v /y data\25_flags_output\flag_rules_colour.json ..\src\main\resources\data\"
 	
 	
 data\25_flags_output\images-png.milestone:	data\25_flags_output\flag_rules_wd.json | data/25_flags_output/images-png

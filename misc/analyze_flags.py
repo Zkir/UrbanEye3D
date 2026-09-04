@@ -11,33 +11,39 @@ def analyze_flags(target_tag, predictor_tags, osm_file, output_json):
     stats = defaultdict(lambda: defaultdict(Counter))
     
     count = 0
-    try:
-        context = ET.iterparse(osm_file, events=('start', 'end'))
-        context = iter(context)
-        _, root = next(context)
-        
-        current_tags = {}
-        for event, elem in context:
-            if event == 'end' and elem.tag == 'node':
-                target_value = current_tags.get(target_tag)
-                if target_value:
-                    for k, v in current_tags.items():
-                        if k in predictor_tags:
-                            stats[k][v][target_value] += 1
-                
-                current_tags = {}
-                root.clear()
-                count += 1
-                if count % 50000 == 0:
-                    print(f"Processed {count} nodes...")
-            elif event == 'start' and elem.tag == 'tag':
-                k = elem.get('k')
-                v = elem.get('v')
-                if k:
-                    current_tags[k] = v
+    
+    context = ET.iterparse(osm_file, events=('start', 'end'))
+    context = iter(context)
+    _, root = next(context)
+    
+    current_tags = {}
+    for event, elem in context:
+        if event == 'end' and elem.tag == 'node':
+            target_value = current_tags.get(target_tag)
+            if target_value:
+                for k, v in current_tags.items():
+                    if k in predictor_tags:
+                        if ";" in k + v +target_value:
+                            vs=v.split(";")
+                            tvs=target_value.split(";")
+                            
+                            if len(vs) == len (tvs):
+                                for i in range(len(vs)):
+                                    stats[k][vs[i].strip()][tvs[i].strip()] += 1                                
+                        else:
+                            stats[k][v.strip()][target_value.strip()] += 1                                
+            
+            current_tags = {}
+            root.clear()
+            count += 1
+            if count % 50000 == 0:
+                print(f"Processed {count} nodes...")
+        elif event == 'start' and elem.tag == 'tag':
+            k = elem.get('k')
+            v = elem.get('v')
+            if k:
+                current_tags[k] = v
                     
-    except Exception as e:
-        print(f"Error parsing {osm_file}: {e}")
 
     # Build the rules dictionary
     rules = defaultdict(dict)

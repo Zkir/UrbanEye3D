@@ -3,7 +3,7 @@
     "CA": {
       "value": "red",
       "prob": 1.0,
-      "count": 1035
+      "count": 1041
     },
     "AU": {
       "value": "blue",
@@ -35,22 +35,22 @@
     "Canada": {
       "value": "red",
       "prob": 1.0,
-      "count": 997
+      "count": 1003
     },
     "California": {
       "value": "white",
       "prob": 1.0,
-      "count": 182
+      "count": 192
     },
     "Illinois": {
       "value": "white",
       "prob": 1.0,
-      "count": 336
+      "count": 338
     },
     "Chicago": {
       "value": "white",
       "prob": 1.0,
-      "count": 334
+      "count": 337
     },
     "Florida": {
       "value": "white",
@@ -62,30 +62,20 @@
       "prob": 1.0,
       "count": 57
     },
-    "United States;POW/MIA": {
-      "value": "black",
-      "prob": 0.99,
-      "count": 328
-    },
     "POW/MIA": {
       "value": "black",
       "prob": 1.0,
-      "count": 179
+      "count": 189
     },
     "McDonald's": {
       "value": "red",
       "prob": 0.94,
-      "count": 140
-    },
-    "United States;California": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 22
+      "count": 142
     },
     "Massachusetts": {
       "value": "white",
       "prob": 1.0,
-      "count": 47
+      "count": 48
     },
     "Minnesota": {
       "value": "blue",
@@ -140,7 +130,7 @@
     "Idaho": {
       "value": "blue",
       "prob": 1.0,
-      "count": 6
+      "count": 7
     },
     "Wyoming": {
       "value": "blue",
@@ -195,12 +185,12 @@
     "New York": {
       "value": "blue",
       "prob": 1.0,
-      "count": 62
+      "count": 64
     },
     "Virginia": {
       "value": "blue",
       "prob": 1.0,
-      "count": 73
+      "count": 76
     },
     "New Hampshire": {
       "value": "blue",
@@ -250,7 +240,7 @@
     "Utah": {
       "value": "blue",
       "prob": 1.0,
-      "count": 22
+      "count": 23
     },
     "Michigan": {
       "value": "blue",
@@ -270,7 +260,7 @@
     "Québec": {
       "value": "blue",
       "prob": 1.0,
-      "count": 43
+      "count": 45
     },
     "Washington": {
       "value": "green",
@@ -287,25 +277,10 @@
       "prob": 0.89,
       "count": 9
     },
-    "United States;Illinois;POW/MIA": {
-      "value": "white;black",
-      "prob": 1.0,
-      "count": 2
-    },
     "illinois": {
       "value": "white",
       "prob": 1.0,
       "count": 4
-    },
-    "Marian": {
-      "value": "blue;white",
-      "prob": 1.0,
-      "count": 3
-    },
-    "Saint Joseph": {
-      "value": "red;white",
-      "prob": 1.0,
-      "count": 2
     },
     "South Vietnam": {
       "value": "yellow",
@@ -321,11 +296,6 @@
       "value": "blue",
       "prob": 1.0,
       "count": 15
-    },
-    "United States;Indiana": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 20
     },
     "World Organization of the Scout Movement": {
       "value": "purple",
@@ -352,11 +322,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Chicago": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 54
-    },
     "Lee’s Sandwiches": {
       "value": "white",
       "prob": 1.0,
@@ -374,16 +339,6 @@
     },
     "United States Army": {
       "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
-    "usa;POW/MIA": {
-      "value": "black",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Wendy’s": {
-      "value": "red",
       "prob": 1.0,
       "count": 2
     },
@@ -422,11 +377,6 @@
       "prob": 1.0,
       "count": 19
     },
-    "United States;Christianity": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 7
-    },
     "Australia": {
       "value": "blue",
       "prob": 0.86,
@@ -455,7 +405,7 @@
     "New Jersey": {
       "value": "wheat",
       "prob": 1.0,
-      "count": 23
+      "count": 24
     },
     "Mississippi": {
       "value": "blue",
@@ -467,17 +417,7 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Kentucky": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
     "Subic Bay Metropolitan Authority": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Florida": {
       "value": "white",
       "prob": 1.0,
       "count": 2
@@ -567,11 +507,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Tree City USA": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
     "Iloilo Province": {
       "value": "white",
       "prob": 1.0,
@@ -597,11 +532,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Illinois": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 25
-    },
     "Riverpark Towers": {
       "value": "white",
       "prob": 1.0,
@@ -612,25 +542,10 @@
       "prob": 1.0,
       "count": 5
     },
-    "Illinois;Chicago": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 4
-    },
     "POW MIA": {
       "value": "black",
       "prob": 1.0,
       "count": 3
-    },
-    "United States;McDonald's": {
-      "value": "red",
-      "prob": 1.0,
-      "count": 14
-    },
-    "US;POW/MIA": {
-      "value": "black",
-      "prob": 1.0,
-      "count": 4
     },
     "Washington State": {
       "value": "green",
@@ -641,11 +556,6 @@
       "value": "black",
       "prob": 1.0,
       "count": 5
-    },
-    "United States;New Hampshire": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
     },
     "POWMIA": {
       "value": "black",
@@ -666,11 +576,6 @@
       "value": "white",
       "prob": 1.0,
       "count": 4
-    },
-    "United States;South Carolina": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
     },
     "pow": {
       "value": "black",
@@ -702,23 +607,8 @@
       "prob": 1.0,
       "count": 4
     },
-    "United States;POW": {
-      "value": "black",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Michigan": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
     "georgia": {
       "value": "red",
-      "prob": 1.0,
-      "count": 3
-    },
-    "United States;POW/MIA;Chicago": {
-      "value": "black;white",
       "prob": 1.0,
       "count": 3
     },
@@ -741,11 +631,6 @@
       "value": "black",
       "prob": 1.0,
       "count": 2
-    },
-    "United States;POW/MIA;Illinois": {
-      "value": "black;white",
-      "prob": 1.0,
-      "count": 5
     },
     "colorado": {
       "value": "blue",
@@ -777,18 +662,8 @@
       "prob": 1.0,
       "count": 2
     },
-    "Illinois;POW/MIA": {
-      "value": "white;black",
-      "prob": 1.0,
-      "count": 2
-    },
     "washington": {
       "value": "green",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Arizona": {
-      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
@@ -807,11 +682,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "Bewaakte badderszone": {
-      "value": "red;yellow",
-      "prob": 1.0,
-      "count": 3
-    },
     "wisconsin": {
       "value": "blue",
       "prob": 1.0,
@@ -821,11 +691,6 @@
       "value": "black",
       "prob": 1.0,
       "count": 3
-    },
-    "United States;Virginia": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
     },
     "montana": {
       "value": "blue",
@@ -847,18 +712,8 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;POW/MIA;Illinois;Chicago": {
-      "value": "black;white",
-      "prob": 1.0,
-      "count": 2
-    },
     "alberta": {
       "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
-    "POW/MIA;United States": {
-      "value": "black",
       "prob": 1.0,
       "count": 2
     },
@@ -887,27 +742,27 @@
     "Q64300176": {
       "value": "red",
       "prob": 0.95,
-      "count": 166
+      "count": 169
     },
     "Q80110": {
       "value": "red",
       "prob": 1.0,
-      "count": 1032
+      "count": 1038
     },
     "Q330517": {
       "value": "white",
       "prob": 1.0,
-      "count": 187
+      "count": 197
     },
     "Q752837": {
       "value": "white",
       "prob": 1.0,
-      "count": 342
+      "count": 344
     },
     "Q1402799": {
       "value": "white",
       "prob": 1.0,
-      "count": 336
+      "count": 339
     },
     "Q730106": {
       "value": "white",
@@ -919,25 +774,15 @@
       "prob": 1.0,
       "count": 59
     },
-    "Q42537;Q1463762": {
-      "value": "black",
-      "prob": 0.99,
-      "count": 337
-    },
     "Q1463762": {
       "value": "black",
       "prob": 1.0,
-      "count": 217
-    },
-    "Q42537;Q330517": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 23
+      "count": 227
     },
     "Q221881": {
       "value": "white",
       "prob": 1.0,
-      "count": 48
+      "count": 49
     },
     "Q828147": {
       "value": "blue",
@@ -992,7 +837,7 @@
     "Q736760": {
       "value": "blue",
       "prob": 1.0,
-      "count": 6
+      "count": 7
     },
     "Q492524": {
       "value": "blue",
@@ -1046,13 +891,13 @@
     },
     "Q19016": {
       "value": "blue",
-      "prob": 0.98,
+      "prob": 1.0,
       "count": 65
     },
     "Q18993": {
       "value": "blue",
       "prob": 1.0,
-      "count": 73
+      "count": 76
     },
     "Q248102": {
       "value": "blue",
@@ -1096,13 +941,13 @@
     },
     "Q258262": {
       "value": "blue",
-      "prob": 1.0,
-      "count": 37
+      "prob": 0.97,
+      "count": 38
     },
     "Q736625": {
       "value": "blue",
       "prob": 1.0,
-      "count": 24
+      "count": 25
     },
     "Q285418": {
       "value": "blue",
@@ -1122,7 +967,7 @@
     "Q392167": {
       "value": "blue",
       "prob": 1.0,
-      "count": 60
+      "count": 62
     },
     "Q731163": {
       "value": "green",
@@ -1133,11 +978,6 @@
       "value": "white",
       "prob": 0.89,
       "count": 9
-    },
-    "Q42537;Q752837;Q1463762": {
-      "value": "white;black",
-      "prob": 1.0,
-      "count": 2
     },
     "Q1740429": {
       "value": "yellow",
@@ -1154,11 +994,6 @@
       "prob": 1.0,
       "count": 5
     },
-    "Q42537;Q673117": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 20
-    },
     "Q5456897": {
       "value": "red",
       "prob": 1.0,
@@ -1173,11 +1008,6 @@
       "value": "red",
       "prob": 1.0,
       "count": 12
-    },
-    "Q42537;Q1402799": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 54
     },
     "Q1122078": {
       "value": "blue",
@@ -1209,11 +1039,6 @@
       "prob": 1.0,
       "count": 26
     },
-    "Q42537;Q1084035": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 8
-    },
     "Q81676": {
       "value": "blue",
       "prob": 0.88,
@@ -1237,7 +1062,7 @@
     "Q119605": {
       "value": "wheat",
       "prob": 1.0,
-      "count": 23
+      "count": 24
     },
     "Q301628": {
       "value": "blue",
@@ -1246,16 +1071,6 @@
     },
     "Q122482": {
       "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q42537;Q590821": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q42537;Q730106": {
-      "value": "white",
       "prob": 1.0,
       "count": 2
     },
@@ -1274,46 +1089,6 @@
       "prob": 1.0,
       "count": 3
     },
-    "Q42537;Q100711795": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q42537;Q752837": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 26
-    },
-    "Q752837;Q1402799": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 4
-    },
-    "Q42537;Q64300176": {
-      "value": "red",
-      "prob": 1.0,
-      "count": 15
-    },
-    "Q42537;Q285418": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 3
-    },
-    "Q42537;Q248102": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q1463762;Q42537": {
-      "value": "black",
-      "prob": 1.0,
-      "count": 4
-    },
-    "Q42537;Q19373": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q113518795": {
       "value": "blue",
       "prob": 1.0,
@@ -1329,20 +1104,15 @@
       "prob": 1.0,
       "count": 3
     },
-    "Q42537;Q1463762;Q1402799": {
-      "value": "black;white",
-      "prob": 1.0,
-      "count": 3
-    },
     "Q100711795": {
       "value": "white",
       "prob": 1.0,
       "count": 7
     },
-    "Q42537;Q1463762;Q752837": {
-      "value": "black;white",
+    "Q15978065": {
+      "value": "blue",
       "prob": 1.0,
-      "count": 5
+      "count": 2
     },
     "Q34494": {
       "value": "blue",
@@ -1354,25 +1124,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q752837;Q1463762": {
-      "value": "white;black",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q42537;Q632491": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q126489298": {
       "value": "green",
       "prob": 1.0,
       "count": 3
-    },
-    "Q42537;Q18993": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
     },
     "Q130739387": {
       "value": "black",
@@ -1386,11 +1141,6 @@
     },
     "Q70119112": {
       "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q42537;Q1463762;Q752837;Q1402799": {
-      "value": "black;white",
       "prob": 1.0,
       "count": 2
     }
@@ -1616,27 +1366,27 @@
     "McDonald's": {
       "value": "red",
       "prob": 0.96,
-      "count": 157
+      "count": 164
     },
     "Canada": {
       "value": "red",
       "prob": 1.0,
-      "count": 1031
+      "count": 1037
     },
     "California": {
       "value": "white",
       "prob": 1.0,
-      "count": 187
+      "count": 197
     },
     "Illinois": {
       "value": "white",
       "prob": 1.0,
-      "count": 342
+      "count": 344
     },
     "Chicago": {
       "value": "white",
       "prob": 1.0,
-      "count": 337
+      "count": 340
     },
     "Florida": {
       "value": "white",
@@ -1648,25 +1398,15 @@
       "prob": 1.0,
       "count": 59
     },
-    "United States;National League of POW/MIA Families": {
-      "value": "black",
-      "prob": 0.99,
-      "count": 338
-    },
     "National League of POW/MIA Families": {
       "value": "black",
       "prob": 1.0,
-      "count": 217
-    },
-    "United States;California": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 23
+      "count": 227
     },
     "Massachusetts": {
       "value": "white",
       "prob": 1.0,
-      "count": 48
+      "count": 49
     },
     "Minnesota": {
       "value": "blue",
@@ -1721,7 +1461,7 @@
     "Idaho": {
       "value": "blue",
       "prob": 1.0,
-      "count": 6
+      "count": 7
     },
     "Wyoming": {
       "value": "blue",
@@ -1776,12 +1516,12 @@
     "New York": {
       "value": "blue",
       "prob": 1.0,
-      "count": 64
+      "count": 66
     },
     "Virginia": {
       "value": "blue",
       "prob": 1.0,
-      "count": 73
+      "count": 76
     },
     "New Hampshire": {
       "value": "blue",
@@ -1825,13 +1565,13 @@
     },
     "Oklahoma": {
       "value": "blue",
-      "prob": 1.0,
-      "count": 37
+      "prob": 0.97,
+      "count": 38
     },
     "Utah": {
       "value": "blue",
       "prob": 1.0,
-      "count": 24
+      "count": 25
     },
     "Michigan": {
       "value": "blue",
@@ -1851,7 +1591,7 @@
     "Québec": {
       "value": "blue",
       "prob": 1.0,
-      "count": 60
+      "count": 62
     },
     "Washington": {
       "value": "green",
@@ -1863,16 +1603,6 @@
       "prob": 0.89,
       "count": 9
     },
-    "United States;Illinois;National League of POW/MIA Families": {
-      "value": "white;black",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Saint Joseph": {
-      "value": "red",
-      "prob": 0.75,
-      "count": 8
-    },
     "South Vietnam": {
       "value": "yellow",
       "prob": 1.0,
@@ -1882,11 +1612,6 @@
       "value": "blue",
       "prob": 1.0,
       "count": 15
-    },
-    "United States;Indiana": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 20
     },
     "World Organization of the Scout Movement": {
       "value": "purple",
@@ -1908,11 +1633,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Chicago": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 55
-    },
     "Lee’s Sandwiches": {
       "value": "white",
       "prob": 1.0,
@@ -1930,11 +1650,6 @@
     },
     "United States Army": {
       "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Wendy’s": {
-      "value": "red",
       "prob": 1.0,
       "count": 2
     },
@@ -1958,11 +1673,6 @@
       "prob": 1.0,
       "count": 26
     },
-    "United States;Christianity": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 8
-    },
     "Australia": {
       "value": "blue",
       "prob": 0.86,
@@ -1972,6 +1682,16 @@
       "value": "white",
       "prob": 1.0,
       "count": 2
+    },
+    "Blessed Virgin Mary": {
+      "value": "blue",
+      "prob": 1.0,
+      "count": 5
+    },
+    "Saint Joseph": {
+      "value": "red",
+      "prob": 1.0,
+      "count": 6
     },
     "Jesus": {
       "value": "gold",
@@ -1986,7 +1706,7 @@
     "New Jersey": {
       "value": "wheat",
       "prob": 1.0,
-      "count": 23
+      "count": 24
     },
     "Mississippi": {
       "value": "blue",
@@ -1995,11 +1715,6 @@
     },
     "Chevrolet Corvette": {
       "value": "black",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Kentucky": {
-      "value": "blue",
       "prob": 1.0,
       "count": 2
     },
@@ -2053,11 +1768,6 @@
       "prob": 1.0,
       "count": 6
     },
-    "Katipunan;Republic of Biak-na-Bato": {
-      "value": "red",
-      "prob": 1.0,
-      "count": 2
-    },
     "National Museum of the Philippines": {
       "value": "white",
       "prob": 1.0,
@@ -2078,20 +1788,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Tree City USA": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
     "Iloilo Province": {
       "value": "white",
       "prob": 1.0,
       "count": 2
-    },
-    "McDonald’s": {
-      "value": "red",
-      "prob": 1.0,
-      "count": 7
     },
     "Lincoln Park": {
       "value": "blue",
@@ -2103,45 +1803,15 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Illinois": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 28
-    },
     "Riverpark Towers": {
       "value": "white",
       "prob": 1.0,
       "count": 2
     },
-    "Illinois;Chicago": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 4
-    },
-    "United States;McDonald's": {
+    "McDonald’s": {
       "value": "red",
       "prob": 1.0,
-      "count": 14
-    },
-    "United States;Michigan": {
-      "value": "blue",
-      "prob": 1.0,
       "count": 3
-    },
-    "United States;New Hampshire": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
-    "National League of POW/MIA Families;United States": {
-      "value": "black",
-      "prob": 1.0,
-      "count": 5
-    },
-    "United States;South Carolina": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
     },
     "Federal Bureau of Investigation": {
       "value": "blue",
@@ -2150,11 +1820,6 @@
     },
     "La Galerie": {
       "value": "red",
-      "prob": 1.0,
-      "count": 3
-    },
-    "United States;National League of POW/MIA Families;Chicago": {
-      "value": "black;white",
       "prob": 1.0,
       "count": 3
     },
@@ -2167,11 +1832,6 @@
       "value": "blue",
       "prob": 1.0,
       "count": 2
-    },
-    "United States;National League of POW/MIA Families;Illinois": {
-      "value": "black;white",
-      "prob": 1.0,
-      "count": 5
     },
     "Supreme Court of the Philippines": {
       "value": "purple",
@@ -2188,28 +1848,8 @@
       "prob": 1.0,
       "count": 2
     },
-    "Illinois;National League of POW/MIA Families": {
-      "value": "white;black",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Arizona": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Virginia": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
     "Hampton by Hilton": {
       "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;National League of POW/MIA Families;Illinois;Chicago": {
-      "value": "black;white",
       "prob": 1.0,
       "count": 2
     }
@@ -2228,27 +1868,27 @@
     "Q38076": {
       "value": "red",
       "prob": 0.96,
-      "count": 164
+      "count": 167
     },
     "Q16": {
       "value": "red",
       "prob": 1.0,
-      "count": 1031
+      "count": 1037
     },
     "Q99": {
       "value": "white",
       "prob": 1.0,
-      "count": 187
+      "count": 197
     },
     "Q1204": {
       "value": "white",
       "prob": 1.0,
-      "count": 342
+      "count": 344
     },
     "Q1297": {
       "value": "white",
       "prob": 1.0,
-      "count": 337
+      "count": 340
     },
     "Q812": {
       "value": "white",
@@ -2260,25 +1900,15 @@
       "prob": 1.0,
       "count": 59
     },
-    "Q30;Q6974069": {
-      "value": "black",
-      "prob": 1.0,
-      "count": 336
-    },
     "Q6974069": {
       "value": "black",
       "prob": 1.0,
-      "count": 218
-    },
-    "Q30;Q99": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 23
+      "count": 226
     },
     "Q771": {
       "value": "white",
       "prob": 1.0,
-      "count": 48
+      "count": 49
     },
     "Q1527": {
       "value": "blue",
@@ -2333,7 +1963,7 @@
     "Q1221": {
       "value": "blue",
       "prob": 1.0,
-      "count": 6
+      "count": 7
     },
     "Q1214": {
       "value": "blue",
@@ -2387,13 +2017,13 @@
     },
     "Q1384": {
       "value": "blue",
-      "prob": 0.98,
+      "prob": 1.0,
       "count": 65
     },
     "Q1370": {
       "value": "blue",
       "prob": 1.0,
-      "count": 73
+      "count": 76
     },
     "Q759": {
       "value": "blue",
@@ -2437,13 +2067,13 @@
     },
     "Q1649": {
       "value": "blue",
-      "prob": 1.0,
-      "count": 37
+      "prob": 0.97,
+      "count": 38
     },
     "Q829": {
       "value": "blue",
       "prob": 1.0,
-      "count": 24
+      "count": 25
     },
     "Q1166": {
       "value": "blue",
@@ -2458,7 +2088,7 @@
     "Q176": {
       "value": "blue",
       "prob": 1.0,
-      "count": 60
+      "count": 62
     },
     "Q1223": {
       "value": "green",
@@ -2469,16 +2099,6 @@
       "value": "white",
       "prob": 0.89,
       "count": 9
-    },
-    "Q30;Q1204;Q6974069": {
-      "value": "white;black",
-      "prob": 1.0,
-      "count": 3
-    },
-    "Q128267": {
-      "value": "red",
-      "prob": 0.75,
-      "count": 8
     },
     "Q180573": {
       "value": "yellow",
@@ -2494,11 +2114,6 @@
       "value": "blue",
       "prob": 1.0,
       "count": 15
-    },
-    "Q30;Q1415": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 20
     },
     "Q210347": {
       "value": "purple",
@@ -2520,11 +2135,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q1297": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 55
-    },
     "Q6512823": {
       "value": "white",
       "prob": 1.0,
@@ -2545,11 +2155,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q550258": {
-      "value": "red",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q15220388": {
       "value": "red",
       "prob": 1.0,
@@ -2565,11 +2170,6 @@
       "prob": 1.0,
       "count": 26
     },
-    "Q30;Q5043": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 8
-    },
     "Q408": {
       "value": "blue",
       "prob": 0.86,
@@ -2580,6 +2180,21 @@
       "prob": 1.0,
       "count": 2
     },
+    "Q345": {
+      "value": "blue",
+      "prob": 1.0,
+      "count": 5
+    },
+    "Q128267": {
+      "value": "red",
+      "prob": 1.0,
+      "count": 6
+    },
+    "Q302": {
+      "value": "gold",
+      "prob": 0.83,
+      "count": 6
+    },
     "Q61": {
       "value": "white",
       "prob": 1.0,
@@ -2588,7 +2203,7 @@
     "Q1408": {
       "value": "wheat",
       "prob": 1.0,
-      "count": 23
+      "count": 24
     },
     "Q1494": {
       "value": "blue",
@@ -2600,17 +2215,7 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q1603": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q83133": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q30;Q812": {
       "value": "white",
       "prob": 1.0,
       "count": 2
@@ -2655,11 +2260,6 @@
       "prob": 1.0,
       "count": 6
     },
-    "Q673018;Q575132": {
-      "value": "red",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q1667156": {
       "value": "white",
       "prob": 1.0,
@@ -2680,11 +2280,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q7837537": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q13825": {
       "value": "white",
       "prob": 1.0,
@@ -2700,50 +2295,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q1204": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 28
-    },
-    "Q1204;Q1297": {
-      "value": "white",
-      "prob": 1.0,
-      "count": 4
-    },
-    "Q30;Q38076": {
-      "value": "red",
-      "prob": 1.0,
-      "count": 15
-    },
-    "Q30;Q1166": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 3
-    },
-    "Q30;Q759": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q6974069;Q30": {
-      "value": "black",
-      "prob": 1.0,
-      "count": 4
-    },
-    "Q30;Q1456": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q8333": {
       "value": "blue",
       "prob": 1.0,
       "count": 2
-    },
-    "Q30;Q6974069;Q1297": {
-      "value": "black;white",
-      "prob": 1.0,
-      "count": 3
     },
     "Q7837537": {
       "value": "white",
@@ -2754,11 +2309,6 @@
       "value": "blue",
       "prob": 1.0,
       "count": 2
-    },
-    "Q30;Q6974069;Q1204": {
-      "value": "black;white",
-      "prob": 1.0,
-      "count": 5
     },
     "Q514212": {
       "value": "purple",
@@ -2780,28 +2330,8 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q1204;Q6974069": {
-      "value": "white;black",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q30;Q816": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q30;Q1370": {
-      "value": "blue",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q5646230": {
       "value": "white",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q30;Q6974069;Q1204;Q1297": {
-      "value": "black;white",
       "prob": 1.0,
       "count": 2
     }

@@ -3,17 +3,22 @@
     "US": {
       "value": "Q42537",
       "prob": 1.0,
-      "count": 17373
+      "count": 16504
     },
     "IL": {
       "value": "Q128480",
       "prob": 1.0,
-      "count": 61
+      "count": 66
     },
     "AU": {
       "value": "Q81676",
       "prob": 1.0,
-      "count": 364
+      "count": 365
+    },
+    "JO": {
+      "value": "Q170064",
+      "prob": 1.0,
+      "count": 20
     },
     "BI": {
       "value": "Q103084",
@@ -23,7 +28,7 @@
     "DE": {
       "value": "Q48160",
       "prob": 1.0,
-      "count": 310
+      "count": 311
     },
     "KG": {
       "value": "Q165641",
@@ -33,17 +38,17 @@
     "ES": {
       "value": "Q121688",
       "prob": 1.0,
-      "count": 400
+      "count": 403
     },
     "PH": {
       "value": "Q134627",
       "prob": 1.0,
-      "count": 1226
+      "count": 1227
     },
     "CA": {
       "value": "Q80110",
       "prob": 1.0,
-      "count": 1049
+      "count": 1058
     },
     "AS": {
       "value": "Q242502",
@@ -58,12 +63,12 @@
     "IT": {
       "value": "Q42876",
       "prob": 1.0,
-      "count": 614
+      "count": 619
     },
     "CN": {
       "value": "Q131147",
       "prob": 1.0,
-      "count": 958
+      "count": 963
     },
     "RO": {
       "value": "Q130811",
@@ -78,12 +83,12 @@
     "FR": {
       "value": "Q43192",
       "prob": 1.0,
-      "count": 2408
+      "count": 2412
     },
     "CL": {
       "value": "Q160872",
       "prob": 1.0,
-      "count": 416
+      "count": 422
     },
     "EE": {
       "value": "Q81471",
@@ -108,12 +113,12 @@
     "EU": {
       "value": "Q122482",
       "prob": 0.82,
-      "count": 1830
+      "count": 1833
     },
     "TR": {
       "value": "Q81952",
       "prob": 1.0,
-      "count": 287
+      "count": 289
     },
     "AL": {
       "value": "Q48409",
@@ -128,7 +133,7 @@
     "GR": {
       "value": "Q129132",
       "prob": 1.0,
-      "count": 273
+      "count": 289
     },
     "FI": {
       "value": "Q47891",
@@ -158,17 +163,17 @@
     "SE": {
       "value": "Q81286",
       "prob": 1.0,
-      "count": 653
+      "count": 654
     },
     "KR": {
       "value": "Q127296",
       "prob": 1.0,
-      "count": 67
+      "count": 68
     },
     "AR": {
       "value": "Q130774",
       "prob": 1.0,
-      "count": 608
+      "count": 609
     },
     "NZ": {
       "value": "Q160260",
@@ -178,22 +183,17 @@
     "MX": {
       "value": "Q122462",
       "prob": 1.0,
-      "count": 265
+      "count": 268
     },
     "UA": {
       "value": "Q127974",
       "prob": 1.0,
-      "count": 302
-    },
-    "JO": {
-      "value": "Q170064",
-      "prob": 1.0,
-      "count": 19
+      "count": 309
     },
     "PT": {
       "value": "Q128812",
       "prob": 1.0,
-      "count": 96
+      "count": 97
     },
     "BY": {
       "value": "Q132633",
@@ -203,7 +203,7 @@
     "VA": {
       "value": "Q79198",
       "prob": 1.0,
-      "count": 50
+      "count": 51
     },
     "ZW": {
       "value": "Q159986",
@@ -248,7 +248,7 @@
     "GB": {
       "value": "Q83278",
       "prob": 1.0,
-      "count": 272
+      "count": 274
     },
     "AE": {
       "value": "Q134247",
@@ -313,7 +313,7 @@
     "CH": {
       "value": "Q124020",
       "prob": 1.0,
-      "count": 140
+      "count": 142
     },
     "SR": {
       "value": "Q180725",
@@ -333,7 +333,7 @@
     "ZA": {
       "value": "Q160250",
       "prob": 1.0,
-      "count": 23
+      "count": 24
     },
     "SO": {
       "value": "Q159538",
@@ -433,12 +433,12 @@
     "PL": {
       "value": "Q42436",
       "prob": 1.0,
-      "count": 672
+      "count": 674
     },
     "PE": {
       "value": "Q160255",
       "prob": 1.0,
-      "count": 34
+      "count": 35
     },
     "PY": {
       "value": "Q170465",
@@ -488,7 +488,7 @@
     "NL": {
       "value": "Q46585",
       "prob": 1.0,
-      "count": 102
+      "count": 101
     },
     "NP": {
       "value": "Q159741",
@@ -583,7 +583,7 @@
     "LT": {
       "value": "Q81477",
       "prob": 1.0,
-      "count": 60
+      "count": 61
     },
     "LI": {
       "value": "Q103055",
@@ -613,7 +613,7 @@
     "LA": {
       "value": "Q46008",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "KW": {
       "value": "Q165545",
@@ -633,7 +633,7 @@
     "JP": {
       "value": "Q43175",
       "prob": 1.0,
-      "count": 98
+      "count": 99
     },
     "JM": {
       "value": "Q172517",
@@ -658,12 +658,12 @@
     "ID": {
       "value": "Q101472",
       "prob": 1.0,
-      "count": 232
+      "count": 234
     },
     "IN": {
       "value": "Q41673",
       "prob": 1.0,
-      "count": 119
+      "count": 120
     },
     "IS": {
       "value": "Q93335",
@@ -673,7 +673,7 @@
     "HU": {
       "value": "Q81970",
       "prob": 1.0,
-      "count": 137
+      "count": 139
     },
     "HN": {
       "value": "Q102939",
@@ -718,7 +718,7 @@
     "GM": {
       "value": "Q135014",
       "prob": 1.0,
-      "count": 3
+      "count": 4
     },
     "GA": {
       "value": "Q101769",
@@ -798,7 +798,7 @@
     "CZ": {
       "value": "Q127155",
       "prob": 1.0,
-      "count": 107
+      "count": 108
     },
     "CY": {
       "value": "Q4633",
@@ -883,7 +883,7 @@
     "BR": {
       "value": "Q82194",
       "prob": 1.0,
-      "count": 128
+      "count": 129
     },
     "BW": {
       "value": "Q160242",
@@ -918,7 +918,7 @@
     "BE": {
       "value": "Q12990",
       "prob": 1.0,
-      "count": 184
+      "count": 188
     },
     "BB": {
       "value": "Q104351",
@@ -968,7 +968,7 @@
     "AD": {
       "value": "Q81526",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "DZ": {
       "value": "Q83392",
@@ -1017,11 +1017,6 @@
     },
     "UN": {
       "value": "Q172446",
-      "prob": 1.0,
-      "count": 2
-    },
-    "US;GR": {
-      "value": "Q42537;Q129132",
       "prob": 1.0,
       "count": 2
     },
@@ -1120,11 +1115,6 @@
       "prob": 1.0,
       "count": 3
     },
-    "US;UA": {
-      "value": "Q42537;Q127974",
-      "prob": 1.0,
-      "count": 6
-    },
     "GE-AB": {
       "value": "Q199621",
       "prob": 1.0,
@@ -1134,11 +1124,6 @@
       "value": "Q204120",
       "prob": 1.0,
       "count": 2
-    },
-    "US;IL": {
-      "value": "Q42537;Q128480",
-      "prob": 1.0,
-      "count": 5
     },
     "Northern Cyprus": {
       "value": "Q207518",
@@ -1355,17 +1340,22 @@
     "United States": {
       "value": "Q42537",
       "prob": 1.0,
-      "count": 15649
+      "count": 16919
     },
     "Israel": {
       "value": "Q128480",
       "prob": 1.0,
-      "count": 60
+      "count": 65
     },
     "Australia": {
       "value": "Q81676",
       "prob": 1.0,
-      "count": 334
+      "count": 339
+    },
+    "Jordan": {
+      "value": "Q170064",
+      "prob": 1.0,
+      "count": 19
     },
     "Vietnam": {
       "value": "Q131204",
@@ -1380,7 +1370,7 @@
     "Germany": {
       "value": "Q48160",
       "prob": 1.0,
-      "count": 274
+      "count": 275
     },
     "Kyrgyzstan": {
       "value": "Q165641",
@@ -1390,7 +1380,7 @@
     "Spain": {
       "value": "Q121688",
       "prob": 1.0,
-      "count": 349
+      "count": 352
     },
     "Connecticut": {
       "value": "Q752573",
@@ -1400,17 +1390,17 @@
     "McDonald’s": {
       "value": "Q64300176",
       "prob": 1.0,
-      "count": 35
+      "count": 46
     },
     "Philippines": {
       "value": "Q134627",
       "prob": 1.0,
-      "count": 1203
+      "count": 1204
     },
     "Canada": {
       "value": "Q80110",
       "prob": 1.0,
-      "count": 1011
+      "count": 1019
     },
     "American Samoa": {
       "value": "Q242502",
@@ -1420,7 +1410,7 @@
     "California": {
       "value": "Q330517",
       "prob": 1.0,
-      "count": 197
+      "count": 352
     },
     "Nicaragua": {
       "value": "Q172533",
@@ -1430,7 +1420,7 @@
     "Italy": {
       "value": "Q42876",
       "prob": 1.0,
-      "count": 557
+      "count": 561
     },
     "China 中国": {
       "value": "Q131147",
@@ -1450,17 +1440,22 @@
     "usa": {
       "value": "Q42537",
       "prob": 1.0,
-      "count": 147
+      "count": 152
     },
     "France": {
       "value": "Q43192",
       "prob": 1.0,
-      "count": 2329
+      "count": 2333
+    },
+    "POW MIA": {
+      "value": "Q1463762",
+      "prob": 1.0,
+      "count": 31
     },
     "USA": {
       "value": "Q42537",
       "prob": 1.0,
-      "count": 43
+      "count": 44
     },
     "Society of the Cincinnati": {
       "value": "Q62932637",
@@ -1475,7 +1470,7 @@
     "Chile": {
       "value": "Q160872",
       "prob": 1.0,
-      "count": 411
+      "count": 417
     },
     "Estonia": {
       "value": "Q81471",
@@ -1500,12 +1495,12 @@
     "Europe": {
       "value": "Q122482",
       "prob": 1.0,
-      "count": 1520
+      "count": 1524
     },
     "Turkey": {
       "value": "Q81952",
       "prob": 1.0,
-      "count": 252
+      "count": 254
     },
     "Albania": {
       "value": "Q48409",
@@ -1520,17 +1515,17 @@
     "Greece": {
       "value": "Q129132",
       "prob": 1.0,
-      "count": 262
+      "count": 278
     },
     "China": {
       "value": "Q131147",
       "prob": 1.0,
-      "count": 949
+      "count": 954
     },
     "Finland": {
       "value": "Q47891",
       "prob": 1.0,
-      "count": 275
+      "count": 276
     },
     "Ontario": {
       "value": "Q1165949",
@@ -1540,12 +1535,12 @@
     "Illinois": {
       "value": "Q752837",
       "prob": 1.0,
-      "count": 337
+      "count": 381
     },
     "Chicago": {
       "value": "Q1402799",
       "prob": 1.0,
-      "count": 334
+      "count": 404
     },
     "Maldives": {
       "value": "Q169441",
@@ -1565,22 +1560,22 @@
     "Sweden": {
       "value": "Q81286",
       "prob": 1.0,
-      "count": 640
+      "count": 641
     },
     "Florida": {
       "value": "Q730106",
       "prob": 1.0,
-      "count": 71
+      "count": 91
     },
     "Oregon": {
       "value": "Q19427",
       "prob": 1.0,
-      "count": 57
+      "count": 60
     },
     "South Korea": {
       "value": "Q127296",
       "prob": 1.0,
-      "count": 64
+      "count": 65
     },
     "New Zealand": {
       "value": "Q160260",
@@ -1590,27 +1585,22 @@
     "Mexico": {
       "value": "Q122462",
       "prob": 1.0,
-      "count": 257
-    },
-    "United States;California": {
-      "value": "Q42537;Q330517",
-      "prob": 0.99,
-      "count": 106
+      "count": 259
     },
     "Ukraine": {
       "value": "Q127974",
       "prob": 1.0,
-      "count": 288
+      "count": 295
     },
     "Argentina": {
       "value": "Q130774",
       "prob": 1.0,
-      "count": 601
+      "count": 603
     },
     "Portugal": {
       "value": "Q128812",
       "prob": 1.0,
-      "count": 90
+      "count": 92
     },
     "Belarus": {
       "value": "Q132633",
@@ -1620,7 +1610,7 @@
     "Holy See": {
       "value": "Q79198",
       "prob": 1.0,
-      "count": 28
+      "count": 29
     },
     "Zimbabwe": {
       "value": "Q159986",
@@ -1730,7 +1720,7 @@
     "Switzerland": {
       "value": "Q124020",
       "prob": 1.0,
-      "count": 127
+      "count": 129
     },
     "Suriname": {
       "value": "Q180725",
@@ -1750,7 +1740,7 @@
     "South Africa": {
       "value": "Q160250",
       "prob": 1.0,
-      "count": 21
+      "count": 22
     },
     "Somalia": {
       "value": "Q159538",
@@ -1835,7 +1825,7 @@
     "Russia": {
       "value": "Q16611",
       "prob": 1.0,
-      "count": 133
+      "count": 134
     },
     "Moldova": {
       "value": "Q167584",
@@ -1850,12 +1840,12 @@
     "Poland": {
       "value": "Q42436",
       "prob": 1.0,
-      "count": 546
+      "count": 547
     },
     "Peru": {
       "value": "Q160255",
       "prob": 1.0,
-      "count": 34
+      "count": 35
     },
     "Paraguay": {
       "value": "Q170465",
@@ -1905,7 +1895,7 @@
     "Netherlands": {
       "value": "Q46585",
       "prob": 1.0,
-      "count": 91
+      "count": 92
     },
     "Nepal": {
       "value": "Q159741",
@@ -1970,7 +1960,7 @@
     "Malta": {
       "value": "Q131469",
       "prob": 1.0,
-      "count": 23
+      "count": 24
     },
     "Mali": {
       "value": "Q169903",
@@ -2000,7 +1990,7 @@
     "Lithuania": {
       "value": "Q81477",
       "prob": 1.0,
-      "count": 57
+      "count": 58
     },
     "Liechtenstein": {
       "value": "Q103055",
@@ -2030,7 +2020,7 @@
     "Laos": {
       "value": "Q46008",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Kuwait": {
       "value": "Q165545",
@@ -2047,15 +2037,10 @@
       "prob": 1.0,
       "count": 13
     },
-    "Jordan": {
-      "value": "Q170064",
-      "prob": 1.0,
-      "count": 18
-    },
     "Japan": {
       "value": "Q43175",
       "prob": 1.0,
-      "count": 97
+      "count": 98
     },
     "Jamaica": {
       "value": "Q172517",
@@ -2080,12 +2065,12 @@
     "Indonesia": {
       "value": "Q101472",
       "prob": 1.0,
-      "count": 229
+      "count": 231
     },
     "India": {
       "value": "Q41673",
       "prob": 1.0,
-      "count": 104
+      "count": 105
     },
     "Iceland": {
       "value": "Q93335",
@@ -2095,7 +2080,7 @@
     "Hungary": {
       "value": "Q81970",
       "prob": 1.0,
-      "count": 116
+      "count": 118
     },
     "Honduras": {
       "value": "Q102939",
@@ -2215,12 +2200,12 @@
     "Czech Republic": {
       "value": "Q127155",
       "prob": 1.0,
-      "count": 100
+      "count": 101
     },
     "Cyprus": {
       "value": "Q4633",
       "prob": 1.0,
-      "count": 29
+      "count": 30
     },
     "Cuba": {
       "value": "Q163008",
@@ -2295,7 +2280,7 @@
     "Brazil": {
       "value": "Q82194",
       "prob": 1.0,
-      "count": 115
+      "count": 116
     },
     "Botswana": {
       "value": "Q160242",
@@ -2330,7 +2315,7 @@
     "Belgium": {
       "value": "Q12990",
       "prob": 1.0,
-      "count": 167
+      "count": 171
     },
     "Barbados": {
       "value": "Q104351",
@@ -2375,7 +2360,7 @@
     "Andorra": {
       "value": "Q81526",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Algeria": {
       "value": "Q83392",
@@ -2387,30 +2372,25 @@
       "prob": 1.0,
       "count": 7
     },
-    "United States;POW/MIA": {
-      "value": "Q42537;Q1463762",
+    "POW/MIA": {
+      "value": "Q1463762",
       "prob": 1.0,
-      "count": 414
+      "count": 668
     },
     "US": {
       "value": "Q42537",
       "prob": 1.0,
-      "count": 264
+      "count": 272
     },
     "Cook County": {
       "value": "Q96970847",
       "prob": 1.0,
-      "count": 25
-    },
-    "POW/MIA": {
-      "value": "Q1463762",
-      "prob": 1.0,
-      "count": 199
+      "count": 27
     },
     "McDonald's": {
       "value": "Q64300176",
       "prob": 0.99,
-      "count": 144
+      "count": 161
     },
     "Minnesota Golden Gophers": {
       "value": "Q97503383",
@@ -2420,7 +2400,7 @@
     "Union Jack": {
       "value": "Q83278",
       "prob": 0.99,
-      "count": 249
+      "count": 251
     },
     "United Tribes of New Zealand": {
       "value": "Q114243922",
@@ -2430,7 +2410,7 @@
     "Massachusetts": {
       "value": "Q221881",
       "prob": 1.0,
-      "count": 48
+      "count": 50
     },
     "United Nations": {
       "value": "Q172446",
@@ -2455,57 +2435,57 @@
     "Vatican City": {
       "value": "Q79198",
       "prob": 1.0,
-      "count": 33
+      "count": 34
     },
     "European Union": {
       "value": "Q98055852",
       "prob": 0.98,
-      "count": 254
+      "count": 257
     },
     "United States Coast Guard": {
       "value": "Q5456895",
       "prob": 1.0,
-      "count": 97
-    },
-    "United States;POW MIA": {
-      "value": "Q42537;Q1463762",
-      "prob": 1.0,
-      "count": 9
+      "count": 102
     },
     "United States of America": {
       "value": "Q42537",
       "prob": 1.0,
-      "count": 11
+      "count": 13
     },
     "Minnesota": {
       "value": "Q828147",
       "prob": 0.97,
-      "count": 30
+      "count": 31
     },
     "Maryland": {
       "value": "Q752569",
       "prob": 1.0,
-      "count": 47
+      "count": 53
     },
     "United States Army": {
       "value": "Q5456898",
       "prob": 0.99,
-      "count": 113
+      "count": 116
     },
     "United States Marine Corps": {
       "value": "Q5456897",
       "prob": 1.0,
-      "count": 108
+      "count": 123
     },
     "United States Navy": {
       "value": "Q5456899",
       "prob": 1.0,
-      "count": 99
+      "count": 102
     },
     "United States Air Force": {
       "value": "Q5456894",
       "prob": 1.0,
-      "count": 91
+      "count": 93
+    },
+    "Colorado": {
+      "value": "Q492546",
+      "prob": 1.0,
+      "count": 41
     },
     "Wales": {
       "value": "Q185692",
@@ -2520,7 +2500,7 @@
     "North Carolina": {
       "value": "Q19379",
       "prob": 1.0,
-      "count": 41
+      "count": 42
     },
     "Flag of British Columbia": {
       "value": "Q637134",
@@ -2530,7 +2510,7 @@
     "Texas": {
       "value": "Q19000",
       "prob": 1.0,
-      "count": 245
+      "count": 269
     },
     "Iowa": {
       "value": "Q492541",
@@ -2550,17 +2530,12 @@
     "Nevada": {
       "value": "Q752562",
       "prob": 1.0,
-      "count": 12
+      "count": 17
     },
     "Nebraska": {
       "value": "Q734071",
       "prob": 1.0,
       "count": 18
-    },
-    "Colorado": {
-      "value": "Q492546",
-      "prob": 1.0,
-      "count": 40
     },
     "North Dakota": {
       "value": "Q837312",
@@ -2580,7 +2555,7 @@
     "Idaho": {
       "value": "Q736760",
       "prob": 1.0,
-      "count": 6
+      "count": 9
     },
     "Wyoming": {
       "value": "Q492524",
@@ -2590,12 +2565,12 @@
     "Arkansas": {
       "value": "Q369833",
       "prob": 1.0,
-      "count": 17
+      "count": 18
     },
     "Missouri": {
       "value": "Q752557",
       "prob": 1.0,
-      "count": 39
+      "count": 40
     },
     "Maine": {
       "value": "Q499127",
@@ -2605,37 +2580,32 @@
     "Alabama": {
       "value": "Q497997",
       "prob": 1.0,
-      "count": 24
-    },
-    "Mississippi": {
-      "value": "Q301628",
-      "prob": 0.89,
-      "count": 9
+      "count": 28
     },
     "Indiana": {
       "value": "Q673117",
       "prob": 1.0,
-      "count": 61
+      "count": 83
     },
     "Louisiana": {
       "value": "Q19374",
       "prob": 1.0,
-      "count": 46
+      "count": 52
     },
     "Ohio": {
       "value": "Q752559",
       "prob": 1.0,
-      "count": 223
+      "count": 324
     },
     "Tennessee": {
       "value": "Q605195",
       "prob": 1.0,
-      "count": 19
+      "count": 24
     },
     "Kentucky": {
       "value": "Q590821",
       "prob": 1.0,
-      "count": 57
+      "count": 99
     },
     "Vermont": {
       "value": "Q524824",
@@ -2650,32 +2620,32 @@
     "New York": {
       "value": "Q19016",
       "prob": 1.0,
-      "count": 64
+      "count": 65
     },
     "Virginia": {
       "value": "Q18993",
       "prob": 1.0,
-      "count": 80
+      "count": 85
     },
     "New Hampshire": {
       "value": "Q248102",
       "prob": 1.0,
-      "count": 26
+      "count": 28
     },
     "South Carolina": {
       "value": "Q19373",
       "prob": 1.0,
-      "count": 42
+      "count": 47
     },
     "Pennsylvania": {
       "value": "Q18983",
       "prob": 1.0,
-      "count": 30
+      "count": 33
     },
     "Delaware": {
       "value": "Q752566",
       "prob": 1.0,
-      "count": 8
+      "count": 9
     },
     "Hawaii": {
       "value": "Q219726",
@@ -2685,12 +2655,12 @@
     "Alaska": {
       "value": "Q156564",
       "prob": 1.0,
-      "count": 9
+      "count": 13
     },
     "Arizona": {
       "value": "Q632491",
       "prob": 1.0,
-      "count": 31
+      "count": 41
     },
     "New Mexico": {
       "value": "Q642998",
@@ -2700,17 +2670,17 @@
     "Oklahoma": {
       "value": "Q258262",
       "prob": 1.0,
-      "count": 48
+      "count": 56
     },
     "Utah": {
       "value": "Q736625",
-      "prob": 0.92,
-      "count": 25
+      "prob": 0.93,
+      "count": 27
     },
     "Michigan": {
       "value": "Q285418",
       "prob": 0.98,
-      "count": 47
+      "count": 49
     },
     "Flag of Europe": {
       "value": "Q122482",
@@ -2727,20 +2697,15 @@
       "prob": 1.0,
       "count": 9
     },
-    "United States;Cincinnati": {
-      "value": "Q42537;Q5456721",
+    "Cincinnati": {
+      "value": "Q5456721",
       "prob": 1.0,
-      "count": 4
+      "count": 9
     },
     "Catalunya": {
       "value": "Q148807",
       "prob": 1.0,
       "count": 20
-    },
-    "United States;Symmes Township": {
-      "value": "Q42537",
-      "prob": 1.0,
-      "count": 2
     },
     "Navarra": {
       "value": "Q1091411",
@@ -2751,16 +2716,6 @@
       "value": "Q235475",
       "prob": 0.96,
       "count": 26
-    },
-    "Cincinnati": {
-      "value": "Q5456721",
-      "prob": 1.0,
-      "count": 5
-    },
-    "United States;Ohio": {
-      "value": "Q42537;Q752559",
-      "prob": 0.99,
-      "count": 86
     },
     "Finlandia": {
       "value": "Q47891",
@@ -2787,6 +2742,11 @@
       "prob": 1.0,
       "count": 3
     },
+    "United States Department of the Interior": {
+      "value": "Q96963401",
+      "prob": 1.0,
+      "count": 2
+    },
     "Rainbow": {
       "value": "Q51401",
       "prob": 1.0,
@@ -2796,11 +2756,6 @@
       "value": "Q241083",
       "prob": 1.0,
       "count": 51
-    },
-    "United States;Georgia": {
-      "value": "Q42537;Q676623",
-      "prob": 1.0,
-      "count": 8
     },
     "pl": {
       "value": "Q42436",
@@ -2815,7 +2770,7 @@
     "Québec": {
       "value": "Q392167",
       "prob": 1.0,
-      "count": 48
+      "count": 49
     },
     "Nova Scotia": {
       "value": "Q601976",
@@ -2825,7 +2780,7 @@
     "Pan-African": {
       "value": "Q2029729",
       "prob": 1.0,
-      "count": 3
+      "count": 11
     },
     "ASEAN": {
       "value": "Q783490",
@@ -2844,8 +2799,8 @@
     },
     "Washington": {
       "value": "Q731163",
-      "prob": 0.9,
-      "count": 30
+      "prob": 0.91,
+      "count": 32
     },
     "Wellington": {
       "value": "Q97515806",
@@ -2856,11 +2811,6 @@
       "value": "Q18983",
       "prob": 1.0,
       "count": 3
-    },
-    "United States;McDonald’s": {
-      "value": "Q42537;Q64300176",
-      "prob": 0.92,
-      "count": 12
     },
     "Bayern": {
       "value": "Q707471",
@@ -2877,15 +2827,10 @@
       "prob": 1.0,
       "count": 12
     },
-    "United States; California": {
-      "value": "Q42537; Q330517",
+    "POW": {
+      "value": "Q1463762",
       "prob": 1.0,
-      "count": 10
-    },
-    "United States;POW": {
-      "value": "Q42537;Q1463762",
-      "prob": 1.0,
-      "count": 3
+      "count": 8
     },
     "Madeira": {
       "value": "Q241781",
@@ -2920,15 +2865,10 @@
     "Hilton": {
       "value": "Q77795712",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Milwaukee County": {
       "value": "Q77796359",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Illinois;POW/MIA": {
-      "value": "Q42537;Q752837;Q1463762",
       "prob": 1.0,
       "count": 2
     },
@@ -2936,11 +2876,6 @@
       "value": "Q2897956",
       "prob": 1.0,
       "count": 3
-    },
-    "United States;Florida": {
-      "value": "Q42537;Q730106",
-      "prob": 1.0,
-      "count": 13
     },
     "Gdańsk": {
       "value": "Q830262",
@@ -2967,11 +2902,6 @@
       "prob": 1.0,
       "count": 17
     },
-    "United States;Oklahoma": {
-      "value": "Q42537;Q258262",
-      "prob": 1.0,
-      "count": 8
-    },
     "Callao": {
       "value": "Q105037",
       "prob": 1.0,
@@ -2980,17 +2910,7 @@
     "us": {
       "value": "Q42537",
       "prob": 1.0,
-      "count": 63
-    },
-    "United States;Greece": {
-      "value": "Q42537;Q129132",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Oregon": {
-      "value": "Q42537;Q19427",
-      "prob": 1.0,
-      "count": 2
+      "count": 64
     },
     "Santa Catarina": {
       "value": "Q2191442",
@@ -3002,10 +2922,10 @@
       "prob": 1.0,
       "count": 4
     },
-    "United States;Christian": {
-      "value": "Q42537;Q1084035",
+    "Christian": {
+      "value": "Q1084035",
       "prob": 1.0,
-      "count": 18
+      "count": 30
     },
     "New Orleans": {
       "value": "Q5456787",
@@ -3030,12 +2950,7 @@
     "British Columbia": {
       "value": "Q637134",
       "prob": 1.0,
-      "count": 46
-    },
-    "United States;South Carolina": {
-      "value": "Q42537;Q19373",
-      "prob": 1.0,
-      "count": 5
+      "count": 47
     },
     "Turku": {
       "value": "Q116486314",
@@ -3055,7 +2970,7 @@
     "LGBT Pride": {
       "value": "Q51401",
       "prob": 1.0,
-      "count": 23
+      "count": 25
     },
     "Puerto Rico": {
       "value": "Q15994084",
@@ -3087,25 +3002,40 @@
       "prob": 1.0,
       "count": 3
     },
-    "Christian": {
-      "value": "Q1084035",
+    "Hampton by Hilton": {
+      "value": "Q70119112",
       "prob": 1.0,
-      "count": 12
+      "count": 2
+    },
+    "Nederland": {
+      "value": "Q46585",
+      "prob": 1.0,
+      "count": 3
+    },
+    "België": {
+      "value": "Q12990",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Estland": {
+      "value": "Q81471",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Luxemburg": {
+      "value": "Q133022",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Polen": {
+      "value": "Q42436",
+      "prob": 1.0,
+      "count": 4
     },
     "Hilton Garden Inn": {
       "value": "Q74052383",
       "prob": 1.0,
       "count": 5
-    },
-    "United States;Texas": {
-      "value": "Q42537;Q19000",
-      "prob": 1.0,
-      "count": 22
-    },
-    "United States;Florida;POW/MIA": {
-      "value": "Q42537;Q730106;Q1463762",
-      "prob": 1.0,
-      "count": 2
     },
     "United States Merchant Marine": {
       "value": "Q96912183",
@@ -3135,7 +3065,7 @@
     "Andalucía": {
       "value": "Q760401",
       "prob": 1.0,
-      "count": 35
+      "count": 36
     },
     "Berlin": {
       "value": "Q819691",
@@ -3145,7 +3075,7 @@
     "New South Wales": {
       "value": "Q1064042",
       "prob": 1.0,
-      "count": 40
+      "count": 42
     },
     "Alberta": {
       "value": "Q1122078",
@@ -3166,11 +3096,6 @@
       "value": "Q645967",
       "prob": 1.0,
       "count": 4
-    },
-    "United States;Indiana": {
-      "value": "Q42537;Q673117",
-      "prob": 1.0,
-      "count": 21
     },
     "Lombardia": {
       "value": "Q1131266",
@@ -3207,10 +3132,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Alaska": {
-      "value": "Q42537;Q156564",
+    "Tree City USA": {
+      "value": "Q100711795",
       "prob": 1.0,
-      "count": 4
+      "count": 10
     },
     "Sachsen": {
       "value": "Q693701",
@@ -3292,11 +3217,6 @@
       "prob": 1.0,
       "count": 8
     },
-    "United States;United States Marine Corps": {
-      "value": "Q42537;Q5456897",
-      "prob": 1.0,
-      "count": 11
-    },
     "Comunitat Valenciana": {
       "value": "Q933011",
       "prob": 1.0,
@@ -3307,23 +3227,28 @@
       "prob": 1.0,
       "count": 2
     },
+    "Hamilton County": {
+      "value": "Q62931620",
+      "prob": 1.0,
+      "count": 3
+    },
+    "Bennington": {
+      "value": "Q4889892",
+      "prob": 1.0,
+      "count": 2
+    },
     "Scotland": {
       "value": "Q102392",
       "prob": 1.0,
       "count": 18
-    },
-    "United States;Kentucky": {
-      "value": "Q42537;Q590821",
-      "prob": 0.97,
-      "count": 32
     },
     "Santa Clara": {
       "value": "Q63063601",
       "prob": 1.0,
       "count": 5
     },
-    "Kentucky;Kentucky State Police": {
-      "value": "Q590821;Q63199275",
+    "Kentucky State Police": {
+      "value": "Q63199275",
       "prob": 1.0,
       "count": 2
     },
@@ -3331,11 +3256,6 @@
       "value": "Q1130142",
       "prob": 1.0,
       "count": 72
-    },
-    "United States;Chicago": {
-      "value": "Q42537;Q1402799",
-      "prob": 1.0,
-      "count": 54
     },
     "ngũ sắc": {
       "value": "Q82876072",
@@ -3372,10 +3292,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;International Association of Fire Fighters": {
-      "value": "Q42537",
-      "prob": 0.86,
-      "count": 7
+    "International Association of Fire Fighters": {
+      "value": "Q116986686",
+      "prob": 1.0,
+      "count": 5
     },
     "Pomeranian Voivodeship": {
       "value": "Q2020381",
@@ -3387,15 +3307,15 @@
       "prob": 1.0,
       "count": 7
     },
-    "usa;POW/MIA": {
-      "value": "Q42537;Q1463762",
+    "Harford County": {
+      "value": "Q96986169",
       "prob": 1.0,
       "count": 2
     },
     "Saint Bernard": {
       "value": "Q65962766",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "Aragón": {
       "value": "Q774799",
@@ -3417,35 +3337,10 @@
       "prob": 1.0,
       "count": 8
     },
-    "United States;Sharonville": {
-      "value": "Q42537;Q66363800",
-      "prob": 1.0,
-      "count": 3
-    },
     "Sharonville": {
       "value": "Q66363800",
       "prob": 1.0,
-      "count": 2
-    },
-    "United States;United States Army": {
-      "value": "Q42537;Q5456898",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;United States Coast Guard": {
-      "value": "Q42537;Q5456895",
-      "prob": 1.0,
-      "count": 3
-    },
-    "United States;Louisiana": {
-      "value": "Q42537;Q19374",
-      "prob": 1.0,
       "count": 5
-    },
-    "International Association of Fire Fighters": {
-      "value": "Q116986686",
-      "prob": 1.0,
-      "count": 4
     },
     "Quebec": {
       "value": "Q392167",
@@ -3475,10 +3370,15 @@
     "American Legion": {
       "value": "Q67485913",
       "prob": 1.0,
-      "count": 3
+      "count": 4
     },
     "University of Texas at Dallas": {
       "value": "Q96970816",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Hampton Inn": {
+      "value": "Q70119112",
       "prob": 1.0,
       "count": 2
     },
@@ -3487,10 +3387,20 @@
       "prob": 1.0,
       "count": 2
     },
+    "Cheviot": {
+      "value": "Q70631343",
+      "prob": 1.0,
+      "count": 2
+    },
     "Dayton": {
       "value": "Q98400609",
-      "prob": 0.75,
-      "count": 4
+      "prob": 0.8,
+      "count": 5
+    },
+    "Sycamore Township": {
+      "value": "Q71799582",
+      "prob": 1.0,
+      "count": 2
     },
     "Alexandria": {
       "value": "Q71877987",
@@ -3515,37 +3425,22 @@
     "Christianity": {
       "value": "Q1084035",
       "prob": 1.0,
-      "count": 19
-    },
-    "United States;Christianity": {
-      "value": "Q42537;Q1084035",
-      "prob": 1.0,
-      "count": 9
+      "count": 29
     },
     "Red Cross": {
       "value": "Q63991554",
       "prob": 1.0,
       "count": 39
     },
-    "United States;Mississippi": {
-      "value": "Q42537;Q96761402",
-      "prob": 0.75,
-      "count": 4
-    },
     "România": {
       "value": "Q130811",
       "prob": 1.0,
       "count": 2
     },
-    "United States;Arizona": {
-      "value": "Q42537;Q632491",
-      "prob": 1.0,
-      "count": 7
-    },
     "New Jersey": {
       "value": "Q119605",
       "prob": 1.0,
-      "count": 25
+      "count": 26
     },
     "Royal New Zealand Navy Ensign": {
       "value": "Q98027472",
@@ -3557,20 +3452,15 @@
       "prob": 1.0,
       "count": 37
     },
-    "United States;Kentucky;Florence": {
-      "value": "Q42537;Q590821;Q80606550",
+    "Florence": {
+      "value": "Q80606550",
       "prob": 1.0,
-      "count": 2
+      "count": 4
     },
     "Covington": {
       "value": "Q80739604",
       "prob": 1.0,
-      "count": 2
-    },
-    "United States;POW/MIA;Ohio": {
-      "value": "Q42537;Q1463762;Q752559",
-      "prob": 1.0,
-      "count": 4
+      "count": 3
     },
     "Wilder": {
       "value": "Q80907988",
@@ -3582,10 +3472,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "Florence": {
-      "value": "Q80606550",
+    "POW-MIA": {
+      "value": "Q1463762",
       "prob": 1.0,
-      "count": 2
+      "count": 6
     },
     "Việt Nam": {
       "value": "Q131204",
@@ -3632,11 +3522,6 @@
       "prob": 1.0,
       "count": 3
     },
-    "United States;Kentucky;POW/MIA": {
-      "value": "Q42537;Q590821;Q1463762",
-      "prob": 1.0,
-      "count": 4
-    },
     "Faucigny": {
       "value": "Q1398360",
       "prob": 1.0,
@@ -3655,7 +3540,7 @@
     "United States Space Force": {
       "value": "Q94652289",
       "prob": 1.0,
-      "count": 13
+      "count": 14
     },
     "Torres Strait Islander": {
       "value": "Q462621",
@@ -3682,6 +3567,11 @@
       "prob": 1.0,
       "count": 4
     },
+    "Bonnie Blue": {
+      "value": "Q2361008",
+      "prob": 1.0,
+      "count": 3
+    },
     "flag of Virginia": {
       "value": "Q18993",
       "prob": 1.0,
@@ -3692,18 +3582,13 @@
       "prob": 1.0,
       "count": 15
     },
-    "Bonnie Blue": {
-      "value": "Q2361008",
+    "Blue Lives Matter": {
+      "value": "Q96676582",
       "prob": 1.0,
       "count": 2
     },
     "Baton Rouge": {
       "value": "Q5456699",
-      "prob": 1.0,
-      "count": 3
-    },
-    "United States;Tennessee": {
-      "value": "Q42537;Q605195",
       "prob": 1.0,
       "count": 3
     },
@@ -3747,10 +3632,20 @@
       "prob": 1.0,
       "count": 4
     },
+    "Flag of California": {
+      "value": "Q330517",
+      "prob": 1.0,
+      "count": 2
+    },
     "Pride": {
       "value": "Q51401",
       "prob": 1.0,
       "count": 16
+    },
+    "Montgomery County": {
+      "value": "Q98400624",
+      "prob": 1.0,
+      "count": 3
     },
     "Calcasieu Parish": {
       "value": "Q98691769",
@@ -3760,7 +3655,7 @@
     "Corse": {
       "value": "Q2264438",
       "prob": 1.0,
-      "count": 4
+      "count": 5
     },
     "Union Européenne": {
       "value": "Q122482",
@@ -3769,11 +3664,6 @@
     },
     "Manta": {
       "value": "Q16489490",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Tree City USA": {
-      "value": "Q42537;Q100711795",
       "prob": 1.0,
       "count": 2
     },
@@ -3789,6 +3679,11 @@
     },
     "Castilla-La Mancha": {
       "value": "Q601391",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Santa Clara Valley Transportation Authority": {
+      "value": "Q106991354",
       "prob": 1.0,
       "count": 2
     },
@@ -3882,11 +3777,6 @@
       "prob": 1.0,
       "count": 6
     },
-    "Nederland": {
-      "value": "Q46585",
-      "prob": 1.0,
-      "count": 2
-    },
     "Europese Unie": {
       "value": "Q122482",
       "prob": 1.0,
@@ -3905,12 +3795,12 @@
     "Gambia": {
       "value": "Q135014",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
-    "United States;Illinois": {
-      "value": "Q42537;Q752837",
-      "prob": 1.0,
-      "count": 25
+    "Rosemont": {
+      "value": "Q140002970",
+      "prob": 0.8,
+      "count": 5
     },
     "中華民國國旗": {
       "value": "Q173535",
@@ -3922,11 +3812,6 @@
       "prob": 1.0,
       "count": 3
     },
-    "POW-MIA": {
-      "value": "Q1463762",
-      "prob": 1.0,
-      "count": 5
-    },
     "Western Australia": {
       "value": "Q1091279",
       "prob": 1.0,
@@ -3936,11 +3821,6 @@
       "value": "Q46835",
       "prob": 1.0,
       "count": 3
-    },
-    "Illinois;Chicago": {
-      "value": "Q752837;Q1402799",
-      "prob": 1.0,
-      "count": 4
     },
     "افغانستان": {
       "value": "Q79874",
@@ -3965,22 +3845,12 @@
     "coq wallon": {
       "value": "Q617649",
       "prob": 1.0,
-      "count": 4
-    },
-    "POW MIA": {
-      "value": "Q1463762",
-      "prob": 1.0,
-      "count": 3
+      "count": 5
     },
     "Thales": {
       "value": "Q1161666",
       "prob": 1.0,
       "count": 2
-    },
-    "United States;McDonald's": {
-      "value": "Q42537;Q64300176",
-      "prob": 1.0,
-      "count": 14
     },
     "Cayman Islands": {
       "value": "Q174487",
@@ -4007,29 +3877,14 @@
       "prob": 1.0,
       "count": 4
     },
-    "United States;Ukraine": {
-      "value": "Q42537;Q127974",
-      "prob": 1.0,
-      "count": 6
-    },
     "Ukraina": {
       "value": "Q127974",
       "prob": 1.0,
       "count": 2
     },
-    "United States;Maryland": {
-      "value": "Q42537;Q752569",
-      "prob": 1.0,
-      "count": 5
-    },
     "Niles": {
       "value": "Q601166",
       "prob": 1.0,
-      "count": 3
-    },
-    "US;POW/MIA": {
-      "value": "Q42537;Q1463762",
-      "prob": 0.75,
       "count": 4
     },
     "Castilla y León": {
@@ -4057,25 +3912,20 @@
       "prob": 1.0,
       "count": 2
     },
+    "MIA": {
+      "value": "Q1463762",
+      "prob": 1.0,
+      "count": 2
+    },
     "Provence-Alpes-Côte d'Azur": {
       "value": "Q12143656",
       "prob": 1.0,
       "count": 6
     },
-    "United States;Village of Wauconda": {
-      "value": "Q42537",
-      "prob": 1.0,
-      "count": 2
-    },
     "Flag of Australia": {
       "value": "Q81676",
       "prob": 1.0,
       "count": 2
-    },
-    "POW": {
-      "value": "Q1463762",
-      "prob": 1.0,
-      "count": 5
     },
     "Hainaut": {
       "value": "Q2263781",
@@ -4102,15 +3952,10 @@
       "prob": 1.0,
       "count": 6
     },
-    "United States;New Hampshire": {
-      "value": "Q42537;Q248102",
-      "prob": 1.0,
-      "count": 2
-    },
     "POWMIA": {
       "value": "Q1463762",
       "prob": 1.0,
-      "count": 3
+      "count": 4
     },
     "Saint-Malo": {
       "value": "Q106501527",
@@ -4167,11 +4012,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States; POW MIA": {
-      "value": "Q42537; Q1463762",
-      "prob": 1.0,
-      "count": 10
-    },
     "United States Flag": {
       "value": "Q42537",
       "prob": 1.0,
@@ -4187,15 +4027,20 @@
       "prob": 1.0,
       "count": 3
     },
-    "Polen": {
-      "value": "Q42436",
-      "prob": 1.0,
-      "count": 3
-    },
     "Cancale": {
       "value": "Q112964480",
       "prob": 1.0,
       "count": 3
+    },
+    "Savoie": {
+      "value": "Q16630001",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Flag of the United States": {
+      "value": "Q42537",
+      "prob": 1.0,
+      "count": 2
     },
     "bretagne": {
       "value": "Q12188",
@@ -4235,7 +4080,7 @@
     "Cicero": {
       "value": "Q578221",
       "prob": 1.0,
-      "count": 3
+      "count": 4
     },
     "Dijon": {
       "value": "Q112963130",
@@ -4305,7 +4150,7 @@
     "pow": {
       "value": "Q1463762",
       "prob": 1.0,
-      "count": 7
+      "count": 8
     },
     "RU": {
       "value": "Q16611",
@@ -4407,6 +4252,11 @@
       "prob": 1.0,
       "count": 4
     },
+    "Assyrian": {
+      "value": "Q1073859",
+      "prob": 1.0,
+      "count": 2
+    },
     "US Army": {
       "value": "Q5456898",
       "prob": 1.0,
@@ -4492,20 +4342,20 @@
       "prob": 1.0,
       "count": 10
     },
-    "United States;Israel": {
-      "value": "Q42537;Q128480",
+    "Northwestern University": {
+      "value": "Q309350",
       "prob": 1.0,
-      "count": 5
+      "count": 3
     },
     "Norridge": {
       "value": "Q2666488",
       "prob": 1.0,
       "count": 2
     },
-    "United States;POW/MIA;Chicago": {
-      "value": "Q42537;Q1463762;Q1402799",
+    "Harwood Heights": {
+      "value": "Q1976009",
       "prob": 1.0,
-      "count": 3
+      "count": 2
     },
     "germany": {
       "value": "Q48160",
@@ -4537,11 +4387,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "Tree City USA": {
-      "value": "Q100711795",
-      "prob": 1.0,
-      "count": 6
-    },
     "united states": {
       "value": "Q42537",
       "prob": 1.0,
@@ -4555,7 +4400,7 @@
     "Progress Pride": {
       "value": "Q96633914",
       "prob": 1.0,
-      "count": 15
+      "count": 17
     },
     "East Chicago": {
       "value": "Q599694",
@@ -4572,11 +4417,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "Ohio;United States": {
-      "value": "Q752559;Q42537",
-      "prob": 1.0,
-      "count": 2
-    },
     "Orania": {
       "value": "Q111912959",
       "prob": 1.0,
@@ -4586,11 +4426,6 @@
       "value": "Q2584616",
       "prob": 1.0,
       "count": 2
-    },
-    "United States;POW/MIA;Illinois": {
-      "value": "Q42537;Q1463762;Q752837",
-      "prob": 1.0,
-      "count": 5
     },
     "Rotterdam": {
       "value": "Q1856088",
@@ -4635,7 +4470,7 @@
     "california": {
       "value": "Q330517",
       "prob": 1.0,
-      "count": 3
+      "count": 4
     },
     "Carabineros de Chile": {
       "value": "Q160872",
@@ -4692,11 +4527,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "Illinois;POW/MIA": {
-      "value": "Q752837;Q1463762",
-      "prob": 1.0,
-      "count": 2
-    },
     "ohio": {
       "value": "Q752559",
       "prob": 1.0,
@@ -4711,11 +4541,6 @@
       "value": "Q731163",
       "prob": 1.0,
       "count": 2
-    },
-    "United States;Pan-African": {
-      "value": "Q42537;Q2029729",
-      "prob": 1.0,
-      "count": 4
     },
     "Tschechische Republik": {
       "value": "Q127155",
@@ -4741,11 +4566,6 @@
       "value": "Q392167",
       "prob": 1.0,
       "count": 8
-    },
-    "Rosemont": {
-      "value": "Q140002970",
-      "prob": 1.0,
-      "count": 4
     },
     "Åland Islands": {
       "value": "Q202610",
@@ -4797,11 +4617,6 @@
       "prob": 1.0,
       "count": 4
     },
-    "United States;Virginia": {
-      "value": "Q42537;Q18993",
-      "prob": 1.0,
-      "count": 2
-    },
     "HU": {
       "value": "Q81970",
       "prob": 1.0,
@@ -4821,6 +4636,11 @@
       "value": "Q12990",
       "prob": 1.0,
       "count": 2
+    },
+    "United States Army Corps of Engineers": {
+      "value": "Q140002976",
+      "prob": 1.0,
+      "count": 4
     },
     "montana": {
       "value": "Q633087",
@@ -4852,11 +4672,6 @@
       "prob": 1.0,
       "count": 3
     },
-    "US;Ohio": {
-      "value": "Q42537;Q752559",
-      "prob": 1.0,
-      "count": 2
-    },
     "PS": {
       "value": "Q130739387",
       "prob": 1.0,
@@ -4866,11 +4681,6 @@
       "value": "Q578778",
       "prob": 1.0,
       "count": 2
-    },
-    "United States;United States Army Corps of Engineers": {
-      "value": "Q42537;Q140002976",
-      "prob": 1.0,
-      "count": 3
     },
     "Türk Bayrağı": {
       "value": "Q81952",
@@ -4935,7 +4745,7 @@
     "Lansing": {
       "value": "Q2668483",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "Türkiye": {
       "value": "Q81952",
@@ -4947,10 +4757,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Evanston;Pan-African": {
-      "value": "Q42537;Q140002968;Q2029729",
+    "Evanston": {
+      "value": "Q140002968",
       "prob": 1.0,
-      "count": 4
+      "count": 5
     },
     "Texas State Flag": {
       "value": "Q19000",
@@ -4992,18 +4802,13 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;POW/MIA flag": {
-      "value": "Q42537;Q1463762",
+    "POW/MIA flag": {
+      "value": "Q1463762",
       "prob": 1.0,
       "count": 2
     },
-    "United States;POW/MIA;Illinois;Chicago": {
-      "value": "Q42537;Q1463762;Q752837;Q1402799",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;National League of POW/MIA Families": {
-      "value": "Q42537;Q1463762",
+    "National League of POW/MIA Families": {
+      "value": "Q1463762",
       "prob": 1.0,
       "count": 3
     },
@@ -5110,7 +4915,7 @@
     "Δήμος Αθηναίων": {
       "value": "Q141144981",
       "prob": 1.0,
-      "count": 13
+      "count": 24
     },
     "World Scout Emblem": {
       "value": "Q8036139",
@@ -5192,18 +4997,28 @@
       "prob": 1.0,
       "count": 2
     },
+    "intersex-inclusive pride flag": {
+      "value": "Q107787322",
+      "prob": 1.0,
+      "count": 2
+    },
+    "American Flag": {
+      "value": "Q42537",
+      "prob": 1.0,
+      "count": 5
+    },
     "Zastava Republike Srbije": {
       "value": "Q163832",
       "prob": 1.0,
       "count": 4
     },
-    "American Flag": {
-      "value": "Q42537",
-      "prob": 1.0,
-      "count": 4
-    },
     "Guelph": {
       "value": "Q504114",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Commonwealth of Virginia": {
+      "value": "Q18993",
       "prob": 1.0,
       "count": 2
     },
@@ -5217,17 +5032,22 @@
     "United States": {
       "value": "Q42537",
       "prob": 1.0,
-      "count": 16263
+      "count": 17514
     },
     "Israel": {
       "value": "Q128480",
       "prob": 1.0,
-      "count": 61
+      "count": 66
     },
     "Australia": {
       "value": "Q81676",
       "prob": 1.0,
-      "count": 336
+      "count": 341
+    },
+    "Jordan": {
+      "value": "Q170064",
+      "prob": 1.0,
+      "count": 20
     },
     "Vietnam": {
       "value": "Q131204",
@@ -5242,7 +5062,7 @@
     "Germany": {
       "value": "Q48160",
       "prob": 1.0,
-      "count": 295
+      "count": 296
     },
     "Kyrgyzstan": {
       "value": "Q165641",
@@ -5252,7 +5072,7 @@
     "Spain": {
       "value": "Q121688",
       "prob": 1.0,
-      "count": 382
+      "count": 385
     },
     "Connecticut": {
       "value": "Q752573",
@@ -5262,17 +5082,17 @@
     "McDonald's": {
       "value": "Q64300176",
       "prob": 1.0,
-      "count": 160
+      "count": 182
     },
     "Philippines": {
       "value": "Q134627",
       "prob": 1.0,
-      "count": 1221
+      "count": 1222
     },
     "Canada": {
       "value": "Q80110",
       "prob": 1.0,
-      "count": 1040
+      "count": 1049
     },
     "American Samoa": {
       "value": "Q242502",
@@ -5282,7 +5102,7 @@
     "California": {
       "value": "Q330517",
       "prob": 1.0,
-      "count": 200
+      "count": 355
     },
     "Nicaragua": {
       "value": "Q172533",
@@ -5292,12 +5112,12 @@
     "Italy": {
       "value": "Q42876",
       "prob": 1.0,
-      "count": 572
+      "count": 576
     },
     "People's Republic of China": {
       "value": "Q131147",
       "prob": 1.0,
-      "count": 957
+      "count": 962
     },
     "Romania": {
       "value": "Q130811",
@@ -5312,7 +5132,12 @@
     "France": {
       "value": "Q43192",
       "prob": 1.0,
-      "count": 2355
+      "count": 2359
+    },
+    "National League of POW/MIA Families": {
+      "value": "Q1463762",
+      "prob": 1.0,
+      "count": 736
     },
     "Society of the Cincinnati": {
       "value": "Q62932637",
@@ -5327,7 +5152,7 @@
     "Chile": {
       "value": "Q160872",
       "prob": 1.0,
-      "count": 416
+      "count": 422
     },
     "Estonia": {
       "value": "Q81471",
@@ -5352,12 +5177,12 @@
     "Europe": {
       "value": "Q122482",
       "prob": 1.0,
-      "count": 1588
+      "count": 1592
     },
     "Turkey": {
       "value": "Q81952",
       "prob": 1.0,
-      "count": 287
+      "count": 289
     },
     "Albania": {
       "value": "Q48409",
@@ -5372,7 +5197,7 @@
     "Greece": {
       "value": "Q129132",
       "prob": 0.99,
-      "count": 271
+      "count": 287
     },
     "Finland": {
       "value": "Q47891",
@@ -5387,12 +5212,12 @@
     "Illinois": {
       "value": "Q752837",
       "prob": 1.0,
-      "count": 343
+      "count": 386
     },
     "Chicago": {
       "value": "Q1402799",
       "prob": 1.0,
-      "count": 337
+      "count": 405
     },
     "Maldives": {
       "value": "Q169441",
@@ -5412,22 +5237,22 @@
     "Sweden": {
       "value": "Q81286",
       "prob": 1.0,
-      "count": 648
+      "count": 649
     },
     "Florida": {
       "value": "Q730106",
       "prob": 1.0,
-      "count": 75
+      "count": 94
     },
     "Oregon": {
       "value": "Q19427",
       "prob": 1.0,
-      "count": 59
+      "count": 62
     },
     "South Korea": {
       "value": "Q127296",
       "prob": 1.0,
-      "count": 66
+      "count": 67
     },
     "New Zealand": {
       "value": "Q160260",
@@ -5437,32 +5262,22 @@
     "Mexico": {
       "value": "Q122462",
       "prob": 1.0,
-      "count": 262
-    },
-    "United States;California": {
-      "value": "Q42537;Q330517",
-      "prob": 1.0,
-      "count": 106
+      "count": 265
     },
     "Ukraine": {
       "value": "Q127974",
       "prob": 1.0,
-      "count": 293
-    },
-    "Jordan": {
-      "value": "Q170064",
-      "prob": 1.0,
-      "count": 19
+      "count": 300
     },
     "Argentina": {
       "value": "Q130774",
       "prob": 1.0,
-      "count": 604
+      "count": 606
     },
     "Portugal": {
       "value": "Q128812",
       "prob": 1.0,
-      "count": 91
+      "count": 92
     },
     "Belarus": {
       "value": "Q132633",
@@ -5472,7 +5287,7 @@
     "Holy See": {
       "value": "Q79198",
       "prob": 1.0,
-      "count": 28
+      "count": 29
     },
     "Zimbabwe": {
       "value": "Q159986",
@@ -5517,7 +5332,7 @@
     "United Kingdom": {
       "value": "Q83278",
       "prob": 0.99,
-      "count": 272
+      "count": 274
     },
     "United Arab Emirates": {
       "value": "Q134247",
@@ -5582,7 +5397,7 @@
     "Switzerland": {
       "value": "Q124020",
       "prob": 1.0,
-      "count": 135
+      "count": 137
     },
     "Suriname": {
       "value": "Q180725",
@@ -5602,7 +5417,7 @@
     "South Africa": {
       "value": "Q160250",
       "prob": 1.0,
-      "count": 21
+      "count": 22
     },
     "Somalia": {
       "value": "Q159538",
@@ -5702,12 +5517,12 @@
     "Poland": {
       "value": "Q42436",
       "prob": 1.0,
-      "count": 575
+      "count": 576
     },
     "Peru": {
       "value": "Q160255",
       "prob": 1.0,
-      "count": 34
+      "count": 35
     },
     "Paraguay": {
       "value": "Q170465",
@@ -5756,8 +5571,8 @@
     },
     "Netherlands": {
       "value": "Q46585",
-      "prob": 0.99,
-      "count": 97
+      "prob": 1.0,
+      "count": 96
     },
     "Nepal": {
       "value": "Q159741",
@@ -5852,7 +5667,7 @@
     "Lithuania": {
       "value": "Q81477",
       "prob": 1.0,
-      "count": 59
+      "count": 60
     },
     "Liechtenstein": {
       "value": "Q103055",
@@ -5882,7 +5697,7 @@
     "Laos": {
       "value": "Q46008",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Kuwait": {
       "value": "Q165545",
@@ -5902,7 +5717,7 @@
     "Japan": {
       "value": "Q43175",
       "prob": 1.0,
-      "count": 97
+      "count": 98
     },
     "Jamaica": {
       "value": "Q172517",
@@ -5927,12 +5742,12 @@
     "Indonesia": {
       "value": "Q101472",
       "prob": 1.0,
-      "count": 232
+      "count": 234
     },
     "India": {
       "value": "Q41673",
       "prob": 1.0,
-      "count": 107
+      "count": 108
     },
     "Iceland": {
       "value": "Q93335",
@@ -5942,7 +5757,7 @@
     "Hungary": {
       "value": "Q81970",
       "prob": 1.0,
-      "count": 132
+      "count": 133
     },
     "Honduras": {
       "value": "Q102939",
@@ -5987,7 +5802,7 @@
     "Gambia": {
       "value": "Q135014",
       "prob": 1.0,
-      "count": 3
+      "count": 4
     },
     "Gabon": {
       "value": "Q101769",
@@ -6067,7 +5882,7 @@
     "Czechia": {
       "value": "Q127155",
       "prob": 1.0,
-      "count": 106
+      "count": 107
     },
     "Republic of Cyprus": {
       "value": "Q4633",
@@ -6152,7 +5967,7 @@
     "Brazil": {
       "value": "Q82194",
       "prob": 1.0,
-      "count": 118
+      "count": 119
     },
     "Botswana": {
       "value": "Q160242",
@@ -6187,7 +6002,7 @@
     "Belgium": {
       "value": "Q12990",
       "prob": 1.0,
-      "count": 172
+      "count": 176
     },
     "Barbados": {
       "value": "Q104351",
@@ -6237,7 +6052,7 @@
     "Andorra": {
       "value": "Q81526",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Algeria": {
       "value": "Q83392",
@@ -6248,16 +6063,6 @@
       "value": "Q108111555",
       "prob": 1.0,
       "count": 7
-    },
-    "United States;National League of POW/MIA Families": {
-      "value": "Q42537;Q1463762",
-      "prob": 1.0,
-      "count": 430
-    },
-    "National League of POW/MIA Families": {
-      "value": "Q1463762",
-      "prob": 1.0,
-      "count": 237
     },
     "Minnesota Golden Gophers": {
       "value": "Q97503383",
@@ -6272,7 +6077,7 @@
     "Massachusetts": {
       "value": "Q221881",
       "prob": 1.0,
-      "count": 49
+      "count": 51
     },
     "United Nations": {
       "value": "Q172446",
@@ -6297,47 +6102,52 @@
     "Vatican City": {
       "value": "Q79198",
       "prob": 1.0,
-      "count": 34
+      "count": 35
     },
     "European Union": {
       "value": "Q98055852",
       "prob": 0.99,
-      "count": 325
+      "count": 328
     },
     "United States Coast Guard": {
       "value": "Q5456895",
       "prob": 1.0,
-      "count": 105
+      "count": 110
     },
     "Minnesota": {
       "value": "Q828147",
       "prob": 1.0,
-      "count": 30
+      "count": 31
     },
     "Maryland": {
       "value": "Q752569",
       "prob": 1.0,
-      "count": 48
+      "count": 52
     },
     "United States Army": {
       "value": "Q5456898",
       "prob": 1.0,
-      "count": 122
+      "count": 125
     },
     "United States Marine Corps": {
       "value": "Q5456897",
       "prob": 1.0,
-      "count": 121
+      "count": 136
     },
     "United States Navy": {
       "value": "Q5456899",
       "prob": 1.0,
-      "count": 109
+      "count": 112
     },
     "United States Air Force": {
       "value": "Q5456894",
       "prob": 1.0,
-      "count": 102
+      "count": 104
+    },
+    "Colorado": {
+      "value": "Q492546",
+      "prob": 1.0,
+      "count": 43
     },
     "Wales": {
       "value": "Q185692",
@@ -6352,17 +6162,17 @@
     "North Carolina": {
       "value": "Q19379",
       "prob": 1.0,
-      "count": 40
+      "count": 41
     },
     "British Columbia": {
       "value": "Q637134",
       "prob": 1.0,
-      "count": 55
+      "count": 56
     },
     "Texas": {
       "value": "Q19000",
       "prob": 1.0,
-      "count": 262
+      "count": 284
     },
     "Iowa": {
       "value": "Q492541",
@@ -6382,17 +6192,12 @@
     "Nevada": {
       "value": "Q752562",
       "prob": 1.0,
-      "count": 12
+      "count": 17
     },
     "Nebraska": {
       "value": "Q734071",
       "prob": 1.0,
       "count": 19
-    },
-    "Colorado": {
-      "value": "Q492546",
-      "prob": 1.0,
-      "count": 42
     },
     "North Dakota": {
       "value": "Q837312",
@@ -6412,22 +6217,22 @@
     "Idaho": {
       "value": "Q736760",
       "prob": 1.0,
-      "count": 6
+      "count": 9
     },
     "Wyoming": {
       "value": "Q492524",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Arkansas": {
       "value": "Q369833",
       "prob": 1.0,
-      "count": 19
+      "count": 20
     },
     "Missouri": {
       "value": "Q752557",
       "prob": 1.0,
-      "count": 39
+      "count": 40
     },
     "Maine": {
       "value": "Q499127",
@@ -6437,37 +6242,32 @@
     "Alabama": {
       "value": "Q497997",
       "prob": 1.0,
-      "count": 24
-    },
-    "Mississippi": {
-      "value": "Q301628",
-      "prob": 0.8,
-      "count": 10
+      "count": 28
     },
     "Indiana": {
       "value": "Q673117",
       "prob": 1.0,
-      "count": 63
+      "count": 85
     },
     "Louisiana": {
       "value": "Q19374",
       "prob": 1.0,
-      "count": 46
+      "count": 52
     },
     "Ohio": {
       "value": "Q752559",
       "prob": 1.0,
-      "count": 229
+      "count": 332
     },
     "Tennessee": {
       "value": "Q605195",
       "prob": 1.0,
-      "count": 20
+      "count": 25
     },
     "Kentucky": {
       "value": "Q590821",
       "prob": 1.0,
-      "count": 57
+      "count": 100
     },
     "Vermont": {
       "value": "Q524824",
@@ -6482,32 +6282,32 @@
     "New York": {
       "value": "Q19016",
       "prob": 1.0,
-      "count": 66
+      "count": 67
     },
     "Virginia": {
       "value": "Q18993",
       "prob": 1.0,
-      "count": 76
+      "count": 81
     },
     "New Hampshire": {
       "value": "Q248102",
       "prob": 1.0,
-      "count": 26
+      "count": 28
     },
     "South Carolina": {
       "value": "Q19373",
       "prob": 1.0,
-      "count": 43
+      "count": 48
     },
     "Pennsylvania": {
       "value": "Q18983",
       "prob": 1.0,
-      "count": 33
+      "count": 36
     },
     "Delaware": {
       "value": "Q752566",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Hawaii": {
       "value": "Q219726",
@@ -6517,12 +6317,12 @@
     "Alaska": {
       "value": "Q156564",
       "prob": 1.0,
-      "count": 10
+      "count": 14
     },
     "Arizona": {
       "value": "Q632491",
       "prob": 1.0,
-      "count": 32
+      "count": 42
     },
     "New Mexico": {
       "value": "Q642998",
@@ -6532,17 +6332,17 @@
     "Oklahoma": {
       "value": "Q258262",
       "prob": 1.0,
-      "count": 44
+      "count": 53
     },
     "Utah": {
       "value": "Q736625",
       "prob": 0.96,
-      "count": 26
+      "count": 28
     },
     "Michigan": {
       "value": "Q285418",
       "prob": 1.0,
-      "count": 48
+      "count": 51
     },
     "Archdiocese of Cincinnati": {
       "value": "Q62920304",
@@ -6554,20 +6354,15 @@
       "prob": 1.0,
       "count": 10
     },
-    "United States;Cincinnati": {
-      "value": "Q42537;Q5456721",
+    "Cincinnati": {
+      "value": "Q5456721",
       "prob": 1.0,
-      "count": 4
+      "count": 9
     },
     "Catalunya": {
       "value": "Q148807",
       "prob": 1.0,
       "count": 20
-    },
-    "United States;Symmes Township": {
-      "value": "Q42537",
-      "prob": 1.0,
-      "count": 2
     },
     "Navarra - Nafarroa": {
       "value": "Q1091411",
@@ -6578,16 +6373,6 @@
       "value": "Q235475",
       "prob": 1.0,
       "count": 32
-    },
-    "Cincinnati": {
-      "value": "Q5456721",
-      "prob": 1.0,
-      "count": 5
-    },
-    "United States;Ohio": {
-      "value": "Q42537;Q752559",
-      "prob": 1.0,
-      "count": 89
     },
     "Polska": {
       "value": "Q42436",
@@ -6622,22 +6407,22 @@
     "Andalucía": {
       "value": "Q760401",
       "prob": 1.0,
-      "count": 39
+      "count": 40
+    },
+    "United States Department of the Interior": {
+      "value": "Q96963401",
+      "prob": 1.0,
+      "count": 2
     },
     "LGBT Pride": {
       "value": "Q51401",
       "prob": 1.0,
-      "count": 49
+      "count": 50
     },
     "Wisconsin": {
       "value": "Q241083",
       "prob": 1.0,
       "count": 56
-    },
-    "United States;Georgia": {
-      "value": "Q42537;Q676623",
-      "prob": 1.0,
-      "count": 7
     },
     "Bretagne": {
       "value": "Q12188",
@@ -6652,7 +6437,7 @@
     "Québec": {
       "value": "Q392167",
       "prob": 1.0,
-      "count": 63
+      "count": 65
     },
     "Nova Scotia": {
       "value": "Q601976",
@@ -6662,7 +6447,7 @@
     "Pan-Africanism": {
       "value": "Q2029729",
       "prob": 1.0,
-      "count": 3
+      "count": 7
     },
     "ASEAN": {
       "value": "Q783490",
@@ -6681,18 +6466,18 @@
     },
     "Washington": {
       "value": "Q731163",
-      "prob": 0.91,
-      "count": 35
+      "prob": 0.92,
+      "count": 37
     },
     "Wellington": {
       "value": "Q97515806",
       "prob": 1.0,
       "count": 2
     },
-    "United States;McDonald’s": {
-      "value": "Q42537;Q64300176",
-      "prob": 0.92,
-      "count": 12
+    "McDonald’s": {
+      "value": "Q64300176",
+      "prob": 1.0,
+      "count": 26
     },
     "Bayern": {
       "value": "Q707471",
@@ -6703,11 +6488,6 @@
       "value": "Q171117",
       "prob": 1.0,
       "count": 12
-    },
-    "United States; California": {
-      "value": "Q42537; Q330517",
-      "prob": 1.0,
-      "count": 10
     },
     "Madeira": {
       "value": "Q241781",
@@ -6737,22 +6517,12 @@
     "Hilton": {
       "value": "Q77795712",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Milwaukee County": {
       "value": "Q77796359",
       "prob": 1.0,
       "count": 2
-    },
-    "United States;Illinois;National League of POW/MIA Families": {
-      "value": "Q42537;Q752837;Q1463762",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Florida": {
-      "value": "Q42537;Q730106",
-      "prob": 1.0,
-      "count": 12
     },
     "West-Vlaanderen": {
       "value": "Q2963124",
@@ -6774,18 +6544,8 @@
       "prob": 1.0,
       "count": 9
     },
-    "United States;Oklahoma": {
-      "value": "Q42537;Q258262",
-      "prob": 1.0,
-      "count": 9
-    },
-    "United States;Greece": {
-      "value": "Q42537;Q129132",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Oregon": {
-      "value": "Q42537;Q19427",
+    "Homewood Suites": {
+      "value": "Q97501750",
       "prob": 1.0,
       "count": 2
     },
@@ -6799,10 +6559,10 @@
       "prob": 1.0,
       "count": 3
     },
-    "United States;Christianity": {
-      "value": "Q42537;Q1084035",
+    "Christianity": {
+      "value": "Q1084035",
       "prob": 1.0,
-      "count": 26
+      "count": 61
     },
     "New Orleans": {
       "value": "Q5456787",
@@ -6829,11 +6589,6 @@
       "prob": 0.8,
       "count": 5
     },
-    "United States;South Carolina": {
-      "value": "Q42537;Q19373",
-      "prob": 1.0,
-      "count": 5
-    },
     "Turku": {
       "value": "Q116486314",
       "prob": 1.0,
@@ -6843,11 +6598,6 @@
       "value": "Q15994084",
       "prob": 1.0,
       "count": 30
-    },
-    "United States;Alabama": {
-      "value": "Q42537;Q497997",
-      "prob": 1.0,
-      "count": 3
     },
     "Crown of Castile": {
       "value": "Q1073663",
@@ -6869,30 +6619,15 @@
       "prob": 1.0,
       "count": 3
     },
-    "United States;Hampton by Hilton": {
-      "value": "Q42537;Q70119112",
+    "Hampton by Hilton": {
+      "value": "Q70119112",
       "prob": 1.0,
-      "count": 2
-    },
-    "Christianity": {
-      "value": "Q1084035",
-      "prob": 1.0,
-      "count": 34
+      "count": 4
     },
     "Hilton Garden Inn": {
       "value": "Q74052383",
       "prob": 1.0,
       "count": 5
-    },
-    "United States;Texas": {
-      "value": "Q42537;Q19000",
-      "prob": 1.0,
-      "count": 21
-    },
-    "United States;Florida;National League of POW/MIA Families": {
-      "value": "Q42537;Q730106;Q1463762",
-      "prob": 1.0,
-      "count": 2
     },
     "United States Merchant Marine": {
       "value": "Q96912183",
@@ -6917,7 +6652,7 @@
     "New South Wales": {
       "value": "Q1064042",
       "prob": 1.0,
-      "count": 40
+      "count": 42
     },
     "Alberta": {
       "value": "Q1122078",
@@ -6929,11 +6664,6 @@
       "prob": 1.0,
       "count": 5
     },
-    "United States;Indiana": {
-      "value": "Q42537;Q673117",
-      "prob": 1.0,
-      "count": 21
-    },
     "RSL": {
       "value": "Q7317376",
       "prob": 1.0,
@@ -6944,15 +6674,10 @@
       "prob": 1.0,
       "count": 29
     },
-    "United States;Alaska": {
-      "value": "Q42537;Q156564",
+    "Tree City USA": {
+      "value": "Q100711795",
       "prob": 1.0,
-      "count": 4
-    },
-    "United States;Pennsylvania": {
-      "value": "Q42537;Q18983",
-      "prob": 1.0,
-      "count": 2
+      "count": 11
     },
     "Sachsen": {
       "value": "Q693701",
@@ -7029,16 +6754,6 @@
       "prob": 1.0,
       "count": 11
     },
-    "McDonald’s": {
-      "value": "Q64300176",
-      "prob": 1.0,
-      "count": 19
-    },
-    "United States;United States Marine Corps": {
-      "value": "Q42537;Q5456897",
-      "prob": 1.0,
-      "count": 11
-    },
     "Comunitat Valenciana": {
       "value": "Q933011",
       "prob": 1.0,
@@ -7049,10 +6764,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Kentucky": {
-      "value": "Q42537;Q590821",
-      "prob": 0.97,
-      "count": 32
+    "Hamilton County": {
+      "value": "Q62931620",
+      "prob": 1.0,
+      "count": 3
     },
     "Scotland": {
       "value": "Q102392",
@@ -7064,10 +6779,10 @@
       "prob": 1.0,
       "count": 3
     },
-    "Kentucky;Kentucky State Police": {
-      "value": "Q590821;Q63199275",
+    "Kentucky State Police": {
+      "value": "Q63199275",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "Buddhism": {
       "value": "Q1130142",
@@ -7078,11 +6793,6 @@
       "value": "Q30715977",
       "prob": 1.0,
       "count": 2
-    },
-    "United States;Chicago": {
-      "value": "Q42537;Q1402799",
-      "prob": 0.98,
-      "count": 55
     },
     "Ottawa": {
       "value": "Q2777623",
@@ -7114,20 +6824,25 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;International Association of Fire Fighters": {
-      "value": "Q42537",
-      "prob": 0.86,
-      "count": 7
+    "International Association of Fire Fighters": {
+      "value": "Q116986686",
+      "prob": 1.0,
+      "count": 5
     },
     "Northern Cyprus": {
       "value": "Q207518",
       "prob": 1.0,
       "count": 8
     },
+    "Harford County": {
+      "value": "Q96986169",
+      "prob": 1.0,
+      "count": 2
+    },
     "Saint Bernard": {
       "value": "Q65962766",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "Aragón": {
       "value": "Q774799",
@@ -7149,35 +6864,10 @@
       "prob": 1.0,
       "count": 9
     },
-    "United States;Sharonville": {
-      "value": "Q42537;Q66363800",
-      "prob": 1.0,
-      "count": 3
-    },
     "Sharonville": {
       "value": "Q66363800",
       "prob": 1.0,
-      "count": 2
-    },
-    "United States;United States Army": {
-      "value": "Q42537;Q5456898",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;United States Coast Guard": {
-      "value": "Q42537;Q5456895",
-      "prob": 1.0,
-      "count": 3
-    },
-    "United States;Louisiana": {
-      "value": "Q42537;Q19374",
-      "prob": 1.0,
       "count": 5
-    },
-    "International Association of Fire Fighters": {
-      "value": "Q116986686",
-      "prob": 1.0,
-      "count": 4
     },
     "Aboriginal Australians": {
       "value": "Q1285625",
@@ -7197,7 +6887,7 @@
     "American Legion": {
       "value": "Q67485913",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "University of Texas at Dallas": {
       "value": "Q96970816",
@@ -7214,10 +6904,20 @@
       "prob": 1.0,
       "count": 2
     },
+    "Cheviot": {
+      "value": "Q70631343",
+      "prob": 1.0,
+      "count": 2
+    },
     "Dayton": {
       "value": "Q98400609",
-      "prob": 0.75,
-      "count": 4
+      "prob": 0.8,
+      "count": 5
+    },
+    "Sycamore Township": {
+      "value": "Q71799582",
+      "prob": 1.0,
+      "count": 2
     },
     "Alexandria": {
       "value": "Q71877987",
@@ -7244,15 +6944,10 @@
       "prob": 1.0,
       "count": 43
     },
-    "United States;Arizona": {
-      "value": "Q42537;Q632491",
-      "prob": 1.0,
-      "count": 7
-    },
     "New Jersey": {
       "value": "Q119605",
       "prob": 1.0,
-      "count": 25
+      "count": 26
     },
     "Franche-Comté": {
       "value": "Q2452642",
@@ -7264,20 +6959,20 @@
       "prob": 1.0,
       "count": 44
     },
-    "United States;Kentucky;Florence": {
-      "value": "Q42537;Q590821;Q80606550",
+    "Florence": {
+      "value": "Q80606550",
       "prob": 1.0,
-      "count": 2
+      "count": 4
     },
     "Covington": {
       "value": "Q80739604",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
-    "United States;National League of POW/MIA Families;Ohio": {
-      "value": "Q42537;Q1463762;Q752559",
+    "KFC": {
+      "value": "Q80859443",
       "prob": 1.0,
-      "count": 4
+      "count": 2
     },
     "Wilder": {
       "value": "Q80907988",
@@ -7293,11 +6988,6 @@
       "value": "Q148807",
       "prob": 1.0,
       "count": 3
-    },
-    "Florence": {
-      "value": "Q80606550",
-      "prob": 1.0,
-      "count": 2
     },
     "Caodaism": {
       "value": "Q83302688",
@@ -7329,11 +7019,6 @@
       "prob": 1.0,
       "count": 5
     },
-    "United States;Kentucky;National League of POW/MIA Families": {
-      "value": "Q42537;Q590821;Q1463762",
-      "prob": 1.0,
-      "count": 4
-    },
     "Cook County": {
       "value": "Q96970847",
       "prob": 1.0,
@@ -7342,7 +7027,7 @@
     "United States Space Force": {
       "value": "Q94652289",
       "prob": 1.0,
-      "count": 16
+      "count": 17
     },
     "Torres Strait Islanders": {
       "value": "Q462621",
@@ -7359,6 +7044,11 @@
       "prob": 1.0,
       "count": 2
     },
+    "Laborers’ International Union of North America": {
+      "value": "Q96098094",
+      "prob": 1.0,
+      "count": 2
+    },
     "Prairie View A&M University": {
       "value": "Q96409154",
       "prob": 1.0,
@@ -7367,7 +7057,7 @@
     "Blue Lives Matter": {
       "value": "Q96676582",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "Baton Rouge": {
       "value": "Q5456699",
@@ -7378,11 +7068,6 @@
       "value": "Q783490",
       "prob": 1.0,
       "count": 8
-    },
-    "United States;Tennessee": {
-      "value": "Q42537;Q605195",
-      "prob": 1.0,
-      "count": 3
     },
     "Navajo Nation": {
       "value": "Q20020313",
@@ -7419,6 +7104,11 @@
       "prob": 1.0,
       "count": 4
     },
+    "Montgomery County": {
+      "value": "Q98400624",
+      "prob": 1.0,
+      "count": 3
+    },
     "Calcasieu Parish": {
       "value": "Q98691769",
       "prob": 1.0,
@@ -7439,11 +7129,6 @@
       "prob": 1.0,
       "count": 4
     },
-    "United States;Tree City USA": {
-      "value": "Q42537;Q100711795",
-      "prob": 1.0,
-      "count": 2
-    },
     "Marriott": {
       "value": "Q101221290",
       "prob": 1.0,
@@ -7454,15 +7139,15 @@
       "prob": 1.0,
       "count": 4
     },
-    "United States;Carl’s Jr.": {
-      "value": "Q42537;Q104202987",
+    "Carl’s Jr.": {
+      "value": "Q104202987",
       "prob": 1.0,
       "count": 2
     },
     "Walloon Region": {
       "value": "Q617649",
       "prob": 1.0,
-      "count": 5
+      "count": 6
     },
     "Lyon": {
       "value": "Q30909105",
@@ -7519,11 +7204,6 @@
       "prob": 1.0,
       "count": 17
     },
-    "United States;Illinois": {
-      "value": "Q42537;Q752837",
-      "prob": 0.93,
-      "count": 28
-    },
     "São Paulo": {
       "value": "Q2134803",
       "prob": 1.0,
@@ -7544,11 +7224,6 @@
       "prob": 1.0,
       "count": 4
     },
-    "Illinois;Chicago": {
-      "value": "Q752837;Q1402799",
-      "prob": 1.0,
-      "count": 4
-    },
     "Royal Air Force": {
       "value": "Q2914899",
       "prob": 1.0,
@@ -7558,11 +7233,6 @@
       "value": "Q390593",
       "prob": 1.0,
       "count": 3
-    },
-    "United States;McDonald's": {
-      "value": "Q42537;Q64300176",
-      "prob": 1.0,
-      "count": 14
     },
     "Cayman Islands": {
       "value": "Q174487",
@@ -7584,16 +7254,6 @@
       "prob": 1.0,
       "count": 3
     },
-    "United States;Ukraine": {
-      "value": "Q42537;Q127974",
-      "prob": 1.0,
-      "count": 6
-    },
-    "United States;Maryland": {
-      "value": "Q42537;Q752569",
-      "prob": 1.0,
-      "count": 3
-    },
     "Castilla y León": {
       "value": "Q1073663",
       "prob": 1.0,
@@ -7608,11 +7268,6 @@
       "value": "Q122482",
       "prob": 1.0,
       "count": 2
-    },
-    "United States;Michigan": {
-      "value": "Q42537;Q285418",
-      "prob": 1.0,
-      "count": 3
     },
     "Provence-Alpes-Côte d'Azur": {
       "value": "Q12143656",
@@ -7629,25 +7284,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;New Hampshire": {
-      "value": "Q42537;Q248102",
-      "prob": 1.0,
-      "count": 2
-    },
     "Saint-Malo": {
       "value": "Q106501527",
       "prob": 1.0,
       "count": 7
-    },
-    "National League of POW/MIA Families;United States": {
-      "value": "Q1463762;Q42537",
-      "prob": 0.8,
-      "count": 5
-    },
-    "United States; National League of POW/MIA Families": {
-      "value": "Q42537; Q1463762",
-      "prob": 1.0,
-      "count": 10
     },
     "Hesse": {
       "value": "Q2661050",
@@ -7924,8 +7564,8 @@
       "prob": 1.0,
       "count": 2
     },
-    "United States;Assyrian Nation": {
-      "value": "Q42537;Q1073859",
+    "Assyrian Nation": {
+      "value": "Q1073859",
       "prob": 1.0,
       "count": 2
     },
@@ -7939,24 +7579,9 @@
       "prob": 1.0,
       "count": 3
     },
-    "United States;Israel": {
-      "value": "Q42537;Q128480",
-      "prob": 1.0,
-      "count": 5
-    },
-    "United States;National League of POW/MIA Families;Chicago": {
-      "value": "Q42537;Q1463762;Q1402799",
-      "prob": 1.0,
-      "count": 3
-    },
-    "Tree City USA": {
-      "value": "Q100711795",
-      "prob": 1.0,
-      "count": 7
-    },
     "LGBT+ Rights": {
       "value": "Q96633914",
-      "prob": 0.88,
+      "prob": 0.94,
       "count": 17
     },
     "Santo André": {
@@ -7964,20 +7589,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "Ohio;United States": {
-      "value": "Q752559;Q42537",
-      "prob": 1.0,
-      "count": 2
-    },
     "La Frette-sur-Seine": {
       "value": "Q123115016",
       "prob": 1.0,
       "count": 2
-    },
-    "United States;National League of POW/MIA Families;Illinois": {
-      "value": "Q42537;Q1463762;Q752837",
-      "prob": 1.0,
-      "count": 5
     },
     "Rotterdam": {
       "value": "Q1856088",
@@ -8004,23 +7619,8 @@
       "prob": 1.0,
       "count": 6
     },
-    "Illinois;National League of POW/MIA Families": {
-      "value": "Q752837;Q1463762",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Pan-Africanism": {
-      "value": "Q42537;Q2029729",
-      "prob": 0.8,
-      "count": 5
-    },
     "Åland Islands": {
       "value": "Q202610",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;Virginia": {
-      "value": "Q42537;Q18993",
       "prob": 1.0,
       "count": 2
     },
@@ -8034,18 +7634,8 @@
       "prob": 1.0,
       "count": 2
     },
-    "Hampton by Hilton": {
-      "value": "Q70119112",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;": {
-      "value": "Q42537;Q1463762",
-      "prob": 1.0,
-      "count": 2
-    },
-    "United States;National League of POW/MIA Families;Illinois;Chicago": {
-      "value": "Q42537;Q1463762;Q752837;Q1402799",
+    "": {
+      "value": "Q1463762",
       "prob": 1.0,
       "count": 2
     },
@@ -8077,7 +7667,7 @@
     "Municipality of Athens": {
       "value": "Q141144981",
       "prob": 1.0,
-      "count": 4
+      "count": 14
     },
     "Oldenburg": {
       "value": "Q139493892",
@@ -8088,23 +7678,33 @@
       "value": "Q140812125",
       "prob": 1.0,
       "count": 2
+    },
+    "Fire and Rescue New South Wales": {
+      "value": "Q140936143",
+      "prob": 1.0,
+      "count": 2
     }
   },
   "subject:wikidata": {
     "Q30": {
       "value": "Q42537",
       "prob": 1.0,
-      "count": 16266
+      "count": 17523
     },
     "Q801": {
       "value": "Q128480",
       "prob": 1.0,
-      "count": 61
+      "count": 66
     },
     "Q408": {
       "value": "Q81676",
       "prob": 1.0,
-      "count": 336
+      "count": 341
+    },
+    "Q810": {
+      "value": "Q170064",
+      "prob": 1.0,
+      "count": 20
     },
     "Q881": {
       "value": "Q131204",
@@ -8119,7 +7719,7 @@
     "Q183": {
       "value": "Q48160",
       "prob": 1.0,
-      "count": 296
+      "count": 297
     },
     "Q813": {
       "value": "Q165641",
@@ -8129,7 +7729,7 @@
     "Q29": {
       "value": "Q121688",
       "prob": 1.0,
-      "count": 384
+      "count": 387
     },
     "Q779": {
       "value": "Q752573",
@@ -8139,17 +7739,17 @@
     "Q38076": {
       "value": "Q64300176",
       "prob": 1.0,
-      "count": 179
+      "count": 208
     },
     "Q928": {
       "value": "Q134627",
       "prob": 1.0,
-      "count": 1221
+      "count": 1222
     },
     "Q16": {
       "value": "Q80110",
       "prob": 1.0,
-      "count": 1040
+      "count": 1049
     },
     "Q16641": {
       "value": "Q242502",
@@ -8159,7 +7759,7 @@
     "Q99": {
       "value": "Q330517",
       "prob": 1.0,
-      "count": 200
+      "count": 356
     },
     "Q811": {
       "value": "Q172533",
@@ -8169,12 +7769,12 @@
     "Q38": {
       "value": "Q42876",
       "prob": 1.0,
-      "count": 573
+      "count": 577
     },
     "Q148": {
       "value": "Q131147",
       "prob": 1.0,
-      "count": 957
+      "count": 962
     },
     "Q218": {
       "value": "Q130811",
@@ -8189,7 +7789,12 @@
     "Q142": {
       "value": "Q43192",
       "prob": 1.0,
-      "count": 2355
+      "count": 2359
+    },
+    "Q6974069": {
+      "value": "Q1463762",
+      "prob": 1.0,
+      "count": 734
     },
     "Q1632484": {
       "value": "Q62932637",
@@ -8204,7 +7809,7 @@
     "Q298": {
       "value": "Q160872",
       "prob": 1.0,
-      "count": 416
+      "count": 422
     },
     "Q191": {
       "value": "Q81471",
@@ -8229,12 +7834,12 @@
     "Q46": {
       "value": "Q122482",
       "prob": 1.0,
-      "count": 1587
+      "count": 1591
     },
     "Q43": {
       "value": "Q81952",
       "prob": 1.0,
-      "count": 287
+      "count": 289
     },
     "Q222": {
       "value": "Q48409",
@@ -8249,7 +7854,7 @@
     "Q41": {
       "value": "Q129132",
       "prob": 0.99,
-      "count": 271
+      "count": 287
     },
     "Q33": {
       "value": "Q47891",
@@ -8264,12 +7869,12 @@
     "Q1204": {
       "value": "Q752837",
       "prob": 1.0,
-      "count": 343
+      "count": 386
     },
     "Q1297": {
       "value": "Q1402799",
       "prob": 1.0,
-      "count": 337
+      "count": 405
     },
     "Q230": {
       "value": "Q26491",
@@ -8294,22 +7899,22 @@
     "Q34": {
       "value": "Q81286",
       "prob": 1.0,
-      "count": 120
+      "count": 121
     },
     "Q812": {
       "value": "Q730106",
       "prob": 1.0,
-      "count": 75
+      "count": 95
     },
     "Q824": {
       "value": "Q19427",
       "prob": 1.0,
-      "count": 59
+      "count": 62
     },
     "Q884": {
       "value": "Q127296",
       "prob": 1.0,
-      "count": 66
+      "count": 67
     },
     "Q664": {
       "value": "Q160260",
@@ -8319,32 +7924,22 @@
     "Q96": {
       "value": "Q122462",
       "prob": 1.0,
-      "count": 264
-    },
-    "Q30;Q99": {
-      "value": "Q42537;Q330517",
-      "prob": 1.0,
-      "count": 105
+      "count": 267
     },
     "Q212": {
       "value": "Q127974",
       "prob": 1.0,
-      "count": 294
-    },
-    "Q810": {
-      "value": "Q170064",
-      "prob": 1.0,
-      "count": 19
+      "count": 301
     },
     "Q414": {
       "value": "Q130774",
       "prob": 1.0,
-      "count": 604
+      "count": 606
     },
     "Q45": {
       "value": "Q128812",
       "prob": 1.0,
-      "count": 91
+      "count": 92
     },
     "Q184": {
       "value": "Q132633",
@@ -8354,7 +7949,7 @@
     "Q159583": {
       "value": "Q79198",
       "prob": 1.0,
-      "count": 28
+      "count": 29
     },
     "Q954": {
       "value": "Q159986",
@@ -8399,7 +7994,7 @@
     "Q145": {
       "value": "Q83278",
       "prob": 0.99,
-      "count": 272
+      "count": 274
     },
     "Q878": {
       "value": "Q134247",
@@ -8464,7 +8059,7 @@
     "Q39": {
       "value": "Q124020",
       "prob": 1.0,
-      "count": 136
+      "count": 138
     },
     "Q730": {
       "value": "Q180725",
@@ -8484,7 +8079,7 @@
     "Q258": {
       "value": "Q160250",
       "prob": 1.0,
-      "count": 21
+      "count": 22
     },
     "Q1045": {
       "value": "Q159538",
@@ -8584,12 +8179,12 @@
     "Q36": {
       "value": "Q42436",
       "prob": 1.0,
-      "count": 581
+      "count": 582
     },
     "Q419": {
       "value": "Q160255",
       "prob": 1.0,
-      "count": 34
+      "count": 35
     },
     "Q733": {
       "value": "Q170465",
@@ -8638,8 +8233,8 @@
     },
     "Q55": {
       "value": "Q46585",
-      "prob": 0.99,
-      "count": 97
+      "prob": 1.0,
+      "count": 96
     },
     "Q837": {
       "value": "Q159741",
@@ -8734,7 +8329,7 @@
     "Q37": {
       "value": "Q81477",
       "prob": 1.0,
-      "count": 59
+      "count": 60
     },
     "Q347": {
       "value": "Q103055",
@@ -8764,7 +8359,7 @@
     "Q819": {
       "value": "Q46008",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Q817": {
       "value": "Q165545",
@@ -8784,7 +8379,7 @@
     "Q17": {
       "value": "Q43175",
       "prob": 1.0,
-      "count": 97
+      "count": 98
     },
     "Q766": {
       "value": "Q172517",
@@ -8809,12 +8404,12 @@
     "Q252": {
       "value": "Q101472",
       "prob": 1.0,
-      "count": 232
+      "count": 234
     },
     "Q668": {
       "value": "Q41673",
       "prob": 1.0,
-      "count": 107
+      "count": 108
     },
     "Q189": {
       "value": "Q93335",
@@ -8824,7 +8419,7 @@
     "Q28": {
       "value": "Q81970",
       "prob": 1.0,
-      "count": 133
+      "count": 134
     },
     "Q783": {
       "value": "Q102939",
@@ -8869,7 +8464,7 @@
     "Q1005": {
       "value": "Q135014",
       "prob": 1.0,
-      "count": 3
+      "count": 4
     },
     "Q1000": {
       "value": "Q101769",
@@ -8949,7 +8544,7 @@
     "Q213": {
       "value": "Q127155",
       "prob": 1.0,
-      "count": 106
+      "count": 107
     },
     "Q229": {
       "value": "Q4633",
@@ -9034,7 +8629,7 @@
     "Q155": {
       "value": "Q82194",
       "prob": 1.0,
-      "count": 118
+      "count": 119
     },
     "Q963": {
       "value": "Q160242",
@@ -9069,7 +8664,7 @@
     "Q31": {
       "value": "Q12990",
       "prob": 1.0,
-      "count": 174
+      "count": 178
     },
     "Q244": {
       "value": "Q104351",
@@ -9119,7 +8714,7 @@
     "Q228": {
       "value": "Q81526",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Q262": {
       "value": "Q83392",
@@ -9130,16 +8725,6 @@
       "value": "Q108111555",
       "prob": 1.0,
       "count": 7
-    },
-    "Q30;Q6974069": {
-      "value": "Q42537;Q1463762",
-      "prob": 1.0,
-      "count": 429
-    },
-    "Q6974069": {
-      "value": "Q1463762",
-      "prob": 1.0,
-      "count": 238
     },
     "Q2465468": {
       "value": "Q97503383",
@@ -9154,7 +8739,7 @@
     "Q771": {
       "value": "Q221881",
       "prob": 1.0,
-      "count": 49
+      "count": 51
     },
     "Q1065": {
       "value": "Q172446",
@@ -9179,47 +8764,52 @@
     "Q237": {
       "value": "Q79198",
       "prob": 1.0,
-      "count": 34
+      "count": 35
     },
     "Q458": {
       "value": "Q98055852",
       "prob": 0.98,
-      "count": 332
+      "count": 335
     },
     "Q11224": {
       "value": "Q5456895",
       "prob": 1.0,
-      "count": 105
+      "count": 110
     },
     "Q1527": {
       "value": "Q828147",
       "prob": 1.0,
-      "count": 30
+      "count": 31
     },
     "Q1391": {
       "value": "Q752569",
       "prob": 1.0,
-      "count": 48
+      "count": 52
     },
     "Q9212": {
       "value": "Q5456898",
       "prob": 1.0,
-      "count": 122
+      "count": 125
     },
     "Q11218": {
       "value": "Q5456897",
       "prob": 1.0,
-      "count": 121
+      "count": 136
     },
     "Q11220": {
       "value": "Q5456899",
       "prob": 1.0,
-      "count": 109
+      "count": 112
     },
     "Q11223": {
       "value": "Q5456894",
       "prob": 1.0,
-      "count": 102
+      "count": 104
+    },
+    "Q1261": {
+      "value": "Q492546",
+      "prob": 1.0,
+      "count": 43
     },
     "Q25": {
       "value": "Q185692",
@@ -9239,17 +8829,17 @@
     "Q1454": {
       "value": "Q19379",
       "prob": 1.0,
-      "count": 41
+      "count": 42
     },
     "Q1973": {
       "value": "Q637134",
       "prob": 1.0,
-      "count": 55
+      "count": 56
     },
     "Q1439": {
       "value": "Q19000",
       "prob": 1.0,
-      "count": 261
+      "count": 283
     },
     "Q1546": {
       "value": "Q492541",
@@ -9269,17 +8859,12 @@
     "Q1227": {
       "value": "Q752562",
       "prob": 1.0,
-      "count": 12
+      "count": 17
     },
     "Q1553": {
       "value": "Q734071",
       "prob": 1.0,
       "count": 19
-    },
-    "Q1261": {
-      "value": "Q492546",
-      "prob": 1.0,
-      "count": 42
     },
     "Q1207": {
       "value": "Q837312",
@@ -9299,22 +8884,22 @@
     "Q1221": {
       "value": "Q736760",
       "prob": 1.0,
-      "count": 6
+      "count": 9
     },
     "Q1214": {
       "value": "Q492524",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Q1612": {
       "value": "Q369833",
       "prob": 1.0,
-      "count": 19
+      "count": 20
     },
     "Q1581": {
       "value": "Q752557",
       "prob": 1.0,
-      "count": 39
+      "count": 40
     },
     "Q724": {
       "value": "Q499127",
@@ -9324,37 +8909,32 @@
     "Q173": {
       "value": "Q497997",
       "prob": 1.0,
-      "count": 24
-    },
-    "Q1494": {
-      "value": "Q301628",
-      "prob": 0.8,
-      "count": 10
+      "count": 28
     },
     "Q1415": {
       "value": "Q673117",
       "prob": 1.0,
-      "count": 63
+      "count": 85
     },
     "Q1588": {
       "value": "Q19374",
       "prob": 1.0,
-      "count": 46
+      "count": 52
     },
     "Q1397": {
       "value": "Q752559",
       "prob": 1.0,
-      "count": 228
+      "count": 330
     },
     "Q1509": {
       "value": "Q605195",
       "prob": 1.0,
-      "count": 20
+      "count": 25
     },
     "Q1603": {
       "value": "Q590821",
       "prob": 1.0,
-      "count": 57
+      "count": 100
     },
     "Q16551": {
       "value": "Q524824",
@@ -9369,37 +8949,37 @@
     "Q1384": {
       "value": "Q19016",
       "prob": 1.0,
-      "count": 67
+      "count": 68
     },
     "Q1370": {
       "value": "Q18993",
       "prob": 1.0,
-      "count": 76
+      "count": 81
     },
     "Q759": {
       "value": "Q248102",
       "prob": 1.0,
-      "count": 26
+      "count": 28
     },
     "Q1456": {
       "value": "Q19373",
       "prob": 1.0,
-      "count": 43
+      "count": 48
     },
     "Q1428": {
       "value": "Q676623",
-      "prob": 0.88,
-      "count": 41
+      "prob": 0.9,
+      "count": 48
     },
     "Q1400": {
       "value": "Q18983",
       "prob": 1.0,
-      "count": 33
+      "count": 36
     },
     "Q1393": {
       "value": "Q752566",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Q782": {
       "value": "Q219726",
@@ -9409,12 +8989,12 @@
     "Q797": {
       "value": "Q156564",
       "prob": 1.0,
-      "count": 10
+      "count": 14
     },
     "Q816": {
       "value": "Q632491",
       "prob": 1.0,
-      "count": 32
+      "count": 42
     },
     "Q1522": {
       "value": "Q642998",
@@ -9424,17 +9004,17 @@
     "Q1649": {
       "value": "Q258262",
       "prob": 1.0,
-      "count": 44
+      "count": 53
     },
     "Q829": {
       "value": "Q736625",
       "prob": 0.96,
-      "count": 26
+      "count": 28
     },
     "Q1166": {
       "value": "Q285418",
       "prob": 1.0,
-      "count": 48
+      "count": 51
     },
     "Q1364360": {
       "value": "Q62920304",
@@ -9446,10 +9026,10 @@
       "prob": 1.0,
       "count": 10
     },
-    "Q30;Q43196": {
-      "value": "Q42537;Q5456721",
+    "Q43196": {
+      "value": "Q5456721",
       "prob": 1.0,
-      "count": 4
+      "count": 9
     },
     "Q1969162": {
       "value": "Q77780557",
@@ -9461,11 +9041,6 @@
       "prob": 1.0,
       "count": 23
     },
-    "Q30;Q7661298": {
-      "value": "Q42537",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q4018": {
       "value": "Q1091411",
       "prob": 1.0,
@@ -9475,16 +9050,6 @@
       "value": "Q235475",
       "prob": 1.0,
       "count": 33
-    },
-    "Q43196": {
-      "value": "Q5456721",
-      "prob": 1.0,
-      "count": 5
-    },
-    "Q30;Q1397": {
-      "value": "Q42537;Q752559",
-      "prob": 1.0,
-      "count": 88
     },
     "Q772": {
       "value": "Q2265085",
@@ -9514,22 +9079,22 @@
     "Q5783": {
       "value": "Q760401",
       "prob": 1.0,
-      "count": 42
+      "count": 43
+    },
+    "Q608427": {
+      "value": "Q96963401",
+      "prob": 1.0,
+      "count": 2
     },
     "Q51406": {
       "value": "Q51401",
       "prob": 1.0,
-      "count": 49
+      "count": 50
     },
     "Q1537": {
       "value": "Q241083",
       "prob": 1.0,
       "count": 56
-    },
-    "Q30;Q1428": {
-      "value": "Q42537;Q676623",
-      "prob": 1.0,
-      "count": 7
     },
     "Q12130": {
       "value": "Q12188",
@@ -9544,7 +9109,7 @@
     "Q176": {
       "value": "Q392167",
       "prob": 1.0,
-      "count": 63
+      "count": 65
     },
     "Q1952": {
       "value": "Q601976",
@@ -9554,7 +9119,7 @@
     "Q282739": {
       "value": "Q2029729",
       "prob": 1.0,
-      "count": 3
+      "count": 11
     },
     "Q7768": {
       "value": "Q783490",
@@ -9574,17 +9139,12 @@
     "Q1223": {
       "value": "Q731163",
       "prob": 1.0,
-      "count": 32
+      "count": 34
     },
     "Q992652": {
       "value": "Q97515806",
       "prob": 1.0,
       "count": 2
-    },
-    "Q30;Q38076": {
-      "value": "Q42537;Q64300176",
-      "prob": 1.0,
-      "count": 25
     },
     "Q980": {
       "value": "Q707471",
@@ -9595,11 +9155,6 @@
       "value": "Q171117",
       "prob": 1.0,
       "count": 12
-    },
-    "Q30; Q99": {
-      "value": "Q42537; Q330517",
-      "prob": 1.0,
-      "count": 10
     },
     "Q26253": {
       "value": "Q241781",
@@ -9629,7 +9184,7 @@
     "Q598884": {
       "value": "Q77795712",
       "prob": 1.0,
-      "count": 9
+      "count": 10
     },
     "Q502294": {
       "value": "Q77796359",
@@ -9640,11 +9195,6 @@
       "value": "Q2897956",
       "prob": 1.0,
       "count": 2
-    },
-    "Q30;Q812": {
-      "value": "Q42537;Q730106",
-      "prob": 1.0,
-      "count": 13
     },
     "Q1113": {
       "value": "Q2963124",
@@ -9661,18 +9211,8 @@
       "prob": 1.0,
       "count": 17
     },
-    "Q30;Q1649": {
-      "value": "Q42537;Q258262",
-      "prob": 1.0,
-      "count": 9
-    },
-    "Q30;Q41": {
-      "value": "Q42537;Q129132",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q30;Q824": {
-      "value": "Q42537;Q19427",
+    "Q5890701": {
+      "value": "Q97501750",
       "prob": 1.0,
       "count": 2
     },
@@ -9686,10 +9226,10 @@
       "prob": 1.0,
       "count": 3
     },
-    "Q30;Q5043": {
-      "value": "Q42537;Q1084035",
+    "Q5043": {
+      "value": "Q1084035",
       "prob": 1.0,
-      "count": 26
+      "count": 61
     },
     "Q34404": {
       "value": "Q5456787",
@@ -9716,11 +9256,6 @@
       "prob": 1.0,
       "count": 3
     },
-    "Q30;Q1456": {
-      "value": "Q42537;Q19373",
-      "prob": 1.0,
-      "count": 5
-    },
     "Q38511": {
       "value": "Q116486314",
       "prob": 1.0,
@@ -9730,11 +9265,6 @@
       "value": "Q15994084",
       "prob": 1.0,
       "count": 30
-    },
-    "Q30;Q173": {
-      "value": "Q42537;Q497997",
-      "prob": 1.0,
-      "count": 3
     },
     "Q217196": {
       "value": "Q1073663",
@@ -9756,30 +9286,15 @@
       "prob": 1.0,
       "count": 5
     },
-    "Q30;Q5646230": {
-      "value": "Q42537;Q70119112",
+    "Q5646230": {
+      "value": "Q70119112",
       "prob": 1.0,
-      "count": 3
-    },
-    "Q5043": {
-      "value": "Q1084035",
-      "prob": 1.0,
-      "count": 34
+      "count": 5
     },
     "Q1162859": {
       "value": "Q74052383",
       "prob": 1.0,
       "count": 5
-    },
-    "Q30;Q1439": {
-      "value": "Q42537;Q19000",
-      "prob": 1.0,
-      "count": 20
-    },
-    "Q30;Q812;Q6974069": {
-      "value": "Q42537;Q730106;Q1463762",
-      "prob": 1.0,
-      "count": 2
     },
     "Q1772052": {
       "value": "Q96912183",
@@ -9804,7 +9319,7 @@
     "Q3224": {
       "value": "Q1064042",
       "prob": 1.0,
-      "count": 40
+      "count": 42
     },
     "Q1951": {
       "value": "Q1122078",
@@ -9821,11 +9336,6 @@
       "prob": 1.0,
       "count": 3
     },
-    "Q30;Q1415": {
-      "value": "Q42537;Q673117",
-      "prob": 1.0,
-      "count": 21
-    },
     "Q1210": {
       "value": "Q1131266",
       "prob": 1.0,
@@ -9841,15 +9351,10 @@
       "prob": 1.0,
       "count": 29
     },
-    "Q30;Q797": {
-      "value": "Q42537;Q156564",
+    "Q7837537": {
+      "value": "Q100711795",
       "prob": 1.0,
-      "count": 4
-    },
-    "Q30;Q1400": {
-      "value": "Q42537;Q18983",
-      "prob": 1.0,
-      "count": 2
+      "count": 11
     },
     "Q1202": {
       "value": "Q693701",
@@ -9921,11 +9426,6 @@
       "prob": 1.0,
       "count": 11
     },
-    "Q30;Q11218": {
-      "value": "Q42537;Q5456897",
-      "prob": 1.0,
-      "count": 11
-    },
     "Q5720": {
       "value": "Q933011",
       "prob": 1.0,
@@ -9936,10 +9436,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q1603": {
-      "value": "Q42537;Q590821",
-      "prob": 0.97,
-      "count": 32
+    "Q152891": {
+      "value": "Q62931620",
+      "prob": 1.0,
+      "count": 3
     },
     "Q22": {
       "value": "Q102392",
@@ -9951,10 +9451,10 @@
       "prob": 1.0,
       "count": 4
     },
-    "Q1603;Q6392396": {
-      "value": "Q590821;Q63199275",
+    "Q6392396": {
+      "value": "Q63199275",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "Q748": {
       "value": "Q1130142",
@@ -9965,11 +9465,6 @@
       "value": "Q30715977",
       "prob": 1.0,
       "count": 2
-    },
-    "Q30;Q1297": {
-      "value": "Q42537;Q1402799",
-      "prob": 0.98,
-      "count": 55
     },
     "Q1930": {
       "value": "Q2777623",
@@ -10001,20 +9496,25 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q15220388": {
-      "value": "Q42537",
-      "prob": 0.86,
-      "count": 7
+    "Q15220388": {
+      "value": "Q116986686",
+      "prob": 1.0,
+      "count": 5
     },
     "Q23681": {
       "value": "Q207518",
       "prob": 1.0,
       "count": 8
     },
+    "Q501284": {
+      "value": "Q96986169",
+      "prob": 1.0,
+      "count": 2
+    },
     "Q2372727": {
       "value": "Q65962766",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "Q4040": {
       "value": "Q774799",
@@ -10036,35 +9536,10 @@
       "prob": 1.0,
       "count": 9
     },
-    "Q30;Q605220": {
-      "value": "Q42537;Q66363800",
-      "prob": 1.0,
-      "count": 3
-    },
     "Q605220": {
       "value": "Q66363800",
       "prob": 1.0,
-      "count": 2
-    },
-    "Q30;Q9212": {
-      "value": "Q42537;Q5456898",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q30;Q11224": {
-      "value": "Q42537;Q5456895",
-      "prob": 1.0,
-      "count": 3
-    },
-    "Q30;Q1588": {
-      "value": "Q42537;Q19374",
-      "prob": 1.0,
       "count": 5
-    },
-    "Q15220388": {
-      "value": "Q116986686",
-      "prob": 1.0,
-      "count": 4
     },
     "Q12060728": {
       "value": "Q1285625",
@@ -10084,7 +9559,7 @@
     "Q468865": {
       "value": "Q67485913",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "Q1781394": {
       "value": "Q96970816",
@@ -10098,6 +9573,16 @@
     },
     "Q1002506": {
       "value": "Q70143393",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q2201160": {
+      "value": "Q70631343",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q7996981": {
+      "value": "Q71799582",
       "prob": 1.0,
       "count": 2
     },
@@ -10126,15 +9611,10 @@
       "prob": 1.0,
       "count": 43
     },
-    "Q30;Q816": {
-      "value": "Q42537;Q632491",
-      "prob": 1.0,
-      "count": 7
-    },
     "Q1408": {
       "value": "Q119605",
       "prob": 1.0,
-      "count": 25
+      "count": 26
     },
     "Q16394": {
       "value": "Q2452642",
@@ -10146,20 +9626,20 @@
       "prob": 1.0,
       "count": 41
     },
-    "Q30;Q1603;Q985560": {
-      "value": "Q42537;Q590821;Q80606550",
+    "Q985560": {
+      "value": "Q80606550",
       "prob": 1.0,
-      "count": 2
+      "count": 4
     },
     "Q747599": {
       "value": "Q80739604",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
-    "Q30;Q6974069;Q1397": {
-      "value": "Q42537;Q1463762;Q752559",
+    "Q524757": {
+      "value": "Q80859443",
       "prob": 1.0,
-      "count": 4
+      "count": 2
     },
     "Q940060": {
       "value": "Q80907988",
@@ -10168,11 +9648,6 @@
     },
     "Q1986505": {
       "value": "Q96912350",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q985560": {
-      "value": "Q80606550",
       "prob": 1.0,
       "count": 2
     },
@@ -10211,11 +9686,6 @@
       "prob": 1.0,
       "count": 5
     },
-    "Q30;Q1603;Q6974069": {
-      "value": "Q42537;Q590821;Q1463762",
-      "prob": 1.0,
-      "count": 4
-    },
     "Q108418": {
       "value": "Q96970847",
       "prob": 1.0,
@@ -10224,7 +9694,7 @@
     "Q55088961": {
       "value": "Q94652289",
       "prob": 1.0,
-      "count": 16
+      "count": 17
     },
     "Q379636": {
       "value": "Q462621",
@@ -10241,6 +9711,11 @@
       "prob": 1.0,
       "count": 2
     },
+    "Q6467331": {
+      "value": "Q96098094",
+      "prob": 1.0,
+      "count": 2
+    },
     "Q3306469": {
       "value": "Q96409154",
       "prob": 1.0,
@@ -10249,15 +9724,10 @@
     "Q23808431": {
       "value": "Q96676582",
       "prob": 1.0,
-      "count": 2
+      "count": 3
     },
     "Q28218": {
       "value": "Q5456699",
-      "prob": 1.0,
-      "count": 3
-    },
-    "Q30;Q1509": {
-      "value": "Q42537;Q605195",
       "prob": 1.0,
       "count": 3
     },
@@ -10299,6 +9769,11 @@
     "Q34739": {
       "value": "Q98400609",
       "prob": 1.0,
+      "count": 4
+    },
+    "Q485600": {
+      "value": "Q98400624",
+      "prob": 1.0,
       "count": 3
     },
     "Q504345": {
@@ -10331,11 +9806,6 @@
       "prob": 1.0,
       "count": 4
     },
-    "Q30;Q7837537": {
-      "value": "Q42537;Q100711795",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q1141173": {
       "value": "Q101221290",
       "prob": 1.0,
@@ -10346,15 +9816,20 @@
       "prob": 1.0,
       "count": 4
     },
-    "Q30;Q1043486": {
-      "value": "Q42537;Q104202987",
+    "Q1456861": {
+      "value": "Q106991354",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q1043486": {
+      "value": "Q104202987",
       "prob": 1.0,
       "count": 2
     },
     "Q231": {
       "value": "Q617649",
       "prob": 1.0,
-      "count": 5
+      "count": 6
     },
     "Q456": {
       "value": "Q30909105",
@@ -10421,11 +9896,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q1204": {
-      "value": "Q42537;Q752837",
-      "prob": 0.93,
-      "count": 28
-    },
     "Q104285": {
       "value": "Q39075174",
       "prob": 1.0,
@@ -10443,11 +9913,6 @@
     },
     "Q36074": {
       "value": "Q383109",
-      "prob": 1.0,
-      "count": 4
-    },
-    "Q1204;Q1297": {
-      "value": "Q752837;Q1402799",
       "prob": 1.0,
       "count": 4
     },
@@ -10481,16 +9946,6 @@
       "prob": 1.0,
       "count": 3
     },
-    "Q30;Q212": {
-      "value": "Q42537;Q127974",
-      "prob": 1.0,
-      "count": 6
-    },
-    "Q30;Q1391": {
-      "value": "Q42537;Q752569",
-      "prob": 1.0,
-      "count": 3
-    },
     "Q5739": {
       "value": "Q1073663",
       "prob": 1.0,
@@ -10505,11 +9960,6 @@
       "value": "Q122482",
       "prob": 1.0,
       "count": 2
-    },
-    "Q30;Q1166": {
-      "value": "Q42537;Q285418",
-      "prob": 1.0,
-      "count": 3
     },
     "Q15104": {
       "value": "Q12143656",
@@ -10526,25 +9976,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q759": {
-      "value": "Q42537;Q248102",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q163108": {
       "value": "Q106501527",
       "prob": 1.0,
       "count": 8
-    },
-    "Q6974069;Q30": {
-      "value": "Q1463762;Q42537",
-      "prob": 1.0,
-      "count": 4
-    },
-    "Q30; Q6974069": {
-      "value": "Q42537; Q1463762",
-      "prob": 1.0,
-      "count": 10
     },
     "Q1199": {
       "value": "Q2661050",
@@ -10826,8 +10261,8 @@
       "prob": 1.0,
       "count": 3
     },
-    "Q30;Q746054": {
-      "value": "Q42537;Q1073859",
+    "Q746054": {
+      "value": "Q1073859",
       "prob": 1.0,
       "count": 2
     },
@@ -10841,24 +10276,9 @@
       "prob": 1.0,
       "count": 3
     },
-    "Q30;Q801": {
-      "value": "Q42537;Q128480",
-      "prob": 1.0,
-      "count": 5
-    },
-    "Q30;Q6974069;Q1297": {
-      "value": "Q42537;Q1463762;Q1402799",
-      "prob": 1.0,
-      "count": 3
-    },
-    "Q7837537": {
-      "value": "Q100711795",
-      "prob": 1.0,
-      "count": 7
-    },
     "Q17625913": {
       "value": "Q96633914",
-      "prob": 0.88,
+      "prob": 0.94,
       "count": 17
     },
     "Q191652": {
@@ -10866,20 +10286,10 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q1397;Q30": {
-      "value": "Q752559;Q42537",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q265200": {
       "value": "Q123115016",
       "prob": 1.0,
       "count": 2
-    },
-    "Q30;Q6974069;Q1204": {
-      "value": "Q42537;Q1463762;Q752837",
-      "prob": 1.0,
-      "count": 5
     },
     "Q2680952": {
       "value": "Q1856088",
@@ -10911,16 +10321,6 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q1204;Q6974069": {
-      "value": "Q752837;Q1463762",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q30;Q282739": {
-      "value": "Q42537;Q2029729",
-      "prob": 1.0,
-      "count": 4
-    },
     "Q1049334": {
       "value": "Q140002976",
       "prob": 1.0,
@@ -10931,18 +10331,13 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q1370": {
-      "value": "Q42537;Q18993",
-      "prob": 1.0,
-      "count": 2
-    },
     "Q919": {
       "value": "Q4486662",
       "prob": 1.0,
       "count": 2
     },
-    "Q30;Q462799;Q282739": {
-      "value": "Q42537;Q140002968;Q2029729",
+    "Q462799": {
+      "value": "Q140002968",
       "prob": 1.0,
       "count": 4
     },
@@ -10951,18 +10346,8 @@
       "prob": 1.0,
       "count": 2
     },
-    "Q5646230": {
-      "value": "Q70119112",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q30;": {
-      "value": "Q42537;Q1463762",
-      "prob": 1.0,
-      "count": 2
-    },
-    "Q30;Q6974069;Q1204;Q1297": {
-      "value": "Q42537;Q1463762;Q752837;Q1402799",
+    "": {
+      "value": "Q1463762",
       "prob": 1.0,
       "count": 2
     },
@@ -10984,7 +10369,7 @@
     "Q1224979": {
       "value": "Q141144981",
       "prob": 1.0,
-      "count": 4
+      "count": 14
     },
     "Q2311816": {
       "value": "Q139493892",
@@ -10993,6 +10378,11 @@
     },
     "Q7011790": {
       "value": "Q140812125",
+      "prob": 1.0,
+      "count": 2
+    },
+    "Q5451532": {
+      "value": "Q140936143",
       "prob": 1.0,
       "count": 2
     }
