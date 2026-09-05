@@ -91,19 +91,6 @@ public class MeshOperations {
             }
         }
 
-        // Создаем 4 новые вершины на заданной высоте
-        Point3D[] ringVerts = new Point3D[4];
-        ringVerts[0] = new Point3D(0.5, 0.5, zPosition);   // +X, +Y
-        ringVerts[1] = new Point3D(-0.5, 0.5, zPosition);  // -X, +Y
-        ringVerts[2] = new Point3D(-0.5, -0.5, zPosition); // -X, -Y
-        ringVerts[3] = new Point3D(0.5, -0.5, zPosition);  // +X, -Y
-
-        // Добавляем новые вершины в mesh
-        int[] newIndices = new int[4];
-        for (int i = 0; i < 4; i++) {
-            newIndices[i] = mesh.addVertex(ringVerts[i]);
-        }
-
         // Находим и удаляем боковые грани, которые пересекают zPosition
         List<int[]> wallFaces = mesh.getWallFaces();
         List<int[]> facesToRemove = new ArrayList<>();
@@ -152,20 +139,23 @@ public class MeshOperations {
             // Предполагаем, что грани идут по часовой стрелке
 
             // Нижняя грань
-            int[] bottomFace = new int[4];
-            bottomFace[0] = faceBottomVerts.get(0);
-            bottomFace[1] = faceBottomVerts.get(1);
+
 
             // Находим соответствующие новые вершины
-            Point3D p0 = vertices.get(faceBottomVerts.get(0));
-            Point3D p1 = vertices.get(faceBottomVerts.get(1));
+            Point3D p0 = vertices.get(faceBottomVerts.get(0)).add(vertices.get(faceTopVerts.get(1))).mult(0.5); // Правая
+            Point3D p1 = vertices.get(faceBottomVerts.get(1)).add(vertices.get(faceTopVerts.get(0))).mult(0.5); // Левая
+            p0.z=zPosition;
+            p1.z=zPosition;
 
             // Определяем, какие новые вершины соответствуют
-            int newVert0 = findCorrespondingRingVertex(p0, ringVerts, newIndices);
-            int newVert1 = findCorrespondingRingVertex(p1, ringVerts, newIndices);
+            int newVert0 = mesh.addVertex(p0);  //правая "средняя"
+            int newVert1 = mesh.addVertex(p1);  //левая  "средняя"
 
-            bottomFace[2] = newVert1;
-            bottomFace[3] = newVert0;
+            int[] bottomFace = new int[4];
+            bottomFace[0] = faceBottomVerts.get(0); //правая нижняя
+            bottomFace[1] = faceBottomVerts.get(1); //левая нижняя
+            bottomFace[2] = newVert1; // Левая верняя
+            bottomFace[3] = newVert0; // Правая верхняя
             mesh.addWallFace(bottomFace);
 
             // Верхняя грань

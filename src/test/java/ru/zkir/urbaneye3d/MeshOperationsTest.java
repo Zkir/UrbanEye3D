@@ -1,11 +1,19 @@
 package ru.zkir.urbaneye3d;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openstreetmap.josm.data.coor.LatLon;
+import org.openstreetmap.josm.data.osm.Node;
+import org.openstreetmap.josm.data.preferences.JosmBaseDirectories;
+import org.openstreetmap.josm.data.preferences.JosmUrls;
+import org.openstreetmap.josm.spi.preferences.Config;
+import org.openstreetmap.josm.spi.preferences.MemoryPreferences;
 import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.ObjExporter;
 
 import java.awt.Color;
+import java.util.Random;
 
 import static ru.zkir.urbaneye3d.RoofGeneratorTopologyTest.AssertMeshTopology;
 import static ru.zkir.urbaneye3d.utils.MeshOperations.createCube;
@@ -14,6 +22,12 @@ import static ru.zkir.urbaneye3d.utils.MeshOperations.scale;
 import static ru.zkir.urbaneye3d.utils.MeshOperations.selectVerticesByZ;
 
 public class MeshOperationsTest {
+    @BeforeAll
+    public static void setUp() {
+        Config.setPreferencesInstance(new MemoryPreferences());
+        Config.setBaseDirectoriesProvider(JosmBaseDirectories.getInstance());
+        Config.setUrlsProvider(JosmUrls.getInstance());
+    }
 
     @Test
     void testConstructiveGeometry(){
@@ -47,6 +61,21 @@ public class MeshOperationsTest {
 
         //ObjExporter.saveMeshToObj(mesh,"d:/test.obj");
 
+        AssertMeshTopology(mesh, 0, height,"flat");
+    }
+
+    @Test
+    void testAdColumn(){
+        double height = 5;
+        Node node = new Node(new LatLon(55.75, 37.61));
+        node.put("advertising", "column");
+        node.put("height", String.valueOf(height));
+
+        Mesh mesh = RenderableElement.createAdColumn(node, node.getCoor(), node.getInterestingTags(), new Random());
+        //insertHorizontalEdgeRing(mesh, 0.3);   // first ring
+        insertHorizontalEdgeRing(mesh, 0.5);   // second ring
+
+        ObjExporter.saveMeshToObj(mesh,"d:/test.obj");
         AssertMeshTopology(mesh, 0, height,"flat");
     }
 }
