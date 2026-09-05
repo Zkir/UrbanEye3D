@@ -23,8 +23,7 @@ def get_genus(synonym_name):
          genus = synonym_name.split(' ')[1].capitalize()
     return genus
 
-def fix_leaf_type(species_name, current_type):
-    family = get_powo_family(species_name)
+def fix_leaf_type(species_name, current_type, family):
     if not family:
         return current_type
     
@@ -54,7 +53,14 @@ def main():
                 continue
             
             # Enforce biological truth even for curated list
-            row['leaf_type'] = fix_leaf_type(species, row['leaf_type'])
+            family = get_powo_family(species)
+            if family:
+                row['leaf_type'] = fix_leaf_type(species, row['leaf_type'], family)
+                row['family'] = family
+            else:
+                print(f"Strange occurence in the curated file: unable to determine family for {row['species']}, skipping")
+                continue
+                
             species_data[species] = row
 
     print(f"Loaded {len(species_data)} species from curated list.")
@@ -67,8 +73,10 @@ def main():
             species = to_binomial(row['species'])
             
             # Re-verify/enforce leaf_type
-            row['leaf_type'] = fix_leaf_type(species, row['leaf_type'])
-            
+            family = get_powo_family(species)
+            row['leaf_type'] = fix_leaf_type(species, row['leaf_type'], family)
+            row['family'] = family or ''
+
             if species not in species_data:
                 species_data[species] = row
                 j+=1
@@ -94,9 +102,11 @@ def main():
                 #   in future statistics should be combined.
                 leaf_type  =  match.get('leaf_type', 'broadleaved')
                 leaf_cycle =  match.get('leaf_cycle', 'deciduous')
-                wikidata   =  match.get('species:wikidata', '')               
+                wikidata   =  match.get('species:wikidata', '')
+                family     =  match.get('family', '')
             else:
-                leaf_type  =  fix_leaf_type(synonym_name, row['leaf_type'])
+                family     =  get_powo_family(synonym_name) or ''
+                leaf_type  =  fix_leaf_type(synonym_name, row['leaf_type'], family)
                 leaf_cycle =  row['leaf_cycle']
                 wikidata   =  ''            
             
@@ -104,16 +114,18 @@ def main():
                 species_data[synonym_name] = {
                             'species': synonym_name,
                             'genus': get_genus(synonym_name),
+                            'family': family,
                             'species:wikidata': wikidata,
                             'leaf_cycle': leaf_cycle,
                             'leaf_type': leaf_type}
                 added_count += 1
-                
-            
+
             if not match:
+                accepted_family = get_powo_family(accepted_name) or family
                 species_data[accepted_name] =  {
                             'species': accepted_name,
                             'genus': get_genus(accepted_name),
+                            'family': accepted_family,
                             'species:wikidata': '',
                             'leaf_cycle': leaf_cycle,
                             'leaf_type':  leaf_type,}
@@ -126,7 +138,7 @@ def main():
     merged_list.sort(key=lambda x: x['species'].lower())
 
     # 4. Write final
-    target_columns = ["species", "genus", "species:wikidata", "leaf_cycle", "leaf_type"]
+    target_columns = ["species", "genus", "family", "species:wikidata", "leaf_cycle", "leaf_type"]
     os.makedirs(os.path.dirname(FINAL_OUTPUT), exist_ok=True)
     
     with open(FINAL_OUTPUT, mode='w', newline='', encoding='utf-8') as f:

@@ -28,12 +28,14 @@ public class TreeSpeciesDatabase {
         public final String leafType;
         public final String wikidata;
         public final String genus;
+        public final String family;
 
-        SpeciesInfo(String leafCycle, String leafType, String wikidata, String genus) {
+        SpeciesInfo(String leafCycle, String leafType, String wikidata, String genus, String family) {
             this.leafCycle = leafCycle;
             this.leafType = leafType;
             this.wikidata = wikidata;
             this.genus = genus;
+            this.family = family;
         }
     }
 
@@ -72,14 +74,15 @@ public class TreeSpeciesDatabase {
                 while ((line = reader.readLine()) != null) {
                     // Using a simple CSV split. Since we don't expect commas in names, it's fine.
                     String[] parts = line.split(",", -1);
-                    if (parts.length >= 5) {
+                    if (parts.length >= 6) {
                         String species = parts[0].trim();
                         String genus = parts[1].trim();
-                        String wikidata = parts[2].trim();
-                        String leafCycle = parts[3].trim();
-                        String leafType = parts[4].trim();
-
-                        SpeciesInfo info = new SpeciesInfo(leafCycle, leafType, wikidata, genus);
+                        String family = parts[2].trim();
+                        String wikidata = parts[3].trim();
+                        String leafCycle = parts[4].trim();
+                        String leafType = parts[5].trim();
+                        
+                        SpeciesInfo info = new SpeciesInfo(leafCycle, leafType, wikidata, genus, family);
                         if (!species.isEmpty()) {
                             speciesMap.put(normalizeSpecies(species), info);
                         }
