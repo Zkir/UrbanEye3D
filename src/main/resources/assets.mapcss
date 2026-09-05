@@ -224,7 +224,7 @@ node[amenity=waste_disposal]
 }
 
 /* Bicycle Parking */
-node[amenity=bicycle_parking],
+node[amenity=bicycle_parking][bicycle_parking!=floor],
 node[amenity=bicycle_parking][bicycle_parking=stands] {
     model: "/models/bicycle_parking.obj";
     rotatable: true;

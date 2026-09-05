@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260903T093110Z",
+  "data_updated" : "20260905T204534Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -93,6 +93,10 @@
     "key" : "bench",
     "value" : "yes",
     "description" : "Indicates the presence of a bench. Used for example on highway=bus_stop nodes."
+  }, {
+    "key" : "bicycle_parking",
+    "value" : "floor",
+    "description" : "Since this is just a piece of ground without any rack/stand, such bicycle parkings are EXCLUDED from 3D rendering."
   }, {
     "key" : "bicycle_parking",
     "value" : "stands",
