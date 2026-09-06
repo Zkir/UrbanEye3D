@@ -75,7 +75,7 @@ public class MeshOperationsTest {
         //insertHorizontalEdgeRing(mesh, 0.3);   // first ring
         insertHorizontalEdgeRing(mesh, 0.5);   // second ring
 
-        ObjExporter.saveMeshToObj(mesh,"d:/test.obj");
+        //ObjExporter.saveMeshToObj(mesh,"d:/test.obj");
         AssertMeshTopology(mesh, 0, height,"flat");
     }
 }
