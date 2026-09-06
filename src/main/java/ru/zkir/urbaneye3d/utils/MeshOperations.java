@@ -5,10 +5,23 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MeshOperations {
+    private Mesh mesh;
+    private List<Point3D> selectedVertices;
+    private List<Integer> selectedFaces;
+    public MeshOperations(){
+        //start from empty mesh
+        mesh = null;
+        selectedVertices = new ArrayList<>();
+        selectedFaces = new ArrayList<>();
+    }
 
-    public static Mesh createCube(){
+    public Mesh getMesh(){
+        return mesh;
+    }
 
-        Mesh mesh = new Mesh();
+    public void createCube(){
+
+        mesh = new Mesh();
         // Base dimensions: length along Y axle, widthParam along X axle
         double halfX = 0.5;
         double halfY = 0.5;
@@ -46,13 +59,76 @@ public class MeshOperations {
         mesh.addWallFace(faces[4]);
         mesh.addWallFace(faces[5]);
 
-        return mesh;
+        return;
     }
-    public static void scale(Mesh mesh, double sx, double sy,  double sz){
-        mesh.scale(sx, sy, sz);
+    public void createCylinder(int segments) {
+
+        mesh = new Mesh();
+
+        // Радиус цилиндра (единичный диаметр = радиус 0.5)
+        double radius = 0.5;
+
+        // Создаем вершины: segments для нижнего кольца, segments для верхнего кольца
+        Point3D[] verts = new Point3D[segments * 2];
+
+        // Нижнее кольцо (z = 0)
+        for (int i = 0; i < segments; i++) {
+            double angle = 2 * Math.PI * i / segments;
+            double x = radius * Math.cos(angle);
+            double y = radius * Math.sin(angle);
+            verts[i] = new Point3D(x, y, 0);
+        }
+
+        // Верхнее кольцо (z = 1)
+        for (int i = 0; i < segments; i++) {
+            double angle = 2 * Math.PI * i / segments;
+            double x = radius * Math.cos(angle);
+            double y = radius * Math.sin(angle);
+            verts[segments + i] = new Point3D(x, y, 1);
+        }
+
+        // Добавляем все вершины в mesh
+        for (int i = 0; i < verts.length; i++) {
+            mesh.addVertex(verts[i]);
+        }
+
+        // Создаем нижнюю грань (все вершины нижнего кольца)
+        int[] bottomFace = new int[segments];
+        for (int i = 0; i < segments; i++) {
+            bottomFace[i] = segments - 1 - i;
+        }
+        mesh.addBottomFace(bottomFace);
+
+        // Создаем верхнюю грань (все вершины верхнего кольца в обратном порядке)
+        int[] topFace = new int[segments];
+        for (int i = 0; i < segments; i++) {
+            topFace[i] = segments + i;
+        }
+        mesh.addRoofFace(topFace);
+
+        // Создаем боковые грани
+        for (int i = 0; i < segments; i++) {
+            int next = (i + 1) % segments;
+            int[] wallFace = new int[] {
+                    i,              // нижняя вершина i
+                    next,           // нижняя вершина next
+                    segments + next, // верхняя вершина next
+                    segments + i    // верхняя вершина i
+            };
+            mesh.addWallFace(wallFace);
+        }
+
+        return;
     }
 
-    public static void scale(Mesh mesh, List<Point3D> verts, double sx, double sy, double sz){
+    public  void scale( double sx, double sy, double sz){
+        List<Point3D> verts;
+        if (this.selectedVertices.isEmpty()){
+            verts = this.mesh.verts;
+        } else {
+            verts = this.selectedVertices;
+        }
+
         for (int i = 0; i < verts.size(); i++) {
             var v=verts.get(i);
             v.x = v.x * sx;
@@ -63,7 +139,24 @@ public class MeshOperations {
         mesh.invalidateBBOX();
     }
 
-    public static List<Point3D> selectVerticesByZ(Mesh mesh, double z1, double z2){
+    public void translate(double dx, double dy, double dz) {
+        var verts = this.selectedVertices;
+
+        for (int i = 0; i < verts.size(); i++) {
+            var v=verts.get(i);
+            v.x = v.x + dx;
+            v.y = v.y + dy;
+            v.z = v.z + dz;
+        }
+        // Invalidate bounding box and vertex cache as coordinates have changed
+        mesh.invalidateBBOX();
+    }
+
+    public void selectVerticesByZ(double z){
+        this.selectVerticesByZ(z-0.001, z+0.001);
+    }
+
+    public void selectVerticesByZ(double z1, double z2){
 
         List<Point3D> vertices = new ArrayList<>();
 
@@ -73,11 +166,33 @@ public class MeshOperations {
             }
 
         }
-        return  vertices;
+        this.selectedFaces.clear();
+        this.selectedVertices.clear();
+        this.selectedVertices.addAll(vertices);
     };
 
-    public static void insertHorizontalEdgeRing(Mesh mesh, double zPosition) {
+    public void selectFacesByZ(double minZ, double maxZ){
+        List<Integer> result = new ArrayList<>();
+        for (int i=0; i< mesh.faces.size(); i++){
+            var face = mesh.faces.get(i);
+            var p0 = new Point3D(0,0,0);
+            for (int j: face){
+                var p = mesh.verts.get(j);
+                p0=p0.add(p);
+            }
+            p0 = p0.div(face.length);
+            if (p0.z>=minZ && p0.z<=maxZ) {
+                result.add(i);
+            }
+        }
+        this.selectedFaces.clear();
+        this.selectedVertices.clear();
+        this.selectedFaces.addAll(result);
+    }
+
+    public void insertHorizontalEdgeRing(double zPosition) {
         List<Point3D> vertices = mesh.verts;
+        List<Point3D> newverts = new ArrayList<>();
 
         // Находим вершины ниже и выше заданной позиции
         List<Integer> bottomVerts = new ArrayList<>();
@@ -150,6 +265,8 @@ public class MeshOperations {
             // Определяем, какие новые вершины соответствуют
             int newVert0 = mesh.addVertex(p0);  //правая "средняя"
             int newVert1 = mesh.addVertex(p1);  //левая  "средняя"
+            newverts.add( mesh.verts.get(newVert0)); //we need to re-fetch vertices by indices.
+            //newverts.add( mesh.verts.get(newVert1));
 
             int[] bottomFace = new int[4];
             bottomFace[0] = faceBottomVerts.get(0); //правая нижняя
@@ -168,6 +285,9 @@ public class MeshOperations {
             mesh.addWallFace(topFace);
         }
 
+        this.selectedFaces.clear();
+        this.selectedVertices.clear();
+        this.selectedVertices.addAll(newverts);
     }
 
 
@@ -197,14 +317,23 @@ public class MeshOperations {
 
     }
 
-    private static int findCorrespondingRingVertex(Point3D originalVert, Point3D[] ringVerts, int[] newIndices) {
-        // Находим вершину кольца с теми же X и Y координатами
-        for (int i = 0; i < ringVerts.length; i++) {
-            if (Math.abs(originalVert.x - ringVerts[i].x) < 0.001 &&
-                    Math.abs(originalVert.y - ringVerts[i].y) < 0.001) {
-                return newIndices[i];
-            }
+    public void assignMaterial( int materialIndex) {
+        List<Integer> faceIndices = this.selectedFaces;
+        for (int j:faceIndices) {
+            mesh.faceMaterials.set(j, materialIndex);
         }
-        return -1; // не найдено
+    }
+
+    public void selectNone() {
+        this.selectedFaces.clear();
+        this.selectedVertices.clear();
+    }
+
+    public Point3D getMaxBounds() {
+        return mesh.getMaxBounds();
+    }
+
+    public Point3D getMinBounds() {
+        return mesh.getMinBounds();
     }
 }

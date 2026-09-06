@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
+
 public class OsmDataWasher {
     /** Unlike F4, we inherit only some keys from building to parts, not all */
     final static List<String> inheritableKeys = Arrays.asList("building:colour", "building:material", "roof:colour", "roof:material");
@@ -120,10 +122,21 @@ public class OsmDataWasher {
         return result;
 
     }
+    @NotNull
+    public static Color getTagC(String key, OsmPrimitive primitive, String defaultValue) {
+        Color default_color = ColorUtils.parseColor(defaultValue);
+        String color_str = getFirstValue(getTagStr(key, primitive, defaultValue));
+        Color color = ColorUtils.parseColor(color_str);
+
+        if (color==null){
+            color=default_color;
+        }
+
+        return color;
+    }
+
     public static String getFirstValue(String tag){
         if (tag.contains(";")) {
-            //TODO: implement several flags on the same pole
-            //  For now just the first one.
             tag = tag.substring(0, tag.indexOf(';')).trim();
         }
         return tag;

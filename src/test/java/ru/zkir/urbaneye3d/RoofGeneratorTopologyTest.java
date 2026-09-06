@@ -111,7 +111,7 @@ class RoofGeneratorTopologyTest {
         }
     }
 
-    public static void assertNormalsAndConsistency(Mesh mesh, String mesherName) {
+    public static void assertNormalsAndConsistency(Mesh mesh, String mesherName, boolean checkConsistencyOnly) {
         // This map stores the first vertex of an edge traversal for the first face that uses it.
         Map<String, Integer> edgeTraversal = new HashMap<>();
 
@@ -132,6 +132,10 @@ class RoofGeneratorTopologyTest {
                     edgeTraversal.put(edgeKey, v1);
                 }
             }
+        }
+
+        if (checkConsistencyOnly){
+            return;
         }
 
         // After confirming consistency, check the absolute orientation of one face.
@@ -223,13 +227,16 @@ class RoofGeneratorTopologyTest {
 
 
     public static void AssertMeshTopology(Mesh mesh, double minHeight, double height, String roofShape){
+        AssertMeshTopology2(mesh, minHeight, height, roofShape, false);
+    }
+    public static void AssertMeshTopology2(Mesh mesh, double minHeight, double height, String roofShape, boolean doNotCheckBottomNormal){
         assertNotNull(mesh, "Mesh is null for the roof shape " + roofShape);
         assertHeightConstraints(mesh,  minHeight, height, roofShape);
         assertNoZeroLengthEdges(mesh, roofShape);
         assertNoDuplicatesInFaces(mesh, roofShape);
         assertNoSelfCrossing(mesh, roofShape);
         assertWatertight(mesh, roofShape);
-        assertNormalsAndConsistency(mesh, roofShape);
+        assertNormalsAndConsistency(mesh, roofShape, doNotCheckBottomNormal);
         assertFaceListEquity(mesh, roofShape);
     }
 

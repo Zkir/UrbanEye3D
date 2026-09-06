@@ -10,6 +10,7 @@ import ru.zkir.urbaneye3d.utils.ColorUtils;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.FlagsDatabase;
 import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.MeshOperations;
 import ru.zkir.urbaneye3d.utils.OsmDataWasher;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -30,11 +31,8 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_CHIMNEY_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.INHERIT_HEIGHT_FROM_PARENT;
-import static ru.zkir.urbaneye3d.utils.MeshOperations.createCube;
-import static ru.zkir.urbaneye3d.utils.MeshOperations.insertHorizontalEdgeRing;
-import static ru.zkir.urbaneye3d.utils.MeshOperations.scale;
-import static ru.zkir.urbaneye3d.utils.MeshOperations.selectVerticesByZ;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getFirstValue;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagC;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
@@ -358,24 +356,29 @@ public class RenderableElement {
         if (width <= 0) width = Math.min(length, 0.5);
         if (height <= 0) height = 1.8;
 
-        Mesh mesh = createCube();
-        insertHorizontalEdgeRing(mesh, 0.1);  // первое кольцо
-        insertHorizontalEdgeRing(mesh, 0.2);  // первое кольцо
-        insertHorizontalEdgeRing(mesh, 0.95);  // третье кольцо
-        insertHorizontalEdgeRing(mesh, 0.96); // четвертое кольцо
+        var ctx = new MeshOperations();
 
-        var v = selectVerticesByZ(mesh, 0-DELTA, 0.1+DELTA);
-        scale(mesh, v, 1-0.15/width, 1-0.15/length, 1);
+        ctx.createCube();
+        ctx.insertHorizontalEdgeRing(0.1);  // первое кольцо
+        ctx.insertHorizontalEdgeRing(0.2);  // первое кольцо
+        ctx.insertHorizontalEdgeRing( 0.95);  // третье кольцо
+        ctx.insertHorizontalEdgeRing( 0.96); // четвертое кольцо
 
-        v = selectVerticesByZ(mesh, 0.96-DELTA, 1+DELTA);
-        scale(mesh, v, 1 + 0.05/width, 1+0.05/length, 1);
+        ctx.selectVerticesByZ(0-DELTA, 0.1+DELTA);
+        ctx.scale( 1-0.15/width, 1-0.15/length, 1);
 
-        scale(mesh, width, length, height - min_height);
+        ctx.selectVerticesByZ(0.96-DELTA, 1+DELTA);
+        ctx.scale(1 + 0.05/width, 1+0.05/length, 1);
+
+        ctx.selectNone();
+        ctx.scale(width, length, height - min_height); //scale the whole object
 
         String color = getTagStr("colour", primitive, "");
         if (color.isEmpty()) {
             color = "#8B7355"; // default brown-ish for street cabinets
         }
+
+        Mesh mesh = ctx.getMesh();
         
         Color matColor = ColorUtils.parseColor(color);
         mesh.materials.add(matColor);
@@ -465,40 +468,106 @@ public class RenderableElement {
     }
 
     public static Mesh createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
-        if (primitive.isDeleted()) return null;
 
-        // ignore underground ad columns
-        if(isPrimitiveUnderground(primitive)) return null;
+        final double MODEL_HEIGHT = 4.8;
 
-        double width = getTagD("width", primitive, 1.5);
+        double width = getTagD("width", primitive, 1.92);
         double min_height = getTagD("min_height", primitive, 0.0);
-        double height = getTagD("height", primitive, 4.0+min_height)-min_height;
-        var colour = getTagStr("colour", primitive, null);
-        
+        double height = getTagD("height", primitive, MODEL_HEIGHT+min_height)-min_height;
 
         // Almost all columns are points
         // https://taginfo.openstreetmap.org/tags/advertising=column
-        if("yes".equals(primitive.get("area"))) return null;
-        if(primitive instanceof Relation) return null;
-        
-        // I did not see a way to re-use the existing buffer mechanic, therefore we just create a countour directly
-        int segments = 16;
-        ArrayList<Point2D> circle = new ArrayList<Point2D>();
+        // TODO: support polygons, why not?
 
-        
-        for(int i = 0; i < segments; i++) {
-            double angle = (2 * Math.PI / segments) * i;
-            double x = width / 2 * Math.cos(angle);
-            double y = width / 2 * Math.sin(angle);
-            circle.add(new Point2D(x, y));
-        }
+        Color matColor = getTagC("colour", primitive, "#405040");
+        Color matColor2 = ColorUtils.parseColor("#F0F0F0");
+        Color matColor3 = ColorUtils.parseColor("#000000");
 
-        Contour contour = new Contour(circle, "XY");
-        contour.removeRedundantNodes();
-        double roofHeight = width / 2;
+        var ctx = new MeshOperations();
 
-        BuildingRecipe buildingRecipe = new BuildingRecipe(primitive.getPrimitiveId(), contour, height, 0, roofHeight, colour, colour, "dome", "", "", null, false, null, null);
-        Mesh mesh = composeMesh(buildingRecipe);
+        ctx.createCylinder(12);
+        ctx.scale(2,2, MODEL_HEIGHT);
+        //first of all insert vertex rings.
+        ctx.insertHorizontalEdgeRing(0.27);
+        ctx.insertHorizontalEdgeRing(0.44);
+        ctx.insertHorizontalEdgeRing(3.16);
+        ctx.insertHorizontalEdgeRing(3.25);
+        ctx.insertHorizontalEdgeRing(3.60);
+        ctx.insertHorizontalEdgeRing(3.70);
+        ctx.insertHorizontalEdgeRing(3.74);
+        ctx.insertHorizontalEdgeRing(3.82);
+        ctx.insertHorizontalEdgeRing(3.90);
+        ctx.insertHorizontalEdgeRing(4.03);
+        ctx.insertHorizontalEdgeRing(4.21);
+        ctx.insertHorizontalEdgeRing(4.35);
+        ctx.insertHorizontalEdgeRing(4.45);
+        ctx.insertHorizontalEdgeRing(4.47);
+        ctx.insertHorizontalEdgeRing(4.48);
+        ctx.insertHorizontalEdgeRing(4.49);
+        ctx.insertHorizontalEdgeRing(4.60);
+
+        // Now scale the newly-created rings!
+        ctx.selectVerticesByZ( 0);
+        ctx.scale( 0.75,0.75, 1);
+        ctx.selectVerticesByZ( 0.27);
+        ctx.scale(0.75,0.75,1);
+        ctx.selectVerticesByZ( 0.44);
+        ctx.scale(0.63,0.63,1);
+        ctx.selectVerticesByZ( 3.16);
+        ctx.scale(0.63,0.63,1);
+        ctx.selectVerticesByZ( 3.25);
+        ctx.scale(0.76,0.76,1);
+        ctx.selectVerticesByZ( 3.60);
+        ctx.scale(0.78,0.78,1);
+        ctx.selectVerticesByZ( 3.70);
+        ctx.scale(0.85,0.85,1);
+        ctx.selectVerticesByZ( 3.74);
+        ctx.scale(0.95,0.95,1);
+        ctx.selectVerticesByZ( 3.82);
+        ctx.scale(0.96,0.96,1);
+        ctx.selectVerticesByZ( 3.90);
+        ctx.scale(0.75,0.75,1);
+        ctx.selectVerticesByZ( 4.03);
+        ctx.scale(0.73,0.73,1);
+        ctx.selectVerticesByZ( 4.21);
+        ctx.scale(0.62,0.62,1);
+        ctx.selectVerticesByZ( 4.35);
+        ctx.scale(0.46,0.46,1);
+        ctx.selectVerticesByZ( 4.45);
+        ctx.scale(0.19,0.19,1);
+        ctx.selectVerticesByZ(4.47);
+        ctx.scale(0.04,0.04,1);
+        ctx.selectVerticesByZ(4.48);
+        ctx.scale(0.04,0.04,1);
+        ctx.selectVerticesByZ( 4.49);
+        ctx.scale(0.03,0.03,1);
+        ctx.selectVerticesByZ(4.60);
+        ctx.scale(0.07,0.07,1);
+
+        ctx.selectVerticesByZ(MODEL_HEIGHT);
+        ctx.scale(0.01, 0.01, 1);
+
+        ctx.selectFacesByZ(0.44, 3.16);
+        ctx.assignMaterial(2);
+
+        //one more scaling, for actual height!
+        // real procedural scaling means that the top of the column goes up by height difference.
+        var ratio = width/(ctx.getMaxBounds().x - ctx.getMinBounds().x);
+
+        //for width we need to scale the model uniformly.
+        ctx.selectNone();
+        ctx.scale(ratio, ratio, ratio);
+
+        ctx.selectVerticesByZ(3.1*ratio, MODEL_HEIGHT*ratio);
+        ctx.translate(0.0, 0.0, (height - MODEL_HEIGHT*ratio));
+
+        // TODO:  some limits: objects cannot be stretched infinitely
+
+        Mesh mesh = ctx.getMesh();
+
+        mesh.materials.add(matColor3);
+        mesh.materials.add(matColor);
+        mesh.materials.add(matColor2);
 
         return mesh;
     }
@@ -531,6 +600,8 @@ public class RenderableElement {
         double finialRadius = polyRadius * 1.5 * top_rate;
         double finialHeight = finialRadius * 2;
 
+        //TODO: implement several flags on the same pole
+        //  For now just the first one.
         String mastColorStr = getFirstValue(getTagStr("colour", primitive, "#C0C0C0"));
         String flagColorStr = getFirstValue(getTagStr("flag:colour", primitive, ""));
         String flagQID =  getFirstValue(getTagStr("flag:wikidata", primitive, ""));
@@ -591,8 +662,17 @@ public class RenderableElement {
         }
         // Top cap of the mast (under the finial)
         int[] topCap = new int[poleSegments];
-        for (int i = 0; i < poleSegments; i++) topCap[i] = topIndices[poleSegments - 1 - i];
+        for (int i = 0; i < poleSegments; i++) {
+            topCap[i] = topIndices[i];
+        };
         mesh.addFace(topCap, 0);
+
+        //Bottom cap of the mast (invisible, on the ground)
+        int[] bottomCap = new int[poleSegments];
+        for (int i = 0; i < poleSegments; i++) {
+            bottomCap[i] = bottomIndices[poleSegments - 1 - i];
+        };
+        mesh.addFace(bottomCap, 0);
 
         // 2. Finial (A small diamond/octahedron at the top)
         Point3D pTop = new Point3D(0, 0, height );

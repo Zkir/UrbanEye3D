@@ -25,9 +25,9 @@ public class Mesh {
     /**  Contains color indices for each face  */
     public final List<Integer> faceMaterials;
 
-    private static final int BOTTOM_COLOUR_IDX = 0;
-    private static final int WALL_COLOUR_IDX = 1;
-    private static final int ROOF_COLOUR_IDX = 2;
+    public static final int BOTTOM_COLOUR_IDX = 0;
+    public static final int WALL_COLOUR_IDX = 1;
+    public static final int ROOF_COLOUR_IDX = 2;
 
     /** Cache to store unique vertices and avoid duplicates. */
     private final transient Map<Point3D, Integer> vertexCache = new HashMap<>();
