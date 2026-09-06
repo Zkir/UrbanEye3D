@@ -206,6 +206,11 @@ node[barrier=lift_gate] {
 	rotatable: true;
 }
 
+node[barrier=wicket_gate] {
+    model: "/models/barrier_wicket_gate.obj";
+    orientation: align_with_parent;
+}
+
 /* Recycling Container */
 node[amenity=recycling][recycling_type=container] {
     model: "/models/recycling_container.obj";

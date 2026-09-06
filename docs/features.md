@@ -227,8 +227,9 @@ The plugin also supports rendering of `barrier` objects (`barrier=*`)
 
 The plugin supports gates and entrances that are typically placed as nodes on linear barriers (walls, fences).
 
-- `barrier=gate`: Rendered as a swinging double-leaf gate.
-- `barrier=lift_gate`: Rendered as a boom barrier (шлагбаум).
+- `barrier=gate`: A swinging double-leaf gate.
+- `barrier=lift_gate`: A boom barrier.
+- `barrier=wicket_gate`: A smaller gate or door for pedestrians.
 - `barrier=entrance`: A simple gap or opening in the barrier without a physical gate. It creates a physical hole in the barrier but no 3D model is rendered.
 
 ![barrier=gate](images/barrier_gate_small.png)
@@ -237,7 +238,7 @@ The plugin supports gates and entrances that are typically placed as nodes on li
 - **Physical Gaps:** The plugin automatically creates a physical gap in the parent linear barrier at the location of the gate or entrance node.
 - **Gap Width:** 
     - For `barrier=entrance`, the width of the gap can be controlled by the `width` or `maxwidth:physical` tag on the node. If not specified, a default width of 1.5m is used.
-    - For `barrier=gate` and `barrier=lift_gate`, a **fixed width of 3.5m** is used to match the physical dimensions of the 3D models. Tags like `width` are currently ignored for gates to prevent visual artifacts.
+    - For `barrier=gate`, `barrier=lift_gate` and `barrier=wicket_gate`, a **fixed width** is used to match the physical dimensions of the 3D models. Tags like `width` are currently ignored for such gates to prevent visual artifacts.
 - **Intelligent Orientation:** Gate models are automatically aligned to be flush with the parent barrier way.
 
 ### Point Barriers

@@ -104,7 +104,10 @@ public class Contour {
             Geometry finalGeom = polygon;
             for (int i = 0; i < way.getNodesCount(); i++) {
                 Node node = way.getNode(i);
-                if (node.hasTag("barrier", "gate") || node.hasTag("barrier", "lift_gate") || node.hasTag("barrier", "entrance")) {
+                if (node.hasTag("barrier", "gate") ||
+                        node.hasTag("barrier", "lift_gate") ||
+                        node.hasTag("barrier", "wicket_gate") ||
+                        node.hasTag("barrier", "entrance")) {
                     Point2D localPos = getNodeLocalCoords(node, center);
 
                     // Calculate direction at this node index
@@ -136,6 +139,8 @@ public class Contour {
                             double defaultEntranceWidth = 1.5;
                             gapWidth = OsmDataWasher.getTagD("width", node, 
                                           OsmDataWasher.getTagD("maxwidth:physical", node, defaultEntranceWidth));
+                        } else if (node.hasTag("barrier", "wicket_gate")) {
+                            gapWidth = 1.2;
                         } else {
                             // barrier=gate or barrier=lift_gate
                             gapWidth = 3.5;

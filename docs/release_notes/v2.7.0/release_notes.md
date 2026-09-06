@@ -37,14 +37,18 @@ For advertising flags, a vertical format is used, if no specific texture is foun
 
 `man_made=flagpole` + `flag:type=advertising` + `flag:colour=red|white|blue`
 
-## New Object: `man_made=street_cabinet`
+## New Object: Street Cabinet 
 
 The `man_made=street_cabinet` tag is supported via a procedural model. The `width`, `length` and `height` tags are respected!
 
 ![street_cabinet](street_cabinet.png)
 
+## New Object: Wicket Gate
+The `barrier=wicket_gate` tag is rendered as a smaller gate or door for pedestrians. 
+![Wicket Gate](wicket_gate.png)
+
 ## The `diameter_crown` Tag for Trees. 
-`diameter_crown` is a popular tag ([730K occurences in the OSM database](https://taginfo.openstreetmap.org/keys/diameter_crown#chronology)), and has been gaining popularity in the recent months, so the plugin now supports it. 
+The `diameter_crown` key is quite popular ([730K occurences](https://taginfo.openstreetmap.org/keys/diameter_crown#chronology) in the OSM database), and has been gaining popularity in the recent months, so the plugin now supports it. 
 Tree models are scaled according to the tag value.
 
 ---
