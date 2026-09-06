@@ -18,11 +18,13 @@ import ru.zkir.urbaneye3d.assetconfig.AssetRule;
 import ru.zkir.urbaneye3d.assetconfig.GeneratorRegistry;
 import ru.zkir.urbaneye3d.assetconfig.ProceduralGenerator;
 
+import java.awt.Color;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static ru.zkir.urbaneye3d.RenderableElement.isPrimitiveUnderground;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getFirstValue;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
@@ -300,12 +302,24 @@ public class Scene {
                     mesh = generator.generate(node, node.getCoor(), rule, new Random(node.getId()));
 
                 } else if (rule.properties.containsKey("model")) {
+                    boolean isColorable = "true".equals(rule.properties.get("colorable"));
                     String modelPath = rule.properties.get("model");
                     mesh = loadModel(modelPath);
                     if (mesh == null) {
                         UrbanEye3dPlugin.debugMsg("Unable to load model: " + modelPath);
                         continue;
                     }
+
+                    //Let's paint the main color according to tags.
+                    if (isColorable) {
+                        String main_colour_str = getFirstValue(getTagStr("colour", node, ""));
+                        Color main_colour = ColorUtils.parseColor(main_colour_str);
+                        if (!main_colour_str.isBlank() && main_colour != null) {
+                            mesh = mesh.clone(); //TODO: do something better with clone.
+                            mesh.materials.set(0, main_colour);
+                        }
+                    }
+
                 } else if (rule.properties.containsKey("billboard")) {
                     String texturePath = rule.properties.get("billboard");
                     Map<String, String> tags = nodeForConfig.getInterestingTags();

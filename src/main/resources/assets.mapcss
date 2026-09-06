@@ -43,24 +43,28 @@ node[amenity=bench],
 node[amenity=bench][backrest=no] {
     model: "/models/bench.obj";
     rotatable: true;
+	colorable: true;
 }
 
 /* Bench */
 node[amenity=bench][backrest=yes] {
     model: "/models/bench_002.obj";
     rotatable: true;
+	colorable: true;
 }
 
 /* Street Lamp */
 node[highway=street_lamp],
 node[highway=street_lamp][lamp_mount=straight_mast] {
     model: "/models/street_lamp.obj";
+	colorable: true;
 }
 
 node[highway=street_lamp][lamp_mount=bent_mast] {
     model: "/models/street_lamp_bent.obj";
 	snap_to_roads: true;
     rotatable: true;
+	colorable: true;
 }
 
 /* Bus Stops */
@@ -137,12 +141,14 @@ node[man_made=street_cabinet] {
 node[amenity=waste_basket] {
     model: "/models/basket.obj";
     rotatable: true;
+	colorable: true;
 }
 
 /* Fire Hydrant */
 node[emergency=fire_hydrant],
 node[emergency=fire_hydrant][fire_hydrant:type=pillar] {
     model: "/models/fire_hydrant.obj";
+	colorable: true;
 }
 
 node[emergency=fire_hydrant][fire_hydrant:type=underground] {
@@ -170,6 +176,7 @@ node[power=pole] {
 node[amenity=drinking_water][natural!=spring] {
     model: "/models/water_column.obj";
 	rotatable: true;
+	colorable: true;
 }
 
 /* Water Well */
@@ -182,6 +189,7 @@ node[man_made=water_well][pump=no] {
 node[man_made=water_well][pump][pump!=no] {
     model: "/models/water_column.obj";
     rotatable: true;
+	colorable: true;
 }
 
 /* Barriers */
@@ -198,6 +206,7 @@ node[barrier=bollard] {
 node[barrier=gate] {
     model: "/models/barrier_gate.obj";
     orientation: align_with_parent;
+	colorable: true;
 }
 
 node[barrier=lift_gate] {
@@ -209,6 +218,7 @@ node[barrier=lift_gate] {
 node[barrier=wicket_gate] {
     model: "/models/barrier_wicket_gate.obj";
     orientation: align_with_parent;
+	colorable: true;
 }
 
 /* Recycling Container */
@@ -233,12 +243,14 @@ node[amenity=bicycle_parking][bicycle_parking!=floor],
 node[amenity=bicycle_parking][bicycle_parking=stands] {
     model: "/models/bicycle_parking.obj";
     rotatable: true;
+	colorable: true;
 }
 
 /* Picnic Table */
 node[leisure=picnic_table] {
     model: "/models/picnic_table.obj";
     rotatable: true;
+	colorable: true;
 }
 
 /* Traffic Calming */

@@ -33,13 +33,12 @@ public class AssetConfig {
         extractString(cascade, properties, "billboard");
         extractString(cascade, properties, "rotatable");
         extractString(cascade, properties, "scalable");
+        extractString(cascade, properties, "colorable");
         extractString(cascade, properties, "height");
         extractString(cascade, properties, "width");
         extractString(cascade, properties, "snap_to_roads");
         extractString(cascade, properties, "orientation");
         extractString(cascade, properties, "display");
-
-
 
         if (properties.isEmpty()) {
             return null;
