@@ -18,8 +18,6 @@ From the OSM Note:
 
 ![United Nantions building](flags2.png)
 
-
-
 ### How does it work
 
 For a flag to appear in the plugin, three things are required:
@@ -50,6 +48,8 @@ The `barrier=wicket_gate` tag is rendered as a smaller gate or door for pedestri
 ## The `diameter_crown` Tag for Trees. 
 The `diameter_crown` key is quite popular ([730K occurences](https://taginfo.openstreetmap.org/keys/diameter_crown#chronology) in the OSM database), and has been gaining popularity in the recent months, so the plugin now supports it. 
 Tree models are scaled according to the tag value.
+
+![Trees](tree_tags.png)
 
 ---
 The Urban Eye is watching you! 

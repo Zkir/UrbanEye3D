@@ -376,12 +376,13 @@ The plugin renders some natural features to provide more context to the 3D scene
 ### Trees
 
 -   Nodes tagged with `natural=tree` are rendered as 3D models.
-![Trees](images/trees.png)
 -   The rendering uses a simple "billboard" or "cross-plane" technique with a tree texture.
+![Trees](images/tree_tags.png)
 -   The `height` tag can be used to specify the height of the tree. If not present, a default height is used.
 -   The `diameter_crown` is respected and affects both folliage diameter and estimated height.
 -   The `circumference` tag does not have direct effect on the trunk diameter, but is used to estimate tree height. 
 -   The `leaf_type` tag can be used to select a specific "type" of tree. Supported values are `broadleaved`, `needleleaved` and `palm`.
+![Trees](images/trees.png)
 -   The plugin includes a built-in database of tree species. If the `species` or `genus` tag is present, the plugin automatically infers the `leaf_type` (`broadleaved`, `needleleaved` or `palm`). 
 -   The tree species database contains approximately [2000 tree species names](tree_species.md) with their corresponding `leaf_type` value.  The data is collected from the OSM statistics, the [OSM Wiki: List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species) and verified via [POWO](https://powo.science.kew.org/). The species database is updated from time to time, when a new version of the plugin is released.
 -   **Validation:** The JOSM validator alerts the user if an unknown or misspelled `species` or `genus` tag is used, helping to maintain data quality in OSM.
