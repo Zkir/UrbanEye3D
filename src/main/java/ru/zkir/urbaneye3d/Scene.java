@@ -24,9 +24,7 @@ import java.util.stream.Collectors;
 
 import static ru.zkir.urbaneye3d.RenderableElement.isPrimitiveUnderground;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_TREE_HEIGHT;
-import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getFirstValue;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
-import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
 
 public class Scene {
@@ -310,11 +308,12 @@ public class Scene {
                         continue;
                     }
 
-                    //Let's paint the main color according to tags.
+                    //Let's paint the main color of the model according to the tags.
                     if (isColorable) {
-                        String main_colour_str = getFirstValue(getTagStr("colour", node, ""));
-                        Color main_colour = ColorUtils.parseColor(main_colour_str);
-                        if (!main_colour_str.isBlank() && main_colour != null) {
+
+                        Color main_colour = OsmDataWasher.getColorByColourAndMaterial(node);
+
+                        if (main_colour != null) {
                             mesh = mesh.clone(); //TODO: do something better with clone.
                             mesh.materials.set(0, main_colour);
                         }

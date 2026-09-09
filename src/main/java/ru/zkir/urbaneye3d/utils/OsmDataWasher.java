@@ -2,6 +2,7 @@ package ru.zkir.urbaneye3d.utils;
 
 import com.drew.lang.annotations.NotNull;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import ru.zkir.urbaneye3d.Materials;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -140,5 +141,35 @@ public class OsmDataWasher {
             tag = tag.substring(0, tag.indexOf(';')).trim();
         }
         return tag;
+    }
+
+    public static Color getColorByColourAndMaterial(OsmPrimitive primitive) {
+        Color main_colour = null; // we start from an unspecified color. Note, that there is NO default value.
+        String main_color_str = getFirstValue(getTagStr("colour", primitive, ""));
+        if (!main_color_str.isBlank()) {
+            main_colour = ColorUtils.parseColor(main_color_str);
+        }
+        if (main_colour == null){
+            var material = Materials.fromString(getTagStr("material", primitive, ""));
+            // get default value if material is specified
+            if (material!=null){
+                main_colour = ColorUtils.parseColor(material.getColor());
+            }
+        }
+        return main_colour;
+
+    }
+
+    /**
+     * Gets color value value from the "colour" and "material" tags
+     * The trick is: first of all explicit color, then color from material, and only then default value.
+     */
+    public static Color getColorByColourAndMaterial(OsmPrimitive primitive, String defaultColor) {
+        var color = getColorByColourAndMaterial(primitive);
+        if (color == null) {
+            color = ColorUtils.parseColor(defaultColor);
+        }
+        return color;
+
     }
 }

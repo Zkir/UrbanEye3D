@@ -18,7 +18,6 @@ import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -31,8 +30,8 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_CHIMNEY_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.INHERIT_HEIGHT_FROM_PARENT;
+import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getColorByColourAndMaterial;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getFirstValue;
-import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagC;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagD;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
@@ -373,14 +372,9 @@ public class RenderableElement {
         ctx.selectNone();
         ctx.scale(width, length, height - min_height); //scale the whole object
 
-        String color = getTagStr("colour", primitive, "");
-        if (color.isEmpty()) {
-            color = "#8B7355"; // default brown-ish for street cabinets
-        }
-
         Mesh mesh = ctx.getMesh();
-        
-        Color matColor = ColorUtils.parseColor(color);
+
+        Color matColor = getColorByColourAndMaterial(primitive, "#8B7355");
         mesh.materials.add(matColor);
         mesh.materials.add(matColor);
         mesh.materials.add(matColor);
@@ -479,7 +473,8 @@ public class RenderableElement {
         // https://taginfo.openstreetmap.org/tags/advertising=column
         // TODO: support polygons, why not?
 
-        Color matColor = getTagC("colour", primitive, "#405040");
+        //Color matColor = getTagC("colour", primitive, "#405040");
+        Color matColor = getColorByColourAndMaterial(primitive, "#405040");
         Color matColor2 = ColorUtils.parseColor("#F0F0F0");
         Color matColor3 = ColorUtils.parseColor("#000000");
 
@@ -602,7 +597,6 @@ public class RenderableElement {
 
         //TODO: implement several flags on the same pole
         //  For now just the first one.
-        String mastColorStr = getFirstValue(getTagStr("colour", primitive, "#C0C0C0"));
         String flagColorStr = getFirstValue(getTagStr("flag:colour", primitive, ""));
         String flagQID =  getFirstValue(getTagStr("flag:wikidata", primitive, ""));
 
@@ -620,7 +614,7 @@ public class RenderableElement {
             flagColorStr = "#FFFFFF";
         }
         
-        Color mastColor = ColorUtils.parseColor(mastColorStr);
+        Color mastColor = getColorByColourAndMaterial(primitive, "#C0C0C0");
         Color flagColor = ColorUtils.parseColor(flagColorStr);
         Color finialColor = ColorUtils.parseColor("#FFD700"); // Gold
 

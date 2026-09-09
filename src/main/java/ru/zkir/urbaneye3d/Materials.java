@@ -43,4 +43,7 @@ public enum Materials {
         return null;
     }
 
+    public String getColor() {
+        return this.defaultColour;
+    }
 }
