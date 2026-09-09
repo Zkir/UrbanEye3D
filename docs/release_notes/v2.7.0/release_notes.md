@@ -2,8 +2,8 @@
 
 ## Textured flags
 
-In this version we present textured flags.
-The `flag:wikidata` is mainly considered, but other popular tags, like `flag:name`, `subject`, `subject:wikidata`, `country`,  `brand` are also used to select texture.
+In this version textured flags are introduced.
+The `flag:wikidata` tag is mainly considered, but other popular tags, like `flag:name`, `subject`, `subject:wikidata`, `country`,  `brand` are also used to select texture.
 
 ### Examples
 
