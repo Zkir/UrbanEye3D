@@ -1,5 +1,30 @@
 # Development History
 
+## Version 2.7.0 (Sep 11, 2026)
+
+* **Textured flags**
+    * Textured flags are introduced. The `flag:wikidata` tag is mainly considered, but other popular tags, like `flag:name`, `subject`, `subject:wikidata`, `country`,  `brand` are also used to select texture.
+
+    * For a flag to appear in the plugin, three things are required:
+        * The flag must be represented by a Wikidata item (for example: https://www.wikidata.org/wiki/Q172446)
+        * That wikidata item must contain an SVG image of the flag in the `P18 image` property.
+        * The flag must be tagged with the `flag:wikidata` tag at least five times in OSM (in this example, `flag:wikidata=Q172446`).
+
+*   **Advertising flags**
+    *   For advertising flags (`man_made=flagpole` + `flag:type=advertising`), a vertical format is used, if no specific texture is found
+
+* **New Objects**
+    * **Street Cabinet:** The `man_made=street_cabinet` tag is supported via a procedural model. The `width`, `length` and `height` tags are respected.
+
+    * **Wicket Gate:** The `barrier=wicket_gate` tag is rendered as a smaller gate or door for pedestrians. 
+
+* The `diameter_crown` Tag for Trees. 
+    * The `diameter_crown` key is quite popular ([730K occurences](https://taginfo.openstreetmap.org/keys/diameter_crown#chronology) in the OSM database), and has been gaining popularity in the recent months, so the plugin now supports it.  Tree models are scaled according to the tag value.
+
+* `colour` and `material` for pre-made models. If `colour` and `material` tags are specified, the main colour of the model is set accordingly, even if the model is specified by OBJ/MTL file. NOTE: implemented not for all models. 
+
+
+
 ## Version 2.6.0 (Aug 21, 2026)
 
 1. Gates in linear barriers (nobody has done that yet!) 
