@@ -44,7 +44,6 @@ Not everything went smoothly. Some features are hard to capture, while others ha
 
 *   **Building Passages:** For passages through buildings, there is a flat tag `building=passage`, but we couldn't support it yet. Making holes in 3D bodies is not as easy as it seems. Even in Blender, boolean operations between bodies are glitchy, let alone in home-grown libraries.
 
-* **Industrial Architecture:** Chimneys (`man_made=chimney`) usually have the shape of a truncated cone, but this shape simply isn't in S3DB. Cylinders look boring and unrealistic. So chimneys are waiting for me to get to them.
 
 * **Procedural Trees:** I would like to have trees generated based on both `height` and `circumference`. While professional tools like SpeedTree exist, there are also active open-source projects like [ez-tree](https://github.com/dgreenheck/ez-tree) and [SeedThree](https://github.com/SkyeShark/SeedThree). However, no one yet has a ready-to-use library of low-poly models or billboards covering the top 100 most common species. If any tree enthusiasts are willing to reach out to the authors of these libraries, perhaps they would be interested in collaborating with UrbanEye3D!
 

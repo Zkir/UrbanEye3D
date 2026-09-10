@@ -433,6 +433,7 @@ For objects tagged with `leisure=pitch`, the plugin automatically renders charac
 
 
 ![pitches with markings](images/leisure_pitch.png)
+![pitches with markings](images/leisure_pitch1.jpg)
 
 **Automatic Scaling:**
 - The markings are automatically aligned along the longest side of the pitch.
