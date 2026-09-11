@@ -47,7 +47,7 @@ public class ProceduralModelsTest {
 
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("street_cabinet");
 
-        var mesh = generator.generate(node, node.getCoor(), null, new Random(node.getId()));
+        var mesh = generator.generate(node, node.getCoor(), null);
         ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/street_cabinet.obj");
 
         AssertMeshTopology(mesh, 0, 1.6,"street_cabinet");
@@ -62,7 +62,7 @@ public class ProceduralModelsTest {
 
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("ad_column");
 
-        var mesh = generator.generate(node, node.getCoor(), null, new Random(node.getId()));
+        var mesh = generator.generate(node, node.getCoor(), null);
         ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/ad_column.obj");
 
         AssertMeshTopology(mesh, 0, 5.25,"ad_column");
@@ -77,7 +77,7 @@ public class ProceduralModelsTest {
 
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("flagpole");
 
-        var mesh = generator.generate(node, node.getCoor(), null, new Random(node.getId()));
+        var mesh = generator.generate(node, node.getCoor(), null);
         ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/flagpole.obj");
 
         AssertMeshTopology2(mesh, 0, 12.25,"flagpole",true);
@@ -92,9 +92,25 @@ public class ProceduralModelsTest {
 
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("chimney");
 
-        var mesh = generator.generate(node, node.getCoor(), null, new Random(node.getId()));
+        var mesh = generator.generate(node, node.getCoor(), null);
         ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/chimney.obj");
 
         AssertMeshTopology(mesh, 0, 30,"chimney");
+    }
+
+    @Test
+    void testWindTurbine(){
+        Node node = new Node(new LatLon(55.0, 37.0));
+        node.put("power", "generator");
+        node.put("height", "120");
+        node.put("rotor:diameter", "50");
+        //node.put("height:hub", "40");
+
+        ProceduralGenerator generator = GeneratorRegistry.getInstance().get("wind_turbine");
+
+        var mesh = generator.generate(node, node.getCoor(), null);
+        ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/wind_turbine.obj");
+
+        AssertMeshTopology2(mesh, 0, 119.589,"wind_turbine", true);
     }
 }

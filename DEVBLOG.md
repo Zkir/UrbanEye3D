@@ -1,5 +1,9 @@
 # Development History
 
+### Sep 12, 2026
+* Implemented procedural model for wind generators. 
+* Statistics for wind generators is added to the data pipeline
+
 ## Version 2.7.0 (Sep 11, 2026)
 
 * **Textured flags**

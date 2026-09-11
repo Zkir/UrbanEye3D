@@ -1,5 +1,6 @@
 package ru.zkir.urbaneye3d.utils;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +10,7 @@ public class MeshOperations {
     private List<Point3D> selectedVertices;
     private List<Integer> selectedFaces;
     public MeshOperations(){
-        //start from empty mesh
-        mesh = null;
+        mesh = new Mesh();         //start from empty mesh
         selectedVertices = new ArrayList<>();
         selectedFaces = new ArrayList<>();
     }
@@ -21,7 +21,6 @@ public class MeshOperations {
 
     public void createCube(){
 
-        mesh = new Mesh();
         // Base dimensions: length along Y axle, widthParam along X axle
         double halfX = 0.5;
         double halfY = 0.5;
@@ -58,25 +57,21 @@ public class MeshOperations {
         mesh.addWallFace(faces[3]);
         mesh.addWallFace(faces[4]);
         mesh.addWallFace(faces[5]);
-
-        return;
     }
     public void createCylinder(int segments) {
-
-        mesh = new Mesh();
 
         // Радиус цилиндра (единичный диаметр = радиус 0.5)
         double radius = 0.5;
 
         // Создаем вершины: segments для нижнего кольца, segments для верхнего кольца
-        Point3D[] verts = new Point3D[segments * 2];
+        var verts = new int[segments * 2];
 
         // Нижнее кольцо (z = 0)
         for (int i = 0; i < segments; i++) {
             double angle = 2 * Math.PI * i / segments;
             double x = radius * Math.cos(angle);
             double y = radius * Math.sin(angle);
-            verts[i] = new Point3D(x, y, 0);
+            verts[i] = mesh.addVertex(new Point3D(x, y, 0));
         }
 
         // Верхнее кольцо (z = 1)
@@ -84,25 +79,20 @@ public class MeshOperations {
             double angle = 2 * Math.PI * i / segments;
             double x = radius * Math.cos(angle);
             double y = radius * Math.sin(angle);
-            verts[segments + i] = new Point3D(x, y, 1);
-        }
-
-        // Добавляем все вершины в mesh
-        for (int i = 0; i < verts.length; i++) {
-            mesh.addVertex(verts[i]);
+            verts[segments + i] = mesh.addVertex(new Point3D(x, y, 1));
         }
 
         // Создаем нижнюю грань (все вершины нижнего кольца)
         int[] bottomFace = new int[segments];
         for (int i = 0; i < segments; i++) {
-            bottomFace[i] = segments - 1 - i;
+            bottomFace[i] = verts[segments - 1 - i];
         }
         mesh.addBottomFace(bottomFace);
 
         // Создаем верхнюю грань (все вершины верхнего кольца в обратном порядке)
         int[] topFace = new int[segments];
         for (int i = 0; i < segments; i++) {
-            topFace[i] = segments + i;
+            topFace[i] = verts[segments + i];
         }
         mesh.addRoofFace(topFace);
 
@@ -110,18 +100,27 @@ public class MeshOperations {
         for (int i = 0; i < segments; i++) {
             int next = (i + 1) % segments;
             int[] wallFace = new int[] {
-                    i,              // нижняя вершина i
-                    next,           // нижняя вершина next
-                    segments + next, // верхняя вершина next
-                    segments + i    // верхняя вершина i
+                    verts[i],              // нижняя вершина i
+                    verts[next],           // нижняя вершина next
+                    verts[segments + next], // верхняя вершина next
+                    verts[segments + i]    // верхняя вершина i
             };
             mesh.addWallFace(wallFace);
         }
+        //Select the newly created vertices to selection
+        this.selectedVertices.clear();
+        for (int i: verts){
+            this.selectedVertices.add(this.mesh.verts.get(i));
+        }
 
-        return;
+        mesh.invalidateBBOX();
     }
 
-    public  void scale( double sx, double sy, double sz){
+    public void scale( double s){
+        scale(s,s,s);
+    }
+
+    public void scale( double sx, double sy, double sz){
         List<Point3D> verts;
         if (this.selectedVertices.isEmpty()){
             verts = this.mesh.verts;
@@ -140,7 +139,12 @@ public class MeshOperations {
     }
 
     public void translate(double dx, double dy, double dz) {
-        var verts = this.selectedVertices;
+        List<Point3D> verts;
+        if (this.selectedVertices.isEmpty()){
+            verts = this.mesh.verts;
+        } else {
+            verts = this.selectedVertices;
+        }
 
         for (int i = 0; i < verts.size(); i++) {
             var v=verts.get(i);
@@ -149,6 +153,12 @@ public class MeshOperations {
             v.z = v.z + dz;
         }
         // Invalidate bounding box and vertex cache as coordinates have changed
+        mesh.invalidateBBOX();
+    }
+
+    public void rotateY(double v) {
+        //TODO: rotate only selected group of vertices.
+        mesh.rotateY(v);
         mesh.invalidateBBOX();
     }
 
@@ -335,5 +345,19 @@ public class MeshOperations {
 
     public Point3D getMinBounds() {
         return mesh.getMinBounds();
+    }
+
+    public void loadModel(String filename) {
+        ObjImporter importer = new ObjImporter();
+        //TODO: loaded model should rather be added to existing mesh.
+        this.mesh = importer.loadModel(filename);
+    }
+
+    public void addMaterial(Color color) {
+        mesh.materials.add(color);
+    }
+
+    public void setMaterial(int i, Color color) {
+        mesh.materials.set(0, color);
     }
 }

@@ -242,6 +242,12 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("sport=badminton", "Indicates that the pitch is used for badminton. Triggers rendering of badminton court markings.");
         TAG_DESCRIPTIONS.put("sport=futsal", "Indicates that the pitch is used for futsal. Triggers rendering of futsal markings.");
 
+        TAG_DESCRIPTIONS.put("rotor:diameter", "Specifies the rotor diameter for wind generators");
+        TAG_DESCRIPTIONS.put("height:hub", "Specifies the height of the hub (support) for wind generators");
+        TAG_DESCRIPTIONS.put("generator:source=wind", "Used to identify wind generator, for 3D model placement");
+        TAG_DESCRIPTIONS.put("power=generator", "Used to identify wind generator, for 3D model placement");
+        TAG_DESCRIPTIONS.put("generator:method=wind_turbine", "Used to identify wind generator, for 3D model placement");
+
         //add values from Materials enum. It is good enough description, so we can use it.
         for (var mat:Materials.values()){
             if (!TAG_DESCRIPTIONS.containsKey("building:material" +"="+ mat.displayName)){

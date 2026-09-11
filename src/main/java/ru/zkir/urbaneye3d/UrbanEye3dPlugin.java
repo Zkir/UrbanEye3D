@@ -20,6 +20,7 @@ public class UrbanEye3dPlugin extends Plugin {
     public static final double DEFAULT_LEVELS_NUMBER = 2;
     public static final double DEFAULT_LEVEL_HEIGHT = 3;
     public static final double DEFAULT_CHIMNEY_HEIGHT = 20.0;
+    public static final double DEFAULT_WIND_GENERATOR_HEIGHT = 20.0;
     public static final double DEFAULT_ROOF_THICKNESS = 0.25;
     public static final double DEFAULT_STEP_HEIGHT = 0.16;
     public static final boolean INHERIT_HEIGHT_FROM_PARENT = false;

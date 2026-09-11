@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260906T141016Z",
+  "data_updated" : "20260912T130701Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -245,11 +245,22 @@
     "key" : "flag:wikidata",
     "description" : "Used to select the proper flag texture."
   }, {
+    "key" : "generator:method",
+    "value" : "wind_turbine",
+    "description" : "Used to identify wind generator, for 3D model placement"
+  }, {
+    "key" : "generator:source",
+    "value" : "wind",
+    "description" : "Used to identify wind generator, for 3D model placement"
+  }, {
     "key" : "genus",
     "description" : "The Latin name of the tree genus. Used to infer leaf_type and leaf_cycle if these tags are not specified."
   }, {
     "key" : "height",
     "description" : "The total height of the building, including the roof, in meters."
+  }, {
+    "key" : "height:hub",
+    "description" : "Specifies the height of the hub (support) for wind generators"
   }, {
     "key" : "highway",
     "value" : "bridleway",
@@ -566,6 +577,10 @@
     "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"
   }, {
     "key" : "power",
+    "value" : "generator",
+    "description" : "Used to identify wind generator, for 3D model placement"
+  }, {
+    "key" : "power",
     "value" : "line",
     "description" : "A high-voltage power line, rendered with multiple sagging wires."
   }, {
@@ -766,6 +781,9 @@
     "key" : "roof:shape",
     "value" : "skillion",
     "description" : "A single-sloped roof surface (a lean-to). The slope direction is controlled by the `roof:direction` tag, which can be set to any angle."
+  }, {
+    "key" : "rotor:diameter",
+    "description" : "Specifies the rotor diameter for wind generators"
   }, {
     "key" : "shape",
     "value" : "frustum",

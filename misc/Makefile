@@ -10,13 +10,18 @@ TREE_STATS_FILES := $(patsubst %,data/10_trees/tree_stats_%.csv,$(ANALYSIS_TYPES
 
 # Default goal, executed when 'make' is run without arguments
 #all: $(TREE_STATS_FILES) data/building_analysis_full.csv 
-all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/15_trees_output/spatial_stats_5x5.json data/25_flags_output/flag_rules_colour.json data\25_flags_output\flag_rules_wd.json data\25_flags_output\images-png.milestone data/26_tags/popular_missing_tags.md data/10_trees/correlations.txt
+all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/15_trees_output/spatial_stats_5x5.json data/10_trees/correlations.txt \
+         data/25_flags_output/flag_rules_colour.json data\25_flags_output\flag_rules_wd.json data\25_flags_output\images-png.milestone \
+		 data/26_tags/popular_missing_tags.md  \
+		 data/40_wind_generators/turbine_models.json
 
 # Define the columns to be extracted for the trees CSV
 TREE_COLUMNS = id lat lon height circumference age start_date \
                species genus species:wikidata leaf_type leaf_cycle diameter_crown
 
 BUILDING_COLUMNS = id building height building:levels roof:shape roof:height roof:levels 
+
+WING_GEN_COLUMNS = id lat lon generator:type height hub:height rotor:diameter start_date wikidata manufacturer model manufacturer:type generator:output:electricity
 
 data/00_planet/planet-latest.osm.pbf: 
 	if not exist data\00_planet mkdir data\00_planet
@@ -34,6 +39,9 @@ data/05_extracts/buildings.osm: data/00_planet/planet-latest-updated.osm.pbf | d
 	
 data/05_extracts/flags.osm: data/00_planet/planet-latest-updated.osm.pbf |  data/05_extracts ## Rule extract flags
 	osmosis --rbf data/00_planet/planet-latest-updated.osm.pbf --tf accept-nodes man_made=flagpole --tf reject-ways --tf reject-relations --wx data/05_extracts/flags.osm	
+
+data/05_extracts/wind_generators.osm: data/00_planet/planet-latest-updated.osm.pbf |  data/05_extracts ## Rule extract flags
+	osmosis --rbf data/00_planet/planet-latest-updated.osm.pbf --tf accept-nodes generator:source=wind --tf reject-ways --tf reject-relations --wx data/05_extracts/wind_generators.osm		
 
 # Generic pattern rule to generate any analysis file.
 # The stem (%) will be 'species', 'genus', or 'leaf_type'.
@@ -100,6 +108,13 @@ data/26_tags/popular_missing_tags.md: data/26_tags/popular_tags.json
 	python find_missing_tags.py	
 	cmd /c "copy /b /v /y data\26_tags\popular_missing_tags.md ..\docs\dev\"
 	cmd /c "copy /b /v /y data\26_tags\popular_supported_tags.md ..\docs\dev\"	
+	
+	
+data/40_wind_generators/generators.csv: data/05_extracts/wind_generators.osm | data/40_wind_generators ## Generate trees CSV from the source OSM file
+	python osm_to_csv.py --input $< --output $@ --columns $(WING_GEN_COLUMNS)	
+	
+data/40_wind_generators/turbine_models.json: data/40_wind_generators/generators.csv ## Generate trees CSV from the source OSM file
+	python analyze_wind_turbines.py
 	
 data:
 	@mkdir data

@@ -35,46 +35,49 @@ public class AssetListTest {
 
     private static final Map<String, AssetInfo> MASTER_ASSET_LIST = new HashMap<>();
     static {
-        MASTER_ASSET_LIST.put("/models/colored_cube.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/bench.obj",        new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/bench_002.obj",        new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/basket.obj",       new AssetInfo("https://github.com/tordanik/OSM2World", "OSM2World", "MIT license"));
-        MASTER_ASSET_LIST.put("/models/street_lamp.obj",  new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/street_lamp_bent.obj",  new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/bus_stop_001.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/bus_stop_002.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/bus_stop_sign.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/guidepost.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/info_board.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/info_post.obj",     new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/fire_hydrant.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/water_column.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/recycling_container.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/power_tower.obj", new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/power_tower_solid.obj", new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/power_pole.obj", new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/power_tower_billboard.obj", new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/power_tower_billboard.png", new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/barrier_block.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/barrier_bollard.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/barrier_gate.obj", new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/barrier_lift_gate.obj", new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/barrier_wicket_gate.obj", new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/bicycle_parking.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/picnic_table.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/memorial_obelisk.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/memorial_bust.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/memorial_stone.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/memorial_stele.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/memorial_stele_star.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/colored_cube.obj",           new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bench.obj",                  new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bench_002.obj",              new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/basket.obj",                 new AssetInfo("https://github.com/tordanik/OSM2World", "OSM2World", "MIT license"));
+        MASTER_ASSET_LIST.put("/models/street_lamp.obj",            new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/street_lamp_bent.obj",       new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bus_stop_001.obj",           new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bus_stop_002.obj",           new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bus_stop_sign.obj",          new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/guidepost.obj",              new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/info_board.obj",             new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/info_post.obj",              new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/fire_hydrant.obj",           new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/water_column.obj",           new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/recycling_container.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/power_tower.obj",            new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/power_tower_solid.obj",      new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/power_pole.obj",             new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/power_tower_billboard.obj",  new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/power_tower_billboard.png",  new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/barrier_block.obj",          new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/barrier_bollard.obj",        new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/barrier_gate.obj",           new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/barrier_lift_gate.obj",      new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/barrier_wicket_gate.obj",    new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/bicycle_parking.obj",        new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/picnic_table.obj",           new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/memorial_obelisk.obj",       new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/memorial_bust.obj",          new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/memorial_stone.obj",         new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/memorial_stele.obj",         new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/memorial_stele_star.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/sculpture_abstract_spiral.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/memorial_stolperstein.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/railway_buffer_stop.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/traffic_bump.obj",       new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/traffic_hump.obj",       new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/water_well.obj",         new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
-        MASTER_ASSET_LIST.put("/models/wayside_cross_latin.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/memorial_stolperstein.obj",  new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/railway_buffer_stop.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/traffic_bump.obj",           new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/traffic_hump.obj",           new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/water_well.obj",             new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/wayside_cross_latin.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/wayside_cross_orthodox.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/wind_turbine_rotor.obj",     new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+
+
 
         // Textures
         MASTER_ASSET_LIST.put("/textures/trees/tree_000.png",

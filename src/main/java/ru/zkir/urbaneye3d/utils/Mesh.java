@@ -138,6 +138,23 @@ public class Mesh {
         invalidateBBOX();
 
     }
+    public void rotateY(double angleDegrees) {
+        double angleRad = Math.toRadians(angleDegrees);
+        double cosA = Math.cos(angleRad);
+        double sinA = Math.sin(angleRad);
+
+        for (int i = 0; i < verts.size(); i++) {
+            Point3D p = verts.get(i);
+            double newX = p.x * cosA - p.z * sinA;
+            double newZ = p.x * sinA + p.z * cosA;
+            verts.set(i, new Point3D(newX, p.y, newZ));
+        }
+
+        // Invalidate bounding box and vertex cache as coordinates have changed
+        invalidateBBOX();
+
+    }
+
     public void translate(Point3D translation){
         for (int i = 0; i < verts.size(); i++) {
             verts.set(i, verts.get(i).add(translation));

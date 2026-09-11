@@ -11,6 +11,7 @@ import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.FlagsDatabase;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.MeshOperations;
+import ru.zkir.urbaneye3d.utils.ObjImporter;
 import ru.zkir.urbaneye3d.utils.OsmDataWasher;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.SplittableRandom;
 
 import org.openstreetmap.josm.data.osm.PrimitiveId;
 import org.openstreetmap.josm.data.osm.Relation;
@@ -29,6 +31,7 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVELS_NUMBER;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_CHIMNEY_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
+import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_WIND_GENERATOR_HEIGHT;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.INHERIT_HEIGHT_FROM_PARENT;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getColorByColourAndMaterial;
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getFirstValue;
@@ -461,7 +464,7 @@ public class RenderableElement {
         return mesh;
     }
 
-    public static Mesh createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
+    public static Mesh createAdColumn(OsmPrimitive primitive, LatLon origin, Map<String, String> tags) {
 
         final double MODEL_HEIGHT = 4.8;
 
@@ -567,7 +570,7 @@ public class RenderableElement {
         return mesh;
     }
 
-    public static Mesh createFlagpole(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, Random random) {
+    public static Mesh createFlagpole(OsmPrimitive primitive, LatLon origin, Map<String, String> tags, SplittableRandom random) {
         final int poleSegments = 8;
         final int flagSegments = 8;
         final double DEFAULT_FLAGPOLE_HEIGHT = 10.0;
@@ -765,7 +768,11 @@ public class RenderableElement {
         return mesh;
     }
 
-    public static Mesh createChimney(OsmPrimitive primitive, LatLon origin, Random random) {
+    public static Mesh createChimney(OsmPrimitive primitive, LatLon origin) {
+
+        if (primitive instanceof Way || primitive instanceof Relation) {
+            return null;
+        }
 
         double diameter = getTagD("diameter", primitive, 2000.0)/1000; //Default unit for diameter tag is MILLIMETER!
         double min_height = getTagD("min_height", primitive, 0.0);
@@ -777,9 +784,6 @@ public class RenderableElement {
             default_colour=material.defaultColour;
         }
         var colour = getTagStr("colour", primitive, default_colour);
-
-        // Points only for this procedural generator
-        if (primitive instanceof Way || primitive instanceof Relation) return null;
 
         // Support for shape and tapering rates, same as polygon chimneys
         String buildingShape = getTagStr("shape", primitive, "frustum");
@@ -803,6 +807,76 @@ public class RenderableElement {
         Mesh mesh = composeMesh(buildingRecipe);
 
         return mesh;
+    }
+
+    public static Mesh createWindTurbine(OsmPrimitive primitive, LatLon origin, SplittableRandom random) {
+
+        Double height;
+        Double hub_height;
+        Double rotor_diameter;
+
+        double min_height = getTagD("min_height", primitive, 0.0);
+
+        //here we have three parameters, but only two of them are independent. They can appear in different combinations.
+        //  Defaults could be tricky.
+        //  hub height is more important, because it is used for scaling
+        //  also note that the tag for hub height is `height:hub`, instead of more logical `hub:height`
+        //TODO: support both `height:hub` and `hub:height`
+        if (primitive.hasTag("height")) {
+            height = getTagD("height", primitive, DEFAULT_WIND_GENERATOR_HEIGHT + min_height) - min_height;
+            rotor_diameter = getTagD("rotor:diameter", primitive, 0.66 * height);
+            hub_height = getTagD("height:hub", primitive, height - rotor_diameter/2.0);
+        }else if (primitive.hasTag("height:hub")){
+            hub_height = getTagD("height:hub", primitive, DEFAULT_WIND_GENERATOR_HEIGHT*0.66);
+            rotor_diameter = getTagD("rotor:diameter", primitive, hub_height);
+        }else {
+            //we have only rotor diameter
+            rotor_diameter = getTagD("rotor:diameter", primitive, DEFAULT_WIND_GENERATOR_HEIGHT*0.66);
+            hub_height = getTagD("height:hub", primitive, rotor_diameter);
+        }
+
+        // The rotor radius cannot exceed the height of the support; otherwise, the rotor will strike the ground.
+        rotor_diameter = Math.min( rotor_diameter, hub_height*2*0.9);
+
+        //process colour and material
+        Color main_colour = getColorByColourAndMaterial(primitive, "#F0F0F0");
+
+        var ctx = new MeshOperations();
+
+        /*
+        * Create rotor and nacelle
+        *   We will just load this part from OBJ and scale
+        */
+
+        ctx.loadModel("/models/wind_turbine_rotor.obj");
+        ctx.setMaterial(0, main_colour);
+        ctx.addMaterial(main_colour);
+        ctx.addMaterial(main_colour);
+
+        ctx.rotateY(random.nextDouble()*120); // some random phase of rotor rotation
+        //ctx.rotate(wind_angle!) // should be wind oriented, like flags!
+        ctx.scale(rotor_diameter);
+        ctx.translate(0,0, hub_height);
+
+        /*
+         * Create hub (column)
+         *   It could be cylinder, frustum or even hyperboloid,
+         *   we will just create frustum
+         */
+
+        //TODO: here we need to create *sub-mesh* for hub (column)
+        // We will create vertices and faced directly for now.
+
+        ctx.createCylinder(12);
+        double sxy = rotor_diameter/40; //it seems that top diameter of the column is related to rotor diameter.
+        ctx.scale(sxy,sxy, hub_height);
+
+        //it also seems  that the base of the column is wider than the top, and the extent of this difference is somehow related to the height.
+        ctx.selectVerticesByZ(0);
+        ctx.scale(2.0);
+
+        return ctx.getMesh();
+
     }
 
 

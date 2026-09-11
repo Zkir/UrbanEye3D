@@ -340,6 +340,10 @@ node[man_made=cross][denomination=orthodox] {
 	snap_to_roads: true;
 }
 
-
-
-
+node[power=generator][generator:source=wind],
+node[power=generator][generator:method=wind_turbine]{
+	procedure: "wind_turbine";
+    scalable: true;
+	colorable: true;
+	/* should be wind oriented, like flags!*/
+}
