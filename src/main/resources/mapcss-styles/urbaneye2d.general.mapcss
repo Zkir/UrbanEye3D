@@ -256,6 +256,12 @@ area|z14-[natural=scrub] {
     fill-image: "mapcss-styles/symbols/scrub.png";
 }
 
+/*let's consider natural=shrubbery to be a synonym of natural=scrub for now */
+area|z14-[natural=shrubbery] {
+    fill-image: "mapcss-styles/symbols/scrub.png";
+    /*fill-color: #90e090; */
+}
+
 area|z10-[natural=grassland] {
     fill-color: #cfeca8;
 }

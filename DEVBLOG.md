@@ -21,7 +21,9 @@
 * The `diameter_crown` Tag for Trees. 
     * The `diameter_crown` key is quite popular ([730K occurences](https://taginfo.openstreetmap.org/keys/diameter_crown#chronology) in the OSM database), and has been gaining popularity in the recent months, so the plugin now supports it.  Tree models are scaled according to the tag value.
 
-* `colour` and `material` for pre-made models. If `colour` and `material` tags are specified, the main colour of the model is set accordingly, even if the model is specified by OBJ/MTL file. NOTE: implemented not for all models. 
+* Improved support of `colour` and `material` for pre-made models. If `colour` and `material` tags are specified, the main colour of the model is set accordingly, even if the model is specified by OBJ/MTL file. NOTE: implemented not for all models. 
+
+* Support of `natural=shrubbery` in the 2D style. `natural=shrubbery` is considered to be a synonym of the `natural=scrub` tag.
 
 
 
