@@ -2,6 +2,7 @@ package ru.zkir.urbaneye3d.assetconfig;
 
 import ru.zkir.urbaneye3d.meshers.custom.MesherAdColumn;
 import ru.zkir.urbaneye3d.meshers.custom.MesherChimney;
+import ru.zkir.urbaneye3d.meshers.custom.MesherCommunicationMast;
 import ru.zkir.urbaneye3d.meshers.custom.MesherFlagpole;
 import ru.zkir.urbaneye3d.meshers.custom.MesherStreetCabinet;
 import ru.zkir.urbaneye3d.meshers.custom.MesherWindTurbine;
@@ -17,16 +18,11 @@ public class GeneratorRegistry {
 
     private GeneratorRegistry() {
         register("ad_column", MesherAdColumn::generate );
-
         register("flagpole",  MesherFlagpole::generate );
-
         register("chimney",   MesherChimney::generate  );
-
         register("street_cabinet", MesherStreetCabinet::generate );
-
-        register("wind_turbine",  MesherWindTurbine::generate  );
-
-
+        register("wind_turbine",  MesherWindTurbine::generate);
+        register("communication_mast", MesherCommunicationMast::generate);
     }
 
     public static GeneratorRegistry getInstance() {

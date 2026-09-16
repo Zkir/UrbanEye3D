@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260912T130701Z",
+  "data_updated" : "20260915T222607Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -880,6 +880,10 @@
     "key" : "tourism",
     "value" : "information",
     "description" : "General tourism information point."
+  }, {
+    "key" : "tower:type",
+    "value" : "communication",
+    "description" : "A communication tower/mast, rendered as a tapered pole with antenna platforms and bracing."
   }, {
     "key" : "traffic_calming",
     "value" : "bump",

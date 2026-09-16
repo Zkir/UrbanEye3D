@@ -76,6 +76,7 @@ public class AssetListTest {
         MASTER_ASSET_LIST.put("/models/wayside_cross_latin.obj",    new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/wayside_cross_orthodox.obj", new AssetInfo("UrbanEye3D own work", "Zkir/Gemini", "CC0 1.0"));
         MASTER_ASSET_LIST.put("/models/wind_turbine_rotor.obj",     new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
+        MASTER_ASSET_LIST.put("/models/mast_antenna.obj",           new AssetInfo("UrbanEye3D own work", "Zkir", "CC0 1.0"));
 
 
 

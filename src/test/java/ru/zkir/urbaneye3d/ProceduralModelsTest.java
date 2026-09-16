@@ -114,4 +114,21 @@ public class ProceduralModelsTest {
 
         AssertMeshTopology2(mesh, 0, 119.589,"wind_turbine", true);
     }
+
+    @Test
+    void testCommunicationMast(){
+        double height =  7.0;
+        Node node = new Node(new LatLon(55.0, 37.0));
+        node.put("man_made", "mast");
+        node.put("tower:type", "communication");
+        node.put("height", Double.toString(height));
+        node.put("colour", "gold");
+
+        ProceduralGenerator generator = GeneratorRegistry.getInstance().get("communication_mast");
+
+        var mesh = generator.generate(node, new SplittableRandom(node.getId()));
+        ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/communication_mast.obj");
+
+        AssertMeshTopology2(mesh, 0, height,"communication_mast", true);
+    }
 }

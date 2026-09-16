@@ -347,3 +347,8 @@ node[power=generator][generator:method=wind_turbine]{
 	colorable: true;
 	/* should be wind oriented, like flags!*/
 }
+
+/* Masts */
+node[man_made=mast][tower:type=communication] {
+	procedure: "communication_mast";
+}

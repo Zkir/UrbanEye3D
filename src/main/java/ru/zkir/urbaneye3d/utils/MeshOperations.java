@@ -25,39 +25,37 @@ public class MeshOperations {
         double halfX = 0.5;
         double halfY = 0.5;
 
-        Point3D[] verts = new Point3D[8];
+        int[] verts = new int[8];
 
         // Bottom ring (4 vertices) -- added as bottom faces group
-        verts[0] = new Point3D(halfX, halfY, 0);              // +X, +Y
-        verts[1] = new Point3D(-halfX, halfY, 0);             // -X, +Y
-        verts[2] = new Point3D(-halfX, -halfY, 0);            // -X, -Y
-        verts[3] = new Point3D(halfX, -halfY, 0);             // +X, -Y
+        verts[0] = mesh.addVertex(new Point3D(halfX, halfY, 0));              // +X, +Y
+        verts[1] = mesh.addVertex(new Point3D(-halfX, halfY, 0));             // -X, +Y
+        verts[2] = mesh.addVertex(new Point3D(-halfX, -halfY, 0));            // -X, -Y
+        verts[3] = mesh.addVertex(new Point3D(halfX, -halfY, 0));             // +X, -Y
 
         // Top ring (4 vertices) -- added as roof faces group
-        verts[4] = new Point3D(halfX, halfY, 1);         // +X, +Y, +Z
-        verts[5] = new Point3D(-halfX, halfY, 1);        // -X, +Y, +Z
-        verts[6] = new Point3D(-halfX, -halfY, 1);       // -X, -Y, +Z
-        verts[7] = new Point3D(halfX, -halfY, 1);        // +X, -Y, +Z
+        verts[4] = mesh.addVertex(new Point3D(halfX, halfY, 1));         // +X, +Y, +Z
+        verts[5] = mesh.addVertex(new Point3D(-halfX, halfY, 1));        // -X, +Y, +Z
+        verts[6] = mesh.addVertex(new Point3D(-halfX, -halfY, 1));       // -X, -Y, +Z
+        verts[7] = mesh.addVertex(new Point3D(halfX, -halfY, 1));        // +X, -Y, +Z
 
-        for (int i = 0; i < 8; i++) {
-            mesh.addVertex(verts[i]);
+
+        mesh.addBottomFace(new int[] {verts[3], verts[2], verts[1], verts[0] });
+        mesh.addRoofFace(  new int[] {verts[4], verts[5], verts[6], verts[7]});
+        mesh.addWallFace(  new int[] {verts[0], verts[1], verts[5], verts[4]});
+        mesh.addWallFace(  new int[] {verts[1], verts[2], verts[6], verts[5]});
+        mesh.addWallFace(  new int[] {verts[2], verts[3], verts[7], verts[6]});
+        mesh.addWallFace(  new int[] {verts[3], verts[0], verts[4], verts[7]});
+
+        //Select the newly created vertices to selection
+        this.selectedVertices.clear();
+        for (int i: verts){
+            this.selectedVertices.add(this.mesh.verts.get(i));
         }
 
-        int[][] faces = new int[][]{
-                {3, 2, 1, 0},           // bottom face
-                {4, 5, 6, 7},           // top face
-                {0, 1, 5, 4},           // front face
-                {1, 2, 6, 5},           // left face
-                {2, 3, 7, 6},           // back face
-                {3, 0, 4, 7}            // right face
-        };
-        mesh.addBottomFace(faces[0]);
-        mesh.addRoofFace(faces[1]);
-        mesh.addWallFace(faces[2]);
-        mesh.addWallFace(faces[3]);
-        mesh.addWallFace(faces[4]);
-        mesh.addWallFace(faces[5]);
+        mesh.invalidateBBOX();
     }
+
     public void createCylinder(int segments) {
 
         // Радиус цилиндра (единичный диаметр = радиус 0.5)
@@ -107,6 +105,7 @@ public class MeshOperations {
             };
             mesh.addWallFace(wallFace);
         }
+
         //Select the newly created vertices to selection
         this.selectedVertices.clear();
         for (int i: verts){
@@ -358,6 +357,6 @@ public class MeshOperations {
     }
 
     public void setMaterial(int i, Color color) {
-        mesh.materials.set(0, color);
+        mesh.materials.set(i, color);
     }
 }

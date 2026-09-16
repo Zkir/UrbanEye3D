@@ -21,6 +21,7 @@ This file provides an inventory of all 3D models and textures used in the projec
 | `/models/guidepost.obj` | 48&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/info_board.obj` | 20&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/info_post.obj` | 16&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `/models/mast_antenna.obj` | 92&nbsp;faces | Zkir, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/memorial_bust.obj` | 35&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/memorial_obelisk.obj` | 40&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | `/models/memorial_stele.obj` | 23&nbsp;faces | Zkir/Gemini, UrbanEye3D own work | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |

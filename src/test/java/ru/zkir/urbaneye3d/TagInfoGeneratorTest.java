@@ -248,6 +248,9 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("power=generator", "Used to identify wind generator, for 3D model placement");
         TAG_DESCRIPTIONS.put("generator:method=wind_turbine", "Used to identify wind generator, for 3D model placement");
 
+        TAG_DESCRIPTIONS.put("tower:type=communication", "A communication tower/mast, rendered as a tapered pole with antenna platforms and bracing.");
+
+
         //add values from Materials enum. It is good enough description, so we can use it.
         for (var mat:Materials.values()){
             if (!TAG_DESCRIPTIONS.containsKey("building:material" +"="+ mat.displayName)){
