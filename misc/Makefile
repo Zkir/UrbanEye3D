@@ -21,7 +21,7 @@ TREE_COLUMNS = id lat lon height circumference age start_date \
 
 BUILDING_COLUMNS = id building height building:levels roof:shape roof:height roof:levels 
 
-WING_GEN_COLUMNS = id lat lon generator:type height hub:height rotor:diameter start_date wikidata manufacturer model manufacturer:type generator:output:electricity
+WING_GEN_COLUMNS = id lat lon generator:type height height:hub rotor:diameter start_date wikidata manufacturer model manufacturer:type generator:output:electricity
 
 data/00_planet/planet-latest.osm.pbf: 
 	if not exist data\00_planet mkdir data\00_planet
@@ -131,6 +131,8 @@ data/15_trees_output: | data
 data/25_flags_output/images-png: | data	
 	@mkdir data\25_flags_output\images-png
 
+data/40_wind_generators: | data	
+	@mkdir data\40_wind_generators
 
 
 # Rule to clean up all generated files.

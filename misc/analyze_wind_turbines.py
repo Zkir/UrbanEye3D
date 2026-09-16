@@ -39,15 +39,20 @@ def wash_height(height):
     
 def wash_manufaturer(s):
     d={
-        "ENERCON":   "Enercon",
-        "NORDEX":    "Nordex",
-        "SENVION":   "Senvion",
-        "SIEMENS":   "Siemens",
-        "Siemens Wind Power A/S": "Siemens",
+        "ENERCON":                 "Enercon",
+        "Enercon GmbH":            "Enercon",
+        "ENERCON GmbH":            "Enercon",
+        "NORDEX":                  "Nordex",
+        "Nordex Germany GmbH":     "Nordex",
+        "SENVION":                 "Senvion",
+        "SIEMENS":                 "Siemens Gamesa",
+        "Siemens":                 "Siemens Gamesa",
+        "Siemens Wind Power A/S":  "Siemens Gamesa",
         "Siemens Gamesa Renewable Energy S.A.": "Siemens Gamesa",
-        "Sgre":      "Siemens Gamesa",
-        "SGRE":      "Siemens Gamesa",
-        "VESTAS":    "Vestas",
+        "Gamesa":                  "Siemens Gamesa",
+        "Sgre":                    "Siemens Gamesa",
+        "SGRE":                    "Siemens Gamesa",
+        "VESTAS":                  "Vestas",
         "Vestas Wind Systems A/S": "Vestas",
       } 
     
@@ -57,106 +62,100 @@ def wash_manufaturer(s):
     
     return s
     
+def enrich_row(row):
+    height =  get_washed_value(row, "height")
+    hub_height = get_washed_value(row, "height:hub")
+    rotor_diameter = get_washed_value(row, "rotor:diameter")
+    if not height and hub_height and rotor_diameter:
+        row["height"] = str(round(hub_height  + 0.5 * rotor_diameter))
+    return row    
+    
+def validate_row(row):
+    height = get_washed_value(row, "height")
+    rotor_diameter = get_washed_value(row, "rotor:diameter")
+    
+    if rotor_diameter and height:  
+        if rotor_diameter>= height:
+            return False     
+    return True
 
+def get_washed_value(row, field_name):
+    result = None
+    if field_name in ("height", "hub:height","height:hub", "rotor:diameter"): 
+        result = wash_height(row[field_name])
+        
+    elif field_name == "generator:output:electricity":
+        result = to_kw(row[field_name])
+        
+    elif field_name == "manufacturer+model": 
+        
+        manufacturer = wash_manufaturer(row["manufacturer"])
+        
+        if row["model"]:
+            model_name = row["model"]        
+        else:
+            model_name = row["manufacturer:type"]         
+            
+        if model_name:
+            model_name = (manufacturer + " " + model_name).strip()
+        result = model_name    
+        
+    return result    
 
-def analyze_QQQ(predictor_tags, target_tags):
+def analyze_QQQ(input_file, predictor_tags, target_tags):
     statistic_data = {}
     n=0
     n1=0
     n2=0
-    with open(INPUT_FILE, mode='r', encoding='utf-8') as f:
+    with open(input_file, mode='r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         
         for row in tqdm(reader):
-            n += 1  
-            
-            manufacturer = wash_manufaturer(row["manufacturer"])
-            
-            if row["model"]:
-                model_name = row["model"]        
-            else:
-                model_name = row["manufacturer:type"]    
-          
-            height         = wash_height(row["height"])
-            hub_height     = wash_height(row["hub:height"])
-            rotor_diameter = wash_height(row["rotor:diameter"])
-            
-            power = to_kw(row["generator:output:electricity"])
-                            
+            n += 1 
+            row = enrich_row(row)
                 
             for predictor_tag in predictor_tags:
+                predictor_value = get_washed_value(row, predictor_tag)
                 
-                    if predictor_tag == "generator:output:electricity": 
-                        if not power: #hack!!
-                            continue       #hack!!
-                        predictor_value = int(power.replace(" kW",""))
-                        
-                    elif predictor_tag == "manufacturer+model":    
-                        if model_name:
-                            model_name = (manufacturer + " " + model_name).strip()
-                        predictor_value = model_name
-                    else:
-                        print(predictor_tag)
-                        exit(1)
+                if not predictor_value: 
+                    continue       
+                
+                if not validate_row(row):
+                    continue
+                
+                if predictor_tag == "generator:output:electricity": 
+                    predictor_value = int(predictor_value.replace(" kW", ""))
+                    if predictor_value==0:
+                        continue 
                     
-                    if not predictor_value: 
-                        continue       
+                #start of statistics collecting    
+                
+                if predictor_tag not in statistic_data:
+                    statistic_data[predictor_tag] = {}                    
+                
+                if predictor_value not in statistic_data[predictor_tag]:
+                    statistic_data[predictor_tag][predictor_value] = {}
+                    statistic_data[predictor_tag][predictor_value]["count"] = 0
+                    for target_key in target_tags:
+                        statistic_data[predictor_tag][predictor_value][target_key] = {}
                     
-                    
-                    if row["generator:output:electricity"] and row["generator:output:electricity"] not in ("yes", "yes/kW", "no", "small_installation") and not power:
-                        print("\n")
-                        print(f"unexpected power value {row["generator:output:electricity"]} for object {row["id"]}")
-                        #exit(1)
-                    
-                    
-                    if not height and hub_height and rotor_diameter :
-                        height =  round(hub_height + 0.5 * rotor_diameter)
-                        
-                    if rotor_diameter and height:    
-                        if rotor_diameter>= height:
-                            #print (height, hub_height, rotor_diameter)
-                            continue
-                    
-                    if predictor_tag not in statistic_data:
-                        statistic_data[predictor_tag] = {}                    
-                    
-                    if predictor_value not in statistic_data[predictor_tag]:
-                        statistic_data[predictor_tag][predictor_value] = {}
-                        statistic_data[predictor_tag][predictor_value]["count"] = 0
-                        statistic_data[predictor_tag][predictor_value]["height"] = {}
-                        #statistic_data[predictor_tag][predictor_value]["hub:height"] = {}
-                        statistic_data[predictor_tag][predictor_value]["rotor:diameter"] = {}
-                        statistic_data[predictor_tag][predictor_value]["generator:output:electricity"] = {}
-                        
-                    statistic_data[predictor_tag][predictor_value]["count"] += 1 
-                    
-                    if height:
-                        if height not in statistic_data[predictor_tag][predictor_value]["height"]: 
-                            statistic_data[predictor_tag][predictor_value]["height"][height] = 0 
-                        statistic_data[predictor_tag][predictor_value]["height"][height] += 1 
-
-                        
-                    if rotor_diameter:
-                        if rotor_diameter not in statistic_data[predictor_tag][predictor_value]["rotor:diameter"]: 
-                            statistic_data[predictor_tag][predictor_value]["rotor:diameter"][rotor_diameter] = 0 
-                        statistic_data[predictor_tag][predictor_value]["rotor:diameter"][rotor_diameter] += 1     
-                        
-                    if power:
-                        if power not in statistic_data[predictor_tag][predictor_value]["generator:output:electricity"]: 
-                            statistic_data[predictor_tag][predictor_value]["generator:output:electricity"][power] = 0 
-                        statistic_data[predictor_tag][predictor_value]["generator:output:electricity"][power] += 1     
+                statistic_data[predictor_tag][predictor_value]["count"] += 1 
+                
+                for target_key in target_tags:
+                    target_value = get_washed_value(row, target_key)
+                
+                    if target_value:
+                        if target_value not in statistic_data[predictor_tag][predictor_value][target_key]: 
+                            statistic_data[predictor_tag][predictor_value][target_key][target_value] = 0 
+                        statistic_data[predictor_tag][predictor_value][target_key][target_value] += 1 
                     
                     
-            if model_name and manufacturer: 
+            if row["manufacturer"] and row["model"]: 
                 n1 += 1
                 
-            if (row["height"] or row["hub:height"]) and row["rotor:diameter"]:
+            if (row["height"] or row["height:hub"]) and row["rotor:diameter"]:
                 n2 += 1
                 
-    
-
-    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        json.dump(statistic_data, f, ensure_ascii=False, indent=4)
     
     print(f"{n1} objects processed")    
     #print(f"{n1} objects processed, {len(statistic_data)} models found")    
@@ -199,13 +198,13 @@ def build_inference_rules(stats):
                 prob = most_common_count / total
                 
                 # Only keep high-confidence rules
-                if prob >= PROB_THRESHOLD:
+                if prob >= PROB_THRESHOLD and target_key!=predictor_tag: # we must exclude case when the single predictor is equal target. 
                     qq["targets"][target_key] = {
                         "value": most_common_value,
                         "prob": round(prob, 2),
                         "count": total
                     }
-            if qq["count"]>=10 and len(qq["targets"])>0:        
+            if qq["count"]>=10 and len(qq["targets"])>0:  
                 rules[predictor_tag][predictor_val] = qq   
             
     return rules
@@ -220,12 +219,16 @@ def create_md_report(rules):
         n=0
 
         for k, v in sorted(predictor_val.items()):
-            if len(v["targets"])==0:
-                print(predictor_tag, k, v)
-                #exit(1)
+                      
+            if "generator:output:electricity" in v["targets"]:
+                power = v["targets"]["generator:output:electricity"]["value"]
+            elif predictor_tag == "generator:output:electricity":
+                power = f"{k} kW"
+            else: 
+                power = None    
                 
-            if "height" in v["targets"] and "rotor:diameter" in v["targets"] and "generator:output:electricity" in v["targets"]:
-                lines_s.append(f"{k} | {v["count"]} | {v["targets"]["height"]["value"]} | {v["targets"]["rotor:diameter"]["value"]} | {v["targets"]["generator:output:electricity"]["value"]}")
+            if "height" in v["targets"] and "rotor:diameter" in v["targets"] and power:
+                lines_s.append(f"{k} | {v["count"]} | {v["targets"]["height"]["value"]} | {v["targets"]["rotor:diameter"]["value"]} | {power}")
                 n += 1
                 
         lines_s.append(f"\nTotally {n} records\n")        
@@ -236,16 +239,32 @@ def create_md_report(rules):
 
 def main():
     
-    predictor_tags = ("manufacturer+model", "generator:output:electricity" )   
-    #predictor_tags = ("generator:output:electricity",)   
-    target_tags =    ("height", "rotor_diameter", "generator:output:electricity")
+    predictor_tags = ("manufacturer+model", "generator:output:electricity")   
+    target_tags =    ("height", "rotor:diameter", "generator:output:electricity")
     
-    statistic_data = analyze_QQQ(predictor_tags, target_tags)
+    statistic_data = analyze_QQQ(INPUT_FILE, predictor_tags, target_tags)
+    
+    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+        json.dump(statistic_data, f, ensure_ascii=False, indent=4)
     
     rules = build_inference_rules(statistic_data)
+    
+    n=0;
+    for k, v in rules.items():
+        n += len(v)
+    rules = {"meta": {
+                        "description": "Inference rules of the UrbanEye3D project. Based on global OSM statistics",
+                        "copyright": "Based on original map data by Openstreetmap contrubutors, ODBL",
+                        "predictor tags": predictor_tags,
+                        "target tags": target_tags,
+                        "number of rules": n,
+                     },
+             "rules": rules,
+            }
+    
     with open(OUTPUT_FILE2, 'w', encoding='utf-8') as f:
         json.dump(rules, f, ensure_ascii=False, indent=4)
         
-    create_md_report(rules)    
+    create_md_report(rules["rules"])    
 
 main()        
