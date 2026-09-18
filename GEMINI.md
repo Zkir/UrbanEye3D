@@ -22,7 +22,7 @@
 
 ### Musts for the Next Release 
 
-* Currently, none?
+* Currently, none??
     
 #### JOSM patches to monitor
 
