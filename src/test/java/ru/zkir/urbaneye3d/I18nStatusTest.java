@@ -25,7 +25,7 @@ public class I18nStatusTest {
     void verifyAndReportTranslationStatus() throws IOException {
         Path poDir = Paths.get("po");
         Path potFile = poDir.resolve("urbaneye3d.pot");
-        Path outputDir = Paths.get("src/main/resources/data");
+        Path outputDir = Paths.get("target/classes/data");
         Path reportFile = Paths.get("docs/translation-status.md");
 
         // 1. Read .pot file to get the master list of strings
@@ -74,6 +74,8 @@ public class I18nStatusTest {
                     coverage));
 
             // 4. Assert that the corresponding .lang file exists
+            //   Note: .lang files are created from .po during maven build process.
+            //   See ru.zkir.easytext.LangCompiler
             Path langFile = outputDir.resolve(langCode + ".lang");
             assertTrue(Files.exists(langFile),
                     "The .lang file for '" + langCode + "' is missing. Expected at: " + langFile.toAbsolutePath());

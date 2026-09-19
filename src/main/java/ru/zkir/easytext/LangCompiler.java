@@ -31,7 +31,7 @@ public final class LangCompiler {
         // In the future, these could be read from args.
         Path potFilePath = Paths.get("po/urbaneye3d.pot");
         Path poDir = Paths.get("po");
-        Path outputDir = Paths.get("src/main/resources/data");
+        Path outputDir = Paths.get("target/classes/data");
 
         System.out.println("Starting pure Java i18n process...");
 
