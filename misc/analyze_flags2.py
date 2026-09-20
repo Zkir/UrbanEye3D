@@ -6,7 +6,7 @@ import csv
 import requests
 
 WIKIDATA_DIRECTORY   = 'data/04_wikidata'
-FLAG_IMAGE_DIRECTORY = 'data/25_flags_output/images'
+FLAG_IMAGE_DIRECTORY = 'data/30_flags/images'
 USER_AGENT = "UrbanEye3D Data pipeline/1.0 (https://github.com/Zkir/UrbanEye3D; zkir@zkir.ru)"
 
 known_flag_instances = ['Q14660',    # flag
@@ -254,13 +254,13 @@ def obtain_flag_wikidata_stats(osm_file):
 
 def analyze_flags(osm_file, output_json):
     
-    rules_filename = "data/25_flags_output/flag_rules_wd_pre.json"
-    rules_output_filename = "data/25_flags_output/flag_rules_wd.json"
+    rules_filename = "data/30_flags/flag_rules_wd_pre.json"
+    rules_output_filename = "data/30_flags/flag_rules_wd.json"
     
     os.makedirs(FLAG_IMAGE_DIRECTORY, exist_ok=True)
     
     #read pre-made country codes --> flag QIDS map
-    with open('data/25_flags_output/wd_national_flags.csv', 'r', encoding='utf-8') as f:
+    with open('data/30_flags/wd_national_flags.csv', 'r', encoding='utf-8') as f:
         national_flags = list(csv.DictReader(f))   
     
     # read rules from json file 
@@ -382,8 +382,8 @@ def analyze_flags(osm_file, output_json):
    
     # Save reports
         
-    save_stats_markdown(stats2,  "data/25_flags_output/missing_wikidata_flags.md")  
-    save_errors_markdown(errors, "data/25_flags_output/flags_errors.md")    
+    save_stats_markdown(stats2,  "data/30_flags/missing_wikidata_flags.md")  
+    save_errors_markdown(errors, "data/30_flags/flags_errors.md")    
     
     print(f"\nDone")
     #print(f"Total rules extracted: {sum(len(v) for v in rules.values())}")
@@ -391,7 +391,7 @@ def analyze_flags(osm_file, output_json):
 if __name__ == "__main__":
     base_dir = os.path.dirname(__file__)
     flags_path = os.path.join(base_dir, 'data', '05_extracts', 'flags.osm')
-    output_path = os.path.join(base_dir, 'data', '25_flags_output', 'flag_wikidata.json')
+    output_path = os.path.join(base_dir, 'data', '30_flags', 'flag_wikidata.json')
     
     os.makedirs(os.path.dirname(WIKIDATA_DIRECTORY), exist_ok=True)
     

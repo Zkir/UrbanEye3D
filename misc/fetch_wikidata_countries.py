@@ -21,7 +21,7 @@ SELECT DISTINCT ?country ?countryLabel ?isoAlpha2 ?isoAlpha3 ?flag ?flagLabel WH
 ORDER BY ?isoAlpha2
 """
 
-def main(output_file="data/25_flags_output/wd_national_flags.csv"):
+def main(output_file="data/30_flags/wd_national_flags.csv"):
     # 1. Правильный User-Agent
     user_agent = "UrbanEyeDataPipeline/1.0 (https://github.com/Zkir/UrbanEye3D; zkir@zkir.ru)"
     

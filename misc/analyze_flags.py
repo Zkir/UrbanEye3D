@@ -76,8 +76,8 @@ def analyze_flags(target_tag, predictor_tags, osm_file, output_json):
 if __name__ == "__main__":
     base_dir = os.path.dirname(__file__)
     flags_path = os.path.join(base_dir, 'data', '05_extracts', 'flags.osm')
-    output_path1 = os.path.join(base_dir, 'data', '25_flags_output', 'flag_rules_colour.json')
-    output_path2 = os.path.join(base_dir, 'data', '25_flags_output', 'flag_rules_wd_pre.json')
+    output_path1 = os.path.join(base_dir, 'data', '30_flags', 'flag_rules_colour.json')
+    output_path2 = os.path.join(base_dir, 'data', '30_flags', 'flag_rules_wd_pre.json')
     
     if not os.path.exists(flags_path):
         print(f"Error: source file {flags_path} not found.")

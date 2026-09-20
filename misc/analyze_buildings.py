@@ -189,16 +189,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Analyze building data from a CSV file.")
     parser.add_argument('--group-by', type=str, default='building',
                         help='The column to group the analysis by (e.g., building type).')
-    parser.add_argument('--defaults-output', type=str, default='data/building_defaults.cfg',
+    parser.add_argument('--defaults-output', type=str, default='data/20_buildings/building_defaults.cfg',
                         help='The path to the output defaults config file.')
     args = parser.parse_args()
     
 
     GROUP_BY_COLUMN = args.group_by
     
-    INPUT_FILE = 'data/buildings.csv'
-    JSON_OUTPUT_FILE = f'data/{GROUP_BY_COLUMN}_analysis_full.json'
-    CSV_OUTPUT_FILE = f'data/{GROUP_BY_COLUMN}_analysis_full.csv'
+    INPUT_FILE = 'data/20_buildings/buildings.csv'
+    JSON_OUTPUT_FILE = f'data/20_buildings/{GROUP_BY_COLUMN}_analysis_full.json'
+    CSV_OUTPUT_FILE = f'data/20_buildings/{GROUP_BY_COLUMN}_analysis_full.csv'
     DEFAULTS_OUTPUT_FILE = args.defaults_output
     
     NUMERIC_COLUMNS = ['height', 'building:levels', 'roof:height', 'roof:levels' ]

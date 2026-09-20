@@ -11,8 +11,8 @@ TREE_STATS_FILES := $(patsubst %,data/10_trees/tree_stats_%.csv,$(ANALYSIS_TYPES
 # Default goal, executed when 'make' is run without arguments
 #all: $(TREE_STATS_FILES) data/building_analysis_full.csv 
 all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/15_trees_output/spatial_stats_5x5.json data/10_trees/correlations.txt \
-         data/25_flags_output/flag_rules_colour.json data\25_flags_output\flag_rules_wd.json data\25_flags_output\images-png.milestone \
-		 data/26_tags/popular_missing_tags.md  \
+         data/30_flags/flag_rules_colour.json data\30_flags\flag_rules_wd.json data\30_flags\images-png.milestone \
+		 data/07_tags/popular_missing_tags.md  \
 		 data/40_wind_generators/turbine_models.json
 
 # Define the columns to be extracted for the trees CSV
@@ -77,37 +77,37 @@ data/15_trees_output/tree_species_invalid.md: data/10_trees/tree_species_all.csv
 data/15_trees_output/leaf_type_family_violations.csv: data/15_trees_output/tree_species.csv
 	python verify_leaf_types.py
 
-data/20_buildings/buildings.csv: data/05_extracts/buildings.osm
+data/20_buildings/buildings.csv: data/05_extracts/buildings.osm | data/20_buildings
 	python osm_to_csv.py --input $< --output $@ --columns $(BUILDING_COLUMNS)
 
 data/20_buildings/building_analysis_full.csv: data/20_buildings/buildings.csv
 	python analyze_buildings.py
 
-data/25_flags_output/flag_rules_colour.json: data/05_extracts/flags.osm
+data/30_flags/flag_rules_colour.json: data/05_extracts/flags.osm
 	python analyze_flags.py
 
-data\25_flags_output\wd_national_flags.csv:	
+data\30_flags\wd_national_flags.csv:	
 	python fetch_wikidata_countries.py
 	
-data\25_flags_output\flag_rules_wd.json: data\25_flags_output\wd_national_flags.csv data/25_flags_output/flag_rules_colour.json	
+data\30_flags\flag_rules_wd.json: data\30_flags\wd_national_flags.csv data/30_flags/flag_rules_colour.json	
 	python analyze_flags2.py
-	cmd /c "copy /b /v /y data\25_flags_output\flag_rules_wd.json ..\src\main\resources\data\"
-	cmd /c "copy /b /v /y data\25_flags_output\flag_rules_colour.json ..\src\main\resources\data\"
+	cmd /c "copy /b /v /y data\30_flags\flag_rules_wd.json ..\src\main\resources\data\"
+	cmd /c "copy /b /v /y data\30_flags\flag_rules_colour.json ..\src\main\resources\data\"
 	
 	
-data\25_flags_output\images-png.milestone:	data\25_flags_output\flag_rules_wd.json | data/25_flags_output/images-png
-	for %%f in (data\25_flags_output\images\*.svg) do "C:\Program Files\Inkscape\bin\inkscape.com" "%%f" --export-type=png --export-filename=data\25_flags_output\images-png\%%~nf.png --export-height=128	
-	cmd /c "copy /b /v /y data\25_flags_output\images-png\*.png ..\src\main\resources\textures\flags\"
-	touch data\25_flags_output\images-png.milestone
+data\30_flags\images-png.milestone:	data\30_flags\flag_rules_wd.json | data/30_flags/images-png
+	for %%f in (data\30_flags\images\*.svg) do "C:\Program Files\Inkscape\bin\inkscape.com" "%%f" --export-type=png --export-filename=data\30_flags\images-png\%%~nf.png --export-height=128	
+	cmd /c "copy /b /v /y data\30_flags\images-png\*.png ..\src\main\resources\textures\flags\"
+	touch data\30_flags\images-png.milestone
 
 
-data/26_tags/popular_tags.json: data/00_planet/planet-latest.osm.pbf ##it does not really depends on planet.osm, but we want to update it, when we get new planet.
+data/07_tags/popular_tags.json: data/00_planet/planet-latest.osm.pbf ##it does not really depends on planet.osm, but we want to update it, when we get new planet.
 	python get_popular_tags.py	
 
-data/26_tags/popular_missing_tags.md: data/26_tags/popular_tags.json
+data/07_tags/popular_missing_tags.md: data/07_tags/popular_tags.json
 	python find_missing_tags.py	
-	cmd /c "copy /b /v /y data\26_tags\popular_missing_tags.md ..\docs\dev\"
-	cmd /c "copy /b /v /y data\26_tags\popular_supported_tags.md ..\docs\dev\"	
+	cmd /c "copy /b /v /y data\07_tags\popular_missing_tags.md ..\docs\dev\"
+	cmd /c "copy /b /v /y data\07_tags\popular_supported_tags.md ..\docs\dev\"	
 	
 	
 data/40_wind_generators/generators.csv: data/05_extracts/wind_generators.osm | data/40_wind_generators ## Generate trees CSV from the source OSM file
@@ -127,9 +127,12 @@ data/10_trees :	| data
 	
 data/15_trees_output: | data	
 	@mkdir data\15_trees_output
+	
+data/20_buildings: | data	
+	@mkdir data\20_buildings
 
-data/25_flags_output/images-png: | data	
-	@mkdir data\25_flags_output\images-png
+data/30_flags/images-png: | data	
+	@mkdir data\30_flags\images-png
 
 data/40_wind_generators: | data	
 	@mkdir data\40_wind_generators

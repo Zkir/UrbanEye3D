@@ -74,9 +74,9 @@ def find_missing_tags():
     project_root = os.path.dirname(script_dir)
 
     taginfo_path = os.path.join(project_root, "docs", "taginfo.json")
-    popular_tags_path = os.path.join(script_dir, "data/26_tags", "popular_tags.json")
-    output_report_path = os.path.join(script_dir, "data/26_tags",  "popular_missing_tags.md")
-    output_supported_path = os.path.join(script_dir, "data/26_tags", "popular_supported_tags.md")
+    popular_tags_path = os.path.join(script_dir, "data/07_tags", "popular_tags.json")
+    output_report_path = os.path.join(script_dir, "data/07_tags",  "popular_missing_tags.md")
+    output_supported_path = os.path.join(script_dir, "data/07_tags", "popular_supported_tags.md")
 
     taginfo_data = load_json(taginfo_path)
     popular_tags = load_json(popular_tags_path)
