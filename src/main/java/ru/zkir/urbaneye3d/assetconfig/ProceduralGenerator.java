@@ -8,5 +8,5 @@ import java.util.SplittableRandom;
 
 @FunctionalInterface
 public interface ProceduralGenerator {
-    Mesh generate(OsmPrimitive primitive, LatLon origin, AssetRule rule);
+    Mesh generate(OsmPrimitive primitive, SplittableRandom random);
 }

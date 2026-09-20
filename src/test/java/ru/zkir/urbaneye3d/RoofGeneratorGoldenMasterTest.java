@@ -2,7 +2,7 @@ package ru.zkir.urbaneye3d;
 
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.spi.preferences.Config;
-import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
+import ru.zkir.urbaneye3d.meshers.s3db.RoofShapes;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 

@@ -1,11 +1,10 @@
-package ru.zkir.urbaneye3d.roofgenerators;
+package ru.zkir.urbaneye3d.meshers.s3db;
 
 import ru.zkir.urbaneye3d.BuildingRecipe;
-import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
-import ru.zkir.urbaneye3d.roofgenerators.linearprofile.LinearProfiles;
-import ru.zkir.urbaneye3d.roofgenerators.linearprofile.MesherLinearProfileQuasiRectangular;
-import ru.zkir.urbaneye3d.roofgenerators.linearprofile.MesherLinearProfileRectangular;
+import ru.zkir.urbaneye3d.meshers.s3db.linearprofile.LinearProfiles;
+import ru.zkir.urbaneye3d.meshers.s3db.linearprofile.MesherLinearProfileQuasiRectangular;
+import ru.zkir.urbaneye3d.meshers.s3db.linearprofile.MesherLinearProfileRectangular;
 import ru.zkir.urbaneye3d.utils.*;
 
 import java.util.*;

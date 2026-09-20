@@ -1,6 +1,10 @@
 package ru.zkir.urbaneye3d.assetconfig;
 
-import ru.zkir.urbaneye3d.RenderableElement;
+import ru.zkir.urbaneye3d.meshers.custom.MesherAdColumn;
+import ru.zkir.urbaneye3d.meshers.custom.MesherChimney;
+import ru.zkir.urbaneye3d.meshers.custom.MesherFlagpole;
+import ru.zkir.urbaneye3d.meshers.custom.MesherStreetCabinet;
+import ru.zkir.urbaneye3d.meshers.custom.MesherWindTurbine;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,25 +16,15 @@ public class GeneratorRegistry {
     private static final GeneratorRegistry instance = new GeneratorRegistry();
 
     private GeneratorRegistry() {
-        register("ad_column",
-                (primitive, origin, rule) -> RenderableElement.createAdColumn(primitive, origin, primitive.getInterestingTags())
-        );
+        register("ad_column", MesherAdColumn::generate );
 
-        register("flagpole",
-                (primitive, origin, rule) -> RenderableElement.createFlagpole(primitive, origin, primitive.getInterestingTags(), new SplittableRandom(primitive.getId()))
-        );
+        register("flagpole",  MesherFlagpole::generate );
 
-        register("chimney",
-                (primitive, origin, rule) -> RenderableElement.createChimney(primitive, origin)
-        );
+        register("chimney",   MesherChimney::generate  );
 
-        register("street_cabinet",
-                (primitive, origin, rule) -> RenderableElement.createStreetCabinet(primitive, origin)
-        );
+        register("street_cabinet", MesherStreetCabinet::generate );
 
-        register("wind_turbine",
-                (primitive, origin, rule) -> RenderableElement.createWindTurbine(primitive, origin, new SplittableRandom(primitive.getId()))
-        );
+        register("wind_turbine",  MesherWindTurbine::generate  );
 
 
     }

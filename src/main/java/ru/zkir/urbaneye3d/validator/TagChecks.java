@@ -14,7 +14,7 @@ import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.validation.Severity;
 import org.openstreetmap.josm.data.validation.Test;
 import org.openstreetmap.josm.data.validation.TestError;
-import ru.zkir.urbaneye3d.roofgenerators.RoofGenerator;
+import ru.zkir.urbaneye3d.meshers.s3db.RoofGenerator;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.TreeSpeciesDatabase;

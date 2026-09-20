@@ -1,4 +1,4 @@
-package ru.zkir.urbaneye3d.roofgenerators;
+package ru.zkir.urbaneye3d.meshers.s3db;
 
 import org.twak.camp.Corner;
 import org.twak.camp.Edge;
@@ -8,7 +8,6 @@ import org.twak.camp.Skeleton;
 import org.twak.utils.collections.Loop;
 import org.twak.utils.collections.LoopL;
 import ru.zkir.urbaneye3d.BuildingRecipe;
-import ru.zkir.urbaneye3d.RenderableElement;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;

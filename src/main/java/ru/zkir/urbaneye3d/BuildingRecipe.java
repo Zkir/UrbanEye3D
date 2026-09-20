@@ -1,10 +1,8 @@
 package ru.zkir.urbaneye3d;
 
 import com.drew.lang.annotations.NotNull;
-import org.openstreetmap.josm.data.coor.LatLon;
-import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.PrimitiveId;
-import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
+import ru.zkir.urbaneye3d.meshers.s3db.RoofShapes;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.OsmDataWasher;
 import ru.zkir.urbaneye3d.utils.Point2D;

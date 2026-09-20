@@ -1,9 +1,9 @@
-package ru.zkir.urbaneye3d.generators;
+package ru.zkir.urbaneye3d.meshers.custom;
 
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point3D;
 
-public class MesherTree {
+public class MesherBillboard {
     public static Mesh generate(double width, double height) {
         Mesh mesh = new Mesh(null, null, null);
 

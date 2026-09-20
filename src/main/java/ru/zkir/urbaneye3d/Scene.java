@@ -297,7 +297,7 @@ public class Scene {
                         UrbanEye3dPlugin.debugMsg("Procedure for '" + procedure + "' not found");
                         continue;
                     }
-                    mesh = generator.generate(node, node.getCoor(), rule);
+                    mesh = generator.generate(node, new SplittableRandom(node.getId()));
 
                 } else if (rule.properties.containsKey("model")) {
                     boolean isColorable = "true".equals(rule.properties.get("colorable"));

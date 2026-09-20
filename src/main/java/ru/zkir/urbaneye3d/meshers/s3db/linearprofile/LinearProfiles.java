@@ -1,4 +1,4 @@
-package ru.zkir.urbaneye3d.roofgenerators.linearprofile;
+package ru.zkir.urbaneye3d.meshers.s3db.linearprofile;
 
 import ru.zkir.urbaneye3d.utils.Point2D;
 

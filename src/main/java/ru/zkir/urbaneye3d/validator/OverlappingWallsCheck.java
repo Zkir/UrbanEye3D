@@ -6,7 +6,7 @@ import org.openstreetmap.josm.data.validation.Test;
 import org.openstreetmap.josm.data.validation.TestError;
 import org.openstreetmap.josm.gui.progress.ProgressMonitor;
 import ru.zkir.urbaneye3d.BuildingRecipe;
-import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
+import ru.zkir.urbaneye3d.meshers.s3db.RoofShapes;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Point2D;
 

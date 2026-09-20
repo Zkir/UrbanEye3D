@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
+import java.util.SplittableRandom;
 
 import static ru.zkir.urbaneye3d.RoofGeneratorTopologyTest.AssertMeshTopology;
 import static ru.zkir.urbaneye3d.RoofGeneratorTopologyTest.AssertMeshTopology2;
@@ -47,7 +48,7 @@ public class ProceduralModelsTest {
 
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("street_cabinet");
 
-        var mesh = generator.generate(node, node.getCoor(), null);
+        var mesh = generator.generate(node, new SplittableRandom(node.getId()));
         ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/street_cabinet.obj");
 
         AssertMeshTopology(mesh, 0, 1.6,"street_cabinet");
@@ -62,7 +63,7 @@ public class ProceduralModelsTest {
 
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("ad_column");
 
-        var mesh = generator.generate(node, node.getCoor(), null);
+        var mesh = generator.generate(node, new SplittableRandom(node.getId()));
         ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/ad_column.obj");
 
         AssertMeshTopology(mesh, 0, 5.25,"ad_column");
@@ -77,7 +78,7 @@ public class ProceduralModelsTest {
 
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("flagpole");
 
-        var mesh = generator.generate(node, node.getCoor(), null);
+        var mesh = generator.generate(node, new SplittableRandom(node.getId()));
         ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/flagpole.obj");
 
         AssertMeshTopology2(mesh, 0, 12.25,"flagpole",true);
@@ -92,7 +93,7 @@ public class ProceduralModelsTest {
 
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("chimney");
 
-        var mesh = generator.generate(node, node.getCoor(), null);
+        var mesh = generator.generate(node, new SplittableRandom(node.getId()));
         ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/chimney.obj");
 
         AssertMeshTopology(mesh, 0, 30,"chimney");
@@ -108,7 +109,7 @@ public class ProceduralModelsTest {
 
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("wind_turbine");
 
-        var mesh = generator.generate(node, node.getCoor(), null);
+        var mesh = generator.generate(node, new SplittableRandom(node.getId()));
         ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/wind_turbine.obj");
 
         AssertMeshTopology2(mesh, 0, 119.589,"wind_turbine", true);

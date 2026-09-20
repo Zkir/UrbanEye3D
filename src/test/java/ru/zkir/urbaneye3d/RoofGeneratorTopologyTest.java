@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.Way;
 import ru.zkir.urbaneye3d.utils.*;
-import ru.zkir.urbaneye3d.roofgenerators.RoofShapes;
+import ru.zkir.urbaneye3d.meshers.s3db.RoofShapes;
 
 import java.util.*;
 

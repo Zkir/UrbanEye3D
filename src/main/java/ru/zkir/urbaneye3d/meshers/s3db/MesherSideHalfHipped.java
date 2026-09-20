@@ -1,4 +1,4 @@
-package ru.zkir.urbaneye3d.roofgenerators;
+package ru.zkir.urbaneye3d.meshers.s3db;
 
 import ru.zkir.urbaneye3d.BuildingRecipe;
 import ru.zkir.urbaneye3d.utils.Mesh;

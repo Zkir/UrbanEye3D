@@ -1,6 +1,6 @@
-package ru.zkir.urbaneye3d.roofgenerators;
+package ru.zkir.urbaneye3d.meshers.s3db;
 
-import ru.zkir.urbaneye3d.roofgenerators.linearprofile.LinearProfiles;
+import ru.zkir.urbaneye3d.meshers.s3db.linearprofile.LinearProfiles;
 
 public enum RoofShapes {
     //supported roof shapes
