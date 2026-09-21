@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260915T222607Z",
+  "data_updated" : "20260920T232142Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -480,6 +480,10 @@
     "key" : "man_made",
     "value" : "manhole",
     "description" : "A manhole cover, rendered as a tiny black dot on the 2D ground plane."
+  }, {
+    "key" : "man_made",
+    "value" : "mast",
+    "description" : "A mast is a vertical structure built to hold, for example, antennas"
   }, {
     "key" : "man_made",
     "value" : "street_cabinet",

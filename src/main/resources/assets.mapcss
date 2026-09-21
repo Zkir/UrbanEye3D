@@ -343,8 +343,6 @@ node[man_made=cross][denomination=orthodox] {
 node[power=generator][generator:source=wind],
 node[power=generator][generator:method=wind_turbine]{
 	procedure: "wind_turbine";
-    scalable: true;
-	colorable: true;
 	/* should be wind oriented, like flags!*/
 }
 

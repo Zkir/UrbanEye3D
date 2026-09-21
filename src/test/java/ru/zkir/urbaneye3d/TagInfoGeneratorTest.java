@@ -248,6 +248,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("power=generator", "Used to identify wind generator, for 3D model placement");
         TAG_DESCRIPTIONS.put("generator:method=wind_turbine", "Used to identify wind generator, for 3D model placement");
 
+        TAG_DESCRIPTIONS.put("man_made=mast","A mast is a vertical structure built to hold, for example, antennas");
         TAG_DESCRIPTIONS.put("tower:type=communication", "A communication tower/mast, rendered as a tapered pole with antenna platforms and bracing.");
 
 
