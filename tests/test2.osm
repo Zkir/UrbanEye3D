@@ -494,6 +494,14 @@
   <node id='-7258187' action='modify' visible='true' lat='55.04566006735' lon='37.05741714339' />
   <node id='-7262402' action='modify' visible='true' lat='55.04526571817' lon='37.05739802375' />
   <node id='-7266623' action='modify' visible='true' lat='55.04529310366' lon='37.05470215462' />
+  <node id='-7268148' action='modify' visible='true' lat='55.05785911774' lon='37.05475109331' />
+  <node id='-7271009' action='modify' visible='true' lat='55.05786308605' lon='37.05537235101' />
+  <node id='-7273876' action='modify' visible='true' lat='55.05748247082' lon='37.05537976221' />
+  <node id='-7276743' action='modify' visible='true' lat='55.05747850248' lon='37.05475850451' />
+  <node id='-7282489' action='modify' visible='true' lat='55.05784353732' lon='37.05591246' />
+  <node id='-7285356' action='modify' visible='true' lat='55.05746947118' lon='37.0559201674' />
+  <node id='-7288217' action='modify' visible='true' lat='55.05747341196' lon='37.05650319242' />
+  <node id='-7291078' action='modify' visible='true' lat='55.05784747806' lon='37.05649548501' />
   <way id='-15212' action='modify' visible='true'>
     <nd ref='-7130748' />
     <nd ref='-7130749' />
@@ -797,6 +805,28 @@
     <nd ref='-7266623' />
     <nd ref='-7253972' />
     <tag k='landuse' v='grass' />
+  </way>
+  <way id='-15386' action='modify' visible='true'>
+    <nd ref='-7268148' />
+    <nd ref='-7271009' />
+    <nd ref='-7273876' />
+    <nd ref='-7276743' />
+    <nd ref='-7268148' />
+    <tag k='building' v='yes' />
+    <tag k='roof:direction' v='90' />
+    <tag k='roof:height' v='6' />
+    <tag k='roof:shape' v='saltbox' />
+  </way>
+  <way id='-15390' action='modify' visible='true'>
+    <nd ref='-7282489' />
+    <nd ref='-7285356' />
+    <nd ref='-7288217' />
+    <nd ref='-7291078' />
+    <nd ref='-7282489' />
+    <tag k='building' v='yes' />
+    <tag k='roof:direction' v='270' />
+    <tag k='roof:height' v='6' />
+    <tag k='roof:shape' v='saltbox' />
   </way>
   <relation id='-3701' action='modify' visible='true'>
     <member type='way' ref='-15212' role='outer' />

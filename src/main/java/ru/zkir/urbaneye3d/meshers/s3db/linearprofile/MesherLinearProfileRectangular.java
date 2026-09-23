@@ -65,8 +65,12 @@ public class MesherLinearProfileRectangular  { //extends RoofGenerator
             //let's do a simple thing and find the side which normal is closes to the given direction
             double max_dp = Double.NEGATIVE_INFINITY;
             for (int i = 0; i < 4; i++) {
-                var dp = abs(direction.dot(sideNormals[i]));
-                if (dp > max_dp ){
+                var dp = direction.dot(sideNormals[i]);
+                if (profile.isSymmetrical()) {
+                    dp = abs(dp); //we need this to avoid strange behaviours in case of non-symmetrical bases
+                                  //for symmetrical profiles opposite direction should mean the same
+                }
+                if (dp > max_dp) {
                     max_dp = dp;
                     longestSideIndex=i;
                 }
