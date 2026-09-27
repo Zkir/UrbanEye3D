@@ -122,4 +122,17 @@ public class FlagsDatabase {
 
         return resourcePath;
     }
+
+    public double getAspectRatio(String flagQID) {
+        //TODO: we should rather extract it from wikidata itself, property P2061 "aspect ratio (W:H)"
+        //  those cases should be moved to autotests.
+        if (flagQID.equals("Q159741")){ // flag of Nepal is quite unique
+            return 1/1.25;
+        }
+        if (flagQID.equals("Q124020") || //Swiss flag is actually square, not rectangle.
+                flagQID.equals("Q79198")) { // flag of the Holy See is also rectangular
+            return 1;
+        }
+        return 1.5; // most flags are either 3:2 or 2:1
+    }
 }

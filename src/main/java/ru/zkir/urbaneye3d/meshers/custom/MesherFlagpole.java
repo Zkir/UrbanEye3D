@@ -31,10 +31,6 @@ public class MesherFlagpole {
 
         boolean advertising = primitive.hasTag("flag:type", "advertising");
 
-        double flagHeight = Math.pow(height, 0.5) / 1.9;
-        double flagWidth = flagHeight * 1.5;
-
-
         double estimatedPolyRadius = Math.pow(height, 0.5) / 63.0;
         double polyRadius = getTagD("diameter", primitive, estimatedPolyRadius*2*1000)/2/1000; //NOTE: default unit for diameter tag is MILLIMETER!
         polyRadius = Math.max(polyRadius, 0.02); // pole should not be too narrow, even if units have messed up, e.g. diameter=1
@@ -47,7 +43,7 @@ public class MesherFlagpole {
         //TODO: implement several flags on the same pole
         //  For now just the first one.
         String flagColorStr = getFirstValue(getTagStr("flag:colour", primitive, ""));
-        String flagQID =  getFirstValue(getTagStr("flag:wikidata", primitive, ""));
+        String flagQID      = getFirstValue(getTagStr("flag:wikidata", primitive, ""));
 
         // If explicit colour or flag:wikidata value is missing, try data-driven inference
         var flagDatabase =  FlagsDatabase.getInstance();
@@ -61,6 +57,17 @@ public class MesherFlagpole {
         // If still null, use the default
         if (flagColorStr.isBlank()) {
             flagColorStr = "#FFFFFF";
+        }
+
+        double flag_aspect_ratio = flagDatabase.getAspectRatio(flagQID);
+        double flagHeight = Math.pow(height, 0.5) / 1.9;
+        double flagWidth =  flagHeight * flag_aspect_ratio;
+        if(primitive.hasTag("flag:width")){
+            flagWidth = getTagD("flag:width", primitive, flagWidth);
+            flagHeight = getTagD("flag:height", primitive, flagWidth/flag_aspect_ratio);
+        }else {
+            flagHeight = getTagD("flag:height", primitive, flagHeight);
+            flagWidth = getTagD("flag:width", primitive, flagHeight * flag_aspect_ratio);
         }
 
         Color mastColor = getColorByColourAndMaterial(primitive, "#C0C0C0");

@@ -112,6 +112,8 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("flag:colour", "The color of the flag on a flagpole.");
         TAG_DESCRIPTIONS.put("flag:wikidata", "Used to select the proper flag texture.");
         TAG_DESCRIPTIONS.put("flag:type=advertising", "Advertising flags use vertical format by default");
+        TAG_DESCRIPTIONS.put("flag:height","Height of the flag on a flagpole");
+        TAG_DESCRIPTIONS.put("flag:width","Width of the flag on a flagpole");
         TAG_DESCRIPTIONS.put("diameter", "Used for diameter of the flagpole and chimney features. Note that unit is millimeter!");
         TAG_DESCRIPTIONS.put("denomination=orthodox", "Used with wayside crosses to select the Orthodox cross model.");
         TAG_DESCRIPTIONS.put("historic=memorial", "A memorial or monument, rendered as a 3D model.");

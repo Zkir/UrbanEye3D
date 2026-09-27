@@ -1,10 +1,28 @@
 # Development History
 
-* Added a procedural model for wind generators (rotor `wind_turbine_rotor.mtl`/`.obj`) and wired the tag analysis pipeline.
-* Statistics for wind generators is added to the data pipeline
+### Sep 28, 2026
+* Support for additional tags for `man_made=flagpole`: `flag:width` and `flag:height`
+* Proper aspect ratio for Switzerland, Nepal and Vatican flags
+* Documentation for flagpoles updated
+
+### Sep 23, 2026
+* Fixed a bug with `roof:direction`  for `roof:shape=saltbox` (asymmetrical).
+
+### Sep 17, 2026
+
 * Added `man_made=mast` as a procedural object; antenna modeled with new `mast_antenna.mtl`/`.obj`.
+
+### Sep 15, 2026
 * Data-pipeline reorganization: analysis helpers moved/renamed for a clearer layout.
-* Big refactoring: roof  meshers moved under `meshers/s3db`; street furniture  meshers consolidated into `meshers/custom`; .
+* Big refactoring: roof  meshers moved under `meshers/s3db`; street furniture  meshers consolidated into `meshers/custom`; 
+
+### Sep 15, 2026
+* Created documentation for assets.mapcss file, see [docs/asset_mapcss_manual.md](docs/asset_mapcss_manual.md)
+
+### Sep 12, 2026
+* Implemented procedural model for wind generators. 
+* Statistics for wind generators is added to the data pipeline
+
 
 ## Version 2.7.1 (Sep 18, 2026)
 

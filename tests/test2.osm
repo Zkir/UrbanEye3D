@@ -370,7 +370,7 @@
     <tag k='man_made' v='flagpole' />
     <tag k='shape' v='frustum' />
   </node>
-  <node id='-7130934' action='modify' visible='true' lat='55.05194105587' lon='37.04304037801'>
+  <node id='-7130934' action='modify' visible='true' lat='55.05195406181' lon='37.04315629082'>
     <tag k='diameter' v='1000' />
     <tag k='height' v='20' />
     <tag k='man_made' v='chimney' />
@@ -400,8 +400,8 @@
     <tag k='tower:construction' v='freestanding' />
     <tag k='tower:type' v='communication' />
   </node>
-  <node id='-7130939' action='modify' visible='true' lat='55.05192653096' lon='37.04286318555'>
-    <tag k='country' v='BY' />
+  <node id='-7130939' action='modify' visible='true' lat='55.05204700691' lon='37.04273532296'>
+    <tag k='country' v='va' />
     <tag k='diameter' v='500' />
     <tag k='height' v='20' />
     <tag k='man_made' v='flagpole' />
@@ -423,7 +423,7 @@
     <tag k='highway' v='bus_stop' />
     <tag k='min_height' v='5' />
   </node>
-  <node id='-7130946' action='modify' visible='true' lat='55.05186739528' lon='37.04290995637'>
+  <node id='-7130946' action='modify' visible='true' lat='55.0520467403' lon='37.04282511297'>
     <tag k='diameter' v='500' />
     <tag k='flag:wikidata' v='Q80110;Q42537' />
     <tag k='height' v='20' />
@@ -431,7 +431,7 @@
     <tag k='min_height' v='5' />
     <tag k='shape' v='frustum' />
   </node>
-  <node id='-7130947' action='modify' visible='true' lat='55.0518819202' lon='37.04308714883'>
+  <node id='-7130947' action='modify' visible='true' lat='55.0518483785' lon='37.04315884748'>
     <tag k='building:material' v='brick' />
     <tag k='diameter' v='1000' />
     <tag k='height' v='20' />
@@ -443,7 +443,7 @@
     <tag k='advertising' v='column' />
     <tag k='min_height' v='5' />
   </node>
-  <node id='-7130949' action='modify' visible='true' lat='55.05204784135' lon='37.04314553602'>
+  <node id='-7130949' action='modify' visible='true' lat='55.05203483544' lon='37.04315390086'>
     <tag k='building:material' v='metal' />
     <tag k='diameter' v='1000' />
     <tag k='man_made' v='chimney' />
@@ -502,6 +502,30 @@
   <node id='-7285356' action='modify' visible='true' lat='55.05746947118' lon='37.0559201674' />
   <node id='-7288217' action='modify' visible='true' lat='55.05747341196' lon='37.05650319242' />
   <node id='-7291078' action='modify' visible='true' lat='55.05784747806' lon='37.05649548501' />
+  <node id='-7365948' action='modify' visible='true' lat='55.05204784204' lon='37.04264842421'>
+    <tag k='country' v='ch' />
+    <tag k='diameter' v='500' />
+    <tag k='height' v='20' />
+    <tag k='man_made' v='flagpole' />
+    <tag k='min_height' v='0' />
+    <tag k='shape' v='frustum' />
+  </node>
+  <node id='-7367492' action='modify' visible='true' lat='55.05204921039' lon='37.0425372925'>
+    <tag k='diameter' v='500' />
+    <tag k='flag:wikidata' v='Q159741' />
+    <tag k='height' v='20' />
+    <tag k='man_made' v='flagpole' />
+    <tag k='min_height' v='0' />
+    <tag k='shape' v='frustum' />
+  </node>
+  <node id='-7427691' action='modify' visible='true' lat='55.05204065387' lon='37.04291371039'>
+    <tag k='country' v='by' />
+    <tag k='diameter' v='500' />
+    <tag k='height' v='20' />
+    <tag k='man_made' v='flagpole' />
+    <tag k='min_height' v='0' />
+    <tag k='shape' v='frustum' />
+  </node>
   <way id='-15212' action='modify' visible='true'>
     <nd ref='-7130748' />
     <nd ref='-7130749' />

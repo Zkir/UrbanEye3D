@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260920T232142Z",
+  "data_updated" : "20260926T192622Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -235,12 +235,18 @@
     "key" : "flag:colour",
     "description" : "The color of the flag on a flagpole."
   }, {
+    "key" : "flag:height",
+    "description" : "Height of the flag on a flagpole"
+  }, {
     "key" : "flag:name",
     "description" : "Used to infer flag texture for man_mad=flagpole objects"
   }, {
     "key" : "flag:type",
     "value" : "advertising",
     "description" : "Advertising flags use vertical format by default"
+  }, {
+    "key" : "flag:width",
+    "description" : "Width of the flag on a flagpole"
   }, {
     "key" : "flag:wikidata",
     "description" : "Used to select the proper flag texture."
