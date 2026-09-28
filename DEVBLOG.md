@@ -1,8 +1,14 @@
 # Development History
 
-### Sep 12, 2026
-* Implemented procedural model for wind generators. 
+* Added a procedural model for wind generators (rotor `wind_turbine_rotor.mtl`/`.obj`) and wired the tag analysis pipeline.
 * Statistics for wind generators is added to the data pipeline
+* Added `man_made=mast` as a procedural object; antenna modeled with new `mast_antenna.mtl`/`.obj`.
+* Data-pipeline reorganization: analysis helpers moved/renamed for a clearer layout.
+* Big refactoring: roof  meshers moved under `meshers/s3db`; street furniture  meshers consolidated into `meshers/custom`; .
+
+## Version 2.7.1 (Sep 18, 2026)
+
+* Translations were added back into the packaged jar  
 
 ## Version 2.7.0 (Sep 11, 2026)
 
