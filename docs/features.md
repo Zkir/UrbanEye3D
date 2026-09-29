@@ -316,8 +316,6 @@ The correlation between these tags and flag texture/color is determined based on
 ![Additional tags for flags](images/flagpole_tags.png)
 
 
-
-
 ### Water Wells
 
 - `man_made=water_well`: Rendered as a traditional wooden well with side posts and a gable roof. 
@@ -352,6 +350,33 @@ Unlike most other point objects that have fixed-size pre-defined models (like be
 - `height`: The total height of the object. If not specified, the default model height is used.
 
 
+## Wind generators (wind turbines)
+Wind turbines or wind generators are rendered using a procedural model: a three-bladed rotor plus a nacelle on a tapered tower, built to match the OSM height and realistic proportions.
+
+- **Trigger:** `power=generator` with `generator:source=wind`, or `power=generator` with `generator:method=wind_turbine`.
+- **Height parameters:**
+  - `height`: total height to the rotor tip; when present it drives the model, combining with `rotor:diameter` to derive `height:hub`.
+  - `rotor:diameter`: rotor diameter, or if absent derived as ~0.66 x height.
+  - `height:hub`: ground-to-hub height, or if absent derived from height (leaving ~0.5 x rotor diameter clearance below the rotor).
+  - `min_height`: lifts the whole turbine above the ground, subtracted from height and height:hub.
+- **Color**:  the `colour` tag is respected, the whole model uses it: hub, rotor and nacelle.
+- **Rotor phase** is randomized per object. 
+- **Pitfalls:** the hub height tag is [height:hub](https://taginfo.openstreetmap.org/keys/height%3Ahub) (not hub:height as one might expect). 
+- **Limitations:** a single pre-made rotor and nacelle model. No animations yet!
+
+![wind generator](images/wind_generator_tags.png)
+<!-- DIAMETER??? -->
+
+## Communication masts
+
+Node objects tagged as communication masts are rendered with a procedural model: telescopic tube mast with an antenna head on top. 
+
+- **Trigger:** `man_made=mast` **and** `tower:type=communication`.
+- **Height:** The model respects height (+ min_height); mast body scales accordingly.
+- **Color**:  the `colour` tag is respected, the whole model uses it.
+- **Limitations:** one antenna model.
+<!-- DIAMETER??? -->
+
 ## Power Infrastructure
 
 The plugin provides 3D visualization for electrical power networks.
@@ -373,6 +398,7 @@ The plugin provides 3D visualization for electrical power networks.
 - **Automatic Alignment:** Supports automatically rotate to align with the direction of the connected power lines.
 - **Lattice vs Solid Structures:** The plugin distinguishes between lattice structures (`structure=lattice` or default for `power=tower`) and solid/tubular structures (`structure=solid` or `structure=tubular`), applying the appropriate 3D model for each type.
 - **Traverses (Cross-arms):** Towers are equipped with traverses of varying widths. Wires are precisely attached to the tips of these arms. On sharp turns, the traverses automatically reorient to prevent wire crossing.
+
 
 ## Natural Features
 

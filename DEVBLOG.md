@@ -1,9 +1,12 @@
 # Development History
 
+### Sep 29, 2026
+* Wind turbines and communication masts described in the [features.md](docs/features.md#wind-generators-wind-turbines).
+
 ### Sep 28, 2026
 * Support for additional tags for `man_made=flagpole`: `flag:width` and `flag:height`
 * Proper aspect ratio for Switzerland, Nepal and Vatican flags
-* Documentation for flagpoles updated
+* Documentation ([features.md](docs/features.md#flagpoles)) for flagpoles updated
 
 ### Sep 23, 2026
 * Fixed a bug with `roof:direction`  for `roof:shape=saltbox` (asymmetrical).
