@@ -20,7 +20,7 @@ If you have an idea for a new feature or an improvement to an existing one, plea
 
 Code contributions are welcome, but please open an [issue on github](https://github.com/Zkir/UrbanEye3D/issues) to discuss suggested changes, especially in case of complex features, to avoid wasted efforts.
 
-As artificial intelligence reshapes development in 2026, [GEMINI.md](GEMINI.md) contains insights valuable to both silicon-based and protein-based programmers.
+As artificial intelligence reshapes development in 2026, [AGENTS.md](AGENTS.md) contains insights valuable to both silicon-based and protein-based programmers.
 
 
 ### Translations

@@ -6,7 +6,7 @@
     * `mvn package` completes successfully without any errors.
     * Successful execution of manual test confirmed by the human.
     * Unit test is created or at least proposed.
-    * GEMINI.md file is updated, including (but not limiting to) the following sections: *Recent Accomplishments*, *Architecture and Key Concepts*, and if necessary, *Next Steps*.  *Recent Accomplishments* should incude date, and be focused on value for end-user/product, but without marketing bullshit, not on technical details. 
+    * DEVBLOG.md file is updated, including (but not limiting to) the following sections: *Recent Accomplishments*, *Architecture and Key Concepts*, and if necessary, *Next Steps*.  *Recent Accomplishments* should incude date, and be focused on value for end-user/product, but without marketing bullshit, not on technical details. 
     * [features.md](docs/features.md) is reviewed and updated if necessary.
 *   **Do not suggest git commits**. Git commits in this project are allowed for protein-based developers only.
 *   **JOSM source code** can be found in d:\UrbanEye3D\ext_sources\josm_source
@@ -134,7 +134,7 @@ In 3D rendering, many objects require specific attributes that are often missing
 To keep the JOSM plugin lightweight and maintainable, UrbanEye3D avoids the two extremes: either fragile hardcoded heuristics or heavy machine learning libraries. Instead, it utilizes a **Maximum Likelihood inference** powered by pre-calculated global OSM statistics:
 *   **Spatial Grid for Vegetation:** When explicit tags are missing, the engine uses a weighted spatial grid (`spatial_stats_5x5.json`) to predict the most likely `leaf_type` based on coordinates.
 *   **Statistical Rules for Flags:** The `FlagColorInference` system uses `flag_rules.json` to predict flag colors based on metadata like `subject`, `country`, or `wikidata`.
-The heavy statistical lifting is done offline in the Python data pipeline (See [some documentation](misc/GEMINI.md) in the `misc` folder), while the Java plugin remains simple, fast, and data-driven.
+The heavy statistical lifting is done offline in the Python data pipeline (See [some documentation](misc/AGENTS.md) in the `misc` folder), while the Java plugin remains simple, fast, and data-driven.
 
 ### Botanical Engine
 As mentioned in the inference section, the plugin needs to know the `leaf_type` of a tree to select the correct 3D model or texture. Since this data is often missing in OSM, the plugin employs two specialized botanical databases:
@@ -143,7 +143,7 @@ As mentioned in the inference section, the plugin needs to know the `leaf_type` 
 2.  **Spatial Database ([spatial_stats_5x5.json](src/main/resources/data/spatial_stats_5x5.json)):** Contains the most likely leaf types (and, for the future use, most likely species) for each 5x5 degree grid cell. It is used when no additional tags are available, relying on the well-known principle of forest zoning (e.g., defaulting to needleleaved trees in the taiga or palms in the tropics).
 
 **Data Pipeline:**
-Both databases are generated based on global OSM statistics using the [pipeline in the misc folder](misc/GEMINI.md). This pipeline should be executed before every release to ensure the data is up-to-date. In addition to OSM data, it utilizes the **POWO (Plants of the World Online)** Web API to ensure the species list contains *Accepted* scientific names and valid synonyms rather than arbitrary entries.
+Both databases are generated based on global OSM statistics using the [pipeline in the misc folder](misc/AGENTS.md). This pipeline should be executed before every release to ensure the data is up-to-date. In addition to OSM data, it utilizes the **POWO (Plants of the World Online)** Web API to ensure the species list contains *Accepted* scientific names and valid synonyms rather than arbitrary entries.
 
 **Species Normalization:**
 Before performing a database lookup, species names undergo mandatory normalization. This allows the grouping of statistics for synonyms (e.g., *Quercus pedunculata* and *Quercus robur* are recognized as the same species) and ensures that cultivars or variations that do not affect the leaf type are ignored.
@@ -182,7 +182,7 @@ The `misc` folder contains a specialized subproject for large-scale processing o
     * Generate geographic tree statistics (`src/main/resources/data/spatial_stats_5x5.json`) based on OSM data to provide realistic rendering defaults when explicit tags are missing.
 	* Correct typo errors in `species` tag in the OSM database itself, creating osm-files with changes, so that they can be uploaded via JOSM.
 	* Create smart defaults for various building attributes, depending on building type (`building=*` value). This is not yet used currently by the plugin.
-*   See [misc/GEMINI.md](misc/GEMINI.md) for details.
+*   See [misc/AGENTS.md](misc/AGENTS.md) for details.
 
 ---
 The Urban Eye is watching you!
