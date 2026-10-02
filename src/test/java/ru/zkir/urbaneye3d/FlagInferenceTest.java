@@ -2,13 +2,17 @@ package ru.zkir.urbaneye3d;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openstreetmap.josm.data.coor.LatLon;
+import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.preferences.JosmBaseDirectories;
 import org.openstreetmap.josm.data.preferences.JosmUrls;
 import org.openstreetmap.josm.spi.preferences.Config;
 import org.openstreetmap.josm.spi.preferences.MemoryPreferences;
 import ru.zkir.urbaneye3d.utils.FlagsDatabase;
+import ru.zkir.urbaneye3d.utils.WindTurbineDatabase;
 
+import static java.lang.Math.abs;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FlagInferenceTest {
@@ -86,5 +90,49 @@ public class FlagInferenceTest {
         
         String color = FlagsDatabase.getInstance().getInferredColor(node);
         assertEquals("", color, "Unknown subject should return blank string.");
+    }
+
+    @Test
+    void testWindGeneratorInference(){
+        Node node = new Node();
+        node.put("manufacturer", "Enercon");
+        node.put("model", "E-101");
+
+        String rotor_diameter = WindTurbineDatabase.getInstance().getInferredRotorDiameter(node);
+        String height = WindTurbineDatabase.getInstance().getInferredHeight(node);
+
+        //expected height=135, rotor:diameter=101
+        assertEquals("101", rotor_diameter, "Expected rotor diameter for Enron E-101 is 101.");
+        assertEquals("135", height, "Expected height for Enron E-101 is 135");
+
+    }
+
+    @Test
+    void testWindGeneratorScene() {
+        // Arrange
+        DataSet dataSet = new DataSet();
+        Node node = new Node(new LatLon(55.0, 37.0));
+        node.put("power", "generator");
+        node.put("generator:source", "wind");
+
+        node.put("manufacturer", "Enercon");
+        node.put("model", "E-101");
+        dataSet.addPrimitive(node);
+
+        Scene scene = new Scene();
+
+        // Act
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        // Assert
+        assertEquals(1, scene.renderableElements.size());
+        RenderableElement windGenerator = scene.renderableElements.get(0);
+
+        double actualHeight =windGenerator.getMesh().getMaxBounds().z;
+
+        // Check that inferred parameter values are applied.
+        // we expect zero rotation phase of the rotor (tip up), but it is not always the case!
+        assertTrue(abs(actualHeight-135)<2,  "Expected height for Enron E-101 is 135, got " + actualHeight);
     }
 }

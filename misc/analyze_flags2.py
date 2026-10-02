@@ -254,8 +254,8 @@ def obtain_flag_wikidata_stats(osm_file):
 
 def analyze_flags(osm_file, output_json):
     
-    rules_filename = "data/30_flags/flag_rules_wd_pre.json"
-    rules_output_filename = "data/30_flags/flag_rules_wd.json"
+    rules_filename = "data/30_flags/flag_rules_pre.json"
+    rules_output_filename = "data/30_flags/flag_rules.json"
     
     os.makedirs(FLAG_IMAGE_DIRECTORY, exist_ok=True)
     
@@ -274,17 +274,18 @@ def analyze_flags(osm_file, output_json):
         country_code = row['isoAlpha2']
         quid =  row['flag'] 
         if quid:
-            if country_code in rules['country']:
-                if  rules['country'][country_code]["value"] == quid:
-                    rules['country'][country_code]["prob"] = 1.0 # if this item is present, probability is 1.0
+            if country_code in rules["rules"]['country']:
+                if  rules["rules"]['country'][country_code]["targets"]["flag:wikidata"]["value"] == quid:
+                    rules["rules"]['country'][country_code]["targets"]["flag:wikidata"]["prob"] = 1.0 # if this item is present, probability is 1.0
                 else:
-                    print(f"flag qids differ for country {country_code}: {rules['country'][country_code]['value']} vs {quid}")
-            else:    
-                rules['country'][country_code] =  {"value": quid, "prob":1.0, "count":0}
+                    print(f"flag qids differ for country {country_code}: {rules["rules"]['country'][country_code]["targets"]["flag:wikidata"]['value']} vs {quid}")
+            else:
+                rules["rules"]['country'][country_code] = {}
+                rules["rules"]['country'][country_code]["targets"] = {}
+                rules["rules"]['country'][country_code]["targets"]["flag:wikidata"] =  {"value": quid, "prob":1.0, "count":0}
             
     with open(rules_output_filename, 'w', encoding='utf-8') as f:
-        json.dump(rules, f, ensure_ascii=False, indent=2)        
-    
+        json.dump(rules, f, ensure_ascii=False, indent=4)        
     
     # Collect actual osm usage statistics for flag:wikidata=*
     stats = obtain_flag_wikidata_stats(osm_file)

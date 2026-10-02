@@ -275,18 +275,18 @@ public class TagInfoGeneratorTest {
 
         //add values for predictor tags from
         HashSet<ParsedTag> usedTagsFlagRules = new HashSet<>();
-        extractTagsFromFlagRules(usedTagsFlagRules, "/data/flag_rules_wd.json");
+        extractTagsFromFlagRules(usedTagsFlagRules, "/data/flag_rules.json");
         for (var usedTag: usedTagsFlagRules){
             if (!TAG_DESCRIPTIONS.containsKey(usedTag.originalKey())){
-                TAG_DESCRIPTIONS.put(usedTag.originalKey(), "Used to infer flag texture for man_mad=flagpole objects" );
+                TAG_DESCRIPTIONS.put(usedTag.originalKey(), "Used to infer flag colour/texture for man_mad=flagpole objects" );
             }
         }
 
         usedTagsFlagRules = new HashSet<>();
-        extractTagsFromFlagRules(usedTagsFlagRules, "/data/flag_rules_colour.json");
+        extractTagsFromFlagRules(usedTagsFlagRules, "/data/turbine_rules.json");
         for (var usedTag: usedTagsFlagRules){
             if (!TAG_DESCRIPTIONS.containsKey(usedTag.originalKey())){
-                TAG_DESCRIPTIONS.put(usedTag.originalKey(), "Used to infer flag colour for man_mad=flagpole objects" );
+                TAG_DESCRIPTIONS.put(usedTag.originalKey(), "Used to infer wind turbine hub height and rotor diameter " );
             }
         }
 
@@ -310,7 +310,8 @@ public class TagInfoGeneratorTest {
                 .forEach(usedTags::add);
 
         extractTagsFromMapCSS(usedTags, "/assets.mapcss");
-        extractTagsFromFlagRules(usedTags, "/data/flag_rules_colour.json");
+        extractTagsFromFlagRules(usedTags, "/data/flag_rules.json");
+        extractTagsFromFlagRules(usedTags, "/data/turbine_rules.json");
 
         // this file is not parsed properly, because it contains too many comments, which are still fetch by RE
         //extractTagsFromMapCSS(usedTags, "/mapcss-styles/urbaneye2d.general.mapcss");
@@ -463,11 +464,17 @@ public class TagInfoGeneratorTest {
         try (InputStream is = getClass().getResourceAsStream(filename)) {
             if (is != null) {
                 ObjectMapper mapper = new ObjectMapper();
-                JsonNode root = mapper.readTree(is);
+                JsonNode root = mapper.readTree(is).path("rules");
                 Iterator<String> fieldNames = root.fieldNames();
                 while (fieldNames.hasNext()) {
                     String predictorTag = fieldNames.next();
-                    usedTags.add(new ParsedTag(predictorTag, null, predictorTag));
+                    // we need to split, because we use virtual tags
+                    String[] parts = predictorTag.split("\\+");
+                    for (String part : parts) {
+                        if (!part.isEmpty()) {
+                            usedTags.add(new ParsedTag(part, null, part));
+                        }
+                    }
                 }
             } else {
                 throw new IllegalStateException(filename + " not found");

@@ -19,6 +19,11 @@ Wind turbines are now rendered in 3D using a procedural model: a three-bladed ro
 *   **No clones:** the rotor phase is randomized per object, so wind farms don't look stamped.
 *   **Limitations:** a single rotor and nacelle design for now. No animations yet :)
 
+### Model Database and Automatic Sizing:
+- Plugin is aware of ~500 wind turbine models from different manufacturers. You can check known models here: [turbine_models.md](../../turbine_models.md). Statistics is collected from the global OSM data (aka planet.osm). 
+- If `height` and/or `rotor:diameter` are not tagged, but `manufacturer` and `model` are (e.g. `manufacturer=Enercon` + `model=E-101`), the missing values are inferred from the statistics 
+database. Realistic turbines are produced without extra tagging (an Enercon E-101 renders at its real 135 m hub height and 101 m rotor diameter).
+
 
 ## New Tags for Flagpoles
 Support for textured flags was added in the previous version, but it quickly became apparent that large, world-famous flagpoles (such as those in [Baku](https://en.wikipedia.org/wiki/State_Flag_Square_(Baku)) or [Minsk](https://en.wikipedia.org/wiki/State_Flag_Square_(Minsk))) did not look convincing enough.

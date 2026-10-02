@@ -4,6 +4,7 @@ import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.MeshOperations;
+import ru.zkir.urbaneye3d.utils.WindTurbineDatabase;
 
 import java.awt.Color;
 import java.util.SplittableRandom;
@@ -20,23 +21,36 @@ public class MesherWindTurbine {
         Double rotor_diameter;
 
         double min_height = getTagD("min_height", primitive, 0.0);
+        var turbineDatabase = WindTurbineDatabase.getInstance();
+
+        String inferredHeight =  turbineDatabase.getInferredHeight(primitive);
+        String inferredRotorDiameter = turbineDatabase.getInferredRotorDiameter(primitive);
+
+        var tags = primitive.getInterestingTags();
+        if (!inferredHeight.isBlank()  && !tags.containsKey("height")){
+            tags.put("height", inferredHeight);
+        }
+        if (!inferredRotorDiameter.isBlank()  && !tags.containsKey("rotor:diameter")){
+            tags.put("rotor:diameter", inferredRotorDiameter);
+        }
+
 
         //here we have three parameters, but only two of them are independent. They can appear in different combinations.
         //  Defaults could be tricky.
         //  hub height is more important, because it is used for scaling
         //  also note that the tag for hub height is `height:hub`, instead of more logical `hub:height`
         //TODO: support both `height:hub` and `hub:height`
-        if (primitive.hasTag("height")) {
-            height = getTagD("height", primitive, DEFAULT_WIND_GENERATOR_HEIGHT + min_height) - min_height;
-            rotor_diameter = getTagD("rotor:diameter", primitive, 0.66 * height);
-            hub_height = getTagD("height:hub", primitive, height - rotor_diameter/2.0);
-        }else if (primitive.hasTag("height:hub")){
-            hub_height = getTagD("height:hub", primitive, DEFAULT_WIND_GENERATOR_HEIGHT*0.66);
-            rotor_diameter = getTagD("rotor:diameter", primitive, hub_height);
+        if (tags.containsKey("height")) {
+            height = getTagD("height", tags, DEFAULT_WIND_GENERATOR_HEIGHT + min_height) - min_height;
+            rotor_diameter = getTagD("rotor:diameter", tags, 0.66 * height);
+            hub_height = getTagD("height:hub", tags, height - rotor_diameter/2.0);
+        }else if (tags.containsKey("height:hub")){
+            hub_height = getTagD("height:hub", tags, DEFAULT_WIND_GENERATOR_HEIGHT*0.66);
+            rotor_diameter = getTagD("rotor:diameter", tags, hub_height);
         }else {
             //we have only rotor diameter
-            rotor_diameter = getTagD("rotor:diameter", primitive, DEFAULT_WIND_GENERATOR_HEIGHT*0.66);
-            hub_height = getTagD("height:hub", primitive, rotor_diameter);
+            rotor_diameter = getTagD("rotor:diameter", tags, DEFAULT_WIND_GENERATOR_HEIGHT*0.66);
+            hub_height = getTagD("height:hub", tags, rotor_diameter);
         }
 
         // The rotor radius cannot exceed the height of the support; otherwise, the rotor will strike the ground.

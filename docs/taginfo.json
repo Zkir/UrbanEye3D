@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20260926T192622Z",
+  "data_updated" : "20261003T092816Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -107,7 +107,7 @@
     "description" : "Stands (staple/U-rack) type of bicycle parking. This is the default type in UrbanEye3D."
   }, {
     "key" : "brand",
-    "description" : "Used to infer flag texture for man_mad=flagpole objects"
+    "description" : "Used to infer flag colour/texture for man_mad=flagpole objects"
   }, {
     "key" : "building",
     "description" : "The main tag for identifying a building outline."
@@ -205,7 +205,7 @@
     "description" : "Specifies the color of the object, especially barrier or man-made."
   }, {
     "key" : "country",
-    "description" : "Used to infer flag texture for man_mad=flagpole objects"
+    "description" : "Used to infer flag colour/texture for man_mad=flagpole objects"
   }, {
     "key" : "denomination",
     "value" : "orthodox",
@@ -239,7 +239,7 @@
     "description" : "Height of the flag on a flagpole"
   }, {
     "key" : "flag:name",
-    "description" : "Used to infer flag texture for man_mad=flagpole objects"
+    "description" : "Used to infer flag colour/texture for man_mad=flagpole objects"
   }, {
     "key" : "flag:type",
     "value" : "advertising",
@@ -254,6 +254,9 @@
     "key" : "generator:method",
     "value" : "wind_turbine",
     "description" : "Used to identify wind generator, for 3D model placement"
+  }, {
+    "key" : "generator:output:electricity",
+    "description" : "Used to infer wind turbine hub height and rotor diameter "
   }, {
     "key" : "generator:source",
     "value" : "wind",
@@ -507,6 +510,9 @@
     "value" : "water_well",
     "description" : "A water well, rendered as a 3D model."
   }, {
+    "key" : "manufacturer",
+    "description" : "Used to infer wind turbine hub height and rotor diameter "
+  }, {
     "key" : "material",
     "description" : "Material for barrier or man-made object. This can influence the default color. "
   }, {
@@ -548,6 +554,9 @@
     "key" : "min_height",
     "description" : "The height of the ground floor of the building from the ground, in meters. Used to model buildings on stilts or slopes."
   }, {
+    "key" : "model",
+    "description" : "Used to infer wind turbine hub height and rotor diameter "
+  }, {
     "key" : "natural",
     "value" : "shrub",
     "description" : "A single shrub or bush, rendered as a 3D billboard model."
@@ -581,7 +590,7 @@
     "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "operator",
-    "description" : "Used to infer flag colour for man_mad=flagpole objects"
+    "description" : "Used to infer flag colour/texture for man_mad=flagpole objects"
   }, {
     "key" : "place",
     "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"
@@ -858,10 +867,10 @@
     "description" : "Tubular structure for power towers. Synonym for solid."
   }, {
     "key" : "subject",
-    "description" : "Used to infer flag texture for man_mad=flagpole objects"
+    "description" : "Used to infer flag colour/texture for man_mad=flagpole objects"
   }, {
     "key" : "subject:wikidata",
-    "description" : "Used to infer flag texture for man_mad=flagpole objects"
+    "description" : "Used to infer flag colour/texture for man_mad=flagpole objects"
   }, {
     "key" : "surface",
     "value" : "dirt",

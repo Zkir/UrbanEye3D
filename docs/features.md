@@ -248,6 +248,10 @@ Wind turbines or wind generators are rendered using a procedural model: a three-
 
 ![wind generator](images/wind_generator_tags.png)
 <!-- DIAMETER??? -->
+### Automatic Sizing and Model Database:
+- If `height` and/or `rotor:diameter` are not tagged, but `manufacturer` and `model` are (e.g. *manufacturer=Enercon* + *model=E-101*), the missing values are inferred from a statistics 
+database built from global OSM data. Realistic turbines are produced without extra tagging (an Enercon E-101 renders at its real typical 135 m hub height and 101 m rotor diameter).
+- You can check known models here: [turbine_models.md](turbine_models.md)
 
 ## Communication masts
 

@@ -92,8 +92,8 @@ public class OsmDataWasher {
     }
 
     @NotNull
-    public static Double getTagD(String key, Map<String, String> primitive, double defaultValue) {
-        String value = primitive.get(key);
+    public static Double getTagD(String key, Map<String, String> tags, double defaultValue) {
+        String value = tags.get(key);
         if (value == null) {
             return defaultValue;
         }

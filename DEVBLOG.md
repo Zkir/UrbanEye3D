@@ -1,5 +1,9 @@
 # Development History
 
+### Oct 2, 2026
+* Wind turbines now size themselves correctly even when only `manufacturer` and `model` are tagged. The plugin infers realistic `height` and `rotor:diameter` from a statistics database built from global OSM data (e.g. an Enercon E-101 renders at its real ~135 m hub height and ~101 m rotor), so turbines look right without extra tagging.
+* The flag and wind-turbine inference now share one common statistical rule engine, and the two flag rules files were consolidated into a single one.
+
 ### Sep 29, 2026
 * Wind turbines and communication masts described in the [features.md](docs/features.md#wind-generators-wind-turbines).
 

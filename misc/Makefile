@@ -11,9 +11,9 @@ TREE_STATS_FILES := $(patsubst %,data/10_trees/tree_stats_%.csv,$(ANALYSIS_TYPES
 # Default goal, executed when 'make' is run without arguments
 #all: $(TREE_STATS_FILES) data/building_analysis_full.csv 
 all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/15_trees_output/spatial_stats_5x5.json data/10_trees/correlations.txt \
-         data/30_flags/flag_rules_colour.json data\30_flags\flag_rules_wd.json data\30_flags\images-png.milestone \
-		 data/07_tags/popular_missing_tags.md  \
-		 data/40_wind_generators/turbine_models.json
+         data/07_tags/popular_missing_tags.md  \
+		 data\30_flags\flag_rules.json data\30_flags\images-png.milestone \
+		 data/40_wind_generators/turbine_rules.json
 
 # Define the columns to be extracted for the trees CSV
 TREE_COLUMNS = id lat lon height circumference age start_date \
@@ -22,6 +22,8 @@ TREE_COLUMNS = id lat lon height circumference age start_date \
 BUILDING_COLUMNS = id building height building:levels roof:shape roof:height roof:levels 
 
 WING_GEN_COLUMNS = id lat lon generator:type height height:hub rotor:diameter start_date wikidata manufacturer model manufacturer:type generator:output:electricity
+
+FLAG_COLUMNS = id lat lon flag:name subject subject:wikidata country operator brand flag:wikidata flag:colour
 
 data/00_planet/planet-latest.osm.pbf: 
 	if not exist data\00_planet mkdir data\00_planet
@@ -82,17 +84,19 @@ data/20_buildings/buildings.csv: data/05_extracts/buildings.osm | data/20_buildi
 
 data/20_buildings/building_analysis_full.csv: data/20_buildings/buildings.csv
 	python analyze_buildings.py
+	
+data/30_flags/flags.csv: data/05_extracts/flags.osm | data/30_flags ## Generate wind generator CSV from the source OSM file
+	python osm_to_csv.py --input $< --output $@ --columns $(FLAG_COLUMNS)		
 
-data/30_flags/flag_rules_colour.json: data/05_extracts/flags.osm
+data\30_flags\flag_rules_pre.json: data/30_flags/flags.csv
 	python analyze_flags.py
 
 data\30_flags\wd_national_flags.csv:	
 	python fetch_wikidata_countries.py
 	
-data\30_flags\flag_rules_wd.json: data\30_flags\wd_national_flags.csv data/30_flags/flag_rules_colour.json	
+data\30_flags\flag_rules.json: data\30_flags\wd_national_flags.csv data\30_flags\flag_rules_pre.json
 	python analyze_flags2.py
-	cmd /c "copy /b /v /y data\30_flags\flag_rules_wd.json ..\src\main\resources\data\"
-	cmd /c "copy /b /v /y data\30_flags\flag_rules_colour.json ..\src\main\resources\data\"
+	cmd /c "copy /b /v /y data\30_flags\flag_rules.json ..\src\main\resources\data\"
 	
 	
 data\30_flags\images-png.milestone:	data\30_flags\flag_rules_wd.json | data/30_flags/images-png
@@ -110,11 +114,13 @@ data/07_tags/popular_missing_tags.md: data/07_tags/popular_tags.json
 	cmd /c "copy /b /v /y data\07_tags\popular_supported_tags.md ..\docs\dev\"	
 	
 	
-data/40_wind_generators/generators.csv: data/05_extracts/wind_generators.osm | data/40_wind_generators ## Generate trees CSV from the source OSM file
+data/40_wind_generators/generators.csv: data/05_extracts/wind_generators.osm | data/40_wind_generators ## Generate wind generator CSV from the source OSM file
 	python osm_to_csv.py --input $< --output $@ --columns $(WING_GEN_COLUMNS)	
 	
-data/40_wind_generators/turbine_models.json: data/40_wind_generators/generators.csv ## Generate trees CSV from the source OSM file
+data/40_wind_generators/turbine_rules.json: data/40_wind_generators/generators.csv ## collect statistics for wind generators
 	python analyze_wind_turbines.py
+	cmd /c "copy /b /v /y data\40_wind_generators\turbine_rules.json ..\src\main\resources\data\"
+	cmd /c "copy /b /v /y data\40_wind_generators\turbine_models.md ..\docs\"
 	
 data:
 	@mkdir data
