@@ -11,12 +11,14 @@
   },
   "+00+010": {
     "leaf_type_prob": {
-      "broadleaved": 0.598,
+      "broadleaved": 0.6,
       "leafless": 0.019,
       "needleleaved": 0.025,
-      "palm": 0.358
+      "palm": 0.356
     },
-    "top_species": [],
+    "top_species": [
+      "Mangifera indica"
+    ],
     "total_trees": 367
   },
   "+00+015": {
@@ -44,7 +46,7 @@
       "Ficus carica",
       "Artocarpus heterophyllus"
     ],
-    "total_trees": 89432
+    "total_trees": 89447
   },
   "+00+035": {
     "leaf_type_prob": {
@@ -62,16 +64,16 @@
   },
   "+00+070": {
     "leaf_type_prob": {
-      "broadleaved": 0.829,
-      "leafless": 0.007,
-      "needleleaved": 0.118,
-      "palm": 0.046
+      "broadleaved": 0.832,
+      "leafless": 0.006,
+      "needleleaved": 0.117,
+      "palm": 0.045
     },
     "top_species": [
       "Phoenix dactylifera",
       "Cocos nucifera"
     ],
-    "total_trees": 425
+    "total_trees": 426
   },
   "+00+100": {
     "leaf_type_prob": {
@@ -82,8 +84,8 @@
     },
     "top_species": [
       "Samanea saman",
-      "Dyera costulata",
       "Phoenix roebelenii",
+      "Dyera costulata",
       "Acacia auriculiformis",
       "Swietenia macrophylla",
       "Ceiba pentandra",
@@ -92,7 +94,7 @@
       "Peltophorum pterocarpum",
       "Ficus religiosa"
     ],
-    "total_trees": 5195
+    "total_trees": 5214
   },
   "+00+110": {
     "leaf_type_prob": {
@@ -130,8 +132,8 @@
   },
   "+00-055": {
     "leaf_type_prob": {
-      "broadleaved": 0.971,
-      "needleleaved": 0.029
+      "broadleaved": 0.975,
+      "needleleaved": 0.025
     },
     "top_species": [
       "Terminalia catappa",
@@ -139,7 +141,7 @@
       "Ficus insipida",
       "Mangifera indica"
     ],
-    "total_trees": 171
+    "total_trees": 183
   },
   "+00-060": {
     "leaf_type_prob": {
@@ -169,9 +171,9 @@
   },
   "+00-075": {
     "leaf_type_prob": {
-      "broadleaved": 0.866,
+      "broadleaved": 0.863,
       "leafless": 0.003,
-      "needleleaved": 0.111,
+      "needleleaved": 0.114,
       "palm": 0.02
     },
     "top_species": [
@@ -186,14 +188,14 @@
       "Ceroxylon quindiuense",
       "Cassia grandis"
     ],
-    "total_trees": 2171
+    "total_trees": 2178
   },
   "+00-080": {
     "leaf_type_prob": {
-      "broadleaved": 0.645,
-      "leafless": 0.001,
+      "broadleaved": 0.648,
+      "leafless": 0.0,
       "needleleaved": 0.025,
-      "palm": 0.329
+      "palm": 0.327
     },
     "top_species": [
       "Caesalpinia pluviosa",
@@ -207,7 +209,7 @@
       "Bauhinia variegata",
       "Tabebuia rosea"
     ],
-    "total_trees": 5126
+    "total_trees": 5163
   },
   "+00-160": {
     "leaf_type_prob": {
@@ -282,7 +284,7 @@
       "needleleaved": 0.002
     },
     "top_species": [],
-    "total_trees": 566
+    "total_trees": 567
   },
   "+05+070": {
     "leaf_type_prob": {
@@ -297,10 +299,10 @@
   },
   "+05+075": {
     "leaf_type_prob": {
-      "broadleaved": 0.599,
+      "broadleaved": 0.6,
       "leafless": 0.002,
       "needleleaved": 0.084,
-      "palm": 0.315
+      "palm": 0.314
     },
     "top_species": [
       "Cocos nucifera",
@@ -314,7 +316,7 @@
       "Mangifera indica",
       "Cassia grandis"
     ],
-    "total_trees": 1077
+    "total_trees": 1079
   },
   "+05+080": {
     "leaf_type_prob": {
@@ -341,12 +343,14 @@
   },
   "+05+100": {
     "leaf_type_prob": {
-      "broadleaved": 0.784,
-      "needleleaved": 0.159,
-      "palm": 0.057
+      "broadleaved": 0.796,
+      "needleleaved": 0.15,
+      "palm": 0.054
     },
-    "top_species": [],
-    "total_trees": 312
+    "top_species": [
+      "Tetrameles nudiflora"
+    ],
+    "total_trees": 326
   },
   "+05+105": {
     "leaf_type_prob": {
@@ -371,9 +375,9 @@
   },
   "+05+120": {
     "leaf_type_prob": {
-      "broadleaved": 0.86,
-      "needleleaved": 0.006,
-      "palm": 0.134
+      "broadleaved": 0.814,
+      "needleleaved": 0.062,
+      "palm": 0.124
     },
     "top_species": [
       "Salix tetrasperma",
@@ -386,7 +390,7 @@
       "Calophyllum inophyllum",
       "Samanea saman"
     ],
-    "total_trees": 367
+    "total_trees": 394
   },
   "+05+125": {
     "leaf_type_prob": {
@@ -428,7 +432,7 @@
       "palm": 1.0
     },
     "top_species": [],
-    "total_trees": 6749
+    "total_trees": 7303
   },
   "+05-005": {
     "leaf_type_prob": {
@@ -449,7 +453,7 @@
       "Citrus limon",
       "Annona muricata"
     ],
-    "total_trees": 1427
+    "total_trees": 1426
   },
   "+05-010": {
     "leaf_type_prob": {
@@ -475,7 +479,7 @@
       "Delonix regia",
       "Persea americana"
     ],
-    "total_trees": 102667
+    "total_trees": 102599
   },
   "+05-055": {
     "leaf_type_prob": {
@@ -519,10 +523,10 @@
   },
   "+05-075": {
     "leaf_type_prob": {
-      "broadleaved": 0.913,
+      "broadleaved": 0.918,
       "leafless": 0.002,
-      "needleleaved": 0.073,
-      "palm": 0.012
+      "needleleaved": 0.069,
+      "palm": 0.011
     },
     "top_species": [
       "Licania tomentosa",
@@ -536,14 +540,14 @@
       "Ficus benjamina",
       "Juglans neotropica"
     ],
-    "total_trees": 6352
+    "total_trees": 6614
   },
   "+05-080": {
     "leaf_type_prob": {
-      "broadleaved": 0.752,
+      "broadleaved": 0.753,
       "leafless": 0.001,
       "needleleaved": 0.041,
-      "palm": 0.206
+      "palm": 0.205
     },
     "top_species": [
       "Mangifera indica",
@@ -561,10 +565,10 @@
   },
   "+05-085": {
     "leaf_type_prob": {
-      "broadleaved": 0.787,
+      "broadleaved": 0.784,
       "leafless": 0.002,
-      "needleleaved": 0.169,
-      "palm": 0.042
+      "needleleaved": 0.165,
+      "palm": 0.049
     },
     "top_species": [
       "Byrsonima crassifolia",
@@ -578,7 +582,7 @@
       "Sterculia apetala",
       "Crescentia cujete"
     ],
-    "total_trees": 1319
+    "total_trees": 1342
   },
   "+05-090": {
     "leaf_type_prob": {
@@ -676,10 +680,10 @@
   },
   "+10+070": {
     "leaf_type_prob": {
-      "broadleaved": 0.485,
-      "leafless": 0.237,
-      "needleleaved": 0.216,
-      "palm": 0.062
+      "broadleaved": 0.495,
+      "leafless": 0.232,
+      "needleleaved": 0.212,
+      "palm": 0.061
     },
     "top_species": [
       "Monoon longifolium",
@@ -687,14 +691,14 @@
       "Artocarpus heterophyllus",
       "Albizia saman"
     ],
-    "total_trees": 101
+    "total_trees": 103
   },
   "+10+075": {
     "leaf_type_prob": {
-      "broadleaved": 0.743,
+      "broadleaved": 0.739,
       "leafless": 0.002,
-      "needleleaved": 0.1,
-      "palm": 0.155
+      "needleleaved": 0.099,
+      "palm": 0.16
     },
     "top_species": [
       "Ficus benghalensis",
@@ -708,7 +712,7 @@
       "Spathodea campanulata",
       "Grevillea robusta"
     ],
-    "total_trees": 4428
+    "total_trees": 4472
   },
   "+10+080": {
     "leaf_type_prob": {
@@ -719,7 +723,7 @@
       "Samanea saman",
       "Ficus religiosa"
     ],
-    "total_trees": 238
+    "total_trees": 240
   },
   "+10+090": {
     "leaf_type_prob": {
@@ -747,9 +751,10 @@
       "Peltophorum pterocarpum",
       "Ficus religiosa",
       "Dipterocarpus alatus",
-      "Mangifera indica"
+      "Mangifera indica",
+      "Tetrameles nudiflora"
     ],
-    "total_trees": 14954
+    "total_trees": 15047
   },
   "+10+105": {
     "leaf_type_prob": {
@@ -758,10 +763,11 @@
     "top_species": [
       "Albizia saman",
       "Ficus religiosa",
+      "Tetrameles nudiflora",
       "Ficus benghalensis",
       "Sterculia foetida"
     ],
-    "total_trees": 460
+    "total_trees": 481
   },
   "+10+115": {
     "leaf_type_prob": {
@@ -772,24 +778,24 @@
   },
   "+10+120": {
     "leaf_type_prob": {
-      "broadleaved": 0.932,
+      "broadleaved": 0.93,
       "leafless": 0.0,
       "needleleaved": 0.018,
-      "palm": 0.05
+      "palm": 0.052
     },
     "top_species": [
       "Cocos nucifera",
       "Roystonea regia",
       "Pterocarpus indicus",
       "Mangifera indica",
+      "Artocarpus heterophyllus",
+      "Persea americana",
       "Adonidia merrillii",
       "Samanea saman",
       "Terminalia catappa",
-      "Alstonia scholaris",
-      "Ficus benjamina",
-      "Moringa oleifera"
+      "Alstonia scholaris"
     ],
-    "total_trees": 26144
+    "total_trees": 26627
   },
   "+10+125": {
     "leaf_type_prob": {
@@ -797,7 +803,7 @@
       "needleleaved": 0.533
     },
     "top_species": [],
-    "total_trees": 452
+    "total_trees": 27505
   },
   "+10-005": {
     "leaf_type_prob": {
@@ -832,9 +838,9 @@
   },
   "+10-020": {
     "leaf_type_prob": {
-      "broadleaved": 0.977,
+      "broadleaved": 0.978,
       "leafless": 0.003,
-      "palm": 0.02
+      "palm": 0.019
     },
     "top_species": [
       "Adansonia digitata",
@@ -844,7 +850,7 @@
       "Albizia lebbeck",
       "Phoenix canariensis"
     ],
-    "total_trees": 3611
+    "total_trees": 3735
   },
   "+10-025": {
     "leaf_type_prob": {
@@ -869,9 +875,9 @@
   },
   "+10-065": {
     "leaf_type_prob": {
-      "broadleaved": 0.87,
+      "broadleaved": 0.873,
       "needleleaved": 0.007,
-      "palm": 0.123
+      "palm": 0.12
     },
     "top_species": [
       "Swietenia macrophylla",
@@ -879,7 +885,7 @@
       "Adansonia digitata",
       "Terminalia catappa"
     ],
-    "total_trees": 1581
+    "total_trees": 1591
   },
   "+10-070": {
     "leaf_type_prob": {
@@ -903,10 +909,10 @@
   },
   "+10-075": {
     "leaf_type_prob": {
-      "broadleaved": 0.915,
+      "broadleaved": 0.913,
       "leafless": 0.001,
-      "needleleaved": 0.018,
-      "palm": 0.066
+      "needleleaved": 0.022,
+      "palm": 0.064
     },
     "top_species": [
       "Cocos nucifera",
@@ -920,7 +926,7 @@
       "Tabebuia rosea",
       "Crescentia cujete"
     ],
-    "total_trees": 2400
+    "total_trees": 2521
   },
   "+10-080": {
     "leaf_type_prob": {
@@ -943,9 +949,9 @@
   },
   "+10-085": {
     "leaf_type_prob": {
-      "broadleaved": 0.696,
+      "broadleaved": 0.698,
       "leafless": 0.048,
-      "palm": 0.256
+      "palm": 0.254
     },
     "top_species": [
       "Mangifera indica",
@@ -953,14 +959,14 @@
       "Delonix regia",
       "Ceiba pentandra"
     ],
-    "total_trees": 367
+    "total_trees": 368
   },
   "+10-090": {
     "leaf_type_prob": {
-      "broadleaved": 0.855,
-      "leafless": 0.002,
-      "needleleaved": 0.105,
-      "palm": 0.038
+      "broadleaved": 0.889,
+      "leafless": 0.004,
+      "needleleaved": 0.079,
+      "palm": 0.028
     },
     "top_species": [
       "Azadirachta indica",
@@ -974,16 +980,16 @@
       "Erythrina coralloides",
       "Spathodea campanulata"
     ],
-    "total_trees": 4311
+    "total_trees": 4725
   },
   "+10-095": {
     "leaf_type_prob": {
-      "broadleaved": 0.299,
-      "needleleaved": 0.691,
-      "palm": 0.01
+      "broadleaved": 0.404,
+      "needleleaved": 0.587,
+      "palm": 0.009
     },
     "top_species": [],
-    "total_trees": 129
+    "total_trees": 147
   },
   "+15+000": {
     "leaf_type_prob": {
@@ -1046,30 +1052,30 @@
   },
   "+15+070": {
     "leaf_type_prob": {
-      "broadleaved": 0.92,
+      "broadleaved": 0.918,
       "leafless": 0.001,
-      "needleleaved": 0.025,
-      "palm": 0.054
+      "needleleaved": 0.029,
+      "palm": 0.052
     },
     "top_species": [
+      "Ficus benghalensis",
       "Adenanthera pavonina",
       "Peltophorum pterocarpum",
-      "Lagerstroemia speciosa",
       "Ficus religiosa",
+      "Lagerstroemia speciosa",
       "Terminalia catappa",
       "Casuarina equisetifolia",
       "Mimusops elengi",
       "Araucaria columnaris",
-      "Millettia pinnata",
-      "Cocos nucifera"
+      "Millettia pinnata"
     ],
-    "total_trees": 6845
+    "total_trees": 7021
   },
   "+15+075": {
     "leaf_type_prob": {
-      "broadleaved": 0.908,
+      "broadleaved": 0.909,
       "needleleaved": 0.05,
-      "palm": 0.042
+      "palm": 0.041
     },
     "top_species": [
       "Azadirachta indica",
@@ -1128,7 +1134,7 @@
       "Ficus microcarpa",
       "Bombax ceiba"
     ],
-    "total_trees": 1998
+    "total_trees": 2006
   },
   "+15+100": {
     "leaf_type_prob": {
@@ -1146,9 +1152,9 @@
   },
   "+15+105": {
     "leaf_type_prob": {
-      "broadleaved": 0.617,
-      "leafless": 0.34,
-      "needleleaved": 0.043
+      "broadleaved": 0.64,
+      "leafless": 0.32,
+      "needleleaved": 0.04
     },
     "top_species": [
       "Albizia saman",
@@ -1156,7 +1162,7 @@
       "Tecoma stans",
       "Alstonia scholaris"
     ],
-    "total_trees": 77
+    "total_trees": 80
   },
   "+15+110": {
     "leaf_type_prob": {
@@ -1254,7 +1260,7 @@
       "Cocos nucifera",
       "Hyophorbe lagenicaulis"
     ],
-    "total_trees": 953
+    "total_trees": 954
   },
   "+15-070": {
     "leaf_type_prob": {
@@ -1267,20 +1273,20 @@
       "Tabebuia heterophylla",
       "Dypsis lutescens",
       "Roystonea regia",
+      "Ceiba pentandra",
       "Tabebuia chrysantha",
       "Ficus benjamina",
-      "Ceiba pentandra",
       "Mangifera indica",
       "Albizia procera",
       "Delonix regia"
     ],
-    "total_trees": 1419
+    "total_trees": 1420
   },
   "+15-075": {
     "leaf_type_prob": {
-      "broadleaved": 0.917,
-      "needleleaved": 0.036,
-      "palm": 0.047
+      "broadleaved": 0.921,
+      "needleleaved": 0.034,
+      "palm": 0.045
     },
     "top_species": [
       "Mangifera indica",
@@ -1292,7 +1298,7 @@
       "Samanea saman",
       "Ceiba pentandra"
     ],
-    "total_trees": 3168
+    "total_trees": 3186
   },
   "+15-080": {
     "leaf_type_prob": {
@@ -1325,9 +1331,9 @@
   },
   "+15-095": {
     "leaf_type_prob": {
-      "broadleaved": 0.884,
-      "needleleaved": 0.037,
-      "palm": 0.079
+      "broadleaved": 0.881,
+      "needleleaved": 0.041,
+      "palm": 0.078
     },
     "top_species": [
       "Cocos nucifera",
@@ -1341,12 +1347,12 @@
       "Terminalia catappa",
       "Byrsonima crassifolia"
     ],
-    "total_trees": 302
+    "total_trees": 305
   },
   "+15-100": {
     "leaf_type_prob": {
-      "broadleaved": 0.803,
-      "leafless": 0.005,
+      "broadleaved": 0.802,
+      "leafless": 0.006,
       "needleleaved": 0.115,
       "palm": 0.077
     },
@@ -1357,19 +1363,19 @@
       "Ligustrum lucidum",
       "Schinus molle",
       "Araucaria heterophylla",
-      "Jacaranda mimosifolia",
       "Fraxinus uhdei",
+      "Jacaranda mimosifolia",
       "Erythrina coralloides",
       "Alnus acuminata"
     ],
-    "total_trees": 7149
+    "total_trees": 7201
   },
   "+15-105": {
     "leaf_type_prob": {
-      "broadleaved": 0.889,
+      "broadleaved": 0.891,
       "leafless": 0.002,
       "needleleaved": 0.065,
-      "palm": 0.044
+      "palm": 0.042
     },
     "top_species": [
       "Fraxinus uhdei",
@@ -1378,7 +1384,7 @@
       "Taxodium mucronatum",
       "Olea europaea"
     ],
-    "total_trees": 547
+    "total_trees": 546
   },
   "+15-115": {
     "leaf_type_prob": {
@@ -1389,36 +1395,37 @@
   },
   "+15-160": {
     "leaf_type_prob": {
-      "broadleaved": 0.576,
-      "needleleaved": 0.082,
-      "palm": 0.342
+      "broadleaved": 0.569,
+      "needleleaved": 0.08,
+      "palm": 0.351
     },
     "top_species": [
       "Cocos nucifera",
       "Terminalia catappa",
+      "Ficus benghalensis",
       "Spathodea campanulata",
       "Samanea saman"
     ],
-    "total_trees": 350
+    "total_trees": 356
   },
   "+20+005": {
     "leaf_type_prob": {
-      "broadleaved": 0.779,
-      "needleleaved": 0.221
+      "broadleaved": 0.778,
+      "needleleaved": 0.222
     },
     "top_species": [],
-    "total_trees": 609
+    "total_trees": 608
   },
   "+20+010": {
     "leaf_type_prob": {
-      "broadleaved": 0.819,
-      "needleleaved": 0.18,
+      "broadleaved": 0.886,
+      "needleleaved": 0.113,
       "palm": 0.001
     },
     "top_species": [
       "Acacia raddiana"
     ],
-    "total_trees": 4203
+    "total_trees": 4563
   },
   "+20+015": {
     "leaf_type_prob": {
@@ -1460,7 +1467,7 @@
       "broadleaved": 1.0
     },
     "top_species": [],
-    "total_trees": 319
+    "total_trees": 320
   },
   "+20+045": {
     "leaf_type_prob": {
@@ -1485,14 +1492,14 @@
   },
   "+20+055": {
     "leaf_type_prob": {
-      "broadleaved": 0.077,
-      "palm": 0.923
+      "broadleaved": 0.078,
+      "palm": 0.922
     },
     "top_species": [
       "Prosopis cineraria",
       "Samanea saman"
     ],
-    "total_trees": 2233
+    "total_trees": 2235
   },
   "+20+065": {
     "leaf_type_prob": {
@@ -1587,7 +1594,7 @@
       "Acer platanoides",
       "Aegle marmelos"
     ],
-    "total_trees": 4144
+    "total_trees": 4121
   },
   "+20+095": {
     "leaf_type_prob": {
@@ -1599,7 +1606,7 @@
       "Ficus religiosa",
       "Magnolia champaca"
     ],
-    "total_trees": 1286
+    "total_trees": 1287
   },
   "+20+100": {
     "leaf_type_prob": {
@@ -1609,27 +1616,28 @@
     "top_species": [
       "Ficus religiosa"
     ],
-    "total_trees": 70
+    "total_trees": 71
   },
   "+20+105": {
     "leaf_type_prob": {
-      "broadleaved": 0.88,
+      "broadleaved": 0.884,
       "leafless": 0.006,
-      "needleleaved": 0.034,
-      "palm": 0.08
+      "needleleaved": 0.033,
+      "palm": 0.077
     },
     "top_species": [
       "Ficus religiosa",
       "Ficus benghalensis",
+      "Ficus benjamina",
       "Delonix regia"
     ],
-    "total_trees": 1543
+    "total_trees": 1578
   },
   "+20+110": {
     "leaf_type_prob": {
       "broadleaved": 0.929,
-      "needleleaved": 0.01,
-      "palm": 0.061
+      "needleleaved": 0.009,
+      "palm": 0.062
     },
     "top_species": [
       "Ficus microcarpa",
@@ -1643,7 +1651,7 @@
       "Lagerstroemia speciosa",
       "Melaleuca cajuputi"
     ],
-    "total_trees": 6764
+    "total_trees": 7527
   },
   "+20+115": {
     "leaf_type_prob": {
@@ -1652,30 +1660,32 @@
     },
     "top_species": [
       "Ficus microcarpa",
+      "Osmanthus fragrans",
+      "Ficus benjamina",
       "Liquidambar formosana"
     ],
-    "total_trees": 153
+    "total_trees": 155
   },
   "+20+120": {
     "leaf_type_prob": {
-      "broadleaved": 0.864,
-      "leafless": 0.029,
-      "needleleaved": 0.081,
-      "palm": 0.026
+      "broadleaved": 0.867,
+      "leafless": 0.028,
+      "needleleaved": 0.08,
+      "palm": 0.025
     },
     "top_species": [
       "Chamaecyparis formosensis",
+      "Cinnamomum camphora",
+      "Ficus microcarpa",
       "Alstonia scholaris",
       "Mangifera indica",
       "Camphora officinarum",
       "Terminalia mantaly",
       "Bischofia javanica",
-      "Ficus microcarpa",
       "Magnolia denudata",
-      "Chamaecyparis obtusa",
-      "Cinnamomum camphora"
+      "Chamaecyparis obtusa"
     ],
-    "total_trees": 3268
+    "total_trees": 3315
   },
   "+20-020": {
     "leaf_type_prob": {
@@ -1711,14 +1721,14 @@
       "Codiaeum variegatum",
       "Prunus dulcis"
     ],
-    "total_trees": 2297
+    "total_trees": 2299
   },
   "+20-085": {
     "leaf_type_prob": {
-      "broadleaved": 0.862,
+      "broadleaved": 0.863,
       "leafless": 0.0,
       "needleleaved": 0.013,
-      "palm": 0.125
+      "palm": 0.124
     },
     "top_species": [
       "Roystonea regia",
@@ -1732,13 +1742,13 @@
       "Tabebuia pentaphylla",
       "Bismarckia nobilis"
     ],
-    "total_trees": 6403
+    "total_trees": 6452
   },
   "+20-090": {
     "leaf_type_prob": {
-      "broadleaved": 0.797,
-      "needleleaved": 0.008,
-      "palm": 0.195
+      "broadleaved": 0.815,
+      "needleleaved": 0.007,
+      "palm": 0.178
     },
     "top_species": [
       "Cocos nucifera",
@@ -1752,7 +1762,7 @@
       "Roystonea regia",
       "Bursera simaruba"
     ],
-    "total_trees": 2870
+    "total_trees": 3108
   },
   "+20-100": {
     "leaf_type_prob": {
@@ -1764,7 +1774,7 @@
       "Delonix regia",
       "Taxodium mucronatum"
     ],
-    "total_trees": 137
+    "total_trees": 142
   },
   "+20-105": {
     "leaf_type_prob": {
@@ -1781,7 +1791,7 @@
       "Grevillea robusta",
       "Ficus benjamina"
     ],
-    "total_trees": 1284
+    "total_trees": 1294
   },
   "+20-110": {
     "leaf_type_prob": {
@@ -1797,9 +1807,9 @@
   },
   "+20-160": {
     "leaf_type_prob": {
-      "broadleaved": 0.877,
-      "needleleaved": 0.03,
-      "palm": 0.093
+      "broadleaved": 0.797,
+      "needleleaved": 0.027,
+      "palm": 0.176
     },
     "top_species": [
       "Cocos nucifera",
@@ -1813,7 +1823,7 @@
       "Bombax ceiba",
       "Adansonia digitata"
     ],
-    "total_trees": 7062
+    "total_trees": 7563
   },
   "+25+000": {
     "leaf_type_prob": {
@@ -1864,14 +1874,14 @@
   },
   "+25+030": {
     "leaf_type_prob": {
-      "broadleaved": 0.622,
+      "broadleaved": 0.623,
       "needleleaved": 0.011,
-      "palm": 0.367
+      "palm": 0.366
     },
     "top_species": [
       "Phoenix dactylifera"
     ],
-    "total_trees": 2938
+    "total_trees": 2958
   },
   "+25+035": {
     "leaf_type_prob": {
@@ -1952,14 +1962,14 @@
     "top_species": [
       "Ficus benghalensis"
     ],
-    "total_trees": 656
+    "total_trees": 665
   },
   "+25+075": {
     "leaf_type_prob": {
-      "broadleaved": 0.928,
+      "broadleaved": 0.926,
       "leafless": 0.015,
-      "needleleaved": 0.05,
-      "palm": 0.007
+      "needleleaved": 0.049,
+      "palm": 0.01
     },
     "top_species": [
       "Ficus religiosa",
@@ -1971,13 +1981,13 @@
       "Psidium guajava",
       "Cedrus deodara"
     ],
-    "total_trees": 1301
+    "total_trees": 1320
   },
   "+25+080": {
     "leaf_type_prob": {
-      "broadleaved": 0.936,
+      "broadleaved": 0.92,
       "leafless": 0.012,
-      "needleleaved": 0.05,
+      "needleleaved": 0.066,
       "palm": 0.002
     },
     "top_species": [
@@ -1990,7 +2000,7 @@
       "Syzygium cumini",
       "Azadirachta indica"
     ],
-    "total_trees": 1139
+    "total_trees": 1149
   },
   "+25+085": {
     "leaf_type_prob": {
@@ -2014,13 +2024,13 @@
   },
   "+25+090": {
     "leaf_type_prob": {
-      "broadleaved": 0.2,
-      "needleleaved": 0.8
+      "broadleaved": 0.261,
+      "needleleaved": 0.739
     },
     "top_species": [
       "Shorea robusta"
     ],
-    "total_trees": 25
+    "total_trees": 28
   },
   "+25+095": {
     "leaf_type_prob": {
@@ -2059,25 +2069,26 @@
     "top_species": [
       "Ficus microcarpa"
     ],
-    "total_trees": 991
+    "total_trees": 992
   },
   "+25+115": {
     "leaf_type_prob": {
-      "broadleaved": 0.53,
-      "needleleaved": 0.47
+      "broadleaved": 0.537,
+      "needleleaved": 0.463
     },
     "top_species": [
       "Cryptomeria japonica",
-      "Ficus microcarpa"
+      "Ficus microcarpa",
+      "Camphora officinarum"
     ],
-    "total_trees": 104
+    "total_trees": 105
   },
   "+25+120": {
     "leaf_type_prob": {
-      "broadleaved": 0.872,
+      "broadleaved": 0.856,
       "leafless": 0.001,
-      "needleleaved": 0.04,
-      "palm": 0.087
+      "needleleaved": 0.039,
+      "palm": 0.104
     },
     "top_species": [
       "Roystonea regia",
@@ -2091,7 +2102,7 @@
       "Camphora officinarum",
       "Barringtonia racemosa"
     ],
-    "total_trees": 2180
+    "total_trees": 2218
   },
   "+25+125": {
     "leaf_type_prob": {
@@ -2147,9 +2158,9 @@
   },
   "+25-020": {
     "leaf_type_prob": {
-      "broadleaved": 0.679,
+      "broadleaved": 0.678,
       "leafless": 0.0,
-      "needleleaved": 0.028,
+      "needleleaved": 0.029,
       "palm": 0.293
     },
     "top_species": [
@@ -2164,25 +2175,25 @@
       "Juniperus phoenicea",
       "Brachychiton acerifolius"
     ],
-    "total_trees": 6846
+    "total_trees": 6849
   },
   "+25-080": {
     "leaf_type_prob": {
-      "broadleaved": 0.438,
+      "broadleaved": 0.44,
       "needleleaved": 0.009,
-      "palm": 0.553
+      "palm": 0.551
     },
     "top_species": [
       "Delonix regia",
       "Coccoloba uvifera"
     ],
-    "total_trees": 218
+    "total_trees": 220
   },
   "+25-085": {
     "leaf_type_prob": {
-      "broadleaved": 0.532,
+      "broadleaved": 0.533,
       "leafless": 0.001,
-      "needleleaved": 0.056,
+      "needleleaved": 0.055,
       "palm": 0.411
     },
     "top_species": [
@@ -2197,7 +2208,7 @@
       "Adonidia merrillii",
       "Areca catechu"
     ],
-    "total_trees": 48734
+    "total_trees": 49264
   },
   "+25-090": {
     "leaf_type_prob": {
@@ -2228,16 +2239,16 @@
   },
   "+25-100": {
     "leaf_type_prob": {
-      "broadleaved": 0.878,
+      "broadleaved": 0.885,
       "leafless": 0.001,
-      "needleleaved": 0.095,
-      "palm": 0.026
+      "needleleaved": 0.089,
+      "palm": 0.025
     },
     "top_species": [
       "Quercus virginiana",
       "Eriobotrya japonica"
     ],
-    "total_trees": 4103
+    "total_trees": 4340
   },
   "+25-105": {
     "leaf_type_prob": {
@@ -2255,15 +2266,15 @@
       "Quercus alba",
       "Carya glabra"
     ],
-    "total_trees": 824
+    "total_trees": 834
   },
   "+25-110": {
     "leaf_type_prob": {
-      "broadleaved": 0.25,
-      "palm": 0.75
+      "broadleaved": 0.986,
+      "palm": 0.014
     },
     "top_species": [],
-    "total_trees": 12
+    "total_trees": 421
   },
   "+25-115": {
     "leaf_type_prob": {
@@ -2282,7 +2293,7 @@
       "broadleaved": 1.0
     },
     "top_species": [],
-    "total_trees": 29
+    "total_trees": 40
   },
   "+30+005": {
     "leaf_type_prob": {
@@ -2297,14 +2308,14 @@
   },
   "+30+010": {
     "leaf_type_prob": {
-      "broadleaved": 0.771,
+      "broadleaved": 0.789,
       "needleleaved": 0.015,
-      "palm": 0.214
+      "palm": 0.196
     },
     "top_species": [
       "Phoenix dactylifera"
     ],
-    "total_trees": 1827
+    "total_trees": 1995
   },
   "+30+020": {
     "leaf_type_prob": {
@@ -2324,10 +2335,10 @@
   },
   "+30+030": {
     "leaf_type_prob": {
-      "broadleaved": 0.792,
+      "broadleaved": 0.791,
       "leafless": 0.001,
-      "needleleaved": 0.078,
-      "palm": 0.129
+      "needleleaved": 0.08,
+      "palm": 0.128
     },
     "top_species": [
       "Delonix regia",
@@ -2341,14 +2352,14 @@
       "Pistacia terebinthus",
       "Pinus brutia"
     ],
-    "total_trees": 2000
+    "total_trees": 2049
   },
   "+30+035": {
     "leaf_type_prob": {
-      "broadleaved": 0.651,
+      "broadleaved": 0.66,
       "leafless": 0.001,
-      "needleleaved": 0.214,
-      "palm": 0.134
+      "needleleaved": 0.21,
+      "palm": 0.129
     },
     "top_species": [
       "Olea europaea",
@@ -2356,31 +2367,31 @@
       "Phoenix dactylifera",
       "Cupressus sempervirens",
       "Delonix regia",
-      "Eriobotrya japonica",
       "Ficus carica",
+      "Eriobotrya japonica",
       "Quercus coccifera",
       "Tipuana tipu",
       "Cedrus libani"
     ],
-    "total_trees": 2288
+    "total_trees": 2352
   },
   "+30+040": {
     "leaf_type_prob": {
-      "broadleaved": 0.695,
+      "broadleaved": 0.696,
       "needleleaved": 0.104,
-      "palm": 0.201
+      "palm": 0.2
     },
     "top_species": [],
-    "total_trees": 6480
+    "total_trees": 6486
   },
   "+30+045": {
     "leaf_type_prob": {
-      "broadleaved": 0.361,
+      "broadleaved": 0.36,
       "needleleaved": 0.041,
-      "palm": 0.598
+      "palm": 0.599
     },
     "top_species": [],
-    "total_trees": 1490
+    "total_trees": 1488
   },
   "+30+050": {
     "leaf_type_prob": {
@@ -2408,18 +2419,18 @@
       "needleleaved": 0.545
     },
     "top_species": [],
-    "total_trees": 18
+    "total_trees": 19
   },
   "+30+070": {
     "leaf_type_prob": {
-      "broadleaved": 0.972,
+      "broadleaved": 0.973,
       "leafless": 0.007,
-      "needleleaved": 0.021
+      "needleleaved": 0.02
     },
     "top_species": [
       "Platanus orientalis"
     ],
-    "total_trees": 165
+    "total_trees": 168
   },
   "+30+075": {
     "leaf_type_prob": {
@@ -2450,9 +2461,11 @@
       "needleleaved": 0.016
     },
     "top_species": [
-      "Ficus virens"
+      "Punica granatum",
+      "Ficus virens",
+      "Ginkgo biloba"
     ],
-    "total_trees": 200
+    "total_trees": 203
   },
   "+30+105": {
     "leaf_type_prob": {
@@ -2470,7 +2483,7 @@
       "needleleaved": 0.02
     },
     "top_species": [],
-    "total_trees": 160
+    "total_trees": 162
   },
   "+30+115": {
     "leaf_type_prob": {
@@ -2484,12 +2497,12 @@
       "Catalpa bungei",
       "Prunus mume"
     ],
-    "total_trees": 1135
+    "total_trees": 1138
   },
   "+30+120": {
     "leaf_type_prob": {
-      "broadleaved": 0.919,
-      "needleleaved": 0.081
+      "broadleaved": 0.917,
+      "needleleaved": 0.083
     },
     "top_species": [
       "Cinnamomum camphora",
@@ -2498,7 +2511,7 @@
       "Sapindus mukorossi",
       "Sapindus saponaria"
     ],
-    "total_trees": 3128
+    "total_trees": 3136
   },
   "+30+125": {
     "leaf_type_prob": {
@@ -2511,13 +2524,13 @@
       "Ficus superba",
       "Distylium racemosum"
     ],
-    "total_trees": 275
+    "total_trees": 276
   },
   "+30+130": {
     "leaf_type_prob": {
-      "broadleaved": 0.84,
+      "broadleaved": 0.841,
       "leafless": 0.0,
-      "needleleaved": 0.045,
+      "needleleaved": 0.044,
       "palm": 0.115
     },
     "top_species": [
@@ -2532,12 +2545,12 @@
       "Liquidambar formosana",
       "Liquidambar styraciflua"
     ],
-    "total_trees": 32041
+    "total_trees": 32371
   },
   "+30+135": {
     "leaf_type_prob": {
-      "broadleaved": 0.922,
-      "needleleaved": 0.075,
+      "broadleaved": 0.928,
+      "needleleaved": 0.069,
       "palm": 0.003
     },
     "top_species": [
@@ -2549,10 +2562,10 @@
       "Cornus florida",
       "Wisteria floribunda",
       "Prunus serrulata",
-      "Quercus acutissima",
-      "Zelkova serrata"
+      "Zelkova serrata",
+      "Quercus acutissima"
     ],
-    "total_trees": 10864
+    "total_trees": 12800
   },
   "+30-005": {
     "leaf_type_prob": {
@@ -2565,10 +2578,10 @@
   },
   "+30-010": {
     "leaf_type_prob": {
-      "broadleaved": 0.776,
-      "leafless": 0.101,
+      "broadleaved": 0.778,
+      "leafless": 0.1,
       "needleleaved": 0.016,
-      "palm": 0.107
+      "palm": 0.106
     },
     "top_species": [
       "Citrus \u00d7 sinensis",
@@ -2577,13 +2590,13 @@
       "Prunus cerasus",
       "Araucaria columnaris"
     ],
-    "total_trees": 3373
+    "total_trees": 3391
   },
   "+30-020": {
     "leaf_type_prob": {
-      "broadleaved": 0.476,
+      "broadleaved": 0.475,
       "needleleaved": 0.001,
-      "palm": 0.523
+      "palm": 0.524
     },
     "top_species": [
       "Agave americana",
@@ -2597,7 +2610,7 @@
       "Phytolacca dioica",
       "Agathis robusta"
     ],
-    "total_trees": 9070
+    "total_trees": 9107
   },
   "+30-065": {
     "leaf_type_prob": {
@@ -2626,13 +2639,13 @@
       "Ulmus parvifolia",
       "Quercus phellos"
     ],
-    "total_trees": 7476
+    "total_trees": 7534
   },
   "+30-085": {
     "leaf_type_prob": {
-      "broadleaved": 0.848,
+      "broadleaved": 0.851,
       "leafless": 0.0,
-      "needleleaved": 0.14,
+      "needleleaved": 0.137,
       "palm": 0.012
     },
     "top_species": [
@@ -2647,7 +2660,7 @@
       "Quercus nigra",
       "Magnolia grandiflora"
     ],
-    "total_trees": 7097
+    "total_trees": 7243
   },
   "+30-090": {
     "leaf_type_prob": {
@@ -2671,10 +2684,10 @@
   },
   "+30-095": {
     "leaf_type_prob": {
-      "broadleaved": 0.779,
+      "broadleaved": 0.794,
       "leafless": 0.0,
-      "needleleaved": 0.218,
-      "palm": 0.003
+      "needleleaved": 0.204,
+      "palm": 0.002
     },
     "top_species": [
       "Quercus virginiana",
@@ -2687,18 +2700,19 @@
       "Taxodium distichum",
       "Pinus taeda"
     ],
-    "total_trees": 2609
+    "total_trees": 2859
   },
   "+30-100": {
     "leaf_type_prob": {
-      "broadleaved": 0.96,
+      "broadleaved": 0.957,
       "leafless": 0.0,
-      "needleleaved": 0.04,
+      "needleleaved": 0.043,
       "palm": 0.0
     },
     "top_species": [
       "Taxodium distichum",
       "Platanus occidentalis",
+      "Quercus fusiformis",
       "Populus fremontii",
       "Quercus macrocarpa",
       "Vitex agnus-castus",
@@ -2706,7 +2720,7 @@
       "Carya illinoinensis",
       "Albizia julibrissin"
     ],
-    "total_trees": 9209
+    "total_trees": 9314
   },
   "+30-105": {
     "leaf_type_prob": {
@@ -2736,9 +2750,9 @@
   },
   "+30-115": {
     "leaf_type_prob": {
-      "broadleaved": 0.927,
+      "broadleaved": 0.926,
       "leafless": 0.009,
-      "needleleaved": 0.045,
+      "needleleaved": 0.046,
       "palm": 0.019
     },
     "top_species": [
@@ -2753,14 +2767,14 @@
       "Ulmus parvifolia",
       "Phoenix canariensis"
     ],
-    "total_trees": 8285
+    "total_trees": 8300
   },
   "+30-120": {
     "leaf_type_prob": {
-      "broadleaved": 0.913,
+      "broadleaved": 0.902,
       "leafless": 0.001,
       "needleleaved": 0.029,
-      "palm": 0.057
+      "palm": 0.068
     },
     "top_species": [
       "Citrus \u00d7 sinensis",
@@ -2770,11 +2784,11 @@
       "Quercus agrifolia",
       "Cedrus deodara",
       "Elaeis guineensis",
-      "Olea europaea",
       "Jacaranda mimosifolia",
+      "Olea europaea",
       "Lagerstroemia indica"
     ],
-    "total_trees": 65719
+    "total_trees": 67635
   },
   "+30-125": {
     "leaf_type_prob": {
@@ -2809,13 +2823,13 @@
       "Pinus pinea",
       "Syagrus romanzoffiana"
     ],
-    "total_trees": 20137
+    "total_trees": 20139
   },
   "+35+005": {
     "leaf_type_prob": {
-      "broadleaved": 0.599,
+      "broadleaved": 0.604,
       "leafless": 0.007,
-      "needleleaved": 0.378,
+      "needleleaved": 0.373,
       "palm": 0.016
     },
     "top_species": [
@@ -2830,56 +2844,56 @@
       "Crataegus germanica",
       "Phillyrea latifolia"
     ],
-    "total_trees": 3036
+    "total_trees": 3050
   },
   "+35+010": {
     "leaf_type_prob": {
       "broadleaved": 0.801,
       "leafless": 0.0,
-      "needleleaved": 0.082,
-      "palm": 0.117
+      "needleleaved": 0.085,
+      "palm": 0.114
     },
     "top_species": [
       "Olea europaea",
       "Pinus pinea",
       "Citrus \u00d7 sinensis",
-      "Washingtonia filifera",
       "Quercus virgiliana",
+      "Washingtonia filifera",
       "Ficus macrophylla",
       "Ceratonia siliqua",
       "Phoenix dactylifera",
       "Acer pseudoplatanus",
       "Piper nigrum"
     ],
-    "total_trees": 7783
+    "total_trees": 8152
   },
   "+35+015": {
     "leaf_type_prob": {
-      "broadleaved": 0.767,
+      "broadleaved": 0.758,
       "leafless": 0.0,
-      "needleleaved": 0.143,
-      "palm": 0.09
+      "needleleaved": 0.144,
+      "palm": 0.098
     },
     "top_species": [
       "Washingtonia filifera",
       "Ficus benjamina",
       "Citrus aurantium",
       "Olea europaea",
-      "Cupressus sempervirens",
       "Pinus pinea",
+      "Cupressus sempervirens",
       "Platanus acerifolia",
       "Cercis siliquastrum",
       "Ficus macrophylla",
-      "Cordyline australis"
+      "Phoenix dactylifera"
     ],
-    "total_trees": 5171
+    "total_trees": 5299
   },
   "+35+020": {
     "leaf_type_prob": {
       "broadleaved": 0.862,
       "leafless": 0.0,
-      "needleleaved": 0.056,
-      "palm": 0.082
+      "needleleaved": 0.057,
+      "palm": 0.081
     },
     "top_species": [
       "Citrus aurantium",
@@ -2893,34 +2907,34 @@
       "Platanus orientalis",
       "Pyrus spinosa"
     ],
-    "total_trees": 9921
+    "total_trees": 9981
   },
   "+35+025": {
     "leaf_type_prob": {
-      "broadleaved": 0.755,
+      "broadleaved": 0.76,
       "leafless": 0.021,
-      "needleleaved": 0.191,
-      "palm": 0.033
+      "needleleaved": 0.193,
+      "palm": 0.026
     },
     "top_species": [
       "Olea europaea",
-      "Phoenix dactylifera",
       "Citrus limon",
       "Phoenix theophrasti",
       "Cercis siliquastrum",
+      "Phoenix dactylifera",
       "Cupressus sempervirens",
       "Elaeis guineensis",
       "Ficus carica",
       "Phoenix canariensis",
       "Platanus orientalis"
     ],
-    "total_trees": 6357
+    "total_trees": 6374
   },
   "+35+030": {
     "leaf_type_prob": {
-      "broadleaved": 0.75,
-      "leafless": 0.051,
-      "needleleaved": 0.166,
+      "broadleaved": 0.752,
+      "leafless": 0.05,
+      "needleleaved": 0.165,
       "palm": 0.033
     },
     "top_species": [
@@ -2931,28 +2945,28 @@
       "Salix babylonica",
       "Quercus petraea"
     ],
-    "total_trees": 3329
+    "total_trees": 3349
   },
   "+35+035": {
     "leaf_type_prob": {
-      "broadleaved": 0.224,
-      "needleleaved": 0.776
+      "broadleaved": 0.239,
+      "needleleaved": 0.761
     },
     "top_species": [
       "Platanus \u00d7 acerifolia",
       "Quercus petraea"
     ],
-    "total_trees": 1140
+    "total_trees": 1433
   },
   "+35+040": {
     "leaf_type_prob": {
-      "broadleaved": 0.812,
-      "leafless": 0.101,
+      "broadleaved": 0.813,
+      "leafless": 0.1,
       "needleleaved": 0.079,
       "palm": 0.008
     },
     "top_species": [],
-    "total_trees": 2747
+    "total_trees": 2769
   },
   "+35+045": {
     "leaf_type_prob": {
@@ -2997,11 +3011,11 @@
   },
   "+35+065": {
     "leaf_type_prob": {
-      "broadleaved": 0.806,
-      "needleleaved": 0.194
+      "broadleaved": 0.811,
+      "needleleaved": 0.189
     },
     "top_species": [],
-    "total_trees": 179
+    "total_trees": 180
   },
   "+35+070": {
     "leaf_type_prob": {
@@ -3037,19 +3051,19 @@
   },
   "+35+105": {
     "leaf_type_prob": {
-      "broadleaved": 0.589,
-      "needleleaved": 0.411
+      "broadleaved": 0.607,
+      "needleleaved": 0.393
     },
     "top_species": [
       "Prunus armeniaca",
       "Ulmus pumila"
     ],
-    "total_trees": 217
+    "total_trees": 235
   },
   "+35+110": {
     "leaf_type_prob": {
-      "broadleaved": 0.681,
-      "needleleaved": 0.319
+      "broadleaved": 0.615,
+      "needleleaved": 0.385
     },
     "top_species": [
       "Salix babylonica",
@@ -3057,7 +3071,7 @@
       "Ulmus pumila",
       "Populus simonii"
     ],
-    "total_trees": 100
+    "total_trees": 106
   },
   "+35+115": {
     "leaf_type_prob": {
@@ -3076,7 +3090,7 @@
       "Acer truncatum",
       "Toona sinensis"
     ],
-    "total_trees": 947
+    "total_trees": 950
   },
   "+35+120": {
     "leaf_type_prob": {
@@ -3088,9 +3102,9 @@
   },
   "+35+125": {
     "leaf_type_prob": {
-      "broadleaved": 0.812,
+      "broadleaved": 0.813,
       "leafless": 0.001,
-      "needleleaved": 0.187
+      "needleleaved": 0.186
     },
     "top_species": [
       "Metasequoia glyptostroboides",
@@ -3104,7 +3118,7 @@
       "Quercus acutissima",
       "Magnolia kobus"
     ],
-    "total_trees": 2223
+    "total_trees": 2208
   },
   "+35+130": {
     "leaf_type_prob": {
@@ -3124,10 +3138,10 @@
   },
   "+35+135": {
     "leaf_type_prob": {
-      "broadleaved": 0.836,
-      "leafless": 0.0,
-      "needleleaved": 0.128,
-      "palm": 0.036
+      "broadleaved": 0.833,
+      "leafless": 0.001,
+      "needleleaved": 0.131,
+      "palm": 0.035
     },
     "top_species": [
       "Cerasus \u00d7 yedoensis",
@@ -3141,7 +3155,7 @@
       "Platanus \u00d7 acerifolia",
       "Liriodendron tulipifera"
     ],
-    "total_trees": 33896
+    "total_trees": 34759
   },
   "+35+140": {
     "leaf_type_prob": {
@@ -3160,14 +3174,14 @@
       "Cryptomeria japonica",
       "Zelkova serrata"
     ],
-    "total_trees": 3012
+    "total_trees": 3032
   },
   "+35-005": {
     "leaf_type_prob": {
-      "broadleaved": 0.804,
+      "broadleaved": 0.82,
       "leafless": 0.0,
-      "needleleaved": 0.109,
-      "palm": 0.087
+      "needleleaved": 0.101,
+      "palm": 0.079
     },
     "top_species": [
       "Citrus aurantium",
@@ -3175,19 +3189,19 @@
       "Phoenix canariensis",
       "Cupressus sempervirens",
       "Morus alba",
-      "Olea europaea",
-      "Celtis australis",
       "Ficus microcarpa",
-      "Citrus \u00d7 aurantium",
-      "Brachychiton populneus"
+      "Celtis australis",
+      "Olea europaea",
+      "Cercis siliquastrum",
+      "Styphnolobium japonicum"
     ],
-    "total_trees": 45427
+    "total_trees": 49491
   },
   "+35-010": {
     "leaf_type_prob": {
-      "broadleaved": 0.882,
+      "broadleaved": 0.883,
       "leafless": 0.0,
-      "needleleaved": 0.068,
+      "needleleaved": 0.067,
       "palm": 0.05
     },
     "top_species": [
@@ -3202,7 +3216,7 @@
       "Quercus ilex",
       "Washingtonia robusta"
     ],
-    "total_trees": 50703
+    "total_trees": 52602
   },
   "+35-030": {
     "leaf_type_prob": {
@@ -3223,7 +3237,7 @@
       "Quercus suber",
       "Buxus sempervirens"
     ],
-    "total_trees": 1369
+    "total_trees": 1370
   },
   "+35-035": {
     "leaf_type_prob": {
@@ -3269,7 +3283,7 @@
       "Acer saccharum",
       "Pyrus calleryana"
     ],
-    "total_trees": 50886
+    "total_trees": 50905
   },
   "+35-085": {
     "leaf_type_prob": {
@@ -3290,7 +3304,7 @@
       "Pyrus calleryana",
       "Tilia tomentosa"
     ],
-    "total_trees": 23617
+    "total_trees": 23775
   },
   "+35-090": {
     "leaf_type_prob": {
@@ -3310,7 +3324,7 @@
       "Ulmus crassifolia",
       "Quercus macrocarpa"
     ],
-    "total_trees": 7179
+    "total_trees": 7198
   },
   "+35-095": {
     "leaf_type_prob": {
@@ -3322,15 +3336,15 @@
       "Malus domestica",
       "Taxodium distichum",
       "Ginkgo biloba",
+      "Juglans regia",
       "Aesculus pavia",
       "Acer saccharum",
       "Juniperus virginiana",
       "Quercus palustris",
       "Celtis occidentalis",
-      "Quercus phellos",
-      "Betula nigra"
+      "Quercus phellos"
     ],
-    "total_trees": 28535
+    "total_trees": 28580
   },
   "+35-100": {
     "leaf_type_prob": {
@@ -3349,7 +3363,7 @@
       "Quercus shumardii",
       "Carya illinoinensis"
     ],
-    "total_trees": 1497
+    "total_trees": 1501
   },
   "+35-105": {
     "leaf_type_prob": {
@@ -3360,32 +3374,32 @@
       "Populus deltoides",
       "Picea pungens"
     ],
-    "total_trees": 4155
+    "total_trees": 4157
   },
   "+35-110": {
     "leaf_type_prob": {
-      "broadleaved": 0.7,
-      "needleleaved": 0.3
+      "broadleaved": 0.665,
+      "needleleaved": 0.335
     },
     "top_species": [
       "Juniperus monosperma",
-      "Pinus nigra",
       "Populus tremuloides",
+      "Pinus nigra",
       "Ulmus pumila",
       "Malus domestica",
       "Pyrus calleryana",
       "Pinus edulis",
-      "Crataegus phaenopyrum",
-      "Gleditsia triacanthos",
-      "Picea pungens"
+      "Elaeagnus angustifolia",
+      "Pinus ponderosa",
+      "Crataegus phaenopyrum"
     ],
-    "total_trees": 5799
+    "total_trees": 6298
   },
   "+35-115": {
     "leaf_type_prob": {
-      "broadleaved": 0.61,
-      "needleleaved": 0.38,
-      "palm": 0.01
+      "broadleaved": 0.613,
+      "needleleaved": 0.378,
+      "palm": 0.009
     },
     "top_species": [
       "Platanus \u00d7 hispanica",
@@ -3399,35 +3413,35 @@
       "Picea engelmannii",
       "Ulmus americana"
     ],
-    "total_trees": 5539
+    "total_trees": 5692
   },
   "+35-120": {
     "leaf_type_prob": {
-      "broadleaved": 0.332,
+      "broadleaved": 0.336,
       "leafless": 0.009,
-      "needleleaved": 0.54,
-      "palm": 0.119
+      "needleleaved": 0.537,
+      "palm": 0.118
     },
     "top_species": [
       "Sequoiadendron giganteum",
       "Pinus canariensis",
+      "Chilopsis linearis",
       "Eucalyptus gunnii",
       "Pistacia chinensis",
       "Yucca gigantea",
       "Jubaea chilensis",
       "Phoenix canariensis",
       "Ulmus parvifolia",
-      "Cedrus deodara",
-      "Pyrus calleryana"
+      "Cedrus deodara"
     ],
-    "total_trees": 5828
+    "total_trees": 5886
   },
   "+35-125": {
     "leaf_type_prob": {
-      "broadleaved": 0.759,
+      "broadleaved": 0.761,
       "leafless": 0.001,
       "needleleaved": 0.159,
-      "palm": 0.081
+      "palm": 0.079
     },
     "top_species": [
       "Phoenix canariensis",
@@ -3441,13 +3455,13 @@
       "Liquidambar styraciflua",
       "Jubaea chilensis"
     ],
-    "total_trees": 26407
+    "total_trees": 28212
   },
   "+40+000": {
     "leaf_type_prob": {
-      "broadleaved": 0.88,
-      "leafless": 0.001,
-      "needleleaved": 0.109,
+      "broadleaved": 0.883,
+      "leafless": 0.0,
+      "needleleaved": 0.107,
       "palm": 0.01
     },
     "top_species": [
@@ -3462,14 +3476,14 @@
       "Quercus ilex",
       "Quercus robur"
     ],
-    "total_trees": 289715
+    "total_trees": 294405
   },
   "+40+005": {
     "leaf_type_prob": {
       "broadleaved": 0.854,
       "leafless": 0.0,
-      "needleleaved": 0.093,
-      "palm": 0.053
+      "needleleaved": 0.094,
+      "palm": 0.052
     },
     "top_species": [
       "Celtis australis",
@@ -3483,7 +3497,7 @@
       "Cupressus sempervirens",
       "Platanus acerifolia"
     ],
-    "total_trees": 58724
+    "total_trees": 59507
   },
   "+40+010": {
     "leaf_type_prob": {
@@ -3504,14 +3518,14 @@
       "Acer campestre",
       "Pinus pinea"
     ],
-    "total_trees": 855807
+    "total_trees": 859773
   },
   "+40+015": {
     "leaf_type_prob": {
-      "broadleaved": 0.771,
+      "broadleaved": 0.774,
       "leafless": 0.001,
-      "needleleaved": 0.186,
-      "palm": 0.042
+      "needleleaved": 0.184,
+      "palm": 0.041
     },
     "top_species": [
       "Quercus ilex",
@@ -3525,7 +3539,7 @@
       "Cupressus sempervirens",
       "Aesculus hippocastanum"
     ],
-    "total_trees": 38089
+    "total_trees": 38623
   },
   "+40+020": {
     "leaf_type_prob": {
@@ -3541,18 +3555,18 @@
       "Phoenix canariensis",
       "Quercus robur",
       "Olea europaea",
+      "Ficus carica",
       "Fraxinus angustifolia",
       "Trachycarpus fortunei",
-      "Ficus carica",
       "Platanus orientalis"
     ],
-    "total_trees": 11086
+    "total_trees": 11230
   },
   "+40+025": {
     "leaf_type_prob": {
-      "broadleaved": 0.831,
+      "broadleaved": 0.832,
       "leafless": 0.0,
-      "needleleaved": 0.169,
+      "needleleaved": 0.168,
       "palm": 0.0
     },
     "top_species": [
@@ -3567,14 +3581,14 @@
       "Tilia platyphyllos",
       "Quercus robur"
     ],
-    "total_trees": 48315
+    "total_trees": 49112
   },
   "+40+030": {
     "leaf_type_prob": {
-      "broadleaved": 0.523,
+      "broadleaved": 0.527,
       "leafless": 0.007,
-      "needleleaved": 0.204,
-      "palm": 0.266
+      "needleleaved": 0.202,
+      "palm": 0.264
     },
     "top_species": [
       "Pinus pinea",
@@ -3585,12 +3599,12 @@
       "Pinus nigra",
       "Arbutus andrachne"
     ],
-    "total_trees": 390
+    "total_trees": 393
   },
   "+40+035": {
     "leaf_type_prob": {
-      "broadleaved": 0.9,
-      "needleleaved": 0.096,
+      "broadleaved": 0.875,
+      "needleleaved": 0.121,
       "palm": 0.004
     },
     "top_species": [
@@ -3599,16 +3613,17 @@
       "Prunus domestica",
       "Jubaea chilensis",
       "Wisteria sinensis",
-      "Staphylea pinnata"
+      "Staphylea pinnata",
+      "Azadirachta indica"
     ],
-    "total_trees": 1001
+    "total_trees": 1041
   },
   "+40+040": {
     "leaf_type_prob": {
-      "broadleaved": 0.851,
+      "broadleaved": 0.858,
       "leafless": 0.0,
-      "needleleaved": 0.141,
-      "palm": 0.008
+      "needleleaved": 0.135,
+      "palm": 0.007
     },
     "top_species": [
       "Platanus orientalis",
@@ -3616,13 +3631,13 @@
       "Quercus robur",
       "Ailanthus altissima",
       "Aesculus hippocastanum",
-      "Albizia julibrissin",
       "Populus alba",
+      "Albizia julibrissin",
       "Acer negundo",
       "Koelreuteria paniculata",
       "Populus nigra"
     ],
-    "total_trees": 11343
+    "total_trees": 12012
   },
   "+40+045": {
     "leaf_type_prob": {
@@ -3663,8 +3678,11 @@
       "leafless": 0.005,
       "needleleaved": 0.106
     },
-    "top_species": [],
-    "total_trees": 711
+    "top_species": [
+      "Juglans regia",
+      "Cydonia oblonga"
+    ],
+    "total_trees": 713
   },
   "+40+070": {
     "leaf_type_prob": {
@@ -3678,12 +3696,12 @@
   },
   "+40+075": {
     "leaf_type_prob": {
-      "broadleaved": 0.637,
+      "broadleaved": 0.641,
       "leafless": 0.004,
-      "needleleaved": 0.359
+      "needleleaved": 0.355
     },
     "top_species": [],
-    "total_trees": 292
+    "total_trees": 295
   },
   "+40+100": {
     "leaf_type_prob": {
@@ -3716,7 +3734,7 @@
       "Prunus persica",
       "Pinus bungeana"
     ],
-    "total_trees": 140
+    "total_trees": 141
   },
   "+40+120": {
     "leaf_type_prob": {
@@ -3727,22 +3745,22 @@
   },
   "+40+125": {
     "leaf_type_prob": {
-      "broadleaved": 0.556,
-      "needleleaved": 0.444
+      "broadleaved": 0.6,
+      "needleleaved": 0.4
     },
     "top_species": [],
-    "total_trees": 25
+    "total_trees": 26
   },
   "+40+130": {
     "leaf_type_prob": {
-      "broadleaved": 0.732,
-      "needleleaved": 0.268
+      "broadleaved": 0.577,
+      "needleleaved": 0.423
     },
     "top_species": [
       "Juglans mandshurica",
       "Pinus koraiensis"
     ],
-    "total_trees": 225
+    "total_trees": 251
   },
   "+40+135": {
     "leaf_type_prob": {
@@ -3753,8 +3771,8 @@
   },
   "+40+140": {
     "leaf_type_prob": {
-      "broadleaved": 0.702,
-      "needleleaved": 0.298
+      "broadleaved": 0.703,
+      "needleleaved": 0.297
     },
     "top_species": [
       "Betula platyphylla",
@@ -3768,7 +3786,7 @@
       "Abies sachalinensis",
       "Larix kaempferi"
     ],
-    "total_trees": 4933
+    "total_trees": 4938
   },
   "+40-005": {
     "leaf_type_prob": {
@@ -3789,13 +3807,13 @@
       "Liquidambar styraciflua",
       "Robinia pseudoacacia"
     ],
-    "total_trees": 179739
+    "total_trees": 180718
   },
   "+40-010": {
     "leaf_type_prob": {
-      "broadleaved": 0.95,
+      "broadleaved": 0.949,
       "leafless": 0.001,
-      "needleleaved": 0.041,
+      "needleleaved": 0.042,
       "palm": 0.008
     },
     "top_species": [
@@ -3810,7 +3828,7 @@
       "Quercus robur",
       "Liquidambar styraciflua"
     ],
-    "total_trees": 72528
+    "total_trees": 73156
   },
   "+40-065": {
     "leaf_type_prob": {
@@ -3824,19 +3842,22 @@
   },
   "+40-070": {
     "leaf_type_prob": {
-      "broadleaved": 0.806,
-      "leafless": 0.015,
-      "needleleaved": 0.179
+      "broadleaved": 0.636,
+      "leafless": 0.009,
+      "needleleaved": 0.355
     },
     "top_species": [
+      "Quercus rubra",
+      "Tsuga canadensis",
       "Juniperus virginiana",
       "Betula nigra",
       "Ulmus parvifolia",
       "Ulmus americana",
       "Morus alba",
-      "Quercus alba"
+      "Quercus alba",
+      "Malus domestica"
     ],
-    "total_trees": 72
+    "total_trees": 115
   },
   "+40-075": {
     "leaf_type_prob": {
@@ -3847,8 +3868,8 @@
     "top_species": [
       "Quercus bicolor",
       "Metasequoia glyptostroboides",
-      "Pinus strobus",
       "Betula pendula",
+      "Pinus strobus",
       "Ginkgo biloba",
       "Acer saccharum",
       "Gleditsia triacanthos",
@@ -3856,7 +3877,7 @@
       "Quercus rubra",
       "Syringa reticulata"
     ],
-    "total_trees": 49822
+    "total_trees": 51136
   },
   "+40-080": {
     "leaf_type_prob": {
@@ -3876,7 +3897,7 @@
       "Pinus nigra",
       "Picea laxa"
     ],
-    "total_trees": 82045
+    "total_trees": 82987
   },
   "+40-085": {
     "leaf_type_prob": {
@@ -3886,17 +3907,17 @@
     },
     "top_species": [
       "Acer platanoides",
+      "Juglans cinerea",
+      "Acer \u00d7 freemanii",
+      "Acer rubrum",
+      "Acer negundo",
       "Acer saccharum",
       "Juglans nigra",
+      "Gleditsia triacanthos",
       "Thuja occidentalis",
-      "Picea pungens",
-      "Juglans cinerea",
-      "Acer rubrum",
-      "Celtis occidentalis",
-      "Malus domestica",
-      "Tilia cordata"
+      "Picea pungens"
     ],
-    "total_trees": 29217
+    "total_trees": 29960
   },
   "+40-090": {
     "leaf_type_prob": {
@@ -3916,13 +3937,13 @@
       "Acer platanoides",
       "Acer \u00d7 freemanii"
     ],
-    "total_trees": 101809
+    "total_trees": 102614
   },
   "+40-095": {
     "leaf_type_prob": {
-      "broadleaved": 0.751,
+      "broadleaved": 0.755,
       "leafless": 0.0,
-      "needleleaved": 0.249
+      "needleleaved": 0.245
     },
     "top_species": [
       "Juniperus virginiana",
@@ -3936,13 +3957,13 @@
       "Alnus hirsuta",
       "Fraxinus americana"
     ],
-    "total_trees": 30355
+    "total_trees": 30886
   },
   "+40-100": {
     "leaf_type_prob": {
-      "broadleaved": 0.703,
+      "broadleaved": 0.698,
       "leafless": 0.0,
-      "needleleaved": 0.297
+      "needleleaved": 0.302
     },
     "top_species": [
       "Pinus ponderosa",
@@ -3951,7 +3972,7 @@
       "Malus domestica",
       "Fraxinus pennsylvanica"
     ],
-    "total_trees": 4999
+    "total_trees": 5049
   },
   "+40-105": {
     "leaf_type_prob": {
@@ -3980,12 +4001,12 @@
       "Pinus nigra",
       "Pinus sylvestris"
     ],
-    "total_trees": 2140
+    "total_trees": 2149
   },
   "+40-115": {
     "leaf_type_prob": {
-      "broadleaved": 0.908,
-      "needleleaved": 0.092
+      "broadleaved": 0.914,
+      "needleleaved": 0.086
     },
     "top_species": [
       "Zelkova serrata",
@@ -3999,12 +4020,12 @@
       "Tilia cordata",
       "Quercus gambelii"
     ],
-    "total_trees": 14947
+    "total_trees": 16373
   },
   "+40-120": {
     "leaf_type_prob": {
-      "broadleaved": 0.876,
-      "needleleaved": 0.124
+      "broadleaved": 0.878,
+      "needleleaved": 0.122
     },
     "top_species": [
       "Acer freemanii",
@@ -4015,20 +4036,20 @@
       "Betula nigra",
       "Tilia cordata"
     ],
-    "total_trees": 2166
+    "total_trees": 2201
   },
   "+40-125": {
     "leaf_type_prob": {
-      "broadleaved": 0.665,
-      "leafless": 0.003,
-      "needleleaved": 0.329,
+      "broadleaved": 0.668,
+      "leafless": 0.002,
+      "needleleaved": 0.327,
       "palm": 0.003
     },
     "top_species": [
       "Acer macrophyllum",
+      "Ginkgo biloba",
       "Sequoia sempervirens",
       "Acer platanoides",
-      "Ginkgo biloba",
       "Carpinus betulus",
       "Quercus robur",
       "Acer rubrum",
@@ -4036,13 +4057,13 @@
       "Quercus lobata",
       "Sequoiadendron giganteum"
     ],
-    "total_trees": 4471
+    "total_trees": 4663
   },
   "+45+000": {
     "leaf_type_prob": {
-      "broadleaved": 0.948,
+      "broadleaved": 0.949,
       "leafless": 0.0,
-      "needleleaved": 0.052,
+      "needleleaved": 0.051,
       "palm": 0.0
     },
     "top_species": [
@@ -4057,13 +4078,13 @@
       "Platanus acerifolia",
       "Fraxinus excelsior"
     ],
-    "total_trees": 423536
+    "total_trees": 430374
   },
   "+45+005": {
     "leaf_type_prob": {
-      "broadleaved": 0.905,
+      "broadleaved": 0.9,
       "leafless": 0.0,
-      "needleleaved": 0.095,
+      "needleleaved": 0.1,
       "palm": 0.0
     },
     "top_species": [
@@ -4071,14 +4092,14 @@
       "Acer platanoides",
       "Acer pseudoplatanus",
       "Platanus \u00d7 hispanica",
-      "Tilia cordata",
       "Fraxinus excelsior",
+      "Tilia cordata",
       "Aesculus hippocastanum",
       "Carpinus betulus",
-      "Tilia euchlora",
-      "Prunus avium"
+      "Prunus avium",
+      "Tilia euchlora"
     ],
-    "total_trees": 1059787
+    "total_trees": 1092699
   },
   "+45+010": {
     "leaf_type_prob": {
@@ -4089,23 +4110,23 @@
     },
     "top_species": [
       "Betula pendula",
-      "Tilia cordata",
       "Quercus robur",
+      "Tilia cordata",
       "Acer platanoides",
       "Carpinus betulus",
       "Fraxinus excelsior",
       "Acer campestre",
       "Aesculus hippocastanum",
-      "Fagus sylvatica",
-      "Tilia platyphyllos"
+      "Tilia platyphyllos",
+      "Fagus sylvatica"
     ],
-    "total_trees": 493971
+    "total_trees": 502726
   },
   "+45+015": {
     "leaf_type_prob": {
-      "broadleaved": 0.954,
+      "broadleaved": 0.953,
       "leafless": 0.0,
-      "needleleaved": 0.046,
+      "needleleaved": 0.047,
       "palm": 0.0
     },
     "top_species": [
@@ -4120,7 +4141,7 @@
       "Carpinus betulus",
       "Pinus nigra"
     ],
-    "total_trees": 376211
+    "total_trees": 381430
   },
   "+45+020": {
     "leaf_type_prob": {
@@ -4138,15 +4159,15 @@
       "Fagus sylvatica",
       "Larix decidua",
       "Picea abies",
-      "Fraxinus excelsior"
+      "Thuja occidentalis"
     ],
-    "total_trees": 30765
+    "total_trees": 31136
   },
   "+45+025": {
     "leaf_type_prob": {
-      "broadleaved": 0.957,
+      "broadleaved": 0.956,
       "leafless": 0.001,
-      "needleleaved": 0.042
+      "needleleaved": 0.043
     },
     "top_species": [
       "Juglans regia",
@@ -4160,13 +4181,13 @@
       "Fraxinus excelsior",
       "Acer platanoides"
     ],
-    "total_trees": 65188
+    "total_trees": 63988
   },
   "+45+030": {
     "leaf_type_prob": {
-      "broadleaved": 0.92,
+      "broadleaved": 0.919,
       "leafless": 0.001,
-      "needleleaved": 0.079,
+      "needleleaved": 0.08,
       "palm": 0.0
     },
     "top_species": [
@@ -4181,13 +4202,13 @@
       "Robinia pseudoacacia",
       "Prunus cerasus"
     ],
-    "total_trees": 10116
+    "total_trees": 10152
   },
   "+45+035": {
     "leaf_type_prob": {
-      "broadleaved": 0.856,
+      "broadleaved": 0.864,
       "leafless": 0.001,
-      "needleleaved": 0.143,
+      "needleleaved": 0.135,
       "palm": 0.0
     },
     "top_species": [
@@ -4202,12 +4223,12 @@
       "Betula pendula",
       "Robinia pseudoacacia"
     ],
-    "total_trees": 21301
+    "total_trees": 22853
   },
   "+45+040": {
     "leaf_type_prob": {
-      "broadleaved": 0.715,
-      "needleleaved": 0.283,
+      "broadleaved": 0.716,
+      "needleleaved": 0.282,
       "palm": 0.002
     },
     "top_species": [
@@ -4215,7 +4236,7 @@
       "Viburnum opulus",
       "Ulmus pumila"
     ],
-    "total_trees": 1177
+    "total_trees": 1181
   },
   "+45+045": {
     "leaf_type_prob": {
@@ -4261,11 +4282,11 @@
   },
   "+45+085": {
     "leaf_type_prob": {
-      "broadleaved": 0.75,
-      "needleleaved": 0.25
+      "broadleaved": 0.6,
+      "needleleaved": 0.4
     },
     "top_species": [],
-    "total_trees": 4
+    "total_trees": 5
   },
   "+45+105": {
     "leaf_type_prob": {
@@ -4289,7 +4310,7 @@
       "needleleaved": 0.812
     },
     "top_species": [],
-    "total_trees": 1092
+    "total_trees": 1090
   },
   "+45+130": {
     "leaf_type_prob": {
@@ -4301,8 +4322,8 @@
   },
   "+45+135": {
     "leaf_type_prob": {
-      "broadleaved": 0.976,
-      "needleleaved": 0.024
+      "broadleaved": 0.968,
+      "needleleaved": 0.032
     },
     "top_species": [
       "Ulmus parvifolia",
@@ -4312,7 +4333,7 @@
       "Acer negundo",
       "Pinus koraiensis"
     ],
-    "total_trees": 125
+    "total_trees": 126
   },
   "+45+140": {
     "leaf_type_prob": {
@@ -4324,9 +4345,9 @@
   },
   "+45-005": {
     "leaf_type_prob": {
-      "broadleaved": 0.935,
+      "broadleaved": 0.934,
       "leafless": 0.001,
-      "needleleaved": 0.063,
+      "needleleaved": 0.064,
       "palm": 0.001
     },
     "top_species": [
@@ -4334,14 +4355,14 @@
       "Tilia \u00d7 europaea",
       "Platanus \u00d7 hispanica",
       "Quercus robur",
-      "Tilia cordata",
       "Liriodendron tulipifera",
+      "Tilia cordata",
       "Aesculus hippocastanum",
       "Quercus rubra",
       "Acer saccharinum",
       "Carpinus betulus"
     ],
-    "total_trees": 84427
+    "total_trees": 87207
   },
   "+45-010": {
     "leaf_type_prob": {
@@ -4368,8 +4389,8 @@
   },
   "+45-065": {
     "leaf_type_prob": {
-      "broadleaved": 0.874,
-      "needleleaved": 0.126
+      "broadleaved": 0.772,
+      "needleleaved": 0.228
     },
     "top_species": [
       "Tilia cordata",
@@ -4383,12 +4404,12 @@
       "Acer saccharinum",
       "Betula alleghaniensis"
     ],
-    "total_trees": 325
+    "total_trees": 389
   },
   "+45-070": {
     "leaf_type_prob": {
-      "broadleaved": 0.761,
-      "needleleaved": 0.239
+      "broadleaved": 0.759,
+      "needleleaved": 0.241
     },
     "top_species": [
       "Pinus strobus",
@@ -4402,13 +4423,13 @@
       "Picea mariana",
       "Picea glauca"
     ],
-    "total_trees": 3238
+    "total_trees": 3212
   },
   "+45-075": {
     "leaf_type_prob": {
-      "broadleaved": 0.877,
+      "broadleaved": 0.878,
       "leafless": 0.001,
-      "needleleaved": 0.122
+      "needleleaved": 0.121
     },
     "top_species": [
       "Gleditsia triacanthos",
@@ -4416,13 +4437,13 @@
       "Tilia cordata",
       "Amelanchier canadensis",
       "Quercus rubra",
+      "Phellodendron amurense",
       "Celtis occidentalis",
-      "Salix babylonica",
-      "Acer saccharum",
+      "Acer platanoides",
       "Aesculus glabra",
-      "Quercus palustris"
+      "Acer \u00d7 freemanii"
     ],
-    "total_trees": 27818
+    "total_trees": 28595
   },
   "+45-080": {
     "leaf_type_prob": {
@@ -4441,12 +4462,12 @@
       "Syringa reticulata",
       "Picea glauca"
     ],
-    "total_trees": 172063
+    "total_trees": 172068
   },
   "+45-085": {
     "leaf_type_prob": {
-      "broadleaved": 0.683,
-      "needleleaved": 0.317
+      "broadleaved": 0.685,
+      "needleleaved": 0.315
     },
     "top_species": [
       "Betula papyrifera",
@@ -4454,16 +4475,16 @@
       "Pinus strobus",
       "Picea glauca"
     ],
-    "total_trees": 548
+    "total_trees": 550
   },
   "+45-090": {
     "leaf_type_prob": {
-      "broadleaved": 0.767,
-      "leafless": 0.007,
-      "needleleaved": 0.226
+      "broadleaved": 0.74,
+      "leafless": 0.006,
+      "needleleaved": 0.254
     },
     "top_species": [],
-    "total_trees": 295
+    "total_trees": 368
   },
   "+45-095": {
     "leaf_type_prob": {
@@ -4478,12 +4499,12 @@
       "Picea pungens",
       "Thuja occidentalis"
     ],
-    "total_trees": 3105
+    "total_trees": 3108
   },
   "+45-100": {
     "leaf_type_prob": {
-      "broadleaved": 0.591,
-      "needleleaved": 0.409
+      "broadleaved": 0.59,
+      "needleleaved": 0.41
     },
     "top_species": [
       "Ulmus americana",
@@ -4494,25 +4515,25 @@
       "Quercus macrocarpa",
       "Tilia americana"
     ],
-    "total_trees": 7319
+    "total_trees": 7602
   },
   "+45-105": {
     "leaf_type_prob": {
-      "broadleaved": 0.36,
-      "needleleaved": 0.64
+      "broadleaved": 0.358,
+      "needleleaved": 0.642
     },
     "top_species": [],
-    "total_trees": 51
+    "total_trees": 54
   },
   "+45-110": {
     "leaf_type_prob": {
-      "broadleaved": 0.615,
-      "needleleaved": 0.385
+      "broadleaved": 0.587,
+      "needleleaved": 0.413
     },
     "top_species": [
       "Acer negundo"
     ],
-    "total_trees": 392
+    "total_trees": 416
   },
   "+45-115": {
     "leaf_type_prob": {
@@ -4526,26 +4547,26 @@
       "Pinus ponderosa",
       "Picea pungens"
     ],
-    "total_trees": 5779
+    "total_trees": 5780
   },
   "+45-120": {
     "leaf_type_prob": {
-      "broadleaved": 0.731,
+      "broadleaved": 0.732,
       "leafless": 0.001,
-      "needleleaved": 0.268
+      "needleleaved": 0.267
     },
     "top_species": [
       "Picea pungens",
       "Quercus palustris",
       "Ulmus glabra"
     ],
-    "total_trees": 1392
+    "total_trees": 1430
   },
   "+45-125": {
     "leaf_type_prob": {
-      "broadleaved": 0.768,
+      "broadleaved": 0.772,
       "leafless": 0.0,
-      "needleleaved": 0.231,
+      "needleleaved": 0.227,
       "palm": 0.001
     },
     "top_species": [
@@ -4560,7 +4581,7 @@
       "Acer griseum",
       "Acer truncatum"
     ],
-    "total_trees": 91256
+    "total_trees": 94536
   },
   "+45-130": {
     "leaf_type_prob": {
@@ -4572,9 +4593,9 @@
   },
   "+50+000": {
     "leaf_type_prob": {
-      "broadleaved": 0.981,
+      "broadleaved": 0.982,
       "leafless": 0.0,
-      "needleleaved": 0.019,
+      "needleleaved": 0.018,
       "palm": 0.0
     },
     "top_species": [
@@ -4589,7 +4610,7 @@
       "Carpinus betulus",
       "Tilia \u00d7 euchlora"
     ],
-    "total_trees": 276290
+    "total_trees": 287534
   },
   "+50+005": {
     "leaf_type_prob": {
@@ -4610,7 +4631,7 @@
       "Platanus \u00d7 hispanica",
       "Platanus acerifolia"
     ],
-    "total_trees": 968012
+    "total_trees": 985027
   },
   "+50+010": {
     "leaf_type_prob": {
@@ -4631,13 +4652,13 @@
       "Acer pseudoplatanus",
       "Aesculus hippocastanum"
     ],
-    "total_trees": 879336
+    "total_trees": 888940
   },
   "+50+015": {
     "leaf_type_prob": {
-      "broadleaved": 0.881,
+      "broadleaved": 0.882,
       "leafless": 0.0,
-      "needleleaved": 0.119,
+      "needleleaved": 0.118,
       "palm": 0.0
     },
     "top_species": [
@@ -4647,18 +4668,18 @@
       "Populus nigra",
       "Robinia pseudoacacia",
       "Carpinus betulus",
-      "Acer campestre",
       "Aesculus hippocastanum",
+      "Acer campestre",
       "Fraxinus excelsior",
       "Fagus sylvatica"
     ],
-    "total_trees": 350944
+    "total_trees": 359111
   },
   "+50+020": {
     "leaf_type_prob": {
-      "broadleaved": 0.862,
+      "broadleaved": 0.864,
       "leafless": 0.0,
-      "needleleaved": 0.138,
+      "needleleaved": 0.136,
       "palm": 0.0
     },
     "top_species": [
@@ -4669,17 +4690,17 @@
       "Pinus sylvestris",
       "Fraxinus excelsior",
       "Larix decidua",
-      "Thuja occidentalis",
-      "Sorbus intermedia",
-      "Acer pseudoplatanus"
+      "Acer pseudoplatanus",
+      "Carpinus betulus",
+      "Betula pendula"
     ],
-    "total_trees": 245518
+    "total_trees": 256604
   },
   "+50+025": {
     "leaf_type_prob": {
-      "broadleaved": 0.885,
+      "broadleaved": 0.888,
       "leafless": 0.0,
-      "needleleaved": 0.115
+      "needleleaved": 0.112
     },
     "top_species": [
       "Picea abies",
@@ -4688,18 +4709,18 @@
       "Pinus sylvestris",
       "Thuja occidentalis",
       "Betula pendula",
-      "Larix polonica",
       "Aesculus hippocastanum",
       "Pinus cembra",
-      "Acer platanoides"
+      "Acer platanoides",
+      "Acer negundo"
     ],
-    "total_trees": 13652
+    "total_trees": 14037
   },
   "+50+030": {
     "leaf_type_prob": {
-      "broadleaved": 0.818,
+      "broadleaved": 0.816,
       "leafless": 0.001,
-      "needleleaved": 0.181
+      "needleleaved": 0.183
     },
     "top_species": [
       "Populus pyramidalis",
@@ -4713,7 +4734,7 @@
       "Robinia pseudoacacia",
       "Acer negundo"
     ],
-    "total_trees": 6549
+    "total_trees": 6590
   },
   "+50+035": {
     "leaf_type_prob": {
@@ -4732,7 +4753,7 @@
       "Anacardium occidentale",
       "Aesculus hippocastanum"
     ],
-    "total_trees": 6230
+    "total_trees": 6232
   },
   "+50+040": {
     "leaf_type_prob": {
@@ -4770,18 +4791,19 @@
       "Prunus cerasus",
       "Pinus sylvestris"
     ],
-    "total_trees": 2995
+    "total_trees": 2998
   },
   "+50+050": {
     "leaf_type_prob": {
-      "broadleaved": 0.609,
+      "broadleaved": 0.61,
       "leafless": 0.003,
-      "needleleaved": 0.388
+      "needleleaved": 0.387
     },
     "top_species": [
-      "Quercus robur"
+      "Quercus robur",
+      "Populus nigra"
     ],
-    "total_trees": 320
+    "total_trees": 321
   },
   "+50+055": {
     "leaf_type_prob": {
@@ -4795,7 +4817,7 @@
       "Acer negundo",
       "Betula pendula"
     ],
-    "total_trees": 1156
+    "total_trees": 1157
   },
   "+50+060": {
     "leaf_type_prob": {
@@ -4834,7 +4856,7 @@
       "Populus alba",
       "Sorbus aucuparia"
     ],
-    "total_trees": 862
+    "total_trees": 863
   },
   "+50+075": {
     "leaf_type_prob": {
@@ -4846,24 +4868,24 @@
   },
   "+50+080": {
     "leaf_type_prob": {
-      "broadleaved": 0.913,
-      "needleleaved": 0.087
+      "broadleaved": 0.912,
+      "needleleaved": 0.088
     },
     "top_species": [
       "Picea abies",
       "Betula pendula"
     ],
-    "total_trees": 3501
+    "total_trees": 3517
   },
   "+50+085": {
     "leaf_type_prob": {
-      "broadleaved": 0.168,
-      "needleleaved": 0.832
+      "broadleaved": 0.171,
+      "needleleaved": 0.829
     },
     "top_species": [
       "Pinus sylvestris"
     ],
-    "total_trees": 335
+    "total_trees": 336
   },
   "+50+090": {
     "leaf_type_prob": {
@@ -4947,17 +4969,17 @@
       "Fraxinus excelsior",
       "Betula pendula",
       "Aesculus hippocastanum",
-      "Sorbus aucuparia",
       "Prunus avium",
+      "Sorbus aucuparia",
       "Sorbus aria"
     ],
-    "total_trees": 268101
+    "total_trees": 272376
   },
   "+50-010": {
     "leaf_type_prob": {
-      "broadleaved": 0.925,
+      "broadleaved": 0.924,
       "leafless": 0.002,
-      "needleleaved": 0.073,
+      "needleleaved": 0.074,
       "palm": 0.0
     },
     "top_species": [
@@ -4972,18 +4994,18 @@
       "Betula utilis",
       "Acer pseudoplatanus"
     ],
-    "total_trees": 34551
+    "total_trees": 34987
   },
   "+50-015": {
     "leaf_type_prob": {
-      "broadleaved": 0.826,
-      "needleleaved": 0.174
+      "broadleaved": 0.837,
+      "needleleaved": 0.163
     },
     "top_species": [
       "Fraxinus excelsior",
       "Aesculus hippocastanum"
     ],
-    "total_trees": 47
+    "total_trees": 50
   },
   "+50-095": {
     "leaf_type_prob": {
@@ -5024,9 +5046,9 @@
   },
   "+50-115": {
     "leaf_type_prob": {
-      "broadleaved": 0.629,
+      "broadleaved": 0.63,
       "leafless": 0.001,
-      "needleleaved": 0.367,
+      "needleleaved": 0.366,
       "palm": 0.003
     },
     "top_species": [
@@ -5041,17 +5063,17 @@
       "Populus jackii",
       "Picea glauca"
     ],
-    "total_trees": 17374
+    "total_trees": 17548
   },
   "+50-120": {
     "leaf_type_prob": {
-      "broadleaved": 0.041,
-      "needleleaved": 0.959
+      "broadleaved": 0.26,
+      "needleleaved": 0.74
     },
     "top_species": [
       "Pseudotsuga menziesii"
     ],
-    "total_trees": 54
+    "total_trees": 105
   },
   "+50-125": {
     "leaf_type_prob": {
@@ -5081,29 +5103,29 @@
   },
   "+55+005": {
     "leaf_type_prob": {
-      "broadleaved": 0.955,
+      "broadleaved": 0.956,
       "leafless": 0.0,
-      "needleleaved": 0.045
+      "needleleaved": 0.044
     },
     "top_species": [
       "Pinus sylvestris",
-      "Quercus robur",
-      "Metasequoia glyptostroboides",
       "Fagus sylvatica",
-      "Acer ginnala",
-      "Fraxinus excelsior",
-      "Araucaria araucana",
-      "Picea abies",
+      "Quercus robur",
+      "Betula pubescens",
+      "Metasequoia glyptostroboides",
       "Aesculus hippocastanum",
-      "Malus sylvestris"
+      "Sorbus aucuparia",
+      "Acer ginnala",
+      "Acer pseudoplatanus",
+      "Fraxinus excelsior"
     ],
-    "total_trees": 19944
+    "total_trees": 20398
   },
   "+55+010": {
     "leaf_type_prob": {
-      "broadleaved": 0.961,
+      "broadleaved": 0.96,
       "leafless": 0.0,
-      "needleleaved": 0.039
+      "needleleaved": 0.04
     },
     "top_species": [
       "Acer platanoides",
@@ -5117,7 +5139,7 @@
       "Quercus robur",
       "Prunus avium"
     ],
-    "total_trees": 166581
+    "total_trees": 169004
   },
   "+55+015": {
     "leaf_type_prob": {
@@ -5136,13 +5158,13 @@
       "Acer platanoides",
       "Malus pumila"
     ],
-    "total_trees": 13612
+    "total_trees": 14071
   },
   "+55+020": {
     "leaf_type_prob": {
-      "broadleaved": 0.869,
+      "broadleaved": 0.871,
       "leafless": 0.0,
-      "needleleaved": 0.131
+      "needleleaved": 0.129
     },
     "top_species": [
       "Robinia pseudoacacia",
@@ -5156,32 +5178,32 @@
       "Tilia \u00d7 europaea",
       "Tilia cordata"
     ],
-    "total_trees": 60589
+    "total_trees": 62078
   },
   "+55+025": {
     "leaf_type_prob": {
-      "broadleaved": 0.87,
+      "broadleaved": 0.869,
       "leafless": 0.0,
-      "needleleaved": 0.13
+      "needleleaved": 0.131
     },
     "top_species": [
       "Quercus robur",
       "Tilia cordata",
+      "Salix euxina",
       "Pinus sylvestris",
       "Salix alba",
+      "Thuja occidentalis",
       "Betula pendula",
       "Ulmus laevis",
       "Tilia europaea",
-      "Picea abies",
-      "Ulmus glabra",
-      "Larix decidua"
+      "Picea abies"
     ],
-    "total_trees": 12442
+    "total_trees": 13254
   },
   "+55+030": {
     "leaf_type_prob": {
-      "broadleaved": 0.799,
-      "needleleaved": 0.201
+      "broadleaved": 0.8,
+      "needleleaved": 0.2
     },
     "top_species": [
       "Betula pendula",
@@ -5195,7 +5217,7 @@
       "Salix fragilis",
       "Acer ginnala"
     ],
-    "total_trees": 21004
+    "total_trees": 21126
   },
   "+55+035": {
     "leaf_type_prob": {
@@ -5215,7 +5237,7 @@
       "Picea omorika",
       "Acer platanoides"
     ],
-    "total_trees": 26577
+    "total_trees": 26647
   },
   "+55+040": {
     "leaf_type_prob": {
@@ -5232,12 +5254,12 @@
       "Quercus robur",
       "Picea glauca"
     ],
-    "total_trees": 3816
+    "total_trees": 3826
   },
   "+55+045": {
     "leaf_type_prob": {
-      "broadleaved": 0.765,
-      "needleleaved": 0.235
+      "broadleaved": 0.762,
+      "needleleaved": 0.238
     },
     "top_species": [
       "Prunus serrulata",
@@ -5245,36 +5267,37 @@
       "Quercus robur",
       "Pinus strobus"
     ],
-    "total_trees": 1737
+    "total_trees": 1749
   },
   "+55+050": {
     "leaf_type_prob": {
-      "broadleaved": 0.891,
-      "needleleaved": 0.109
+      "broadleaved": 0.89,
+      "needleleaved": 0.11
     },
     "top_species": [
       "Picea pungens",
       "Pinus sylvestris",
-      "Tilia cordata"
+      "Tilia cordata",
+      "Quercus robur"
     ],
-    "total_trees": 3549
+    "total_trees": 3551
   },
   "+55+055": {
     "leaf_type_prob": {
-      "broadleaved": 0.888,
-      "needleleaved": 0.112
+      "broadleaved": 0.885,
+      "needleleaved": 0.115
     },
     "top_species": [
       "Betula pendula",
       "Malus domestica",
       "Quercus robur"
     ],
-    "total_trees": 6060
+    "total_trees": 6085
   },
   "+55+060": {
     "leaf_type_prob": {
-      "broadleaved": 0.495,
-      "needleleaved": 0.505
+      "broadleaved": 0.496,
+      "needleleaved": 0.504
     },
     "top_species": [
       "Betula pendula",
@@ -5288,31 +5311,31 @@
       "Quercus robur",
       "Pinus sibirica"
     ],
-    "total_trees": 1585
+    "total_trees": 1590
   },
   "+55+065": {
     "leaf_type_prob": {
-      "broadleaved": 0.228,
-      "needleleaved": 0.772
+      "broadleaved": 0.23,
+      "needleleaved": 0.77
     },
     "top_species": [
       "Betula pendula",
       "Tilia cordata",
       "Quercus robur",
       "Malus baccata",
-      "Picea pungens",
       "Pinus sylvestris",
-      "Populus sibirica",
+      "Picea pungens",
       "Larix sibirica",
+      "Populus sibirica",
       "Salix fragilis",
       "Picea abies"
     ],
-    "total_trees": 1525
+    "total_trees": 1535
   },
   "+55+070": {
     "leaf_type_prob": {
-      "broadleaved": 0.697,
-      "needleleaved": 0.303
+      "broadleaved": 0.688,
+      "needleleaved": 0.312
     },
     "top_species": [
       "Betula pendula",
@@ -5326,7 +5349,7 @@
       "Ulmus parvifolia",
       "Populus alba"
     ],
-    "total_trees": 2814
+    "total_trees": 2896
   },
   "+55+075": {
     "leaf_type_prob": {
@@ -5420,19 +5443,19 @@
       "Betula pendula",
       "Malus domestica",
       "Cupressus \u00d7 leylandii",
-      "Laburnum alpinum",
       "Araucaria araucana",
+      "Laburnum alpinum",
       "Corylus avellana",
       "Pinus sylvestris",
-      "Sequoiadendron giganteum",
-      "Fagus sylvatica"
+      "Acer pseudoplatanus",
+      "Sequoiadendron giganteum"
     ],
-    "total_trees": 81789
+    "total_trees": 82306
   },
   "+55-010": {
     "leaf_type_prob": {
-      "broadleaved": 0.775,
-      "needleleaved": 0.225
+      "broadleaved": 0.776,
+      "needleleaved": 0.224
     },
     "top_species": [
       "Tilia europaea",
@@ -5442,7 +5465,7 @@
       "Araucaria araucana",
       "Cordyline australis"
     ],
-    "total_trees": 1448
+    "total_trees": 1453
   },
   "+55-120": {
     "leaf_type_prob": {
@@ -5500,8 +5523,8 @@
   },
   "+60+005": {
     "leaf_type_prob": {
-      "broadleaved": 0.887,
-      "needleleaved": 0.113
+      "broadleaved": 0.885,
+      "needleleaved": 0.115
     },
     "top_species": [
       "Sorbus aucuparia",
@@ -5515,12 +5538,12 @@
       "Pinus sylvestris",
       "Acer platanoides"
     ],
-    "total_trees": 6452
+    "total_trees": 6374
   },
   "+60+010": {
     "leaf_type_prob": {
-      "broadleaved": 0.894,
-      "needleleaved": 0.106
+      "broadleaved": 0.895,
+      "needleleaved": 0.105
     },
     "top_species": [
       "Pinus sylvestris",
@@ -5534,7 +5557,7 @@
       "Quillaja saponaria",
       "Salix caprea"
     ],
-    "total_trees": 5620
+    "total_trees": 5624
   },
   "+60+015": {
     "leaf_type_prob": {
@@ -5553,12 +5576,13 @@
       "Prunus maackii",
       "Quercus robur"
     ],
-    "total_trees": 2788
+    "total_trees": 2792
   },
   "+60+020": {
     "leaf_type_prob": {
-      "broadleaved": 0.873,
-      "needleleaved": 0.127
+      "broadleaved": 0.87,
+      "leafless": 0.0,
+      "needleleaved": 0.13
     },
     "top_species": [
       "Tilia \u00d7 europaea",
@@ -5572,7 +5596,7 @@
       "Sorbus intermedia",
       "Ulmus glabra"
     ],
-    "total_trees": 75325
+    "total_trees": 77831
   },
   "+60+025": {
     "leaf_type_prob": {
@@ -5589,15 +5613,15 @@
       "Populus tremula",
       "Tilia cordata",
       "Prunus sargentii",
-      "Quercus robur",
-      "Ulmus glabra"
+      "Larix sibirica",
+      "Quercus robur"
     ],
-    "total_trees": 33341
+    "total_trees": 35376
   },
   "+60+030": {
     "leaf_type_prob": {
-      "broadleaved": 0.674,
-      "needleleaved": 0.326
+      "broadleaved": 0.656,
+      "needleleaved": 0.344
     },
     "top_species": [
       "Pinus sylvestris",
@@ -5611,7 +5635,7 @@
       "Tilia cordata",
       "Acer platanoides"
     ],
-    "total_trees": 1962
+    "total_trees": 2009
   },
   "+60+035": {
     "leaf_type_prob": {
@@ -5647,7 +5671,7 @@
       "needleleaved": 0.05
     },
     "top_species": [],
-    "total_trees": 6607
+    "total_trees": 6637
   },
   "+60+055": {
     "leaf_type_prob": {
@@ -5718,13 +5742,13 @@
   },
   "+60-025": {
     "leaf_type_prob": {
-      "broadleaved": 0.724,
-      "needleleaved": 0.276
+      "broadleaved": 0.725,
+      "needleleaved": 0.275
     },
     "top_species": [
       "Betula pubescens"
     ],
-    "total_trees": 361
+    "total_trees": 363
   },
   "+60-115": {
     "leaf_type_prob": {
@@ -5775,41 +5799,42 @@
   },
   "+65+010": {
     "leaf_type_prob": {
-      "broadleaved": 0.981,
-      "needleleaved": 0.019
+      "broadleaved": 0.982,
+      "needleleaved": 0.018
     },
     "top_species": [
-      "Picea sitchensis"
+      "Picea sitchensis",
+      "Aesculus hippocastanum"
     ],
-    "total_trees": 1586
+    "total_trees": 1587
   },
   "+65+015": {
     "leaf_type_prob": {
-      "broadleaved": 0.983,
-      "needleleaved": 0.017
+      "broadleaved": 0.976,
+      "needleleaved": 0.024
     },
     "top_species": [],
-    "total_trees": 240
+    "total_trees": 503
   },
   "+65+020": {
     "leaf_type_prob": {
-      "broadleaved": 0.837,
-      "needleleaved": 0.163
+      "broadleaved": 0.83,
+      "needleleaved": 0.17
     },
     "top_species": [
       "Pinus sylvestris",
       "Betula pendula",
       "Prunus virginiana",
+      "Sorbus aucuparia",
       "Betula pubescens",
-      "Tilia cordata",
-      "Sorbus aucuparia"
+      "Tilia cordata"
     ],
-    "total_trees": 3014
+    "total_trees": 3177
   },
   "+65+025": {
     "leaf_type_prob": {
-      "broadleaved": 0.761,
-      "needleleaved": 0.239
+      "broadleaved": 0.76,
+      "needleleaved": 0.24
     },
     "top_species": [
       "Pinus sylvestris",
@@ -5817,7 +5842,7 @@
       "Betula pendula",
       "Picea abies"
     ],
-    "total_trees": 1039
+    "total_trees": 1069
   },
   "+65+030": {
     "leaf_type_prob": {
@@ -5888,14 +5913,21 @@
   },
   "+65-020": {
     "leaf_type_prob": {
-      "broadleaved": 0.74,
-      "needleleaved": 0.26
+      "broadleaved": 0.748,
+      "needleleaved": 0.252
     },
     "top_species": [
       "Sorbus aucuparia",
       "Betula pubescens"
     ],
-    "total_trees": 851
+    "total_trees": 878
+  },
+  "+65-055": {
+    "leaf_type_prob": {
+      "needleleaved": 1.0
+    },
+    "top_species": [],
+    "total_trees": 1
   },
   "+65-150": {
     "leaf_type_prob": {
@@ -5971,12 +6003,12 @@
     "top_species": [
       "Ficus carica"
     ],
-    "total_trees": 10577
+    "total_trees": 10578
   },
   "-05+035": {
     "leaf_type_prob": {
-      "broadleaved": 0.955,
-      "needleleaved": 0.043,
+      "broadleaved": 0.957,
+      "needleleaved": 0.041,
       "palm": 0.002
     },
     "top_species": [
@@ -5989,7 +6021,7 @@
       "Pistacia atlantica",
       "Ficus sycomorus"
     ],
-    "total_trees": 5964
+    "total_trees": 6125
   },
   "-05+040": {
     "leaf_type_prob": {
@@ -6086,10 +6118,10 @@
   },
   "-05-040": {
     "leaf_type_prob": {
-      "broadleaved": 0.922,
+      "broadleaved": 0.91,
       "leafless": 0.001,
-      "needleleaved": 0.028,
-      "palm": 0.049
+      "needleleaved": 0.041,
+      "palm": 0.048
     },
     "top_species": [
       "Handroanthus chrysanthus",
@@ -6103,12 +6135,12 @@
       "Bactris gasipaes",
       "Licania tomentosa"
     ],
-    "total_trees": 3505
+    "total_trees": 3522
   },
   "-05-045": {
     "leaf_type_prob": {
-      "broadleaved": 0.897,
-      "needleleaved": 0.099,
+      "broadleaved": 0.898,
+      "needleleaved": 0.098,
       "palm": 0.004
     },
     "top_species": [
@@ -6117,7 +6149,7 @@
       "Syzygium cumini",
       "Terminalia catappa"
     ],
-    "total_trees": 312
+    "total_trees": 316
   },
   "-05-050": {
     "leaf_type_prob": {
@@ -6173,10 +6205,10 @@
   },
   "-05-080": {
     "leaf_type_prob": {
-      "broadleaved": 0.762,
+      "broadleaved": 0.773,
       "leafless": 0.01,
-      "needleleaved": 0.21,
-      "palm": 0.018
+      "needleleaved": 0.2,
+      "palm": 0.017
     },
     "top_species": [
       "Jubaea chilensis",
@@ -6185,17 +6217,17 @@
       "Pinus sylvestris",
       "Trachycarpus fortunei"
     ],
-    "total_trees": 3305
+    "total_trees": 3398
   },
   "-05-085": {
     "leaf_type_prob": {
-      "broadleaved": 0.988,
-      "needleleaved": 0.012
+      "broadleaved": 0.986,
+      "needleleaved": 0.014
     },
     "top_species": [
       "Ceiba pentandra"
     ],
-    "total_trees": 994
+    "total_trees": 1007
   },
   "-05-095": {
     "leaf_type_prob": {
@@ -6233,10 +6265,10 @@
   },
   "-10+035": {
     "leaf_type_prob": {
-      "broadleaved": 0.288,
+      "broadleaved": 0.295,
       "leafless": 0.003,
       "needleleaved": 0.043,
-      "palm": 0.666
+      "palm": 0.659
     },
     "top_species": [
       "Cocos nucifera",
@@ -6250,19 +6282,19 @@
       "Khaya senegalensis",
       "Tamarindus indica"
     ],
-    "total_trees": 6061
+    "total_trees": 5995
   },
   "-10+105": {
     "leaf_type_prob": {
-      "broadleaved": 0.861,
-      "needleleaved": 0.07,
+      "broadleaved": 0.883,
+      "needleleaved": 0.048,
       "palm": 0.069
     },
     "top_species": [
       "Tabebuia aurea",
+      "Monoon longifolium",
       "Terminalia mantaly",
       "Wodyetia bifurcata",
-      "Monoon longifolium",
       "Syzygium myrtifolium",
       "Ficus benjamina",
       "Terminalia catappa",
@@ -6270,18 +6302,18 @@
       "Jacaranda mimosifolia",
       "Carica papaya"
     ],
-    "total_trees": 5004
+    "total_trees": 5029
   },
   "-10+110": {
     "leaf_type_prob": {
-      "broadleaved": 0.968,
+      "broadleaved": 0.969,
       "leafless": 0.002,
-      "needleleaved": 0.03
+      "needleleaved": 0.029
     },
     "top_species": [
       "Ficus benjamina"
     ],
-    "total_trees": 1503
+    "total_trees": 1512
   },
   "-10+115": {
     "leaf_type_prob": {
@@ -6297,7 +6329,7 @@
       "needleleaved": 0.333
     },
     "top_species": [],
-    "total_trees": 316
+    "total_trees": 317
   },
   "-10+125": {
     "leaf_type_prob": {
@@ -6313,7 +6345,7 @@
       "palm": 0.002
     },
     "top_species": [],
-    "total_trees": 2851
+    "total_trees": 2850
   },
   "-10+145": {
     "leaf_type_prob": {
@@ -6322,7 +6354,7 @@
       "needleleaved": 0.033
     },
     "top_species": [],
-    "total_trees": 7444
+    "total_trees": 7456
   },
   "-10+150": {
     "leaf_type_prob": {
@@ -6343,22 +6375,22 @@
   },
   "-10-035": {
     "leaf_type_prob": {
-      "broadleaved": 0.138,
-      "needleleaved": 0.5,
-      "palm": 0.362
+      "broadleaved": 0.144,
+      "needleleaved": 0.497,
+      "palm": 0.359
     },
     "top_species": [
       "Cocos nucifera",
       "Paubrasilia echinata"
     ],
-    "total_trees": 1985
+    "total_trees": 1998
   },
   "-10-040": {
     "leaf_type_prob": {
-      "broadleaved": 0.899,
+      "broadleaved": 0.905,
       "leafless": 0.0,
-      "needleleaved": 0.056,
-      "palm": 0.045
+      "needleleaved": 0.059,
+      "palm": 0.036
     },
     "top_species": [
       "Azadirachta indica",
@@ -6372,7 +6404,7 @@
       "Syzygium cumini",
       "Tabebuia roseoalba"
     ],
-    "total_trees": 17814
+    "total_trees": 17249
   },
   "-10-045": {
     "leaf_type_prob": {
@@ -6382,11 +6414,12 @@
     },
     "top_species": [
       "Azadirachta indica",
-      "Mangifera indica",
       "Spondias tuberosa",
-      "Terminalia catappa"
+      "Mangifera indica",
+      "Terminalia catappa",
+      "Anacardium occidentale"
     ],
-    "total_trees": 646
+    "total_trees": 651
   },
   "-10-050": {
     "leaf_type_prob": {
@@ -6427,11 +6460,11 @@
   },
   "-10-080": {
     "leaf_type_prob": {
-      "broadleaved": 0.901,
-      "needleleaved": 0.099
+      "broadleaved": 0.898,
+      "needleleaved": 0.102
     },
     "top_species": [],
-    "total_trees": 3727
+    "total_trees": 3738
   },
   "-10-085": {
     "leaf_type_prob": {
@@ -6541,7 +6574,7 @@
     "top_species": [
       "Adansonia gregorii"
     ],
-    "total_trees": 390
+    "total_trees": 609
   },
   "-15+145": {
     "leaf_type_prob": {
@@ -6564,7 +6597,7 @@
       "Anadenanthera colubrina",
       "Spondias tuberosa"
     ],
-    "total_trees": 858
+    "total_trees": 847
   },
   "-15-045": {
     "leaf_type_prob": {
@@ -6655,7 +6688,7 @@
       "Delonix regia",
       "Citrus \u00d7 sinensis"
     ],
-    "total_trees": 9518
+    "total_trees": 9543
   },
   "-15-170": {
     "leaf_type_prob": {
@@ -6738,7 +6771,7 @@
     "top_species": [
       "Adansonia digitata"
     ],
-    "total_trees": 662
+    "total_trees": 665
   },
   "-20+055": {
     "leaf_type_prob": {
@@ -6783,9 +6816,9 @@
   },
   "-20+145": {
     "leaf_type_prob": {
-      "broadleaved": 0.699,
-      "needleleaved": 0.295,
-      "palm": 0.006
+      "broadleaved": 0.716,
+      "needleleaved": 0.279,
+      "palm": 0.005
     },
     "top_species": [
       "Livistona decora",
@@ -6799,7 +6832,7 @@
       "Cocos nucifera",
       "Plumeria obtusa"
     ],
-    "total_trees": 6622
+    "total_trees": 6959
   },
   "-20+175": {
     "leaf_type_prob": {
@@ -6812,17 +6845,17 @@
   },
   "-20-040": {
     "leaf_type_prob": {
-      "broadleaved": 0.333,
-      "palm": 0.667
+      "broadleaved": 0.353,
+      "palm": 0.647
     },
     "top_species": [],
-    "total_trees": 34
+    "total_trees": 35
   },
   "-20-045": {
     "leaf_type_prob": {
-      "broadleaved": 0.807,
+      "broadleaved": 0.811,
       "leafless": 0.001,
-      "needleleaved": 0.183,
+      "needleleaved": 0.179,
       "palm": 0.009
     },
     "top_species": [
@@ -6833,7 +6866,7 @@
       "Ficus elastica",
       "Mangifera indica"
     ],
-    "total_trees": 1542
+    "total_trees": 1578
   },
   "-20-050": {
     "leaf_type_prob": {
@@ -6902,7 +6935,7 @@
       "Prunus domestica",
       "Araucaria heterophylla"
     ],
-    "total_trees": 4508
+    "total_trees": 4514
   },
   "-20-075": {
     "leaf_type_prob": {
@@ -6987,12 +7020,13 @@
   },
   "-25+030": {
     "leaf_type_prob": {
-      "broadleaved": 1.0
+      "broadleaved": 0.567,
+      "needleleaved": 0.433
     },
     "top_species": [
       "Adansonia digitata"
     ],
-    "total_trees": 34
+    "total_trees": 48
   },
   "-25+040": {
     "leaf_type_prob": {
@@ -7034,7 +7068,7 @@
       "Latania borbonica",
       "Syzygium cumini"
     ],
-    "total_trees": 3117
+    "total_trees": 3121
   },
   "-25+110": {
     "leaf_type_prob": {
@@ -7079,7 +7113,7 @@
       "palm": 1.0
     },
     "top_species": [],
-    "total_trees": 28
+    "total_trees": 54
   },
   "-25+150": {
     "leaf_type_prob": {
@@ -7098,10 +7132,10 @@
   },
   "-25-045": {
     "leaf_type_prob": {
-      "broadleaved": 0.63,
+      "broadleaved": 0.642,
       "leafless": 0.001,
       "needleleaved": 0.047,
-      "palm": 0.322
+      "palm": 0.31
     },
     "top_species": [
       "Roystonea oleracea",
@@ -7115,13 +7149,13 @@
       "Syzygium cumini",
       "Handroanthus impetiginosus"
     ],
-    "total_trees": 31491
+    "total_trees": 31649
   },
   "-25-050": {
     "leaf_type_prob": {
-      "broadleaved": 0.86,
+      "broadleaved": 0.861,
       "leafless": 0.004,
-      "needleleaved": 0.031,
+      "needleleaved": 0.03,
       "palm": 0.105
     },
     "top_species": [
@@ -7131,19 +7165,19 @@
       "Prunus serrulata",
       "Archontophoenix cunninghamiana",
       "Swietenia macrophylla",
+      "Roystonea oleracea",
       "Mauritia flexuosa",
       "Jacaranda mimosifolia",
-      "Psidium guajava",
-      "Paubrasilia echinata"
+      "Roystonea regia"
     ],
-    "total_trees": 10254
+    "total_trees": 10347
   },
   "-25-055": {
     "leaf_type_prob": {
-      "broadleaved": 0.721,
-      "leafless": 0.02,
-      "needleleaved": 0.05,
-      "palm": 0.209
+      "broadleaved": 0.729,
+      "leafless": 0.019,
+      "needleleaved": 0.049,
+      "palm": 0.203
     },
     "top_species": [
       "Roystonea oleracea",
@@ -7155,7 +7189,7 @@
       "Quercus rubra",
       "Cariniana legalis"
     ],
-    "total_trees": 2042
+    "total_trees": 2132
   },
   "-25-060": {
     "leaf_type_prob": {
@@ -7191,9 +7225,9 @@
   },
   "-25-075": {
     "leaf_type_prob": {
-      "broadleaved": 0.39,
-      "needleleaved": 0.031,
-      "palm": 0.579
+      "broadleaved": 0.382,
+      "needleleaved": 0.03,
+      "palm": 0.588
     },
     "top_species": [
       "Washingtonia robusta",
@@ -7207,7 +7241,7 @@
       "Eucalyptus camaldulensis",
       "Jubaea chilensis"
     ],
-    "total_trees": 1842
+    "total_trees": 1861
   },
   "-25-160": {
     "leaf_type_prob": {
@@ -7230,12 +7264,12 @@
   },
   "-30+015": {
     "leaf_type_prob": {
-      "broadleaved": 0.912,
-      "leafless": 0.044,
-      "needleleaved": 0.044
+      "broadleaved": 0.914,
+      "leafless": 0.043,
+      "needleleaved": 0.043
     },
     "top_species": [],
-    "total_trees": 56
+    "total_trees": 57
   },
   "-30+020": {
     "leaf_type_prob": {
@@ -7247,22 +7281,22 @@
   },
   "-30+025": {
     "leaf_type_prob": {
-      "broadleaved": 0.985,
-      "needleleaved": 0.015
+      "broadleaved": 0.984,
+      "needleleaved": 0.016
     },
     "top_species": [
       "Vachellia sieberiana",
       "Jacaranda mimosifolia",
       "Eucalyptus sideroxylon",
+      "Aloe marlothii",
       "Euclea crispa",
       "Casuarina cunninghamiana",
-      "Aloe marlothii",
       "Acacia mearnsii",
       "Melia azedarach",
       "Populus deltoides",
       "Quercus robur"
     ],
-    "total_trees": 11523
+    "total_trees": 11508
   },
   "-30+030": {
     "leaf_type_prob": {
@@ -7310,23 +7344,23 @@
   },
   "-30+150": {
     "leaf_type_prob": {
-      "broadleaved": 0.957,
-      "needleleaved": 0.025,
-      "palm": 0.018
+      "broadleaved": 0.947,
+      "needleleaved": 0.029,
+      "palm": 0.024
     },
     "top_species": [
       "Jacaranda mimosifolia",
-      "Mangifera indica",
-      "Grevillea robusta",
-      "Roystonea regia",
-      "Syagrus romanzoffiana",
-      "Araucaria bidwillii",
+      "Lagerstroemia indica",
       "Araucaria heterophylla",
-      "Ficus benjamina",
+      "Mangifera indica",
+      "Syagrus romanzoffiana",
       "Araucaria cunninghamii",
-      "Cupaniopsis anacardioides"
+      "Grevillea robusta",
+      "Magnolia grandiflora",
+      "Phoenix canariensis",
+      "Roystonea regia"
     ],
-    "total_trees": 12415
+    "total_trees": 12904
   },
   "-30+165": {
     "leaf_type_prob": {
@@ -7356,7 +7390,7 @@
       "Araucaria araucana",
       "Pinus taeda"
     ],
-    "total_trees": 9271
+    "total_trees": 9272
   },
   "-30-055": {
     "leaf_type_prob": {
@@ -7376,7 +7410,7 @@
       "Ficus organensis",
       "Plinia cauliflora"
     ],
-    "total_trees": 3208
+    "total_trees": 3212
   },
   "-30-060": {
     "leaf_type_prob": {
@@ -7397,7 +7431,7 @@
       "Delonix regia",
       "Eugenia uniflora"
     ],
-    "total_trees": 5581
+    "total_trees": 5582
   },
   "-30-065": {
     "leaf_type_prob": {
@@ -7417,7 +7451,7 @@
       "Juglans regia",
       "Tipuana tipu"
     ],
-    "total_trees": 353
+    "total_trees": 354
   },
   "-30-075": {
     "leaf_type_prob": {
@@ -7438,7 +7472,7 @@
       "Schinus areira",
       "Hibiscus rosa-sinensis"
     ],
-    "total_trees": 2655
+    "total_trees": 2743
   },
   "-30-110": {
     "leaf_type_prob": {
@@ -7454,9 +7488,9 @@
   },
   "-35+015": {
     "leaf_type_prob": {
-      "broadleaved": 0.78,
-      "needleleaved": 0.07,
-      "palm": 0.15
+      "broadleaved": 0.755,
+      "needleleaved": 0.096,
+      "palm": 0.149
     },
     "top_species": [
       "Olea europaea",
@@ -7465,12 +7499,12 @@
       "Araucaria heterophylla",
       "Corymbia ficifolia",
       "Eucalyptus citriodora",
+      "Jacaranda mimosifolia",
       "Quercus suber",
       "Eucalyptus camaldulensis",
-      "Melia azedarach",
-      "Ficus macrophylla"
+      "Melia azedarach"
     ],
-    "total_trees": 3966
+    "total_trees": 4210
   },
   "-35+020": {
     "leaf_type_prob": {
@@ -7508,10 +7542,10 @@
   },
   "-35+115": {
     "leaf_type_prob": {
-      "broadleaved": 0.827,
+      "broadleaved": 0.826,
       "leafless": 0.002,
-      "needleleaved": 0.115,
-      "palm": 0.056
+      "needleleaved": 0.117,
+      "palm": 0.055
     },
     "top_species": [
       "Jacaranda mimosifolia",
@@ -7520,12 +7554,12 @@
       "Gleditsia triacanthos",
       "Platanus \u00d7 hispanica",
       "Ficus macrophylla",
-      "Olea europaea",
       "Phoenix canariensis",
+      "Olea europaea",
       "Quercus robur",
       "Ulmus procera"
     ],
-    "total_trees": 3881
+    "total_trees": 4117
   },
   "-35+120": {
     "leaf_type_prob": {
@@ -7544,8 +7578,8 @@
   "-35+135": {
     "leaf_type_prob": {
       "broadleaved": 0.778,
-      "needleleaved": 0.218,
-      "palm": 0.004
+      "needleleaved": 0.217,
+      "palm": 0.005
     },
     "top_species": [
       "Eucalyptus camaldulensis",
@@ -7559,20 +7593,20 @@
       "Olea europaea",
       "Allocasuarina verticillata"
     ],
-    "total_trees": 5914
+    "total_trees": 5953
   },
   "-35+140": {
     "leaf_type_prob": {
-      "broadleaved": 0.96,
-      "leafless": 0.001,
-      "needleleaved": 0.038,
-      "palm": 0.001
+      "broadleaved": 0.991,
+      "leafless": 0.0,
+      "needleleaved": 0.009,
+      "palm": 0.0
     },
     "top_species": [
       "Eucalyptus camaldulensis",
       "Jubaea chilensis"
     ],
-    "total_trees": 812
+    "total_trees": 3445
   },
   "-35+145": {
     "leaf_type_prob": {
@@ -7585,9 +7619,9 @@
   },
   "-35+150": {
     "leaf_type_prob": {
-      "broadleaved": 0.878,
+      "broadleaved": 0.875,
       "leafless": 0.0,
-      "needleleaved": 0.108,
+      "needleleaved": 0.111,
       "palm": 0.014
     },
     "top_species": [
@@ -7602,7 +7636,7 @@
       "Melaleuca citrina",
       "Platanus \u00d7 acerifolia"
     ],
-    "total_trees": 14395
+    "total_trees": 14484
   },
   "-35+170": {
     "leaf_type_prob": {
@@ -7630,8 +7664,8 @@
   "-35-060": {
     "leaf_type_prob": {
       "broadleaved": 0.778,
-      "needleleaved": 0.096,
-      "palm": 0.126
+      "needleleaved": 0.097,
+      "palm": 0.125
     },
     "top_species": [
       "Platanus \u00d7 acerifolia",
@@ -7645,7 +7679,7 @@
       "Peltophorum dubium",
       "Ceiba speciosa"
     ],
-    "total_trees": 3126
+    "total_trees": 3135
   },
   "-35-065": {
     "leaf_type_prob": {
@@ -7666,7 +7700,7 @@
       "Butia yatay",
       "Eucalyptus cinerea"
     ],
-    "total_trees": 71046
+    "total_trees": 71273
   },
   "-35-070": {
     "leaf_type_prob": {
@@ -7690,10 +7724,10 @@
   },
   "-35-075": {
     "leaf_type_prob": {
-      "broadleaved": 0.674,
+      "broadleaved": 0.673,
       "leafless": 0.0,
       "needleleaved": 0.047,
-      "palm": 0.279
+      "palm": 0.28
     },
     "top_species": [
       "Jubaea chilensis",
@@ -7707,7 +7741,7 @@
       "Jacaranda mimosifolia",
       "Melia azedarach"
     ],
-    "total_trees": 37734
+    "total_trees": 38231
   },
   "-40+115": {
     "leaf_type_prob": {
@@ -7746,14 +7780,14 @@
       "Melaleuca styphelioides",
       "Pyrus calleryana"
     ],
-    "total_trees": 79693
+    "total_trees": 79723
   },
   "-40+145": {
     "leaf_type_prob": {
-      "broadleaved": 0.915,
+      "broadleaved": 0.905,
       "leafless": 0.0,
-      "needleleaved": 0.076,
-      "palm": 0.009
+      "needleleaved": 0.087,
+      "palm": 0.008
     },
     "top_species": [
       "Cryptomeria japonica",
@@ -7767,7 +7801,7 @@
       "Quercus lusitanica",
       "Liquidambar styraciflua"
     ],
-    "total_trees": 20350
+    "total_trees": 21793
   },
   "-40+150": {
     "leaf_type_prob": {
@@ -7779,9 +7813,9 @@
   },
   "-40+170": {
     "leaf_type_prob": {
-      "broadleaved": 0.776,
+      "broadleaved": 0.788,
       "needleleaved": 0.037,
-      "palm": 0.187
+      "palm": 0.175
     },
     "top_species": [
       "Washingtonia robusta",
@@ -7795,7 +7829,7 @@
       "Jubaea chilensis",
       "Platanus \u00d7 hispanica"
     ],
-    "total_trees": 4450
+    "total_trees": 4717
   },
   "-40+175": {
     "leaf_type_prob": {
@@ -7815,19 +7849,19 @@
       "Quercus acutissima",
       "Quercus variabilis"
     ],
-    "total_trees": 100338
+    "total_trees": 100084
   },
   "-40-060": {
     "leaf_type_prob": {
-      "broadleaved": 0.97,
-      "needleleaved": 0.029,
-      "palm": 0.001
+      "broadleaved": 0.943,
+      "needleleaved": 0.028,
+      "palm": 0.029
     },
     "top_species": [
       "Juglans regia",
       "Olea europaea"
     ],
-    "total_trees": 2342
+    "total_trees": 2381
   },
   "-40-065": {
     "leaf_type_prob": {
@@ -7844,29 +7878,30 @@
       "Schinus molle",
       "Washingtonia robusta"
     ],
-    "total_trees": 1035
+    "total_trees": 1038
   },
   "-40-070": {
     "leaf_type_prob": {
-      "broadleaved": 0.561,
-      "needleleaved": 0.421,
-      "palm": 0.018
+      "broadleaved": 0.591,
+      "needleleaved": 0.394,
+      "palm": 0.015
     },
     "top_species": [
       "Salix nigra",
       "Cupressus sempervirens",
       "Populus alba",
       "Platanus \u00d7 hispanica",
-      "Washingtonia filifera"
+      "Washingtonia filifera",
+      "Cydonia oblonga"
     ],
-    "total_trees": 58
+    "total_trees": 68
   },
   "-40-075": {
     "leaf_type_prob": {
-      "broadleaved": 0.817,
+      "broadleaved": 0.815,
       "leafless": 0.0,
       "needleleaved": 0.127,
-      "palm": 0.056
+      "palm": 0.058
     },
     "top_species": [
       "Luma apiculata",
@@ -7880,12 +7915,12 @@
       "Trachycarpus fortunei",
       "Chamaecyparis lawsoniana"
     ],
-    "total_trees": 34110
+    "total_trees": 34393
   },
   "-45+145": {
     "leaf_type_prob": {
-      "broadleaved": 0.555,
-      "needleleaved": 0.436,
+      "broadleaved": 0.564,
+      "needleleaved": 0.427,
       "palm": 0.009
     },
     "top_species": [
@@ -7895,7 +7930,7 @@
       "Jubaea chilensis",
       "Phoenix canariensis"
     ],
-    "total_trees": 278
+    "total_trees": 282
   },
   "-45+165": {
     "leaf_type_prob": {
@@ -7917,13 +7952,13 @@
       "Metrosideros excelsa",
       "Araucaria heterophylla",
       "Podocarpus totara",
-      "Cupressus macrocarpa",
       "Agathis australis",
+      "Cupressus macrocarpa",
       "Betula pendula",
       "Pinus radiata",
       "Cordyline australis"
     ],
-    "total_trees": 43870
+    "total_trees": 43916
   },
   "-45+175": {
     "leaf_type_prob": {
@@ -7937,7 +7972,7 @@
       "Pittosporum eugenioides",
       "Metrosideros excelsa"
     ],
-    "total_trees": 39571
+    "total_trees": 39501
   },
   "-45-065": {
     "leaf_type_prob": {
@@ -7948,10 +7983,10 @@
   },
   "-45-075": {
     "leaf_type_prob": {
-      "broadleaved": 0.813,
+      "broadleaved": 0.812,
       "leafless": 0.001,
-      "needleleaved": 0.15,
-      "palm": 0.036
+      "needleleaved": 0.152,
+      "palm": 0.035
     },
     "top_species": [
       "Embothrium coccineum",
@@ -7965,7 +8000,7 @@
       "Nothofagus obliqua",
       "Eucryphia cordifolia"
     ],
-    "total_trees": 1545
+    "total_trees": 1575
   },
   "-50+070": {
     "leaf_type_prob": {
@@ -7976,13 +8011,13 @@
   },
   "-50+165": {
     "leaf_type_prob": {
-      "broadleaved": 0.742,
-      "needleleaved": 0.258
+      "broadleaved": 0.75,
+      "needleleaved": 0.25
     },
     "top_species": [
       "Sequoiadendron giganteum"
     ],
-    "total_trees": 93
+    "total_trees": 94
   },
   "-50+170": {
     "leaf_type_prob": {
