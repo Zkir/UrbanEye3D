@@ -302,6 +302,7 @@ The plugin renders some natural features to provide more context to the 3D scene
 ![Trees](images/trees.png)
 -   The plugin includes a built-in database of tree species. If the `species` or `genus` tag is present, the plugin automatically infers the `leaf_type` (`broadleaved`, `needleleaved` or `palm`). 
 -   The tree species database contains approximately [2000 tree species names](tree_species.md) with their corresponding `leaf_type` value.  The data is collected from the OSM statistics, the [OSM Wiki: List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species) and verified via [POWO](https://powo.science.kew.org/). The species database is updated from time to time, when a new version of the plugin is released.
+-   If there is nothing to infer from (no `leaf_type`, no `species`, no `genus`), the plugin falls back to geography: for every 5°×5° grid cell it knows the mix of leaf types of the trees actually mapped there, and each tree picks its type from that mix. A forest therefore stays mixed instead of every tree looking the same, and the defaults follow the real world — conifers in the taiga, palms in the tropics. These spatial defaults can be seen in the [world map of leaf types](map_leaf_types.png).
 -   **Validation:** The JOSM validator alerts the user if an unknown or misspelled `species` or `genus` tag is used, helping to maintain data quality in OSM.
 
 ### Shrubs and Bushes

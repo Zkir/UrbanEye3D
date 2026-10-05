@@ -16,6 +16,7 @@
 	Plants of the World Online (POWO) API to detect proper taxon names, synonyms, typos and just bullshit (which also can be found in OSM tags).
 	* Suggestions for corrections in OSM are made, and osm-xml files for corrections are created (split into 5000-element chunks). However, those corrections are not uploaded to OSM automatically, but should be uploaded manually via JOSM (we do not want to create an automated OSM corrector, just fix problems which bother us).
 	* The final species list is placed in the plugin's resources ('src/main/resources/data/tree_species.csv') to drive the 3D rendering engine.
+	* The geographic vegetation statistics ('spatial_stats_5x5.json') are visualized as a world map by `make_tree_map.py` and published to `docs/map_leaf_types.png`. The map is a quick sanity check of the statistics: a wrong dominant leaf type in a cell means either bad OSM data or a bug in the analysis.
 	
 *   **Buildings** are processed in order to create a file with "smart defaults" values. This part is highly experimental and not yet used by the plugin itself.
 

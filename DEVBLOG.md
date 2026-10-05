@@ -1,5 +1,15 @@
 # Development History
 
+### Oct 6, 2026
+* The spatial vegetation statistics that the plugin uses to guess a tree's type where OSM has no `leaf_type`/`species` tags are now drawn as a world map: [map_leaf_types.png](docs/map_leaf_types.png). 
+Every 5°×5° cell is coloured by the mix of broadleaved, needleleaved, palm and leafless trees actually mapped in that area — the same mix the plugin draws from when it renders a tree without tags. 
+Wrong defaults, if any (palms in the taiga, say) become visible at a glance. 
+* Documented the geographic fallback for tree types in [features.md](docs/features.md#trees).
+
+![OpenStreetMap leaf_type by 5°×5° grid cells](docs/map_leaf_types.png)
+
+## Version 2.8.0 (Oct 5, 2026)
+
 ### Oct 2, 2026
 * Wind turbines now size themselves correctly even when only `manufacturer` and `model` are tagged. The plugin infers realistic `height` and `rotor:diameter` from a statistics database built from global OSM data (e.g. an Enercon E-101 renders at its real ~135 m hub height and ~101 m rotor), so turbines look right without extra tagging.
 * The flag and wind-turbine inference now share one common statistical rule engine, and the two flag rules files were consolidated into a single one.
