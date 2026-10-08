@@ -470,7 +470,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                     }
                 } else {
                     // It's a colored object (like a building)
-                    drawMesh(gl, mesh, element.isSelected,null);
+                    drawMesh(gl, mesh, element.isSelected, null,
+                            element.getAoMinHeight(), element.getAoMaxHeight());
                 }
                 objectCount += 1;
                 faceCount += mesh.faces.size();
@@ -604,8 +605,16 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     }
 
     private void drawMesh(GL2 gl, Mesh mesh, boolean isSelected, Texture texture){
-        double maxHeightForAO = mesh.getMaxBounds().z;
-        double minHeightForAO = mesh.getMinBounds().z;
+        drawMesh(gl, mesh, isSelected, texture, mesh.getMinBounds().z, mesh.getMaxBounds().z);
+    }
+
+    /**
+     * Draws the mesh. The vertical range for the fake ambient occlusion is passed explicitly, because
+     * for the pieces of an object cut by a building passage it must be the range of the whole original
+     * object, not of this particular piece.
+     */
+    private void drawMesh(GL2 gl, Mesh mesh, boolean isSelected, Texture texture,
+                          double minHeightForAO, double maxHeightForAO){
         // Draw all faces
         for(int i=0; i<mesh.faces.size(); i++){
             var face = mesh.faces.get(i);

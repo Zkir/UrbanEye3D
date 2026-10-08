@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <node id='-1' lat='55.7499102' lon='37.6190423' />
+  <node id='-2' lat='55.7499102' lon='37.6196808' />
+  <node id='-3' lat='55.7500898' lon='37.6196808' />
+  <node id='-4' lat='55.7500898' lon='37.6190423' />
+  <node id='-5' lat='55.7500000' lon='37.6188827' />
+  <node id='-6' lat='55.7500000' lon='37.6197606' />
+  <node id='-7' lat='55.7499102' lon='37.6198404' />
+  <node id='-8' lat='55.7499102' lon='37.6204788' />
+  <node id='-9' lat='55.7500898' lon='37.6204788' />
+  <node id='-10' lat='55.7500898' lon='37.6198404' />
+  <node id='-11' lat='55.7500000' lon='37.6197606' />
+  <node id='-12' lat='55.7500000' lon='37.6206065' />
+  <node id='-13' lat='55.7499102' lon='37.6206385' />
+  <node id='-14' lat='55.7499102' lon='37.6212769' />
+  <node id='-15' lat='55.7500898' lon='37.6212769' />
+  <node id='-16' lat='55.7500898' lon='37.6206385' />
+  <node id='-17' lat='55.7500000' lon='37.6205586' />
+  <node id='-18' lat='55.7500000' lon='37.6208779' />
+  <node id='-19' lat='55.7499102' lon='37.6214365' />
+  <node id='-20' lat='55.7499102' lon='37.6220750' />
+  <node id='-21' lat='55.7500898' lon='37.6220750' />
+  <node id='-22' lat='55.7500898' lon='37.6214365' />
+  <node id='-23' lat='55.7500000' lon='37.6213567' />
+  <node id='-24' lat='55.7500000' lon='37.6224740' />
+  <node id='-25' lat='55.7501797' lon='37.6190423' />
+  <node id='-26' lat='55.7501797' lon='37.6196808' />
+  <node id='-27' lat='55.7503593' lon='37.6196808' />
+  <node id='-28' lat='55.7503593' lon='37.6190423' />
+  <node id='-29' lat='55.7502695' lon='37.6188827' />
+  <node id='-30' lat='55.7502695' lon='37.6198404' />
+  <way id='-101' version='1'>
+    <nd ref='-1' />
+    <nd ref='-2' />
+    <nd ref='-3' />
+    <nd ref='-4' />
+    <nd ref='-1' />
+    <tag k='building' v='yes' />
+    <tag k='height' v='15' />
+  </way>
+  <way id='-102' version='1'>
+    <nd ref='-5' />
+    <nd ref='-6' />
+    <tag k='highway' v='footway' />
+    <tag k='tunnel' v='building_passage' />
+  </way>
+  <way id='-103' version='1'>
+    <nd ref='-7' />
+    <nd ref='-8' />
+    <nd ref='-9' />
+    <nd ref='-10' />
+    <nd ref='-7' />
+    <tag k='building' v='yes' />
+    <tag k='height' v='15' />
+    <tag k='roof:shape' v='gabled' />
+    <tag k='roof:height' v='5' />
+    <tag k='roof:orientation' v='along' />
+  </way>
+  <way id='-104' version='1'>
+    <nd ref='-11' />
+    <nd ref='-12' />
+    <tag k='highway' v='service' />
+    <tag k='tunnel' v='building_passage' />
+    <tag k='height' v='5' />
+    <tag k='width' v='6' />
+  </way>
+  <way id='-105' version='1'>
+    <nd ref='-13' />
+    <nd ref='-14' />
+    <nd ref='-15' />
+    <nd ref='-16' />
+    <nd ref='-13' />
+    <tag k='building' v='yes' />
+    <tag k='height' v='6' />
+  </way>
+  <way id='-106' version='1'>
+    <nd ref='-17' />
+    <nd ref='-18' />
+    <tag k='highway' v='footway' />
+    <tag k='tunnel' v='building_passage' />
+  </way>
+  <way id='-107' version='1'>
+    <nd ref='-19' />
+    <nd ref='-20' />
+    <nd ref='-21' />
+    <nd ref='-22' />
+    <nd ref='-19' />
+    <tag k='building:part' v='yes' />
+    <tag k='min_height' v='6' />
+    <tag k='height' v='20' />
+  </way>
+  <way id='-108' version='1'>
+    <nd ref='-23' />
+    <nd ref='-24' />
+    <tag k='highway' v='service' />
+    <tag k='tunnel' v='building_passage' />
+  </way>
+  <way id='-109' version='1'>
+    <nd ref='-25' />
+    <nd ref='-26' />
+    <nd ref='-27' />
+    <nd ref='-28' />
+    <nd ref='-25' />
+    <tag k='building' v='yes' />
+    <tag k='height' v='12' />
+  </way>
+  <way id='-110' version='1'>
+    <nd ref='-29' />
+    <nd ref='-30' />
+    <tag k='highway' v='footway' />
+    <tag k='tunnel' v='building_passage' />
+    <tag k='layer' v='-1' />
+  </way>
+</osm>

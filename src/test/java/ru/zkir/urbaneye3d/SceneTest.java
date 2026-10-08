@@ -232,8 +232,8 @@ class SceneTest {
         //  Exact number of  buildings/objects is not so important.
         //  We just need to understand how the picture changes.
         long NumberOfObjects = scene.renderableElements.stream().filter(e -> e.getMesh().textureName == null).count();
-        final int MIN_OBJECTS = 5544;
-        final int MAX_OBJECTS = 5544;
+        int MIN_OBJECTS = 5650;
+        int MAX_OBJECTS = 5850;
 
         if (SAVE_TEST_RESULTS_TO_FILE) {
             int i = 0;

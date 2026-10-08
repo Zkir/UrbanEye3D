@@ -191,6 +191,17 @@ public class Scene {
         allCandidates.addAll(buildings);
         allCandidates.addAll(buildingParts);
 
+        /*
+         * Building passages (tunnel=building_passage) are not rendered as roads.
+         * Instead, the zone occupied by such a way is cut out of the buildings it crosses.
+         */
+        List<BuildingPassage.Zone> passageZones = new ArrayList<>();
+        for (Way way : dataSet.getWays()) {
+            if (BuildingPassage.isBuildingPassage(way)) {
+                passageZones.add(BuildingPassage.zone(way));
+            }
+        }
+
         //Index of the rendered buildings/parts, used to place point objects tagged with location=roof.
         //Note that buildings which are not rendered (because they have building parts) are not indexed as well.
         BuildingSpatialIndex buildingSpatialIndex = new BuildingSpatialIndex();
@@ -214,8 +225,8 @@ public class Scene {
                     //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
                     Contour partContour = new Contour(outerRing, mainContour.mode);
 
-                    var element = RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, partContour, primitive.getInterestingTags(), parentTags);
-                    if (element != null) {
+                    for (RenderableElement element : RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, partContour,
+                            primitive.getInterestingTags(), parentTags, passageZones)) {
                         newElements.add(element);
                         element.isSelected = primitive.isSelected();
                         buildingSpatialIndex.add(element);
@@ -223,8 +234,8 @@ public class Scene {
                 }
             } else {
                 // Single outer ring, or multiple outer rings with inner rings, or a Way
-                var element = RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, mainContour, primitive.getInterestingTags(), parentTags);
-                if (element != null) {
+                for (RenderableElement element : RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, mainContour,
+                        primitive.getInterestingTags(), parentTags, passageZones)) {
                     newElements.add(element);
                     element.isSelected = primitive.isSelected();
                     buildingSpatialIndex.add(element);

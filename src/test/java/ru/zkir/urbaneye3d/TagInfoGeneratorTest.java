@@ -166,9 +166,10 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("type=multipolygon", "Members of a multipolygon relation can be downloaded automatically to prevent broken geometry");
         TAG_DESCRIPTIONS.put("type=building", "Members of building relation can be downloaded automatically, to prevent incomplete buildings");
 
-        TAG_DESCRIPTIONS.put("width", "Width of the feature. Primarily used for barriers");
+        TAG_DESCRIPTIONS.put("width", "Width of the feature. Primarily used for barriers and for the width of building passages");
         TAG_DESCRIPTIONS.put("length", "Length of the long side of man_made=street_cabinet features. Direction is along this side.");
         TAG_DESCRIPTIONS.put("maxwidth:physical", "Physical width limit of a passage or entrance. Used to define gap width in linear barriers.");
+        TAG_DESCRIPTIONS.put("tunnel=building_passage", "A tunnel through the building—or a passageway. And they actually get cut out of the building's geometry!");
         TAG_DESCRIPTIONS.put("hyperboloid:top_rate", "Defines the relative width of the top of the structure compared to its base");
         TAG_DESCRIPTIONS.put("hyperboloid:middle_rate", "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width");
 

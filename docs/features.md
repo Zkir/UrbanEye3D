@@ -114,6 +114,31 @@ The geometry of the hyperboloid is controlled by two additional tags:
 
 Unlike F4Map, the plugin does not *assume* a hyperboloid shape for any object, even for cooling towers; the `shape=hyperboloid` tag must be set manually.
 
+## Building passages (`tunnel=building_passage`)
+
+A way (a road, a footway, a railway, etc.) going through a building is tagged with `tunnel=building_passage`. According to the OSM wiki, such a way is split at the entry and exit points of the building, and those end nodes are shared with the building outline.
+
+UrbanEye3D renders such ways as real passages:
+
+-   The zone occupied by the passage is cut out of the building (or of its `building:part`s), so the opening is not sealed by a wall.
+-   The walls and the ceiling of the passage are generated, while both ends of the passage stay open.
+-   The part of the building lying above the passage is rendered as a separate body, which keeps its own roof (`roof:shape`, `roof:height`, colors, and the structure of its `building:part`s).
+-   When the fake ambient occlusion is enabled, all the pieces of a cut building are shaded as one body: the gradient is calculated from the ground (or from the original `min_height`) up to the original roof, so the cut is not visible as a change of brightness.
+-   The cut is always limited by the building outline, so a way which does not cross the building completely produces a niche (a dead end) instead of a through passage.
+
+The dimensions of the passage are taken from the tags of the way:
+
+-   `height`: the height of the passage (the level of its ceiling). **3 meters** by default.
+-   `width`: the width of the passage. **3.5 meters** by default, which fits gates and doorways.
+
+Notes and limitations:
+
+-   Passages are cut out of buildings and `building:part`s only; objects tagged with `man_made` are never modified.
+-   A building part whose `min_height` is above the passage is not affected.
+-   Passages at negative `layer` (underground crossings, underpasses, subway entrances) are ignored and are not rendered.
+-   If the passage is higher than the building itself, the building is cut through completely, and both resulting blocks get flat roofs.
+-   Bodies without walls (`building:part=roof`) are not modified: their floating roof is simply rendered above the passage.
+
 ## Barriers
 
 The plugin also supports rendering of `barrier` objects (`barrier=*`)

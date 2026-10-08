@@ -1,14 +1,20 @@
 package ru.zkir.urbaneye3d;
 
 import com.drew.lang.annotations.Nullable;
+import org.locationtech.jts.geom.Geometry;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Way;
 import ru.zkir.urbaneye3d.meshers.custom.MesherBillboard;
+import ru.zkir.urbaneye3d.utils.BuildingPassage;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.meshers.s3db.RoofShapes;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +39,39 @@ public class RenderableElement {
 
 
     public final double physicalArea;
+
+    /**
+     * Vertical range used for the fake ambient occlusion.
+     * Normally it is the bounding box of this very mesh, but for the pieces of an object which was cut
+     * by a building passage it is the range of the whole original object, so that the shading gradient
+     * is not restarted on every piece (see {@link #setAmbientOcclusionRange}).
+     */
+    private double aoMinHeight;
+    private double aoMaxHeight;
+
+    /** Bottom of the vertical range used for the fake ambient occlusion, meters. */
+    public double getAoMinHeight() {
+        return aoMinHeight;
+    }
+
+    /** Top of the vertical range used for the fake ambient occlusion, meters. */
+    public double getAoMaxHeight() {
+        return aoMaxHeight;
+    }
+
+    /**
+     * Tells the renderer to calculate the fake ambient occlusion from the given vertical range
+     * instead of the bounds of this mesh. It is used by the pieces of a building cut by a building
+     * passage: the lower blocks and the part above the passage then share one shading gradient,
+     * computed from the ground (or from the original min_height) up to the original roof,
+     * so the cut is no longer visible as a change of brightness.
+     */
+    public void setAmbientOcclusionRange(double minHeight, double maxHeight) {
+        if (maxHeight > minHeight) {
+            this.aoMinHeight = minHeight;
+            this.aoMaxHeight = maxHeight;
+        }
+    }
 
     /**
      * Creates Renderable Element from basic parameters. May return null if object is not creatable.
@@ -222,20 +261,194 @@ public class RenderableElement {
         return buildingRecipe;
     }
 
-    public static RenderableElement createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
-                                                         Map<String, String> primitiveTags, Map<String, String> parentTags ){
+    /**
+     * Creates renderable elements for a building or a building part.
+     * <p>
+     * Normally it is a single element. But if the object is crossed by a building passage
+     * ({@code tunnel=building_passage}), the object is split into:
+     * <ul>
+     *     <li>one or more pieces up to the height of the passage (they form the walls of the passage),</li>
+     *     <li>the part of the building lying above the passage, which keeps its original roof shape.</li>
+     * </ul>
+     * All those elements share the same primitiveId, so they are selected and highlighted together.
+     * @param passageZones building passages of the scene, already filtered by this primitive
+     */
+    public static List<RenderableElement> createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
+                                                         Map<String, String> primitiveTags, Map<String, String> parentTags,
+                                                         List<BuildingPassage.Zone> passageZones ){
 
         if (primitive.isDeleted()){
-            return null;
+            return List.of();
         }
-        BuildingRecipe buildingRecipe = createBuildingOrPartRecipe(primitive, primitiveOrigin, contour,  primitiveTags,  parentTags);
-        if (buildingRecipe==null){
-            return  null;
+
+        //The contour is still in LatLon coords here, so we can cheaply skip the passages which are far away.
+        List<BuildingPassage.Zone> zones = filterPassageZones(contour, passageZones);
+
+        BuildingRecipe baseRecipe = createBuildingOrPartRecipe(primitive, primitiveOrigin, contour,  primitiveTags,  parentTags);
+        if (baseRecipe==null){
+            return List.of();
         }
-        Mesh mesh = composeMesh(buildingRecipe);
 
-        return new RenderableElement(primitive, primitiveOrigin, mesh,0,0);
+        List<BuildingPiece> pieces = new ArrayList<>();
+        pieces.add(new BuildingPiece(contour, new HashMap<>(primitiveTags)));
 
+        boolean wasCut = false;
+        if (!zones.isEmpty() && !baseRecipe.noWalls) {
+            //Passages of different heights are applied one by one, from the lowest one to the highest one.
+            zones.sort(Comparator.comparingDouble(zone -> zone.height));
+            for (BuildingPassage.Zone zone : zones) {
+                CutResult cut = cutByPassage(primitive, primitiveOrigin, parentTags, pieces, zone);
+                pieces = cut.pieces;
+                wasCut |= cut.wasCut;
+            }
+        }
+
+        List<RenderableElement> result = new ArrayList<>();
+        for (BuildingPiece piece : pieces) {
+            BuildingRecipe recipe = createBuildingOrPartRecipe(primitive, primitiveOrigin, piece.contour, piece.tags, parentTags);
+            if (recipe == null) {
+                continue;
+            }
+            Mesh mesh = composeMesh(recipe);
+            RenderableElement element = new RenderableElement(primitive, primitiveOrigin, mesh, 0, 0);
+            if (wasCut) {
+                //All pieces of the cut object are shaded as one body: from the original bottom to the original top.
+                element.setAmbientOcclusionRange(baseRecipe.minHeight, baseRecipe.height);
+            }
+            result.add(element);
+        }
+        return result;
+    }
+
+    /** The pieces of an object after one more passage has been applied, and whether it cut anything. */
+    private static final class CutResult {
+        private final List<BuildingPiece> pieces;
+        private final boolean wasCut;
+
+        private CutResult(List<BuildingPiece> pieces, boolean wasCut) {
+            this.pieces = pieces;
+            this.wasCut = wasCut;
+        }
+    }
+
+    /** A solid to render: a footprint (in local coords) and the tags which define its vertical dimensions. */
+    private static final class BuildingPiece {
+        private final Contour contour;
+        private final Map<String, String> tags;
+
+        private BuildingPiece(Contour contour, Map<String, String> tags) {
+            this.contour = contour;
+            this.tags = tags;
+        }
+    }
+
+    /**
+     * Cheap bbox-based pre-filtering of the passages. The corridor itself is built with JTS,
+     * which is much more expensive, so we do it only for the buildings which may actually be crossed.
+     */
+    private static List<BuildingPassage.Zone> filterPassageZones(Contour contour, List<BuildingPassage.Zone> passageZones) {
+        if (passageZones == null || passageZones.isEmpty()) {
+            return List.of();
+        }
+        if (!"LatLon".equals(contour.mode)) {
+            //We cannot tell anything about the coordinates anymore, let the exact check decide.
+            return new ArrayList<>(passageZones);
+        }
+        double minLat = Double.POSITIVE_INFINITY;
+        double maxLat = Double.NEGATIVE_INFINITY;
+        double minLon = Double.POSITIVE_INFINITY;
+        double maxLon = Double.NEGATIVE_INFINITY;
+        for (List<Point2D> ring : contour.outerRings) {
+            for (Point2D point : ring) {
+                minLat = Math.min(minLat, point.y);
+                maxLat = Math.max(maxLat, point.y);
+                minLon = Math.min(minLon, point.x);
+                maxLon = Math.max(maxLon, point.x);
+            }
+        }
+        List<BuildingPassage.Zone> result = new ArrayList<>();
+        for (BuildingPassage.Zone zone : passageZones) {
+            if (zone.mayIntersect(minLat, maxLat, minLon, maxLon)) {
+                result.add(zone);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Cuts the given pieces by one building passage.
+     * Everything below the passage ceiling is replaced by the same solid without the passage corridor,
+     * and the rest of the building (if it is higher than the passage) becomes a piece with
+     * {@code min_height} equal to the height of the passage, keeping its original roof.
+     */
+    private static CutResult cutByPassage(OsmPrimitive primitive, LatLon origin, Map<String, String> parentTags,
+                                                    List<BuildingPiece> pieces, BuildingPassage.Zone zone) {
+        final double EPS = 1e-6;
+        List<BuildingPiece> result = new ArrayList<>();
+        boolean wasCut = false;
+        Geometry corridor = null;
+        for (BuildingPiece piece : pieces) {
+            BuildingRecipe recipe = createBuildingOrPartRecipe(primitive, origin, piece.contour, piece.tags, parentTags);
+            if (recipe == null) {
+                result.add(piece);
+                continue;
+            }
+            //The piece is completely above the passage, or has no vertical extent at all.
+            if (recipe.minHeight >= zone.height - EPS || recipe.height <= recipe.minHeight + EPS) {
+                result.add(piece);
+                continue;
+            }
+
+            if (corridor == null) {
+                corridor = zone.corridor(origin);
+            }
+            if (corridor == null || !intersects(piece.contour, corridor)) {
+                result.add(piece);
+                continue;
+            }
+
+            List<Contour> below = BuildingPassage.subtract(piece.contour, corridor);
+            if (below == null) {
+                //The boolean operation failed. Keep the object as it is, otherwise the upper piece would duplicate it.
+                result.add(piece);
+                continue;
+            }
+
+            //The building below the passage becomes a set of flat-roofed blocks, the passage walls are their outer walls.
+            wasCut = true;
+            double passageHeight = Math.min(zone.height, recipe.height);
+            for (Contour pieceContour : below) {
+                Map<String, String> tags = new HashMap<>(piece.tags);
+                tags.put("height", Double.toString(passageHeight));
+                tags.put("roof:height", "0");
+                tags.put("roof:shape", "flat");
+                tags.remove("shape");
+                tags.remove("building:shape");
+                result.add(new BuildingPiece(pieceContour, tags));
+            }
+
+            //The rest of the building stays as it is, but starts at the height of the passage.
+            if (recipe.height > zone.height + EPS) {
+                Map<String, String> tags = new HashMap<>(piece.tags);
+                tags.put("min_height", Double.toString(zone.height));
+                result.add(new BuildingPiece(piece.contour, tags));
+            }
+        }
+        return new CutResult(result, wasCut);
+    }
+
+    /** Checks whether the footprint of a building part really intersects the passage corridor. */
+    private static boolean intersects(Contour contour, Geometry corridor) {
+        Geometry footprint = contour.toJTSGeometry();
+        if (footprint == null || footprint.isEmpty()) {
+            return false;
+        }
+        try {
+            return footprint.intersection(corridor).getArea() >= BuildingPassage.MIN_AREA;
+        } catch (Exception e) {
+            UrbanEye3dPlugin.debugMsg("Unable to intersect a building with a building passage: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -457,8 +670,13 @@ public class RenderableElement {
             double dy = maxB.y - minB.y;
             double dz = maxB.z - minB.z;
             this.physicalArea = Math.max(dx * dy, Math.max(dx * dz, dy * dz));
+            //by default the fake ambient occlusion is calculated from the bounds of this very mesh
+            this.aoMinHeight = minB.z;
+            this.aoMaxHeight = maxB.z;
         } else {
             this.physicalArea = 0.0;
+            this.aoMinHeight = 0.0;
+            this.aoMaxHeight = 0.0;
         }
     }
 
