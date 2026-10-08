@@ -1,5 +1,10 @@
 # Development History
 
+### Nov 2, 2026
+* Buildings which a road, a footway or a railway runs through (`tunnel=building_passage`) are now rendered as real passages: the opening is cut out of the building, 
+together with the walls and the ceiling of the passage, and the part of the building above the passage keeps its own roof.
+The height of the passage is taken from the `height` tag of the way (3 m by default), the width -- from `width` (3.5 m by default).
+
 ### Nov 1, 2026
 * Drawing of ground plane imagery refactored: `GroundTile` and `GroundPlane` classes have been decoupled from OpenGL. The single owner of GL texture is `TextureManager`.
 Hopefully it addresses the [Issue #72](https://github.com/Zkir/UrbanEye3D/issues/72). At least I cannot reproduce it so easily now.
@@ -59,9 +64,9 @@ Since we cannot change anything there, some post-factum corrections to geometry 
 * Fixed a minor bug in the data pipeline that was keeping some national and regional flags out of the plugin’s database, so they’re now available as new flag textures.
 
 ### Oct 7, 2026
-* The `location=roof` tag is now supported for node objects. The objects standing on a roof (chimneys, flagpoles, trees, etc.) are now placed on the roof of the building below them. 
-If the object has no `min_height`, the plugin takes the height of the roof surface at that point and uses it as `min_height`, so such objects no longer sink into the building.
-For sloped roofs the object follows the roof surface, and for buildings with multiple building parts it stands on the highest surface.
+* The `location=roof` tag is now supported for node objects. An object standing on a roof (chimney, flagpole, tree, etc.) is now vertically aligned with the surface of the roof, 
+as if `min_height` were set to the roof surface height at that point. (An explicit `min_height` still takes priority, though)
+For sloped roofs the object follows the roof surface; for buildings with multiple building parts it stands on the highest surface.
 
 ## Version 2.8.1 (Oct 16, 2026)
 

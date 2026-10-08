@@ -168,8 +168,8 @@ class SceneTest {
         //resulting number of  buildings is not so important.
         //Just to understand how the picture changes.
         long NumberOfBuildings = scene.renderableElements.stream().filter(e -> e.getMesh().textureName == null).count();
-        int MIN_BUILDINGS = 5152;
-        int MAX_BUILDINGS = 5550;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance); 5458 -- with gates; 5509 -- current state
+        int MIN_BUILDINGS = 5650;
+        int MAX_BUILDINGS = 5850;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance); 5458 -- with gates; 5509 -- before building passages; 5750 -- building passages are cut out of buildings (tunnel=building_passage)
         assertTrue(NumberOfBuildings >= MIN_BUILDINGS && NumberOfBuildings <= MAX_BUILDINGS, "Number of building " + NumberOfBuildings + " is NOT in the reasonable range " + MIN_BUILDINGS + ".." + MAX_BUILDINGS);
 
         if (SAVE_TEST_RESULTS_TO_FILE) {

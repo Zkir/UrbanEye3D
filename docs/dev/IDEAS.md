@@ -28,12 +28,11 @@ In order [voted](https://community.openstreetmap.org/t/urban-eye-3d-josm-3d-view
 		* Note: material does not affect color, it affects procedural texture and metalness. 
 		* Some more advanced shading is obviously required. 
 		* Current state: material tags are used only to derive a default colour (see the `Materials` enum). Procedural textures and metalness are not implemented yet.
-		
-	
-4. Implement rendering of building passages (`tunnel=building_passage`).  #6
-    * Definitely, this requires support of boolean operations with meshes: "difference". for this purpose we have JCSG library (https://github.com/Zkir/JCSG)
-and even example of this library usage: JCSG_test (no repository for it yet). How to preserve face colors while using it is  still the big unknown. 
-    Screenshots in JCSG readme.md suggest that it should be possible.
+
+4. ~~Implement rendering of building passages (`tunnel=building_passage`).~~ #6 -- **DONE** (Oct 8, 2026, see `BuildingPassage`).
+    * The original plan was to use boolean operations on meshes ("difference"), for example with the JCSG library (https://github.com/Zkir/JCSG), but preserving face colors with it was a big unknown.
+    * In the end no mesh booleans were needed at all: the passage way is buffered into a corridor polygon in the *local* coordinate system of the building, the corridor is subtracted from the 2D footprint with JTS, and the resulting flat blocks are extruded up to the passage height. The part of the building above the passage is emitted as one more body with `min_height` = passage height, so its roof (and colors, and materials) is preserved automatically by the normal code path.
+    * Still open: passages which are not at the ground level (viaducts, ramps, the Gate Tower Building case), arches (`covered=arcade`) and passages cut out of `man_made` objects.
 	
 
 Some other wishes:
