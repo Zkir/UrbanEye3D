@@ -174,6 +174,7 @@ public class TagInfoGeneratorTest {
 
         TAG_DESCRIPTIONS.put("area=yes", "This tag causes a feature that would otherwise be considered linear to be considered polygonal.");
         TAG_DESCRIPTIONS.put("location=underground", "An object is located underground. Can be ignored for 3D rendering");
+        TAG_DESCRIPTIONS.put("location=roof", "An object (chimney, flagpole, antenna, etc.) stands on a roof of a building. If min_height is not specified, the object is placed on top of the roof surface below it.");
         TAG_DESCRIPTIONS.put("shape=hyperboloid", "Building or man-made object has hyperboloid shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension");
         TAG_DESCRIPTIONS.put("shape=frustum", "Building or man-made object has frustum shape. Useful for cooling towers and chimneys. Homebrew SM3DB extension");
         TAG_DESCRIPTIONS.put("shape=prism",   "Homebrew SM3DB extension: defines overall shape of the building. Default value. ");

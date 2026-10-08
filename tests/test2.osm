@@ -526,6 +526,13 @@
     <tag k='min_height' v='0' />
     <tag k='shape' v='frustum' />
   </node>
+  <node id='-7468497' action='modify' visible='true' lat='55.0508957855' lon='37.05015167091'>
+    <tag k='building:material' v='brick' />
+    <tag k='diameter' v='1000' />
+    <tag k='location' v='roof' />
+    <tag k='man_made' v='chimney' />
+    <tag k='shape' v='frustum' />
+  </node>
   <way id='-15212' action='modify' visible='true'>
     <nd ref='-7130748' />
     <nd ref='-7130749' />

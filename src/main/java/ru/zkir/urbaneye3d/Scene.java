@@ -175,6 +175,10 @@ public class Scene {
         allCandidates.addAll(buildings);
         allCandidates.addAll(buildingParts);
 
+        //Index of the rendered buildings/parts, used to place point objects tagged with location=roof.
+        //Note that buildings which are not rendered (because they have building parts) are not indexed as well.
+        BuildingSpatialIndex buildingSpatialIndex = new BuildingSpatialIndex();
+
         for (OsmPrimitive primitive : allCandidates) {
             if (partParents.containsValue(primitive)){
                 continue; //we just skip building if it is a parent for some building parts.
@@ -198,6 +202,7 @@ public class Scene {
                     if (element != null) {
                         newElements.add(element);
                         element.isSelected = primitive.isSelected();
+                        buildingSpatialIndex.add(element);
                     }
                 }
             } else {
@@ -206,6 +211,7 @@ public class Scene {
                 if (element != null) {
                     newElements.add(element);
                     element.isSelected = primitive.isSelected();
+                    buildingSpatialIndex.add(element);
                 }
             }
         }
@@ -271,16 +277,44 @@ public class Scene {
                 continue;
             }
 
+            // Tags which are used both for the asset rule matching and for the model generation.
+            // They may differ from the tags of the original object: see the enrichment of trees
+            // and the inference of min_height for objects standing on a roof below.
+            Map<String, String> tagsEnriched = node.getInterestingTags();
+            boolean tagsWereAdjusted = false;
+
+            // Objects standing on a roof (location=roof) are placed on top of the building below them.
+            // The Z-coord of the roof plane at that point is used exactly as if it was given by the min_height tag,
+            // so that all height calculations (height - min_height) remain consistent.
+            // An explicit min_height tag always wins.
+            if (node.hasTag("location", "roof") && !node.hasKey("min_height")) {
+                Double locationRoofHeight = buildingSpatialIndex.getRoofHeight(node.getCoor());
+                if (locationRoofHeight != null) {
+                    tagsEnriched.put("min_height", String.valueOf(locationRoofHeight));
+                    tagsWereAdjusted = true;
+                }
+            }
+
             // For trees, we want to enrich tags BEFORE querying the config so that specific leaf_type rules can match
-            Node nodeForConfig = node;
             if (node.hasTag("natural", "tree")) {
-                var enrichedTags = TreeSpeciesDatabase.getInstance().enrichTags(node.getInterestingTags(), node.getCoor(), new Random(node.getId()));
-                nodeForConfig = new Node();
-                nodeForConfig.setKeys(enrichedTags);
+                tagsEnriched = TreeSpeciesDatabase.getInstance().enrichTags(tagsEnriched, node.getCoor(), new Random(node.getId()));
+                tagsWereAdjusted = true;
+            }
+
+            Node nodeEnriched = node;
+            if (tagsWereAdjusted) {
+                nodeEnriched = new Node(node);
+                //Here we are treading on very slippery path.
+                //  we need a clone of a node, with "additional" tags, to build/select the proper model,
+                //  but we should not  upload inferred tags back to main osm database,
+                //  The problem is that we do not know for sure, wheather the cloned node preserve all important properties,
+                //  like coords and ID (which we use as a random seed), and also parents, which are used for orientation!
+                //  Test show they do, but will JOSM maintain it?
+                nodeEnriched.setKeys(tagsEnriched);
             }
 
             // Find best matching rule
-            AssetRule rule = assetConfig.findBestMatch(nodeForConfig);
+            AssetRule rule = assetConfig.findBestMatch(nodeEnriched);
 
             if (rule != null) {
                 String display = rule.properties.get("display");
@@ -297,7 +331,7 @@ public class Scene {
                         UrbanEye3dPlugin.debugMsg("Procedure for '" + procedure + "' not found");
                         continue;
                     }
-                    mesh = generator.generate(node, new SplittableRandom(node.getId()));
+                    mesh = generator.generate(nodeEnriched, new SplittableRandom(node.getId()));
 
                 } else if (rule.properties.containsKey("model")) {
                     boolean isColorable = "true".equals(rule.properties.get("colorable"));
@@ -321,7 +355,7 @@ public class Scene {
 
                 } else if (rule.properties.containsKey("billboard")) {
                     String texturePath = rule.properties.get("billboard");
-                    Map<String, String> tags = nodeForConfig.getInterestingTags();
+                    Map<String, String> tags = nodeEnriched.getInterestingTags();
                     //default height and width from rule. It is mostly used for determining aspect ratio.
                     double defaultHeight = rule.properties.containsKey("height") ? Double.parseDouble(rule.properties.get("height")) : 1.0;
                     double defaultWidth = rule.properties.containsKey("width") ? Double.parseDouble(rule.properties.get("width")) : 0.9*defaultHeight;
@@ -332,13 +366,13 @@ public class Scene {
                     double height = getTagD("height", tags, defaultHeight + min_height) - min_height;
 
                     double width = height * defaultAspectRatio;
-                    width = getTagD("diameter_crown", tags,width);
+                    width = getTagD("diameter_crown", tags, width);
 
                     //dirty hack: bypass height value, calculated during enrichment.
                     // if there was not height originally, we will recalculate it using just aspect ratio
                     // TODO: implement it more accurately.
                     if (!node.hasTag("height")){
-                        height = width/ defaultAspectRatio;
+                        height = width / defaultAspectRatio;
                     }
 
                     mesh = RenderableElement.createBillboard(texturePath, width, height);
@@ -351,7 +385,7 @@ public class Scene {
 
                 // Check if rotation is allowed or automatic orientation is requested
                 Double direction = null;
-                Double translationZ = OsmDataWasher.getTagD("min_height", node, 0);
+                Double translationZ = OsmDataWasher.getTagD("min_height", nodeEnriched, 0);
                 if (isRotatable) { //rotatable means that direction tag is defined for this object
                     if (node.hasKey("direction")) {
                         direction = OsmDataWasher.parseDirection(node.get("direction"));

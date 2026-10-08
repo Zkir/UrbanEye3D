@@ -643,4 +643,32 @@ class SceneTest {
         assertTrue(cabMinH.zOffset >= 0.25,
             "Cabinet with min_height=0.3 should have bottom above z=0.25");
     }
+
+    @Test
+    void testLocationRoof() throws Exception {
+        DataSet dataSet = loadDataSetFromOsmFile("location_roof.osm");
+        Scene scene = new Scene();
+
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        Map<String, Double> expectedMinHeight = new HashMap<>();
+        expectedMinHeight.put("01", 0.0);
+        expectedMinHeight.put("02", 6.0);
+        expectedMinHeight.put("03", 11.58);
+        expectedMinHeight.put("04", 12.0);
+        expectedMinHeight.put("05", 10.0);
+        expectedMinHeight.put("06", 8.3);
+
+        for (var re : scene.renderableElements) {
+            OsmPrimitive primitive = dataSet.getPrimitiveById(re.primitiveId);
+            String ref = primitive.get("ref");
+            if (ref != null) {
+                double expected = expectedMinHeight.get(ref);
+                double actual =  Math.round(re.zOffset*100.0)/100.0;
+                //double actual =  re.zOffset;
+                assertEquals(expected, actual, "Min_height mismatch for ref=" + ref + " (" + primitive.getPrimitiveId() + ")" + " Note: " + primitive.get("note"));
+            }
+        }
+    }
 }

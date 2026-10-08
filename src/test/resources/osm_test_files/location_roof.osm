@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <node id='-26133' action='modify' visible='true' lat='51.06101009369' lon='13.75010076705' />
+  <node id='-26134' action='modify' visible='true' lat='51.06104203318' lon='13.75027143737' />
+  <node id='-26135' action='modify' visible='true' lat='51.06093045292' lon='13.75032430101' />
+  <node id='-26136' action='modify' visible='true' lat='51.06089851335' lon='13.75015363069' />
+  <node id='-26140' action='modify' visible='true' lat='51.06097385169' lon='13.75020294486'>
+    <tag k='amenity' v='bench' />
+    <tag k='location' v='roof' />
+    <tag k='note' v='Object on a flat roof, min_height --&gt; building height' />
+    <tag k='ref' v='02' />
+  </node>
+  <node id='-26182' action='modify' visible='true' lat='51.06100172528' lon='13.75043308484'>
+    <tag k='location' v='roof' />
+    <tag k='man_made' v='chimney' />
+    <tag k='note' v='Object outside any building, location=roof means nothing' />
+    <tag k='ref' v='01' />
+  </node>
+  <node id='-26188' action='modify' visible='true' lat='51.06095340483' lon='13.7496296993' />
+  <node id='-26189' action='modify' visible='true' lat='51.06098534436' lon='13.74980036961' />
+  <node id='-26190' action='modify' visible='true' lat='51.06087376396' lon='13.74985323325' />
+  <node id='-26191' action='modify' visible='true' lat='51.06084182436' lon='13.74968256293' />
+  <node id='-26192' action='modify' visible='true' lat='51.06091880521' lon='13.74979515254'>
+    <tag k='diameter' v='300' />
+    <tag k='location' v='roof' />
+    <tag k='man_made' v='flagpole' />
+    <tag k='note' v='Object on a sloped roof, min_height between building height and height-roof:height' />
+    <tag k='ref' v='03' />
+  </node>
+  <node id='-26203' action='modify' visible='true' lat='51.06075000238' lon='13.75025179641' />
+  <node id='-26204' action='modify' visible='true' lat='51.06078194205' lon='13.75042246673' />
+  <node id='-26205' action='modify' visible='true' lat='51.06067036116' lon='13.75047533036' />
+  <node id='-26206' action='modify' visible='true' lat='51.06063842141' lon='13.75030466005' />
+  <node id='-26207' action='modify' visible='true' lat='51.06073927455' lon='13.75033847086'>
+    <tag k='location' v='roof' />
+    <tag k='natural' v='tree' />
+    <tag k='note' v='object on the higher building part' />
+    <tag k='ref' v='04' />
+  </node>
+  <node id='-26931' action='modify' visible='true' lat='51.0606947002' lon='13.75027848654' />
+  <node id='-26983' action='modify' visible='true' lat='51.06072741362' lon='13.75044800163' />
+  <node id='-27739' action='modify' visible='true' lat='51.06068497459' lon='13.75042267988'>
+    <tag k='location' v='roof' />
+    <tag k='natural' v='tree' />
+    <tag k='note' v='object on the lower building part' />
+    <tag k='ref' v='05' />
+  </node>
+  <node id='-27805' action='modify' visible='true' lat='51.06088125481' lon='13.74969467935'>
+    <tag k='diameter' v='300' />
+    <tag k='height' v='17' />
+    <tag k='location' v='roof' />
+    <tag k='man_made' v='chimney' />
+    <tag k='min_height' v='8.3' />
+    <tag k='note' v='The min_height tag still has priority' />
+    <tag k='ref' v='06' />
+  </node>
+  <way id='-594' action='modify' visible='true'>
+    <nd ref='-26133' />
+    <nd ref='-26134' />
+    <nd ref='-26135' />
+    <nd ref='-26136' />
+    <nd ref='-26133' />
+    <tag k='building' v='yes' />
+    <tag k='height' v='6' />
+  </way>
+  <way id='-653' action='modify' visible='true'>
+    <nd ref='-26188' />
+    <nd ref='-26189' />
+    <nd ref='-26190' />
+    <nd ref='-26191' />
+    <nd ref='-26188' />
+    <tag k='building' v='yes' />
+    <tag k='height' v='14' />
+    <tag k='roof:height' v='4' />
+    <tag k='roof:shape' v='gabled' />
+  </way>
+  <way id='-690' action='modify' visible='true'>
+    <nd ref='-26931' />
+    <nd ref='-26203' />
+    <nd ref='-26204' />
+    <nd ref='-26983' />
+  </way>
+  <way id='-753' action='modify' visible='true'>
+    <nd ref='-26983' />
+    <nd ref='-26205' />
+    <nd ref='-26206' />
+    <nd ref='-26931' />
+  </way>
+  <way id='-759' action='modify' visible='true'>
+    <nd ref='-26931' />
+    <nd ref='-26983' />
+  </way>
+  <relation id='-160' action='modify' visible='true'>
+    <member type='way' ref='-690' role='outer' />
+    <member type='way' ref='-753' role='outer' />
+    <tag k='building' v='yes' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+  <relation id='-202' action='modify' visible='true'>
+    <member type='way' ref='-753' role='outer' />
+    <member type='way' ref='-690' role='outer' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='10' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+  <relation id='-316' action='modify' visible='true'>
+    <member type='way' ref='-690' role='outer' />
+    <member type='way' ref='-759' role='outer' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='12' />
+    <tag k='min_height' v='10' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+</osm>

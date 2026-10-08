@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20261003T092816Z",
+  "data_updated" : "20261008T112801Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -458,6 +458,10 @@
   }, {
     "key" : "length",
     "description" : "Length of the long side of man_made=street_cabinet features. Direction is along this side."
+  }, {
+    "key" : "location",
+    "value" : "roof",
+    "description" : "An object (chimney, flagpole, antenna, etc.) stands on a roof of a building. If min_height is not specified, the object is placed on top of the roof surface below it."
   }, {
     "key" : "location",
     "value" : "underground",

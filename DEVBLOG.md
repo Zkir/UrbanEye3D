@@ -1,5 +1,10 @@
 # Development History
 
+### Oct 7, 2026
+* The `location=roof` tag is now supported for node objects. The objects standing on a roof (chimneys, flagpoles, trees, etc.) are now placed on the roof of the building below them. 
+If the object has no `min_height`, the plugin takes the height of the roof surface at that point and uses it as `min_height`, so such objects no longer sink into the building.
+For sloped roofs the object follows the roof surface, and for buildings with multiple building parts it stands on the highest surface.
+
 ### Oct 6, 2026
 * The spatial vegetation statistics that the plugin uses to guess a tree's type where OSM has no `leaf_type`/`species` tags are now drawn as a world map: [map_leaf_types.png](docs/map_leaf_types.png). 
 Every 5°×5° cell is coloured by the mix of broadleaved, needleleaved, palm and leafless trees actually mapped in that area — the same mix the plugin draws from when it renders a tree without tags. 

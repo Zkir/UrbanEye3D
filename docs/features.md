@@ -141,6 +141,8 @@ Note that in OSM `barrier=*` is considered to be a linear object, even if the wa
 
 This section describes various standalone 3D objects rendered by the plugin.
 
+Like buildings, these objects obey the `height` and `min_height` tags, and additionally support `location=roof`: the object is placed on the roof of the building below it. Unlike buildings, each object type has its own tags that control the geometry, such as `colour`, `width` or `rotor:diameter`.
+
 ### Street Lamps
 
 -   Nodes tagged with `highway=street_lamp` are rendered using a pre-defined 3D model.

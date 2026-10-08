@@ -446,4 +446,108 @@ public class Mesh {
         return maxBounds;
     }
 
+    final double EDGE_TOLERANCE_M = 0.05;
+
+    /**
+     * Finds the topmost intersection of the vertical line going through (x,y) with the given mesh.
+     * @return z of the topmost intersection, or Double.NaN if the line does not cross the mesh
+     */
+    public double getTopmostVerticalRayIntersection(double x, double y) {
+
+
+        Point3D min = this.getMinBounds();
+        Point3D max = this.getMaxBounds();
+        if (x < min.x - EDGE_TOLERANCE_M || x > max.x + EDGE_TOLERANCE_M ||
+                y < min.y - EDGE_TOLERANCE_M || y > max.y + EDGE_TOLERANCE_M) {
+            return Double.NaN;
+        }
+
+        double topmost = Double.NaN;
+        for (int[] face : this.faces) {
+            double z = getFaceZ(face, x, y);
+            if (!Double.isNaN(z) && (Double.isNaN(topmost) || z > topmost)) {
+                topmost = z;
+            }
+        }
+        return topmost;
+    }
+
+    /**
+     * Finds z of the intersection of the vertical line going through (x,y) with the given face.
+     * The intersection is considered to exist only if (x,y) belongs to the horizontal projection
+     * of the face.
+     * @return z of the intersection, or Double.NaN if there is no intersection
+     */
+    private double getFaceZ(int[] face, double x, double y) {
+
+        final double MIN_NORMAL_Z_RATIO = 1e-6; //Minimal relative z-component of a face normal. Faces with a smaller value are considered vertical.
+
+        if (face == null || face.length < 3) {
+            return Double.NaN;
+        }
+        int n = face.length;
+
+        //Newell's method: it gives a correct normal for any planar polygon, convex or not
+        double nx = 0;
+        double ny = 0;
+        double nz = 0;
+        for (int i = 0; i < n; i++) {
+            Point3D a = verts.get(face[i]);
+            Point3D b = verts.get(face[(i + 1) % n]);
+            nx += (a.y - b.y) * (a.z + b.z);
+            ny += (a.z - b.z) * (a.x + b.x);
+            nz += (a.x - b.x) * (a.y + b.y);
+        }
+
+        double length = Math.sqrt(nx * nx + ny * ny + nz * nz);
+        if (length < 1e-12) {
+            return Double.NaN; //degenerate face
+        }
+        if (Math.abs(nz) / length < MIN_NORMAL_Z_RATIO) {
+            return Double.NaN; //vertical face, the vertical line either lies in its plane or does not cross it
+        }
+
+        //the face lies in the plane: nx*(x-x0) + ny*(y-y0) + nz*(z-z0) = 0
+        Point3D v0 = verts.get(face[0]);
+        double z = v0.z - (nx * (x - v0.x) + ny * (y - v0.y)) / nz;
+
+        return containsXY(face, verts, x, y) ? z : Double.NaN;
+    }
+
+    /**
+     * Checks whether (x,y) belongs to the horizontal projection of the face.
+     * Points lying on the border of the face (within EDGE_TOLERANCE_M) are considered to belong to it,
+     * because in this case the vertical line crosses the border between two neighbouring faces,
+     * and both of them should give (almost) the same z.
+     */
+    private boolean containsXY(int[] face, List<Point3D> verts, double x, double y) {
+        boolean inside = false;
+        int n = face.length;
+        for (int i = 0; i < n; i++) {
+            Point3D a = verts.get(face[i]);
+            Point3D b = verts.get(face[(i + 1) % n]);
+
+            if (distanceToSegment(x, y, a.x, a.y, b.x, b.y) <= EDGE_TOLERANCE_M) {
+                return true;
+            }
+            //standard ray casting
+            if (((a.y > y) != (b.y > y)) && (x < (b.x - a.x) * (y - a.y) / (b.y - a.y) + a.x)) {
+                inside = !inside;
+            }
+        }
+        return inside;
+    }
+
+    private double distanceToSegment(double px, double py, double ax, double ay, double bx, double by) {
+        double dx = bx - ax;
+        double dy = by - ay;
+        double lengthSq = dx * dx + dy * dy;
+        double t = 0;
+        if (lengthSq > 1e-12) {
+            t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / lengthSq));
+        }
+        double cx = ax + t * dx;
+        double cy = ay + t * dy;
+        return Math.hypot(px - cx, py - cy);
+    }
 }
