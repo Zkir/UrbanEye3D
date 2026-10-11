@@ -34,29 +34,23 @@
 
 ### Feature candidates
 
-1. **New generation procedures**  We need generation procedures the following objects. Pre-made models do not fit, because the `height` tag should be respected.
-	1. Wind generator: `power=generator` + `generator:source=wind`/`generator:method=wind_turbine` - F4 supports it.
-	2. Communication towers/masts: `man_made=mast`
-
-2. **Support windows/facades**
+1. **Support windows/facades**
     * Buildings with windows are nice.  This feature is present in osm2world, so we also want it. 
     * There is a tag in osm for windows: [window=*](https://wiki.openstreetmap.org/wiki/Key:window).
     * We want to implement "facade" feature similar to X-plane one. https://developer.x-plane.com/article/facade-creation
     * We already have some sample facades: https://github.com/Zkir/VFR_LANDMARKS_3D_RU/blob/master/Facades
 
-3. **Increase resolution for GroundTile/MapCSS style**.
+2. **Increase resolution for GroundTile/MapCSS style**.
     * Some kind of smart scaling is required, for the nearest tiles only, because it will create huge performance impact otherwise.
-
 
 
 ### Ideas for the Further Development
 
-See: [IDEAS.md](docs/dev/IDEAS.md)
+* See [IDEAS.md](docs/dev/IDEAS.md)
 
 ## Recent Accomplishments
 
-See [Devblog](DEVBLOG.md)
-*   See [Devblog](DEVBLOG.md) for the full development history and recent changes.
+* See [Devblog](DEVBLOG.md) for the full development history and recent changes.
 
 
 ## Architecture and Key Concepts
