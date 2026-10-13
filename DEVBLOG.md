@@ -1,5 +1,8 @@
 # Development History
 
+### Oct 13, 2026
+* Fixed a minor bug in the data pipeline that was keeping some national and regional flags out of the plugin’s database, so they’re now available as new flag textures.
+
 ### Oct 7, 2026
 * The `location=roof` tag is now supported for node objects. The objects standing on a roof (chimneys, flagpoles, trees, etc.) are now placed on the roof of the building below them. 
 If the object has no `min_height`, the plugin takes the height of the roof surface at that point and uses it as `min_height`, so such objects no longer sink into the building.

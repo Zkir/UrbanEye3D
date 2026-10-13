@@ -104,7 +104,7 @@ data\30_flags\flag_rules.json: data\30_flags\wd_national_flags.csv data\30_flags
 	cmd /c "copy /b /v /y data\30_flags\flag_rules.json ..\src\main\resources\data\"
 	
 	
-data\30_flags\images-png.milestone:	data\30_flags\flag_rules_wd.json | data/30_flags/images-png
+data\30_flags\images-png.milestone:	data\30_flags\flag_rules.json | data/30_flags/images-png
 	for %%f in (data\30_flags\images\*.svg) do "C:\Program Files\Inkscape\bin\inkscape.com" "%%f" --export-type=png --export-filename=data\30_flags\images-png\%%~nf.png --export-height=128	
 	cmd /c "copy /b /v /y data\30_flags\images-png\*.png ..\src\main\resources\textures\flags\"
 	touch data\30_flags\images-png.milestone

@@ -299,7 +299,16 @@ def analyze_flags(osm_file, output_json):
         if qid in stats:
             stats[qid] =  (stats[qid][0], stats[qid][1], 'national(iso)', stats[qid][3])
         else:
-            stats[quid] = (qid, 0, 'national(iso)', row['flagLabel'])    
+            stats[qid] =  (qid, 0, 'national(iso)', row['flagLabel'])    
+    
+    # flags that I personally want to be included     
+    wildcard_flags = ('Q2726006', 'Q4487798', 'Q4488299', 'Q1983397')        
+    for qid in wildcard_flags:
+        if qid not in stats:
+            stats[qid] = (qid, 0, 'wildcard', 'unknown')
+        else:
+            print(qid, stats[qid])
+            stats[qid] =  (stats[qid][0], max(stats[qid][1], 5), stats[qid][2] , stats[qid][3])
         
     
     errors = []
@@ -312,7 +321,7 @@ def analyze_flags(osm_file, output_json):
         flagtype = stats[qid][2]
         flagname = stats[qid][3]
         
-        if count>=5 or flagtype=='national(iso)':
+        if count>=5 or flagtype in ('national(iso)', 'wildcard'):
             
             stats2 += [(qid, stats[qid][1], flagtype, flagname)]
             
