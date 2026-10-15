@@ -214,3 +214,11 @@ msgstr "Сглаживание (MSAA)"
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:101
 msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
 msgstr "Количество сэмплов MSAA для сглаживания. 0 - сглаживание отключено. Высокие значения улучшают качество изображения, но могут снизить производительность. Для изменения требуется перезапуск JOSM."
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenFelisEditorAction.java:20
+msgid "Open current view in Felis Editor"
+msgstr "Открыть текущий вид в Felis Editor"
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenFelisEditorAction.java:20
+msgid "View in Felis Editor (web)"
+msgstr "Посмотреть в Felis Editor (веб)"

@@ -6,6 +6,7 @@ import org.openstreetmap.josm.plugins.PluginInformation;
 import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.gui.preferences.PreferenceSetting;
 import ru.zkir.urbaneye3d.josmactions.OpenF4MapAction;
+import ru.zkir.urbaneye3d.josmactions.OpenFelisEditorAction;
 import ru.zkir.urbaneye3d.validator.OverlappingWallsCheck;
 import ru.zkir.urbaneye3d.validator.SpatialConsistencyChecks;
 import ru.zkir.urbaneye3d.validator.TagChecks;
@@ -65,6 +66,12 @@ public class UrbanEye3dPlugin extends Plugin {
                 // Add "Open in F4Map" to the "View" menu
                 OpenF4MapAction openF4MapAction = new OpenF4MapAction();
                 org.openstreetmap.josm.gui.MainApplication.getMenu().viewMenu.add(openF4MapAction);
+
+                //Add "Open in Felis Editor" to the "View" menu
+                OpenFelisEditorAction openFelisEditorAction = new OpenFelisEditorAction();
+                org.openstreetmap.josm.gui.MainApplication.getMenu().viewMenu.add(openFelisEditorAction);
+
+                //make record that menu(s) added
                 f4mapMenuInitialized = true;
             }
         }

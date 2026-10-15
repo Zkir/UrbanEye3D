@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">OSM Simple3D editor — 3D house on white background</title>
+  <defs>
+    <linearGradient id="front" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#278bff"/><stop offset="1" stop-color="#1471e0"/></linearGradient>
+    <linearGradient id="side" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0964d0"/><stop offset="1" stop-color="#084eb0"/></linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#fff"/>
+  <g transform="translate(32 32) scale(1.2) translate(-32 -32)">
+    <path d="M33 37.5 50 30.5V45L33 53Z" fill="url(#side)"/>
+    <path d="M14 30.5 22 23.5 33 37.5V53L14 45Z" fill="url(#front)"/>
+    <path d="M11 29.2 22 18.8 36.4 38.6 33 37.5 22 23.5 13.8 30.5Z" fill="#f5f8fc"/>
+    <path d="M22 18.8 38.8 11.2 53 30.6 36.4 38.6Z" fill="#fff"/>
+    <!-- Общий контур крыши без шва между скатом и торцом -->
+    <path d="M11 29.2 22 18.8 38.8 11.2 53 30.6 36.4 38.6 33 37.5 22 23.5 13.8 30.5Z" fill="none" stroke="#17395c" stroke-width="1.25" stroke-linejoin="round"/>
+    <path d="M20 34.4 25.2 36.3v6.1L20 40.5Z" fill="#fff"/>
+  </g>
+</svg>

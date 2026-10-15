@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-04 12:21:34+0300\n"
+"POT-Creation-Date: 2026-10-16 13:19:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,12 +110,16 @@ msgstr ""
 msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:478
+#: src/main/java/ru/zkir/urbaneye3d/Renderer3D.java:479
 msgid "Objects: {0}, Faces: {1}, Avg frame time: {2} ms"
 msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
 msgid "Open current view in F4 Map"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenFelisEditorAction.java:22
+msgid "Open current view in Felis Editor"
 msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:190
@@ -202,6 +206,10 @@ msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenF4MapAction.java:20
 msgid "View in F4Map (web)"
+msgstr ""
+
+#: src/main/java/ru/zkir/urbaneye3d/josmactions/OpenFelisEditorAction.java:20
+msgid "View in Felis Editor (web)"
 msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/josmactions/ToggleWireframeAction.java:17
