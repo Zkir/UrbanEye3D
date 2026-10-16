@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <node id='933302265' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='7' changeset='190548836' lat='55.7441714' lon='37.6273868' />
+  <node id='933302293' timestamp='2017-03-25T23:40:59Z' uid='830106' user='literan' visible='true' version='7' changeset='47164885' lat='55.7442109' lon='37.6275829' />
+  <node id='933433787' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='8' changeset='190548836' lat='55.7441356' lon='37.6273349' />
+  <node id='933433791' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='8' changeset='190548836' lat='55.7440616' lon='37.6274567' />
+  <node id='933433820' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='8' changeset='190548836' lat='55.7441533' lon='37.6272174' />
+  <node id='933433856' timestamp='2014-08-25T22:23:07Z' uid='260756' user='Felis Pimeja' visible='true' version='6' changeset='25016038' lat='55.7438728' lon='37.627798' />
+  <node id='933433878' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='9' changeset='190548836' lat='55.744019' lon='37.6272451' />
+  <node id='933433881' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='7' changeset='190548836' lat='55.744149' lon='37.6274011' />
+  <node id='933433903' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='8' changeset='190548836' lat='55.744158' lon='37.6273206' />
+  <node id='933433905' timestamp='2014-08-25T22:23:07Z' uid='260756' user='Felis Pimeja' visible='true' version='6' changeset='25016038' lat='55.7438652' lon='37.6275624' />
+  <node id='2579481662' timestamp='2017-03-25T23:41:04Z' uid='830106' user='literan' visible='true' version='4' changeset='47164885' lat='55.7438645' lon='37.627552' />
+  <node id='2579481676' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='6' changeset='190548836' lat='55.7438551' lon='37.6272788' />
+  <node id='2579481693' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='5' changeset='190548836' lat='55.7439203' lon='37.6275466' />
+  <node id='2973091705' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='4' changeset='190548836' lat='55.744026' lon='37.6274793' />
+  <node id='2973091708' action='modify' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='4' changeset='190548836' lat='55.7440655' lon='37.6276754' />
+  <node id='4755543906' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='2' changeset='190548836' lat='55.7439126' lon='37.6275086' />
+  <node id='4755543907' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='2' changeset='190548836' lat='55.7439511' lon='37.6274842' />
+  <node id='4755543908' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='3' changeset='190548836' lat='55.7439075' lon='37.627268' />
+  <node id='14286521541' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='1' changeset='190548836' lat='55.7439377' lon='37.6277653' />
+  <node id='14286521542' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='1' changeset='190548836' lat='55.7438972' lon='37.6277911' />
+  <node id='14286521543' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='1' changeset='190548836' lat='55.7438956' lon='37.6277835' />
+  <node id='14286521544' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='1' changeset='190548836' lat='55.7439362' lon='37.6277577' />
+  <node id='14286521545' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='1' changeset='190548836' lat='55.7441517' lon='37.6276292' />
+  <node id='14286521546' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='1' changeset='190548836' lat='55.7441928' lon='37.627603' />
+  <node id='14286521547' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='1' changeset='190548836' lat='55.7441501' lon='37.6276216' />
+  <node id='14286521548' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='1' changeset='190548836' lat='55.7441913' lon='37.6275954' />
+  <node id='14286521549' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='1' changeset='190548836' lat='55.7441722' lon='37.6273115' />
+  <node id='14286521550' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='1' changeset='190548836' lat='55.7438657' lon='37.6275781' />
+  <way id='79980560' timestamp='2026-10-15T10:12:47Z' uid='260756' user='Felis Pimeja' visible='true' version='10' changeset='190548836'>
+    <nd ref='933433820' />
+    <nd ref='14286521549' />
+    <nd ref='933433903' />
+    <nd ref='933433787' />
+    <nd ref='933433881' />
+    <nd ref='933302265' />
+    <nd ref='933302293' />
+    <nd ref='14286521548' />
+    <nd ref='14286521546' />
+    <nd ref='14286521545' />
+    <nd ref='14286521547' />
+    <nd ref='2973091708' />
+    <nd ref='14286521544' />
+    <nd ref='14286521541' />
+    <nd ref='14286521542' />
+    <nd ref='14286521543' />
+    <nd ref='933433856' />
+    <nd ref='14286521550' />
+    <nd ref='933433905' />
+    <nd ref='2579481662' />
+    <nd ref='2579481676' />
+    <nd ref='4755543908' />
+    <nd ref='4755543907' />
+    <nd ref='4755543906' />
+    <nd ref='2579481693' />
+    <nd ref='2973091705' />
+    <nd ref='933433791' />
+    <nd ref='933433878' />
+    <nd ref='933433820' />
+    <tag k='addr:city' v='Москва' />
+    <tag k='addr:country' v='RU' />
+    <tag k='addr:housenumber' v='8' />
+    <tag k='addr:street' v='Пятницкая улица' />
+    <tag k='building' v='apartments' />
+    <tag k='building:architecture' v='neoclassicism' />
+    <tag k='building:colour' v='yellow' />
+    <tag k='building:levels' v='3' />
+    <tag k='building:material' v='plaster' />
+    <tag k='roof:angle' v='20' />
+    <tag k='roof:colour' v='lightgrey' />
+    <tag k='roof:material' v='metal' />
+    <tag k='roof:shape' v='hipped' />
+  </way>
+</osm>

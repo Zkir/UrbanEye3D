@@ -13,6 +13,7 @@ import java.io.IOException;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_ROOF_THICKNESS;
 import static ru.zkir.urbaneye3d.utils.Settings.SAVE_TEST_RESULTS_TO_FILE;
 
@@ -69,6 +70,9 @@ class RoofGeneratorTopologyTest {
         tags.put("roof:height", Double.toString(roofHeight));
         tags.put("min_height", Double.toString(minHeight));
         tags.put("roof:shape", roofShape.toString());
+        tags.put("roof:colour", "blue");
+        tags.put("building:colour", "red");
+
         if (hyperboloidTopRate != null) {
             tags.put("hyperboloid:top_rate", Double.toString(hyperboloidTopRate));
         }
@@ -81,6 +85,22 @@ class RoofGeneratorTopologyTest {
     public static BuildingRecipe createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
        return createTestBuilding(basePoints, roofShape, minHeight, roofHeight, height, null, null);
     }
+
+    public static void assertNoVertexDuplicates(Mesh mesh, String mesherName){
+        final double EPSILON = 0.01;
+        var v = mesh.verts;
+        for (var i=0; i<v.size(); i++){
+            var p1 = v.get(i);
+            for (var j=i+1; j<v.size(); j++){
+                var p2 = v.get(j);
+                var d = p1.distance(p2);
+
+                assertTrue(d > EPSILON,
+                        "Roof shape " + mesherName + ": Vertices " + i + " and " + j + " are too close ("+d+"), effectively a duplicate.");
+            }
+        }
+    }
+
 
     public static void assertNoZeroLengthEdges(Mesh mesh, String mesherName) {
         // A small tolerance for floating point comparisons
@@ -232,12 +252,53 @@ class RoofGeneratorTopologyTest {
     public static void AssertMeshTopology2(Mesh mesh, double minHeight, double height, String roofShape, boolean doNotCheckBottomNormal){
         assertNotNull(mesh, "Mesh is null for the roof shape " + roofShape);
         assertHeightConstraints(mesh,  minHeight, height, roofShape);
+        //assertNoVertexDuplicates(mesh, roofShape); /* Unfortunately, many of our objects have too close vertices. */
+        //assertNoDegeneratedFaces(mesh, roofShape); /* Procedural models contains small faces */
         assertNoZeroLengthEdges(mesh, roofShape);
         assertNoDuplicatesInFaces(mesh, roofShape);
         assertNoSelfCrossing(mesh, roofShape);
         assertWatertight(mesh, roofShape);
         assertNormalsAndConsistency(mesh, roofShape, doNotCheckBottomNormal);
         assertFaceListEquity(mesh, roofShape);
+    }
+
+    public static void assertNoDegeneratedFaces(Mesh mesh, String roofShape) {
+        final double MINIMAL_AREA = 0.1;
+        int nErrors = 0;
+
+        for(var face: mesh.faces){
+            var s = polygonArea3D(mesh.verts, face);
+            if (face.length<3){
+                nErrors += 1;
+                UrbanEye3dPlugin.debugMsg( roofShape + " " + formatFace(face) + " vertices: " + face.length);
+
+            }else if (s < MINIMAL_AREA) {
+                nErrors += 1;
+                UrbanEye3dPlugin.debugMsg(roofShape + " "  + formatFace(face) + " area: " +s);
+            }
+        }
+        assertEquals(nErrors, 0, "degenerated faces found: " + nErrors);
+
+    }
+    public static double polygonArea3D(List<Point3D> verts, int[] face) {
+        double nx = 0, ny = 0, nz = 0;
+        for (int i = 0; i < face.length; i++) {
+            Point3D p = verts.get(face[i]);
+            Point3D q = verts.get(face[(i + 1) % face.length]);
+            nx += p.y * q.z - p.z * q.y;
+            ny += p.z * q.x - p.x * q.z;
+            nz += p.x * q.y - p.y * q.x;
+        }
+        return 0.5 * Math.sqrt(nx * nx + ny * ny + nz * nz);
+    }
+    private static String formatFace(int[] face){
+        String s="[";
+        for (int idx:face){
+            s += " " + (idx+1) + " ";
+        }
+
+        s += "]";
+        return s;
     }
 
     // all defined roof shapes are tested automatically for a typical building.
@@ -291,7 +352,7 @@ class RoofGeneratorTopologyTest {
                    roof_shape == RoofShapes.MANSARD|| roof_shape == RoofShapes.CROSS_GABLED ){
                 continue;
             }
-            BuildingRecipe test_building = createTestBuilding(base, roof_shape, 0, 5, 10);
+            BuildingRecipe test_building = createTestBuilding(base, roof_shape, 0, 5, 11);
             Mesh mesh = roof_shape.getMesher().generate(test_building);
             if (SAVE_TEST_RESULTS_TO_FILE) {
                 ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roof_shape +".obj");

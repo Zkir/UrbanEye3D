@@ -145,36 +145,40 @@ public class RoofGeneratorGoldenMasterTest {
         BuildingRecipe test_building = createTestBuilding(base, RoofShapes.GABLED, 0, 5, 10);
         Mesh mesh = RoofShapes.GABLED.getMesher().generate(test_building);
         String result = ru.zkir.urbaneye3d.utils.ObjExporter.meshToString(mesh,"");
-        String expected = "# Blender-compatible OBJ\n" +
-                "# Created by UrbanEye3D\n"+
-                "mtllib default.mtl\n" +
-                "v -51.000000 0.000000 -223.000000\n" +
-                "v -43.000000 0.000000 325.000000\n" +
-                "v 129.000000 0.000000 323.000000\n" +
-                "v 64.000000 0.000000 38.000000\n" +
-                "v 120.000000 0.000000 -225.000000\n" +
-                "v 129.000000 5.000000 323.000000\n" +
-                "v -43.000000 5.000000 325.000000\n" +
-                "v 43.000000 10.000000 324.000000\n" +
-                "v -51.000000 5.000000 -223.000000\n" +
-                "v 120.000000 5.058130 -225.000000\n" +
-                "v 34.999915 10.000000 -224.005847\n" +
-                "v 64.000000 8.536575 38.000000\n" +
-                "\ng object_default\n" +
-                "\n# Roof\n" +
-                "usemtl material2\n" +
-                "f 11 10 12 6 8\n" +
-                "f 8 7 9 11\n" +
-                "\n# Walls \n" +
-                "usemtl material1\n" +
-                "f 3 2 7 8 6\n" +
-                "f 2 1 9 7\n" +
-                "f 1 5 10 11 9\n" +
-                "f 5 4 12 10\n" +
-                "f 4 3 6 12\n" +
-                "\n# Base\n" +
-                "usemtl material0\n" +
-                "f 1 2 3 4 5\n";
+        String expected =
+            "# Blender-compatible OBJ\n" +
+            "# Created by UrbanEye3D\n" +
+            "mtllib default.mtl\n" +
+            "v 120.000000 0.000000 -225.000000\n" +
+            "v 64.000000 0.000000 38.000000\n" +
+            "v 129.000000 0.000000 323.000000\n" +
+            "v -43.000000 0.000000 325.000000\n" +
+            "v -51.000000 0.000000 -223.000000\n" +
+            "v 120.000000 5.000000 -225.000000\n" +
+            "v 64.000000 5.000000 38.000000\n" +
+            "v 129.000000 5.000000 323.000000\n" +
+            "v -43.000000 5.000000 325.000000\n" +
+            "v -51.000000 5.000000 -223.000000\n" +
+            "v 7.752057 8.570114 38.406121\n" +
+            "v 34.500000 9.933003 -224.000000\n" +
+            "v 43.000000 10.000000 324.000000\n" +
+            "g object_default\n" +
+            "# Roof usemtl material2\n" +
+            "f 11 12 6 7\n" +
+            "f 13 11 7 8\n" +
+            "f 12 11 13 9 10\n" +
+            "# Walls\n" +
+            "usemtl material1\n" +
+            "f 1 2 7 6\n" +
+            "f 2 3 8 7\n" +
+            "f 3 4 9 8\n" +
+            "f 4 5 10 9\n" +
+            "f 5 1 6 10\n" +
+            "f 13 8 9\n" +
+            "f 12 10 6\n" +
+            "# Base\n" +
+            "usemtl material0\n" +
+            "f 5 4 3 2 1\n";
 
         assertEquals(expected.trim().replaceAll("\\s+", " "), result.trim().replaceAll("\\s+", " "));
     }

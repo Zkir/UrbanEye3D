@@ -533,6 +533,14 @@
     <tag k='man_made' v='chimney' />
     <tag k='shape' v='frustum' />
   </node>
+  <node id='-7482202' action='modify' visible='true' lat='55.05710138585' lon='37.04188467276' />
+  <node id='-7495769' action='modify' visible='true' lat='55.05735338008' lon='37.04366663915' />
+  <node id='-7515332' action='modify' visible='true' lat='55.05657062223' lon='37.04400406111' />
+  <node id='-7536457' action='modify' visible='true' lat='55.05631862308' lon='37.04222209471' />
+  <node id='-7808099' action='modify' visible='true' lat='55.05638589742' lon='37.04269781193' />
+  <node id='-7862363' action='modify' visible='true' lat='55.05650664992' lon='37.04355169143' />
+  <node id='-7900245' action='modify' visible='true' lat='55.05612142813' lon='37.04281181419' />
+  <node id='-7957320' action='modify' visible='true' lat='55.05624218143' lon='37.04366569369' />
   <way id='-15212' action='modify' visible='true'>
     <nd ref='-7130748' />
     <nd ref='-7130749' />
@@ -858,6 +866,21 @@
     <tag k='roof:direction' v='270' />
     <tag k='roof:height' v='6' />
     <tag k='roof:shape' v='saltbox' />
+  </way>
+  <way id='-15420' action='modify' visible='true'>
+    <nd ref='-7482202' />
+    <nd ref='-7495769' />
+    <nd ref='-7515332' />
+    <nd ref='-7862363' />
+    <nd ref='-7957320' />
+    <nd ref='-7900245' />
+    <nd ref='-7808099' />
+    <nd ref='-7536457' />
+    <nd ref='-7482202' />
+    <tag k='building' v='yes' />
+    <tag k='building:levels' v='20' />
+    <tag k='roof:height' v='30' />
+    <tag k='roof:shape' v='gabled' />
   </way>
   <relation id='-3701' action='modify' visible='true'>
     <member type='way' ref='-15212' role='outer' />

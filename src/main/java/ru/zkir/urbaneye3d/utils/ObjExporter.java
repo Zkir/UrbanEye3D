@@ -66,7 +66,9 @@ public class ObjExporter {
 
             var i =0;
             for (var material: mesh.materials){
-                writeMaterial(writer, "material" + i, material, df);
+                if (material != null) {
+                    writeMaterial(writer, "material" + i, material, df);
+                }
                 i++;
             }
 

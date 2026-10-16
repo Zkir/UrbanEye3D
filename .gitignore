@@ -1,7 +1,7 @@
 /.idea/
 /target/
-/tests/output/*.obj
 /tests/output/**/*.obj
+/tests/output/**/*.mtl
 
 /tests/output.good
 /tests/output.new

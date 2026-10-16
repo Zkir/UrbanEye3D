@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Settings{
-    public static boolean SAVE_TEST_RESULTS_TO_FILE = false;
+    public static boolean SAVE_TEST_RESULTS_TO_FILE = true;
 
     public static String prepareTestOutputFolder(String testName) throws IOException {
         String outputFolder = "tests/output/" + testName;

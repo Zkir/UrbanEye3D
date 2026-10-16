@@ -194,7 +194,7 @@ public class Scene {
 
             if (primitive instanceof Relation && mainContour.outerRings.size() > 1 && mainContour.innerRings.isEmpty()) {
                 // Split multipolygon with multiple outer rings and no inner rings
-                for (ArrayList<Point2D> outerRing : mainContour.outerRings) {
+                for (List<Point2D> outerRing : mainContour.outerRings) {
                     //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
                     Contour partContour = new Contour(outerRing, mainContour.mode);
 

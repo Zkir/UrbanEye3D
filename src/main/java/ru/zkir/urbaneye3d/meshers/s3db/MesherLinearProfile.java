@@ -27,10 +27,18 @@ public class MesherLinearProfile extends RoofGenerator {
     */
     public Mesh generate(BuildingRecipe building){
         Mesh fullMesh;
-        if (building.getContour().size() == 4) {
+        if ((building.getContour().size() == 4) && (!building.hasComplexContour())) {
             fullMesh = generateR(building);
         } else {
-            fullMesh = generateQR(building);
+            if (building.roofShape == RoofShapes.GABLED){
+                //Dirty hack here. first we generate hipped roof, and then make  triangular faces vertical
+                MesherHipped  mesher = (MesherHipped) RoofShapes.HIPPED.getMesher();
+                fullMesh = mesher.generate(building);
+                fullMesh =  mesher.makeGabled(fullMesh, building);
+
+            } else {
+                fullMesh = generateQR(building);
+            }
         }
 
         if (fullMesh != null && building.noWalls) {

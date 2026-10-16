@@ -1,5 +1,7 @@
 package ru.zkir.urbaneye3d.utils;
 
+import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +65,8 @@ public class Mesh {
      */
     public int addVertex(Point3D p) {
         // Round the point to a certain precision to use as a key in the cache.
+        //   Precision value is set this way because we want to prevent adding of the SAME vertex several times.
+        //   We do not expect glitches that coordinate goes back and force say, for several centimeters (0.01)
         double scale = 1e6;
         Point3D roundedP = new Point3D(
             Math.round(p.x * scale) / scale,
@@ -77,6 +81,27 @@ public class Mesh {
             return verts.size() - 1;
         });
     }
+
+    /**
+     *   Alternative version of the addVertex() method
+     *   It merges vertices aggressively
+     */
+    public int addVertex2(Point3D p) {
+        final double EPSILON = 0.01;
+        final double eps2 = EPSILON * EPSILON;
+        for (int i=0, n=verts.size(); i<n; i++){
+            Point3D q=verts.get(i);
+            double dx = p.x - q.x, dy = p.y - q.y, dz = p.z - q.z;
+            var d2 = dx*dx + dy*dy + dz*dz;
+            if (d2 < eps2){
+                return i;
+            }
+        }
+        verts.add(p);
+        return verts.size() - 1;
+    }
+
+
 
     public int addUV(double u, double v){
         uvs.add(new Point2D(u,v));
@@ -549,5 +574,403 @@ public class Mesh {
         double cx = ax + t * dx;
         double cy = ay + t * dy;
         return Math.hypot(px - cx, py - cy);
+    }
+
+
+    /**
+     * Fixes "T-junction" geometry errors.
+     *
+     * <p>A T-junction occurs when a vertex X lies geometrically on an edge A-B
+     * of a face, but the edge A-B itself is not split at point X.
+     * This results in "gaps" appearing between faces during rendering.</p>
+     *
+     * <p>The method iterates through all faces; for each edge A-B, it identifies all
+     * vertices that lie strictly within the segment A-B, sorts them by the parameter t
+     * (their position along the edge from A to B), and inserts them in order.
+     *
+     * <p>If a face has UV coordinates, the UV values for the inserted vertices
+     * are interpolated between the UV coordinates of the edge's endpoints.</p>
+     */
+    public void fixTJunctions() {
+        final double tolerance = 0.01; // допуск коллинеарности (в единицах сетки)
+
+        for (int faceIdx = 0; faceIdx < faces.size(); faceIdx++) {
+            final int[] face = faces.get(faceIdx);
+            if (face == null || face.length < 3) continue;
+
+            final int[] faceUV = faceUVs.get(faceIdx);
+
+            // Вершины, уже входящие в данную грань — их повторно не вставляем.
+            final Set<Integer> faceVertices = new HashSet<>();
+            for (int v : face) faceVertices.add(v);
+
+            final List<Integer> newFace   = new ArrayList<>(face.length);
+            final List<Integer> newFaceUV = (faceUV != null) ? new ArrayList<>(face.length) : null;
+
+            boolean modified = false;
+            final int n = face.length;
+
+            for (int i = 0; i < n; i++) {
+                final int a = face[i];
+                final int b = face[(i + 1) % n];
+
+                // Всегда добавляем вершину A
+                newFace.add(a);
+                if (faceUV != null) newFaceUV.add(faceUV[i]);
+
+                final Point3D pa = verts.get(a);
+                final Point3D pb = verts.get(b);
+
+                // Быстрая AABB-отсечка кандидатов
+                final double minX = Math.min(pa.x, pb.x) - tolerance;
+                final double maxX = Math.max(pa.x, pb.x) + tolerance;
+                final double minY = Math.min(pa.y, pb.y) - tolerance;
+                final double maxY = Math.max(pa.y, pb.y) + tolerance;
+                final double minZ = Math.min(pa.z, pb.z) - tolerance;
+                final double maxZ = Math.max(pa.z, pb.z) + tolerance;
+
+                // Ищем вершины, лежащие строго внутри отрезка A-B
+                final List<double[]> onEdge = new ArrayList<>(); // {t, vertexIndex}
+                for (int v = 0; v < verts.size(); v++) {
+                    if (v == a || v == b) continue;
+                    if (faceVertices.contains(v)) {
+                        //continue;
+                    }
+
+                    final Point3D p = verts.get(v);
+                    if (p.x < minX || p.x > maxX ||
+                            p.y < minY || p.y > maxY ||
+                            p.z < minZ || p.z > maxZ) {
+                        continue;
+                    }
+
+                    final double t = pointOnSegment(pa, pb, p, tolerance);
+                    if (t > 0.0 && t < 1.0) {
+                        onEdge.add(new double[]{t, v});
+                    }
+                }
+
+                if (onEdge.isEmpty()) continue;
+
+                modified = true;
+
+                // Сортируем по положению вдоль ребра (от A к B)
+                onEdge.sort((p1, p2) -> Double.compare(p1[0], p2[0]));
+
+                // Вставляем промежуточные вершины по порядку
+                for (double[] entry : onEdge) {
+                    final int midV = (int) entry[1];
+                    final double t  = entry[0];
+
+                    newFace.add(midV);
+
+                    if (faceUV != null) {
+                        final int uvA = faceUV[i];
+                        final int uvB = faceUV[(i + 1) % n];
+                        final Point2D pUVa = uvs.get(uvA);
+                        final Point2D pUVb = uvs.get(uvB);
+                        final int newUVIdx = addUV(
+                                pUVa.x + (pUVb.x - pUVa.x) * t,
+                                pUVa.y + (pUVb.y - pUVa.y) * t
+                        );
+                        newFaceUV.add(newUVIdx);
+                    }
+                }
+            }
+
+            if (modified) {
+                final int[] updatedFace = new int[newFace.size()];
+                for (int i = 0; i < newFace.size(); i++) updatedFace[i] = newFace.get(i);
+                faces.set(faceIdx, updatedFace);
+
+                if (faceUV != null) {
+                    final int[] updatedUV = new int[newFaceUV.size()];
+                    for (int i = 0; i < newFaceUV.size(); i++) updatedUV[i] = newFaceUV.get(i);
+                    faceUVs.set(faceIdx, updatedUV);
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks whether point {@code p} lies strictly inside the line segment {@code a-b}
+     * (i.e., not at its endpoints), given a specified tolerance.
+     *
+     * @return the parameter {@code t} in the range (0, 1) — representing the position
+     *         of {@code p} along the segment (where 0 corresponds to point {@code a}
+     *         and 1 to point {@code b}) — or {@code -1} if {@code p} does not lie
+     *         on the segment.
+     */
+    private double pointOnSegment(Point3D a, Point3D b, Point3D p, double tolerance) {
+        final double dx = b.x - a.x;
+        final double dy = b.y - a.y;
+        final double dz = b.z - a.z;
+        final double lenSq = dx * dx + dy * dy + dz * dz;
+        if (lenSq < 1e-20) return -1; // вырожденный отрезок
+
+        // Проекция p на прямую a-b
+        double t = ((p.x - a.x) * dx + (p.y - a.y) * dy + (p.z - a.z) * dz) / lenSq;
+        if (t <= 0.0 || t >= 1.0) return -1;
+
+        // Перпендикулярное расстояние от p до прямой
+        final double cx = a.x + t * dx;
+        final double cy = a.y + t * dy;
+        final double cz = a.z + t * dz;
+        final double distSq = (p.x - cx) * (p.x - cx)
+                + (p.y - cy) * (p.y - cy)
+                + (p.z - cz) * (p.z - cz);
+
+        return (distSq <= tolerance * tolerance) ? t : -1;
+    }
+
+    /**
+     * Removes duplicate vertices from the mesh and reindexes all faces.
+     *
+     * <p>Two vertices are considered identical if their coordinates, when rounded
+     * to a precision of 1e-6 (the same precision used in {@link #vertexCache}),
+     * are equal. This allows for "welding" vertices that may have been created
+     * by in-place coordinate-modifying operations (such as {@link #scale(double, double, double)})
+     * or following a load/deserialization process.</p>
+     *
+     * <p>Side effects:
+     * <ul>
+     *   <li>All face arrays are reindexed to reflect the new vertex indices.</li>
+     *   <li>Consecutive duplicate indices within faces are removed (including
+     *       wraparound duplicates), effectively eliminating "zero-length" edges (A-A).</li>
+     *   <li>Faces that end up with fewer than 3 vertices after this cleanup are
+     *       removed, along with their corresponding entries in {@code faceUVs} and
+     *       {@code faceMaterials}.</li>
+     *   <li>UV indices are preserved only for the vertex positions that remain in the face.</li>
+     *   <li>The {@link #vertexCache} is rebuilt, and the bounding box is reset.</li>
+     * </ul>
+     * </p>
+     *
+     * <p>Materials ({@code materials}) and {@code textureName} remain unaffected.</p>
+     */
+    public void fixDuplicateVertices() {
+        final double scale = 1e1;
+
+        // 1. Строим карту "округлённая точка -> новый индекс" и oldToNew
+        final Map<Point3D, Integer> canonicalMap = new HashMap<>();
+        final List<Point3D> newVerts = new ArrayList<>(verts.size());
+        final int[] oldToNew = new int[verts.size()];
+
+        for (int i = 0; i < verts.size(); i++) {
+            final Point3D p = verts.get(i);
+            final Point3D roundedP = new Point3D(
+                    Math.round(p.x * scale) / scale,
+                    Math.round(p.y * scale) / scale,
+                    Math.round(p.z * scale) / scale
+            );
+            final Integer existing = canonicalMap.get(roundedP);
+            if (existing != null) {
+                oldToNew[i] = existing;
+            } else {
+                final int newIdx = newVerts.size();
+                newVerts.add(p);
+                canonicalMap.put(roundedP, newIdx);
+                oldToNew[i] = newIdx;
+            }
+        }
+
+        // 2. Если ничего не склеилось — выходим, чтобы не пересобирать структуры зря
+        if (newVerts.size() == verts.size()) {
+            return;
+        }
+
+        // 3. Переиндексация граней с удалением вырожденных
+        final List<int[]> newFaces         = new ArrayList<>(faces.size());
+        final List<int[]> newFaceUVs       = new ArrayList<>(faceUVs.size());
+        final List<Integer> newFaceMats    = new ArrayList<>(faceMaterials.size());
+
+        for (int fi = 0; fi < faces.size(); fi++) {
+            final int[] face = faces.get(fi);
+            if (face == null || face.length < 3) {
+                continue; // некорректная грань — пропускаем
+            }
+
+            // 3a. Индексы оригинальных позиций, которые остаются в грани.
+            //     Убираем подряд идущие одинаковые (уже переиндексированные) вершины.
+            final List<Integer> keptPositions = new ArrayList<>(face.length);
+            for (int i = 0; i < face.length; i++) {
+                final int newV = oldToNew[face[i]];
+                if (keptPositions.isEmpty()) {
+                    keptPositions.add(i);
+                } else {
+                    final int prevNewV = oldToNew[face[keptPositions.get(keptPositions.size() - 1)]];
+                    if (prevNewV != newV) {
+                        keptPositions.add(i);
+                    }
+                }
+            }
+            // Циклический дубликат: последняя совпала с первой
+            while (keptPositions.size() > 1) {
+                final int firstNewV = oldToNew[face[keptPositions.get(0)]];
+                final int lastNewV  = oldToNew[face[keptPositions.get(keptPositions.size() - 1)]];
+                if (firstNewV == lastNewV) {
+                    keptPositions.remove(keptPositions.size() - 1);
+                } else {
+                    break;
+                }
+            }
+
+            if (keptPositions.size() < 3) {
+                continue; // грань выродилась — выбрасываем
+            }
+
+            // 3b. Формируем новую грань
+            final int[] newFace = new int[keptPositions.size()];
+            for (int i = 0; i < keptPositions.size(); i++) {
+                newFace[i] = oldToNew[face[keptPositions.get(i)]];
+            }
+            newFaces.add(newFace);
+
+            // 3c. Переносим UV-индексы для оставшихся позиций (если они есть)
+            final int[] faceUV = faceUVs.get(fi);
+            if (faceUV != null) {
+                final int[] newUV = new int[keptPositions.size()];
+                for (int i = 0; i < keptPositions.size(); i++) {
+                    newUV[i] = faceUV[keptPositions.get(i)];
+                }
+                newFaceUVs.add(newUV);
+            } else {
+                newFaceUVs.add(null);
+            }
+
+            // 3d. Материал переносим как есть
+            newFaceMats.add(faceMaterials.get(fi));
+        }
+
+        // 4. Заменяем содержимое на пересобранное
+        verts.clear();
+        verts.addAll(newVerts);
+
+        faces.clear();
+        faces.addAll(newFaces);
+
+        faceUVs.clear();
+        faceUVs.addAll(newFaceUVs);
+
+        faceMaterials.clear();
+        faceMaterials.addAll(newFaceMats);
+
+        // 5. Пересобираем vertexCache и сбрасываем bounding box
+        invalidateBBOX();
+    }
+
+
+    /**
+     * Removes duplicate faces from the mesh.
+     *
+     * <p>Two faces are considered duplicates if they consist of the same set of
+     * vertices (treated as a set of indices). The starting vertex and the
+     * traversal direction do not matter; for instance, the faces
+     * <code>[A,B,C]</code>, <code>[B,C,A]</code>, and <code>[C,B,A]</code> are
+     * considered duplicates of one another.</p>
+     *
+     * <p>The first encountered face is preserved (along with its associated
+     * UV indices and material). All subsequent copies are removed, as are their
+     * corresponding entries in {@link #faceUVs} and {@link #faceMaterials}.</p>
+     *
+     * <p>Faces that are {@code null}, have fewer than 3 vertices, or contain
+     * repeated vertices (e.g., <code>[A,B,A]</code>) are handled in the standard
+     * way: their key is generated as a sorted array of indices that accounts for
+     * multiplicity. Consequently, <code>[A,B,A]</code> and <code>[A,A,B]</code>
+     * are considered duplicates, whereas <code>[A,B,A]</code> and
+     * <code>[A,B,C]</code> are not.</p>
+     *
+     * <p>The relative order of the remaining faces is preserved, and the
+     * correspondence between {@code faces}, {@code faceUVs}, and
+     * {@code faceMaterials} remains intact.</p>
+     */
+    public void fixDuplicateFaces() {
+        // Ключ: отсортированный список индексов вершин (с учётом кратности).
+        final Set<List<Integer>> seen = new HashSet<>();
+
+        final List<int[]> newFaces      = new ArrayList<>(faces.size());
+        final List<int[]> newFaceUVs    = new ArrayList<>(faceUVs.size());
+        final List<Integer> newFaceMats = new ArrayList<>(faceMaterials.size());
+
+        for (int fi = 0; fi < faces.size(); fi++) {
+            final int[] face = faces.get(fi);
+
+            // Пропускаем заведомо некорректные грани.
+            if (face == null || face.length < 3) {
+                continue;
+            }
+
+            // Строим канонический ключ — отсортированные индексы вершин.
+            final int[] sorted = Arrays.copyOf(face, face.length);
+            Arrays.sort(sorted);
+            final List<Integer> key = new ArrayList<>(sorted.length);
+            for (int v : sorted) {
+                key.add(v);
+            }
+
+            // Если такая грань уже была — это дубликат, выбрасываем.
+            if (!seen.add(key)) {
+                continue;
+            }
+
+            newFaces.add(face);
+            newFaceUVs.add(faceUVs.get(fi));
+            newFaceMats.add(faceMaterials.get(fi));
+        }
+
+        // Если ничего не удалилось — структуры не трогаем.
+        if (newFaces.size() == faces.size()) {
+            return;
+        }
+
+        faces.clear();
+        faces.addAll(newFaces);
+
+        faceUVs.clear();
+        faceUVs.addAll(newFaceUVs);
+
+        faceMaterials.clear();
+        faceMaterials.addAll(newFaceMats);
+    }
+
+    /**
+     *  Remove degenerated edge sequence from faces, ..-A-B-A-.. is collapsed to just ..-A-..
+     *  This problem appears as a glitch in camp-skeleton algorithm.
+     */
+    public void fixDegeneratedFaceParts(){
+
+        for (int faceIdx = 0; faceIdx < faces.size(); faceIdx++) {
+            final int[] face = faces.get(faceIdx);
+            var newFace = new ArrayList<Integer>();
+            boolean modified = false;
+
+            for (int j = 0; j < face.length; j++){
+
+                int current = face[j];
+                int next =  face[(j + 1) % face.length];
+                int third = face[(j + 2) % face.length];
+                newFace.add(current);
+
+                if (current == third) {
+                    //UrbanEye3dPlugin.debugMsg("degenerated segment found " + current + " " + next + " " + third);
+                    j+=2; //jump to the same node, skipping degenrated segment
+                    modified = true;
+                }
+
+
+            };
+            if (modified){
+                final int[] updatedFace = new int[newFace.size()];
+                for (int i = 0; i < newFace.size(); i++){
+                    updatedFace[i] = newFace.get(i);
+                }
+                faces.set(faceIdx, updatedFace);
+
+                if (faceUVs.get(faceIdx) !=null){
+                    throw new RuntimeException("UVs are not yet supported here");
+                }
+            }
+
+        }
+
     }
 }

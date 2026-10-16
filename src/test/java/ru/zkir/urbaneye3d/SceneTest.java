@@ -671,4 +671,76 @@ class SceneTest {
             }
         }
     }
+
+    @Test
+    void testNonConvexGabled() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("gabled_nonconvex.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        // Assert: Verify the outcome
+        assertEquals(1, scene.renderableElements.size());
+
+        var re = scene.renderableElements.get(0);
+        String outputFolder = Settings.prepareTestOutputFolder("NonConvexGabled");
+        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/" +"testNonConvexGabled.obj");
+
+        //We do not have original height and min_height, so constraint test is just formal
+        RoofGeneratorTopologyTest.assertNoVertexDuplicates(re.getMesh(), "Gabled_non_convex");
+        RoofGeneratorTopologyTest.assertNoDegeneratedFaces(re.getMesh(), "Hipped_non_convex");
+        RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, "Gabled_non_convex");
+
+    }
+
+    @Test
+    void testNonConvexHipped() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("hipped_nonconvex.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        // Assert: Verify the outcome
+        assertEquals(1, scene.renderableElements.size());
+
+        var re = scene.renderableElements.get(0);
+        String outputFolder = Settings.prepareTestOutputFolder("NonConvexHipped");
+        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/" +"testNonConvexHipped.obj");
+
+        RoofGeneratorTopologyTest.assertNoVertexDuplicates(re.getMesh(), "Hipped_non_convex");
+        RoofGeneratorTopologyTest.assertNoDegeneratedFaces(re.getMesh(), "Hipped_non_convex");
+        RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, "Hipped_non_convex");
+
+    }
+
+    @Test
+    void testHippedWithHole() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("hipped_with_hole.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        // Assert: Verify the outcome
+        assertEquals(1, scene.renderableElements.size());
+
+        var re = scene.renderableElements.get(0);
+        String outputFolder = Settings.prepareTestOutputFolder("HippedWithHole");
+        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/" +"testHippedWithHole.obj");
+
+
+        RoofGeneratorTopologyTest.assertNoVertexDuplicates(re.getMesh(), "HippedWithHole");
+        RoofGeneratorTopologyTest.assertNoDegeneratedFaces(re.getMesh(), "HippedWithHole");
+        RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, "HippedWithHole");
+
+    }
+
 }

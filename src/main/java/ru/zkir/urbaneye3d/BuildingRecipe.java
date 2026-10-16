@@ -16,6 +16,8 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_STEP_HEIGHT;
 /**
  * Data necessary to produce building\part mesh according to S3DB specification */
 public class BuildingRecipe {
+    private static final List<RoofShapes>  ALLOWED_SHAPES_FOR_COMPLEX_BASE = List.of( RoofShapes.SKILLION, RoofShapes.HIPPED, RoofShapes.GABLED);
+
     public final PrimitiveId primitiveId; //potentially for random seed
     public final double roofHeight;
     public final double minHeight;  // z0 -- z-coordinate of building bottom
@@ -67,13 +69,13 @@ public class BuildingRecipe {
             roofHeight = height - minHeight;
         }
 
-
         //in case outline has inner rings, we cannot construct any other roof, but FLAT and SKILLION
         // also, if roof's height is zero, it's flat!
-        if ((roofHeight == 0) || (contour.isComplex() && !roofShape.equals(RoofShapes.SKILLION.toString()))) {
+        var requestedShape = RoofShapes.fromString(roofShape);
+        if ((roofHeight == 0) || (contour.isComplex() && !ALLOWED_SHAPES_FOR_COMPLEX_BASE.contains(requestedShape))) {
             this.roofShape = RoofShapes.FLAT;
         } else {
-            this.roofShape = RoofShapes.fromString(roofShape);
+            this.roofShape = requestedShape;
         }
 
         this.roofDirection = OsmDataWasher.parseDirection(roofDirectionStr);
@@ -104,11 +106,11 @@ public class BuildingRecipe {
         return contour.outerRings.isEmpty() ? new ArrayList<>() : contour.outerRings.get(0);
     }
 
-    public List<ArrayList<Point2D>> getContourOuterRings() {
+    public List<List<Point2D>> getContourOuterRings() {
         return contour.outerRings;
     }
 
-    public List<ArrayList<Point2D>> getContourInnerRings() {
+    public List<List<Point2D>> getContourInnerRings() {
         return contour.innerRings;
     }
 

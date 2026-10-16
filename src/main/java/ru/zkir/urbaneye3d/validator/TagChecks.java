@@ -173,7 +173,7 @@ public class TagChecks extends Test {
         LatLon center = p.getBBox().getCenter();
         contour.toLocalCoords(center);
 
-        ArrayList<Point2D> outerRing = contour.outerRings.get(0);
+        List<Point2D> outerRing = contour.outerRings.get(0);
         if (outerRing.size() < 2) {
             return null;
         }

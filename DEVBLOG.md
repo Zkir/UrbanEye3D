@@ -1,5 +1,18 @@
 # Development History
 
+### Oct 15, 2026
+Two new enhancements: 
+* Completely new algorithm for `roof:shape=gabbled`: gabled roof is created from hipped roof by 
+verticalizing the triangular faces. This allows more natural roof shapes, which are not easily achivable with parts!
+![roof_gabled-new-nonconvex](docs/images/roof_gabled-new-nonconvex.png)
+![roof_gabled-new-nonconvex-2](docs/images/roof_gabled-new-nonconvex-2.png)
+
+* `roof:shape=hipped` is now supported for building outlines with holes. 
+![roof_hipped_with-holes](docs/images/roof_hipped_with-holes.png)
+
+It was found out that the camp-skeleton lib is quite glitchy on non-convex polygons/polygons with holes.
+Since we cannot change anything there, some post-factum corrections to geometry were implemented.
+
 ### Oct 13, 2026
 * Fixed a minor bug in the data pipeline that was keeping some national and regional flags out of the plugin’s database, so they’re now available as new flag textures.
 
@@ -7,6 +20,13 @@
 * The `location=roof` tag is now supported for node objects. The objects standing on a roof (chimneys, flagpoles, trees, etc.) are now placed on the roof of the building below them. 
 If the object has no `min_height`, the plugin takes the height of the roof surface at that point and uses it as `min_height`, so such objects no longer sink into the building.
 For sloped roofs the object follows the roof surface, and for buildings with multiple building parts it stands on the highest surface.
+
+## Version 2.8.1 (Oct 16, 2026)
+
+### Oct 15, 2026
+* New menu item is added to open the current scene in the Felis Editor on web
+
+![FelisEditor](docs/images/FelisEditor.png)
 
 ### Oct 6, 2026
 * The spatial vegetation statistics that the plugin uses to guess a tree's type where OSM has no `leaf_type`/`species` tags are now drawn as a world map: [map_leaf_types.png](docs/map_leaf_types.png). 

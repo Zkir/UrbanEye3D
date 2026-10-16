@@ -18,8 +18,8 @@ public class Contour {
     // This allows for slight deviations in manually placed points.
     static final double STRAIGHT_ANGLE_TAN_TOLERANCE = 0.08;
     public String mode = "";
-    public List<ArrayList<Point2D>> outerRings;
-    public List<ArrayList<Point2D>> innerRings;
+    public List<List<Point2D>> outerRings;
+    public List<List<Point2D>> innerRings;
     
     /**
      * This constructor creates contour from POLYGONAL primitive (e.g. closed way or multipolygon relation)
@@ -189,7 +189,7 @@ public class Contour {
         }
     }
 
-    public Contour(ArrayList<Point2D> outerRing, String mode) {
+    public Contour(List<Point2D> outerRing, String mode) {
         this.outerRings = new ArrayList<>();
         this.outerRings.add(outerRing);
         this.innerRings = new ArrayList<>();
@@ -223,7 +223,7 @@ public class Contour {
         if (outerRings.isEmpty()) return null;
 
         List<Geometry> polyList = new ArrayList<>();
-        for (ArrayList<Point2D> outerRing : outerRings) {
+        for (List<Point2D> outerRing : outerRings) {
             Coordinate[] coords = toCoordinates(outerRing);
             if (coords.length < 4) continue;
             try {
@@ -239,7 +239,7 @@ public class Contour {
         if (innerRings.isEmpty()) return allOuters;
 
         List<Geometry> holeList = new ArrayList<>();
-        for (ArrayList<Point2D> innerRing : innerRings) {
+        for (List<Point2D> innerRing : innerRings) {
             Coordinate[] coords = toCoordinates(innerRing);
             if (coords.length < 4) continue;
             try {
@@ -314,7 +314,7 @@ public class Contour {
         return FlatEarth.getLocalCoords(point.y, point.x, center);
     }
 
-    ArrayList<Point2D> simplifyContour(ArrayList<Point2D> originalContour) {
+    List<Point2D> simplifyContour(List<Point2D> originalContour) {
 
         if (this.mode.equals("LatLon")){
             throw new RuntimeException("Contour simplification does not work correct in LatLon mode");
@@ -324,7 +324,7 @@ public class Contour {
             return originalContour; // Cannot simplify a line or a single point
         }
 
-        ArrayList<Point2D> simplifiedContour = new ArrayList<>();
+        List<Point2D> simplifiedContour = new ArrayList<>();
         boolean isClosed = originalContour.get(0).x == originalContour.get(originalContour.size() - 1).x &&
                 originalContour.get(0).y == originalContour.get(originalContour.size() - 1).y;
 
@@ -417,13 +417,13 @@ public class Contour {
             throw new RuntimeException("Invalid coordinate system for conversion: '"+this.mode+"'");
         }
 
-        for (ArrayList<Point2D> ring : outerRings) {
+        for (List<Point2D> ring : outerRings) {
             for (int i = 0; i < ring.size(); i++) {
                 ring.set(i, getLocalCoords(ring.get(i), origin));
             }
 
         }
-        for (ArrayList<Point2D> ring : innerRings) {
+        for (List<Point2D> ring : innerRings) {
             for (int i = 0; i < ring.size(); i++) {
                 ring.set(i, getLocalCoords(ring.get(i), origin));
             }
@@ -432,8 +432,8 @@ public class Contour {
     }
 
     public void removeRedundantNodes() {
-        List<ArrayList<Point2D>> simplifiedOuterRings = new ArrayList<>();
-        List<ArrayList<Point2D>> simplifiedInnerRings = new ArrayList<>();
+        List<List<Point2D>> simplifiedOuterRings = new ArrayList<>();
+        List<List<Point2D>> simplifiedInnerRings = new ArrayList<>();
 
         for (var ring: outerRings){
             simplifiedOuterRings.add( simplifyContour(ring));
@@ -444,8 +444,6 @@ public class Contour {
             simplifiedInnerRings.add( simplifyContour(ring));
         }
 
-
-
         outerRings = simplifiedOuterRings;
         innerRings = simplifiedInnerRings;
 
@@ -455,7 +453,7 @@ public class Contour {
         return this.outerRings.size() > 1 || !this.innerRings.isEmpty();
     }
 
-    private Coordinate[] toCoordinates(ArrayList<Point2D> ring) {
+    private Coordinate[] toCoordinates(List<Point2D> ring) {
         Coordinate[] coords = new Coordinate[ring.size()];
         for (int i = 0; i < ring.size(); i++) {
             coords[i] = new Coordinate(ring.get(i).x, ring.get(i).y);
@@ -495,7 +493,7 @@ public class Contour {
      */
     public Rectangle2D.Double findLargestInscribedRectangle(double ux, double uy) {
         if (outerRings.isEmpty()) return null;
-        ArrayList<Point2D> ring = outerRings.get(0);
+        List<Point2D> ring = outerRings.get(0);
         int n = ring.size();
         if (n < 3) return null;
 
