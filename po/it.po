@@ -220,3 +220,9 @@ msgstr "Campioni anti-aliasing (MSAA)"
 msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
 msgstr "Numero di campioni MSAA per bordi più lisci. 0 significa disabilitato. Valori più alti migliorano la qualità ma possono ridurre le prestazioni. Le modifiche richiedono il riavvio di JOSM."
 
+msgid "Open current view in Felis Editor"
+msgstr "Apri la vista corrente in Felis Editor"
+
+msgid "View in Felis Editor (web)"
+msgstr "Visualizza in Felis Editor (web)"
+

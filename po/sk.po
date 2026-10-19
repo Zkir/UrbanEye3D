@@ -233,3 +233,9 @@ msgstr "Vzorky vyhladzovania (MSAA)"
 msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
 msgstr "Počet vzoriek MSAA pre hladšie hrany. 0 znamená zakázané. Vyššie hodnoty zlepšujú kvalitu, ale môžu znížiť výkon. Zmeny vyžadujú reštart JOSM."
 
+msgid "Open current view in Felis Editor"
+msgstr "Otvoriť aktuálny pohľad v Felis Editor"
+
+msgid "View in Felis Editor (web)"
+msgstr "Zobraziť v Felis Editor (web)"
+

@@ -222,3 +222,9 @@ msgstr "Échantillons d'anti-crénelage (MSAA)"
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:101
 msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
 msgstr "Nombre d'échantillons MSAA pour des bords plus lisses. 0 signifie désactivé. Des valeurs plus élevées améliorent la qualité mais peuvent réduire les performances. Les modifications nécessitent un redémarrage de JOSM."
+
+msgid "Open current view in Felis Editor"
+msgstr "Ouvrir la vue actuelle dans Felis Editor"
+
+msgid "View in Felis Editor (web)"
+msgstr "Voir dans Felis Editor (web)"

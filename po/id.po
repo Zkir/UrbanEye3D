@@ -220,3 +220,9 @@ msgstr "Sampel anti-aliasing (MSAA)"
 #: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:101
 msgid "Number of MSAA samples for smoother edges. 0 means disabled. Higher values improve quality but may reduce performance. Changes require JOSM restart."
 msgstr "Jumlah sampel MSAA untuk tepi yang lebih halus. 0 berarti dinonaktifkan. Nilai yang lebih tinggi meningkatkan kualitas tetapi dapat mengurangi performa. Perubahan memerlukan mulai ulang JOSM."
+
+msgid "Open current view in Felis Editor"
+msgstr "Buka tampilan saat ini di Felis Editor"
+
+msgid "View in Felis Editor (web)"
+msgstr "Lihat di Felis Editor (web)"
