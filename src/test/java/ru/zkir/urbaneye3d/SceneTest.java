@@ -743,4 +743,28 @@ class SceneTest {
 
     }
 
+    @Test
+    void testSideHippedNonConvex() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("side_hipped.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        // Assert: Verify the outcome
+        assertEquals(1, scene.renderableElements.size());
+
+        var re = scene.renderableElements.get(0);
+        String outputFolder = Settings.prepareTestOutputFolder("SideHippedNonConvex");
+        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/" +"testSideHippedNonConvex.obj");
+
+
+        RoofGeneratorTopologyTest.assertNoVertexDuplicates(re.getMesh(), "SideHippedNonConvex");
+        RoofGeneratorTopologyTest.assertNoDegeneratedFaces(re.getMesh(), "SideHippedNonConvex");
+        RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, "SideHippedNonConvex");
+
+    }
+
 }

@@ -1,5 +1,12 @@
 # Development History
 
+### Oct 19, 2026
+* `roof:shape=side_hipped` is now supported for buildings with complex (non-convex) outlines, not only quadrangular ones.
+Not very practical, but allows to model semin-detached houses like this: 
+![roof_side_hipped-nonconvex](docs/images/roof_side_hipped-nonconvex.png)
+
+
+
 ### Oct 15, 2026
 Two new enhancements: 
 * Completely new algorithm for `roof:shape=gabbled`: gabled roof is created from hipped roof by 

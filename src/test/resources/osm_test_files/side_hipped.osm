@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <bounds minlat='50.7089673' minlon='-3.5053387' maxlat='50.7091338' maxlon='-3.505041' origin='openstreetmap-cgimap 2.1.0 (1301 spike-08.openstreetmap.org)' />
+  <node id='14238572113' timestamp='2026-10-01T09:41:19Z' uid='9618237' user='Adrian Shobrooke' visible='true' version='1' changeset='189812775' lat='50.7090933' lon='-3.5052239' />
+  <node id='14238572114' timestamp='2026-10-01T09:41:19Z' uid='9618237' user='Adrian Shobrooke' visible='true' version='1' changeset='189812775' lat='50.7090546' lon='-3.50527' />
+  <node id='14238572115' timestamp='2026-10-01T09:41:19Z' uid='9618237' user='Adrian Shobrooke' visible='true' version='1' changeset='189812775' lat='50.7090179' lon='-3.5052466' />
+  <node id='14238572116' timestamp='2026-10-01T09:41:19Z' uid='9618237' user='Adrian Shobrooke' visible='true' version='1' changeset='189812775' lat='50.7090806' lon='-3.5051717' />
+  <node id='14238572117' timestamp='2026-10-01T09:41:19Z' uid='9618237' user='Adrian Shobrooke' visible='true' version='1' changeset='189812775' lat='50.7091108' lon='-3.5052604' />
+  <node id='14238572118' timestamp='2026-10-01T09:41:19Z' uid='9618237' user='Adrian Shobrooke' visible='true' version='1' changeset='189812775' lat='50.7090722' lon='-3.5053065' />
+  <node id='14238572119' timestamp='2026-10-01T09:41:19Z' uid='9618237' user='Adrian Shobrooke' visible='true' version='1' changeset='189812775' lat='50.7090384' lon='-3.5052894' />
+  <node id='14238572120' timestamp='2026-10-01T09:41:19Z' uid='9618237' user='Adrian Shobrooke' visible='true' version='1' changeset='189812775' lat='50.7091011' lon='-3.5052145' />
+  <way id='1564036884' timestamp='2026-10-03T18:49:07Z' uid='9618237' user='Adrian Shobrooke' visible='true' version='2' changeset='189946220'>
+    <nd ref='14238572113' />
+    <nd ref='14238572120' />
+    <nd ref='14238572116' />
+    <nd ref='14238572115' />
+    <nd ref='14238572119' />
+    <nd ref='14238572114' />
+    <nd ref='14238572118' />
+    <nd ref='14238572117' />
+    <nd ref='14238572113' />
+    <tag k='building' v='yes' />
+    <tag k='building:levels' v='2' />
+    <tag k='roof:direction' v='305' />
+    <tag k='roof:shape' v='side_hipped' />
+  </way>
+</osm>

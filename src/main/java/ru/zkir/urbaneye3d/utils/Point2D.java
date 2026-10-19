@@ -55,4 +55,14 @@ public class Point2D {
     public double cross(Point2D other) {
         return this.x * other.y - this.y * other.x;
     }
+
+    /**
+     * Calculates a unit vector from geographical direction in degrees
+     * @param angle -- geographical direction in degrees, counted from Y counter-clockwise
+     * @return unit vector heading in the given direction.
+     */
+    public static Point2D fromDirection(double angle){
+        double d = Math.toRadians(angle);
+        return new Point2D(Math.sin(d), Math.cos(d));
+    }
 }

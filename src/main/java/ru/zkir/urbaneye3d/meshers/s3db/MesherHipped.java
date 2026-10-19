@@ -194,11 +194,82 @@ public class MesherHipped extends RoofGenerator {
             cornerMap.put(p, new Corner(p.x, p.y));
         }
 
+        int side_wall_idx = -1;
+        if (building.roofShape == RoofShapes.SIDE_HIPPED) {
+            //for side hipped we need to decide which edge should be considered side and produce vertical roof face
+            //  for complex non-convex outlines it's not so easy.
+            //  Intuition says, that it should be an edge opposite to the roof direction vector.
+            //  But what does it mean exactly? Maximizing cross product does not work in case of non-convex polygons,
+            //  because it may be not the most distant edge.
+            //  So let's try optimizing projection of the edge middle point on the direction vector.
+
+            //lets find the "convex" edges. Only convex edges can be "sides"
+            var convexEdges = new ArrayList<Integer>();
+            for (int i = 0, n = basePoints.size(); i < n; i++) {
+                Point2D p1 = basePoints.get(i);
+                Point2D p2 = basePoints.get((i + 1) % n);
+                var edge_dir = p2.subtract(p1);
+                int convexSide = 0; // edge property
+                boolean isConvex=true;
+                for (int k = 0; k < n; k++) {
+                    Point2D pk = basePoints.get(k);
+                    int c = softSign(edge_dir.cross(pk.subtract(p1)));
+                    if (c==0){
+                        continue; //the vertex on the same line, it does not affect algorithm.
+                    }
+                    if (convexSide==0){
+                        convexSide = c;
+                    } else {
+                        if (convexSide != c) {
+                            isConvex=false;
+                            break;
+                        }
+                    }
+                }
+                if (isConvex) {
+                    convexEdges.add(i);
+                }
+            }
+
+            if (building.roofDirection!=null) {
+                Point2D roof_direction_vec;
+                roof_direction_vec = Point2D.fromDirection(building.roofDirection);
+
+                double min_q =  Double.MAX_VALUE;
+                for (int i = 0, n = basePoints.size(); i < n; i++) {
+                    if (!convexEdges.contains(i)){
+                        continue; // non-convex edge cannot be "side"!
+                    }
+                    Point2D p1 = basePoints.get(i);
+                    Point2D p2 = basePoints.get((i + 1) % n);
+                    Point2D m = p1.add(p2).mult(0.5);
+                    double q = m.dot(roof_direction_vec);
+                    if (q < min_q) {
+                        min_q = q;
+                        side_wall_idx = i;
+                    }
+                }
+            }else {
+                //if the direction is not specified,
+                //  we select just the first "convex" edge.
+                //  I believe it is always present
+                side_wall_idx = convexEdges.get(0);
+            }
+        }
+
+        //initialize polygon -- edges and speeds -- for skeleton calculation
         for (int i = 0; i < basePoints.size(); i++) {
             Point2D p1 = basePoints.get(i);
             Point2D p2 = basePoints.get((i + 1) % basePoints.size());
             Edge edge = new Edge(cornerMap.get(p1), cornerMap.get(p2));
-            edge.machine = new Machine(Math.PI / 4);
+            double mashineSpeed=Math.PI / 4;
+
+            //in case of side_hipped we need to select a wall and assign zero speed for it, so it remains vertical.
+            if ((building.roofShape == RoofShapes.SIDE_HIPPED) && i == side_wall_idx){
+                mashineSpeed = 0;
+            }
+
+            edge.machine = new Machine(mashineSpeed);
             loop.append(edge);
         }
         loopl.add(loop);
@@ -365,5 +436,18 @@ public class MesherHipped extends RoofGenerator {
         mesh.addBottomFace(bottomFaceRect);
 
         return mesh;
+    }
+
+    private int softSign(double x) {
+        final double EPSILON = 1/1e6;
+        if (abs(x)<EPSILON){
+            return 0;
+        }
+        if (x > 0) {
+            return 1;
+        } else {
+            return -1;
+        }
+
     }
 }

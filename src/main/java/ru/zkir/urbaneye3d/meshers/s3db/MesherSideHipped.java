@@ -48,8 +48,7 @@ public class MesherSideHipped extends RoofGenerator {
         //here we need to interpret direction
         //if direction is specified, we need to determine what our mid1 and mid2 points are
         if ( building.roofDirection!=null && !Double.isNaN(building.roofDirection)){
-            double d = Math.toRadians(building.roofDirection);
-            var direction_vec = new Point2D(Math.sin(d), Math.cos(d));
+            var direction_vec = Point2D.fromDirection(building.roofDirection);
             gableEdgeIndices = findEdgeIndicesForRidge(basePoints, direction_vec);
         }
 
