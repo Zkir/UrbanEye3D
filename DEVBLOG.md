@@ -1,5 +1,16 @@
 # Development History
 
+### Oct 26, 2026
+* Units of measure (both metric and imperial) are now respected in dimension tags (height, roof:height, diameter, width e.t.c.). 
+The following units are supported: 
+    * `m`, `cm`, `mm`
+	*  `ft`, `foot`, `feet`, `'`, `in`, `inch`, `inches`, `"`
+
+Examples:
+* `height=18m`, `width=10 ft`, `roof:height=9'4"`
+
+Values without a unit are interpreted exactly as before: as meters, with the single exception of a `diameter` tag, which stays in millimeters per OSM convention.
+
 ### Oct 25, 2026
 * `roof:shape=mansard` is now supported for buildings with arbitrary outlines (even non-convex/with holes), not only quadrangular ones. <br />
 ![roof_mansard](docs/images/roof_mansard-nonconvex.png)

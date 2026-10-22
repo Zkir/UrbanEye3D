@@ -32,7 +32,7 @@ public class MesherFlagpole {
         boolean advertising = primitive.hasTag("flag:type", "advertising");
 
         double estimatedPolyRadius = Math.pow(height, 0.5) / 63.0;
-        double polyRadius = getTagD("diameter", primitive, estimatedPolyRadius*2*1000)/2/1000; //NOTE: default unit for diameter tag is MILLIMETER!
+        double polyRadius = getTagD("diameter", primitive, estimatedPolyRadius*2)/2; //Unit for diameter is handled inside getTagD()
         polyRadius = Math.max(polyRadius, 0.02); // pole should not be too narrow, even if units have messed up, e.g. diameter=1
 
         double top_rate = shape.equals("frustum") || shape.equals("hyperboloid") ? 0.5 : 1;

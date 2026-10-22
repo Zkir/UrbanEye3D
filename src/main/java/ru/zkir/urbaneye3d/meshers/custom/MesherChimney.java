@@ -25,7 +25,7 @@ public class MesherChimney {
             return null;
         }
 
-        double diameter = getTagD("diameter", primitive, 2000.0)/1000; //Default unit for diameter tag is MILLIMETER!
+        double diameter = getTagD("diameter", primitive, 2); //Unit for diameter is handled inside getTag()
         double min_height = getTagD("min_height", primitive, 0.0);
         double height = getTagD("height", primitive, DEFAULT_CHIMNEY_HEIGHT + min_height) - min_height;
 

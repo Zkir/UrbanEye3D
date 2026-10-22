@@ -8,12 +8,17 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static ru.zkir.urbaneye3d.utils.OsmDataWasher.getTagStr;
 
 public class OsmDataWasher {
     /** Unlike F4, we inherit only some keys from building to parts, not all */
     final static List<String> inheritableKeys = Arrays.asList("building:colour", "building:material", "roof:colour", "roof:material");
+
+    final static Pattern pComposite = Pattern.compile("^\\s*(-?\\d+(?:\\.\\d+)?)\\s*(?:ft|foot|feet|')\\s*(-?\\d+(?:\\.\\d+)?)\\s*(?:in|inch|inches|''|\")?\\s*$");
+    final static Pattern pSingle = Pattern.compile("^\\s*(-?\\d+(?:\\.\\d+)?)\\s*([a-zäöü]+|['\"]+|['\"])?\\s*$");
 
     /**
      * Parses direction tag
@@ -86,6 +91,85 @@ public class OsmDataWasher {
         return value;
     }
 
+    public static Double parseDimensionalValue(String key, String tagStr) {
+        if (tagStr == null || tagStr.isEmpty()) {
+            return null;
+        }
+        tagStr = tagStr.trim().toLowerCase();
+        boolean isDiameter = "diameter".equals(key);
+
+        // Try composite feet & inches: e.g., 10' 5" or 10 ft 5 in
+        Matcher mComposite = pComposite.matcher(tagStr);
+        if (mComposite.matches()) {
+            try {
+                double feet = Double.parseDouble(mComposite.group(1));
+                double inches = Double.parseDouble(mComposite.group(2));
+                return feet * 0.3048 + inches * 0.0254;
+            } catch (NumberFormatException e) {
+                // fall through
+            }
+        }
+
+        // Single value with optional unit
+        Matcher mSingle = pSingle.matcher(tagStr);
+        if (mSingle.matches()) {
+            try {
+                double val = Double.parseDouble(mSingle.group(1));
+                String unit = mSingle.group(2);
+                if (unit == null || unit.isEmpty()) {
+                    if (isDiameter) {
+                        return val / 1000.0; // unitless diameter is in millimeters
+                    } else {
+                        return val; // unitless height/width/etc. is in meters
+                    }
+                }
+                unit = unit.toLowerCase();
+                switch (unit) {
+                    case "m":
+                    case "meter":
+                    case "metres":
+                    case "meters":
+                        return val;
+                    case "cm":
+                        return val * 0.01;
+                    case "mm":
+                        return val * 0.001;
+                    case "ft":
+                    case "foot":
+                    case "feet":
+                    case "'":
+                        return val * 0.3048;
+                    case "in":
+                    case "inch":
+                    case "inches":
+                    case "''":
+                    case "\"":
+                        return val * 0.0254;
+                    default:
+                        if (isDiameter) {
+                            return val / 1000.0;
+                        } else {
+                            return val;
+                        }
+                }
+            } catch (NumberFormatException e) {
+                return null;
+            }
+        }
+
+        // Fallback
+        try {
+            double val = Double.parseDouble(tagStr.split(" ")[0]);
+            if (isDiameter) {
+                return val / 1000.0;
+            } else {
+                return val;
+            }
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
     @NotNull
     public static Double getTagD(String key, OsmPrimitive primitive, double defaultValue) {
         return getTagD(key, primitive.getInterestingTags(), defaultValue);
@@ -97,31 +181,21 @@ public class OsmDataWasher {
         if (value == null) {
             return defaultValue;
         }
-        try {
-            return Double.parseDouble(value.split(" ")[0]);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
+        Double parsed = parseDimensionalValue(key, value);
+        return parsed != null ? parsed : defaultValue;
     }
 
     //we need to get a floating point value from an osm tag
     // if tag is missing or cannot be parsed, the return value is null,
     // to let it possible to fallback to defaults.
     public static Double getTagD(String key, Map<String, String> primitive, Map<String, String> parent ){
-        Double result;
         String tag_str = getTagStr(key, primitive, parent);
 
         if (tag_str.isEmpty()){
             return null;
         }
 
-        try {
-            result = Double.parseDouble(tag_str.split(" ")[0]);
-        } catch (NumberFormatException e) {
-            result = null;
-        }
-        return result;
-
+        return parseDimensionalValue(key, tag_str);
     }
     @NotNull
     public static Color getTagC(String key, OsmPrimitive primitive, String defaultValue) {

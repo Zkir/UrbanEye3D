@@ -167,7 +167,7 @@ Like buildings, these objects obey the `height` and `min_height` tags, and addit
 -   Point and polygon objects tagged with `man_made=chimney` are rendered as procedural 3D objects.
 -   Supported shapes via the `shape` tag: `frustum` (default for points), `hyperboloid`, and `prism` (via `shape=prism` or default for polygons).
 -   For hyperboloid shapes tapering can be controlled via `hyperboloid:top_rate` and `hyperboloid:middle_rate` tags.
--   The base size for point chimneys is determined by the `diameter` tag. Note that unit for diameter is **millimeters**!
+-   The base size for point chimneys is determined by the `diameter` tag. Note that default unit for diameter is **millimeters**!
 
 ### Waste Baskets
 
@@ -360,6 +360,17 @@ For objects tagged with `leisure=pitch`, the plugin automatically renders charac
 **Automatic Scaling:**
 - The markings are automatically aligned along the longest side of the pitch.
 - For smaller training grounds or school pitches, the markings are proportionally scaled down to fit within the available space.
+
+## Units of Mesure
+
+Dimension tags that accept a number (`height`, `min_height`, `diameter`, `width` ...) may carry an explicit unit suffix:
+
+- **Metric:** *m*, *meter*, *meters*, *cm*, *mm*.
+- **Imperial:** *ft*, *foot*, *feet*, *'*, *in*, *inch*, *inches*, *"*.
+- **Combined feet & inches:** *10' 5"* or *10ft 5in*.
+
+All such values are converted to metres before rendering. 
+A value **without** a unit keeps its traditional meaning: a bare `diameter` is interpreted as **millimetres** (the OSM convention), while every other dimension is assumed to be in metres.
 
 
 ---
