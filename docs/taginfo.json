@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20261008T112801Z",
+  "data_updated" : "20261025T184957Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -746,6 +746,10 @@
     "description" : "A hemispherical roof suitable for any base shape. A circular base produces a traditional dome, while a rectangular base produces a modern, elongated dome."
   }, {
     "key" : "roof:shape",
+    "value" : "double_saltbox",
+    "description" : "A symmetrical roof with two slopes on each side and a flat top"
+  }, {
+    "key" : "roof:shape",
     "value" : "flat",
     "description" : "A standard flat roof. A fascia (vertical decorative band) is created if `roof:height` or `roof:levels` are specified."
   }, {
@@ -786,12 +790,16 @@
     "description" : "A roof that rises to a single point, generated from an arbitrary base outline. `roof:orientation` and `roof:direction` have no effect."
   }, {
     "key" : "roof:shape",
+    "value" : "quadruple_saltbox",
+    "description" : "A flat-topped hipped roof"
+  }, {
+    "key" : "roof:shape",
     "value" : "round",
     "description" : "A semi-cylindrical or hangar-like roof. Its orientation can be controlled with the `roof:orientation` tag."
   }, {
     "key" : "roof:shape",
     "value" : "saltbox",
-    "description" : "Generates a roof with an off-center flat top. This implementation follows the F4 map interpretation, which may differ from a classic single-ridge saltbox roof."
+    "description" : "Asymmetrical gabled roof, as described in osm-wiki, but both front and back eaves have equal height."
   }, {
     "key" : "roof:shape",
     "value" : "side_half-hipped",

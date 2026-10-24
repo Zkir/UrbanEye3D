@@ -202,7 +202,9 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("roof:shape=pyramidal", "A roof that rises to a single point, generated from an arbitrary base outline. `roof:orientation` and `roof:direction` have no effect.");
         TAG_DESCRIPTIONS.put("roof:shape=round" , "A semi-cylindrical or hangar-like roof. Its orientation can be controlled with the `roof:orientation` tag.");
         TAG_DESCRIPTIONS.put("roof:shape=side_hipped" , "A roof hipped from one side and gabled from the other. Orientation is controlled by `roof:direction`. Supported for quadrangular footprints only.");
-        TAG_DESCRIPTIONS.put("roof:shape=saltbox", "Generates a roof with an off-center flat top. This implementation follows the F4 map interpretation, which may differ from a classic single-ridge saltbox roof.");
+        TAG_DESCRIPTIONS.put("roof:shape=saltbox", "Asymmetrical gabled roof, as described in osm-wiki, but both front and back eaves have equal height.");
+        TAG_DESCRIPTIONS.put("roof:shape=double_saltbox", "A symmetrical roof with two slopes on each side and a flat top");
+        TAG_DESCRIPTIONS.put("roof:shape=quadruple_saltbox", "A flat-topped hipped roof");
         TAG_DESCRIPTIONS.put("roof:shape=skillion" , "A single-sloped roof surface (a lean-to). The slope direction is controlled by the `roof:direction` tag, which can be set to any angle.");
         TAG_DESCRIPTIONS.put("roof:shape=side_half-hipped", "A roof half-hipped from one side and gabled from the other. Orientation is controlled by `roof:direction`. Supported for quadrangular footprints only.");
         TAG_DESCRIPTIONS.put("roof:shape=many", "Interpreted as hipped for buildings (as better than flat), but not for building parts");
@@ -216,7 +218,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("man_made=water_well",           "A water well, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("pump=no",                       "Used with water wells to trigger a 'traditional' windlass well model.");
         TAG_DESCRIPTIONS.put("man_made=chimney",              "Industrial chimney. Can be rendered as 3D object with frustum or cylinder shape");
-        TAG_DESCRIPTIONS.put("man_made=street_cabinet",         "A utility cabinet for street infrastructure (electrical, telecom). Box-like structure respecting width/length/height tags.");
+        TAG_DESCRIPTIONS.put("man_made=street_cabinet",       "A utility cabinet for street infrastructure (electrical, telecom). Box-like structure respecting width/length/height tags.");
 
         TAG_DESCRIPTIONS.put("power=line", "A high-voltage power line, rendered with multiple sagging wires.");
         TAG_DESCRIPTIONS.put("power=minor_line", "A low-voltage or service power line, rendered with two sagging wires.");

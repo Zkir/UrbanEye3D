@@ -1,11 +1,19 @@
 # Development History
 
+### Oct 25, 2026
+* `roof:shape=mansard` is now supported for buildings with arbitrary outlines (even non-convex/with holes), not only quadrangular ones. <br />
+![roof_mansard](docs/images/roof_mansard-nonconvex.png)
+
+Two new saltbox variants are supported:
+* `roof:shape=double_saltbox` — a symmetrical roof with two slopes on each side and a flat top. <br />
+![double saltbox](docs/images/roof_double_saltbox.png)
+* `roof:shape=quadruple_saltbox` — the same idea extended to all four sides (a flat-topped hipped roof); works for arbitrary building outlines. <br />
+![quadruple saltbox](docs/images/roof_quadruple_saltbox.png)	
+
 ### Oct 19, 2026
 * `roof:shape=side_hipped` is now supported for buildings with complex (non-convex) outlines, not only quadrangular ones.
 Not very practical, but allows to model semin-detached houses like this: 
 ![roof_side_hipped-nonconvex](docs/images/roof_side_hipped-nonconvex.png)
-
-
 
 ### Oct 15, 2026
 Two new enhancements: 

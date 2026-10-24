@@ -16,7 +16,13 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_STEP_HEIGHT;
 /**
  * Data necessary to produce building\part mesh according to S3DB specification */
 public class BuildingRecipe {
-    private static final List<RoofShapes>  ALLOWED_SHAPES_FOR_COMPLEX_BASE = List.of( RoofShapes.SKILLION, RoofShapes.HIPPED, RoofShapes.GABLED);
+    private static final List<RoofShapes>  ALLOWED_SHAPES_FOR_COMPLEX_BASE = List.of(
+            RoofShapes.SKILLION,
+            RoofShapes.HIPPED,
+            RoofShapes.GABLED,
+            RoofShapes.MANSARD,
+            RoofShapes.QUADRUPLE_SALTBOX
+            );
 
     public final PrimitiveId primitiveId; //potentially for random seed
     public final double roofHeight;

@@ -349,7 +349,7 @@ class RoofGeneratorTopologyTest {
         for (RoofShapes roof_shape: RoofShapes.values()) {
             //some roofs still do not support arbitrary bases
             if (roof_shape == RoofShapes.HALF_HIPPED ||
-                   roof_shape == RoofShapes.MANSARD|| roof_shape == RoofShapes.CROSS_GABLED ){
+                   roof_shape == RoofShapes.CROSS_GABLED ){
                 continue;
             }
             BuildingRecipe test_building = createTestBuilding(base, roof_shape, 0, 5, 11);
@@ -541,30 +541,36 @@ class RoofGeneratorTopologyTest {
     }
 
     @Test
-    void testSkillionRoofWithHole() throws IOException {
-        Contour contour = createRectangularBaseWithHole(12, 12, 4, 4);
-        LatLon origin = new LatLon(55, 37);
-        //RenderableElement test_building = new RenderableElement(new SimplePrimitiveId(-1, OsmPrimitiveType.WAY), origin, contour, 10, 0, 5,
-        //        "", "", RoofShapes.SKILLION.toString(), "30", "", null, null);
-
-        var tags = Map.of(
-                "building:part","yes",
-                "height", "10",
-                "min_height", "0",
-                "roof:height", "5",
-                "roof:shape", RoofShapes.SKILLION.toString(),
-                "roof:direction", "30"
-        );
-
-        var test_building = RenderableElement.createBuildingOrPartRecipe(new Way(), origin, contour, tags, null);
-
-        Mesh mesh = RoofShapes.SKILLION.getMesher().generate(test_building);
+    void testAllRoofShapesRectangularWithHole() throws IOException {
+        String outputFolder="";
         if (SAVE_TEST_RESULTS_TO_FILE) {
-            String outputFolder = Settings.prepareTestOutputFolder("SkillionRoofWithHole");
-            ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + "SkillionRoofWithHole.obj");
+            outputFolder = Settings.prepareTestOutputFolder("RectangularWithHole");
         }
+        Contour contour = createRectangularBaseWithHole(32, 22, 4, 4);
+        LatLon origin = new LatLon(55, 37);
+        for (RoofShapes roof_shape: RoofShapes.values()) {
+            var tags = Map.of(
+                    "building:part","yes",
+                    "height", "10",
+                    "min_height", "0",
+                    "roof:height", "5",
+                    "roof:shape", roof_shape.toString(),
+                    "roof:direction", "30"
+            );
 
-        AssertMeshTopology(mesh, test_building.minHeight, test_building.height, RoofShapes.SKILLION.toString() + " with hole");
+            var test_building = RenderableElement.createBuildingOrPartRecipe(new Way(), origin, contour, tags, null);
+            if(test_building.roofShape == RoofShapes.FLAT){
+                //UrbanEye3dPlugin.debugMsg("Roof shape " + roof_shape +" skipped as not supported for polygon with hole");
+                continue;
+            }
+
+            Mesh mesh = roof_shape.getMesher().generate(test_building);
+            if (SAVE_TEST_RESULTS_TO_FILE) {
+                ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(mesh, outputFolder + "/" + roof_shape + ".obj");
+            }
+
+            AssertMeshTopology(mesh, test_building.minHeight, test_building.height, roof_shape.toString() + " with hole");
+        }
     }
 
 

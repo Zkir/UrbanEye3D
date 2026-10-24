@@ -27,9 +27,10 @@ import static ru.zkir.urbaneye3d.utils.Mesh.ROOF_COLOUR_IDX;
 import static ru.zkir.urbaneye3d.utils.Mesh.WALL_COLOUR_IDX;
 
 public class MesherHipped extends RoofGenerator {
+
     @Override
     public Mesh generate(BuildingRecipe building) {
-        if ((building.getContour().size() <= 4) && (!building.hasComplexContour())) {
+        if ((building.getContour().size() <= 4) && (!building.hasComplexContour()) && (building.roofShape == RoofShapes.HIPPED) ) {
             return generateRectangular(building);
         } else{
             var mesh = generateStraightSkeleton(building);
@@ -163,39 +164,143 @@ public class MesherHipped extends RoofGenerator {
             mesh.addBottomFace(bottomFace);
         }else{
             //Contour has holes, so triangulation is necessary!
-            var tessellator = new Tessellator(basePoints, building.getContourInnerRings());
-            List<int[]> roofTriangles = tessellator.triangulate();
+            addTriangulatedFace(mesh, basePoints, building.getContourInnerRings(), minHeight, true);
+        }
 
-            for (var face_idx: roofTriangles){
-                Point2D p1 = tessellator.getPoint(face_idx[0]);
-                Point2D p2 = tessellator.getPoint(face_idx[1]);
-                Point2D p3 = tessellator.getPoint(face_idx[2]);
-                int i1 =  mesh.addVertex(new Point3D(p1.x, p1.y, minHeight) );
-                int i2 =  mesh.addVertex(new Point3D(p2.x, p2.y, minHeight) );
-                int i3 =  mesh.addVertex(new Point3D(p3.x, p3.y, minHeight) );
+        //here we produce straight skeleton using camp-skeleton library
+        //  it generates 3D mesh, but in it's own format, and with own height.
+        var  output = calculateStraightSkeleton(basePoints, building.getContourInnerRings(), building.roofShape, building.roofDirection);
 
-                mesh.addBottomFace(new int[]{i3, i2, i1});
+        final double MANSARD_RATE=0.75;
 
-                /* flat roof for testing purposes
-                i1 =  mesh.addVertex(new Point3D(p1.x, p1.y, wallHeight) );
-                i2 =  mesh.addVertex(new Point3D(p2.x, p2.y, wallHeight) );
-                i3 =  mesh.addVertex(new Point3D(p3.x, p3.y, wallHeight) );
-                mesh.addRoofFace(new int[]{i1, i2, i3});
-                */
+        double effectiveRoofHeight=roofHeight;
+        if (building.roofShape == RoofShapes.MANSARD){
+            effectiveRoofHeight = MANSARD_RATE * roofHeight;
+        }
+
+        double roofScale = addSkeletonFacesToMesh(output, mesh, wallHeight, effectiveRoofHeight);
+        double minZ = 0; // java is stupid, we cannot obtain it from addSkeletonFacesToMesh(), but we expect 0 here.
+
+        if (output.nonSkelFaces.size()>0){
+            //non-skel faces -- are faces, produced by "cap", they are not closed automatically
+            //  we must close them manually, depending on the required roof shape
+            if (building.roofShape == RoofShapes.QUADRUPLE_SALTBOX){
+                //cap should be closed as a flat face, that is easy
+                for (Output.LoopNormal qq: output.nonSkelFaces) {
+                    if(qq.loopl.size()==1){
+                        for (Loop qqq : qq.loopl) {
+                            List<Integer> faceIndices = new ArrayList<>();
+                            for (var pt1 : qqq) {
+                                Point3d pt = (Point3d) pt1;
+
+                                double scaledZ = (pt.z - minZ) * roofScale;
+                                int newIndex = createNewRoofVertex(mesh, pt, wallHeight, scaledZ);
+                                faceIndices.add(newIndex);
+                            }
+                            if (faceIndices.size() > 2) {
+                                int[] faceArray = new int[faceIndices.size()];
+                                for (int i = 0; i < faceIndices.size(); i++) {
+                                    faceArray[i] = faceIndices.get(i);
+                                }
+                                mesh.addRoofFace(faceArray);
+                            }
+                        }
+                    }else{
+                        // Top face contain hole, we need to triangulate it.
+                        List<Point2D> base2Outer = new ArrayList<>();
+                        List<List<Point2D>> base2Inner = new ArrayList<>();
+                        int i = 0;
+                        for (Loop qqq : qq.loopl) {
+                            if (i==0) {
+                                for (var pt1 : qqq) {
+                                    Point3d pt = (Point3d) pt1;
+                                    base2Outer.add(new Point2D(pt.x, pt.y));
+                                }
+                            } else{
+                                List<Point2D> inner = new ArrayList<>();
+                                for (var pt1 : qqq) {
+                                    Point3d pt = (Point3d) pt1;
+                                    inner.add(new Point2D(pt.x, pt.y));
+                                }
+
+                                base2Inner.add(inner);
+                            }
+                            i++;
+                        }
+                        addTriangulatedFace(mesh, reversed(base2Outer), base2Inner,wallHeight + roofHeight ,false );
+                    }
+
+                }
+
+            } else if (building.roofShape == RoofShapes.MANSARD){
+                // if roof shape is MANSARD, we need to start all over again:
+                //  generate a new hipped roof for the upper level of the mansard.
+                for (Output.LoopNormal qq: output.nonSkelFaces) {
+                    List<Point2D> base2Outer = new ArrayList<>();
+                    List<List<Point2D>> base2Inner = new ArrayList<>();
+                    int i = 0;
+                    for (Loop qqq : qq.loopl) {
+                        if (i==0) {
+                            for (var pt1 : qqq) {
+                                Point3d pt = (Point3d) pt1;
+                                base2Outer.add(new Point2D(pt.x, pt.y));
+                            }
+                        } else{
+                            List<Point2D> inner = new ArrayList<>();
+                            for (var pt1 : qqq) {
+                                Point3d pt = (Point3d) pt1;
+                                inner.add(new Point2D(pt.x, pt.y));
+                            }
+                            List<Point2D> innerR = new ArrayList<>();
+                            for(int j=inner.size()-1;j>=0; j--){
+                                innerR.add(inner.get(j));
+                            }
+
+                            base2Inner.add(innerR);
+                        }
+                        i++;
+                    }
+                    var output2 = calculateStraightSkeleton(base2Outer, base2Inner, RoofShapes.HIPPED, null);
+                    addSkeletonFacesToMesh(output2, mesh, wallHeight+effectiveRoofHeight, (1-MANSARD_RATE)*roofHeight);
+                }
+
+            }else {
+                throw new RuntimeException("Cap is still not closed for roof shape "+ building.roofShape );
             }
         }
 
+
+
+
+        //For some reason the Skeleton produces artifacts, we need to fix them
+        //  It's obviously much like bailing out the boat without plugging the leak,
+        //  but we cannot fix the camp-skeleton library right now.
+        mesh.fixDuplicateFaces();
+        mesh.fixTJunctions();
+        mesh.fixDegeneratedFaceParts();
+        return mesh;
+    }
+
+    private List<Point2D> reversed(List<Point2D> list) {
+        List<Point2D> list2 = new ArrayList<>();
+        for(int j=list.size()-1;j>=0; j--){
+            list2.add(list.get(j));
+        }
+        return list2;
+    }
+
+    Output calculateStraightSkeleton(List<Point2D> baseOuterRing, List<List<Point2D>> baseInnerRings, RoofShapes roofShape,  Double roofDirection){
         //Initialize skeleton input data, from the building outline
         LoopL<Edge> loopl = new LoopL<>();
 
         Loop<Edge> loop = new Loop<>();
         Map<Point2D, Corner> cornerMap = new HashMap<>();
-        for (Point2D p : basePoints) {
+        for (Point2D p : baseOuterRing) {
             cornerMap.put(p, new Corner(p.x, p.y));
         }
 
         int side_wall_idx = -1;
-        if (building.roofShape == RoofShapes.SIDE_HIPPED) {
+        if (roofShape == RoofShapes.SIDE_HIPPED) {
             //for side hipped we need to decide which edge should be considered side and produce vertical roof face
             //  for complex non-convex outlines it's not so easy.
             //  Intuition says, that it should be an edge opposite to the roof direction vector.
@@ -205,14 +310,14 @@ public class MesherHipped extends RoofGenerator {
 
             //lets find the "convex" edges. Only convex edges can be "sides"
             var convexEdges = new ArrayList<Integer>();
-            for (int i = 0, n = basePoints.size(); i < n; i++) {
-                Point2D p1 = basePoints.get(i);
-                Point2D p2 = basePoints.get((i + 1) % n);
+            for (int i = 0, n = baseOuterRing.size(); i < n; i++) {
+                Point2D p1 = baseOuterRing.get(i);
+                Point2D p2 = baseOuterRing.get((i + 1) % n);
                 var edge_dir = p2.subtract(p1);
                 int convexSide = 0; // edge property
                 boolean isConvex=true;
                 for (int k = 0; k < n; k++) {
-                    Point2D pk = basePoints.get(k);
+                    Point2D pk = baseOuterRing.get(k);
                     int c = softSign(edge_dir.cross(pk.subtract(p1)));
                     if (c==0){
                         continue; //the vertex on the same line, it does not affect algorithm.
@@ -231,17 +336,17 @@ public class MesherHipped extends RoofGenerator {
                 }
             }
 
-            if (building.roofDirection!=null) {
+            if (roofDirection!=null) {
                 Point2D roof_direction_vec;
-                roof_direction_vec = Point2D.fromDirection(building.roofDirection);
+                roof_direction_vec = Point2D.fromDirection(roofDirection);
 
                 double min_q =  Double.MAX_VALUE;
-                for (int i = 0, n = basePoints.size(); i < n; i++) {
+                for (int i = 0, n = baseOuterRing.size(); i < n; i++) {
                     if (!convexEdges.contains(i)){
                         continue; // non-convex edge cannot be "side"!
                     }
-                    Point2D p1 = basePoints.get(i);
-                    Point2D p2 = basePoints.get((i + 1) % n);
+                    Point2D p1 = baseOuterRing.get(i);
+                    Point2D p2 = baseOuterRing.get((i + 1) % n);
                     Point2D m = p1.add(p2).mult(0.5);
                     double q = m.dot(roof_direction_vec);
                     if (q < min_q) {
@@ -258,14 +363,14 @@ public class MesherHipped extends RoofGenerator {
         }
 
         //initialize polygon -- edges and speeds -- for skeleton calculation
-        for (int i = 0; i < basePoints.size(); i++) {
-            Point2D p1 = basePoints.get(i);
-            Point2D p2 = basePoints.get((i + 1) % basePoints.size());
+        for (int i = 0; i < baseOuterRing.size(); i++) {
+            Point2D p1 = baseOuterRing.get(i);
+            Point2D p2 = baseOuterRing.get((i + 1) % baseOuterRing.size());
             Edge edge = new Edge(cornerMap.get(p1), cornerMap.get(p2));
             double mashineSpeed=Math.PI / 4;
 
             //in case of side_hipped we need to select a wall and assign zero speed for it, so it remains vertical.
-            if ((building.roofShape == RoofShapes.SIDE_HIPPED) && i == side_wall_idx){
+            if ((roofShape == RoofShapes.SIDE_HIPPED) && i == side_wall_idx){
                 mashineSpeed = 0;
             }
 
@@ -274,7 +379,7 @@ public class MesherHipped extends RoofGenerator {
         }
         loopl.add(loop);
 
-        for (var basePoints2: building.getContourInnerRings()){
+        for (var basePoints2: baseInnerRings){
 
             loop = new Loop<>();
             cornerMap = new HashMap<>();
@@ -293,15 +398,26 @@ public class MesherHipped extends RoofGenerator {
         }
 
         //Request skeleton generation
-        Skeleton skel = new Skeleton(loopl, true);
+        Skeleton skel;
+        boolean capped = (roofShape == RoofShapes.MANSARD) || (roofShape ==  RoofShapes.QUADRUPLE_SALTBOX);
+
+        if (capped) {
+            skel = new Skeleton(loopl, 3);
+        }else{
+            skel = new Skeleton(loopl, true);
+        }
         skel.skeleton();
 
-        //we need to find min and max Z, to proper scale our roof.
-        // we need to respect our roofHeight
+        return skel.output;
 
+    }
+
+    double addSkeletonFacesToMesh(Output output, Mesh mesh, double wallHeight, double roofHeight ){
+        //we need to find min and max Z, to proper scale our roof.
+        //  we need to respect our roofHeight
         double minZ = Double.MAX_VALUE;
         double maxZ = -Double.MAX_VALUE;
-        for (Output.Face face : skel.output.faces.values()) {
+        for (Output.Face face : output.faces.values()) {
             for (Loop<Point3d> lp3 : face.points) {
                 for (Point3d pt : lp3) {
                     if (pt.z < minZ) minZ = pt.z;
@@ -313,7 +429,7 @@ public class MesherHipped extends RoofGenerator {
 
         //Check created faces/vertices and add them to our mesh
 
-        for (Output.Face face : skel.output.faces.values()) {
+        for (Output.Face face : output.faces.values()) {
             for (Loop<Point3d> lp3 : face.points) {
                 List<Integer> faceIndices = new ArrayList<>();
                 for (Point3d pt : lp3) {
@@ -331,14 +447,28 @@ public class MesherHipped extends RoofGenerator {
                 }
             }
         }
-        //For some reason the Skeleton produces artifacts, we need to fix them
-        //  It's obviously much like bailing out the boat without plugging the leak,
-        //  but we cannot fix the camp-skeleton library right now.
-        mesh.fixDuplicateFaces();
-        mesh.fixTJunctions();
-        mesh.fixDegeneratedFaceParts();
-        return mesh;
-    }
+        return roofScale;
+    };
+
+    void addTriangulatedFace(Mesh mesh, List<Point2D> outerRing, List<List<Point2D>> innerRings, double z, boolean bottom){
+        var tessellator = new Tessellator(outerRing, innerRings);
+        List<int[]> roofTriangles = tessellator.triangulate();
+
+        for (var face_idx: roofTriangles){
+            Point2D p1 = tessellator.getPoint(face_idx[0]);
+            Point2D p2 = tessellator.getPoint(face_idx[1]);
+            Point2D p3 = tessellator.getPoint(face_idx[2]);
+            int i1 =  mesh.addVertex2(new Point3D(p1.x, p1.y, z));
+            int i2 =  mesh.addVertex2(new Point3D(p2.x, p2.y, z));
+            int i3 =  mesh.addVertex2(new Point3D(p3.x, p3.y, z));
+
+            if(bottom){
+                mesh.addBottomFace(new int[]{i3, i2, i1});
+            } else {
+                mesh.addRoofFace(new int[]{i3, i2, i1});
+            }
+        }
+    };
 
     private Mesh generateRectangular(BuildingRecipe building) {
         List<Point2D> basePoints = building.getContour();
