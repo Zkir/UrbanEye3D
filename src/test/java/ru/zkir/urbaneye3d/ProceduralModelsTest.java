@@ -25,6 +25,7 @@ import java.util.SplittableRandom;
 
 import static ru.zkir.urbaneye3d.RoofGeneratorTopologyTest.AssertMeshTopology;
 import static ru.zkir.urbaneye3d.RoofGeneratorTopologyTest.AssertMeshTopology2;
+import static ru.zkir.urbaneye3d.utils.Settings.SAVE_TEST_RESULTS_TO_FILE;
 
 
 public class ProceduralModelsTest {
@@ -32,7 +33,9 @@ public class ProceduralModelsTest {
 
     @BeforeAll
     public static void setUp() throws IOException{
-        Files.createDirectories(Paths.get(TEST_OUTPUT_DIR));
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            Files.createDirectories(Paths.get(TEST_OUTPUT_DIR));
+        }
         Config.setPreferencesInstance(new MemoryPreferences());
         Config.setBaseDirectoriesProvider(JosmBaseDirectories.getInstance());
         Config.setUrlsProvider(JosmUrls.getInstance());
@@ -49,8 +52,9 @@ public class ProceduralModelsTest {
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("street_cabinet");
 
         var mesh = generator.generate(node, new SplittableRandom(node.getId()));
-        ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/street_cabinet.obj");
-
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            ObjExporter.saveMeshToObj(mesh, TEST_OUTPUT_DIR + "/street_cabinet.obj");
+        }
         AssertMeshTopology(mesh, 0, 1.6,"street_cabinet");
     }
 
@@ -64,8 +68,9 @@ public class ProceduralModelsTest {
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("ad_column");
 
         var mesh = generator.generate(node, new SplittableRandom(node.getId()));
-        ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/ad_column.obj");
-
+        if(SAVE_TEST_RESULTS_TO_FILE) {
+            ObjExporter.saveMeshToObj(mesh, TEST_OUTPUT_DIR + "/ad_column.obj");
+        }
         AssertMeshTopology(mesh, 0, 5.25,"ad_column");
     }
 
@@ -79,8 +84,9 @@ public class ProceduralModelsTest {
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("flagpole");
 
         var mesh = generator.generate(node, new SplittableRandom(node.getId()));
-        ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/flagpole.obj");
-
+        if(SAVE_TEST_RESULTS_TO_FILE) {
+            ObjExporter.saveMeshToObj(mesh, TEST_OUTPUT_DIR + "/flagpole.obj");
+        }
         AssertMeshTopology2(mesh, 0, 12.25,"flagpole",true);
     }
 
@@ -94,8 +100,9 @@ public class ProceduralModelsTest {
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("chimney");
 
         var mesh = generator.generate(node, new SplittableRandom(node.getId()));
-        ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/chimney.obj");
-
+        if(SAVE_TEST_RESULTS_TO_FILE) {
+            ObjExporter.saveMeshToObj(mesh, TEST_OUTPUT_DIR + "/chimney.obj");
+        }
         AssertMeshTopology(mesh, 0, 30,"chimney");
     }
 
@@ -110,8 +117,9 @@ public class ProceduralModelsTest {
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("wind_turbine");
 
         var mesh = generator.generate(node, new SplittableRandom(node.getId()));
-        ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/wind_turbine.obj");
-
+        if(SAVE_TEST_RESULTS_TO_FILE) {
+            ObjExporter.saveMeshToObj(mesh, TEST_OUTPUT_DIR + "/wind_turbine.obj");
+        }
         AssertMeshTopology2(mesh, 0, 119.589,"wind_turbine", true);
     }
 
@@ -127,8 +135,9 @@ public class ProceduralModelsTest {
         ProceduralGenerator generator = GeneratorRegistry.getInstance().get("communication_mast");
 
         var mesh = generator.generate(node, new SplittableRandom(node.getId()));
-        ObjExporter.saveMeshToObj(mesh,TEST_OUTPUT_DIR +"/communication_mast.obj");
-
+        if(SAVE_TEST_RESULTS_TO_FILE) {
+            ObjExporter.saveMeshToObj(mesh, TEST_OUTPUT_DIR + "/communication_mast.obj");
+        }
         AssertMeshTopology2(mesh, 0, height,"communication_mast", true);
     }
 }

@@ -1,1 +1,0 @@
-Directory for possible output from autotests

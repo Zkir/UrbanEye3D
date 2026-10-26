@@ -8,13 +8,15 @@ import org.openstreetmap.josm.io.OsmReader;
 import org.openstreetmap.josm.spi.preferences.Config;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point3D;
-import ru.zkir.urbaneye3d.utils.Settings;
 
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.coor.LatLon;
 import java.awt.Color;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +25,7 @@ import ru.zkir.urbaneye3d.utils.ObjImporter;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.zkir.urbaneye3d.RoofGeneratorTopologyTest.*;
+import static ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj;
 import static ru.zkir.urbaneye3d.utils.Settings.SAVE_TEST_RESULTS_TO_FILE;
 
 import org.openstreetmap.josm.data.preferences.JosmBaseDirectories;
@@ -30,9 +33,13 @@ import org.openstreetmap.josm.data.preferences.JosmUrls;
 import org.openstreetmap.josm.spi.preferences.MemoryPreferences;
 
 class SceneTest {
+    private static final String TEST_OUTPUT_DIR = "target/test-output/scene";
 
     @BeforeAll
-    public static void setUp() {
+    public static void setUp() throws IOException {
+        if(SAVE_TEST_RESULTS_TO_FILE) {
+            Files.createDirectories(Paths.get(TEST_OUTPUT_DIR));
+        }
         Config.setPreferencesInstance(new MemoryPreferences());
         Config.setBaseDirectoriesProvider(JosmBaseDirectories.getInstance());
         Config.setUrlsProvider(JosmUrls.getInstance());
@@ -167,9 +174,8 @@ class SceneTest {
 
         if (SAVE_TEST_RESULTS_TO_FILE) {
             int i = 0;
-            String outputFolder = Settings.prepareTestOutputFolder("city_center");
             for (var re : scene.renderableElements) {
-                ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/" + re.primitiveId.toString() + ".obj");
+                saveMeshToObj(re.getMesh(), TEST_OUTPUT_DIR + "/CityCenter/" + re.primitiveId.toString() + ".obj");
                 //RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
                 i++;
             }
@@ -686,9 +692,9 @@ class SceneTest {
         assertEquals(1, scene.renderableElements.size());
 
         var re = scene.renderableElements.get(0);
-        String outputFolder = Settings.prepareTestOutputFolder("NonConvexGabled");
-        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/" +"testNonConvexGabled.obj");
-
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            saveMeshToObj(re.getMesh(), TEST_OUTPUT_DIR + "/NonConvexGabled/" + "testNonConvexGabled.obj");
+        }
         //We do not have original height and min_height, so constraint test is just formal
         RoofGeneratorTopologyTest.assertNoVertexDuplicates(re.getMesh(), "Gabled_non_convex");
         RoofGeneratorTopologyTest.assertNoDegeneratedFaces(re.getMesh(), "Hipped_non_convex");
@@ -710,9 +716,9 @@ class SceneTest {
         assertEquals(1, scene.renderableElements.size());
 
         var re = scene.renderableElements.get(0);
-        String outputFolder = Settings.prepareTestOutputFolder("NonConvexHipped");
-        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/" +"testNonConvexHipped.obj");
-
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            saveMeshToObj(re.getMesh(), TEST_OUTPUT_DIR + "/NonConvexHipped/" + "testNonConvexHipped.obj");
+        }
         RoofGeneratorTopologyTest.assertNoVertexDuplicates(re.getMesh(), "Hipped_non_convex");
         RoofGeneratorTopologyTest.assertNoDegeneratedFaces(re.getMesh(), "Hipped_non_convex");
         RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, "Hipped_non_convex");
@@ -733,10 +739,9 @@ class SceneTest {
         assertEquals(1, scene.renderableElements.size());
 
         var re = scene.renderableElements.get(0);
-        String outputFolder = Settings.prepareTestOutputFolder("HippedWithHole");
-        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/" +"testHippedWithHole.obj");
-
-
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            saveMeshToObj(re.getMesh(), TEST_OUTPUT_DIR + "/HippedWithHole/" + "testHippedWithHole.obj");
+        }
         RoofGeneratorTopologyTest.assertNoVertexDuplicates(re.getMesh(), "HippedWithHole");
         RoofGeneratorTopologyTest.assertNoDegeneratedFaces(re.getMesh(), "HippedWithHole");
         RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, "HippedWithHole");
@@ -757,9 +762,9 @@ class SceneTest {
         assertEquals(1, scene.renderableElements.size());
 
         var re = scene.renderableElements.get(0);
-        String outputFolder = Settings.prepareTestOutputFolder("SideHippedNonConvex");
-        ru.zkir.urbaneye3d.utils.ObjExporter.saveMeshToObj(re.getMesh(), outputFolder + "/" +"testSideHippedNonConvex.obj");
-
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            saveMeshToObj(re.getMesh(), TEST_OUTPUT_DIR + "/SideHippedNonConvex/" + "testSideHippedNonConvex.obj");
+        }
 
         RoofGeneratorTopologyTest.assertNoVertexDuplicates(re.getMesh(), "SideHippedNonConvex");
         RoofGeneratorTopologyTest.assertNoDegeneratedFaces(re.getMesh(), "SideHippedNonConvex");

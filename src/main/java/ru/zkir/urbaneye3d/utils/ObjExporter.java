@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
@@ -104,6 +106,16 @@ public class ObjExporter {
     }
 
     public static void saveMeshToObj(Mesh mesh, String filePath)  {
+        Path path = Path.of(filePath);
+        Path parentDir = path.getParent();
+        if (parentDir!=null){
+            try {
+                Files.createDirectories(parentDir);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         String mtlPath = filePath.substring(0, filePath.lastIndexOf('.')) + ".mtl";
         try {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
