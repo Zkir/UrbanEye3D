@@ -28,7 +28,7 @@ See [features.md](docs/features.md) for the list of supported tags and roof shap
 
 
 ### Limitations
-* Several roof shapes (`mansard`, `half-hipped` and `cross_gabled`) are supported for quadrilateral polygons only. 
+* Several roof shapes (`half-hipped` and `cross_gabled`) are supported for quadrilateral polygons only. 
 Support for those roof shapes on arbitrary non-convex polygons may be added in future versions.
 
 ## How to install

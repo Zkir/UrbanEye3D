@@ -1,5 +1,9 @@
 # Development History
 
+### Oct 27, 2026
+* Implemented some support for `roof:shape=gambrel` and `roof:shape=double_saltbox` on outlines with holes.
+Those roof shapes are rendered as a `mansard` and a `quadruple_saltbox` respectively. Since those shapes are related (have common vertical profile), results are pretty good, nobody will ever notice the difference.
+
 ### Oct 26, 2026
 * Units of measure (both metric and imperial) are now respected in dimension tags (height, roof:height, diameter, width e.t.c.). 
 The following units are supported: 

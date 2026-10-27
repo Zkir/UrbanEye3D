@@ -75,9 +75,21 @@ public class BuildingRecipe {
             roofHeight = height - minHeight;
         }
 
-        //in case outline has inner rings, we cannot construct any other roof, but FLAT and SKILLION
-        // also, if roof's height is zero, it's flat!
         var requestedShape = RoofShapes.fromString(roofShape);
+        //some kind of a dirty hack
+        //    we still do not have full support for certain roof shapes on "complex" outlines,
+        //    but we can render them almost correctly with a more simple roof shape.
+        //    Nobody will ever notice!
+        if (contour.isComplex()){
+            if (requestedShape == RoofShapes.GAMBREL) {
+                requestedShape = RoofShapes.MANSARD;
+            } else if (requestedShape == RoofShapes.DOUBLE_SALTBOX){
+                requestedShape = RoofShapes.QUADRUPLE_SALTBOX;
+            }
+        }
+
+        // there are some roof shapes that cannot be constructed on outlines with holes.
+        // also, if roof's height is zero, it's flat!
         if ((roofHeight == 0) || (contour.isComplex() && !ALLOWED_SHAPES_FOR_COMPLEX_BASE.contains(requestedShape))) {
             this.roofShape = RoofShapes.FLAT;
         } else {
