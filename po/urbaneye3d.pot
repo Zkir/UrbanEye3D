@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 13:19:00+0300\n"
+"POT-Creation-Date: 2026-10-31 22:48:54+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Open current view in Felis Editor"
 msgstr ""
 
-#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:190
+#: src/main/java/ru/zkir/urbaneye3d/validator/SpatialConsistencyChecks.java:191
 msgid "Orphaned building part"
 msgstr ""
 
@@ -185,7 +185,7 @@ msgstr ""
 
 #: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:57
 #: src/main/java/ru/zkir/urbaneye3d/DialogWindow3D.java:60
-#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:152
+#: src/main/java/ru/zkir/urbaneye3d/UrbanEye3dPreferences.java:153
 msgid "Urban Eye 3D"
 msgstr ""
 

@@ -29,8 +29,8 @@ Not very practical, but allows to model semi-detached houses like this:
 
 ## New Roof Shapes
 Two new "saltbox" variants are supported:
-* `roof:shape=double_saltbox` — a symmetrical roof with two slopes on each side and a flat top. <br />
-* `roof:shape=quadruple_saltbox` — the same idea extended to all four sides (a flat-topped hipped roof); works for arbitrary building outlines. <br />
+* `roof:shape=double_saltbox` â€” a symmetrical roof with two slopes on each side and a flat top. <br />
+* `roof:shape=quadruple_saltbox` â€” the same idea extended to all four sides (a flat-topped hipped roof); works for arbitrary building outlines. <br />
 ![double saltbox](../../images/roof_double_saltbox.png)
 ![quadruple saltbox](../../images/roof_quadruple_saltbox.png)	
 

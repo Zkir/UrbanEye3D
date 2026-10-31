@@ -1,5 +1,7 @@
 # Development History
 
+## Version 2.9.0 (Oct 30, 2026)
+
 ### Oct 27, 2026
 * Implemented some support for `roof:shape=gambrel` and `roof:shape=double_saltbox` on outlines with holes.
 Those roof shapes are rendered as a `mansard` and a `quadruple_saltbox` respectively. Since those shapes are related (have common vertical profile), results are pretty good, nobody will ever notice the difference.
