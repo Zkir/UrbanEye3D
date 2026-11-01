@@ -202,7 +202,7 @@ public class DialogWindow3D extends ToggleDialog
             var layer2Dinfo = getTopmostImageryLayer();
             //TODO: it's a dirty hack.
             // If the main map window is not visible, we cannot neither obtain map center nor active satellite layer
-            var visibleAreaCenter = Renderer3D.getCameraPosition();
+            var visibleAreaCenter = renderer3D.getCameraPosition();
             //if 2d layer is generated one, it depends on Dataset.
             //Since we recalculate buildings, we should also update 2d layer
             boolean forcedUpdate = (layer2Dinfo != null && layer2Dinfo.getType() == GroundPlane.ImageryType.MapCSS);
@@ -290,7 +290,7 @@ public class DialogWindow3D extends ToggleDialog
             * but the ground plane currently does.
             * */
             var layer2dInfo = getTopmostImageryLayer();
-            LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
+            LatLon visibleAreaCenter = renderer3D.getCameraPosition();
 
             scene3d.getGroundPlane().update(visibleAreaCenter, layer2dInfo, listenedLayer != null ? listenedLayer.getDataSet() : null, false, null);
             renderer3D.repaint();
@@ -336,7 +336,7 @@ public class DialogWindow3D extends ToggleDialog
                 //recreated ground plane geometries and texture
                 if(isUpdateRequired()) {
                     var tmsLayer = getTopmostImageryLayer();
-                    LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
+                    LatLon visibleAreaCenter = renderer3D.getCameraPosition();
                     scene3d.getGroundPlane().update(visibleAreaCenter, tmsLayer, listenedLayer != null ? listenedLayer.getDataSet() : null, false, null);
                     //this is some kind of back magic, otherwise repaint does not work.
                     SwingUtilities.invokeLater(() -> this.getRenderer3D().repaint());
@@ -432,7 +432,7 @@ public class DialogWindow3D extends ToggleDialog
 			//TODO: since josm has special styles for selected objects, we need to redraw ground plane when selection changes.
             //  in future we should get rid of that.
             var tmsLayer = getTopmostImageryLayer();
-            LatLon visibleAreaCenter = Renderer3D.getCameraPosition();
+            LatLon visibleAreaCenter = renderer3D.getCameraPosition();
             List<OsmPrimitive> added = new ArrayList<>(event.getAdded());
             List<OsmPrimitive> removed = new ArrayList<>(event.getRemoved());
             List<OsmPrimitive> modifiedPrimitives = new ArrayList<>();
