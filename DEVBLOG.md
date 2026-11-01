@@ -1,5 +1,11 @@
 # Development History
 
+### Oct 31, 2026
+* Implemented offscreen 3D rendering test (`RendererTest`) using JOGL `GLOffscreenAutoDrawable` based on `city_center.osm`.
+The test renders the scene offscreen, saves the result to `target/test-output/rendering/city_center_render.png`, 
+and verifies that the output contains a rich 3D scene (asserting >100 unique colors). 
+This provides reliable visual regression protection for the transition to modern OpenGL.
+
 ## Version 2.9.0 (Oct 30, 2026)
 
 ### Oct 27, 2026

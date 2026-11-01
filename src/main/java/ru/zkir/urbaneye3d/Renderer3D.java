@@ -67,6 +67,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     private final double[] lastProjMatrix = new double[16];
     private final double[] lastMvMatrix = new double[16];
     private final int[] lastViewport = new int[4];
+    private LatLon forcedCameraPosition = null;
 
     public double getCamX_angle() {
         return camX_angle;
@@ -271,8 +272,26 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         camY_angle = DEFAULT_CAM_HOR_ANGLE;
         repaint();
     }
-    public static LatLon getCameraPosition() {
-        return MainApplication.getMap().mapView.getRealBounds().getCenter();
+
+    /**
+     *  Returns camera LatLon positon. In normal situation it is defined by JOSM map view,
+     *  but can be forced by setCameraPosition() for test purposes
+     */
+    public LatLon getCameraPosition() {
+        if (forcedCameraPosition != null) {
+            return forcedCameraPosition;
+        } else {
+            return MainApplication.getMap().mapView.getRealBounds().getCenter();
+        }
+    }
+
+    /**
+     * This method sets FORCED camera position.
+     * Should be used for tests only, in normal situation camera position depends on JOSM map view.
+     * @param latLon
+     */
+    public void setCameraPosition(LatLon latLon) {
+        this.forcedCameraPosition = latLon;
     }
 
     @Override
@@ -763,6 +782,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glColor4f(finalColor.getRed() / 255.0f, finalColor.getGreen() / 255.0f, finalColor.getBlue() / 255.0f, finalColor.getAlpha() / 255.0f);
         gl.glVertex3d(vertex.x, vertex.y, vertex.z);
     }
+
 
     // Tessellator callback inner class
     private class TessellatorCallback extends GLUtessellatorCallbackAdapter {
