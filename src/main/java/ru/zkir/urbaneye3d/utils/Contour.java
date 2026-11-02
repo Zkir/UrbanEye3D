@@ -583,6 +583,155 @@ public class Contour {
         return chain.get(0).y;
     }
 
+    /** Number of points in all contours, both outer and inner ones */
+    public int countPoints() {
+        List<Point2D> outer = outerRings.get(0);
+        int s = outer.size();
+        for (List<Point2D> r : innerRings) {
+            s += r.size();
+        }
+        return s;
+
+    }
+
+    /** Smallest distance between vertices of different rings; Double.MAX_VALUE if there are no holes */
+    public double minInterRingDistance() {
+        List<Point2D> outer = this.outerRings.get(0);
+        List<List<Point2D>> innerRings = this.innerRings;
+        double min2 = Double.MAX_VALUE;
+        List<List<Point2D>> rings = new ArrayList<>();
+        rings.add(outer);
+        rings.addAll(innerRings);
+        for (int a = 0; a < rings.size(); a++) {
+            for (int b = a + 1; b < rings.size(); b++) {
+                for (Point2D p : rings.get(a)) {
+                    for (Point2D q : rings.get(b)) {
+                        double d2 = (p.x - q.x) * (p.x - q.x) + (p.y - q.y) * (p.y - q.y);
+                        if (d2 < min2) {
+                            min2 = d2;
+                        }
+                    }
+                }
+            }
+        }
+        return Math.sqrt(min2);
+    }
+
+    /** private constructor to create object directly from points */
+    private Contour(List<List<Point2D>> outerRings, List<List<Point2D>> innerRings, String mode){
+        this.outerRings = outerRings;
+        this.innerRings = innerRings;
+        this.mode = mode;
+    }
+
+    /**
+     * Douglas-Peucker simplification
+     * we need this for complex outlines for hipped roofs,
+     * because camp-skeleton library has limitations
+     */
+    public Contour simplifyDP(double eps) {
+        // we need to simplify both inner and outer rings
+        // firstly outer rings
+        List<List<Point2D>> newOuterRings = new ArrayList<>();
+        for (List<Point2D> ring : this.outerRings) {
+            List<Point2D> s = simplifyRing(ring, eps);
+            if (s.size() >= 3) {
+                newOuterRings.add(s);
+            }
+        }
+
+        // and then inner rings
+        List<List<Point2D>> newInnerRings = new ArrayList<>();
+        for (List<Point2D> ring : this.innerRings) {
+            List<Point2D> s = simplifyRing(ring, eps);
+            if (s.size() >= 3) {
+                newInnerRings.add(s);
+            }
+        }
+
+        return new Contour(newOuterRings, newInnerRings, "XY");
+    }
 
 
+    /**
+     * Douglas-Peucker of a closed ring (a duplicated closing vertex is dropped); returns a new list
+     * with at least 3 vertices, or an empty list when the ring collapses.
+     */
+    private List<Point2D> simplifyRing(List<Point2D> ringIn, double eps) {
+        List<Point2D> ring = new ArrayList<>(ringIn);
+        if (ring.size() > 1) {
+            Point2D first = ring.get(0);
+            Point2D last = ring.get(ring.size() - 1);
+            if (Math.abs(first.x - last.x) < 1e-9 && Math.abs(first.y - last.y) < 1e-9) {
+                ring.remove(ring.size() - 1);
+            }
+        }
+        int n = ring.size();
+        if (n < 4) {
+            return ring;
+        }
+        //DP on the polyline ring[0..n-1] + ring[0]; index n means ring.get(0)
+        boolean[] keep = new boolean[n + 1];
+        keep[0] = true;
+        keep[n] = true;
+        java.util.Deque<int[]> stack = new java.util.ArrayDeque<>();
+        stack.push(new int[]{0, n});
+        while (!stack.isEmpty()) {
+            int[] seg = stack.pop();
+            int a = seg[0];
+            int b = seg[1];
+            if (b - a < 2) {
+                continue;
+            }
+            Point2D pa = ring.get(a % n);
+            Point2D pb = ring.get(b % n);
+            double worst = -1;
+            int worstIdx = -1;
+            for (int i = a + 1; i < b; i++) {
+                double d = pointToSegmentDistance(ring.get(i), pa, pb);
+                if (d > worst) {
+                    worst = d;
+                    worstIdx = i;
+                }
+            }
+            if (worst > eps) {
+                keep[worstIdx] = true;
+                stack.push(new int[]{a, worstIdx});
+                stack.push(new int[]{worstIdx, b});
+            }
+        }
+        List<Point2D> out = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (keep[i]) {
+                out.add(ring.get(i));
+            }
+        }
+        return out.size() >= 3 ? out : new ArrayList<>();
+    }
+
+    private static double pointToSegmentDistance(Point2D p, Point2D a, Point2D b) {
+        double dx = b.x - a.x;
+        double dy = b.y - a.y;
+        double l2 = dx * dx + dy * dy;
+        if (l2 < 1e-12) {
+            return p.subtract(a).length();
+        }
+        double t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / l2));
+        return p.subtract(new Point2D(a.x + t * dx, a.y + t * dy)).length();
+    }
+
+    /** Cheap hash of the contour (mm precision), to remember timed-out contours between updates */
+    public String getSignature() {
+        var outer = this.outerRings.get(0);
+        long h = outer.size() * 1000003L;
+        for (Point2D p : outer) {
+            h = h * 31 + Math.round(p.x * 1000.0) * 3 + Math.round(p.y * 1000.0);
+        }
+        for (List<Point2D> r : innerRings) {
+            for (Point2D p : r) {
+                h = h * 31 + Math.round(p.x * 1000.0) * 3 + Math.round(p.y * 1000.0);
+            }
+        }
+        return Long.toHexString(h);
+    }
 }

@@ -28,7 +28,7 @@ public class MesherSteps extends RoofGenerator {
         if (building.hasComplexContour()) {
             return null;
         }
-        if (building.getContour().size() == 4){
+        if (building.isQuadrangular()){
             return generateQuadrangular(building);
         }else{
             return generateNonConvex(building);
@@ -39,7 +39,7 @@ public class MesherSteps extends RoofGenerator {
     * Generate steps for quadrangular base. Simple algorithm
     */
     public Mesh generateQuadrangular(BuildingRecipe building) {
-        if (building.getContour().size() != 4) {
+        if (!building.isQuadrangular()) {
             throw new RuntimeException("generateQuadrangular() supports only quadrangular bases. This call should never occur");
         }
 

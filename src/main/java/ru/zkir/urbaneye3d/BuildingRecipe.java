@@ -124,6 +124,10 @@ public class BuildingRecipe {
         return contour.outerRings.isEmpty() ? new ArrayList<>() : contour.outerRings.get(0);
     }
 
+    public Contour getContour2() {
+        return contour;
+    }
+
     public List<List<Point2D>> getContourOuterRings() {
         return contour.outerRings;
     }
@@ -135,4 +139,9 @@ public class BuildingRecipe {
     public boolean hasComplexContour() {
         return contour.isComplex();
     }
+
+    public boolean isQuadrangular(){
+        return !this.hasComplexContour() && this.getContour().size() == 4;
+    }
+
 }

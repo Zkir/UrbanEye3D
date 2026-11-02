@@ -9,6 +9,7 @@ import org.twak.utils.collections.Loop;
 import org.twak.utils.collections.LoopL;
 import ru.zkir.urbaneye3d.BuildingRecipe;
 import ru.zkir.urbaneye3d.UrbanEye3dPlugin;
+import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point2D;
 import ru.zkir.urbaneye3d.utils.Point3D;
@@ -16,27 +17,150 @@ import ru.zkir.urbaneye3d.utils.Tessellator;
 
 import javax.vecmath.Point3d;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static java.lang.Math.abs;
-import static java.lang.Math.min;
 import static ru.zkir.urbaneye3d.utils.Mesh.ROOF_COLOUR_IDX;
 import static ru.zkir.urbaneye3d.utils.Mesh.WALL_COLOUR_IDX;
 
 public class MesherHipped extends RoofGenerator {
 
+    /**
+     * The camp straight-skeleton library runs in (events) x (corners x edges) time: after every
+     * event it rescans all live corners against all live edges, pruning a pair cheaply only when the
+     * two edges are EXACTLY parallel (CollisionQ.isParallel, ~0.0001 rad) - which real projected
+     * coordinates never have. Measured on real data: the heaviest real skeleton building costs
+     * 3.1e5 predicted units and takes 15 ms; the frozen "Trading Rows" outline (market_hall.osm,
+     * relation 452031) is 4.5e8 and never completed. So predictedSkeletonCost above this limit
+     * triggers Douglas-Peucker simplification; if even that does not fit, generate() returns null
+     * and RenderableElement.composeMesh() falls back to MesherFlat. Details: DEVBLOG Nov 4, 2026.
+     */
+    static final long SKELETON_COST_LIMIT = 10_000_000;
+    private static final double DP_EPS_MAX = 1.5;   // meters
+    private static final double DP_EPS_STEP = 0.1;  // meters
+    /** Hard time budget for one generateStraightSkeleton() call; package-visible for tests */
+    static long skeletonBudgetMs = 5000;
+
+    /** Contours whose skeleton timed out: the scene update thread must not pay the budget again */
+    private static final Set<String> timedOutContours = ConcurrentHashMap.newKeySet();
+    /** How long to wait for an interrupted campskeleton worker to actually die */
+    private static final long INTERRUPT_GRACE_MS = 1000;
+
     @Override
     public Mesh generate(BuildingRecipe building) {
-        if ((building.getContour().size() <= 4) && (!building.hasComplexContour()) && (building.roofShape == RoofShapes.HIPPED) ) {
+        if (building.isQuadrangular() && (building.roofShape == RoofShapes.HIPPED) ) {
             return generateRectangular(building);
-        } else{
-            var mesh = generateStraightSkeleton(building);
-            return mesh;
         }
+        var contour = building.getContour2();
+        var simplifiedContour = contour;
+
+        //(1) pre-flight complexity criterion, see SKELETON_COST_LIMIT below: only an over-complex
+        //  outline gets simplified; every other outline keeps its drawn geometry exactly.
+        long cost = predictedSkeletonCost(contour);
+        if (cost > SKELETON_COST_LIMIT) {
+            int n0 = contour.countPoints();
+            double epsCap = Math.min(DP_EPS_MAX, 0.4 * contour.minInterRingDistance());
+            double epsUsed = 0;
+
+            for (int k = 1; cost > SKELETON_COST_LIMIT && k * DP_EPS_STEP <= epsCap + 1e-9; k++) {
+                double eps = k * DP_EPS_STEP; //always simplify the ORIGINAL rings, never cascade
+                simplifiedContour = contour.simplifyDP(eps);
+                cost = predictedSkeletonCost(simplifiedContour);
+                epsUsed = eps;
+            }
+            if (contour.outerRings.get(0).size() < 3 || cost > SKELETON_COST_LIMIT) {
+                UrbanEye3dPlugin.debugMsg("Straight skeleton abandoned for " + building.primitiveId + ": " + n0
+                        + " vertices are too complex even after " + DP_EPS_MAX + " m simplification; flat roof will be used");
+                return null;
+            }
+            UrbanEye3dPlugin.debugMsg("Straight skeleton input simplified for " + building.primitiveId + ": " + n0
+                    + " -> " + simplifiedContour.countPoints() + " vertices (eps=" + Math.round(epsUsed * 100) / 100.0 + " m)");
+        }
+
+        //(2) time budget: camp-skeleton may still stall on an unforeseen pathology, and the scene
+        //  update thread must never be lost. join() returns as soon as the worker finishes, normally
+        //  in milliseconds - the budget is only paid by a genuinely stuck contour.
+        String sig = simplifiedContour.getSignature();
+        if (timedOutContours.contains(sig)) {
+            return null; //this exact contour has already timed out in this JOSM session
+        }
+        final Mesh[] result = new Mesh[1];
+        final Contour effectiveContour = simplifiedContour;
+        Thread worker = new Thread(() -> {
+            try {
+                result[0] = generateStraightSkeleton(building, effectiveContour);
+            } catch (Throwable t) { //the library reports broken input with java.lang.Error
+                if (!Thread.currentThread().isInterrupted()) { //our own timeout-interrupt is not a failure
+                    UrbanEye3dPlugin.debugMsg("Straight skeleton failed for " + building.primitiveId + ": " + t);
+                }
+            }
+        }, "camp-skeleton");
+        worker.setDaemon(true);
+        worker.start();
+        try {
+            worker.join(skeletonBudgetMs);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return null;
+        }
+        if (worker.isAlive()) {
+            //the campskeleton fork is patched to check Thread.currentThread().isInterrupted() in its
+            //  event loop and in the O(corners x edges) rescan, so interrupt() really does stop it.
+            //  Without that patch the thread would keep spinning as a daemon and could not be reclaimed.
+            worker.interrupt();
+            try {
+                worker.join(INTERRUPT_GRACE_MS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return null;
+            }
+            if (worker.isAlive()) {
+                UrbanEye3dPlugin.debugMsg("Straight skeleton did not react to interrupt within " + INTERRUPT_GRACE_MS
+                        + " ms; campskeleton interruptibility patch is missing or stale");
+            }
+            timedOutContours.add(sig);
+            UrbanEye3dPlugin.debugMsg("Straight skeleton timed out after " + skeletonBudgetMs + " ms for "
+                    + building.primitiveId + " (" + simplifiedContour.countPoints() + " vertices); flat roof will be used");
+            return null;
+        }
+        return result[0];
     }
+
+    /**
+     * predictedSkeletonCost = collisionPronePairs x totalVertices, where collisionPronePairs counts
+     * edge pairs falling into DIFFERENT direction bins (bin ~0.0001 rad, matching the library's
+     * isParallel() pruning). So the driver is neither raw vertex count nor vertex proximity, but
+     * the number of non-parallel edge pairs.
+     */
+    static long predictedSkeletonCost(Contour contour) {
+        List<Point2D> outer = contour.outerRings.get(0);
+        List<List<Point2D>> innerRings = contour.innerRings;
+
+        Map<Long, Integer> dirBins = new HashMap<>();
+        int edges = 0;
+        List<List<Point2D>> rings = new ArrayList<>();
+        rings.add(outer);
+        rings.addAll(innerRings);
+        for (List<Point2D> ring : rings) {
+            int n = ring.size();
+            for (int i = 0; i < n; i++) {
+                Point2D a = ring.get(i);
+                Point2D b = ring.get((i + 1) % n);
+                dirBins.merge(Math.round(Math.atan2(b.y - a.y, b.x - a.x) * 10000.0), 1, Integer::sum);
+                edges++;
+            }
+        }
+        long sameDirectionPairs = 0;
+        for (int n : dirBins.values()) {
+            sameDirectionPairs += (long) n * n;
+        }
+        return ((long) edges * edges - sameDirectionPairs) / 2 * contour.countPoints();
+    }
+
 
     public Mesh makeGabled(Mesh mesh, BuildingRecipe building){
         var v = mesh.verts;
@@ -108,11 +232,12 @@ public class MesherHipped extends RoofGenerator {
         return newIndex;
     }
 
-    private Mesh generateStraightSkeleton(BuildingRecipe building) {
-        List<Point2D> basePoints = building.getContour();
+    private Mesh generateStraightSkeleton(BuildingRecipe building, Contour contour) {
         double minHeight = building.minHeight;
         double wallHeight = building.wallHeight;
         double roofHeight = building.roofHeight;
+
+        List<Point2D> basePoints = contour.outerRings.get(0);
 
         Mesh mesh = new Mesh(building.bottomColor, building.color, building.roofColor);
 
@@ -140,7 +265,7 @@ public class MesherHipped extends RoofGenerator {
             }
 
             //inner rings, if any
-            for(var innerRing: building.getContourInnerRings()){
+            for(var innerRing: contour.innerRings){
                 int n = innerRing.size();
                 for (int i=0; i<n; i++){
                     int j = (i + 1) % n;
@@ -155,7 +280,7 @@ public class MesherHipped extends RoofGenerator {
                 }
             }
         }
-        if (!building.hasComplexContour()){
+        if (!contour.isComplex()){
             // we have simple contour, and we can just add all the contour points to the bottom face
             int[] bottomFace = new int[basePoints.size()];
             for (int i = 0; i < basePoints.size(); i++) {
@@ -164,12 +289,12 @@ public class MesherHipped extends RoofGenerator {
             mesh.addBottomFace(bottomFace);
         }else{
             //Contour has holes, so triangulation is necessary!
-            addTriangulatedFace(mesh, basePoints, building.getContourInnerRings(), minHeight, true);
+            addTriangulatedFace(mesh, basePoints, contour.innerRings, minHeight, true);
         }
 
         //here we produce straight skeleton using camp-skeleton library
         //  it generates 3D mesh, but in it's own format, and with own height.
-        var  output = calculateStraightSkeleton(basePoints, building.getContourInnerRings(), building.roofShape, building.roofDirection);
+        var  output = calculateStraightSkeleton(basePoints, contour.innerRings, building.roofShape, building.roofDirection);
 
         final double MANSARD_RATE=0.75;
 
@@ -269,9 +394,6 @@ public class MesherHipped extends RoofGenerator {
             }
         }
 
-
-
-
         //For some reason the Skeleton produces artifacts, we need to fix them
         //  It's obviously much like bailing out the boat without plugging the leak,
         //  but we cannot fix the camp-skeleton library right now.
@@ -289,7 +411,7 @@ public class MesherHipped extends RoofGenerator {
         return list2;
     }
 
-    Output calculateStraightSkeleton(List<Point2D> baseOuterRing, List<List<Point2D>> baseInnerRings, RoofShapes roofShape,  Double roofDirection){
+    public Output calculateStraightSkeleton(List<Point2D> baseOuterRing, List<List<Point2D>> baseInnerRings, RoofShapes roofShape,  Double roofDirection){
         //Initialize skeleton input data, from the building outline
         LoopL<Edge> loopl = new LoopL<>();
 

@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.twak.campskeleton</groupId>
             <artifactId>campskeleton</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.1-PATCH-1</version>
             <exclusions>
                 <exclusion>
                     <groupId>xpp3</groupId>

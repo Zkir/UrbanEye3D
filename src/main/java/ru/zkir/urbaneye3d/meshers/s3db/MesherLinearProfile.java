@@ -27,7 +27,7 @@ public class MesherLinearProfile extends RoofGenerator {
     */
     public Mesh generate(BuildingRecipe building){
         Mesh fullMesh;
-        if ((building.getContour().size() == 4) && (!building.hasComplexContour())) {
+        if (building.isQuadrangular()) {
             fullMesh = generateR(building);
         } else {
             if ((building.roofShape == RoofShapes.GABLED) && (building.roofDirection == null) && (building.roofOrientation.isEmpty())){

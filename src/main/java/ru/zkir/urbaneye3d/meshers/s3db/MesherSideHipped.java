@@ -16,7 +16,7 @@ import java.util.List;
 public class MesherSideHipped extends RoofGenerator {
     @Override
     public Mesh generate(BuildingRecipe building) {
-        if (building.getContour().size() <= 4) {
+        if (building.isQuadrangular()) {
             return generateRectangular(building);
         } else{
             return RoofShapes.HIPPED.getMesher().generate(building);

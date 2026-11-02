@@ -1,5 +1,20 @@
 # Development History
 
+### Nov 5, 2026
+* Fixed a 3D view freeze related to roofs built on the straight skeleton: hipped, gabled, mansard, pyramidal
+  roofs and their variants. 
+  * **The bug:** huge outlines (e.g. 900+ vertices in the "Trading Rows" building on Red Square)
+  made the roof algorithm compute essentially forever, and the 3D scene stopped reacting to edits at all - buildings stopped following vertex
+  moves, although the ground plane kept repainting. 
+  * **The fix:** before building the roof, the outline complexity is
+  checked; only over-complex outlines are simplified, just enough for the algorithm to run fast (ordinary
+  buildings keep their drawn geometry), and the skeleton computation always runs under a time limit and is
+  interrupted if exceeded. A building that cannot be handled this way degrades to a flat roof. In every case
+  the 3D scene keeps updating.
+  
+  ![market_hall.png](docs/images/market_hall.png)<br />
+  *Left: original building with a flat roof. Right: the same building with simplified outline and the hipped roof.*
+
 ### Nov 1, 2026
 * Drawing of ground plane imagery refactored: `GroundTile` and `GroundPlane` classes have been decoupled from OpenGL. The single owner of GL texture is `TextureManager`.
 Hopefully it addresses the [Issue #72](https://github.com/Zkir/UrbanEye3D/issues/72). At least I cannot reproduce it so easily now.
