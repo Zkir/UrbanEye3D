@@ -62,7 +62,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     private Point lastMousePoint;
 
-    private boolean npotSupport = true;
+    private static boolean npotSupport = true;
 
     private final double[] lastProjMatrix = new double[16];
     private final double[] lastMvMatrix = new double[16];
@@ -406,7 +406,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             gl.glPushMatrix();
             gl.glTranslated(transX, transY, 0);
-            Texture texture = tile.render(gl);
+            Texture texture = TextureManager.getInstance().getGroundTileTexture(gl, tile);
             drawMesh(gl, tileMesh, false,  texture);
             gl.glPopMatrix();
             objectCount += 1;
@@ -912,7 +912,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         gl.glLoadIdentity();
     }
 
-    public boolean isNpotSupported() {
+    public static boolean isNpotSupported() {
         return npotSupport;
     }
 

@@ -51,6 +51,11 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
             return this.type;
         }
 
+        /** Empty for imagery layers, the dataset name for MapCSS-based ones. */
+        public String getDataSetName(){
+            return this.dataSetName;
+        }
+
         public boolean equals (Layer2dInfo other){
             if (other==null) {return false;}
             return this.type==other.type && this.imageryInfo==other.imageryInfo && this.dataSetName.equals(other.dataSetName);
@@ -82,16 +87,15 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     private final Map<GroundTile.GroundTileXY, GroundTile> tileCache = new LinkedHashMap<>(16, 0.75f, true) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<GroundTile.GroundTileXY, GroundTile> eldest) {
-            if (size() > MAX_CACHE_SIZE) {
+            // The entry must leave the map before we touch anything else:
+            // this callback runs inside a map update, and a nested modification would break it.
+            boolean evict = super.removeEldestEntry(eldest);
+            if (evict) {
                 GroundTile evictedTile = eldest.getValue();
                 evictedTile.cancelLoadRequest();
-                // This part requires a GL context to destroy the texture.
-                // We'll queue it for destruction on the renderer thread.
-                requestTileGLTextureDestruction(eldest.getValue());
-
-                return true;
+                releaseGroundTile(evictedTile);
             }
-            return false;
+            return evict;
         }
     };
 
@@ -218,14 +222,14 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
 
     private void clearCachedTiles(){
         for (GroundTile tile : tileCache.values()) {
-            requestTileGLTextureDestruction(tile);
+            releaseGroundTile(tile);
         }
         tileCache.clear();
     }
 
     private void clearActiveTiles(){
         for (GroundTile tile : activeTiles.values()) {
-            requestTileGLTextureDestruction(tile);
+            releaseGroundTile(tile);
         }
         activeTiles.clear();
     }
@@ -290,24 +294,21 @@ public class GroundPlane implements TileCache.CacheUpdateListener {
     }
 
     /**
-    * when tile is deleted, it's GL texture should be disposed, to save video memory.
+     * A tile is thrown away: free the raster it holds and ask the GL thread to free
+     * the texture that belonged to it. Note that no OpenGL type appears here:
+     * the only owner of GL textures is {@link TextureManager}.
      */
-    void requestTileGLTextureDestruction(GroundTile tile) {
+    void releaseGroundTile(GroundTile tile) {
+        // The key is captured now, while the tile still knows which layer it belongs to.
+        final String textureKey = tile.getTextureKey();
+        tile.destroy();
         if (renderer != null) {
             renderer.invoke(false, glAutoDrawable -> {
-                tile.destroy(glAutoDrawable.getGL().getGL2());
+                TextureManager.getInstance().dispose(glAutoDrawable.getGL().getGL2(), textureKey);
                 return true;
             });
         }
     }
 
-    /** we have to ask GL context about npot texture support */
-    boolean isNpotSupported() {
-        boolean npotSupported=true;
-        if (renderer != null){
-            npotSupported = renderer.isNpotSupported();
-        }
-        return npotSupported;
-    }
 }
 

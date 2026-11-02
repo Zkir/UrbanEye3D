@@ -42,6 +42,7 @@
 
 2. **Increase resolution for GroundTile/MapCSS style**.
     * Some kind of smart scaling is required, for the nearest tiles only, because it will create huge performance impact otherwise.
+    * Watch out for system memory: after the "single texture owner" refactoring, a MapCSS ground tile keeps its raster in system memory (repainting from OSM data is expensive), so raising the tile resolution multiplies the RAM footprint as well. A possible direction is an explicit LRU eviction of the rasters of non-visible tiles, which would also make the smart scaling affordable.
 
 
 ### Ideas for the Further Development
@@ -121,6 +122,7 @@ src
     *  We have two modes for ground plane: **satellite imagery** (loaded from TMS) and **live data** based imagery (rendered from the loaded osm data on-the-fly using MapCSS). Both modes faced significant challenges.
     *  Josm has a lot of different satellite layers, but it tightly coupled with the main map window. I failed to reuse existing josm code in the plugin and had to create own(!) simple TMS rendering library, [ru.zkir.customtms](src/main/java/ru/zkir/customtms). It works fine, but probably should be eventually replaced with 'standard' josm calls, because some layers, e.g. MapBox, cannot be used without API key.
     *  JOSM MapCSS engine is also quite strange. I've managed to decouple it from JOSM main window, so we have now [own MapCSS styles](src/main/resources/mapcss-styles) for 3D window. However, JOSM MapCSS engine has some single-threaded bottlenechs and some bugs (rendering cannot be properly interrupted). So it's a big area for [performance] improvement. 
+*   **Texture Ownership (single GL owner):** `TextureManager` is the only class that creates and destroys OpenGL textures. `RenderableElement` textures come from plugin resources by path, while `GroundTile` textures are created from the `BufferedImage` the tile paints (TMS or MapCSS). The tile reports a new image version, and the manager re-uploads the texture when the version changes; the key of a ground texture includes the imagery layer, so tiles of different layers never share a texture. Note that a TMS tile frees its raster after the upload, while a MapCSS tile keeps it: repainting from OSM data is expensive.
 
 ### Data-Driven Inference
 In 3D rendering, many objects require specific attributes that are often missing in OSM for particular objects. For instance, the engine cannot render a "generic" tree; it must choose between broadleaved, needleleaved, or palm models. Usually, this choice could be made according to the `leaf_type` tag, but if it is missing, it  can be inferred from other tags (like `species`) or even from geographic location (e.g., palms are appropriate in Greece but impossible in Siberia). 
@@ -159,6 +161,7 @@ Before performing a database lookup, species names undergo mandatory normalizati
 |---|---|
 | AssetListTest.java   |  Test for verifying and documenting project assets (textures, models). Scans the src/main/resources directory, compares found assets with a master list, and generates ASSET-LIST.md. |
 | GroundPlaneTest.java | Verifies the correct creation, loading, and rendering of Ground Plane tiles for satellite imagery or MapCSS data. Includes tests for cache clearing and behavior during rapid panning. |
+| GroundTileTextureContractTest.java | Verifies the contract between a GroundTile (which only paints a BufferedImage) and TextureManager (the single owner of GL textures): no OpenGL in the tile class, texture key depends on the imagery layer, image version marks a texture stale, and the tile reports how expensive its repaint is. Runs without a GL context. |
 | I18nStatusTest.java |  Test for checking internationalization status. Reads `.po` and `.pot` files, calculates translation coverage, and verifies the existence of compiled `.lang` files. Generates [translation-status](docs/translation-status.md) report.|
 | MapCSSTest.java |  Verifies the syntax of project MapCSS files, the existence of referenced resources (e.g., images), and the rendering of OSM data using MapCSS. |
 | RoofGeneratorGoldenMasterTest.java| Compares the output of 3D geometry generators (in OBJ format)against a verified "golden" result to ensure regression stability.  Tests various roof shapes on different bases. |

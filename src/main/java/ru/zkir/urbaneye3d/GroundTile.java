@@ -1,8 +1,5 @@
 package ru.zkir.urbaneye3d;
 
-import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.texture.Texture;
-import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 import org.openstreetmap.josm.data.Bounds;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.DataSet;
@@ -25,6 +22,17 @@ import static java.lang.Math.toRadians;
 import static ru.zkir.urbaneye3d.GroundPlane.ImageryType.MapCSS;
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
 
+/**
+ * A single tile of the ground plane: a quad mesh plus the raster image painted on it.
+ * <p>
+ * This class knows nothing about OpenGL. It renders the image (from TMS imagery or from
+ * OSM data via MapCSS) into a {@link BufferedImage} and reports it as ready.
+ * {@link TextureManager} is the only owner of GL textures: it picks the image up by
+ * {@link #getTextureKey()} / {@link #getImage()} and uploads it when the tile is drawn.
+ * <p>
+ * The contract between the two classes is the image version: every time the tile produces a
+ * new image, {@link #getImageVersion()} changes, and the texture manager re-uploads the texture.
+ */
 public class GroundTile {
 
     /**
@@ -68,14 +76,18 @@ public class GroundTile {
     public final GroundTileXY coord;
     public final Bounds bounds;
     private Mesh mesh;
-    private Texture texture;
     private volatile BufferedImage imageData;
     private final Object imageDataLock = new Object();
 
     private final AtomicBoolean hasImageData = new AtomicBoolean(false);
-    private final AtomicBoolean hasGlTexture = new AtomicBoolean(false);
 
-    private GroundPlane.Layer2dInfo imageryLayer;
+    /**
+     * Incremented each time a new image becomes available, so that the texture manager
+     * can tell its GL texture has gone stale without comparing the pixels.
+     */
+    private volatile int imageVersion = 0;
+
+    private volatile GroundPlane.Layer2dInfo imageryLayer;
     private static final int TILE_TEXTURE_SIZE_PIXELS = 2048;
     private static final double MAPCSS_SCALE = 1; // meters per pixel, for MapCSS. Should correlate with TILE_TEXTURE_SIZE_PIXELS
 
@@ -150,11 +162,24 @@ public class GroundTile {
     public void setImageryLayer(GroundPlane.Layer2dInfo layer) {
         if (!Objects.equals(this.imageryLayer, layer)) {
             this.imageryLayer = layer;
-            if (hasImageData.get()) {
-                hasImageData.set(false);
-                hasGlTexture.set(false);
-            }
+            // Pixels of one imagery layer are never valid for another one, and the texture key
+            // changes as well, so the old image and the old GL texture are simply dropped.
+            invalidateImageData();
         }
+    }
+
+    GroundPlane.Layer2dInfo getImageryLayer() {
+        return imageryLayer;
+    }
+
+    /**
+     * Tells the texture manager how expensive it is to paint this tile again:
+     * a TMS image is just a composition of already cached imagery tiles,
+     * while a MapCSS image has to be rendered from OSM data all over again.
+     */
+    boolean isPaintedByMapCss() {
+        GroundPlane.Layer2dInfo layer = this.imageryLayer;
+        return layer != null && layer.getType() == MapCSS;
     }
 
     private int calculateOptimalZoomLevel(Bounds tileBounds, int tileTextureSizePixels) {
@@ -204,6 +229,11 @@ public class GroundTile {
         }
     }
 
+    /**
+     * Renders the TMS imagery covering this tile into a BufferedImage.
+     * The image is always created at its natural (may be non-power-of-two) resolution:
+     * resizing for old GPUs that cannot handle NPOT textures is done by the texture manager.
+     */
     public void loadTMSTexture(MapRenderer tmsRenderer, boolean forced) {
         if ((!forced && hasImageData.get()) || imageryLayer == null) {
             return;
@@ -215,16 +245,8 @@ public class GroundTile {
             int textureHeight = TILE_TEXTURE_SIZE_PIXELS;
             tmsRenderer.setCurrentImagery(imageryLayer.getImageryInfo());
             int zoomLevel = calculateOptimalZoomLevel(this.bounds, textureWidth);
-            boolean npotSupported = groundPlane.isNpotSupported();
 
-            if (npotSupported) {
-                result = tmsRenderer.renderMap(zoomLevel, this.bounds);
-            } else {
-                //It seems that for modern hardware texture size should not be a power of 2
-                //but we can still resize the image, if we would like to.
-                result = tmsRenderer.renderMap(zoomLevel, this.bounds, getPOT(textureWidth), getPOT(textureHeight));
-            }
-
+            result = tmsRenderer.renderMap(zoomLevel, this.bounds);
 
         } catch (Exception e) {
             debugMsg("TileCaptureWorker for " + coord + ": Failed to capture image: " + e.getMessage());
@@ -233,13 +255,8 @@ public class GroundTile {
         BufferedImage finalResult = result;
         SwingUtilities.invokeLater(() -> {
             if (finalResult != null) {
-                synchronized (imageDataLock) {
-                    imageData = finalResult;
-                }
-                hasImageData.set(true);
-                hasGlTexture.set(false);
+                setImageData(finalResult);
                 this.groundPlane.raiseUpdatedEvent();
-
             }
         });
     }
@@ -256,14 +273,7 @@ public class GroundTile {
 
         try {
             var mapCssProxy = new MapCssProxy();
-
-            boolean npotSupported = groundPlane.isNpotSupported();
-
-            if (npotSupported) {
-                result = mapCssProxy.render(dataSet, bounds, MAPCSS_SCALE, styles);
-            } else {
-                throw new RuntimeException("Support for NPOT textures is not implemented yet!");
-            }
+            result = mapCssProxy.render(dataSet, bounds, MAPCSS_SCALE, styles);
 
         } catch (Exception e) {
             debugMsg("MapCSSRenderer for " + coord + ": Failed to render MapCSS: " + e.getMessage());
@@ -273,76 +283,81 @@ public class GroundTile {
 
         SwingUtilities.invokeLater(() -> {
             if (finalResult != null) {
-                synchronized (imageDataLock) {
-                    imageData = finalResult;
-                }
-                hasImageData.set(true);
-                hasGlTexture.set(false);
+                setImageData(finalResult);
                 this.groundPlane.raiseUpdatedEvent();
             }
         });
     }
 
-
-    private int getPOT(int x) {
-        return Integer.highestOneBit(x);
+    /**
+     * The key under which the GL texture of this tile lives in {@link TextureManager}.
+     * The imagery layer is part of it, so tiles of different layers never share a texture.
+     */
+    public String getTextureKey() {
+        GroundPlane.Layer2dInfo layer = this.imageryLayer;
+        String layerKey;
+        if (layer == null) {
+            layerKey = "no-layer";
+        } else if (layer.getType() == MapCSS) {
+            layerKey = "mapcss:" + layer.getDataSetName();
+        } else {
+            layerKey = "tms:" + layer.getImageryInfo().getId();
+        }
+        return "ground:" + layerKey + ":#" + coord.x + "/" + coord.y;
     }
 
-
-    public void uploadToGl(GL2 gl) {
-        if (!hasImageData.get()) {
-            return;
-        }
-
+    /**
+     * Stores a freshly painted image and marks it as a new version, which tells the
+     * texture manager that the GL texture of this tile must be recreated.
+     * Package-private on purpose: it is the entry point used by the TMS/MapCSS loaders,
+     * and by tests that want to feed a tile without running the whole rendering machinery.
+     */
+    void setImageData(BufferedImage image) {
         synchronized (imageDataLock) {
-            if (imageData != null) {
-                // First, destroy the old texture if it exists
-                if (texture != null) {
-                    texture.destroy(gl);
-                    texture = null;
-                }
-                // Now, create the new texture from the available image data
-                texture = AWTTextureIO.newTexture(gl.getGLProfile(), imageData, false);
-                imageData = null; // Free up system memory
-                hasGlTexture.set(true);
-            }
+            imageData = image;
         }
+        imageVersion++;
+        hasImageData.set(true);
     }
 
-    public Texture render(GL2 gl) {
-        if (!isReadyToRender()) {
-            if (hasImageData()) {
-                uploadToGl(gl);
-            } else {
-                return null;
-            }
-        }
-        return this.texture;
-    }
-
-
-    public void destroy(GL2 gl) {
-        if (texture != null) {
-            texture.destroy(gl);
-            texture = null;
-        }
+    /**
+     * Drops the raster image, without touching the GL texture (which its owner may still hold).
+     * Called by the texture manager after the image has been uploaded to video memory,
+     * and by the ground plane when a tile is thrown away.
+     */
+    public void clearImageData() {
         synchronized (imageDataLock) {
             imageData = null;
         }
-        hasGlTexture.set(false);
         hasImageData.set(false);
     }
 
-    public boolean isReadyToRender() {
-        return hasGlTexture.get();
+    /**
+     * Drops the raster image and marks the version as changed, so an already uploaded
+     * GL texture is considered stale by the texture manager.
+     */
+    public void invalidateImageData() {
+        clearImageData();
+        imageVersion++;
+    }
+
+    /** Frees everything this tile owns. The GL texture is disposed by {@link TextureManager}. */
+    public void destroy() {
+        clearImageData();
+    }
+
+    public BufferedImage getImage() {
+        synchronized (imageDataLock) {
+            return imageData;
+        }
     }
 
     public boolean hasImageData() {
         return hasImageData.get();
     }
 
-    public BufferedImage getImage() {
-        return this.imageData;
+    public int getImageVersion() {
+        return imageVersion;
     }
 
     public static int getPendingGroundTilePaintRequests() {

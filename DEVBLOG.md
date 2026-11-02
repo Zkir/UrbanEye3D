@@ -1,5 +1,9 @@
 # Development History
 
+### Nov 1, 2026
+* Drawing of ground plane imagery refactored: `GroundTile` and `GroundPlane` classes have been decoupled from OpenGL. The single owner of GL texture is `TextureManager`.
+Hopefully it addresses the [Issue #72](https://github.com/Zkir/UrbanEye3D/issues/72). At least I cannot reproduce it so easily now.
+
 ### Oct 31, 2026
 * Implemented offscreen 3D rendering test (`RendererTest`) using JOGL `GLOffscreenAutoDrawable` based on `city_center.osm`.
 The test renders the scene offscreen, saves the result to `target/test-output/rendering/city_center_render.png`, 
