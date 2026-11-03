@@ -96,10 +96,10 @@ data/30_flags/flags.csv: data/05_extracts/flags.osm | data/30_flags ## Generate 
 data\30_flags\flag_rules_pre.json: data/30_flags/flags.csv
 	python analyze_flags.py
 
-data\30_flags\wd_national_flags.csv:	
+data\30_flags\wd_national_flags.csv: | data/30_flags	
 	python fetch_wikidata_countries.py
 	
-data\30_flags\flag_rules.json: data\30_flags\wd_national_flags.csv data\30_flags\flag_rules_pre.json
+data\30_flags\flag_rules.json: data\30_flags\wd_national_flags.csv data\30_flags\flag_rules_pre.json | data/04_wikidata
 	python analyze_flags2.py
 	cmd /c "copy /b /v /y data\30_flags\flag_rules.json ..\src\main\resources\data\"
 	
@@ -130,6 +130,9 @@ data/40_wind_generators/turbine_rules.json: data/40_wind_generators/generators.c
 data:
 	@mkdir data
 	
+data/04_wikidata: | data	
+	@mkdir data\04_wikidata
+	
 data/05_extracts: | data
 	@mkdir data\05_extracts
 	
@@ -141,8 +144,11 @@ data/15_trees_output: | data
 	
 data/20_buildings: | data	
 	@mkdir data\20_buildings
+	
+data/30_flags: | data
+	@mkdir data\30_flags
 
-data/30_flags/images-png: | data	
+data/30_flags/images-png: | data/30_flags
 	@mkdir data\30_flags\images-png
 
 data/40_wind_generators: | data	
