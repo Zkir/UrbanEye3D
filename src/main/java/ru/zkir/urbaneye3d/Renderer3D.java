@@ -389,11 +389,13 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
         // --- Render Ground Plane Tiles ---
         LatLon mapCenter = getCameraPosition();
+        double cos_lat = Math.cos(Math.toRadians(mapCenter.lat()));
+
         for (GroundTile tile : scene.getGroundPlane().getActiveTiles()) {
             LatLon tileCenter = tile.bounds.getCenter();
             double dx = tileCenter.lon() - mapCenter.lon();
             double dy = tileCenter.lat() - mapCenter.lat();
-            double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+            double transX = dx * cos_lat * 111320.0;
             double transY = dy * 111320.0;
 
             Mesh tileMesh = tile.getMesh();
@@ -428,7 +430,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 // Check distance visibility
                 double dxMap = element.origin.lon() - mapCenter.lon();
                 double dyMap = element.origin.lat() - mapCenter.lat();
-                double transX = dxMap * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+                double transX = dxMap * cos_lat * 111320.0;
                 double transY = dyMap * 111320.0;
                 double transZ = element.zOffset;
 
@@ -487,7 +489,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
                 double dxMap = wire.origin.lon() - mapCenter.lon();
                 double dyMap = wire.origin.lat() - mapCenter.lat();
-                double transX = dxMap * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+                double transX = dxMap * cos_lat * 111320.0;
                 double transY = dyMap * 111320.0;
 
                 // Simple frustum check
@@ -863,6 +865,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         double minDistance = Double.POSITIVE_INFINITY;
 
         LatLon mapCenter = getCameraPosition();
+        double cos_lat = Math.cos(Math.toRadians(mapCenter.lat()));
 
         if (scene.renderableElements == null) return null;
 
@@ -872,7 +875,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             double dx = element.origin.lon() - mapCenter.lon();
             double dy = element.origin.lat() - mapCenter.lat();
-            double transX = dx * Math.cos(Math.toRadians(mapCenter.lat())) * 111320.0;
+            double transX = dx * cos_lat * 111320.0;
             double transY = dy * 111320.0;
             double transZ = element.zOffset;
             Point3D translation = new Point3D(transX, transY, transZ);
