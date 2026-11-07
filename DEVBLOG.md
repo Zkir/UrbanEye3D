@@ -1,5 +1,25 @@
 # Development History
 
+### Nov 8, 2026
+
+* The plugin now supports **relations with type=building**. 
+    * As [described in the OSM wiki](https://wiki.openstreetmap.org/wiki/Relation:building), 
+they are used to match buildings with their parts. In the ordinary case, when building projections onto the ground do not overlap, a type=building
+relation is not really necessary: part-to-building belonging is determined geometrically and works well.
+
+    * Nevertheless, complex cases are theoretically possible—for example, when one building overhangs another, or when a building outline is drawn
+along the footprint than as the building’s projection (mappers sometimes do this when a building has overhanging parts). In such cases, 
+a `type=building` relation can help: it resolves the ambiguity of which building a given part belongs to.
+
+    * [Issue #82](https://github.com/Zkir/UrbanEye3D/issues/82), which led us here, has now been fixed. 
+When overlapping outlines are resolved only geometrically, parts may be assigned to the first
+matching outline, while the other outline remains without parts and is rendered as a separate volume—which is incorrect.
+A `type=building` relation removes this ambiguity by explicitly linking each part to its outline.
+
+    * The plugin’s built-in validator follows the same rules. As a result,  it does not report false positives: parts that are explicitly linked to their outline
+via a `type=building` relation are no longer reported as orphaned, and outlines are no longer reported as not fully covered by parts when the relation correctly assigns those parts.
+
+
 ### Nov 5, 2026
 * Fixed a 3D view freeze related to roofs built on the straight skeleton: hipped, gabled, mansard, pyramidal
   roofs and their variants. 

@@ -3,6 +3,7 @@ package ru.zkir.urbaneye3d;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import org.openstreetmap.josm.data.osm.PrimitiveId;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.io.OsmReader;
 import org.openstreetmap.josm.spi.preferences.Config;
@@ -69,6 +70,69 @@ class SceneTest {
         // Assert: Verify the outcome
         // We expect only the building:part to be rendered, not the parent building.
         assertEquals(1, scene.renderableElements.size());
+    }
+
+
+    /**
+     * Here we test how relation type=building affects geometry generation
+     * We have a tailored case (although reported by a real user, see  github issue #82)
+     * There are two overlapping buildings, so spatial check is not able to properly assign parts to the outlines.
+     * So two relations of type=building are invited to help us out.
+     * we test that both outlines are suppressed (since both have parts) and attributes are properly inherited
+     */
+    @Test
+    void testOverlappingBuildingRelations() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("relation_type_building.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        // Primitives are referred to by the name tag, to avoid dependence on id formatting
+        Map<String, OsmPrimitive> named = new HashMap<>();
+        for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+            if (primitive.hasKey("name")) {
+                named.put(primitive.get("name"), primitive);
+            }
+        }
+        Map<PrimitiveId, RenderableElement> rendered = new HashMap<>();
+        for (RenderableElement element : scene.renderableElements) {
+            rendered.put(element.primitiveId, element);
+        }
+
+        // Assert: only building parts are rendered, both outline buildings have their own parts
+        assertEquals(7, scene.renderableElements.size(),
+                "Expected 7 building parts, but got " + scene.renderableElements.size());
+        for (String outline : new String[]{"upper outline", "lower outline"}) {
+            assertNull(rendered.get(named.get(outline).getPrimitiveId()),
+                    outline + " should not be rendered as a solid volume");
+        }
+
+        // Assert: each part inherits its attributes from its own building (building:colour is inherited)
+        Color red = new Color(255, 0, 0);
+        Color green = new Color(0, 255, 0);
+        assertEquals(red, rendered.get(named.get("slab").getPrimitiveId()).getMesh().materials.get(Mesh.WALL_COLOUR_IDX),
+                "Slab belongs to the upper building");
+        assertEquals(green, rendered.get(named.get("column1").getPrimitiveId()).getMesh().materials.get(Mesh.WALL_COLOUR_IDX),
+                "Column belongs to the lower building");
+    }
+
+    @Test
+    void testOverhangingBuildings() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("building_relation_priority.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        // We expect 3 parts and one building, so just one outline out of two should be suppressed.
+        assertEquals(4, scene.renderableElements.size(),
+                "Expected 4 renderable elements (3 parts +1 outline), but got " + scene.renderableElements.size());
+
     }
 
 
@@ -165,12 +229,11 @@ class SceneTest {
         scene.applyUpdate(update);
 
         // Assert: Verify the outcome
-        //resulting number of  buildings is not so important.
-        //Just to understand how the picture changes.
-        long NumberOfBuildings = scene.renderableElements.stream().filter(e -> e.getMesh().textureName == null).count();
-        int MIN_BUILDINGS = 5152;
-        int MAX_BUILDINGS = 5550;      //4395 - for all roofs;  4211 -- zero height parts excluded (without height inheritance); 5458 -- with gates; 5509 -- current state
-        assertTrue(NumberOfBuildings >= MIN_BUILDINGS && NumberOfBuildings <= MAX_BUILDINGS, "Number of building " + NumberOfBuildings + " is NOT in the reasonable range " + MIN_BUILDINGS + ".." + MAX_BUILDINGS);
+        //  Exact number of  buildings/objects is not so important.
+        //  We just need to understand how the picture changes.
+        long NumberOfObjects = scene.renderableElements.stream().filter(e -> e.getMesh().textureName == null).count();
+        final int MIN_OBJECTS = 5544;
+        final int MAX_OBJECTS = 5544;
 
         if (SAVE_TEST_RESULTS_TO_FILE) {
             int i = 0;
@@ -180,6 +243,7 @@ class SceneTest {
                 i++;
             }
         }
+        assertTrue(NumberOfObjects >= MIN_OBJECTS && NumberOfObjects <= MAX_OBJECTS, "Number of objects " + NumberOfObjects + " is NOT in the reasonable range " + MIN_OBJECTS + ".." + MAX_OBJECTS);
     }
 
 

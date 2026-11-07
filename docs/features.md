@@ -4,7 +4,23 @@ This document outlines the OpenStreetMap tags supported by the UrbanEye3D plugin
 
 ## Buildings
 
-The plugin visualizes objects tagged with `building` and `building:part`.
+The plugin visualizes objects tagged with `building` and `building:part`, following the [S3DB standard](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings): a building is an outline (`building=*`) with parts (`building:part=*`) attached to it.
+
+### Buildings and Building Parts
+
+The plugin strictly follows these principles regarding buildings and their parts:
+
+1. **A building with parts is not rendered itself.** If a building outline has parts belonging to it, the building's own volume is suppressed. Otherwise the coarse massing model of the whole building would hide the parts — that is, the more detailed model.
+
+2. **Rendering a building together with its parts is considered deeply flawed.** Some other 3D renderers do this in certain cases, using heuristics such as "the parts cover less than 80% of the building outline". Such rules produce nonsense rather than reasonable results, and they also compromise the meaning of `height` on the building, which means the **total** height of the building, not the height of one of its sections.
+
+3. **Part-to-building belonging is determined geometrically and by `type=building` relations, with the relation taking priority.** A part is considered to belong to the building whose outline contains it. A [`type=building` relation](https://wiki.openstreetmap.org/wiki/Relation:building) explicitly links parts to an outline (role *outline*) and overrides the geometric answer.
+
+4. **A part belongs to exactly one building.** The part inherits certain attributes from that building (`building:colour`, `roof:colour`, `building:material` and `roof:material`). If you draw a part that lies inside two buildings at once (buildings whose outlines overlap), only one of those buildings is suppressed; the relation lets you say which one exactly.
+
+5. **`type=building` relations are justified only in exceptional cases** — for example, when an L-shaped building overhangs something (another building, say) and simply has to be drawn along its footprint, its ground imprint. There the relation makes sense: it attaches the parts that stick out beyond the outline and resolves the ambiguity of which building those parts belong to.
+
+6. **In all other cases, draw the building as its projection onto the ground, not as its footprint.** Then the geometric containment check works perfectly, and a `type=building` relation is simply not needed.
 
 ### Height and Levels
 

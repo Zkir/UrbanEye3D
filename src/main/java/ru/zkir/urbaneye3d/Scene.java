@@ -118,11 +118,11 @@ public class Scene {
         // A map to cache the expensive-to-create Contour objects for each primitive.
         HashMap<OsmPrimitive, Contour> primitiveContours = new HashMap<>();
 
-        //preliminary list of building parts. Needed to check buildings
-        ArrayList<OsmPrimitive> buildings = new ArrayList<>();
-        ArrayList<OsmPrimitive> buildingParts = new ArrayList<>();
+        //preliminary lists of outlines and parts. partParents maps a part to its outline
+        HashSet<OsmPrimitive> buildings = new HashSet<>();
+        HashSet<OsmPrimitive> buildingParts = new HashSet<>();
         HashMap<OsmPrimitive, OsmPrimitive> partParents = new HashMap<>();
-        ArrayList<OsmPrimitive> manmades = new ArrayList<>();
+        HashSet<OsmPrimitive> manmades = new HashSet<>();
 
         //We need to do very interesting thing.
         // we need to collect both buildings and building parts.
@@ -151,26 +151,42 @@ public class Scene {
                 if (!primitiveContours.containsKey(primitive)) {
                     primitiveContours.put(primitive, new Contour(primitive));
                 }
-                Contour buildingContour = primitiveContours.get(primitive);
-
-                var containedParts = findContainedParts(primitive, buildingContour, buildingParts, primitiveContours);
-                for(OsmPrimitive part: containedParts){
-                    //for buildings, we need to support parent-child relationship with parts.
-                    partParents.put(part, primitive);
-                }
 
                 buildings.add(primitive); //building which have parts are suppressed later.
 
             }else if(primitive.hasKey("man_made")){
                 Contour manmadeContour = new Contour(primitive);
                 primitiveContours.put(primitive, manmadeContour);
-                if (findContainedParts(primitive, manmadeContour, buildingParts, primitiveContours).isEmpty() ) {
+                if (findContainedPartsSpatially(primitive, manmadeContour, buildingParts, primitiveContours).isEmpty() ) {
                     // for man-mades logic is different a bit.
-                    //man-made cannot be parent and is just suppressed, if there are parts inside (see gh #36)
+                    //man-made cannot be a parent and it is just suppressed, if there are parts inside (see gh #36)
                     manmades.add(primitive);
                 }
             }
         }
+
+        //Parent of a part is searched for: first by membership in a relation type=building,
+        //then, if the part is not in any relation, by geometric containment. First match wins.
+        //Only OWN parts suppress an outline, foreign overhanging parts must not.
+        //Keep in sync with SpatialConsistencyChecks.startTest.
+        for (OsmPrimitive part : buildingParts) {
+            //check by relation type=building
+            OsmPrimitive parent = findParentBuildingByRelation(part);
+            if (!buildings.contains(parent)){
+                parent = null;
+            }
+            if (parent != null) {
+                partParents.put(part, parent);
+                continue; // the only parent is found, spatial check is not necessary
+            }
+
+            //spatial check
+            parent = findParentBuildingSpatially(part, buildings, primitiveContours);
+            if (parent!=null){
+                partParents.put(part, parent);
+            }
+        }
+
         ArrayList<OsmPrimitive> allCandidates = new ArrayList<>();
         allCandidates.addAll(buildings);
         allCandidates.addAll(buildingParts);
@@ -181,7 +197,7 @@ public class Scene {
 
         for (OsmPrimitive primitive : allCandidates) {
             if (partParents.containsValue(primitive)){
-                continue; //we just skip building if it is a parent for some building parts.
+                continue; //skip a building which became a parent of parts - its own parts replace its volume
             }
 
             OsmPrimitive parent = partParents.get(primitive);
@@ -651,7 +667,45 @@ public class Scene {
         return new SceneUpdate(newElements, newWires);
     }
 
-    private List<OsmPrimitive> findContainedParts (OsmPrimitive primitive, Contour buildingContour, List<OsmPrimitive> buildingParts, Map<OsmPrimitive, Contour> primitiveContours) {
+    /** Find the parent building for part via relation type = building */
+    private OsmPrimitive findParentBuildingByRelation(OsmPrimitive part) {
+        for (OsmPrimitive referrer : part.getReferrers()) {
+            if (!(referrer instanceof Relation)) {
+                continue;
+            }
+            Relation relation = (Relation) referrer;
+            if (!"building".equals(relation.get("type"))) {
+                continue;
+            }
+
+            for (RelationMember member : relation.getMembers()) {
+                if ("outline".equals(member.getRole())) {
+                    OsmPrimitive outline = member.getMember();
+                    if (!part.equals(outline)) { //it seems that part cannot be its own parent
+                        return outline;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /** Find the parent building spatially */
+    private OsmPrimitive findParentBuildingSpatially(OsmPrimitive part, Collection<OsmPrimitive> buildings, HashMap<OsmPrimitive, Contour> primitiveContours) {
+        for (OsmPrimitive building : buildings) {
+            Contour buildingContour = primitiveContours.get(building);
+            if (building.getBBox().bounds(part.getBBox())) {
+                Contour partContour = primitiveContours.get(part);
+                if (buildingContour.contains(partContour)) {
+                    return building;
+                }
+            }
+        }
+        return null;
+    }
+
+    /** Spatial check for parts of the building */
+    private List<OsmPrimitive> findContainedPartsSpatially(OsmPrimitive primitive, Contour buildingContour, Collection<OsmPrimitive> buildingParts, Map<OsmPrimitive, Contour> primitiveContours) {
         List<OsmPrimitive> containedParts = new ArrayList<>();
         for (OsmPrimitive part: buildingParts ){
             // First, a quick BBox check. It is much cheaper and will filter out most of the candidates.

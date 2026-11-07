@@ -83,17 +83,65 @@ public class SpatialConsistencyChecks extends Test {
             }
         }
 
-        for (OsmPrimitive building : buildings) {
-            Contour buildingContour = primitiveContours.get(building);
-            for (OsmPrimitive part : buildingParts) {
-                if (building.getBBox().bounds(part.getBBox())) {
-                    Contour partContour = primitiveContours.get(part);
-                    if (buildingContour.contains(partContour)) {
-                        partParents.put(part, building);
+        //Parenthood is searched per part, the same two checks as in Scene.calculateUpdate, same order:
+        //relation type=building first, spatial check only for parts not in any such relation.
+        //NB: man_made with the "outline" role is a parent here, unlike in the scene.
+
+        for (OsmPrimitive part : buildingParts) {
+            //relation type building
+            OsmPrimitive parent = findParentBuildingByRelation(part);
+            if (!buildings.contains(parent)){
+                parent = null;
+            }
+            if (parent != null) {
+                partParents.put(part, parent);
+                continue; // the only parent is found, spatial check is not necessary
+            }
+
+            //spatial check
+            parent = findParentBuildingSpatially(part, buildings, primitiveContours);
+            if (parent!=null){
+                partParents.put(part, parent);
+            }
+        }
+
+    }
+
+    /** Find the parent building for part via relation type = building */
+    private OsmPrimitive findParentBuildingByRelation(OsmPrimitive part) {
+        for (OsmPrimitive referrer : part.getReferrers()) {
+            if (!(referrer instanceof Relation)) {
+                continue;
+            }
+            Relation relation = (Relation) referrer;
+            if (!"building".equals(relation.get("type"))) {
+                continue;
+            }
+
+            for (RelationMember member : relation.getMembers()) {
+                if ("outline".equals(member.getRole())) {
+                    OsmPrimitive outline = member.getMember();
+                    if (!part.equals(outline)) { //it seems that part cannot be its own parent
+                        return outline;
                     }
                 }
             }
         }
+        return null;
+    }
+
+    /** Find the parent building spatially */
+    private OsmPrimitive findParentBuildingSpatially(OsmPrimitive part, ArrayList<OsmPrimitive> buildings, HashMap<OsmPrimitive, Contour> primitiveContours) {
+        for (OsmPrimitive building : buildings) {
+            Contour buildingContour = primitiveContours.get(building);
+            if (building.getBBox().bounds(part.getBBox())) {
+                Contour partContour = primitiveContours.get(part);
+                if (buildingContour.contains(partContour)) {
+                    return building;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

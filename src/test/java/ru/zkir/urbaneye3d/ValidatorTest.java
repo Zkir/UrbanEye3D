@@ -132,6 +132,32 @@ class ValidatorTest {
         assertEquals(0, validator.getErrors().size());
     }
 
+    /**
+     * A building relation (type=building) takes priority over geometric containment.
+     *
+     */
+    @Test
+    void testBuildingRelationPriorityOverSpatialContainment() throws Exception {
+        // Arrange
+        DataSet dataSet = loadDataSetFromOsmFile("building_relation_priority.osm");
+        MainApplication.getLayerManager().addLayer(new OsmDataLayer(dataSet, "test", null));
+        SpatialConsistencyChecks validator = new SpatialConsistencyChecks();
+
+        // Act
+        validator.startTest(null);
+        validator.visit(dataSet.allPrimitives());
+        validator.endTest();
+        var errors = validator.getErrors();
+
+        // Assert
+        if(!errors.isEmpty()){
+            for (var error: errors) {
+                UrbanEye3dPlugin.debugMsg(error.toString());
+            }
+        }
+        assertEquals(0, errors.size(), "no errors are expected in this test, but got " + errors.size());
+    }
+
     @Test
     void testCityCenter() throws Exception {
         // Arrange
@@ -148,7 +174,8 @@ class ValidatorTest {
 
         // The resulting number of buildings is not so important.
         // we just need to understand how the picture changes.
-        int EXPECTED_NUMBER_OF_ERRORS = 756;
+        // 718 = 35 not covered by parts + 652 orphans + 31 height mismatches.
+        int EXPECTED_NUMBER_OF_ERRORS = 718;
         assertTrue(errors.size() == EXPECTED_NUMBER_OF_ERRORS,
                    "Number of errors  found by the Validator Spatial Test ("+errors.size()+") differs from  the expected number (" + EXPECTED_NUMBER_OF_ERRORS+")");
 

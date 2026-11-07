@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <node id='-9315632' action='modify' visible='true' lat='55.75011947928' lon='37.60992325742' />
+  <node id='-9315633' action='modify' visible='true' lat='55.75006600285' lon='37.60992361114' />
+  <node id='-9315634' action='modify' visible='true' lat='55.75006577612' lon='37.60981538909' />
+  <node id='-9315635' action='modify' visible='true' lat='55.75011925255' lon='37.60981503538' />
+  <node id='-9315708' action='modify' visible='true' lat='55.75033339992' lon='37.60974764063' />
+  <node id='-9315727' action='modify' visible='true' lat='55.75033340316' lon='37.61000303618' />
+  <node id='-9315758' action='modify' visible='true' lat='55.74997631925' lon='37.61000460809' />
+  <node id='-9315789' action='modify' visible='true' lat='55.749976316' lon='37.60974921254' />
+  <node id='1' action='modify' visible='true' version='1' lat='55.74998144386' lon='37.61006113296' />
+  <node id='2' action='modify' visible='true' version='1' lat='55.74998219806' lon='37.61046112847' />
+  <node id='3' action='modify' visible='true' version='1' lat='55.75038309791' lon='37.61045874202' />
+  <node id='4' action='modify' visible='true' version='1' lat='55.75038234372' lon='37.61005874651' />
+  <node id='6' action='modify' visible='true' version='1' lat='55.75014384085' lon='37.60992309629' />
+  <node id='7' action='modify' visible='true' version='1' lat='55.75003128254' lon='37.60992384079' />
+  <node id='8' action='modify' visible='true' version='1' lat='55.7500326226' lon='37.61056345821' />
+  <node id='9' action='modify' visible='true' version='1' lat='55.75014518091' lon='37.61056271371' />
+  <way id='-15897' action='modify' visible='true'>
+    <nd ref='-9315632' />
+    <nd ref='-9315633' />
+    <nd ref='-9315634' />
+    <nd ref='-9315635' />
+    <nd ref='-9315632' />
+    <tag k='building:levels' v='10' />
+    <tag k='building:min_level' v='8' />
+    <tag k='building:part' v='yes' />
+    <tag k='name' v='part overhanging the neighbouring building' />
+  </way>
+  <way id='-15901' action='modify' visible='true'>
+    <nd ref='-9315708' />
+    <nd ref='-9315727' />
+    <nd ref='-9315758' />
+    <nd ref='-9315789' />
+    <nd ref='-9315708' />
+    <tag k='building' v='commercial' />
+    <tag k='levels' v='3' />
+    <tag k='name' v='neighbouring building B' />
+  </way>
+  <way id='101' action='modify' visible='true' version='1'>
+    <nd ref='1' />
+    <nd ref='2' />
+    <nd ref='3' />
+    <nd ref='4' />
+    <nd ref='1' />
+  </way>
+  <way id='102' action='modify' visible='true' version='1'>
+    <nd ref='6' />
+    <nd ref='-9315632' />
+    <nd ref='-9315633' />
+    <nd ref='7' />
+    <nd ref='8' />
+    <nd ref='9' />
+    <nd ref='6' />
+    <tag k='building:levels' v='12' />
+    <tag k='building:min_level' v='6' />
+    <tag k='building:part' v='yes' />
+    <tag k='name' v='part sticking out of outline of A' />
+  </way>
+  <relation id='-4466' action='modify' visible='true'>
+    <member type='way' ref='101' role='outer' />
+    <tag k='building' v='apartments' />
+    <tag k='building:colour' v='yellow' />
+    <tag k='building:levels' v='12' />
+    <tag k='name' v='building A' />
+    <tag k='note' v='example is a bit tailored, but in case of overhangs, building outline can be drawn according to footprint, not projection' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+  <relation id='-4467' action='modify' visible='true'>
+    <member type='way' ref='101' role='outer' />
+    <tag k='building:levels' v='6' />
+    <tag k='building:part' v='yes' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+  <relation id='201' action='modify' visible='true' version='1'>
+    <member type='relation' ref='-4466' role='outline' />
+    <member type='way' ref='102' role='part' />
+    <member type='relation' ref='-4467' role='part' />
+    <member type='way' ref='-15897' role='part' />
+    <tag k='name' v='building relation of A' />
+    <tag k='type' v='building' />
+  </relation>
+</osm>
