@@ -414,7 +414,7 @@ Total species count: 1958
 | *Casuarina verticillata* | Casuarinaceae | deciduous | broadleaved | [Q4732995](https://www.wikidata.org/wiki/Q4732995) |
 | *Catalpa bignonioides* | Bignoniaceae | deciduous | broadleaved | [Q163831](https://www.wikidata.org/wiki/Q163831) |
 | *Catalpa bungei* | Bignoniaceae | deciduous | broadleaved |  |
-| *Catalpa × erubescens* | Bignoniaceae | deciduous | broadleaved | [Q1052793](https://www.wikidata.org/wiki/Q1052793) |
+| *Catalpa × erubescens* | Bignoniaceae | deciduous | broadleaved | [Q10527903](https://www.wikidata.org/wiki/Q10527903) |
 | *Catalpa longissima* | Bignoniaceae | deciduous | broadleaved |  |
 | *Catalpa ovata* | Bignoniaceae | deciduous | broadleaved | [Q1144805](https://www.wikidata.org/wiki/Q1144805) |
 | *Catalpa speciosa* | Bignoniaceae | deciduous | broadleaved | [Q159204](https://www.wikidata.org/wiki/Q159204) |
@@ -1458,7 +1458,7 @@ Total species count: 1958
 | *Prunus cerasifera* | Rosaceae | deciduous | broadleaved | [Q146951](https://www.wikidata.org/wiki/Q146951) |
 | *Prunus cerasus* | Rosaceae | deciduous | broadleaved | [Q131517](https://www.wikidata.org/wiki/Q131517) |
 | *Prunus cyclamina* | Rosaceae | deciduous | broadleaved |  |
-| *Prunus domestica* | Rosaceae | deciduous | broadleaved | [Q10878191](https://www.wikidata.org/wiki/Q10878191) |
+| *Prunus domestica* | Rosaceae | deciduous | broadleaved | [Q44120](https://www.wikidata.org/wiki/Q44120) |
 | *Prunus dulcis* | Rosaceae | deciduous | broadleaved | [Q15545507](https://www.wikidata.org/wiki/Q15545507) |
 | *Prunus effusa* | Rosaceae | deciduous | broadleaved |  |
 | *Prunus × eminens* | Rosaceae | deciduous | broadleaved |  |
@@ -1541,8 +1541,8 @@ Total species count: 1958
 | *Pyrus spinosa* | Rosaceae | deciduous | broadleaved |  |
 | *Pyrus ussuriensis* | Rosaceae | deciduous | broadleaved |  |
 | *Quercus acuta* | Fagaceae | evergreen | broadleaved | [Q1075957](https://www.wikidata.org/wiki/Q1075957) |
-| *Quercus acutissima* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus agrifolia* | Fagaceae | evergreen | broadleaved |  |
+| *Quercus acutissima* | Fagaceae | deciduous | broadleaved | [Q1034859](https://www.wikidata.org/wiki/Q1034859) |
+| *Quercus agrifolia* | Fagaceae | evergreen | broadleaved | [Q514052](https://www.wikidata.org/wiki/Q514052) |
 | *Quercus alba* | Fagaceae | deciduous | broadleaved | [Q469555](https://www.wikidata.org/wiki/Q469555) |
 | *Quercus aliena* | Fagaceae | deciduous | broadleaved |  |
 | *Quercus × bebbiana* | Fagaceae | deciduous | broadleaved |  |
@@ -1561,15 +1561,15 @@ Total species count: 1958
 | *Quercus crispula* | Fagaceae | deciduous | broadleaved |  |
 | *Quercus dalechampii* | Fagaceae | deciduous | broadleaved |  |
 | *Quercus dentata* | Fagaceae | deciduous | broadleaved | [Q4112855](https://www.wikidata.org/wiki/Q4112855) |
-| *Quercus douglasii* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus ellipsoidalis* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus douglasii* | Fagaceae | deciduous | broadleaved | [Q666160](https://www.wikidata.org/wiki/Q666160) |
+| *Quercus ellipsoidalis* | Fagaceae | deciduous | broadleaved | [Q241698](https://www.wikidata.org/wiki/Q241698) |
 | *Quercus faginea* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus falcata* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus falcata* | Fagaceae | deciduous | broadleaved | [Q1066116](https://www.wikidata.org/wiki/Q1066116) |
 | *Quercus fastigiata* | Fagaceae | deciduous | broadleaved | [Q165145](https://www.wikidata.org/wiki/Q165145) |
 | *Quercus frainetto* | Fagaceae | deciduous | broadleaved | [Q857075](https://www.wikidata.org/wiki/Q857075) |
-| *Quercus fusiformis* | Fagaceae | evergreen | broadleaved |  |
-| *Quercus gambelii* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus garryana* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus fusiformis* | Fagaceae | deciduous | broadleaved | [Q3009781](https://www.wikidata.org/wiki/Q3009781) |
+| *Quercus gambelii* | Fagaceae | deciduous | broadleaved | [Q2266358](https://www.wikidata.org/wiki/Q2266358) |
+| *Quercus garryana* | Fagaceae | deciduous | broadleaved | [Q2029492](https://www.wikidata.org/wiki/Q2029492) |
 | *Quercus gilva* | Fagaceae | evergreen | broadleaved |  |
 | *Quercus glauca* | Fagaceae | evergreen | broadleaved |  |
 | *Quercus × heterophylla* | Fagaceae | deciduous | broadleaved |  |
@@ -1578,33 +1578,33 @@ Total species count: 1958
 | *Quercus humboldtii* | Fagaceae | evergreen | broadleaved |  |
 | *Quercus humilis* | Fagaceae | deciduous | broadleaved | [Q161415](https://www.wikidata.org/wiki/Q161415) |
 | *Quercus ilex* | Fagaceae | evergreen | broadleaved | [Q218155](https://www.wikidata.org/wiki/Q218155) |
-| *Quercus ilicifolia* | Fagaceae | evergreen | broadleaved | [Q218155](https://www.wikidata.org/wiki/Q218155) |
+| *Quercus ilicifolia* | Fagaceae | deciduous | broadleaved | [Q1017264](https://www.wikidata.org/wiki/Q1017264) |
 | *Quercus imbricaria* | Fagaceae | deciduous | broadleaved | [Q528713](https://www.wikidata.org/wiki/Q528713) |
 | *Quercus ithaburensis* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus kelloggii* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus kelloggii* | Fagaceae | deciduous | broadleaved | [Q693392](https://www.wikidata.org/wiki/Q693392) |
 | *Quercus × kewensis* | Fagaceae | evergreen | broadleaved |  |
-| *Quercus laevis* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus laevis* | Fagaceae | deciduous | broadleaved | [Q2586757](https://www.wikidata.org/wiki/Q2586757) |
 | *Quercus libani* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus lobata* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus lobata* | Fagaceae | deciduous | broadleaved | [Q1377986](https://www.wikidata.org/wiki/Q1377986) |
 | *Quercus lusitanica* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus lyrata* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus lyrata* | Fagaceae | deciduous | broadleaved | [Q1633311](https://www.wikidata.org/wiki/Q1633311) |
 | *Quercus macranthera* | Fagaceae | deciduous | broadleaved |  |
 | *Quercus macrocarpa* | Fagaceae | deciduous | broadleaved | [Q1082365](https://www.wikidata.org/wiki/Q1082365) |
 | *Quercus macrolepis* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus marilandica* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus marilandica* | Fagaceae | deciduous | broadleaved | [Q845791](https://www.wikidata.org/wiki/Q845791) |
 | *Quercus michauxii* | Fagaceae | deciduous | broadleaved | [Q1460497](https://www.wikidata.org/wiki/Q1460497) |
 | *Quercus mongolica* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus montana* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus montana* | Fagaceae | deciduous | broadleaved | [Q1735296](https://www.wikidata.org/wiki/Q1735296) |
 | *Quercus muehlenbergii* | Fagaceae | deciduous | broadleaved | [Q2611816](https://www.wikidata.org/wiki/Q2611816) |
 | *Quercus myrsinifolia* | Fagaceae | evergreen | broadleaved |  |
 | *Quercus nigra* | Fagaceae | deciduous | broadleaved | [Q4112855](https://www.wikidata.org/wiki/Q4112855) |
-| *Quercus pagoda* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus pagoda* | Fagaceae | deciduous | broadleaved | [Q4112844](https://www.wikidata.org/wiki/Q4112844) |
 | *Quercus palustris* | Fagaceae | deciduous | broadleaved | [Q161253](https://www.wikidata.org/wiki/Q161253) |
 | *Quercus pedunculata* | Fagaceae | deciduous | broadleaved | [Q165145](https://www.wikidata.org/wiki/Q165145) |
 | *Quercus petraea* | Fagaceae | deciduous | broadleaved | [Q158608](https://www.wikidata.org/wiki/Q158608) |
 | *Quercus phellos* | Fagaceae | deciduous | broadleaved | [Q783224](https://www.wikidata.org/wiki/Q783224) |
 | *Quercus phillyreoides* | Fagaceae | evergreen | broadleaved |  |
-| *Quercus polymorpha* | Fagaceae | evergreen | broadleaved |  |
+| *Quercus polymorpha* | Fagaceae | evergreen | broadleaved | [Q4112232](https://www.wikidata.org/wiki/Q4112232) |
 | *Quercus pontica* | Fagaceae | deciduous | broadleaved |  |
 | *Quercus prinus* | Fagaceae | deciduous | broadleaved | [Q1460497](https://www.wikidata.org/wiki/Q1460497) |
 | *Quercus pubescens* | Fagaceae | deciduous | broadleaved | [Q161415](https://www.wikidata.org/wiki/Q161415) |
@@ -1617,11 +1617,11 @@ Total species count: 1958
 | *Quercus schochiana* | Fagaceae | deciduous | broadleaved |  |
 | *Quercus × schochiana* | Fagaceae | deciduous | broadleaved |  |
 | *Quercus serrata* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus shumardii* | Fagaceae | deciduous | broadleaved |  |
-| *Quercus stellata* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus shumardii* | Fagaceae | deciduous | broadleaved | [Q4112184](https://www.wikidata.org/wiki/Q4112184) |
+| *Quercus stellata* | Fagaceae | deciduous | broadleaved | [Q2600501](https://www.wikidata.org/wiki/Q2600501) |
 | *Quercus × streimii* | Fagaceae | deciduous | broadleaved |  |
 | *Quercus suber* | Fagaceae | evergreen | broadleaved | [Q156137](https://www.wikidata.org/wiki/Q156137) |
-| *Quercus texana* | Fagaceae | deciduous | broadleaved |  |
+| *Quercus texana* | Fagaceae | deciduous | broadleaved | [Q7271351](https://www.wikidata.org/wiki/Q7271351) |
 | *Quercus trojana* | Fagaceae | deciduous | broadleaved |  |
 | *Quercus turneri* | Fagaceae | deciduous | broadleaved |  |
 | *Quercus × turneri* | Fagaceae | deciduous | broadleaved |  |

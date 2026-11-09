@@ -15,27 +15,27 @@
             "flag:wikidata",
             "flag:colour"
         ],
-        "number of rules": 1015
+        "number of rules": 1020
     },
     "rules": {
         "flag:name": {
             "United States": {
-                "count": 16498,
+                "count": 16581,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42537",
                         "prob": 1.0,
-                        "count": 16488
+                        "count": 16571
                     }
                 }
             },
             "Israel": {
-                "count": 66,
+                "count": 68,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q128480",
                         "prob": 1.0,
-                        "count": 66
+                        "count": 68
                     }
                 }
             },
@@ -50,12 +50,12 @@
                 }
             },
             "Australia": {
-                "count": 343,
+                "count": 344,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81676",
                         "prob": 1.0,
-                        "count": 342
+                        "count": 343
                     },
                     "flag:colour": {
                         "value": "blue",
@@ -90,12 +90,12 @@
                 }
             },
             "Germany": {
-                "count": 289,
+                "count": 290,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q48160",
                         "prob": 1.0,
-                        "count": 288
+                        "count": 289
                     }
                 }
             },
@@ -110,12 +110,12 @@
                 }
             },
             "Spain": {
-                "count": 368,
+                "count": 373,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q121688",
-                        "prob": 1.0,
-                        "count": 366
+                        "prob": 0.99,
+                        "count": 371
                     }
                 }
             },
@@ -150,27 +150,27 @@
                 }
             },
             "Philippines": {
-                "count": 1212,
+                "count": 1215,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134627",
                         "prob": 1.0,
-                        "count": 1212
+                        "count": 1215
                     }
                 }
             },
             "Canada": {
-                "count": 1071,
+                "count": 1075,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q80110",
                         "prob": 1.0,
-                        "count": 1056
+                        "count": 1060
                     },
                     "flag:colour": {
                         "value": "red",
                         "prob": 1.0,
-                        "count": 1041
+                        "count": 1045
                     }
                 }
             },
@@ -200,17 +200,17 @@
                 }
             },
             "Italy": {
-                "count": 574,
+                "count": 589,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42876",
                         "prob": 1.0,
-                        "count": 573
+                        "count": 588
                     }
                 }
             },
             "Romania": {
-                "count": 111,
+                "count": 112,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q130811",
@@ -245,12 +245,12 @@
                 }
             },
             "France": {
-                "count": 2372,
+                "count": 2374,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q43192",
                         "prob": 1.0,
-                        "count": 2360
+                        "count": 2362
                     }
                 }
             },
@@ -265,12 +265,12 @@
                 }
             },
             "Chile": {
-                "count": 442,
+                "count": 443,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q160872",
                         "prob": 1.0,
-                        "count": 441
+                        "count": 442
                     }
                 }
             },
@@ -295,12 +295,12 @@
                 }
             },
             "Europe": {
-                "count": 1556,
+                "count": 1557,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q122482",
                         "prob": 1.0,
-                        "count": 1543
+                        "count": 1544
                     },
                     "flag:colour": {
                         "value": "blue",
@@ -310,12 +310,12 @@
                 }
             },
             "Turkey": {
-                "count": 270,
+                "count": 271,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81952",
                         "prob": 1.0,
-                        "count": 269
+                        "count": 270
                     }
                 }
             },
@@ -340,22 +340,22 @@
                 }
             },
             "Greece": {
-                "count": 284,
+                "count": 285,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q129132",
                         "prob": 1.0,
-                        "count": 283
+                        "count": 284
                     }
                 }
             },
             "China": {
-                "count": 1058,
+                "count": 1090,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q131147",
                         "prob": 1.0,
-                        "count": 1058
+                        "count": 1090
                     }
                 }
             },
@@ -370,27 +370,27 @@
                 }
             },
             "Ontario": {
-                "count": 51,
+                "count": 53,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1165949",
                         "prob": 1.0,
-                        "count": 51
+                        "count": 53
                     }
                 }
             },
             "Illinois": {
-                "count": 358,
+                "count": 359,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q752837",
                         "prob": 1.0,
-                        "count": 358
+                        "count": 359
                     },
                     "flag:colour": {
                         "value": "white",
                         "prob": 1.0,
-                        "count": 357
+                        "count": 358
                     }
                 }
             },
@@ -420,12 +420,12 @@
                 }
             },
             "Norway": {
-                "count": 415,
+                "count": 416,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q83149",
                         "prob": 1.0,
-                        "count": 413
+                        "count": 414
                     }
                 }
             },
@@ -490,12 +490,12 @@
                 }
             },
             "New Zealand": {
-                "count": 158,
+                "count": 159,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q160260",
                         "prob": 1.0,
-                        "count": 158
+                        "count": 159
                     }
                 }
             },
@@ -545,12 +545,12 @@
                 }
             },
             "Portugal": {
-                "count": 96,
+                "count": 97,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q128812",
                         "prob": 0.99,
-                        "count": 94
+                        "count": 95
                     }
                 }
             },
@@ -625,12 +625,12 @@
                 }
             },
             "United Arab Emirates": {
-                "count": 15,
+                "count": 16,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134247",
                         "prob": 1.0,
-                        "count": 15
+                        "count": 16
                     }
                 }
             },
@@ -665,12 +665,12 @@
                 }
             },
             "Thailand": {
-                "count": 179,
+                "count": 180,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134885",
                         "prob": 1.0,
-                        "count": 179
+                        "count": 180
                     }
                 }
             },
@@ -775,12 +775,12 @@
                 }
             },
             "Poland": {
-                "count": 568,
+                "count": 585,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42436",
                         "prob": 1.0,
-                        "count": 565
+                        "count": 582
                     }
                 }
             },
@@ -955,22 +955,22 @@
                 }
             },
             "Kenya": {
-                "count": 13,
+                "count": 14,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q165905",
                         "prob": 1.0,
-                        "count": 13
+                        "count": 14
                     }
                 }
             },
             "Japan": {
-                "count": 108,
+                "count": 124,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q43175",
                         "prob": 0.99,
-                        "count": 108
+                        "count": 124
                     }
                 }
             },
@@ -985,12 +985,12 @@
                 }
             },
             "Ireland": {
-                "count": 111,
+                "count": 113,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q82205",
                         "prob": 1.0,
-                        "count": 110
+                        "count": 112
                     }
                 }
             },
@@ -1015,22 +1015,22 @@
                 }
             },
             "Indonesia": {
-                "count": 231,
+                "count": 230,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q101472",
                         "prob": 1.0,
-                        "count": 231
+                        "count": 230
                     }
                 }
             },
             "India": {
-                "count": 110,
+                "count": 111,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q41673",
                         "prob": 1.0,
-                        "count": 110
+                        "count": 111
                     }
                 }
             },
@@ -1045,12 +1045,12 @@
                 }
             },
             "Hungary": {
-                "count": 117,
+                "count": 118,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81970",
                         "prob": 1.0,
-                        "count": 116
+                        "count": 117
                     }
                 }
             },
@@ -1145,12 +1145,12 @@
                 }
             },
             "Denmark": {
-                "count": 612,
+                "count": 617,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q60149",
                         "prob": 1.0,
-                        "count": 611
+                        "count": 616
                     }
                 }
             },
@@ -1295,12 +1295,12 @@
                 }
             },
             "Bolivia": {
-                "count": 42,
+                "count": 43,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134874",
                         "prob": 1.0,
-                        "count": 42
+                        "count": 43
                     }
                 }
             },
@@ -1355,12 +1355,12 @@
                 }
             },
             "Austria": {
-                "count": 83,
+                "count": 84,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q46835",
                         "prob": 1.0,
-                        "count": 82
+                        "count": 83
                     }
                 }
             },
@@ -1405,17 +1405,17 @@
                 }
             },
             "United States;POW/MIA": {
-                "count": 433,
+                "count": 434,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42537;Q1463762",
                         "prob": 1.0,
-                        "count": 433
+                        "count": 434
                     },
                     "flag:colour": {
                         "value": "black",
                         "prob": 0.99,
-                        "count": 347
+                        "count": 348
                     }
                 }
             },
@@ -1430,32 +1430,32 @@
                 }
             },
             "POW/MIA": {
-                "count": 211,
+                "count": 214,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1463762",
                         "prob": 1.0,
-                        "count": 210
+                        "count": 213
                     },
                     "flag:colour": {
                         "value": "black",
                         "prob": 1.0,
-                        "count": 190
+                        "count": 194
                     }
                 }
             },
             "McDonald's": {
-                "count": 153,
+                "count": 159,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q64300176",
                         "prob": 0.99,
-                        "count": 150
+                        "count": 156
                     },
                     "flag:colour": {
                         "value": "red",
                         "prob": 0.93,
-                        "count": 149
+                        "count": 155
                     }
                 }
             },
@@ -1470,12 +1470,12 @@
                 }
             },
             "Union Jack": {
-                "count": 255,
+                "count": 258,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q83278",
                         "prob": 0.99,
-                        "count": 251
+                        "count": 254
                     }
                 }
             },
@@ -1495,12 +1495,12 @@
                 }
             },
             "United Nations": {
-                "count": 19,
+                "count": 21,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q172446",
                         "prob": 1.0,
-                        "count": 19
+                        "count": 21
                     }
                 }
             },
@@ -1515,12 +1515,12 @@
                 }
             },
             "European Union": {
-                "count": 293,
+                "count": 295,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q98055852",
                         "prob": 0.99,
-                        "count": 290
+                        "count": 292
                     }
                 }
             },
@@ -1535,12 +1535,12 @@
                 }
             },
             "United States of America": {
-                "count": 15,
+                "count": 16,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42537",
                         "prob": 1.0,
-                        "count": 13
+                        "count": 14
                     }
                 }
             },
@@ -1560,12 +1560,12 @@
                 }
             },
             "Maryland": {
-                "count": 54,
+                "count": 55,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q752569",
                         "prob": 1.0,
-                        "count": 54
+                        "count": 55
                     }
                 }
             },
@@ -1840,12 +1840,12 @@
                 }
             },
             "Ohio": {
-                "count": 228,
+                "count": 229,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q752559",
                         "prob": 1.0,
-                        "count": 228
+                        "count": 229
                     }
                 }
             },
@@ -1910,17 +1910,17 @@
                 }
             },
             "Virginia": {
-                "count": 88,
+                "count": 89,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q18993",
                         "prob": 1.0,
-                        "count": 88
+                        "count": 89
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 81
+                        "count": 82
                     }
                 }
             },
@@ -2120,17 +2120,17 @@
                 }
             },
             "Wisconsin": {
-                "count": 53,
+                "count": 55,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q241083",
                         "prob": 1.0,
-                        "count": 53
+                        "count": 55
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 52
+                        "count": 54
                     }
                 }
             },
@@ -2145,12 +2145,12 @@
                 }
             },
             "US": {
-                "count": 267,
+                "count": 268,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42537",
                         "prob": 1.0,
-                        "count": 264
+                        "count": 265
                     }
                 }
             },
@@ -2165,27 +2165,27 @@
                 }
             },
             "Québec": {
-                "count": 56,
+                "count": 57,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q392167",
                         "prob": 1.0,
-                        "count": 52
+                        "count": 53
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 48
+                        "count": 49
                     }
                 }
             },
             "Nova Scotia": {
-                "count": 14,
+                "count": 16,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q601976",
                         "prob": 1.0,
-                        "count": 12
+                        "count": 14
                     }
                 }
             },
@@ -2285,12 +2285,17 @@
                 }
             },
             "New Brunswick": {
-                "count": 39,
+                "count": 42,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1418784",
                         "prob": 1.0,
-                        "count": 39
+                        "count": 42
+                    },
+                    "flag:colour": {
+                        "value": "red",
+                        "prob": 1.0,
+                        "count": 2
                     }
                 }
             },
@@ -2425,12 +2430,12 @@
                 }
             },
             "British Columbia": {
-                "count": 51,
+                "count": 53,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q637134",
                         "prob": 1.0,
-                        "count": 49
+                        "count": 51
                     }
                 }
             },
@@ -2445,17 +2450,17 @@
                 }
             },
             "canada": {
-                "count": 26,
+                "count": 27,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q80110",
                         "prob": 1.0,
-                        "count": 26
+                        "count": 27
                     },
                     "flag:colour": {
                         "value": "red",
                         "prob": 1.0,
-                        "count": 26
+                        "count": 27
                     }
                 }
             },
@@ -2530,12 +2535,12 @@
                 }
             },
             "EU": {
-                "count": 67,
+                "count": 68,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q98055852",
-                        "prob": 0.71,
-                        "count": 66
+                        "prob": 0.72,
+                        "count": 67
                     }
                 }
             },
@@ -2550,17 +2555,17 @@
                 }
             },
             "Alberta": {
-                "count": 36,
+                "count": 38,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1122078",
                         "prob": 1.0,
-                        "count": 33
+                        "count": 35
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 32
+                        "count": 34
                     }
                 }
             },
@@ -2650,32 +2655,42 @@
                 }
             },
             "Saskatchewan": {
-                "count": 11,
+                "count": 13,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q693558",
                         "prob": 1.0,
-                        "count": 11
+                        "count": 13
                     }
                 }
             },
-            "Prince Edward Island": {
+            "Newfoundland and Labrador": {
                 "count": 10,
                 "targets": {
                     "flag:wikidata": {
-                        "value": "Q266618",
+                        "value": "Q636719",
                         "prob": 1.0,
                         "count": 10
                     }
                 }
             },
+            "Prince Edward Island": {
+                "count": 12,
+                "targets": {
+                    "flag:wikidata": {
+                        "value": "Q266618",
+                        "prob": 1.0,
+                        "count": 12
+                    }
+                }
+            },
             "Manitoba": {
-                "count": 15,
+                "count": 17,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q512175",
                         "prob": 1.0,
-                        "count": 15
+                        "count": 17
                     }
                 }
             },
@@ -2709,6 +2724,21 @@
                     }
                 }
             },
+            "Quebec": {
+                "count": 10,
+                "targets": {
+                    "flag:wikidata": {
+                        "value": "Q392167",
+                        "prob": 1.0,
+                        "count": 10
+                    },
+                    "flag:colour": {
+                        "value": "blue",
+                        "prob": 1.0,
+                        "count": 10
+                    }
+                }
+            },
             "Australian Aboriginal": {
                 "count": 85,
                 "targets": {
@@ -2730,22 +2760,32 @@
                 }
             },
             "Nunavut": {
-                "count": 10,
+                "count": 12,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1426630",
                         "prob": 1.0,
-                        "count": 10
+                        "count": 12
                     }
                 }
             },
             "Yukon": {
-                "count": 10,
+                "count": 12,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q2062018",
                         "prob": 1.0,
-                        "count": 10
+                        "count": 12
+                    }
+                }
+            },
+            "Northwest Territories": {
+                "count": 11,
+                "targets": {
+                    "flag:wikidata": {
+                        "value": "Q1426561",
+                        "prob": 1.0,
+                        "count": 11
                     }
                 }
             },
@@ -2796,6 +2836,16 @@
                         "value": "Q3039109",
                         "prob": 1.0,
                         "count": 37
+                    }
+                }
+            },
+            "Deutschland": {
+                "count": 10,
+                "targets": {
+                    "flag:wikidata": {
+                        "value": "Q48160",
+                        "prob": 1.0,
+                        "count": 9
                     }
                 }
             },
@@ -2885,12 +2935,22 @@
                 }
             },
             "American Flag": {
-                "count": 21,
+                "count": 25,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42537",
-                        "prob": 0.89,
-                        "count": 9
+                        "prob": 0.92,
+                        "count": 13
+                    }
+                }
+            },
+            "PL": {
+                "count": 14,
+                "targets": {
+                    "flag:wikidata": {
+                        "value": "Q42436",
+                        "prob": 1.0,
+                        "count": 14
                     }
                 }
             },
@@ -2984,16 +3044,6 @@
                     }
                 }
             },
-            "PL": {
-                "count": 13,
-                "targets": {
-                    "flag:wikidata": {
-                        "value": "Q42436",
-                        "prob": 1.0,
-                        "count": 13
-                    }
-                }
-            },
             "Gdynia": {
                 "count": 11,
                 "targets": {
@@ -3025,12 +3075,12 @@
                 }
             },
             "Progress Pride": {
-                "count": 16,
+                "count": 17,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q96633914",
                         "prob": 1.0,
-                        "count": 16
+                        "count": 17
                     }
                 }
             },
@@ -3057,22 +3107,22 @@
         },
         "subject": {
             "United States": {
-                "count": 17112,
+                "count": 17201,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42537",
                         "prob": 1.0,
-                        "count": 17111
+                        "count": 17200
                     }
                 }
             },
             "Israel": {
-                "count": 67,
+                "count": 69,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q128480",
                         "prob": 1.0,
-                        "count": 67
+                        "count": 69
                     }
                 }
             },
@@ -3087,12 +3137,12 @@
                 }
             },
             "Australia": {
-                "count": 345,
+                "count": 346,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81676",
                         "prob": 1.0,
-                        "count": 345
+                        "count": 346
                     },
                     "flag:colour": {
                         "value": "blue",
@@ -3127,12 +3177,12 @@
                 }
             },
             "Germany": {
-                "count": 309,
+                "count": 310,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q48160",
                         "prob": 1.0,
-                        "count": 308
+                        "count": 309
                     }
                 }
             },
@@ -3147,12 +3197,12 @@
                 }
             },
             "Spain": {
-                "count": 402,
+                "count": 406,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q121688",
                         "prob": 1.0,
-                        "count": 400
+                        "count": 404
                     }
                 }
             },
@@ -3172,42 +3222,42 @@
                 }
             },
             "McDonald's": {
-                "count": 174,
+                "count": 180,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q64300176",
                         "prob": 1.0,
-                        "count": 171
+                        "count": 177
                     },
                     "flag:colour": {
                         "value": "red",
                         "prob": 0.95,
-                        "count": 171
+                        "count": 177
                     }
                 }
             },
             "Philippines": {
-                "count": 1234,
+                "count": 1237,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134627",
                         "prob": 1.0,
-                        "count": 1234
+                        "count": 1237
                     }
                 }
             },
             "Canada": {
-                "count": 1085,
+                "count": 1090,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q80110",
                         "prob": 1.0,
-                        "count": 1085
+                        "count": 1090
                     },
                     "flag:colour": {
                         "value": "red",
                         "prob": 1.0,
-                        "count": 1076
+                        "count": 1081
                     }
                 }
             },
@@ -3237,22 +3287,22 @@
                 }
             },
             "Italy": {
-                "count": 589,
+                "count": 605,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42876",
                         "prob": 1.0,
-                        "count": 588
+                        "count": 604
                     }
                 }
             },
             "People's Republic of China": {
-                "count": 1069,
+                "count": 1101,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q131147",
                         "prob": 1.0,
-                        "count": 1069
+                        "count": 1101
                     }
                 }
             },
@@ -3277,37 +3327,37 @@
                 }
             },
             "France": {
-                "count": 2393,
+                "count": 2395,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q43192",
                         "prob": 1.0,
-                        "count": 2387
+                        "count": 2389
                     }
                 }
             },
             "United States;National League of POW/MIA Families": {
-                "count": 461,
+                "count": 462,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42537;Q1463762",
                         "prob": 0.99,
-                        "count": 461
+                        "count": 462
                     },
                     "flag:colour": {
                         "value": "black",
                         "prob": 0.99,
-                        "count": 359
+                        "count": 360
                     }
                 }
             },
             "Chile": {
-                "count": 447,
+                "count": 448,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q160872",
                         "prob": 1.0,
-                        "count": 446
+                        "count": 447
                     }
                 }
             },
@@ -3332,12 +3382,12 @@
                 }
             },
             "Europe": {
-                "count": 1615,
+                "count": 1616,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q122482",
                         "prob": 1.0,
-                        "count": 1609
+                        "count": 1610
                     },
                     "flag:colour": {
                         "value": "blue",
@@ -3347,12 +3397,12 @@
                 }
             },
             "Turkey": {
-                "count": 304,
+                "count": 305,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81952",
                         "prob": 1.0,
-                        "count": 304
+                        "count": 305
                     }
                 }
             },
@@ -3377,12 +3427,12 @@
                 }
             },
             "Greece": {
-                "count": 294,
+                "count": 295,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q129132",
                         "prob": 0.99,
-                        "count": 293
+                        "count": 294
                     }
                 }
             },
@@ -3397,27 +3447,27 @@
                 }
             },
             "Ontario": {
-                "count": 60,
+                "count": 62,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1165949",
                         "prob": 1.0,
-                        "count": 60
+                        "count": 62
                     }
                 }
             },
             "Illinois": {
-                "count": 363,
+                "count": 364,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q752837",
                         "prob": 1.0,
-                        "count": 363
+                        "count": 364
                     },
                     "flag:colour": {
                         "value": "white",
                         "prob": 1.0,
-                        "count": 362
+                        "count": 363
                     }
                 }
             },
@@ -3447,12 +3497,12 @@
                 }
             },
             "Norway": {
-                "count": 419,
+                "count": 421,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q83149",
                         "prob": 1.0,
-                        "count": 419
+                        "count": 421
                     }
                 }
             },
@@ -3517,12 +3567,12 @@
                 }
             },
             "New Zealand": {
-                "count": 158,
+                "count": 159,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q160260",
                         "prob": 1.0,
-                        "count": 158
+                        "count": 159
                     }
                 }
             },
@@ -3572,12 +3622,12 @@
                 }
             },
             "Portugal": {
-                "count": 95,
+                "count": 96,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q128812",
                         "prob": 1.0,
-                        "count": 94
+                        "count": 95
                     }
                 }
             },
@@ -3642,22 +3692,22 @@
                 }
             },
             "United Kingdom": {
-                "count": 277,
+                "count": 281,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q83278",
                         "prob": 0.99,
-                        "count": 275
+                        "count": 279
                     }
                 }
             },
             "United Arab Emirates": {
-                "count": 16,
+                "count": 17,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134247",
                         "prob": 1.0,
-                        "count": 16
+                        "count": 17
                     }
                 }
             },
@@ -3692,12 +3742,12 @@
                 }
             },
             "Thailand": {
-                "count": 181,
+                "count": 182,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134885",
                         "prob": 1.0,
-                        "count": 181
+                        "count": 182
                     }
                 }
             },
@@ -3832,12 +3882,12 @@
                 }
             },
             "Poland": {
-                "count": 597,
+                "count": 615,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42436",
                         "prob": 1.0,
-                        "count": 595
+                        "count": 613
                     }
                 }
             },
@@ -4012,22 +4062,22 @@
                 }
             },
             "Kenya": {
-                "count": 13,
+                "count": 14,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q165905",
                         "prob": 1.0,
-                        "count": 13
+                        "count": 14
                     }
                 }
             },
             "Japan": {
-                "count": 108,
+                "count": 124,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q43175",
                         "prob": 1.0,
-                        "count": 108
+                        "count": 124
                     }
                 }
             },
@@ -4042,12 +4092,12 @@
                 }
             },
             "Republic of Ireland": {
-                "count": 112,
+                "count": 114,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q82205",
                         "prob": 1.0,
-                        "count": 112
+                        "count": 114
                     }
                 }
             },
@@ -4072,22 +4122,22 @@
                 }
             },
             "Indonesia": {
-                "count": 234,
+                "count": 233,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q101472",
                         "prob": 1.0,
-                        "count": 234
+                        "count": 233
                     }
                 }
             },
             "India": {
-                "count": 114,
+                "count": 115,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q41673",
                         "prob": 1.0,
-                        "count": 114
+                        "count": 115
                     }
                 }
             },
@@ -4102,12 +4152,12 @@
                 }
             },
             "Hungary": {
-                "count": 132,
+                "count": 133,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81970",
                         "prob": 1.0,
-                        "count": 131
+                        "count": 132
                     }
                 }
             },
@@ -4202,12 +4252,12 @@
                 }
             },
             "Denmark": {
-                "count": 645,
+                "count": 650,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q60149",
                         "prob": 1.0,
-                        "count": 644
+                        "count": 649
                     },
                     "flag:colour": {
                         "value": "#E31836",
@@ -4357,12 +4407,12 @@
                 }
             },
             "Bolivia": {
-                "count": 43,
+                "count": 45,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134874",
-                        "prob": 0.98,
-                        "count": 43
+                        "prob": 0.96,
+                        "count": 45
                     }
                 }
             },
@@ -4427,12 +4477,12 @@
                 }
             },
             "Austria": {
-                "count": 89,
+                "count": 90,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q46835",
                         "prob": 1.0,
-                        "count": 88
+                        "count": 89
                     }
                 }
             },
@@ -4477,17 +4527,17 @@
                 }
             },
             "National League of POW/MIA Families": {
-                "count": 250,
+                "count": 253,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1463762",
                         "prob": 1.0,
-                        "count": 250
+                        "count": 253
                     },
                     "flag:colour": {
                         "value": "black",
                         "prob": 1.0,
-                        "count": 230
+                        "count": 234
                     }
                 }
             },
@@ -4527,12 +4577,12 @@
                 }
             },
             "United Nations": {
-                "count": 27,
+                "count": 29,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q172446",
                         "prob": 1.0,
-                        "count": 27
+                        "count": 29
                     }
                 }
             },
@@ -4547,12 +4597,12 @@
                 }
             },
             "European Union": {
-                "count": 364,
+                "count": 368,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q98055852",
                         "prob": 0.99,
-                        "count": 364
+                        "count": 368
                     }
                 }
             },
@@ -4582,12 +4632,12 @@
                 }
             },
             "Maryland": {
-                "count": 55,
+                "count": 56,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q752569",
                         "prob": 1.0,
-                        "count": 55
+                        "count": 56
                     }
                 }
             },
@@ -4677,12 +4727,12 @@
                 }
             },
             "British Columbia": {
-                "count": 58,
+                "count": 61,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q637134",
                         "prob": 1.0,
-                        "count": 58
+                        "count": 61
                     }
                 }
             },
@@ -4827,17 +4877,17 @@
                 }
             },
             "Alabama": {
-                "count": 29,
+                "count": 30,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q497997",
                         "prob": 1.0,
-                        "count": 29
+                        "count": 30
                     },
                     "flag:colour": {
                         "value": "white",
                         "prob": 1.0,
-                        "count": 25
+                        "count": 26
                     }
                 }
             },
@@ -4887,12 +4937,12 @@
                 }
             },
             "Ohio": {
-                "count": 234,
+                "count": 235,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q752559",
                         "prob": 1.0,
-                        "count": 234
+                        "count": 235
                     }
                 }
             },
@@ -4972,17 +5022,17 @@
                 }
             },
             "Virginia": {
-                "count": 84,
+                "count": 85,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q18993",
                         "prob": 1.0,
-                        "count": 84
+                        "count": 85
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 81
+                        "count": 82
                     }
                 }
             },
@@ -5202,17 +5252,17 @@
                 }
             },
             "Wisconsin": {
-                "count": 58,
+                "count": 60,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q241083",
                         "prob": 1.0,
-                        "count": 58
+                        "count": 60
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 57
+                        "count": 59
                     }
                 }
             },
@@ -5247,27 +5297,27 @@
                 }
             },
             "Québec": {
-                "count": 69,
+                "count": 71,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q392167",
                         "prob": 1.0,
-                        "count": 69
+                        "count": 71
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 66
+                        "count": 68
                     }
                 }
             },
             "Nova Scotia": {
-                "count": 14,
+                "count": 16,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q601976",
                         "prob": 1.0,
-                        "count": 14
+                        "count": 16
                     }
                 }
             },
@@ -5352,12 +5402,17 @@
                 }
             },
             "New Brunswick": {
-                "count": 43,
+                "count": 46,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1418784",
                         "prob": 1.0,
-                        "count": 43
+                        "count": 46
+                    },
+                    "flag:colour": {
+                        "value": "red",
+                        "prob": 1.0,
+                        "count": 2
                     }
                 }
             },
@@ -5492,12 +5547,12 @@
                 }
             },
             "Comunidad de Madrid": {
-                "count": 12,
+                "count": 13,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1426515",
                         "prob": 1.0,
-                        "count": 12
+                        "count": 13
                     }
                 }
             },
@@ -5512,17 +5567,17 @@
                 }
             },
             "Alberta": {
-                "count": 38,
+                "count": 40,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1122078",
                         "prob": 1.0,
-                        "count": 35
+                        "count": 37
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 35
+                        "count": 37
                     }
                 }
             },
@@ -5637,42 +5692,42 @@
                 }
             },
             "Saskatchewan": {
-                "count": 11,
+                "count": 13,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q693558",
                         "prob": 1.0,
-                        "count": 11
+                        "count": 13
                     }
                 }
             },
             "Newfoundland and Labrador": {
-                "count": 12,
+                "count": 14,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q636719",
                         "prob": 1.0,
-                        "count": 12
+                        "count": 14
                     }
                 }
             },
             "Prince Edward Island": {
-                "count": 12,
+                "count": 14,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q266618",
                         "prob": 1.0,
-                        "count": 12
+                        "count": 14
                     }
                 }
             },
             "Manitoba": {
-                "count": 18,
+                "count": 20,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q512175",
                         "prob": 1.0,
-                        "count": 18
+                        "count": 20
                     }
                 }
             },
@@ -5707,32 +5762,32 @@
                 }
             },
             "Nunavut": {
-                "count": 11,
+                "count": 13,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1426630",
                         "prob": 1.0,
-                        "count": 11
+                        "count": 13
                     }
                 }
             },
             "Yukon": {
-                "count": 11,
+                "count": 13,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q2062018",
                         "prob": 1.0,
-                        "count": 11
+                        "count": 13
                     }
                 }
             },
             "Northwest Territories": {
-                "count": 10,
+                "count": 12,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1426561",
                         "prob": 1.0,
-                        "count": 10
+                        "count": 12
                     }
                 }
             },
@@ -5892,12 +5947,12 @@
                 }
             },
             "LGBT+ Rights": {
-                "count": 19,
+                "count": 20,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q96633914",
-                        "prob": 0.84,
-                        "count": 19
+                        "prob": 0.85,
+                        "count": 20
                     }
                 }
             },
@@ -5914,22 +5969,22 @@
         },
         "subject:wikidata": {
             "Q30": {
-                "count": 17116,
+                "count": 17205,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42537",
                         "prob": 1.0,
-                        "count": 17114
+                        "count": 17203
                     }
                 }
             },
             "Q801": {
-                "count": 67,
+                "count": 69,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q128480",
                         "prob": 1.0,
-                        "count": 67
+                        "count": 69
                     }
                 }
             },
@@ -5944,12 +5999,12 @@
                 }
             },
             "Q408": {
-                "count": 345,
+                "count": 346,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81676",
                         "prob": 1.0,
-                        "count": 345
+                        "count": 346
                     },
                     "flag:colour": {
                         "value": "blue",
@@ -5984,12 +6039,12 @@
                 }
             },
             "Q183": {
-                "count": 310,
+                "count": 311,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q48160",
                         "prob": 1.0,
-                        "count": 309
+                        "count": 310
                     }
                 }
             },
@@ -6004,12 +6059,12 @@
                 }
             },
             "Q29": {
-                "count": 404,
+                "count": 408,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q121688",
                         "prob": 1.0,
-                        "count": 402
+                        "count": 406
                     }
                 }
             },
@@ -6029,42 +6084,42 @@
                 }
             },
             "Q38076": {
-                "count": 189,
+                "count": 195,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q64300176",
                         "prob": 1.0,
-                        "count": 186
+                        "count": 192
                     },
                     "flag:colour": {
                         "value": "red",
                         "prob": 0.95,
-                        "count": 174
+                        "count": 180
                     }
                 }
             },
             "Q928": {
-                "count": 1234,
+                "count": 1237,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134627",
                         "prob": 1.0,
-                        "count": 1234
+                        "count": 1237
                     }
                 }
             },
             "Q16": {
-                "count": 1085,
+                "count": 1090,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q80110",
                         "prob": 1.0,
-                        "count": 1085
+                        "count": 1090
                     },
                     "flag:colour": {
                         "value": "red",
                         "prob": 1.0,
-                        "count": 1076
+                        "count": 1081
                     }
                 }
             },
@@ -6094,22 +6149,22 @@
                 }
             },
             "Q38": {
-                "count": 590,
+                "count": 606,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42876",
                         "prob": 1.0,
-                        "count": 589
+                        "count": 605
                     }
                 }
             },
             "Q148": {
-                "count": 1069,
+                "count": 1101,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q131147",
                         "prob": 1.0,
-                        "count": 1069
+                        "count": 1101
                     }
                 }
             },
@@ -6134,37 +6189,37 @@
                 }
             },
             "Q142": {
-                "count": 2393,
+                "count": 2395,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q43192",
                         "prob": 1.0,
-                        "count": 2387
+                        "count": 2389
                     }
                 }
             },
             "Q30;Q6974069": {
-                "count": 460,
+                "count": 461,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42537;Q1463762",
                         "prob": 0.99,
-                        "count": 460
+                        "count": 461
                     },
                     "flag:colour": {
                         "value": "black",
                         "prob": 1.0,
-                        "count": 357
+                        "count": 358
                     }
                 }
             },
             "Q298": {
-                "count": 447,
+                "count": 448,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q160872",
                         "prob": 1.0,
-                        "count": 446
+                        "count": 447
                     }
                 }
             },
@@ -6189,12 +6244,12 @@
                 }
             },
             "Q46": {
-                "count": 1614,
+                "count": 1615,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q122482",
                         "prob": 1.0,
-                        "count": 1608
+                        "count": 1609
                     },
                     "flag:colour": {
                         "value": "blue",
@@ -6204,12 +6259,12 @@
                 }
             },
             "Q43": {
-                "count": 304,
+                "count": 305,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81952",
                         "prob": 1.0,
-                        "count": 304
+                        "count": 305
                     }
                 }
             },
@@ -6234,12 +6289,12 @@
                 }
             },
             "Q41": {
-                "count": 294,
+                "count": 295,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q129132",
                         "prob": 0.99,
-                        "count": 293
+                        "count": 294
                     }
                 }
             },
@@ -6254,27 +6309,27 @@
                 }
             },
             "Q1904": {
-                "count": 60,
+                "count": 62,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1165949",
                         "prob": 1.0,
-                        "count": 60
+                        "count": 62
                     }
                 }
             },
             "Q1204": {
-                "count": 363,
+                "count": 364,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q752837",
                         "prob": 1.0,
-                        "count": 363
+                        "count": 364
                     },
                     "flag:colour": {
                         "value": "white",
                         "prob": 1.0,
-                        "count": 362
+                        "count": 363
                     }
                 }
             },
@@ -6304,12 +6359,12 @@
                 }
             },
             "Q20": {
-                "count": 419,
+                "count": 421,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q83149",
                         "prob": 1.0,
-                        "count": 419
+                        "count": 421
                     }
                 }
             },
@@ -6374,12 +6429,12 @@
                 }
             },
             "Q664": {
-                "count": 158,
+                "count": 159,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q160260",
                         "prob": 1.0,
-                        "count": 158
+                        "count": 159
                     }
                 }
             },
@@ -6429,12 +6484,12 @@
                 }
             },
             "Q45": {
-                "count": 95,
+                "count": 96,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q128812",
                         "prob": 1.0,
-                        "count": 94
+                        "count": 95
                     }
                 }
             },
@@ -6499,22 +6554,22 @@
                 }
             },
             "Q145": {
-                "count": 275,
+                "count": 279,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q83278",
                         "prob": 0.99,
-                        "count": 275
+                        "count": 279
                     }
                 }
             },
             "Q878": {
-                "count": 16,
+                "count": 17,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134247",
                         "prob": 1.0,
-                        "count": 16
+                        "count": 17
                     }
                 }
             },
@@ -6549,12 +6604,12 @@
                 }
             },
             "Q869": {
-                "count": 181,
+                "count": 182,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134885",
                         "prob": 1.0,
-                        "count": 181
+                        "count": 182
                     }
                 }
             },
@@ -6689,12 +6744,12 @@
                 }
             },
             "Q36": {
-                "count": 603,
+                "count": 621,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42436",
                         "prob": 1.0,
-                        "count": 601
+                        "count": 619
                     }
                 }
             },
@@ -6869,22 +6924,22 @@
                 }
             },
             "Q114": {
-                "count": 13,
+                "count": 14,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q165905",
                         "prob": 1.0,
-                        "count": 13
+                        "count": 14
                     }
                 }
             },
             "Q17": {
-                "count": 108,
+                "count": 124,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q43175",
                         "prob": 1.0,
-                        "count": 108
+                        "count": 124
                     }
                 }
             },
@@ -6899,12 +6954,12 @@
                 }
             },
             "Q27": {
-                "count": 114,
+                "count": 116,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q82205",
                         "prob": 1.0,
-                        "count": 113
+                        "count": 115
                     }
                 }
             },
@@ -6929,22 +6984,22 @@
                 }
             },
             "Q252": {
-                "count": 234,
+                "count": 233,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q101472",
                         "prob": 1.0,
-                        "count": 234
+                        "count": 233
                     }
                 }
             },
             "Q668": {
-                "count": 114,
+                "count": 115,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q41673",
                         "prob": 1.0,
-                        "count": 114
+                        "count": 115
                     }
                 }
             },
@@ -6959,12 +7014,12 @@
                 }
             },
             "Q28": {
-                "count": 133,
+                "count": 134,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81970",
                         "prob": 1.0,
-                        "count": 132
+                        "count": 133
                     }
                 }
             },
@@ -7059,12 +7114,12 @@
                 }
             },
             "Q35": {
-                "count": 646,
+                "count": 651,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q60149",
                         "prob": 1.0,
-                        "count": 645
+                        "count": 650
                     },
                     "flag:colour": {
                         "value": "#E31836",
@@ -7214,12 +7269,12 @@
                 }
             },
             "Q750": {
-                "count": 43,
+                "count": 45,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134874",
-                        "prob": 0.98,
-                        "count": 43
+                        "prob": 0.96,
+                        "count": 45
                     }
                 }
             },
@@ -7284,12 +7339,12 @@
                 }
             },
             "Q40": {
-                "count": 89,
+                "count": 90,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q46835",
                         "prob": 1.0,
-                        "count": 88
+                        "count": 89
                     }
                 }
             },
@@ -7334,17 +7389,17 @@
                 }
             },
             "Q6974069": {
-                "count": 250,
+                "count": 253,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1463762",
                         "prob": 1.0,
-                        "count": 250
+                        "count": 253
                     },
                     "flag:colour": {
                         "value": "black",
                         "prob": 1.0,
-                        "count": 230
+                        "count": 234
                     }
                 }
             },
@@ -7384,12 +7439,12 @@
                 }
             },
             "Q1065": {
-                "count": 27,
+                "count": 29,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q172446",
                         "prob": 1.0,
-                        "count": 27
+                        "count": 29
                     }
                 }
             },
@@ -7404,12 +7459,12 @@
                 }
             },
             "Q458": {
-                "count": 372,
+                "count": 376,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q98055852",
                         "prob": 0.98,
-                        "count": 371
+                        "count": 375
                     }
                 }
             },
@@ -7439,12 +7494,12 @@
                 }
             },
             "Q1391": {
-                "count": 55,
+                "count": 56,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q752569",
                         "prob": 1.0,
-                        "count": 55
+                        "count": 56
                     }
                 }
             },
@@ -7534,12 +7589,12 @@
                 }
             },
             "Q1973": {
-                "count": 58,
+                "count": 61,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q637134",
                         "prob": 1.0,
-                        "count": 58
+                        "count": 61
                     }
                 }
             },
@@ -7684,17 +7739,17 @@
                 }
             },
             "Q173": {
-                "count": 29,
+                "count": 30,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q497997",
                         "prob": 1.0,
-                        "count": 29
+                        "count": 30
                     },
                     "flag:colour": {
                         "value": "white",
                         "prob": 1.0,
-                        "count": 25
+                        "count": 26
                     }
                 }
             },
@@ -7744,12 +7799,12 @@
                 }
             },
             "Q1397": {
-                "count": 233,
+                "count": 234,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q752559",
                         "prob": 1.0,
-                        "count": 233
+                        "count": 234
                     }
                 }
             },
@@ -7829,17 +7884,17 @@
                 }
             },
             "Q1370": {
-                "count": 84,
+                "count": 85,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q18993",
                         "prob": 1.0,
-                        "count": 84
+                        "count": 85
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 81
+                        "count": 82
                     }
                 }
             },
@@ -8074,17 +8129,17 @@
                 }
             },
             "Q1537": {
-                "count": 58,
+                "count": 60,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q241083",
                         "prob": 1.0,
-                        "count": 58
+                        "count": 60
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 57
+                        "count": 59
                     }
                 }
             },
@@ -8119,27 +8174,27 @@
                 }
             },
             "Q176": {
-                "count": 69,
+                "count": 71,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q392167",
                         "prob": 1.0,
-                        "count": 69
+                        "count": 71
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 66
+                        "count": 68
                     }
                 }
             },
             "Q1952": {
-                "count": 14,
+                "count": 16,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q601976",
                         "prob": 1.0,
-                        "count": 14
+                        "count": 16
                     }
                 }
             },
@@ -8229,12 +8284,17 @@
                 }
             },
             "Q1965": {
-                "count": 43,
+                "count": 46,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1418784",
                         "prob": 1.0,
-                        "count": 43
+                        "count": 46
+                    },
+                    "flag:colour": {
+                        "value": "red",
+                        "prob": 1.0,
+                        "count": 2
                     }
                 }
             },
@@ -8384,12 +8444,12 @@
                 }
             },
             "Q5756": {
-                "count": 12,
+                "count": 13,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1426515",
                         "prob": 1.0,
-                        "count": 12
+                        "count": 13
                     }
                 }
             },
@@ -8404,17 +8464,17 @@
                 }
             },
             "Q1951": {
-                "count": 36,
+                "count": 38,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1122078",
                         "prob": 1.0,
-                        "count": 35
+                        "count": 37
                     },
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 34
+                        "count": 36
                     }
                 }
             },
@@ -8514,42 +8574,42 @@
                 }
             },
             "Q1989": {
-                "count": 11,
+                "count": 13,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q693558",
                         "prob": 1.0,
-                        "count": 11
+                        "count": 13
                     }
                 }
             },
             "Q2003": {
-                "count": 12,
+                "count": 14,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q636719",
                         "prob": 1.0,
-                        "count": 12
+                        "count": 14
                     }
                 }
             },
             "Q1978": {
-                "count": 12,
+                "count": 14,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q266618",
                         "prob": 1.0,
-                        "count": 12
+                        "count": 14
                     }
                 }
             },
             "Q1948": {
-                "count": 18,
+                "count": 20,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q512175",
                         "prob": 1.0,
-                        "count": 18
+                        "count": 20
                     }
                 }
             },
@@ -8584,32 +8644,32 @@
                 }
             },
             "Q2023": {
-                "count": 11,
+                "count": 13,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1426630",
                         "prob": 1.0,
-                        "count": 11
+                        "count": 13
                     }
                 }
             },
             "Q2009": {
-                "count": 11,
+                "count": 13,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q2062018",
                         "prob": 1.0,
-                        "count": 11
+                        "count": 13
                     }
                 }
             },
             "Q2007": {
-                "count": 10,
+                "count": 12,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q1426561",
                         "prob": 1.0,
-                        "count": 10
+                        "count": 12
                     }
                 }
             },
@@ -8754,12 +8814,12 @@
                 }
             },
             "Q17625913": {
-                "count": 19,
+                "count": 20,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q96633914",
-                        "prob": 0.84,
-                        "count": 19
+                        "prob": 0.85,
+                        "count": 20
                     }
                 }
             },
@@ -8776,7 +8836,7 @@
         },
         "flag:wikidata": {
             "Q81676": {
-                "count": 348,
+                "count": 349,
                 "targets": {
                     "flag:colour": {
                         "value": "blue",
@@ -8806,22 +8866,22 @@
                 }
             },
             "Q64300176": {
-                "count": 188,
+                "count": 194,
                 "targets": {
                     "flag:colour": {
                         "value": "red",
-                        "prob": 0.95,
-                        "count": 173
+                        "prob": 0.96,
+                        "count": 179
                     }
                 }
             },
             "Q80110": {
-                "count": 1095,
+                "count": 1100,
                 "targets": {
                     "flag:colour": {
                         "value": "red",
                         "prob": 1.0,
-                        "count": 1077
+                        "count": 1082
                     }
                 }
             },
@@ -8836,17 +8896,17 @@
                 }
             },
             "Q42537;Q1463762": {
-                "count": 479,
+                "count": 480,
                 "targets": {
                     "flag:colour": {
                         "value": "black",
                         "prob": 0.99,
-                        "count": 356
+                        "count": 357
                     }
                 }
             },
             "Q122482": {
-                "count": 1676,
+                "count": 1677,
                 "targets": {
                     "flag:colour": {
                         "value": "blue",
@@ -8856,12 +8916,12 @@
                 }
             },
             "Q752837": {
-                "count": 363,
+                "count": 364,
                 "targets": {
                     "flag:colour": {
                         "value": "white",
                         "prob": 1.0,
-                        "count": 362
+                        "count": 363
                     }
                 }
             },
@@ -8876,7 +8936,7 @@
                 }
             },
             "Q730106": {
-                "count": 77,
+                "count": 78,
                 "targets": {
                     "flag:colour": {
                         "value": "white",
@@ -8916,12 +8976,12 @@
                 }
             },
             "Q1463762": {
-                "count": 252,
+                "count": 255,
                 "targets": {
                     "flag:colour": {
                         "value": "black",
                         "prob": 1.0,
-                        "count": 230
+                        "count": 234
                     }
                 }
             },
@@ -9056,12 +9116,12 @@
                 }
             },
             "Q497997": {
-                "count": 29,
+                "count": 30,
                 "targets": {
                     "flag:colour": {
                         "value": "white",
                         "prob": 1.0,
-                        "count": 25
+                        "count": 26
                     }
                 }
             },
@@ -9136,12 +9196,12 @@
                 }
             },
             "Q18993": {
-                "count": 92,
+                "count": 93,
                 "targets": {
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 81
+                        "count": 82
                     }
                 }
             },
@@ -9256,22 +9316,22 @@
                 }
             },
             "Q241083": {
-                "count": 58,
+                "count": 60,
                 "targets": {
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 57
+                        "count": 59
                     }
                 }
             },
             "Q392167": {
-                "count": 80,
+                "count": 82,
                 "targets": {
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 66
+                        "count": 68
                     }
                 }
             },
@@ -9302,6 +9362,16 @@
                         "value": "red",
                         "prob": 1.0,
                         "count": 15
+                    }
+                }
+            },
+            "Q1418784": {
+                "count": 50,
+                "targets": {
+                    "flag:colour": {
+                        "value": "red",
+                        "prob": 1.0,
+                        "count": 2
                     }
                 }
             },
@@ -9346,12 +9416,12 @@
                 }
             },
             "Q1122078": {
-                "count": 37,
+                "count": 39,
                 "targets": {
                     "flag:colour": {
                         "value": "blue",
                         "prob": 1.0,
-                        "count": 34
+                        "count": 36
                     }
                 }
             },
@@ -9428,22 +9498,22 @@
         },
         "country": {
             "US": {
-                "count": 18518,
+                "count": 18611,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42537",
                         "prob": 1.0,
-                        "count": 18298
+                        "count": 18388
                     }
                 }
             },
             "IL": {
-                "count": 70,
+                "count": 72,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q128480",
                         "prob": 1.0,
-                        "count": 67
+                        "count": 69
                     }
                 }
             },
@@ -9458,12 +9528,12 @@
                 }
             },
             "AU": {
-                "count": 389,
+                "count": 390,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81676",
                         "prob": 1.0,
-                        "count": 372
+                        "count": 373
                     },
                     "flag:colour": {
                         "value": "blue",
@@ -9483,12 +9553,12 @@
                 }
             },
             "DE": {
-                "count": 382,
+                "count": 384,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q48160",
                         "prob": 1.0,
-                        "count": 324
+                        "count": 326
                     }
                 }
             },
@@ -9503,37 +9573,37 @@
                 }
             },
             "ES": {
-                "count": 465,
+                "count": 471,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q121688",
                         "prob": 1.0,
-                        "count": 420
+                        "count": 426
                     }
                 }
             },
             "PH": {
-                "count": 1274,
+                "count": 1277,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134627",
                         "prob": 1.0,
-                        "count": 1239
+                        "count": 1242
                     }
                 }
             },
             "CA": {
-                "count": 1201,
+                "count": 1208,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q80110",
                         "prob": 1.0,
-                        "count": 1094
+                        "count": 1100
                     },
                     "flag:colour": {
                         "value": "red",
                         "prob": 1.0,
-                        "count": 1079
+                        "count": 1085
                     }
                 }
             },
@@ -9548,22 +9618,22 @@
                 }
             },
             "IT": {
-                "count": 714,
+                "count": 728,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42876",
                         "prob": 1.0,
-                        "count": 632
+                        "count": 648
                     }
                 }
             },
             "CN": {
-                "count": 1107,
+                "count": 1139,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q131147",
                         "prob": 1.0,
-                        "count": 1069
+                        "count": 1101
                     }
                 }
             },
@@ -9588,32 +9658,32 @@
                 }
             },
             "PL": {
-                "count": 817,
+                "count": 836,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q42436",
                         "prob": 1.0,
-                        "count": 695
+                        "count": 714
                     }
                 }
             },
             "FR": {
-                "count": 2724,
+                "count": 2726,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q43192",
                         "prob": 1.0,
-                        "count": 2439
+                        "count": 2441
                     }
                 }
             },
             "CL": {
-                "count": 460,
+                "count": 461,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q160872",
                         "prob": 1.0,
-                        "count": 446
+                        "count": 447
                     }
                 }
             },
@@ -9638,12 +9708,12 @@
                 }
             },
             "EU": {
-                "count": 1973,
+                "count": 1976,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q122482",
                         "prob": 0.8,
-                        "count": 1873
+                        "count": 1877
                     },
                     "flag:colour": {
                         "value": "blue",
@@ -9653,12 +9723,12 @@
                 }
             },
             "TR": {
-                "count": 318,
+                "count": 319,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q81952",
                         "prob": 1.0,
-                        "count": 304
+                        "count": 305
                     }
                 }
             },
@@ -9673,12 +9743,12 @@
                 }
             },
             "GR": {
-                "count": 329,
+                "count": 330,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q129132",
                         "prob": 1.0,
-                        "count": 295
+                        "count": 296
                     }
                 }
             },
@@ -9723,12 +9793,12 @@
                 }
             },
             "NO": {
-                "count": 548,
+                "count": 550,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q83149",
                         "prob": 1.0,
-                        "count": 421
+                        "count": 423
                     }
                 }
             },
@@ -9773,12 +9843,12 @@
                 }
             },
             "NZ": {
-                "count": 161,
+                "count": 162,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q160260",
                         "prob": 1.0,
-                        "count": 159
+                        "count": 160
                     }
                 }
             },
@@ -9803,12 +9873,12 @@
                 }
             },
             "PT": {
-                "count": 106,
+                "count": 107,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q128812",
                         "prob": 1.0,
-                        "count": 100
+                        "count": 101
                     }
                 }
             },
@@ -9883,22 +9953,22 @@
                 }
             },
             "GB": {
-                "count": 335,
+                "count": 338,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q83278",
                         "prob": 1.0,
-                        "count": 276
+                        "count": 280
                     }
                 }
             },
             "AE": {
-                "count": 16,
+                "count": 17,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134247",
                         "prob": 1.0,
-                        "count": 16
+                        "count": 17
                     }
                 }
             },
@@ -9933,12 +10003,12 @@
                 }
             },
             "TH": {
-                "count": 195,
+                "count": 196,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134885",
                         "prob": 1.0,
-                        "count": 183
+                        "count": 184
                     }
                 }
             },
@@ -9963,7 +10033,7 @@
                 }
             },
             "CH": {
-                "count": 174,
+                "count": 175,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q124020",
@@ -10263,22 +10333,22 @@
                 }
             },
             "KE": {
-                "count": 13,
+                "count": 14,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q165905",
                         "prob": 1.0,
-                        "count": 13
+                        "count": 14
                     }
                 }
             },
             "JP": {
-                "count": 123,
+                "count": 139,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q43175",
                         "prob": 1.0,
-                        "count": 109
+                        "count": 125
                     }
                 }
             },
@@ -10293,12 +10363,12 @@
                 }
             },
             "IE": {
-                "count": 125,
+                "count": 127,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q82205",
                         "prob": 1.0,
-                        "count": 114
+                        "count": 116
                     }
                 }
             },
@@ -10323,22 +10393,22 @@
                 }
             },
             "ID": {
-                "count": 248,
+                "count": 247,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q101472",
                         "prob": 1.0,
-                        "count": 234
+                        "count": 233
                     }
                 }
             },
             "IN": {
-                "count": 220,
+                "count": 221,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q41673",
                         "prob": 1.0,
-                        "count": 125
+                        "count": 126
                     }
                 }
             },
@@ -10358,7 +10428,7 @@
                     "flag:wikidata": {
                         "value": "Q81970",
                         "prob": 1.0,
-                        "count": 140
+                        "count": 141
                     }
                 }
             },
@@ -10473,12 +10543,12 @@
                 }
             },
             "DK": {
-                "count": 853,
+                "count": 854,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q60149",
                         "prob": 1.0,
-                        "count": 823
+                        "count": 825
                     }
                 }
             },
@@ -10613,12 +10683,12 @@
                 }
             },
             "BO": {
-                "count": 47,
+                "count": 48,
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q134874",
                         "prob": 1.0,
-                        "count": 43
+                        "count": 44
                     }
                 }
             },
@@ -10688,7 +10758,7 @@
                     "flag:wikidata": {
                         "value": "Q46835",
                         "prob": 1.0,
-                        "count": 90
+                        "count": 91
                     }
                 }
             },
@@ -11662,6 +11732,15 @@
                 "targets": {
                     "flag:wikidata": {
                         "value": "Q169907",
+                        "prob": 1.0,
+                        "count": 0
+                    }
+                }
+            },
+            "SU": {
+                "targets": {
+                    "flag:wikidata": {
+                        "value": "Q165230",
                         "prob": 1.0,
                         "count": 0
                     }

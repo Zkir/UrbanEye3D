@@ -11,27 +11,27 @@
             "rotor:diameter",
             "generator:output:electricity"
         ],
-        "number of rules": 1064
+        "number of rules": 1065
     },
     "rules": {
         "manufacturer+model": {
             "Vestas V47": {
-                "count": 636,
+                "count": 643,
                 "targets": {
                     "height": {
                         "value": "50",
-                        "prob": 0.51,
-                        "count": 225
+                        "prob": 0.5,
+                        "count": 232
                     },
                     "rotor:diameter": {
                         "value": "47",
                         "prob": 1.0,
-                        "count": 109
+                        "count": 116
                     },
                     "generator:output:electricity": {
                         "value": "660 kW",
                         "prob": 0.99,
-                        "count": 633
+                        "count": 640
                     }
                 }
             },
@@ -91,7 +91,7 @@
                 }
             },
             "Vestas V112": {
-                "count": 912,
+                "count": 913,
                 "targets": {
                     "height": {
                         "value": "196",
@@ -101,12 +101,12 @@
                     "rotor:diameter": {
                         "value": "112",
                         "prob": 0.97,
-                        "count": 306
+                        "count": 307
                     },
                     "generator:output:electricity": {
                         "value": "3000 kW",
                         "prob": 0.45,
-                        "count": 865
+                        "count": 867
                     }
                 }
             },
@@ -241,22 +241,22 @@
                 }
             },
             "Nordex N149/5.X": {
-                "count": 328,
+                "count": 361,
                 "targets": {
                     "height": {
                         "value": "238",
-                        "prob": 0.38,
-                        "count": 133
+                        "prob": 0.41,
+                        "count": 166
                     },
                     "rotor:diameter": {
                         "value": "149",
-                        "prob": 0.93,
-                        "count": 140
+                        "prob": 0.94,
+                        "count": 173
                     },
                     "generator:output:electricity": {
                         "value": "5700 kW",
                         "prob": 0.96,
-                        "count": 326
+                        "count": 359
                     }
                 }
             },
@@ -301,7 +301,7 @@
                 }
             },
             "Enercon E-40/6.44": {
-                "count": 147,
+                "count": 144,
                 "targets": {
                     "height": {
                         "value": "87",
@@ -316,12 +316,12 @@
                     "generator:output:electricity": {
                         "value": "600 kW",
                         "prob": 0.97,
-                        "count": 146
+                        "count": 143
                     }
                 }
             },
             "Enercon E-70": {
-                "count": 556,
+                "count": 551,
                 "targets": {
                     "height": {
                         "value": "100",
@@ -336,7 +336,7 @@
                     "generator:output:electricity": {
                         "value": "2300 kW",
                         "prob": 0.49,
-                        "count": 477
+                        "count": 472
                     }
                 }
             },
@@ -671,22 +671,22 @@
                 }
             },
             "Vestas V136": {
-                "count": 965,
+                "count": 967,
                 "targets": {
                     "height": {
                         "value": "180",
                         "prob": 0.62,
-                        "count": 604
+                        "count": 606
                     },
                     "rotor:diameter": {
                         "value": "136",
                         "prob": 1.0,
-                        "count": 621
+                        "count": 623
                     },
                     "generator:output:electricity": {
                         "value": "3600 kW",
                         "prob": 0.45,
-                        "count": 786
+                        "count": 788
                     }
                 }
             },
@@ -726,22 +726,22 @@
                 }
             },
             "Enercon E-82 E2": {
-                "count": 826,
+                "count": 827,
                 "targets": {
                     "height": {
                         "value": "149",
                         "prob": 0.21,
-                        "count": 540
+                        "count": 541
                     },
                     "rotor:diameter": {
                         "value": "82",
                         "prob": 0.98,
-                        "count": 447
+                        "count": 448
                     },
                     "generator:output:electricity": {
                         "value": "2300 kW",
                         "prob": 0.8,
-                        "count": 727
+                        "count": 728
                     }
                 }
             },
@@ -936,7 +936,7 @@
                 }
             },
             "REpower MD77": {
-                "count": 102,
+                "count": 110,
                 "targets": {
                     "height": {
                         "value": "124",
@@ -951,7 +951,7 @@
                     "generator:output:electricity": {
                         "value": "1500 kW",
                         "prob": 1.0,
-                        "count": 100
+                        "count": 108
                     }
                 }
             },
@@ -1136,22 +1136,22 @@
                 }
             },
             "Vestas V126": {
-                "count": 561,
+                "count": 560,
                 "targets": {
                     "height": {
                         "value": "200",
-                        "prob": 0.25,
-                        "count": 337
+                        "prob": 0.26,
+                        "count": 341
                     },
                     "rotor:diameter": {
                         "value": "126",
                         "prob": 0.9,
-                        "count": 321
+                        "count": 325
                     },
                     "generator:output:electricity": {
                         "value": "3450 kW",
                         "prob": 0.44,
-                        "count": 515
+                        "count": 514
                     }
                 }
             },
@@ -1431,7 +1431,7 @@
                 }
             },
             "Vestas V44": {
-                "count": 100,
+                "count": 98,
                 "targets": {
                     "height": {
                         "value": "72",
@@ -1446,7 +1446,7 @@
                     "generator:output:electricity": {
                         "value": "600 kW",
                         "prob": 1.0,
-                        "count": 99
+                        "count": 97
                     }
                 }
             },
@@ -1651,22 +1651,22 @@
                 }
             },
             "Enercon E-82": {
-                "count": 819,
+                "count": 822,
                 "targets": {
                     "height": {
                         "value": "149",
                         "prob": 0.21,
-                        "count": 342
+                        "count": 345
                     },
                     "rotor:diameter": {
                         "value": "82",
                         "prob": 0.98,
-                        "count": 355
+                        "count": 358
                     },
                     "generator:output:electricity": {
                         "value": "2000 kW",
                         "prob": 0.55,
-                        "count": 665
+                        "count": 668
                     }
                 }
             },
@@ -2005,13 +2005,13 @@
                 "targets": {
                     "height": {
                         "value": "138",
-                        "prob": 0.52,
-                        "count": 21
+                        "prob": 0.5,
+                        "count": 22
                     },
                     "rotor:diameter": {
                         "value": "77",
                         "prob": 1.0,
-                        "count": 21
+                        "count": 22
                     },
                     "generator:output:electricity": {
                         "value": "1500 kW",
@@ -2081,22 +2081,22 @@
                 }
             },
             "Enercon E-115 EP3 E3": {
-                "count": 117,
+                "count": 124,
                 "targets": {
                     "height": {
                         "value": "180",
-                        "prob": 0.29,
-                        "count": 28
+                        "prob": 0.23,
+                        "count": 35
                     },
                     "rotor:diameter": {
                         "value": "115",
-                        "prob": 0.95,
-                        "count": 21
+                        "prob": 0.71,
+                        "count": 28
                     },
                     "generator:output:electricity": {
                         "value": "4200 kW",
-                        "prob": 0.77,
-                        "count": 117
+                        "prob": 0.73,
+                        "count": 124
                     }
                 }
             },
@@ -2376,7 +2376,7 @@
                 }
             },
             "Südwind S70": {
-                "count": 58,
+                "count": 60,
                 "targets": {
                     "height": {
                         "value": "120",
@@ -2391,7 +2391,7 @@
                     "generator:output:electricity": {
                         "value": "1500 kW",
                         "prob": 1.0,
-                        "count": 56
+                        "count": 58
                     }
                 }
             },
@@ -2741,12 +2741,12 @@
                 }
             },
             "GE Wind Energy GE 1.5 sl": {
-                "count": 12,
+                "count": 10,
                 "targets": {
                     "height": {
                         "value": "124",
-                        "prob": 0.42,
-                        "count": 12
+                        "prob": 0.5,
+                        "count": 10
                     },
                     "rotor:diameter": {
                         "value": "77",
@@ -2756,7 +2756,7 @@
                     "generator:output:electricity": {
                         "value": "1500 kW",
                         "prob": 1.0,
-                        "count": 12
+                        "count": 10
                     }
                 }
             },
@@ -2861,7 +2861,7 @@
                 }
             },
             "GE Wind Energy 1.5sl": {
-                "count": 80,
+                "count": 89,
                 "targets": {
                     "height": {
                         "value": "138",
@@ -2876,7 +2876,7 @@
                     "generator:output:electricity": {
                         "value": "1500 kW",
                         "prob": 1.0,
-                        "count": 80
+                        "count": 89
                     }
                 }
             },
@@ -3051,17 +3051,17 @@
                 }
             },
             "GE Wind Energy GE 1.5sl": {
-                "count": 26,
+                "count": 20,
                 "targets": {
                     "height": {
                         "value": "100",
-                        "prob": 0.92,
-                        "count": 12
+                        "prob": 0.5,
+                        "count": 2
                     },
                     "generator:output:electricity": {
                         "value": "1500 kW",
                         "prob": 1.0,
-                        "count": 25
+                        "count": 19
                     }
                 }
             },
@@ -5091,22 +5091,22 @@
                 }
             },
             "Enercon E-160 EP5 E3": {
-                "count": 291,
+                "count": 310,
                 "targets": {
                     "height": {
                         "value": "246",
-                        "prob": 0.66,
-                        "count": 134
+                        "prob": 0.58,
+                        "count": 153
                     },
                     "rotor:diameter": {
                         "value": "160",
-                        "prob": 0.99,
-                        "count": 134
+                        "prob": 1.0,
+                        "count": 153
                     },
                     "generator:output:electricity": {
                         "value": "5560 kW",
                         "prob": 0.97,
-                        "count": 291
+                        "count": 310
                     }
                 }
             },
@@ -5131,22 +5131,22 @@
                 }
             },
             "Enercon E-92": {
-                "count": 527,
+                "count": 534,
                 "targets": {
                     "height": {
                         "value": "150",
                         "prob": 0.21,
-                        "count": 275
+                        "count": 276
                     },
                     "rotor:diameter": {
                         "value": "92",
                         "prob": 1.0,
-                        "count": 237
+                        "count": 238
                     },
                     "generator:output:electricity": {
                         "value": "2350 kW",
                         "prob": 0.76,
-                        "count": 485
+                        "count": 492
                     }
                 }
             },
@@ -5287,6 +5287,26 @@
                         "value": "3450 kW",
                         "prob": 0.94,
                         "count": 52
+                    }
+                }
+            },
+            "Vestas V34 (DWT WD34)": {
+                "count": 12,
+                "targets": {
+                    "height": {
+                        "value": "42",
+                        "prob": 1.0,
+                        "count": 12
+                    },
+                    "rotor:diameter": {
+                        "value": "35",
+                        "prob": 1.0,
+                        "count": 12
+                    },
+                    "generator:output:electricity": {
+                        "value": "400 kW",
+                        "prob": 1.0,
+                        "count": 12
                     }
                 }
             },
@@ -7316,22 +7336,22 @@
                 }
             },
             "Enercon E-138 EP3 E3": {
-                "count": 140,
+                "count": 141,
                 "targets": {
                     "height": {
                         "value": "229",
-                        "prob": 0.45,
-                        "count": 99
+                        "prob": 0.46,
+                        "count": 100
                     },
                     "rotor:diameter": {
                         "value": "138",
                         "prob": 0.99,
-                        "count": 99
+                        "count": 100
                     },
                     "generator:output:electricity": {
                         "value": "4260 kW",
                         "prob": 0.94,
-                        "count": 140
+                        "count": 141
                     }
                 }
             },
@@ -8377,6 +8397,26 @@
                         "value": "800 kW",
                         "prob": 1.0,
                         "count": 59
+                    }
+                }
+            },
+            "Enercon E-70 E4 2.300": {
+                "count": 11,
+                "targets": {
+                    "height": {
+                        "value": "100",
+                        "prob": 0.71,
+                        "count": 7
+                    },
+                    "rotor:diameter": {
+                        "value": "71",
+                        "prob": 0.82,
+                        "count": 11
+                    },
+                    "generator:output:electricity": {
+                        "value": "2300 kW",
+                        "prob": 1.0,
+                        "count": 11
                     }
                 }
             },
@@ -9986,22 +10026,22 @@
                 }
             },
             "Nordex N175/6.X": {
-                "count": 73,
+                "count": 75,
                 "targets": {
                     "height": {
                         "value": "266",
                         "prob": 0.98,
-                        "count": 45
+                        "count": 51
                     },
                     "rotor:diameter": {
                         "value": "175",
                         "prob": 1.0,
-                        "count": 44
+                        "count": 50
                     },
                     "generator:output:electricity": {
                         "value": "6800 kW",
                         "prob": 0.95,
-                        "count": 73
+                        "count": 75
                     }
                 }
             },
@@ -11091,22 +11131,22 @@
                 }
             },
             "Vestas V162": {
-                "count": 275,
+                "count": 292,
                 "targets": {
                     "height": {
                         "value": "250",
-                        "prob": 0.39,
-                        "count": 181
+                        "prob": 0.41,
+                        "count": 189
                     },
                     "rotor:diameter": {
                         "value": "162",
                         "prob": 1.0,
-                        "count": 176
+                        "count": 184
                     },
                     "generator:output:electricity": {
                         "value": "6200 kW",
                         "prob": 0.52,
-                        "count": 265
+                        "count": 282
                     }
                 }
             },
@@ -11791,22 +11831,22 @@
                 }
             },
             "Vestas V150": {
-                "count": 760,
+                "count": 762,
                 "targets": {
                     "height": {
                         "value": "200",
                         "prob": 0.27,
-                        "count": 446
+                        "count": 448
                     },
                     "rotor:diameter": {
                         "value": "150",
                         "prob": 0.98,
-                        "count": 392
+                        "count": 394
                     },
                     "generator:output:electricity": {
                         "value": "4200 kW",
                         "prob": 0.28,
-                        "count": 652
+                        "count": 654
                     }
                 }
             },
@@ -12286,22 +12326,22 @@
                 }
             },
             "Vestas V172": {
-                "count": 103,
+                "count": 100,
                 "targets": {
                     "height": {
                         "value": "261",
-                        "prob": 0.54,
-                        "count": 102
+                        "prob": 0.53,
+                        "count": 99
                     },
                     "rotor:diameter": {
                         "value": "172",
-                        "prob": 0.57,
-                        "count": 102
+                        "prob": 0.56,
+                        "count": 99
                     },
                     "generator:output:electricity": {
                         "value": "7200 kW",
                         "prob": 1.0,
-                        "count": 100
+                        "count": 97
                     }
                 }
             },
@@ -13295,18 +13335,18 @@
                 "targets": {
                     "height": {
                         "value": "246",
-                        "prob": 0.88,
-                        "count": 100
+                        "prob": 0.89,
+                        "count": 108
                     },
                     "rotor:diameter": {
                         "value": "163",
                         "prob": 1.0,
-                        "count": 100
+                        "count": 108
                     },
                     "generator:output:electricity": {
                         "value": "7000 kW",
-                        "prob": 0.51,
-                        "count": 239
+                        "prob": 0.52,
+                        "count": 242
                     }
                 }
             },
@@ -13331,22 +13371,22 @@
                 }
             },
             "Vestas V162-6.2": {
-                "count": 168,
+                "count": 172,
                 "targets": {
                     "height": {
                         "value": "200",
-                        "prob": 0.38,
-                        "count": 92
+                        "prob": 0.36,
+                        "count": 96
                     },
                     "rotor:diameter": {
                         "value": "162",
                         "prob": 1.0,
-                        "count": 97
+                        "count": 101
                     },
                     "generator:output:electricity": {
                         "value": "6200 kW",
                         "prob": 0.99,
-                        "count": 165
+                        "count": 169
                     }
                 }
             },
@@ -14891,22 +14931,22 @@
                 }
             },
             "Enercon E-160 EP5 E3 R1": {
-                "count": 110,
+                "count": 125,
                 "targets": {
                     "height": {
-                        "value": "246",
-                        "prob": 0.52,
-                        "count": 65
+                        "value": "247",
+                        "prob": 0.46,
+                        "count": 84
                     },
                     "rotor:diameter": {
                         "value": "160",
-                        "prob": 0.96,
-                        "count": 54
+                        "prob": 0.97,
+                        "count": 73
                     },
                     "generator:output:electricity": {
                         "value": "5560 kW",
-                        "prob": 0.93,
-                        "count": 100
+                        "prob": 0.94,
+                        "count": 116
                     }
                 }
             },
@@ -14926,42 +14966,42 @@
                 }
             },
             "Nordex N133/4.8": {
-                "count": 47,
+                "count": 48,
                 "targets": {
                     "height": {
                         "value": "176",
-                        "prob": 0.4,
-                        "count": 40
+                        "prob": 0.39,
+                        "count": 41
                     },
                     "rotor:diameter": {
                         "value": "133",
                         "prob": 1.0,
-                        "count": 40
+                        "count": 41
                     },
                     "generator:output:electricity": {
                         "value": "4800 kW",
-                        "prob": 0.87,
-                        "count": 47
+                        "prob": 0.88,
+                        "count": 48
                     }
                 }
             },
-            "Enercon E-175": {
-                "count": 10,
+            "Enercon E-175 EP5 E2": {
+                "count": 63,
                 "targets": {
                     "height": {
-                        "value": "262",
-                        "prob": 0.67,
-                        "count": 9
+                        "value": "250",
+                        "prob": 0.83,
+                        "count": 42
                     },
                     "rotor:diameter": {
                         "value": "175",
                         "prob": 1.0,
-                        "count": 9
+                        "count": 37
                     },
                     "generator:output:electricity": {
                         "value": "7000 kW",
-                        "prob": 0.5,
-                        "count": 10
+                        "prob": 1.0,
+                        "count": 63
                     }
                 }
             },
@@ -15006,12 +15046,12 @@
                     "height": {
                         "value": "250",
                         "prob": 1.0,
-                        "count": 32
+                        "count": 33
                     },
                     "rotor:diameter": {
                         "value": "175",
                         "prob": 1.0,
-                        "count": 32
+                        "count": 33
                     },
                     "generator:output:electricity": {
                         "value": "6000 kW",
@@ -15071,22 +15111,22 @@
                 }
             },
             "Nordex N175": {
-                "count": 49,
+                "count": 47,
                 "targets": {
                     "height": {
                         "value": "266",
-                        "prob": 0.79,
-                        "count": 39
+                        "prob": 0.78,
+                        "count": 37
                     },
                     "rotor:diameter": {
                         "value": "175",
                         "prob": 1.0,
-                        "count": 39
+                        "count": 37
                     },
                     "generator:output:electricity": {
                         "value": "6800 kW",
                         "prob": 1.0,
-                        "count": 49
+                        "count": 47
                     }
                 }
             },
@@ -15116,16 +15156,16 @@
                     "height": {
                         "value": "250",
                         "prob": 1.0,
-                        "count": 18
+                        "count": 34
                     },
                     "rotor:diameter": {
                         "value": "175",
                         "prob": 1.0,
-                        "count": 20
+                        "count": 36
                     },
                     "generator:output:electricity": {
                         "value": "6000 kW",
-                        "prob": 0.91,
+                        "prob": 0.96,
                         "count": 45
                     }
                 }
@@ -15325,26 +15365,6 @@
                     }
                 }
             },
-            "Enercon E-175 EP5 E2": {
-                "count": 54,
-                "targets": {
-                    "height": {
-                        "value": "250",
-                        "prob": 0.85,
-                        "count": 33
-                    },
-                    "rotor:diameter": {
-                        "value": "175",
-                        "prob": 1.0,
-                        "count": 28
-                    },
-                    "generator:output:electricity": {
-                        "value": "7000 kW",
-                        "prob": 1.0,
-                        "count": 54
-                    }
-                }
-            },
             "Windey WD156-4500": {
                 "count": 10,
                 "targets": {
@@ -15448,7 +15468,7 @@
                 }
             },
             "600": {
-                "count": 2312,
+                "count": 2306,
                 "targets": {
                     "height": {
                         "value": "87",
@@ -15463,47 +15483,47 @@
                 }
             },
             "660": {
-                "count": 3788,
+                "count": 3796,
                 "targets": {
                     "height": {
                         "value": "50",
                         "prob": 0.26,
-                        "count": 500
+                        "count": 508
                     },
                     "rotor:diameter": {
                         "value": "47",
                         "prob": 0.85,
-                        "count": 1242
+                        "count": 1250
                     }
                 }
             },
             "2000": {
-                "count": 26145,
+                "count": 26148,
                 "targets": {
                     "height": {
                         "value": "150",
                         "prob": 0.21,
-                        "count": 6796
+                        "count": 6799
                     },
                     "rotor:diameter": {
                         "value": "90",
                         "prob": 0.26,
-                        "count": 8374
+                        "count": 8380
                     }
                 }
             },
             "1500": {
-                "count": 17568,
+                "count": 17575,
                 "targets": {
                     "height": {
                         "value": "80",
                         "prob": 0.25,
-                        "count": 2327
+                        "count": 2316
                     },
                     "rotor:diameter": {
                         "value": "77",
                         "prob": 0.71,
-                        "count": 3648
+                        "count": 3649
                     }
                 }
             },
@@ -15568,12 +15588,12 @@
                 }
             },
             "2300": {
-                "count": 11951,
+                "count": 11952,
                 "targets": {
                     "rotor:diameter": {
                         "value": "82",
                         "prob": 0.25,
-                        "count": 3745
+                        "count": 3752
                     }
                 }
             },
@@ -15593,7 +15613,7 @@
                 }
             },
             "500": {
-                "count": 948,
+                "count": 949,
                 "targets": {
                     "height": {
                         "value": "85",
@@ -15612,7 +15632,7 @@
                 "targets": {
                     "height": {
                         "value": "186",
-                        "prob": 0.31,
+                        "prob": 0.32,
                         "count": 318
                     },
                     "rotor:diameter": {
@@ -15653,17 +15673,17 @@
                 }
             },
             "5700": {
-                "count": 882,
+                "count": 915,
                 "targets": {
                     "height": {
                         "value": "200",
                         "prob": 0.35,
-                        "count": 503
+                        "count": 536
                     },
                     "rotor:diameter": {
                         "value": "149",
-                        "prob": 0.39,
-                        "count": 502
+                        "prob": 0.43,
+                        "count": 535
                     }
                 }
             },
@@ -15698,17 +15718,17 @@
                 }
             },
             "3600": {
-                "count": 5295,
+                "count": 5302,
                 "targets": {
                     "height": {
                         "value": "150",
                         "prob": 0.2,
-                        "count": 1703
+                        "count": 1714
                     },
                     "rotor:diameter": {
                         "value": "120",
-                        "prob": 0.2,
-                        "count": 1807
+                        "prob": 0.19,
+                        "count": 1818
                     }
                 }
             },
@@ -15803,17 +15823,17 @@
                 }
             },
             "4200": {
-                "count": 4138,
+                "count": 4143,
                 "targets": {
                     "height": {
                         "value": "150",
                         "prob": 0.14,
-                        "count": 1768
+                        "count": 1770
                     },
                     "rotor:diameter": {
                         "value": "150",
                         "prob": 0.31,
-                        "count": 1166
+                        "count": 1168
                     }
                 }
             },
@@ -15833,7 +15853,7 @@
                 }
             },
             "3300": {
-                "count": 2448,
+                "count": 2447,
                 "targets": {
                     "height": {
                         "value": "150",
@@ -15953,7 +15973,7 @@
                 }
             },
             "3450": {
-                "count": 2434,
+                "count": 2436,
                 "targets": {
                     "height": {
                         "value": "150",
@@ -15963,7 +15983,7 @@
                     "rotor:diameter": {
                         "value": "126",
                         "prob": 0.32,
-                        "count": 745
+                        "count": 746
                     }
                 }
             },
@@ -15983,32 +16003,32 @@
                 }
             },
             "55": {
-                "count": 12,
+                "count": 13,
                 "targets": {
                     "height": {
                         "value": "26",
-                        "prob": 0.56,
-                        "count": 9
+                        "prob": 0.5,
+                        "count": 10
                     },
                     "rotor:diameter": {
                         "value": "15",
-                        "prob": 0.62,
-                        "count": 8
+                        "prob": 0.67,
+                        "count": 9
                     }
                 }
             },
             "2350": {
-                "count": 1093,
+                "count": 1100,
                 "targets": {
                     "height": {
                         "value": "184",
                         "prob": 0.15,
-                        "count": 703
+                        "count": 704
                     },
                     "rotor:diameter": {
                         "value": "92",
                         "prob": 0.62,
-                        "count": 610
+                        "count": 611
                     }
                 }
             },
@@ -16061,14 +16081,14 @@
                 "count": 1501,
                 "targets": {
                     "height": {
-                        "value": "200",
-                        "prob": 0.22,
-                        "count": 403
+                        "value": "250",
+                        "prob": 0.23,
+                        "count": 418
                     },
                     "rotor:diameter": {
                         "value": "162",
-                        "prob": 0.28,
-                        "count": 513
+                        "prob": 0.27,
+                        "count": 528
                     }
                 }
             },
@@ -16283,17 +16303,17 @@
                 }
             },
             "400": {
-                "count": 30,
+                "count": 42,
                 "targets": {
                     "height": {
                         "value": "52",
-                        "prob": 0.81,
-                        "count": 27
+                        "prob": 0.56,
+                        "count": 39
                     },
                     "rotor:diameter": {
                         "value": "31",
-                        "prob": 0.88,
-                        "count": 26
+                        "prob": 0.61,
+                        "count": 38
                     }
                 }
             },
@@ -16423,17 +16443,17 @@
                 }
             },
             "5560": {
-                "count": 460,
+                "count": 497,
                 "targets": {
                     "height": {
                         "value": "246",
-                        "prob": 0.49,
-                        "count": 240
+                        "prob": 0.44,
+                        "count": 280
                     },
                     "rotor:diameter": {
                         "value": "160",
-                        "prob": 0.9,
-                        "count": 233
+                        "prob": 0.92,
+                        "count": 273
                     }
                 }
             },
@@ -16483,7 +16503,7 @@
                 }
             },
             "275": {
-                "count": 190,
+                "count": 189,
                 "targets": {
                     "height": {
                         "value": "71",
@@ -16643,17 +16663,17 @@
                 }
             },
             "7000": {
-                "count": 982,
+                "count": 992,
                 "targets": {
                     "height": {
                         "value": "246",
-                        "prob": 0.66,
-                        "count": 149
+                        "prob": 0.65,
+                        "count": 162
                     },
                     "rotor:diameter": {
                         "value": "154",
-                        "prob": 0.46,
-                        "count": 256
+                        "prob": 0.43,
+                        "count": 269
                     }
                 }
             },
@@ -16698,7 +16718,7 @@
                 }
             },
             "6600": {
-                "count": 202,
+                "count": 205,
                 "targets": {
                     "height": {
                         "value": "180",
@@ -16738,17 +16758,17 @@
                 }
             },
             "4260": {
-                "count": 175,
+                "count": 176,
                 "targets": {
                     "height": {
                         "value": "229",
                         "prob": 0.51,
-                        "count": 114
+                        "count": 115
                     },
                     "rotor:diameter": {
                         "value": "138",
                         "prob": 0.99,
-                        "count": 114
+                        "count": 115
                     }
                 }
             },
@@ -16797,13 +16817,13 @@
                 "targets": {
                     "height": {
                         "value": "266",
-                        "prob": 0.44,
-                        "count": 220
+                        "prob": 0.45,
+                        "count": 224
                     },
                     "rotor:diameter": {
                         "value": "163",
-                        "prob": 0.59,
-                        "count": 243
+                        "prob": 0.58,
+                        "count": 247
                     }
                 }
             },
@@ -16873,17 +16893,17 @@
                 }
             },
             "6200": {
-                "count": 915,
+                "count": 927,
                 "targets": {
                     "height": {
                         "value": "200",
-                        "prob": 0.34,
-                        "count": 367
+                        "prob": 0.33,
+                        "count": 379
                     },
                     "rotor:diameter": {
                         "value": "162",
                         "prob": 0.85,
-                        "count": 246
+                        "count": 258
                     }
                 }
             },
@@ -16948,17 +16968,17 @@
                 }
             },
             "4100": {
-                "count": 117,
+                "count": 119,
                 "targets": {
                     "height": {
                         "value": "200",
-                        "prob": 0.69,
-                        "count": 99
+                        "prob": 0.64,
+                        "count": 106
                     },
                     "rotor:diameter": {
                         "value": "142",
-                        "prob": 0.88,
-                        "count": 34
+                        "prob": 0.73,
+                        "count": 41
                     }
                 }
             },
@@ -17033,17 +17053,17 @@
                 }
             },
             "7200": {
-                "count": 306,
+                "count": 312,
                 "targets": {
                     "height": {
                         "value": "261",
                         "prob": 0.46,
-                        "count": 170
+                        "count": 167
                     },
                     "rotor:diameter": {
                         "value": "172",
                         "prob": 0.49,
-                        "count": 170
+                        "count": 167
                     }
                 }
             },
@@ -17133,17 +17153,17 @@
                 }
             },
             "4800": {
-                "count": 950,
+                "count": 953,
                 "targets": {
                     "height": {
                         "value": "182",
                         "prob": 0.31,
-                        "count": 407
+                        "count": 410
                     },
                     "rotor:diameter": {
                         "value": "149",
-                        "prob": 0.65,
-                        "count": 361
+                        "prob": 0.64,
+                        "count": 364
                     }
                 }
             },
@@ -17658,7 +17678,7 @@
                 }
             },
             "6300": {
-                "count": 39,
+                "count": 37,
                 "targets": {
                     "height": {
                         "value": "250",
