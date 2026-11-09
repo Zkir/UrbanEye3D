@@ -77,8 +77,8 @@ public class MesherHipped extends RoofGenerator {
                         + " vertices are too complex even after " + DP_EPS_MAX + " m simplification; flat roof will be used");
                 return null;
             }
-            UrbanEye3dPlugin.debugMsg("Straight skeleton input simplified for " + building.primitiveId + ": " + n0
-                    + " -> " + simplifiedContour.countPoints() + " vertices (eps=" + Math.round(epsUsed * 100) / 100.0 + " m)");
+            //UrbanEye3dPlugin.debugMsg("Straight skeleton input simplified for " + building.primitiveId + ": " + n0
+            //        + " -> " + simplifiedContour.countPoints() + " vertices (eps=" + Math.round(epsUsed * 100) / 100.0 + " m)");
         }
 
         //(2) time budget: camp-skeleton may still stall on an unforeseen pathology, and the scene
