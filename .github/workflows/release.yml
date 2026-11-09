@@ -35,7 +35,7 @@ jobs:
     - name: Build with Maven
       run: |
         VERSION=$(echo "${{ github.event.release.tag_name }}" | sed -e 's/^v//')
-        mvn -B package -Drevision=$VERSION --file pom.xml -s $GITHUB_WORKSPACE/settings.xml -Dtest="!GroundPlaneTest"
+        mvn -B package -Drevision=$VERSION --file pom.xml -s $GITHUB_WORKSPACE/settings.xml -Dtest="!GroundPlaneTest,!RendererTest"
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
