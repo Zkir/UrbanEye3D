@@ -33,7 +33,9 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.debugMsg;
 
@@ -415,6 +417,11 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             faceCount += tileMesh.faces.size();
         }
 
+        // Facade atlases are baked for individual elements, so their GL textures have to be
+        // released when the element is gone. Keys are collected while drawing (all elements,
+        // even the culled ones), and unused textures are freed right after the loop.
+        Set<String> aliveAtlasKeys = new HashSet<>();
+
         if ( scene.renderableElements != null && !scene.renderableElements.isEmpty()) {
             //this may seem to be a circular definition, but what we actually want
             // is to render buildings in the same area as ground tiles.
@@ -423,6 +430,10 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             // --- Render All Elements (Buildings, Trees, etc.) ---
             double screenHeight = glAutoDrawable.getSurfaceHeight();
             for (RenderableElement element : scene.renderableElements) {
+                if (element.getFacadeAtlasKey() != null) {
+                    aliveAtlasKeys.add(element.getFacadeAtlasKey());
+                }
+
                 if (visibleArea != null && !visibleArea.contains(element.origin)) {
                     continue;
                 }
@@ -462,15 +473,20 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 gl.glPushMatrix();
                 gl.glTranslated(transX, transY, transZ);
 
-                if (element.getMesh().textureName != null) {
+                Texture texture = null;
+                boolean shadeTexturedFaces = false;
+                if (element.getFacadeAtlas() != null) {
+                    // A building with a facade: the atlas is baked, TextureManager owns its GL texture.
+                    texture = TextureManager.getInstance().getFacadeAtlasTexture(
+                            gl, element.getFacadeAtlasKey(), element.getFacadeAtlas());
+                    shadeTexturedFaces = true;
+                } else if (mesh.textureName != null) {
                     // It's a textured object (like a tree)
-                    Texture texture = TextureManager.getInstance().get(gl, element.getMesh().textureName);
-                    if (texture != null) {
-                        drawMesh(gl, mesh, element.isSelected,  texture);
-                    }
-                } else {
-                    // It's a colored object (like a building)
-                    drawMesh(gl, mesh, element.isSelected,null);
+                    texture = TextureManager.getInstance().get(gl, mesh.textureName);
+                }
+
+                if (texture != null || mesh.textureName == null) {
+                    drawMesh(gl, mesh, element.isSelected, texture, shadeTexturedFaces);
                 }
                 objectCount += 1;
                 faceCount += mesh.faces.size();
@@ -478,6 +494,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
                 gl.glPopMatrix();
             }
         }
+        // Facade atlases of elements that are no longer in the scene are released here.
+        TextureManager.getInstance().pruneFacadeAtlasTextures(gl, aliveAtlasKeys);
 
         // --- Render Wires (Power Lines) ---
         if (scene.renderableWires != null && !scene.renderableWires.isEmpty()) {
@@ -604,6 +622,18 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     }
 
     private void drawMesh(GL2 gl, Mesh mesh, boolean isSelected, Texture texture){
+        drawMesh(gl, mesh, isSelected, texture, false);
+    }
+
+    /**
+     * Draws all faces of a mesh, either by their material color or by the texture when the face
+     * carries UV coordinates into it.
+     *
+     * @param shadeTexturedFaces whether textured faces must be lit and shaded like colored ones.
+     *        Ground tiles are painted images that already contain their own shading, so they are
+     *        drawn unlit, while a facade atlas is a plain photo and needs the scene lighting.
+     */
+    private void drawMesh(GL2 gl, Mesh mesh, boolean isSelected, Texture texture, boolean shadeTexturedFaces){
         double maxHeightForAO = mesh.getMaxBounds().z;
         double minHeightForAO = mesh.getMinBounds().z;
         // Draw all faces
@@ -613,7 +643,8 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
             if (faceUV != null && texture != null && !isWireframeMode) {
                 // It's a textured face
-                drawPolygonUV(gl, face, faceUV,  mesh.verts, mesh.uvs, texture, isSelected);
+                drawPolygonUV(gl, face, faceUV,  mesh.verts, mesh.uvs, texture, isSelected,
+                        shadeTexturedFaces, maxHeightForAO, minHeightForAO);
                 //TODO: empty ground tile should be rendered rather as wireframe.
             } else {
                 // It's a colored face
@@ -640,10 +671,12 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
 
     }
 
-    private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture, boolean isSelected ) {
+    private void drawPolygonUV(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs, Texture texture,
+                               boolean isSelected, boolean shadeTexturedFaces, double maxHeightForAO, double minHeightForAO) {
 
-        if (face.length!=4){
-            throw new RuntimeException("Only quads are supported currently for textured faces");
+        if (faceUV == null || faceUV.length != face.length) {
+            // A face without a UV coordinate for each of its vertices cannot be textured.
+            return;
         }
 
         // --- Draw selection outline (red, thick wireframe) ---
@@ -651,25 +684,167 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             drawSelectedOutline(gl, face, verts);
         }
 
+        Color litColor = null;
+        if (shadeTexturedFaces) {
+            // A facade atlas is a flat picture of a wall, so the face itself has to be lit exactly
+            // like a colored face - otherwise a textured building loses its volume next to the others.
+            litColor = applyLighting(Color.WHITE, faceNormal(verts, face).dot(SUN_DIRECTION));
+        }
+
         texture.bind(gl);
         gl.glEnable(GL2.GL_TEXTURE_2D);
-        gl.glColor4d(1.0, 1.0, 1.0, 1.0);
 
         // Enable alpha testing to handle transparency in tree textures
         gl.glEnable(GL2.GL_ALPHA_TEST);
         gl.glAlphaFunc(GL2.GL_GREATER, 0.5f); // Discard fragments with alpha <= 0.5
 
-        gl.glBegin(GL2.GL_QUADS);
-        for (int i=0; i<face.length; i++){
-            Point3D vert = verts.get(face[i]);
-            Point2D uv = uvs.get(faceUV[i]);
-            gl.glTexCoord2d(uv.x, uv.y);
-            gl.glVertex3d(vert.x, vert.y, vert.z);
+        if (litColor == null) {
+            // Pre-shaded images (ground tiles, tree billboards) are drawn as they were painted.
+            gl.glColor4d(1.0, 1.0, 1.0, 1.0);
         }
-        gl.glEnd();
+
+        if (face.length == 3) {
+            gl.glBegin(GL2.GL_TRIANGLES);
+            drawTexturedVertices(gl, face, faceUV, verts, uvs, litColor, maxHeightForAO, minHeightForAO);
+            gl.glEnd();
+        } else if (face.length == 4) {
+            gl.glBegin(GL2.GL_QUADS);
+            drawTexturedVertices(gl, face, faceUV, verts, uvs, litColor, maxHeightForAO, minHeightForAO);
+            gl.glEnd();
+        } else if (face.length > 4) {
+            // Facades are baked for all faces of a building, including triangular and non-convex ones.
+            GLUtessellator tess = glu.gluNewTess();
+            TexturedTessellatorCallback callback = new TexturedTessellatorCallback(gl, litColor, maxHeightForAO, minHeightForAO);
+
+            glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_END, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, callback);
+            glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, callback);
+
+            glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
+
+            glu.gluTessBeginPolygon(tess, null);
+            glu.gluTessBeginContour(tess);
+
+            for (int i = 0; i < face.length; i++) {
+                Point3D p = verts.get(face[i]);
+                Point2D uv = uvs.get(faceUV[i]);
+                VertexDataUV vertexData = new VertexDataUV();
+                vertexData.position[0] = p.x;
+                vertexData.position[1] = p.y;
+                vertexData.position[2] = p.z;
+                vertexData.uv[0] = uv.x;
+                vertexData.uv[1] = uv.y;
+                glu.gluTessVertex(tess, vertexData.position, 0, vertexData);
+            }
+
+            glu.gluTessEndContour(tess);
+            glu.gluTessEndPolygon(tess);
+            glu.gluDeleteTess(tess);
+        }
+
         // Disable states
         gl.glDisable(GL2.GL_ALPHA_TEST);
         gl.glDisable(GL2.GL_TEXTURE_2D);
+    }
+
+    /** Emits the vertices of a textured polygon, inside an already started glBegin/glEnd pair. */
+    private void drawTexturedVertices(GL2 gl, int[] face, int[] faceUV, List<Point3D> verts, List<Point2D> uvs,
+                                      Color litColor, double maxHeightForAO, double minHeightForAO) {
+        for (int i = 0; i < face.length; i++) {
+            Point3D vert = verts.get(face[i]);
+            Point2D uv = uvs.get(faceUV[i]);
+            if (litColor != null) {
+                setColorWithFakeAO(gl, vert, litColor, maxHeightForAO, minHeightForAO);
+            }
+            gl.glTexCoord2d(uv.x, uv.y);
+            gl.glVertex3d(vert.x, vert.y, vert.z);
+        }
+    }
+
+    /** Helper class carrying position and texture coordinates through the tessellator. */
+    private static class VertexDataUV {
+        final double[] position = new double[3];
+        final double[] uv = new double[2];
+    }
+
+    /** Tessellator callback for textured polygons (facades and other UV-mapped faces). */
+    private class TexturedTessellatorCallback extends GLUtessellatorCallbackAdapter {
+        private final GL2 gl;
+        private final Color litColor; // null when the face must be drawn unshaded
+        private final double maxHeightForAO;
+        private final double minHeightForAO;
+
+        TexturedTessellatorCallback(GL2 gl, Color litColor, double maxHeightForAO, double minHeightForAO) {
+            this.gl = gl;
+            this.litColor = litColor;
+            this.maxHeightForAO = maxHeightForAO;
+            this.minHeightForAO = minHeightForAO;
+        }
+
+        @Override
+        public void begin(int type) {
+            gl.glBegin(type);
+        }
+
+        @Override
+        public void end() {
+            gl.glEnd();
+        }
+
+        @Override
+        public void vertex(Object vertexData) {
+            if (!(vertexData instanceof VertexDataUV)) {
+                return;
+            }
+            VertexDataUV v = (VertexDataUV) vertexData;
+            if (litColor != null) {
+                setColorWithFakeAO(gl, new Point3D(v.position[0], v.position[1], v.position[2]),
+                        litColor, maxHeightForAO, minHeightForAO);
+            }
+            gl.glTexCoord2dv(v.uv, 0);
+            gl.glVertex3dv(v.position, 0);
+        }
+
+        @Override
+        public void combine(double[] coords, Object[] data, float[] weight, Object[] outData) {
+            VertexDataUV newVertex = new VertexDataUV();
+            newVertex.position[0] = coords[0];
+            newVertex.position[1] = coords[1];
+            newVertex.position[2] = coords[2];
+
+            // Texture coordinates of an added vertex are interpolated between the original ones.
+            newVertex.uv[0] = 0;
+            newVertex.uv[1] = 0;
+            for (int i = 0; i < data.length; i++) {
+                if (data[i] instanceof VertexDataUV) {
+                    newVertex.uv[0] += weight[i] * ((VertexDataUV) data[i]).uv[0];
+                    newVertex.uv[1] += weight[i] * ((VertexDataUV) data[i]).uv[1];
+                }
+            }
+            outData[0] = newVertex;
+        }
+
+        @Override
+        public void error(int errnum) {
+            UrbanEye3dPlugin.debugMsg("Tessellation of a textured face failed (" + errnum + "): " + glu.gluErrorString(errnum));
+        }
+    }
+
+    /** Normal of a face, computed from its first three vertices and normalized to unit length. */
+    private Point3D faceNormal(List<Point3D> vertices, int[] faceIndices) {
+        Point3D p1 = vertices.get(faceIndices[0]);
+        Point3D p2 = vertices.get(faceIndices[1]);
+        Point3D p3 = vertices.get(faceIndices[2]);
+
+        Point3D v1 = new Point3D(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
+        Point3D v2 = new Point3D(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z);
+        return new Point3D(
+                v1.y * v2.z - v1.z * v2.y,
+                v1.z * v2.x - v1.x * v2.z,
+                v1.x * v2.y - v1.y * v2.x
+        ).normalize();
     }
 
 
@@ -683,17 +858,7 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         }
         
         // Calculate face normal for lighting
-        Point3D p1 = vertices.get(faceIndices[0]);
-        Point3D p2 = vertices.get(faceIndices[1]);
-        Point3D p3 = vertices.get(faceIndices[2]);
-
-        Point3D v1 = new Point3D(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
-        Point3D v2 = new Point3D(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z);
-        Point3D normal = new Point3D(
-                v1.y * v2.z - v1.z * v2.y,
-                v1.z * v2.x - v1.x * v2.z,
-                v1.x * v2.y - v1.y * v2.x
-        ).normalize();
+        Point3D normal = faceNormal(vertices, faceIndices);
 
         double dotProduct = normal.dot(SUN_DIRECTION);
         Color litColor = applyLighting(color, dotProduct);
@@ -710,13 +875,9 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
             }
         } else if (faceIndices.length == 4) {
             gl.glBegin(GL2.GL_QUADS);
-            Point3D p4 = vertices.get(faceIndices[3]);
-
-            drawVertexWithFakeAO(gl, p1, litColor, maxHeightForAO, minHeightForAO);
-            drawVertexWithFakeAO(gl, p2, litColor, maxHeightForAO, minHeightForAO);
-            drawVertexWithFakeAO(gl, p3, litColor, maxHeightForAO, minHeightForAO);
-            drawVertexWithFakeAO(gl, p4, litColor, maxHeightForAO, minHeightForAO);
-
+            for (int index : faceIndices) {
+                drawVertexWithFakeAO(gl, vertices.get(index), litColor, maxHeightForAO, minHeightForAO);
+            }
             gl.glEnd();
 
         } else {
@@ -748,6 +909,12 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
     }
 
     private void drawVertexWithFakeAO(GL2 gl, Point3D vertex, Color baseColor, double maxHeightForAO, double minHeightForAO) {
+        setColorWithFakeAO(gl, vertex, baseColor, maxHeightForAO, minHeightForAO);
+        gl.glVertex3d(vertex.x, vertex.y, vertex.z);
+    }
+
+    /** Sets the current GL color: the base color darkened towards the ground by the fake AO. */
+    private void setColorWithFakeAO(GL2 gl, Point3D vertex, Color baseColor, double maxHeightForAO, double minHeightForAO) {
         double totalHeight = maxHeightForAO - minHeightForAO;
         double vertexHeight = vertex.z - minHeightForAO;
         final float AO_STRENGTH;
@@ -782,7 +949,6 @@ public class Renderer3D extends GLJPanel implements GLEventListener {
         );
 
         gl.glColor4f(finalColor.getRed() / 255.0f, finalColor.getGreen() / 255.0f, finalColor.getBlue() / 255.0f, finalColor.getAlpha() / 255.0f);
-        gl.glVertex3d(vertex.x, vertex.y, vertex.z);
     }
 
 

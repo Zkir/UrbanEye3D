@@ -272,6 +272,19 @@ public class TagInfoGeneratorTest {
             }
         }
 
+        //add values the facades are matched by (see src/main/resources/facades/facades.cfg and docs/FACADES.md)
+        for (var facadeTag : RenderableElement.assetPickerFacade.getAllTags()) {
+            if ("*".equals(facadeTag.getValue())) {
+                // An asterisk in the facade config is a wildcard: the key must be present, its value does not matter.
+                if (!TAG_DESCRIPTIONS.containsKey(facadeTag.getKey())) {
+                    TAG_DESCRIPTIONS.put(facadeTag.getKey(), "Used to choose the most suitable facade texture for a building");
+                }
+            } else if (!TAG_DESCRIPTIONS.containsKey(facadeTag.getKey() + "=" + facadeTag.getValue())) {
+                TAG_DESCRIPTIONS.put(facadeTag.getKey() + "=" + facadeTag.getValue(),
+                        "Used to choose the most suitable facade texture for a building");
+            }
+        }
+
         //add values from 2D mapCSS.
         HashSet<ParsedTag> usedTagsMapCSS = new HashSet<>();
         extractTagsFromMapCSS(usedTagsMapCSS, "/mapcss-styles/urbaneye2d.roads.mapcss");
@@ -315,6 +328,11 @@ public class TagInfoGeneratorTest {
 
         // Add tags from TextureManager
         TextureManager.getInstance().getAllTags().stream()
+                .map(entry -> new ParsedTag(entry.getKey(), entry.getValue(), entry.getKey() + "=" + entry.getValue()))
+                .forEach(usedTags::add);
+
+        // Add tags that the facade textures are matched by
+        RenderableElement.assetPickerFacade.getAllTags().stream()
                 .map(entry -> new ParsedTag(entry.getKey(), entry.getValue(), entry.getKey() + "=" + entry.getValue()))
                 .forEach(usedTags::add);
 

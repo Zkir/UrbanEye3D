@@ -5,12 +5,21 @@ import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Way;
 import ru.zkir.urbaneye3d.meshers.custom.MesherBillboard;
+import ru.zkir.urbaneye3d.facades.FacadeApplicator;
+import ru.zkir.urbaneye3d.facades.FacadeDefinition;
+import ru.zkir.urbaneye3d.facades.FacadeParser;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
 import ru.zkir.urbaneye3d.utils.Point3D;
+import ru.zkir.urbaneye3d.utils.UvGenerator;
 import ru.zkir.urbaneye3d.meshers.s3db.RoofShapes;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.openstreetmap.josm.data.osm.PrimitiveId;
 
@@ -33,6 +42,29 @@ public class RenderableElement {
 
 
     public final double physicalArea;
+
+    /**
+     * Texture atlas baked for this element when a facade was applied to it (see docs/FACADES.md):
+     * windows, doors and wall pattern are painted into this image, and the mesh of the element
+     * carries UV coordinates pointing into it (see {@link UvGenerator} and {@link FacadeApplicator}).
+     * Null for every element that is rendered by plain colors.
+     */
+    private BufferedImage facadeAtlas;
+
+    /** Key under which {@link TextureManager} owns the GL texture created from {@link #facadeAtlas}. */
+    private String facadeAtlasKey;
+
+    /** Facade atlases are baked per element, so each of them needs its own key. */
+    private static final AtomicLong FACADE_ATLAS_KEYS = new AtomicLong();
+
+    /**
+     * Facades this plugin knows about, described in the config file below.
+     * Package visible, because the taginfo report collects the tags these facades are matched by.
+     */
+    static final AssetPicker assetPickerFacade = new AssetPicker("/facades/facades.cfg");
+
+    /** Parsed .fac definitions, shared between elements: parsing a facade is expensive. */
+    private static final Map<String, FacadeDefinition> facadeCache = new HashMap<>();
 
     /**
      * Creates Renderable Element from basic parameters. May return null if object is not creatable.
@@ -233,9 +265,91 @@ public class RenderableElement {
             return  null;
         }
         Mesh mesh = composeMesh(buildingRecipe);
+        if (mesh == null) {
+            // Neither the requested roof shape nor the flat fallback could be built.
+            return null;
+        }
+
+        // Facade textures (windows, doors) are baked for buildings as a whole, not for their parts.
+        if (isMainBuilding(primitiveTags)) {
+            RenderableElement withFacade = applyFacade(primitive, primitiveOrigin, mesh, primitiveTags);
+            if (withFacade != null) {
+                return withFacade;
+            }
+        }
 
         return new RenderableElement(primitive, primitiveOrigin, mesh,0,0);
 
+    }
+
+    /**
+     * Facades describe how a whole building wall looks, so they are applied to buildings only:
+     * a building part would get its own windows in the middle of a wall.
+     */
+    private static boolean isMainBuilding(Map<String, String> primitiveTags) {
+        if (primitiveTags == null) {
+            return false;
+        }
+        String building = primitiveTags.get("building");
+        return building != null && !"no".equals(building) && !primitiveTags.containsKey("building:part");
+    }
+
+    /**
+     * Unwraps the building mesh to UV coordinates and paints a suitable facade into the atlas.
+     *
+     * @return the element to render, or null if no facade matches this building or the facade
+     *         cannot be baked - in that case the caller renders the plain colored mesh.
+     */
+    @Nullable
+    private static RenderableElement applyFacade(OsmPrimitive primitive, LatLon primitiveOrigin, Mesh mesh, Map<String, String> primitiveTags) {
+        FacadeDefinition facadeDef = getSuitableFacadeDef(primitiveTags);
+        if (facadeDef == null) {
+            return null;
+        }
+        try {
+            // 1. UV-unwrap the mesh and paint the base atlas out of the building/roof colors.
+            UvGenerator uvGenerator = new UvGenerator(mesh);
+            Mesh meshWithUvs = uvGenerator.getMeshWithUvs();
+            BufferedImage baseAtlas = uvGenerator.getTextureAtlas(false);
+
+            // 2. Paint the facade (windows, doors, wall pattern) over the base atlas.
+            BufferedImage facadeAtlas = new FacadeApplicator(meshWithUvs, facadeDef, baseAtlas).getAppliedTexture();
+
+            // 3. The element owns the UV-mapped mesh, the GL texture of the atlas belongs to TextureManager.
+            RenderableElement element = new RenderableElement(primitive, primitiveOrigin, meshWithUvs, 0, 0);
+            element.facadeAtlas = facadeAtlas;
+            element.facadeAtlasKey = "facade:" + element.primitiveId + "#" + FACADE_ATLAS_KEYS.incrementAndGet();
+            return element;
+        } catch (RuntimeException e) {
+            // A single broken facade must not break the whole scene update.
+            UrbanEye3dPlugin.debugMsg("Failed to apply facade (" + facadeDef.textureName + ") to "
+                    + primitive.getPrimitiveId() + ": " + e);
+            return null;
+        }
+    }
+
+    /**
+     * Finds the facade definition matching the tags of a building, loading and caching it on demand.
+     * @return the facade to use, or null when the building does not match any known facade.
+     */
+    private static FacadeDefinition getSuitableFacadeDef(Map<String, String> primitiveTags) {
+        String facadeFileName = assetPickerFacade.findBestMatch(primitiveTags);
+        if (facadeFileName == null) {
+            return null;
+        }
+        FacadeDefinition cached = facadeCache.get(facadeFileName);
+        if (cached != null) {
+            return cached;
+        }
+        try {
+            // Parsing a .fac file and loading its texture is expensive, so the result is cached.
+            FacadeDefinition facadeDef = FacadeParser.parse(facadeFileName);
+            facadeCache.put(facadeFileName, facadeDef);
+            return facadeDef;
+        } catch (IOException e) {
+            UrbanEye3dPlugin.debugMsg("Failed to parse facade definition " + facadeFileName + ": " + e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -479,6 +593,19 @@ public class RenderableElement {
 
     public Mesh getMesh() {
         return this.mesh;
+    }
+
+    /**
+     * Atlas baked for this element (see {@link #facadeAtlas}), or null if the element is rendered by colors.
+     * The image lives in system memory only: uploading it to the GPU is the job of {@link TextureManager}.
+     */
+    public BufferedImage getFacadeAtlas() {
+        return facadeAtlas;
+    }
+
+    /** Key of this element's atlas inside {@link TextureManager}; null when there is no atlas. */
+    public String getFacadeAtlasKey() {
+        return facadeAtlasKey;
     }
 	
     public static Mesh composeMesh(BuildingRecipe buildingRecipe){

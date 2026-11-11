@@ -212,6 +212,18 @@
     "key" : "building",
     "description" : "The main tag for identifying a building outline."
   }, {
+    "key" : "building:architecture",
+    "value" : "art_nouveau",
+    "description" : "Used to choose the most suitable facade texture for a building"
+  }, {
+    "key" : "building:architecture",
+    "value" : "constructivism",
+    "description" : "Used to choose the most suitable facade texture for a building"
+  }, {
+    "key" : "building:architecture",
+    "value" : "stalinist_neoclassicism",
+    "description" : "Used to choose the most suitable facade texture for a building"
+  }, {
     "key" : "building:colour",
     "description" : "Specifies the color of the building's walls."
   }, {
@@ -220,6 +232,22 @@
   }, {
     "key" : "building:levels",
     "description" : "The number of floors (levels) of a building or a building part. Used to calculate height if not specified explicitly."
+  }, {
+    "key" : "building:levels",
+    "value" : "1",
+    "description" : "Used to choose the most suitable facade texture for a building"
+  }, {
+    "key" : "building:levels",
+    "value" : "2",
+    "description" : "Used to choose the most suitable facade texture for a building"
+  }, {
+    "key" : "building:levels",
+    "value" : "3",
+    "description" : "Used to choose the most suitable facade texture for a building"
+  }, {
+    "key" : "building:levels",
+    "value" : "6",
+    "description" : "Used to choose the most suitable facade texture for a building"
   }, {
     "key" : "building:material",
     "description" : "Specifies the material of the building's walls. Used for texturing and shading."
@@ -299,8 +327,24 @@
     "description" : "Produces steps-shaped structure or a flight of stairs. Should be used together with roof:shape=skillion"
   }, {
     "key" : "building",
-    "value" : "no",
-    "description" : "Used for 2D ground plane rendering"
+    "value" : "apartments",
+    "description" : "Used to choose the most suitable facade texture for a building"
+  }, {
+    "key" : "building",
+    "value" : "industrial",
+    "description" : "Used to choose the most suitable facade texture for a building"
+  }, {
+    "key" : "building",
+    "value" : "office",
+    "description" : "Used to choose the most suitable facade texture for a building"
+  }, {
+    "key" : "building",
+    "value" : "retail",
+    "description" : "Used to choose the most suitable facade texture for a building"
+  }, {
+    "key" : "building",
+    "value" : "wall",
+    "description" : "Used to choose the most suitable facade texture for a building"
   }, {
     "key" : "circumference",
     "description" : "Used to estimate height of trees (natural=tree)"

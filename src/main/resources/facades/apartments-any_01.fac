@@ -1,0 +1,54 @@
+A
+800
+FACADE
+TEXTURE apartments-any_01.png
+RING 1
+TWO_SIDED 0
+LOD 0.1 50000.0
+  WALL 12 1000
+
+    # Estimated scale (8 levels * 3 m per level)
+    SCALE 28.7 24.0
+
+    # Vertical slices (based on horizontal guides y positions) :
+    BOTTOM 0.000 0.150
+    MIDDLE 0.150 0.266
+    MIDDLE 0.266 0.380
+    MIDDLE 0.380 0.503
+    MIDDLE 0.503 0.616
+    MIDDLE 0.616 0.739
+    MIDDLE 0.739 0.853
+    TOP    0.853 1.000
+
+    # Horizontal slices (based on vertical guides X positions):
+    LEFT   0.000 0.117
+    CENTER 0.117 0.204
+    CENTER 0.204 0.289
+    CENTER 0.289 0.398
+    CENTER 0.398 0.498
+    CENTER 0.498 0.612
+    CENTER 0.612 0.700
+    CENTER 0.700 0.789
+    RIGHT 0.789 0.896
+    
+	
+  WALL 1 12
+    # Estimated scale (8 levels * 3 m per level)
+    SCALE 28.7 24.0
+
+    # Vertical slices (based on horizontal guides y positions) :
+    BOTTOM 0.000 0.150
+    MIDDLE 0.150 0.266
+    MIDDLE 0.266 0.380
+    MIDDLE 0.380 0.503
+    MIDDLE 0.503 0.616
+    MIDDLE 0.616 0.739
+    MIDDLE 0.739 0.853
+    TOP    0.853 1.000
+
+    # Horizontal slices (based on vertical guides X positions):
+	LEFT   0.896 1.000
+	CENTER 0.289 0.398
+    CENTER 0.498 0.612
+	RIGHT  0.896 1.000
+    

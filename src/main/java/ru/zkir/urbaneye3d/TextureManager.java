@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set;
@@ -22,10 +23,12 @@ import java.util.HashSet;
  *   <li>static textures of {@link RenderableElement}s, loaded from plugin resources by path
  *       (see {@link #get(GL2, String)});</li>
  *   <li>dynamic textures of ground plane tiles, created from the {@link BufferedImage} painted
- *       by a {@link GroundTile} (see {@link #getGroundTileTexture(GL2, GroundTile)}).</li>
+ *       by a {@link GroundTile} (see {@link #getGroundTileTexture(GL2, GroundTile)});</li>
+ *   <li>dynamic atlases baked for elements at scene-build time, for example the facade texture
+ *       of a building (see {@link #getFacadeAtlasTexture(GL2, String, BufferedImage)}).</li>
  * </ul>
- * Both kinds live in one cache and are disposed here only, so neither {@link GroundTile} nor
- * {@link GroundPlane} has to know anything about OpenGL.
+ * All kinds live in one cache and are disposed here only, so neither {@link GroundTile} nor
+ * {@link GroundPlane} nor {@link RenderableElement} has to know anything about OpenGL.
  * <p>
  * All methods must be called from the GL thread.
  */
@@ -38,6 +41,14 @@ public class TextureManager {
      * When a tile paints a new image, its version changes and the texture is recreated.
      */
     private final Map<String, Integer> groundTextureVersion = new ConcurrentHashMap<>();
+
+    /**
+     * The exact atlas image a cached GL texture was uploaded from, keyed by the atlas texture key.
+     * Atlases are baked for individual elements (building facades), so they have to be tracked
+     * separately: a new atlas baked for the same element replaces the old texture, and atlases of
+     * elements that have left the scene are released by {@link #pruneFacadeAtlasTextures}.
+     */
+    private final Map<String, BufferedImage> atlasImages = new ConcurrentHashMap<>();
 
     private TextureManager() {
     }
@@ -128,7 +139,7 @@ public class TextureManager {
             return cached;
         }
 
-        Texture texture = createGroundTexture(gl, image);
+        Texture texture = createTextureFromImage(gl, image);
         if (texture == null) {
             UrbanEye3dPlugin.debugMsg("Could not create ground texture for " + key);
             return cached;
@@ -176,10 +187,74 @@ public class TextureManager {
     }
 
     /**
-     * Creates a GL texture from the painted image, resizing it first if the GPU cannot
+     * Returns the GL texture of an atlas that was baked while the scene was built, creating it
+     * when needed. This is how a building with a facade gets its windows: the atlas is painted
+     * (see {@link RenderableElement#getFacadeAtlas()}) and the mesh carries UV coordinates into it.
+     *
+     * @param gl    The GL2 context.
+     * @param key   Key of the element the atlas belongs to (see {@link RenderableElement#getFacadeAtlasKey()}).
+     * @param atlas The atlas image baked for that element.
+     * @return The Texture object, or null if there is nothing to draw yet.
+     */
+    public Texture getFacadeAtlasTexture(GL2 gl, String key, BufferedImage atlas) {
+        if (key == null || atlas == null) {
+            return null;
+        }
+
+        BufferedImage uploaded = atlasImages.get(key);
+        Texture cached = textureCache.get(key);
+        if (cached != null && uploaded == atlas) {
+            // This very atlas is already in video memory.
+            return cached;
+        }
+
+        // UV coordinates of the baked atlases are stored with the V axis pointing down
+        // (see UvGenerator), while OpenGL texture coordinates grow upwards: flip before upload.
+        Texture texture = createTextureFromImage(gl, flipVertically(atlas));
+        if (texture == null) {
+            UrbanEye3dPlugin.debugMsg("Could not create facade atlas texture for " + key);
+            return cached;
+        }
+
+        if (cached != null) {
+            // A new atlas was baked for the same element, the old texture is no longer needed.
+            cached.destroy(gl);
+        }
+        applyTextureParameters(gl, texture);
+        textureCache.put(key, texture);
+        atlasImages.put(key, atlas);
+        return texture;
+    }
+
+    /**
+     * Releases the atlas textures of elements that are no longer part of the scene.
+     * Atlases are baked per element, so without this step every scene update would leave
+     * video memory occupied by buildings that are not rendered anymore.
+     *
+     * @param gl        The GL2 context.
+     * @param aliveKeys Atlas keys of the elements the scene currently holds.
+     */
+    public void pruneFacadeAtlasTextures(GL2 gl, Set<String> aliveKeys) {
+        if (atlasImages.isEmpty()) {
+            return;
+        }
+        for (String key : new ArrayList<>(atlasImages.keySet())) {
+            if (aliveKeys == null || !aliveKeys.contains(key)) {
+                dispose(gl, key);
+            }
+        }
+    }
+
+    /** How many atlas textures are currently held. Useful for statistics and tests. */
+    public int getFacadeAtlasCount() {
+        return atlasImages.size();
+    }
+
+    /**
+     * Creates a GL texture from an image in system memory, resizing it first if the GPU cannot
      * handle non-power-of-two textures.
      */
-    private Texture createGroundTexture(GL2 gl, BufferedImage image) {
+    private Texture createTextureFromImage(GL2 gl, BufferedImage image) {
         BufferedImage toUpload = image;
         if (!Renderer3D.isNpotSupported()) {
             int potWidth = Integer.highestOneBit(image.getWidth());
@@ -191,13 +266,26 @@ public class TextureManager {
         try {
             return AWTTextureIO.newTexture(gl.getGLProfile(), toUpload, false);
         } catch (Exception e) {
-            UrbanEye3dPlugin.debugMsg("Error creating ground texture: " + e.getMessage());
+            UrbanEye3dPlugin.debugMsg("Error creating texture from image: " + e.getMessage());
             return null;
         }
     }
 
-    private static BufferedImage resize(BufferedImage image, int width, int height) {
-        BufferedImage scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+    /** Copies an image upside down, so that its first row becomes its last one. */
+    private static BufferedImage flipVertically(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        BufferedImage flipped = new BufferedImage(width, height, image.getType());
+        Graphics2D g = flipped.createGraphics();
+        try {
+            g.drawImage(image, 0, 0, width, height, 0, height, width, 0, null);
+        } finally {
+            g.dispose();
+        }
+        return flipped;
+    }
+
+    private static BufferedImage resize(BufferedImage image, int width, int height) {        BufferedImage scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = scaled.createGraphics();
         try {
             g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -223,6 +311,7 @@ public class TextureManager {
      */
     public void dispose(GL2 gl, String name) {
         groundTextureVersion.remove(name);
+        atlasImages.remove(name);
         if (textureCache.containsKey(name)) {
             textureCache.get(name).destroy(gl);
             textureCache.remove(name);
@@ -240,5 +329,6 @@ public class TextureManager {
         }
         textureCache.clear();
         groundTextureVersion.clear();
+        atlasImages.clear();
     }
 }
