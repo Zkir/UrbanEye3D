@@ -323,7 +323,7 @@ public class Scene {
                 //Here we are treading on very slippery path.
                 //  we need a clone of a node, with "additional" tags, to build/select the proper model,
                 //  but we should not  upload inferred tags back to main osm database,
-                //  The problem is that we do not know for sure, wheather the cloned node preserve all important properties,
+                //  The problem is that we do not know for sure, whether the cloned node preserve all important properties,
                 //  like coords and ID (which we use as a random seed), and also parents, which are used for orientation!
                 //  Test show they do, but will JOSM maintain it?
                 nodeEnriched.setKeys(tagsEnriched);
@@ -649,7 +649,8 @@ public class Scene {
                             if (treeRule != null && treeRule.properties.containsKey("billboard")) {
                                 texturePath = treeRule.properties.get("billboard");
                             }else {
-                                throw new RuntimeException("Unable to find proper tree model for forest " + primitive.getPrimitiveId() );
+                                UrbanEye3dPlugin.debugMsg("Unable to find proper tree model for forest " + primitive.getPrimitiveId() );
+                                continue;// we cannot generate tree without texture.
                             }
 
                             double width = baseHeight * 0.9;
