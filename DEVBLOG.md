@@ -1,5 +1,7 @@
 # Development History
 
+## Version 2.9.1 (Nov 10, 2026)
+
 ### Nov 8, 2026
 
 * The plugin now supports **relations with type=building**. 
