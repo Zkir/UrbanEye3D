@@ -79,12 +79,6 @@ area|z10-14[amenity=grave_yard] {
     fill-color: #aacbaf;
 }
 
-/*
-area|z10-[landuse=residential] {
-    fill-color: #dddddd;
-}
-*/
-
 area|z12-[landuse=garages] {
     fill-color: #999966;
     fill-opacity: 0.2;
@@ -181,24 +175,6 @@ area|z11-[landuse=village_green] {
     fill-color: #cfeca8;
 }
 
-/*
-area|z10-[landuse=retail] {
-    fill-color: #f1dada;
-}
-
-area|z15-[landuse=retail] {
-    color: red;
-    width: 0.3;
-}
- */
-
-/*
-area|z10-[landuse=industrial],
-area|z10-[landuse=railway] {
-    fill-color: #dfd1d6;
-}
-*/
-
 area|z10-11[power=station],
 area|z10-11[power=generator] {
     fill-color: #bbbbbb;
@@ -216,12 +192,6 @@ area|z13-[power=sub_station] {
     color: #555555;
     width: 0.4;
 }
-
-/*
-area|z10-[landuse=commercial] {
-    fill-color: #efc8c8;
-}
-*/
 
 area|z10-[landuse=brownfield],
 area|z10-[landuse=landfill],
@@ -1006,7 +976,7 @@ way|z15-[aeroway=taxiway][!bridge?][bridge!=viaduct] {
 way|z12-[aerialway=cable_car],
 way|z12-[aerialway=gondola],
 way|z12-[aerialway=goods] {
-    pattern-image: "mapcss-styles/symbols/cable_car.png";
+    repeat-image: "mapcss-styles/symbols/cable_car.png";
 	color: black;
 	width:1;
 }
@@ -1017,7 +987,7 @@ way|z12-[aerialway=t-bar],
 way|z12-[aerialway=j-bar],
 way|z12-[aerialway=platter],
 way|z12-[aerialway=rope_tow] {
-    pattern-image: "mapcss-styles/symbols/chair_lift.png";
+    repeat-image: "mapcss-styles/symbols/chair_lift.png";
 }
 
 /**
@@ -1446,107 +1416,6 @@ way|z15-[railway=tram][bridge=yes][!tunnel?]::tram {
     z-index: 17;
 }
 
-
-/**
- * Layer 'admin-01234'
- * Style 'admin-01234'
- */
-
-way|z4-6[admin_level=2]::admin-01234,
-way|z4-6[admin_level=3]::admin-01234 {
-    color: purple;
-    opacity: 0.2;
-    width: 0.6;
-}
-
-way|z7-9[admin_level=2]::admin-01234,
-way|z7-9[admin_level=3]::admin-01234 {
-    color: purple;
-    opacity: 0.2;
-    width: 2;
-}
-
-way|z10-[admin_level=2]::admin-01234 {
-    color: purple;
-    opacity: 0.1;
-    width: 6;
-}
-
-way|z10-[admin_level=3]::admin-01234 {
-    color: purple;
-    dashes: 4,2;
-    opacity: 0.1;
-    width: 5;
-}
-
-way|z4-6[admin_level=4]::admin-01234 {
-    color: purple;
-    dashes: 4,3;
-    opacity: 0.2;
-    width: 0.6;
-}
-
-way|z7-10[admin_level=4]::admin-01234 {
-    color: purple;
-    dashes: 4,3;
-    opacity: 0.2;
-    width: 1;
-}
-
-way|z11-[admin_level=4]::admin-01234 {
-    color: purple;
-    dashes: 4,3;
-    opacity: 0.2;
-    width: 3;
-}
-
-/**
- * Layer 'admin-5678'
- * Style 'admin-5678'
- */
-
-way|z11-[admin_level=5]::admin-5678 {
-    color: purple;
-    dashes: 6,3,2,3,2,3;
-    opacity: 0.3;
-    width: 2;
-}
-
-way|z11-[admin_level=6]::admin-5678 {
-    color: purple;
-    dashes: 6,3,2,3;
-    opacity: 0.3;
-    width: 2;
-}
-
-way|z12-[admin_level=8]::admin-5678,
-way|z12-[admin_level=7]::admin-5678 {
-    color: purple;
-    dashes: 5,2;
-    opacity: 0.3;
-    width: 1.5;
-}
-
-/**
- * Layer 'admin-other'
- * Style 'admin-other'
- */
-
-way|z13-[admin_level=10]::admin-other,
-way|z13-[admin_level=9]::admin-other {
-    color: purple;
-    dashes: 2,3;
-    opacity: 0.3;
-    width: 2;
-}
-
-way|z9-11[admin_level][admin_level>8] {
-    color: purple;
-    opacity: 0.2;
-    width: 1;
-}
-
-
 /**
  * Layer 'amenity-symbols-poly'
  * Style 'symbols'
@@ -1578,66 +1447,6 @@ area|z16-[natural=tree] {
     fill-color: #aed1a0;
 }
 
-/**
- * Layer 'power_line'
- * Style 'power_line'
- */
-
-/*
-way|z14-15[power=line] {
-    color: #777777;
-    width: 1;
-}
-
-way|z16-[power=line] {
-    color: #777777;
-    width: 1.5;
-}
-*/
-
-/**
- * Layer 'power_minorline'
- * Style 'power_minorline'
- */
-
-/*
-way|z16-[power=minor_line] {
-    color: #777777;
-    width: 0.5;
-}
-*/
-
-
-/**
- * Layer 'misc_boundaries'
- * Style 'boundary'
- */
-
-area|z7-9[boundary=national_park] {
-    fill-color: green;
-    fill-opacity: 0.05;
-    color: green;
-    dashes: 4,2;
-    opacity: 0.15;
-    width: 1.5;
-}
-
-area|z10-12[boundary=national_park] {
-    fill-color: green;
-    fill-opacity: 0.05;
-    color: green;
-    dashes: 6,2;
-    opacity: 0.15;
-    width: 3;
-}
-
-area|z13-[boundary=national_park] {
-    color: green;
-    dashes: 6,2;
-    opacity: 0.15;
-    width: 3;
-}
-
 
 /**
  * Layer 'theme_park'
@@ -1657,14 +1466,6 @@ area|z15-[tourism=theme_park] {
     opacity: 0.6;
     width: 2.5;
 }
-
-/*
-way[location=underground],
-way[level<0] {
-    opacity: 0.4;
-	fill-opacity: 0.4;
-} 
-*/
 
 /*
  * man_made=* 

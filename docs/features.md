@@ -197,7 +197,7 @@ Like buildings, these objects obey the `height` and `min_height` tags, and addit
 ### Bus Stops
 
 -   Nodes tagged with `highway=bus_stop` with `shelter=yes` are rendered using a pre-defined 3D model of a bus shelter.
--   **Automatic Alignment:** The bus stop model automatically rotates to face the nearest road (`highway=*`, excluding footways). If the `direction` tag is explicitly provided, it overrides this automatic behavior.
+-   **Automatic Alignment:** The bus stop model automatically rotates to face the nearest road (`highway=*`, excluding footways). 
 -   The model features semi-transparent glass panels and an integrated bench.
 
 ### Railway Objects

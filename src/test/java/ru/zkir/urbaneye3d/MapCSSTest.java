@@ -97,7 +97,7 @@ public class MapCSSTest {
         }
 
         // Find paths in fill-image: "..."; image: "..."; icon-image: "..."
-        Pattern imagePattern = Pattern.compile("(?:pattern-image|fill-image|icon-image|image)\\s*:\\s*['\"]([^'\"]*?)['\"]");
+        Pattern imagePattern = Pattern.compile("(?:repeat-image|fill-image|icon-image|image)\\s*:\\s*['\"]([^'\"]*?)['\"]");
         java.util.regex.Matcher imageMatcher = imagePattern.matcher(content);
         while (imageMatcher.find()) {
             resourcePaths.add(imageMatcher.group(1));

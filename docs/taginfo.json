@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20261025T184957Z",
+  "data_updated" : "20261114T235310Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -15,6 +15,62 @@
     "value" : "column",
     "description" : "Can be rendered as 3D object"
   }, {
+    "key" : "aerialway",
+    "value" : "cable_car",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aerialway",
+    "value" : "chair_lift",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aerialway",
+    "value" : "drag_lift",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aerialway",
+    "value" : "gondola",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aerialway",
+    "value" : "goods",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aerialway",
+    "value" : "j-bar",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aerialway",
+    "value" : "platter",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aerialway",
+    "value" : "rope_tow",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aerialway",
+    "value" : "t-bar",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aeroway",
+    "value" : "aerodrome",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aeroway",
+    "value" : "apron",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aeroway",
+    "value" : "helipad",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aeroway",
+    "value" : "runway",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "aeroway",
+    "value" : "taxiway",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
     "key" : "amenity",
     "value" : "bench",
     "description" : "A bench, rendered as a 3D model."
@@ -26,6 +82,18 @@
     "key" : "amenity",
     "value" : "drinking_water",
     "description" : "A drinking water point, rendered as a 3D model (water column)."
+  }, {
+    "key" : "amenity",
+    "value" : "grave_yard",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "amenity",
+    "value" : "parking",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "amenity",
+    "value" : "place_of_worship",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "amenity",
     "value" : "recycling",
@@ -57,14 +125,14 @@
   }, {
     "key" : "backrest",
     "value" : "no",
-    "description" : "Used in combination with amenity=bench to signify that the bench does not have a backrest"
+    "description" : "Used in combination with amenity=bench to select the 3D model without a backrest. "
   }, {
     "key" : "backrest",
     "value" : "yes",
-    "description" : "Used in combination with amenity=bench to signify whether the bench has a backrest "
+    "description" : "Used in combination with amenity=bench to select the 3D model with a backrest. "
   }, {
     "key" : "barrier",
-    "description" : "The feature is interpreted as barrier, in case it does not have the building tag."
+    "description" : "Barriers. Some values are rendered as 3D objects, others are used for 2D ground plane rendering."
   }, {
     "key" : "barrier",
     "value" : "block",
@@ -75,16 +143,36 @@
     "description" : "A sturdy, short, vertical post. Rendered as a red-and-white striped bollard."
   }, {
     "key" : "barrier",
+    "value" : "city_wall",
+    "description" : "Historic fortified walls. Rendered as 3D object."
+  }, {
+    "key" : "barrier",
+    "value" : "embankment",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "barrier",
     "value" : "entrance",
     "description" : "A gap in a linear barrier without a physical gate. Creates a physical gap in the parent linear barrier."
+  }, {
+    "key" : "barrier",
+    "value" : "fence",
+    "description" : "A fence: similar to a wall, but is thinner. Rendered as 3D object."
   }, {
     "key" : "barrier",
     "value" : "gate",
     "description" : "A swinging double-leaf gate. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier."
   }, {
     "key" : "barrier",
+    "value" : "hedge",
+    "description" : "A hedge: a line of closely spaced shrubs and trees, which form a barrier. Rendered as a green 3D object."
+  }, {
+    "key" : "barrier",
     "value" : "lift_gate",
     "description" : "A boom barrier. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier."
+  }, {
+    "key" : "barrier",
+    "value" : "wall",
+    "description" : "A wall: a freestanding structure, designed to restrict movement across a boundary. Rendered as 3D object."
   }, {
     "key" : "barrier",
     "value" : "wicket_gate",
@@ -109,6 +197,18 @@
     "key" : "brand",
     "description" : "Used to infer flag colour/texture for man_mad=flagpole objects"
   }, {
+    "key" : "bridge",
+    "value" : "aqueduct",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "bridge",
+    "value" : "viaduct",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "bridge",
+    "value" : "yes",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
     "key" : "building",
     "description" : "The main tag for identifying a building outline."
   }, {
@@ -119,7 +219,7 @@
     "description" : "An alternative tag for the total height of the building, including the roof, in meters."
   }, {
     "key" : "building:levels",
-    "description" : "The number of floors (levels) in the main part of the building. Used to calculate height if not specified explicitly."
+    "description" : "The number of floors (levels) of a building or a building part. Used to calculate height if not specified explicitly."
   }, {
     "key" : "building:material",
     "description" : "Specifies the material of the building's walls. Used for texturing and shading."
@@ -198,6 +298,10 @@
     "value" : "steps",
     "description" : "Produces steps-shaped structure or a flight of stairs. Should be used together with roof:shape=skillion"
   }, {
+    "key" : "building",
+    "value" : "no",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
     "key" : "circumference",
     "description" : "Used to estimate height of trees (natural=tree)"
   }, {
@@ -219,6 +323,10 @@
   }, {
     "key" : "direction",
     "description" : "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points."
+  }, {
+    "key" : "disused",
+    "value" : "yes",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "emergency",
     "value" : "fire_hydrant",
@@ -277,7 +385,7 @@
   }, {
     "key" : "highway",
     "value" : "bus_stop",
-    "description" : "A bus stop, rendered as a 3D model if it has shelter=yes."
+    "description" : "A bus stop, rendered as a 3D model."
   }, {
     "key" : "highway",
     "value" : "construction",
@@ -312,6 +420,10 @@
     "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "highway",
+    "value" : "platform",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
     "value" : "primary",
     "description" : "Used for 2D ground plane rendering"
   }, {
@@ -332,6 +444,10 @@
     "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "highway",
+    "value" : "rest_area",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
     "value" : "road",
     "description" : "Used for 2D ground plane rendering"
   }, {
@@ -345,6 +461,10 @@
   }, {
     "key" : "highway",
     "value" : "service",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "highway",
+    "value" : "services",
     "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "highway",
@@ -381,6 +501,14 @@
   }, {
     "key" : "highway",
     "value" : "unclassified",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "historic",
+    "value" : "castle_walls",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "historic",
+    "value" : "citywalls",
     "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "historic",
@@ -422,8 +550,104 @@
     "description" : "A street lamp with a standard straight mast."
   }, {
     "key" : "landuse",
+    "value" : "allotments",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "basin",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "brownfield",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "cemetery",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "conservation",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "construction",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "farm",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "farmland",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "farmyard",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "field",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "flowerbed",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
     "value" : "forest",
     "description" : "A managed forest area. Automatically populated with 3D tree objects based on the forest density setting."
+  }, {
+    "key" : "landuse",
+    "value" : "garages",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "grass",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "grave_yard",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "greenfield",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "landfill",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "meadow",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "orchard",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "quarry",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "recreation_ground",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "reservoir",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "village_green",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "vineyard",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "landuse",
+    "value" : "water",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "lane_markings",
     "value" : "no",
@@ -441,6 +665,10 @@
     "description" : "Used to select an appropriate texture/model for trees."
   }, {
     "key" : "leaf_type",
+    "value" : "mixed",
+    "description" : "Indicates a mixed forest with both needleleaved and broadleaved trees. Not supported for trees."
+  }, {
+    "key" : "leaf_type",
     "value" : "needleleaved",
     "description" : "Used to select an appropriate texture/model for trees."
   }, {
@@ -449,12 +677,56 @@
     "description" : "Used to select an appropriate texture/model for trees."
   }, {
     "key" : "leisure",
+    "value" : "common",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "leisure",
+    "value" : "garden",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "leisure",
+    "value" : "golf_course",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "leisure",
+    "value" : "marina",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "leisure",
+    "value" : "park",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "leisure",
     "value" : "picnic_table",
     "description" : "A picnic table, rendered as a 3D model."
   }, {
     "key" : "leisure",
     "value" : "pitch",
     "description" : "A sports pitch. If sport=soccer, tennis, volleyball, badminton or futsal, characteristic markings are rendered on the ground texture."
+  }, {
+    "key" : "leisure",
+    "value" : "playground",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "leisure",
+    "value" : "recreation_ground",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "leisure",
+    "value" : "sports_centre",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "leisure",
+    "value" : "stadium",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "leisure",
+    "value" : "swimming_pool",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "leisure",
+    "value" : "track",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "length",
     "description" : "Length of the long side of man_made=street_cabinet features. Direction is along this side."
@@ -467,8 +739,20 @@
     "value" : "underground",
     "description" : "An object is located underground. Can be ignored for 3D rendering"
   }, {
+    "key" : "lock",
+    "value" : "yes",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
     "key" : "man_made",
-    "description" : "Used to identify man-made objects"
+    "description" : "Used to identify man-made objects. If height is specified, massing model is created"
+  }, {
+    "key" : "man_made",
+    "value" : "breakwater",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "man_made",
+    "value" : "bridge",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "man_made",
     "value" : "chimney",
@@ -487,8 +771,16 @@
     "description" : "A cross, often rendered as a wayside cross."
   }, {
     "key" : "man_made",
+    "value" : "cutline",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "man_made",
     "value" : "flagpole",
     "description" : "A flagpole rendered with a procedural mast and a waving flag."
+  }, {
+    "key" : "man_made",
+    "value" : "groyne",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "man_made",
     "value" : "manhole",
@@ -499,12 +791,28 @@
     "description" : "A mast is a vertical structure built to hold, for example, antennas"
   }, {
     "key" : "man_made",
+    "value" : "no",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "man_made",
+    "value" : "pier",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "man_made",
+    "value" : "storage_tank",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "man_made",
     "value" : "street_cabinet",
     "description" : "A utility cabinet for street infrastructure (electrical, telecom). Box-like structure respecting width/length/height tags."
   }, {
     "key" : "man_made",
     "value" : "tower",
     "description" : "Can be rendered as 3D object"
+  }, {
+    "key" : "man_made",
+    "value" : "utility_pole",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "man_made",
     "value" : "water_tower",
@@ -562,8 +870,72 @@
     "description" : "Used to infer wind turbine hub height and rotor diameter "
   }, {
     "key" : "natural",
+    "value" : "bay",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "beach",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "coastline",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "desert",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "field",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "glacier",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "grassland",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "heath",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "hedge",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "lake",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "land",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "marsh",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "mud",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "sand",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "scrub",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
     "value" : "shrub",
     "description" : "A single shrub or bush, rendered as a 3D billboard model."
+  }, {
+    "key" : "natural",
+    "value" : "shrubbery",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "natural",
     "value" : "spring",
@@ -572,6 +944,14 @@
     "key" : "natural",
     "value" : "tree",
     "description" : "A single tree, rendered as a 3D billboard model."
+  }, {
+    "key" : "natural",
+    "value" : "water",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "natural",
+    "value" : "wetland",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "natural",
     "value" : "wood",
@@ -596,6 +976,10 @@
     "key" : "operator",
     "description" : "Used to infer flag colour/texture for man_mad=flagpole objects"
   }, {
+    "key" : "parking",
+    "value" : "underground",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
     "key" : "place",
     "description" : "place=* are NOT rendered and are EXCLUDED from multipolygon automatic download to save performance"
   }, {
@@ -616,20 +1000,92 @@
     "description" : "A standard power pole support."
   }, {
     "key" : "power",
+    "value" : "station",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "power",
+    "value" : "sub_station",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "power",
     "value" : "tower",
     "description" : "A large lattice power tower support."
   }, {
     "key" : "public_transport",
     "value" : "platform",
-    "description" : "A public transport platform. Rendered as a bus stop model if applicable."
+    "description" : "A place where passengers board or alight from public transport. Rendered as a bus stop sign or as a sheltered stop."
   }, {
     "key" : "pump",
     "value" : "no",
     "description" : "Used with water wells to trigger a 'traditional' windlass well model."
   }, {
     "key" : "railway",
+    "value" : "abandoned",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
     "value" : "buffer_stop",
     "description" : "A railway buffer stop, rendered as a 3D model."
+  }, {
+    "key" : "railway",
+    "value" : "construction",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "disused",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "funicular",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "light_rail",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "miniature",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "monorail",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "narrow_gauge",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "platform",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "preserved",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "rail",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "siding",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "spur",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "station",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "subway",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "railway",
+    "value" : "tram",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "recycling_type",
     "value" : "centre",
@@ -638,6 +1094,14 @@
     "key" : "recycling_type",
     "value" : "container",
     "description" : "Used with amenity=recycling to specify that the recycling point is a container."
+  }, {
+    "key" : "religion",
+    "value" : "christian",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "religion",
+    "value" : "jewish",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "roof:colour",
     "description" : "Specifies the color of the roof."
@@ -727,7 +1191,7 @@
   }, {
     "key" : "roof:shape",
     "value" : "apse_gabled",
-    "description" : "A gabled roof with a semicircular apse at one end. The apex of the apse is located above the middle of the longest side of the base."
+    "description" : "A gabled apse. The apex of the apse is located above the middle of the longest side of the base."
   }, {
     "key" : "roof:shape",
     "value" : "cone",
@@ -775,7 +1239,7 @@
   }, {
     "key" : "roof:shape",
     "value" : "mansard",
-    "description" : "A four-sided gambrel-style hip roof with two slopes on each side. Currently only supported for quadrangular building outlines."
+    "description" : "A four-sided gambrel-style hip roof with two slopes on each side. Supported on arbitrary outlines."
   }, {
     "key" : "roof:shape",
     "value" : "many",
@@ -807,7 +1271,7 @@
   }, {
     "key" : "roof:shape",
     "value" : "side_hipped",
-    "description" : "A roof hipped from one side and gabled from the other. Orientation is controlled by `roof:direction`. Supported for quadrangular footprints only."
+    "description" : "A roof hipped from one side and gabled from the other. Orientation is controlled by `roof:direction`."
   }, {
     "key" : "roof:shape",
     "value" : "skillion",
@@ -815,6 +1279,18 @@
   }, {
     "key" : "rotor:diameter",
     "description" : "Specifies the rotor diameter for wind generators"
+  }, {
+    "key" : "service",
+    "value" : "siding",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "service",
+    "value" : "spur",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "service",
+    "value" : "yard",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "shape",
     "value" : "frustum",
@@ -909,8 +1385,28 @@
     "description" : "Certain artwork types are rendered as 3D models."
   }, {
     "key" : "tourism",
+    "value" : "camp_site",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "tourism",
+    "value" : "caravan_site",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "tourism",
     "value" : "information",
     "description" : "General tourism information point."
+  }, {
+    "key" : "tourism",
+    "value" : "picnic_site",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "tourism",
+    "value" : "theme_park",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "tourism",
+    "value" : "zoo",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "tower:type",
     "value" : "communication",
@@ -937,7 +1433,7 @@
   }, {
     "key" : "type",
     "value" : "building",
-    "description" : "Members of building relation can be downloaded automatically, to prevent incomplete buildings"
+    "description" : "Used to match the outline of a building with building:parts. Members of a building relation can be downloaded automatically, to prevent incomplete buildings"
   }, {
     "key" : "type",
     "value" : "multipolygon",
@@ -950,6 +1446,54 @@
     "key" : "wall",
     "value" : "yes",
     "description" : "Used to override building:part=roof. For building:part=roof + wall=yes walls are still created"
+  }, {
+    "key" : "waterway",
+    "value" : "canal",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "dam",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "derelict_canal",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "ditch",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "dock",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "drain",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "mill_pond",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "river",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "riverbank",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "stream",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "wadi",
+    "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "waterway",
+    "value" : "weir",
+    "description" : "Used for 2D ground plane rendering"
   }, {
     "key" : "width",
     "description" : "Width of the feature. Primarily used for barriers"

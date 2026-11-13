@@ -73,30 +73,34 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("amenity=bench", "A bench, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("bench=yes", "Indicates the presence of a bench. Used for example on highway=bus_stop nodes.");
         TAG_DESCRIPTIONS.put("bench=no", "Used to explicitly indicate the absence of a bench, for example on a bus stop.");
-        TAG_DESCRIPTIONS.put("backrest=no", "Used in combination with amenity=bench to signify that the bench does not have a backrest");
-        TAG_DESCRIPTIONS.put("backrest=yes", "Used in combination with amenity=bench to signify whether the bench has a backrest ");
+        TAG_DESCRIPTIONS.put("backrest=no", "Used in combination with amenity=bench to select the 3D model without a backrest. ");
+        TAG_DESCRIPTIONS.put("backrest=yes", "Used in combination with amenity=bench to select the 3D model with a backrest. ");
         TAG_DESCRIPTIONS.put("amenity=waste_basket", "A waste basket, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("amenity=bicycle_parking", "A bicycle parking, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("bicycle_parking=stands", "Stands (staple/U-rack) type of bicycle parking. This is the default type in UrbanEye3D.");
         TAG_DESCRIPTIONS.put("bicycle_parking=floor", "Since this is just a piece of ground without any rack/stand, such bicycle parkings are EXCLUDED from 3D rendering.");
         TAG_DESCRIPTIONS.put("leisure=picnic_table", "A picnic table, rendered as a 3D model.");
-        TAG_DESCRIPTIONS.put("barrier", "The feature is interpreted as barrier, in case it does not have the building tag.");
+        TAG_DESCRIPTIONS.put("barrier", "Barriers. Some values are rendered as 3D objects, others are used for 2D ground plane rendering.");
         TAG_DESCRIPTIONS.put("barrier=block", "A concrete rectangular block, often used to prevent vehicle access.");
         TAG_DESCRIPTIONS.put("barrier=bollard", "A sturdy, short, vertical post. Rendered as a red-and-white striped bollard.");
         TAG_DESCRIPTIONS.put("barrier=gate", "A swinging double-leaf gate. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier.");
         TAG_DESCRIPTIONS.put("barrier=entrance", "A gap in a linear barrier without a physical gate. Creates a physical gap in the parent linear barrier.");
         TAG_DESCRIPTIONS.put("barrier=lift_gate", "A boom barrier. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier.");
         TAG_DESCRIPTIONS.put("barrier=wicket_gate", "A door in a barrier. Rendered as a 3D model, and also creates a physical gap in the parent linear barrier.");
+        TAG_DESCRIPTIONS.put("barrier=wall", "A wall: a freestanding structure, designed to restrict movement across a boundary. Rendered as 3D object.");
+        TAG_DESCRIPTIONS.put("barrier=hedge", "A hedge: a line of closely spaced shrubs and trees, which form a barrier. Rendered as a green 3D object.");
+        TAG_DESCRIPTIONS.put("barrier=fence", "A fence: similar to a wall, but is thinner. Rendered as 3D object.");
+        TAG_DESCRIPTIONS.put("barrier=city_wall", "Historic fortified walls. Rendered as 3D object.");
         TAG_DESCRIPTIONS.put("building", "The main tag for identifying a building outline.");
         TAG_DESCRIPTIONS.put("building:part", "Identifies a part of a building, which is rendered as a separate 3D element.");
         TAG_DESCRIPTIONS.put("building:colour", "Specifies the color of the building's walls.");
         TAG_DESCRIPTIONS.put("building:material", "Specifies the material of the building's walls. Used for texturing and shading.");
         TAG_DESCRIPTIONS.put("building:height", "An alternative tag for the total height of the building, including the roof, in meters.");
-        TAG_DESCRIPTIONS.put("building:levels", "The number of floors (levels) in the main part of the building. Used to calculate height if not specified explicitly.");
+        TAG_DESCRIPTIONS.put("building:levels", "The number of floors (levels) of a building or a building part. Used to calculate height if not specified explicitly.");
         TAG_DESCRIPTIONS.put("building:min_level", "The number of floors to offset the building from the ground. Used to calculate min_height if not specified explicitly.");
         TAG_DESCRIPTIONS.put("colour", "Specifies the color of the object, especially barrier or man-made.");
         TAG_DESCRIPTIONS.put("height", "The total height of the building, including the roof, in meters.");
-        TAG_DESCRIPTIONS.put("highway=bus_stop", "A bus stop, rendered as a 3D model if it has shelter=yes.");
+        TAG_DESCRIPTIONS.put("highway=bus_stop", "A bus stop, rendered as a 3D model.");
         TAG_DESCRIPTIONS.put("shelter=yes", "Indicates that a bus stop has a shelter, triggering appropriate 3D model rendering.");
         TAG_DESCRIPTIONS.put("shelter=no", "Indicates that a bus stop does NOT have a shelter, triggering appropriate 3D model rendering.");
         TAG_DESCRIPTIONS.put("highway=street_lamp", "A single street lamp, rendered as a 3D model.");
@@ -127,7 +131,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("memorial=stolperstein", "A Stolperstein (stumbling stone) memorial, rendered as a small concrete block with a brass top.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=pillar", "Traditional fire hydrant shape. Also the default one.");
         TAG_DESCRIPTIONS.put("fire_hydrant:type=underground", "Underground hydrants are NOT rendered!");
-        TAG_DESCRIPTIONS.put("public_transport=platform", "A public transport platform. Rendered as a bus stop model if applicable.");
+        TAG_DESCRIPTIONS.put("public_transport=platform", "A place where passengers board or alight from public transport. Rendered as a bus stop sign or as a sheltered stop.");
         TAG_DESCRIPTIONS.put("indoor=yes", "Indicates that an object is located indoors. Such objects are not rendered in the 3D view.");
         TAG_DESCRIPTIONS.put("tourism=information", "General tourism information point.");
         TAG_DESCRIPTIONS.put("information=board", "An information board, rendered as a 3D model.");
@@ -152,6 +156,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("leaf_type=broadleaved", "Used to select an appropriate texture/model for trees.");
         TAG_DESCRIPTIONS.put("leaf_type=needleleaved", "Used to select an appropriate texture/model for trees.");
         TAG_DESCRIPTIONS.put("leaf_type=palm", "Used to select an appropriate texture/model for trees.");
+        TAG_DESCRIPTIONS.put("leaf_type=mixed", "Indicates a mixed forest with both needleleaved and broadleaved trees. Not supported for trees.");
         TAG_DESCRIPTIONS.put("roof:colour", "Specifies the color of the roof.");
         TAG_DESCRIPTIONS.put("direction", "Specifies the direction an object is facing (e.g., for benches), in degrees or cardinal points.");
         TAG_DESCRIPTIONS.put("roof:direction", "Specifies the direction or orientation of the roof, typically in degrees. Used for directional roof shapes like 'skillion'.");
@@ -164,7 +169,7 @@ public class TagInfoGeneratorTest {
 
         TAG_DESCRIPTIONS.put("step:height", "Defines the height of each individual step for building:part=steps. 0.16 is used as default ");
         TAG_DESCRIPTIONS.put("type=multipolygon", "Members of a multipolygon relation can be downloaded automatically to prevent broken geometry");
-        TAG_DESCRIPTIONS.put("type=building", "Members of building relation can be downloaded automatically, to prevent incomplete buildings");
+        TAG_DESCRIPTIONS.put("type=building", "Used to match the outline of a building with building:parts. Members of a building relation can be downloaded automatically, to prevent incomplete buildings");
 
         TAG_DESCRIPTIONS.put("width", "Width of the feature. Primarily used for barriers");
         TAG_DESCRIPTIONS.put("length", "Length of the long side of man_made=street_cabinet features. Direction is along this side.");
@@ -185,7 +190,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("building:part=roof", "Produces a floating roof without walls. Could be used to model canopies, awnings, or visors." );
         TAG_DESCRIPTIONS.put("building:part=steps", "Produces steps-shaped structure or a flight of stairs. Should be used together with roof:shape=skillion" );
 
-        TAG_DESCRIPTIONS.put("roof:shape=apse_gabled", "A gabled roof with a semicircular apse at one end. The apex of the apse is located above the middle of the longest side of the base.");
+        TAG_DESCRIPTIONS.put("roof:shape=apse_gabled", "A gabled apse. The apex of the apse is located above the middle of the longest side of the base.");
         TAG_DESCRIPTIONS.put("shape=star", "A star-shaped object, used for some types of memorials.");
         TAG_DESCRIPTIONS.put("roof:shape=cone", "A synonym for pyramidal. Rises to a single point. To generate a smooth cone, the building outline should be a circle with a sufficient number of nodes.");
         TAG_DESCRIPTIONS.put("roof:shape=cross_gabled" , "Two gabled roof sections at right angles. Only supported for quadrangular footprints. `roof:orientation` and `roof:direction` have no effect.");
@@ -197,11 +202,11 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("roof:shape=half-dome" , "Half of a dome, with the apex located above the middle of the longest side of the base. Useful for orthodox church apses.");
         TAG_DESCRIPTIONS.put("roof:shape=half-hipped" , "A mix of gabled and hipped styles. Orientation can be set with `roof:orientation`. Only supported for quadrangular building outlines.");
         TAG_DESCRIPTIONS.put("roof:shape=hipped" , "All sides slope down to the walls. Generated using a straight skeleton algorithm, which can create complex shapes for non-convex buildings.");
-        TAG_DESCRIPTIONS.put("roof:shape=mansard" , "A four-sided gambrel-style hip roof with two slopes on each side. Currently only supported for quadrangular building outlines.");
+        TAG_DESCRIPTIONS.put("roof:shape=mansard" , "A four-sided gambrel-style hip roof with two slopes on each side. Supported on arbitrary outlines.");
         TAG_DESCRIPTIONS.put("roof:shape=onion" , "An onion-shaped dome. The building outline defines the tholobate (drum), and the onion dome is generated on top of it, getting wider than the base.");
         TAG_DESCRIPTIONS.put("roof:shape=pyramidal", "A roof that rises to a single point, generated from an arbitrary base outline. `roof:orientation` and `roof:direction` have no effect.");
         TAG_DESCRIPTIONS.put("roof:shape=round" , "A semi-cylindrical or hangar-like roof. Its orientation can be controlled with the `roof:orientation` tag.");
-        TAG_DESCRIPTIONS.put("roof:shape=side_hipped" , "A roof hipped from one side and gabled from the other. Orientation is controlled by `roof:direction`. Supported for quadrangular footprints only.");
+        TAG_DESCRIPTIONS.put("roof:shape=side_hipped" , "A roof hipped from one side and gabled from the other. Orientation is controlled by `roof:direction`.");
         TAG_DESCRIPTIONS.put("roof:shape=saltbox", "Asymmetrical gabled roof, as described in osm-wiki, but both front and back eaves have equal height.");
         TAG_DESCRIPTIONS.put("roof:shape=double_saltbox", "A symmetrical roof with two slopes on each side and a flat top");
         TAG_DESCRIPTIONS.put("roof:shape=quadruple_saltbox", "A flat-topped hipped roof");
@@ -209,7 +214,7 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("roof:shape=side_half-hipped", "A roof half-hipped from one side and gabled from the other. Orientation is controlled by `roof:direction`. Supported for quadrangular footprints only.");
         TAG_DESCRIPTIONS.put("roof:shape=many", "Interpreted as hipped for buildings (as better than flat), but not for building parts");
 
-        TAG_DESCRIPTIONS.put("man_made", "Used to identify man-made objects");
+        TAG_DESCRIPTIONS.put("man_made", "Used to identify man-made objects. If height is specified, massing model is created");
         TAG_DESCRIPTIONS.put("man_made=communications_tower", "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=cooling_tower",        "Can be rendered as 3D object");
         TAG_DESCRIPTIONS.put("man_made=manhole",              "A manhole cover, rendered as a tiny black dot on the 2D ground plane.");
@@ -270,6 +275,7 @@ public class TagInfoGeneratorTest {
         //add values from 2D mapCSS.
         HashSet<ParsedTag> usedTagsMapCSS = new HashSet<>();
         extractTagsFromMapCSS(usedTagsMapCSS, "/mapcss-styles/urbaneye2d.roads.mapcss");
+        extractTagsFromMapCSS(usedTagsMapCSS, "/mapcss-styles/urbaneye2d.general.mapcss");
         for (var usedTag: usedTagsMapCSS){
             if (!TAG_DESCRIPTIONS.containsKey(usedTag.originalKey())){
                 TAG_DESCRIPTIONS.put(usedTag.originalKey(), "Used for 2D ground plane rendering" );
@@ -297,7 +303,7 @@ public class TagInfoGeneratorTest {
     }
 
     /** This list contains keys for which reporting of each particular value is not required.*/
-    final Set<String> KEYS_WITH_UNDOCUMENTED_VALUES = Set.of("roof:direction", "barrier");
+    final Set<String> KEYS_WITH_UNDOCUMENTED_VALUES = Set.of("roof:direction");
 
     @Test
     void testGenerateAndValidateTagInfo() throws IOException {
@@ -316,8 +322,8 @@ public class TagInfoGeneratorTest {
         extractTagsFromFlagRules(usedTags, "/data/flag_rules.json");
         extractTagsFromFlagRules(usedTags, "/data/turbine_rules.json");
 
-        // this file is not parsed properly, because it contains too many comments, which are still fetch by RE
-        //extractTagsFromMapCSS(usedTags, "/mapcss-styles/urbaneye2d.general.mapcss");
+        // Both 2D styles are parsed.
+        extractTagsFromMapCSS(usedTags, "/mapcss-styles/urbaneye2d.general.mapcss");
         extractTagsFromMapCSS(usedTags, "/mapcss-styles/urbaneye2d.roads.mapcss");
 
         //Also add tags from Materials enum
@@ -448,6 +454,11 @@ public class TagInfoGeneratorTest {
                 Matcher tagMatcher = tagPattern.matcher(content);
                 while (tagMatcher.find()) {
                     String key = tagMatcher.group(1).trim();
+                    // MapCSS also tests key presence ("[bridge?]", "[!tunnel?]") and compares values
+                    // ("[level<0]"). Such selectors are not OSM tags and must not be documented.
+                    if (key.indexOf('?') >= 0 || key.indexOf('<') >= 0 || key.indexOf('>') >= 0) {
+                        continue;
+                    }
                     String value = null;
                     if (tagMatcher.group(3) != null) value = tagMatcher.group(3);
                     else if (tagMatcher.group(4) != null) value = tagMatcher.group(4);

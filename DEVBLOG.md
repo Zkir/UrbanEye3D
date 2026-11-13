@@ -1,5 +1,15 @@
 # Development History
 
+## Nov 15, 2026
+
+* The report of this project on [taginfo](https://taginfo.openstreetmap.org/projects/urbaneye3d#tags) has been updated substantially.
+  Such reports help OSM users and editors understand which tags a project uses, and roughly how it uses them.
+
+    * The report grew from 248 to 384 entries, because the tags of the plugin's own map style for the ground plane are now reported as well.
+  Nine new tag keys appeared (`aerialway`, `aeroway`, `bridge`, `disused`, `lock`, `parking`, `religion`, `service`, `waterway`),
+  and 136 new tag values (`landuse=*`, `natural=*`, `railway=*`, `amenity=*`, `waterway=*`, `barrier=*` and others).
+
+
 ## Version 2.9.1 (Nov 10, 2026)
 
 ### Nov 8, 2026
