@@ -71,6 +71,11 @@ public class BuildingRecipe {
             roofShape = "flat";
         }
 
+        if (roofShape.equals("double_gabled")){
+            roofShape = "gabled";
+            roofDirectionStr = null;
+        }
+
         if (roofHeight > height - minHeight) {
             roofHeight = height - minHeight;
         }

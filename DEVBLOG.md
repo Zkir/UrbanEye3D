@@ -9,6 +9,11 @@
   Nine new tag keys appeared (`aerialway`, `aeroway`, `bridge`, `disused`, `lock`, `parking`, `religion`, `service`, `waterway`),
   and 136 new tag values (`landuse=*`, `natural=*`, `railway=*`, `amenity=*`, `waterway=*`, `barrier=*` and others).
 
+### Nov 14, 2026
+
+* Buildings tagged `roof:shape=double_gabled` now get a pitched roof instead of a flat one: such a roof is rendered like an ordinary `gabled` roof. 
+It's not a full support for the `roof:shape=double_gabled` tag, but better then nothing. The `roof:direction` tag does not influence it, because the meaning of that tag for such roof is not defined.
+
 
 ## Version 2.9.1 (Nov 10, 2026)
 
