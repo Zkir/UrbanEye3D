@@ -7,6 +7,7 @@ import org.openstreetmap.josm.spi.preferences.Config;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.prep.PreparedGeometry;
 import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
+import ru.zkir.urbaneye3d.meshers.buildingpassage.BuildingPassage;
 import ru.zkir.urbaneye3d.utils.*;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
@@ -192,6 +193,17 @@ public class Scene {
         allCandidates.addAll(buildings);
         allCandidates.addAll(buildingParts);
 
+        /*
+         * Ways that go through a building (tunnel=building_passage).
+         * Each of them cuts a real opening in the building it crosses (see PassageCutter).
+         */
+        List<Way> passages = new ArrayList<>();
+        for (Way way : dataSet.getWays()) {
+            if (BuildingPassage.isPassage(way) && !way.isIncomplete()) {
+                passages.add(way);
+            }
+        }
+
         //Index of the rendered buildings/parts, used to place point objects tagged with location=roof.
         //Note that buildings which are not rendered (because they have building parts) are not indexed as well.
         BuildingSpatialIndex buildingSpatialIndex = new BuildingSpatialIndex();
@@ -215,7 +227,7 @@ public class Scene {
                     //TODO: this is not exactly correct. primitiveOrigin should be adjusted also (like blender ORIGIN_TO_GEOMETRY)
                     Contour partContour = new Contour(outerRing, mainContour.mode);
 
-                    var element = RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, partContour, primitive.getInterestingTags(), parentTags);
+                    var element = RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, partContour, primitive.getInterestingTags(), parentTags, passages);
                     if (element != null) {
                         newElements.add(element);
                         element.isSelected = primitive.isSelected();
@@ -224,7 +236,7 @@ public class Scene {
                 }
             } else {
                 // Single outer ring, or multiple outer rings with inner rings, or a Way
-                var element = RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, mainContour, primitive.getInterestingTags(), parentTags);
+                var element = RenderableElement.createBuildingOrPart(primitive, primitiveOrigin, mainContour, primitive.getInterestingTags(), parentTags, passages);
                 if (element != null) {
                     newElements.add(element);
                     element.isSelected = primitive.isSelected();

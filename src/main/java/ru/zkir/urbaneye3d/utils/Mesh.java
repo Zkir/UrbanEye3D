@@ -206,7 +206,7 @@ public class Mesh {
         invalidateBBOX();
     }
 
-    void invalidateBBOX(){
+    public void invalidateBBOX(){
         minBounds = null;
         maxBounds = null;
         vertexCache.clear();

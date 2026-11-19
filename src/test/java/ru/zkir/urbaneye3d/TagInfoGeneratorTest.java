@@ -174,6 +174,10 @@ public class TagInfoGeneratorTest {
         TAG_DESCRIPTIONS.put("width", "Width of the feature. Primarily used for barriers");
         TAG_DESCRIPTIONS.put("length", "Length of the long side of man_made=street_cabinet features. Direction is along this side.");
         TAG_DESCRIPTIONS.put("maxwidth:physical", "Physical width limit of a passage or entrance. Used to define gap width in linear barriers.");
+        TAG_DESCRIPTIONS.put("maxwidth", "Physical width limit of a feature. Used as a fallback for the width of a building passage.");
+        TAG_DESCRIPTIONS.put("maxheight", "Physical height limit of a feature. Sets the height of the arch of a building passage.");
+        TAG_DESCRIPTIONS.put("maxheight:physical", "Physical height limit of a feature. Preferred over maxheight for the height of the arch of a building passage.");
+        TAG_DESCRIPTIONS.put("tunnel=building_passage", "A road, a footway or a railway going through a building. An arch-shaped opening is cut in the walls and in the floor of the building.");
         TAG_DESCRIPTIONS.put("hyperboloid:top_rate", "Defines the relative width of the top of the structure compared to its base");
         TAG_DESCRIPTIONS.put("hyperboloid:middle_rate", "Defines the relative width of the narrowest part (the \"waist\") of the structure, as a ratio of the base width");
 

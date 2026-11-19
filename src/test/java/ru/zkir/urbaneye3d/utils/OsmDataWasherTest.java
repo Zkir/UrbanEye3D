@@ -1,8 +1,6 @@
-package ru.zkir.urbaneye3d;
+package ru.zkir.urbaneye3d.utils;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.zkir.urbaneye3d.utils.OsmDataWasher;
 
 import static org.junit.jupiter.api.Assertions.*;
 

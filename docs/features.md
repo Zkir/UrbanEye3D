@@ -49,6 +49,7 @@ The following tags are used to determine the dimensions of the building:
 - `roof:direction`: Specifies the direction for certain roof types, like `skillion`. Can be a numerical value (0-360) or a cardinal direction (N, E, S, W as well as NE, SW, etc.).
 - `roof:orientation`: Defines the orientation for roofs like `gabled` and `saltbox` (e.g., `along` or `across`).
 
+
 ## Supported Roof Shapes (`roof:shape`)
 
 Below is a list of all supported `roof:shape` values. The [S3DB standard](https://wiki.openstreetmap.org/wiki/Simple_3D_Buildings) is supported, as well as several additional roof shapes.
@@ -95,6 +96,19 @@ This value is used to model flights of stairs. It does not have an effect on its
 
 -   This tag works in conjunction with `roof:shape=skillion`. This approach ensures backward compatibility, as other 3D applications will render a sloped ramp, which is a good fallback for stairs. Use `roof:direction` to set the direction of the flight of stairs.
 -   The height of each individual step can be controlled with the `step:height` tag. If not provided, a default value of **0.16 meters** is used.
+
+### Building Passages
+
+A way tagged `tunnel=building_passage` cuts a rectangular-shaped passage through every building (or building part) the way crosses:
+
+![building passage](images/building_passage.png)
+
+* The width of a passage can be affected by the `width` and `lanes` tags (These are well-established tags for roads, which is 
+essentially what 'building passages'are.
+
+* The height of a passage can be specified using the `maxheight` tag. This tag appears to be the best option for now and is already in use for tunnels.
+
+
 
 ## Supported Building Shapes (`shape`)
 

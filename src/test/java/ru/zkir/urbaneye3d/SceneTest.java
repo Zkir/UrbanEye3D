@@ -288,11 +288,19 @@ class SceneTest {
         // number of objects should match
         assertTrue(NumberOfObjects >= MIN_OBJECTS && NumberOfObjects <= MAX_OBJECTS, "Number of objects " + NumberOfObjects + " is NOT in the reasonable range " + MIN_OBJECTS + ".." + MAX_OBJECTS);
 
-        //for (var re : scene.renderableElements) {
-        //    RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, re.primitiveId.toString());
-        //}
-    }
+        long NumberOfBuildingPassagesCut =    scene.renderableElements.stream().filter(e -> e.building_passages > 0).count();
+        long NumberOfBuildingPassagesFailed = scene.renderableElements.stream().filter(e -> e.building_passages < 0).count();
+        assertEquals(109, NumberOfBuildingPassagesCut);
+        assertEquals(0, NumberOfBuildingPassagesFailed);
 
+        //Some kind of hack: topology test for parts with building passage only.
+        for (var re : scene.renderableElements) {
+            if (re.building_passages>0) {
+                //the name of the object must be in the message, otherwise a bad cut cannot be found in the scene
+                RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(), re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, re.primitiveId + " some roof shape");
+            }
+        }
+    }
 
     /**
      * Here we test that buildings and building parts do not disappear suddenly.

@@ -54,7 +54,7 @@ class RoofGeneratorTopologyTest {
         return base;
     }
 
-    private Contour createRectangularBaseWithHole(double outerWidth, double outerDepth, double innerWidth, double innerDepth) {
+    public static Contour createRectangularBaseWithHole(double outerWidth, double outerDepth, double innerWidth, double innerDepth) {
         ArrayList<Point2D> outer = new ArrayList<>();
         outer.add(new Point2D(-outerWidth / 2, -outerDepth / 2));
         outer.add(new Point2D(outerWidth / 2, -outerDepth / 2));
@@ -74,8 +74,12 @@ class RoofGeneratorTopologyTest {
         return contour;
     }
     public static BuildingRecipe createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height, Double hyperboloidTopRate, Double hyperboloidMiddleRate) {
+        return createTestBuilding(new Contour(basePoints, "XY"), roofShape, minHeight, roofHeight, height, hyperboloidTopRate, hyperboloidMiddleRate);
+    }
+
+    /** The same test building, but for a contour that may have holes (a courtyard, an atrium). */
+    public static BuildingRecipe createTestBuilding(Contour contour, RoofShapes roofShape, double minHeight, double roofHeight, double height, Double hyperboloidTopRate, Double hyperboloidMiddleRate) {
         LatLon origin = new LatLon(55,37);
-        Contour contour = new Contour(basePoints, "XY");
         Map<String, String> tags = new HashMap<>();
         tags.put("building:part","yes");
         tags.put("height", Double.toString(height));
@@ -96,6 +100,10 @@ class RoofGeneratorTopologyTest {
 
     public static BuildingRecipe createTestBuilding(ArrayList<Point2D> basePoints, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
        return createTestBuilding(basePoints, roofShape, minHeight, roofHeight, height, null, null);
+    }
+
+    public static BuildingRecipe createTestBuilding(Contour contour, RoofShapes roofShape, double minHeight, double roofHeight, double height) {
+       return createTestBuilding(contour, roofShape, minHeight, roofHeight, height, null, null);
     }
 
     public static void assertNoVertexDuplicates(Mesh mesh, String mesherName){

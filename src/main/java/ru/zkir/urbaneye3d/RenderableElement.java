@@ -5,10 +5,13 @@ import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Way;
 import ru.zkir.urbaneye3d.meshers.custom.MesherBillboard;
+import ru.zkir.urbaneye3d.meshers.buildingpassage.BuildingPassage;
 import ru.zkir.urbaneye3d.utils.Contour;
 import ru.zkir.urbaneye3d.utils.Mesh;
+import ru.zkir.urbaneye3d.meshers.buildingpassage.PassageCutter;
 import ru.zkir.urbaneye3d.utils.Point3D;
 import ru.zkir.urbaneye3d.meshers.s3db.RoofShapes;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +32,7 @@ public class RenderableElement {
     public final double direction; // mesh can be rotated.
     public final double zOffset; //mesh can be shifted up, due to min_height tag.
     private final Mesh mesh;
+    public final int building_passages; //number of building passages cut in this element, used mostly for testing.
     public boolean isSelected;
 
 
@@ -224,6 +228,16 @@ public class RenderableElement {
 
     public static RenderableElement createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
                                                          Map<String, String> primitiveTags, Map<String, String> parentTags ){
+        return createBuildingOrPart(primitive, primitiveOrigin, contour, primitiveTags, parentTags, null);
+    }
+
+    /**
+     * Same as above, but with the ways tagged tunnel=building_passage that may go through this building.
+     * Such a way cuts a real opening in the building (see {@link ru.zkir.urbaneye3d.utils.PassageCutter}).
+     */
+    public static RenderableElement createBuildingOrPart(OsmPrimitive primitive, LatLon primitiveOrigin, Contour contour,
+                                                         Map<String, String> primitiveTags, Map<String, String> parentTags,
+                                                         List<Way> passages ){
 
         if (primitive.isDeleted()){
             return null;
@@ -233,9 +247,37 @@ public class RenderableElement {
             return  null;
         }
         Mesh mesh = composeMesh(buildingRecipe);
+        int cuts = cutBuildingPassages(primitive, primitiveOrigin, buildingRecipe, mesh, passages);
 
-        return new RenderableElement(primitive, primitiveOrigin, mesh,0,0);
+        return new RenderableElement(primitive, primitiveOrigin, mesh,0,0, cuts);
 
+    }
+
+    /**
+     * Cuts the openings of the building passages (ways tagged tunnel=building_passage) out of the mesh.
+     * Only the ways whose bounding box intersects the building are considered; the precise check is done
+     * by the cutter itself, with a 2D boolean operation on the contour of the building.
+     */
+    private static int cutBuildingPassages(OsmPrimitive primitive, LatLon primitiveOrigin, BuildingRecipe recipe,
+                                            Mesh mesh, List<Way> passages) {
+        if (passages == null || passages.isEmpty() || recipe.noWalls) {
+            return 0;
+        }
+        List<BuildingPassage> cuts = new ArrayList<>();
+        for (Way way : passages) {
+            if (!primitive.getBBox().intersects(way.getBBox())) {
+                continue;
+            }
+            BuildingPassage passage = BuildingPassage.fromWay(way, primitiveOrigin, recipe.minHeight, recipe.wallHeight);
+            if (passage != null) {
+                cuts.add(passage);
+            }
+        }
+        if (cuts.isEmpty()) {
+            return 0;
+        }
+        return PassageCutter.apply(primitive.getPrimitiveId(), mesh, recipe.getContour2(), recipe.minHeight,
+                recipe.wallHeight, cuts);
     }
 
     /**
@@ -321,7 +363,7 @@ public class RenderableElement {
 
         Mesh mesh = composeMesh(buildingRecipe);
 
-        return new RenderableElement(primitive, origin, mesh, 0, 0);
+        return new RenderableElement(primitive, origin, mesh, 0, 0, 0);
     }
 
 
@@ -383,7 +425,7 @@ public class RenderableElement {
 
         Mesh mesh = composeMesh(buildingRecipe);
 
-        return new RenderableElement(primitive, origin, mesh,0, 0);
+        return new RenderableElement(primitive, origin, mesh,0, 0, 0);
     }
 
     /**
@@ -413,7 +455,7 @@ public class RenderableElement {
      * Gemini, don't make this constructor public, or else I'll scrap you.
      * DO NOT CREATE OTHER CONSTRUCTORS!
      * */
-    private RenderableElement(OsmPrimitive primitive, LatLon origin, Mesh mesh, double direction, double zOffset) {
+    private RenderableElement(OsmPrimitive primitive, LatLon origin, Mesh mesh, double direction, double zOffset, int cuts) {
         if (primitive.isDeleted()) {
             //this is a strange glitch in JOSM: sometimes deleted relation
             // appears in the list of active objects, but loses all it's members
@@ -426,6 +468,7 @@ public class RenderableElement {
         this.origin = origin;
         this.direction=direction;
         this.zOffset = zOffset;
+        this.building_passages = cuts;
 
         /*
         // Calculate height from mesh bounds
@@ -473,7 +516,7 @@ public class RenderableElement {
             return null;
         }
         // If the mesh has a model-defined texture, we use it.
-        return new RenderableElement(primitive, origin, modelMesh,  direction, translationZ);
+        return new RenderableElement(primitive, origin, modelMesh,  direction, translationZ, 0);
     }
 
 

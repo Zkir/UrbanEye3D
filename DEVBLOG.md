@@ -1,5 +1,13 @@
 # Development History
 
+## Nov 22, 2026
+
+* A way tagged `tunnel=building_passage` now cuts a  rectangular-shaped passage through the buildings it crosses, and real geometry is created.
+    * The width follows the `width` tag or the kind of the way (a footway gets a narrow opening, and residental road gets a wider one),
+    * The height is the height of the first floor unless `maxheight` says otherwise. 
+  
+  ![building passage](docs/images/building_passage.png)
+
 ## Version 2.9.3 (Nov 22, 2026)
 
 ## Nov 21, 2026

@@ -16,7 +16,7 @@ import java.util.List;
 public class Contour {
     // Define a tolerance for the tangent of the angle. For example, 0.08 corresponds to ~175.5 degrees.
     // This allows for slight deviations in manually placed points.
-    static final double STRAIGHT_ANGLE_TAN_TOLERANCE = 0.08;
+    public static final double STRAIGHT_ANGLE_TAN_TOLERANCE = 0.08;
     public String mode = "";
     public List<List<Point2D>> outerRings;
     public List<List<Point2D>> innerRings;

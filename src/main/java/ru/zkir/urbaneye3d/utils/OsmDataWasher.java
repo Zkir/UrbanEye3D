@@ -91,7 +91,7 @@ public class OsmDataWasher {
         return value;
     }
 
-    public static Double parseDimensionalValue(String key, String tagStr) {
+    static Double parseDimensionalValue(String key, String tagStr) {
         if (tagStr == null || tagStr.isEmpty()) {
             return null;
         }

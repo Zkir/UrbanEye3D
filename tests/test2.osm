@@ -87,7 +87,6 @@
   <node id='-7130820' action='modify' visible='true' lat='55.04666832464' lon='37.05458140853' />
   <node id='-7130821' action='modify' visible='true' lat='55.04667832824' lon='37.05502698803' />
   <node id='-7130822' action='modify' visible='true' lat='55.04630156338' lon='37.05505275886' />
-  <node id='-7130823' action='modify' visible='true' lat='55.05059074013' lon='37.04888646581' />
   <node id='-7130824' action='modify' visible='true' lat='55.05044079973' lon='37.05341662947' />
   <node id='-7130825' action='modify' visible='true' lat='55.0437540268' lon='37.05282840129' />
   <node id='-7130826' action='modify' visible='true' lat='55.04368829908' lon='37.05508451872' />
@@ -608,6 +607,10 @@
   <node id='-9301712' action='modify' visible='true' lat='55.05712861179' lon='37.04404994783' />
   <node id='-9301713' action='modify' visible='true' lat='55.05713440164' lon='37.04396216629' />
   <node id='-9301714' action='modify' visible='true' lat='55.05717468246' lon='37.04392001212' />
+  <node id='-9315346' action='modify' visible='true' lat='55.05066303263' lon='37.04843091772' />
+  <node id='-9369623' action='modify' visible='true' lat='55.05047135955' lon='37.05265157808' />
+  <node id='-9396750' action='modify' visible='true' lat='55.05047939899' lon='37.05195943886' />
+  <node id='-9423913' action='modify' visible='true' lat='55.05064317546' lon='37.04889626206' />
   <way id='-15212' action='modify' visible='true'>
     <nd ref='-7130748' />
     <nd ref='-7130749' />
@@ -659,9 +662,10 @@
   </way>
   <way id='-15219' action='modify' visible='true'>
     <nd ref='-7130776' />
-    <nd ref='-7130823' />
+    <nd ref='-9423913' />
     <nd ref='-7130777' />
     <nd ref='-7130778' />
+    <nd ref='-9396750' />
     <nd ref='-7130779' />
     <nd ref='-7130776' />
     <tag k='building:colour' v='purple' />
@@ -1050,6 +1054,22 @@
     <nd ref='-9301713' />
     <nd ref='-9301714' />
     <nd ref='-9301707' />
+  </way>
+  <way id='-15879' action='modify' visible='true'>
+    <nd ref='-9315346' />
+    <nd ref='-9423913' />
+    <tag k='highway' v='service' />
+  </way>
+  <way id='-15880' action='modify' visible='true'>
+    <nd ref='-9369623' />
+    <nd ref='-9396750' />
+    <tag k='highway' v='service' />
+  </way>
+  <way id='-15885' action='modify' visible='true'>
+    <nd ref='-9423913' />
+    <nd ref='-9396750' />
+    <tag k='highway' v='service' />
+    <tag k='tunnel' v='building_passage' />
   </way>
   <relation id='-3701' action='modify' visible='true'>
     <member type='way' ref='-15212' role='outer' />

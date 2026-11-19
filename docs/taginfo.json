@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20261114T235310Z",
+  "data_updated" : "20261119T175019Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -828,6 +828,15 @@
     "key" : "material",
     "description" : "Material for barrier or man-made object. This can influence the default color. "
   }, {
+    "key" : "maxheight",
+    "description" : "Physical height limit of a feature. Sets the height of the arch of a building passage."
+  }, {
+    "key" : "maxheight:physical",
+    "description" : "Physical height limit of a feature. Preferred over maxheight for the height of the arch of a building passage."
+  }, {
+    "key" : "maxwidth",
+    "description" : "Physical width limit of a feature. Used as a fallback for the width of a building passage."
+  }, {
     "key" : "maxwidth:physical",
     "description" : "Physical width limit of a passage or entrance. Used to define gap width in linear barriers."
   }, {
@@ -1426,6 +1435,10 @@
   }, {
     "key" : "tunnel",
     "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "tunnel",
+    "value" : "building_passage",
+    "description" : "A road, a footway or a railway going through a building. An arch-shaped opening is cut in the walls and in the floor of the building."
   }, {
     "key" : "tunnel",
     "value" : "no",

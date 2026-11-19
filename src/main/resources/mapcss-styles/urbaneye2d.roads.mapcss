@@ -38,7 +38,7 @@ way[highway=residential],  way[highway=living_street] {
 
 /* underground (tunnels, indoor, in underground buildings) */
 *[location=underground],
-*[tunnel][tunnel!=no],
+*[tunnel][tunnel!=no][tunnel!=building_passage],
 *[level<0] {
     set .underground;
 }
