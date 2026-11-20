@@ -1,5 +1,11 @@
 # Development History
 
+## Nov 20, 2026
+
+* Fixed a bug where a building outline was rendered as a massing model covering its own parts, when those parts (incorrectly, of course)
+  are members of two `type=building` relations with different outlines. A building part cannot have more than one parent building,
+  so in this case the relations are not taken into account at all and the geometric check is performed. The validator acts the same way.
+
 ## Nov 19, 2026
 
 * The plugin now speaks Spanish: the 3D window dialogs, the settings panel, the actions with their keyboard shortcuts, and the messages of the built-in

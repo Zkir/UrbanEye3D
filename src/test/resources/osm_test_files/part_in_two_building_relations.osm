@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <!--
+    Regression case of tests/st_nicholas_tower.osm: every part is wrongly listed in BOTH
+    relations type=building, which name different outlines (the outlines partially overlap).
+    Geometrically, 101 owns 201 and 102 owns 202, so both outlines must own their own part.
+  -->
+  <node id='1' action='modify' visible='true' version='1' lat='55.7500000' lon='37.6090000' />
+  <node id='2' action='modify' visible='true' version='1' lat='55.7500000' lon='37.6100000' />
+  <node id='3' action='modify' visible='true' version='1' lat='55.7510000' lon='37.6100000' />
+  <node id='4' action='modify' visible='true' version='1' lat='55.7510000' lon='37.6090000' />
+  <node id='5' action='modify' visible='true' version='1' lat='55.7499000' lon='37.6096000' />
+  <node id='6' action='modify' visible='true' version='1' lat='55.7499000' lon='37.6104000' />
+  <node id='7' action='modify' visible='true' version='1' lat='55.7503000' lon='37.6104000' />
+  <node id='8' action='modify' visible='true' version='1' lat='55.7503000' lon='37.6096000' />
+  <node id='11' action='modify' visible='true' version='1' lat='55.7504000' lon='37.6091000' />
+  <node id='12' action='modify' visible='true' version='1' lat='55.7504000' lon='37.6098000' />
+  <node id='13' action='modify' visible='true' version='1' lat='55.7509000' lon='37.6098000' />
+  <node id='14' action='modify' visible='true' version='1' lat='55.7509000' lon='37.6091000' />
+  <node id='21' action='modify' visible='true' version='1' lat='55.7499500' lon='37.6101000' />
+  <node id='22' action='modify' visible='true' version='1' lat='55.7499500' lon='37.6103000' />
+  <node id='23' action='modify' visible='true' version='1' lat='55.7502500' lon='37.6103000' />
+  <node id='24' action='modify' visible='true' version='1' lat='55.7502500' lon='37.6101000' />
+  <way id='101' action='modify' visible='true' version='1'>
+    <nd ref='1' />
+    <nd ref='2' />
+    <nd ref='3' />
+    <nd ref='4' />
+    <nd ref='1' />
+    <tag k='building' v='yes' />
+    <tag k='building:colour' v='#FF0000' />
+    <tag k='height' v='70' />
+    <tag k='name' v='tower outline' />
+  </way>
+  <way id='102' action='modify' visible='true' version='1'>
+    <nd ref='5' />
+    <nd ref='6' />
+    <nd ref='7' />
+    <nd ref='8' />
+    <nd ref='5' />
+    <tag k='building' v='yes' />
+    <tag k='building:colour' v='#00FF00' />
+    <tag k='height' v='8' />
+    <tag k='name' v='annex outline' />
+  </way>
+  <way id='201' action='modify' visible='true' version='1'>
+    <nd ref='11' />
+    <nd ref='12' />
+    <nd ref='13' />
+    <nd ref='14' />
+    <nd ref='11' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='24' />
+    <tag k='name' v='part of the tower' />
+  </way>
+  <way id='202' action='modify' visible='true' version='1'>
+    <nd ref='21' />
+    <nd ref='22' />
+    <nd ref='23' />
+    <nd ref='24' />
+    <nd ref='21' />
+    <tag k='building:part' v='yes' />
+    <tag k='height' v='6' />
+    <tag k='name' v='part of the annex' />
+  </way>
+  <relation id='301' action='modify' visible='true' version='1'>
+    <member type='way' ref='101' role='outline' />
+    <member type='way' ref='201' role='part' />
+    <member type='way' ref='202' role='part' />
+    <tag k='name' v='building relation of the tower' />
+    <tag k='type' v='building' />
+  </relation>
+  <relation id='302' action='modify' visible='true' version='1'>
+    <member type='way' ref='102' role='outline' />
+    <member type='way' ref='201' role='part' />
+    <member type='way' ref='202' role='part' />
+    <tag k='name' v='building relation of the annex, wrongly listing the parts of the tower too' />
+    <tag k='type' v='building' />
+  </relation>
+</osm>

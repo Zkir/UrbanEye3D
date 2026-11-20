@@ -137,6 +137,50 @@ class SceneTest {
 
 
     /**
+     * A part is wrongly listed in two relations type=building with different outlines.
+     * A part cannot have two parent buildings, so the relations are not used for it and the
+     * geometric check decides; otherwise one outline is left without parts and is rendered as a volume.
+     */
+    @Test
+    void testPartInTwoBuildingRelationsFallsBackToGeometry() throws Exception {
+        // Arrange: Load the specific test case
+        DataSet dataSet = loadDataSetFromOsmFile("part_in_two_building_relations.osm");
+        Scene scene = new Scene();
+
+        // Act: Run the method being tested
+        Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
+        scene.applyUpdate(update);
+
+        Map<String, OsmPrimitive> named = new HashMap<>();
+        for (OsmPrimitive primitive : dataSet.allPrimitives()) {
+            if (primitive.hasKey("name")) {
+                named.put(primitive.get("name"), primitive);
+            }
+        }
+        Map<PrimitiveId, RenderableElement> rendered = new HashMap<>();
+        for (RenderableElement element : scene.renderableElements) {
+            rendered.put(element.primitiveId, element);
+        }
+
+        // Assert: both outlines own their own part, so neither of them is rendered as a solid volume
+        for (String outline : new String[]{"tower outline", "annex outline"}) {
+            assertNull(rendered.get(named.get(outline).getPrimitiveId()),
+                    outline + " should not be rendered as a solid volume");
+        }
+        assertEquals(2, scene.renderableElements.size(),
+                "Expected 2 building parts and no outlines, but got " + scene.renderableElements.size());
+
+        // Assert: each part inherits its attributes from the outline it really belongs to
+        Color red = new Color(255, 0, 0);
+        Color green = new Color(0, 255, 0);
+        assertEquals(red, rendered.get(named.get("part of the tower").getPrimitiveId()).getMesh().materials.get(Mesh.WALL_COLOUR_IDX),
+                "This part belongs to the red tower");
+        assertEquals(green, rendered.get(named.get("part of the annex").getPrimitiveId()).getMesh().materials.get(Mesh.WALL_COLOUR_IDX),
+                "This part belongs to the green annex");
+    }
+
+
+    /**
      * More complex belonging topology test.
      * Usually nodes of part lie on the same contour as building.
      * it's not a problem with a simple bbox test of belonging,

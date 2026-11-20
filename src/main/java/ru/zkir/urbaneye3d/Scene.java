@@ -166,7 +166,8 @@ public class Scene {
         }
 
         //Parent of a part is searched for: first by membership in a relation type=building,
-        //then, if the part is not in any relation, by geometric containment. First match wins.
+        //then, if the part is not in any such relation (or several relations disagree about its outline),
+        //by geometric containment. First match wins.
         //Only OWN parts suppress an outline, foreign overhanging parts must not.
         //Keep in sync with SpatialConsistencyChecks.startTest.
         for (OsmPrimitive part : buildingParts) {
@@ -668,8 +669,14 @@ public class Scene {
         return new SceneUpdate(newElements, newWires);
     }
 
-    /** Find the parent building for part via relation type = building */
+    /**
+     * Find the parent building for part via relation type = building.
+     * A part cannot have more than one parent building, so if several type=building relations declare
+     * different outlines for it (see tests/st_nicholas_tower.osm), the relations are not trusted at all:
+     * null is returned and the caller performs the geometric check.
+     */
     private OsmPrimitive findParentBuildingByRelation(OsmPrimitive part) {
+        OsmPrimitive outline = null;
         for (OsmPrimitive referrer : part.getReferrers()) {
             if (!(referrer instanceof Relation)) {
                 continue;
@@ -681,14 +688,19 @@ public class Scene {
 
             for (RelationMember member : relation.getMembers()) {
                 if ("outline".equals(member.getRole())) {
-                    OsmPrimitive outline = member.getMember();
-                    if (!part.equals(outline)) { //it seems that part cannot be its own parent
-                        return outline;
+                    OsmPrimitive candidate = member.getMember();
+                    if (candidate == null || part.equals(candidate)) { //it seems that part cannot be its own parent
+                        continue;
                     }
+                    if (outline != null && !outline.equals(candidate)) { //two different outlines claim this part
+                        //this part is a member of several building relations, falling back to geometric check
+                        return null;
+                    }
+                    outline = candidate;
                 }
             }
         }
-        return null;
+        return outline;
     }
 
     /** Find the parent building spatially */

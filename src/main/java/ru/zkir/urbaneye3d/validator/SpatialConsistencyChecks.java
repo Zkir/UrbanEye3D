@@ -84,7 +84,8 @@ public class SpatialConsistencyChecks extends Test {
         }
 
         //Parenthood is searched per part, the same two checks as in Scene.calculateUpdate, same order:
-        //relation type=building first, spatial check only for parts not in any such relation.
+        //relation type=building first, geometric check when the part is not in any such relation
+        //or when several type=building relations disagree about its outline.
         //NB: man_made with the "outline" role is a parent here, unlike in the scene.
 
         for (OsmPrimitive part : buildingParts) {
@@ -107,8 +108,13 @@ public class SpatialConsistencyChecks extends Test {
 
     }
 
-    /** Find the parent building for part via relation type = building */
+    /**
+     * Find the parent building for part via relation type = building.
+     * Same rule as in Scene.findParentBuildingByRelation: if several relations declare different
+     * outlines for one part, the relations are not trusted and the geometric check decides.
+     */
     private OsmPrimitive findParentBuildingByRelation(OsmPrimitive part) {
+        OsmPrimitive outline = null;
         for (OsmPrimitive referrer : part.getReferrers()) {
             if (!(referrer instanceof Relation)) {
                 continue;
@@ -120,14 +126,19 @@ public class SpatialConsistencyChecks extends Test {
 
             for (RelationMember member : relation.getMembers()) {
                 if ("outline".equals(member.getRole())) {
-                    OsmPrimitive outline = member.getMember();
-                    if (!part.equals(outline)) { //it seems that part cannot be its own parent
-                        return outline;
+                    OsmPrimitive candidate = member.getMember();
+                    if (candidate == null || part.equals(candidate)) { //it seems that part cannot be its own parent
+                        continue;
                     }
+                    if (outline != null && !outline.equals(candidate)) { //two different outlines claim this part
+                        //this part is a member of several building relations, falling back to geometric check
+                        return null;
+                    }
+                    outline = candidate;
                 }
             }
         }
-        return null;
+        return outline;
     }
 
     /** Find the parent building spatially */
