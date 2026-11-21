@@ -1,5 +1,16 @@
 # Development History
 
+## Nov 19, 2026
+
+* The plugin now speaks Spanish: the 3D window dialogs, the settings panel, the actions with their keyboard shortcuts, and the messages of the built-in
+  validator are shown in Spanish (`es`) for users whose JOSM works in Spanish.
+    * The translation came from the community — many thanks to Pedro Flores ([PR #86](https://github.com/Zkir/UrbanEye3D/pull/86)) — and it is complete:
+      52 of 52 messages.
+    * As for every other language, its coverage is tracked in the [translation status](docs/translation-status.md) report and verified by an autotest,
+      so a newly added message cannot silently stay untranslated in Spanish.
+
+## Version 2.9.2 (Nov 16, 2026)
+
 ## Nov 15, 2026
 
 * The report of this project on [taginfo](https://taginfo.openstreetmap.org/projects/urbaneye3d#tags) has been updated substantially.
