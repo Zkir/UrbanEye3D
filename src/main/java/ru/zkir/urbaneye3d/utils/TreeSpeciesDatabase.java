@@ -42,7 +42,7 @@ public class TreeSpeciesDatabase {
     private TreeSpeciesDatabase() {
         loadSpeciesData("/data/tree_species.csv");
         loadSpatialData("/data/spatial_stats_5x5.json");
-        UrbanEye3dPlugin.debugMsg("loaded tree data ... OK");
+        //UrbanEye3dPlugin.debugMsg("loaded tree data ... OK");
     }
 
     public static synchronized TreeSpeciesDatabase getInstance() {
@@ -94,7 +94,7 @@ public class TreeSpeciesDatabase {
                         }
                     }
                 }
-                UrbanEye3dPlugin.debugMsg("Loaded " + speciesMap.size() + " tree species from database.");
+                //UrbanEye3dPlugin.debugMsg("Loaded " + speciesMap.size() + " tree species from database.");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,7 +124,7 @@ public class TreeSpeciesDatabase {
                         spatialStats.put(key, cellProbs);
                     }
                 }
-                UrbanEye3dPlugin.debugMsg("Loaded spatial stats for " + spatialStats.size() + " grid cells.");
+                //UrbanEye3dPlugin.debugMsg("Loaded spatial stats for " + spatialStats.size() + " grid cells.");
             }
         } catch (Throwable t) {
             t.printStackTrace();

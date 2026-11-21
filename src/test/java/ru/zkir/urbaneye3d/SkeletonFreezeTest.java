@@ -128,7 +128,7 @@ class SkeletonFreezeTest {
         final Throwable[] failure = new Throwable[1];
         final Thread worker = new Thread(() -> {
             try {
-                mesher.calculateStraightSkeleton(outer, inners, RoofShapes.GABLED, null);
+                mesher.calculateStraightSkeleton(outer, inners, RoofShapes.GABLED, null, 3.0);
             } catch (Throwable t) {
                 failure[0] = t;
             }

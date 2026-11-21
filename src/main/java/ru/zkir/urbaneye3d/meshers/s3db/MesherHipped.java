@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.min;
 import static ru.zkir.urbaneye3d.utils.Mesh.ROOF_COLOUR_IDX;
 import static ru.zkir.urbaneye3d.utils.Mesh.WALL_COLOUR_IDX;
 
@@ -50,6 +51,8 @@ public class MesherHipped extends RoofGenerator {
     /** How long to wait for an interrupted campskeleton worker to actually die */
     private static final long INTERRUPT_GRACE_MS = 1000;
 
+    final static double MANSARD_RATE = 0.70;
+
     @Override
     public Mesh generate(BuildingRecipe building) {
         if (building.isQuadrangular() && (building.roofShape == RoofShapes.HIPPED) ) {
@@ -63,7 +66,7 @@ public class MesherHipped extends RoofGenerator {
         long cost = predictedSkeletonCost(contour);
         if (cost > SKELETON_COST_LIMIT) {
             int n0 = contour.countPoints();
-            double epsCap = Math.min(DP_EPS_MAX, 0.4 * contour.minInterRingDistance());
+            double epsCap = min(DP_EPS_MAX, 0.4 * contour.minInterRingDistance());
             double epsUsed = 0;
 
             for (int k = 1; cost > SKELETON_COST_LIMIT && k * DP_EPS_STEP <= epsCap + 1e-9; k++) {
@@ -292,11 +295,18 @@ public class MesherHipped extends RoofGenerator {
             addTriangulatedFace(mesh, basePoints, contour.innerRings, minHeight, true);
         }
 
+
+        double achivableRoofHeight = roofHeight;
+        //preliminary try to find achievable roof height (since we have FIXED roof angle)
+        if ((building.roofShape == RoofShapes.MANSARD)|| (building.roofShape == RoofShapes.QUADRUPLE_SALTBOX)) {
+            var  output = calculateStraightSkeleton(basePoints, contour.innerRings, RoofShapes.HIPPED, building.roofDirection, roofHeight);
+            achivableRoofHeight = getSkeletonHeight(output);
+            achivableRoofHeight = min(achivableRoofHeight, roofHeight);
+        }
+
         //here we produce straight skeleton using camp-skeleton library
         //  it generates 3D mesh, but in it's own format, and with own height.
-        var  output = calculateStraightSkeleton(basePoints, contour.innerRings, building.roofShape, building.roofDirection);
-
-        final double MANSARD_RATE=0.75;
+        var  output = calculateStraightSkeleton(basePoints, contour.innerRings, building.roofShape, building.roofDirection, achivableRoofHeight);
 
         double effectiveRoofHeight=roofHeight;
         if (building.roofShape == RoofShapes.MANSARD){
@@ -312,6 +322,11 @@ public class MesherHipped extends RoofGenerator {
             if (building.roofShape == RoofShapes.QUADRUPLE_SALTBOX){
                 //cap should be closed as a flat face, that is easy
                 for (Output.LoopNormal qq: output.nonSkelFaces) {
+                    if(qq.loopl.isEmpty()){
+
+                        UrbanEye3dPlugin.debugMsg("degenerated top face for quadruple saltbox roof: " + building.primitiveId);
+                        continue;
+                    }
                     if(qq.loopl.size()==1){
                         for (Loop qqq : qq.loopl) {
                             List<Integer> faceIndices = new ArrayList<>();
@@ -385,7 +400,7 @@ public class MesherHipped extends RoofGenerator {
                         }
                         i++;
                     }
-                    var output2 = calculateStraightSkeleton(base2Outer, base2Inner, RoofShapes.HIPPED, null);
+                    var output2 = calculateStraightSkeleton(base2Outer, base2Inner, RoofShapes.HIPPED, null, roofHeight);
                     addSkeletonFacesToMesh(output2, mesh, wallHeight+effectiveRoofHeight, (1-MANSARD_RATE)*roofHeight);
                 }
 
@@ -411,7 +426,7 @@ public class MesherHipped extends RoofGenerator {
         return list2;
     }
 
-    public Output calculateStraightSkeleton(List<Point2D> baseOuterRing, List<List<Point2D>> baseInnerRings, RoofShapes roofShape,  Double roofDirection){
+    public Output calculateStraightSkeleton(List<Point2D> baseOuterRing, List<List<Point2D>> baseInnerRings, RoofShapes roofShape,  Double roofDirection, Double roofHeight){
         //Initialize skeleton input data, from the building outline
         LoopL<Edge> loopl = new LoopL<>();
 
@@ -484,19 +499,26 @@ public class MesherHipped extends RoofGenerator {
             }
         }
 
+        boolean capped = (roofShape == RoofShapes.MANSARD) || (roofShape ==  RoofShapes.QUADRUPLE_SALTBOX);
+
+        // machine speed is something related to angle of a hip
+        //    A mansard and quadruple saltbox roofs are steeper.
+        double machineSpeed = capped ? Math.PI/8 : Math.PI/4 ;
+
         //initialize polygon -- edges and speeds -- for skeleton calculation
         for (int i = 0; i < baseOuterRing.size(); i++) {
             Point2D p1 = baseOuterRing.get(i);
             Point2D p2 = baseOuterRing.get((i + 1) % baseOuterRing.size());
             Edge edge = new Edge(cornerMap.get(p1), cornerMap.get(p2));
-            double mashineSpeed=Math.PI / 4;
+
 
             //in case of side_hipped we need to select a wall and assign zero speed for it, so it remains vertical.
             if ((roofShape == RoofShapes.SIDE_HIPPED) && i == side_wall_idx){
-                mashineSpeed = 0;
+                edge.machine = new Machine(0);
+            } else{
+                edge.machine = new Machine(machineSpeed);
             }
 
-            edge.machine = new Machine(mashineSpeed);
             loop.append(edge);
         }
         loopl.add(loop);
@@ -513,7 +535,7 @@ public class MesherHipped extends RoofGenerator {
                 Point2D p1 = basePoints2.get(i);
                 Point2D p2 = basePoints2.get((i + 1) % basePoints2.size());
                 Edge edge = new Edge(cornerMap.get(p2), cornerMap.get(p1));
-                edge.machine = new Machine(Math.PI / 4);
+                edge.machine = new Machine(machineSpeed);
                 loop.append(edge);
             }
             loopl.add(loop);
@@ -521,10 +543,10 @@ public class MesherHipped extends RoofGenerator {
 
         //Request skeleton generation
         Skeleton skel;
-        boolean capped = (roofShape == RoofShapes.MANSARD) || (roofShape ==  RoofShapes.QUADRUPLE_SALTBOX);
 
         if (capped) {
-            skel = new Skeleton(loopl, 3);
+            double cap_size = (roofShape ==  RoofShapes.QUADRUPLE_SALTBOX) ? roofHeight : roofHeight*MANSARD_RATE;
+            skel = new Skeleton(loopl, cap_size);
         }else{
             skel = new Skeleton(loopl, true);
         }
@@ -533,10 +555,7 @@ public class MesherHipped extends RoofGenerator {
         return skel.output;
 
     }
-
-    double addSkeletonFacesToMesh(Output output, Mesh mesh, double wallHeight, double roofHeight ){
-        //we need to find min and max Z, to proper scale our roof.
-        //  we need to respect our roofHeight
+    private double getSkeletonHeight(Output output){
         double minZ = Double.MAX_VALUE;
         double maxZ = -Double.MAX_VALUE;
         for (Output.Face face : output.faces.values()) {
@@ -547,7 +566,16 @@ public class MesherHipped extends RoofGenerator {
                 }
             }
         }
-        double roofScale = (maxZ > minZ) ? roofHeight / (maxZ - minZ) : 0;
+        return maxZ - minZ;
+    }
+
+    private double addSkeletonFacesToMesh(Output output, Mesh mesh, double wallHeight, double roofHeight ){
+        //we need to find min and max Z, to proper scale our roof.
+        //  we need to respect our roofHeight
+
+        double skeleton_height = getSkeletonHeight(output);
+
+        double roofScale = skeleton_height > 0 ? roofHeight / skeleton_height : 0;
 
         //Check created faces/vertices and add them to our mesh
 
@@ -555,7 +583,7 @@ public class MesherHipped extends RoofGenerator {
             for (Loop<Point3d> lp3 : face.points) {
                 List<Integer> faceIndices = new ArrayList<>();
                 for (Point3d pt : lp3) {
-                    double scaledZ = (pt.z - minZ) * roofScale;
+                    double scaledZ = (pt.z - 0.0) * roofScale;
                     int newIndex = createNewRoofVertex(mesh, pt, wallHeight, scaledZ);
                     faceIndices.add(newIndex);
                 }

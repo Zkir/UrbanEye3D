@@ -1,5 +1,16 @@
 # Development History
 
+## Nov 21, 2026
+
+* The algorithm for the double-sloped roofs (`roof:shape=quadruple_saltbox` and `mansard`) has been corrected.
+    * **The problem:** we want the lower tier of such a roof to be built with a fixed slope, and with a fixed slope not every roof height is attainable —
+      the attainable height is limited by that very angle. If the height required by `roof:height` is greater than the attainable one,
+      the upper tier — flat in the case of `quadruple_saltbox`, sloped in the case of `mansard` — cannot be built anymore.
+      That is what happened on narrow outlines (roughly less than six meters across): the building was left with a flat roof instead of the requested one.
+    * **The solution:** the attainable height is found first, with the very same straight skeleton algorithm, and if it is smaller than the required one,
+      for roof contruction purposes we take exactly it. The result is that up to a certain roof height — which depends on the width of the base — the lower tier is built with a fixed 67.5° slope, and past that height the whole roof is scaled up instead: the roof gets steeper, but the height is not limited anymore,
+      and the upper tier is always constructed.
+
 ## Nov 20, 2026
 
 * Fixed a bug where a building outline was rendered as a massing model covering its own parts, when those parts (incorrectly, of course)
