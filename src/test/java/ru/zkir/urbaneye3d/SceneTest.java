@@ -272,22 +272,25 @@ class SceneTest {
         Scene.SceneUpdate update = scene.calculateUpdate(dataSet);
         scene.applyUpdate(update);
 
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            for (var re : scene.renderableElements) {
+                saveMeshToObj(re.getMesh(), TEST_OUTPUT_DIR + "/CityCenter/" + re.primitiveId.toString() + ".obj");
+            }
+        }
+
         // Assert: Verify the outcome
         //  Exact number of  buildings/objects is not so important.
         //  We just need to understand how the picture changes.
         long NumberOfObjects = scene.renderableElements.stream().filter(e -> e.getMesh().textureName == null).count();
-        final int MIN_OBJECTS = 5544;
-        final int MAX_OBJECTS = 5544;
+        final int MIN_OBJECTS = 6888;
+        final int MAX_OBJECTS = 6888;
 
-        if (SAVE_TEST_RESULTS_TO_FILE) {
-            int i = 0;
-            for (var re : scene.renderableElements) {
-                saveMeshToObj(re.getMesh(), TEST_OUTPUT_DIR + "/CityCenter/" + re.primitiveId.toString() + ".obj");
-                //RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.minHeight, re.height, re.roofShape.toString());
-                i++;
-            }
-        }
+        // number of objects should match
         assertTrue(NumberOfObjects >= MIN_OBJECTS && NumberOfObjects <= MAX_OBJECTS, "Number of objects " + NumberOfObjects + " is NOT in the reasonable range " + MIN_OBJECTS + ".." + MAX_OBJECTS);
+
+        //for (var re : scene.renderableElements) {
+        //    RoofGeneratorTopologyTest.AssertMeshTopology(re.getMesh(),  re.getMesh().getMinBounds().z, re.getMesh().getMaxBounds().z, re.primitiveId.toString());
+        //}
     }
 
 

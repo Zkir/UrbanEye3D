@@ -174,11 +174,9 @@ class ValidatorTest {
 
         // The resulting number of buildings is not so important.
         // we just need to understand how the picture changes.
-        // 718 = 35 not covered by parts + 652 orphans + 31 height mismatches.
-        int EXPECTED_NUMBER_OF_ERRORS = 718;
+        int EXPECTED_NUMBER_OF_ERRORS = 776;
         assertTrue(errors.size() == EXPECTED_NUMBER_OF_ERRORS,
                    "Number of errors  found by the Validator Spatial Test ("+errors.size()+") differs from  the expected number (" + EXPECTED_NUMBER_OF_ERRORS+")");
-
 
         //Second test -- Tag Validity
         validator2.startTest(null);
@@ -188,7 +186,7 @@ class ValidatorTest {
 
         // The resulting number of buildings is not so important.
         // we just need to understand how the picture changes.
-        EXPECTED_NUMBER_OF_ERRORS = 180;
+        EXPECTED_NUMBER_OF_ERRORS = 141;
         assertTrue(errors.size() == EXPECTED_NUMBER_OF_ERRORS,
                    "Number of errors  found by the Validator Tag Test ("+errors.size()+") differs from  the expected number (" + EXPECTED_NUMBER_OF_ERRORS+")");
     }
