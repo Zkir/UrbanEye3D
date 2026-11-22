@@ -1,5 +1,7 @@
 # Development History
 
+## Version 2.9.3 (Nov 22, 2026)
+
 ## Nov 21, 2026
 
 * The algorithm for the double-sloped roofs (`roof:shape=quadruple_saltbox` and `mansard`) has been corrected.
