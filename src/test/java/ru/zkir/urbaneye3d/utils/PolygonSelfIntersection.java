@@ -31,13 +31,15 @@ public class PolygonSelfIntersection {
     }
 
     private static Point3D computeNormal(Point3D[] face) {
+        // Newell's method over the whole face.
         Point3D normal = new Point3D(0, 0, 0);
-        Point3D first = face[0];
-        for (int i = 1; i < face.length - 1; i++) {
-            Point3D v1 = face[i].subtract(first);
-            Point3D v2 = face[i + 1].subtract(first);
-            normal = v1.cross(v2);
-            if (!isZeroVector(normal)) {break;}
+        for (int i = 0; i < face.length; i++) {
+            Point3D p = face[i];
+            Point3D q = face[(i + 1) % face.length];
+            normal = normal.add(new Point3D(
+                    p.y * q.z - p.z * q.y,
+                    p.z * q.x - p.x * q.z,
+                    p.x * q.y - p.y * q.x));
         }
         return normal;
     }

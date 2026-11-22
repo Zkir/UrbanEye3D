@@ -175,12 +175,27 @@ class RoofGeneratorTopologyTest {
         assertTrue(!mesh.getBottomFaces().isEmpty(), "Roof shape " + mesherName + ": Mesh has no bottom faces to check for orientation.");
 
         int[] anyBottomFace = mesh.getBottomFaces().get(0);
-        Point3D v0 = mesh.verts.get(anyBottomFace[0]);
-        Point3D v1 = mesh.verts.get(anyBottomFace[1]);
-        Point3D v2 = mesh.verts.get(anyBottomFace[2]);
-        Point3D normal = calculateNormal(v0, v1, v2);
+        Point3D normal = calculateFaceNormal(mesh.verts, anyBottomFace);
 
         assertTrue(normal.z < 0, "Roof shape " + mesherName + ": Bottom face normal is not pointing downwards. Overall mesh orientation is likely incorrect.");
+
+    }
+
+    /**
+     * Newell's method: gives a correct normal for any planar polygon, convex or not,
+     * which is exactly what the bottom faces of our meshes are.
+     * The result is not normalized, its length is proportional to the doubled area of the face.
+     */
+    public static Point3D calculateFaceNormal(List<Point3D> verts, int[] face) {
+        double nx = 0, ny = 0, nz = 0;
+        for (int i = 0; i < face.length; i++) {
+            Point3D p = verts.get(face[i]);
+            Point3D q = verts.get(face[(i + 1) % face.length]);
+            nx += p.y * q.z - p.z * q.y;
+            ny += p.z * q.x - p.x * q.z;
+            nz += p.x * q.y - p.y * q.x;
+        }
+        return new Point3D(nx, ny, nz);
     }
 
     public static Point3D calculateNormal(Point3D p1, Point3D p2, Point3D p3) {
