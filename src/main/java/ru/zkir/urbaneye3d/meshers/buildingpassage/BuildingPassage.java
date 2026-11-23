@@ -29,26 +29,25 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
 
 /**
  * A way tagged {@code tunnel=building_passage}: a road, footway or railway going THROUGH a building.  Described
- * by its axis (in local metres of the building), a width and an optional height ({@code maxheight},
- * {@code maxheight:physical}, or the structure gauge of a railway).  See {@link PassageCutter} for the way the
- * opening is cut out of the building mesh.
+ * by its axis (in local metres of the building), a width and a height, resolved for the object it goes through.
+ * See {@link PassageCutter} for the way the opening is cut out of the building mesh.
  */
 public class BuildingPassage {
 
-    /** Default arch height when maxheight is not tagged, metres: the height of the first floor. */
+    /** Default passage height when the way has no explicit height, one level by default. */
     public static final double DEFAULT_ARCH_HEIGHT = DEFAULT_LEVEL_HEIGHT;
     /** The strip is prolonged past the ends of the way so that it goes through the wall, metres. */
     public static final double OVERSHOOT = 1.0;
     /** The wall above the arch is kept at least this thick, metres. */
     public static final double MIN_LINTEL = 0.3;
-    /** An arch shorter than this is not cut at all, metres. */
+    /** An object with less than this plus {@link #MIN_LINTEL} of walls above its floor gets no passage, metres. */
     public static final double MIN_ARCH_HEIGHT = 1.0;
     /** Outside these limits a "width" tag value is a mistake, metres. */
     public static final double MIN_WIDTH = 0.5;
     public static final double MAX_WIDTH = 30.0;
     /** Outside these limits a "maxheight" tag value is a mistake, metres. */
     public static final double MIN_HEIGHT = 1.0;
-    public static final double MAX_HEIGHT = 20.0;
+    public static final double MAX_HEIGHT = 50.0;
     /** Ends of two axes nearer than this are one road mapped as several ways, metres. */
     public static final double JOIN_TOLERANCE = 0.05;
     /** Axes turning at their common end by more than this (tan) are two passages, not one corridor. */
@@ -78,7 +77,7 @@ public class BuildingPassage {
     public final List<Point2D> axis;
     /** Width of the opening, metres. */
     public final double width;
-    /** Height of the opening above the ground, metres; null means the first floor height is used. */
+    /** Height of the opening, metres; resolved for this object in fromWay. */
     public final double height;
 
     public BuildingPassage(PrimitiveId primitiveId, List<Point2D> axis, double width, double height) {
@@ -109,7 +108,10 @@ public class BuildingPassage {
 
     /**
      * The passage of the way, in the local coordinate system of the building it passes through.
-     * @param origin origin of that coordinate system
+     *
+     * @param origin     origin of that coordinate system
+     * @param minHeight  z of the floor of the object the way passes through
+     * @param wallHeight z of the top of the walls of that object
      * @return the passage, or null if the way has too few nodes or is too narrow
      */
     public static BuildingPassage fromWay(Way way, LatLon origin, double minHeight, double wallHeight) {
@@ -166,11 +168,19 @@ public class BuildingPassage {
         return highway == null || "service".equals(highway) ? 3.5 : 5.0;
     }
 
-    /** Height of the opening from the tags; null if not specified, then the first floor height is used. */
+    /** Height of the opening from the tags, or one storey, not above the walls of this object. */
     private static double passageHeight(Map<String, String> tags, double minHeight, double wallHeight) {
-        Double tagged = getTagD("maxheight:physical", tags, null);
+
+        Double tagged = null;
+        tagged = getTagD("tunnel:height", tags, null);
+        if (tagged == null) {
+            tagged = getTagD("maxheight:physical", tags, null);
+        }
         if (tagged == null) {
             tagged = getTagD("maxheight", tags, null);
+        }
+        if (tagged == null) {
+            tagged = getTagD("height", tags, null);
         }
         if (tagged != null && tagged > MIN_HEIGHT && tagged < MAX_HEIGHT) {
             return tagged;
@@ -300,8 +310,9 @@ public class BuildingPassage {
             if (chain == null) {
                 corridors.add(passage);
             } else {
-                //after the join only the shape matters: the corridor takes the widest of its ways, while the
-                //height of the arch was decided for every way earlier
+                //after the join the shape of one corridor is decided by all its ways: it takes the widest of
+                //them, and the highest, because one corridor is roofed with one arch and the tallest of its ways
+                //must still fit under it
                 corridors.set(corridors.indexOf(chain),
                         new BuildingPassage(chain.primitiveId, merged, Math.max(chain.width, passage.width),
                                 Math.max(chain.height, passage.height)));

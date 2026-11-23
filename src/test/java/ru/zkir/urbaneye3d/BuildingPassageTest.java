@@ -135,7 +135,7 @@ class BuildingPassageTest {
         assertEquals(1, PassageCutter.apply(mesh, recipe.getContour2(), recipe.minHeight, recipe.wallHeight, passages),
                 "the passage must be cut");
 
-        //with 10 m height and no maxheight the arch reaches the top of the first floor
+        //with 10 m of walls and no maxheight the arch is one storey high
         double archZ = BuildingPassage.DEFAULT_ARCH_HEIGHT;
         AssertMeshTopology(mesh, 0, 10, "straight passage");
         assertInsideTheContour(mesh, recipe.getContour2(), "straight passage");
@@ -229,7 +229,7 @@ class BuildingPassageTest {
         List<BuildingPassage> mapped = List.of(passage(4, 6.0, new Point2D(-12, 0), new Point2D(12, 0)));
         assertEquals(1, PassageCutter.apply(cut, recipe.getContour2(), recipe.minHeight, recipe.wallHeight, mapped),
                 "a mapped passage that reaches the part is cut");
-        //the arch is not lower than the first floor of the part: 3 m + one floor of 3.5 m
+        //the ceiling of the part is one storey above its floor: 3 m + 3 m
         double archZ = 3 + BuildingPassage.DEFAULT_ARCH_HEIGHT;
         AssertMeshTopology(cut, 3, 10, "passage in a raised part");
         assertEquals(1, countHorizontalFaces(cut, archZ), "the ceiling of the arch");
@@ -506,5 +506,109 @@ class BuildingPassageTest {
         //    saveMeshToObj(mesh, TEST_OUTPUT_DIR + "/scene_passage.obj");
         //}
     }
+
+    /**
+     * Two parallel passages in one pair of walls, one of them mapping a taller maxheight.  Their corridors do not
+     * touch one another in plan, so each of them is roofed with an arch of its own height: the wall between them
+     * gets a staircase-shaped opening rather than both arches being stretched to the tallest one.
+     */
+    @Test
+    void testPassagesThatDoNotTouchHaveTheirOwnArchHeight() {
+        ArrayList<Point2D> base = createRectangularBase(20, 12); // x in [-10..10], y in [-6..6]
+        BuildingRecipe recipe = createTestBuilding(base, RoofShapes.FLAT, 0, 0, 10);
+        Mesh mesh = RenderableElement.composeMesh(recipe);
+
+        List<BuildingPassage> passages = List.of(
+                passage(4, null, new Point2D(-12, -3), new Point2D(12, -3)),  // no maxheight: one storey
+                passage(4, 6.0, new Point2D(-12, 3), new Point2D(12, 3)));    // maxheight=6
+        assertEquals(2, PassageCutter.apply(mesh, recipe.getContour2(), recipe.minHeight, recipe.wallHeight, passages),
+                "both passages must be cut");
+
+        double lowArch = BuildingPassage.DEFAULT_ARCH_HEIGHT;
+        double highArch = 6.0;
+        AssertMeshTopology(mesh, 0, 10, "two passages of different heights");
+        assertInsideTheContour(mesh, recipe.getContour2(), "two passages of different heights");
+        assertEquals(14, mesh.faces.size(),
+                "4 walls + 4 walls of the passages + 2 ceilings + roof + 3 parts of the floor");
+
+        //each arch stops at its own height: neither is stretched to the taller one, nor lowered to the shorter
+        assertEquals(1, countHorizontalFaces(mesh, lowArch), "the ceiling of the low passage");
+        assertEquals(1, countHorizontalFaces(mesh, highArch), "the ceiling of the tall passage");
+        //both holes are cut in the same wall face, which becomes one face with a step between the openings
+        assertEquals(2, countFaces(mesh, Mesh.WALL_COLOUR_IDX, 12),
+                "the wall with two openings of different heights is one face with a step");
+        assertEquals(8, countFaces(mesh, Mesh.WALL_COLOUR_IDX, 4),
+                "2 untouched walls + 2 walls of each passage + the ceiling of each arch");
+        assertEquals(3, countFaces(mesh, Mesh.BOTTOM_COLOUR_IDX, 4), "the floor is cut into three parts");
+        assertEquals(1, countFaces(mesh, Mesh.ROOF_COLOUR_IDX, 4), "the roof is not touched");
+        for (int[] face : mesh.faces) {
+            assertTrue(face.length >= 4, "the passages must be cut without triangulation of the walls");
+        }
+        //the walls of each passage stop at the ceiling of its own arch
+        assertEquals(4, verticesAt(mesh, lowArch).size(), "the low arch has four corners");
+        assertEquals(4, verticesAt(mesh, highArch).size(), "the tall arch has four corners");
+
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            saveMeshToObj(mesh, TEST_OUTPUT_DIR + "/passages_of_different_heights.obj");
+        }
+    }
+
+    /**
+     * Two passages crossing inside the building and mapping different heights: their strips touch in plan, so they
+     * are roofed with one arch of the tallest of them, and the crossing stays one ceiling.
+     */
+    @Test
+    void testCrossingPassagesTakeTheTallestMappedHeight() {
+        ArrayList<Point2D> base = createRectangularBase(20, 12);
+        BuildingRecipe recipe = createTestBuilding(base, RoofShapes.FLAT, 0, 0, 10);
+        Mesh mesh = RenderableElement.composeMesh(recipe);
+
+        List<BuildingPassage> passages = List.of(
+                passage(4, 4.0, new Point2D(-12, 0), new Point2D(12, 0)),
+                passage(4, 6.0, new Point2D(0, -8), new Point2D(0, 8)));
+        assertEquals(2, PassageCutter.apply(mesh, recipe.getContour2(), recipe.minHeight, recipe.wallHeight, passages),
+                "both passages must be cut");
+
+        AssertMeshTopology(mesh, 0, 10, "crossing passages of different mapped heights");
+        assertInsideTheContour(mesh, recipe.getContour2(), "crossing passages of different mapped heights");
+        assertEquals(18, mesh.faces.size(), "the crossing is roofed exactly as two arches of the same height");
+        assertEquals(1, countHorizontalFaces(mesh, 6.0), "the ceiling of the crossing arch is one face");
+        assertEquals(0, countHorizontalFaces(mesh, 4.0), "the shorter passage is not roofed below the taller one");
+        assertEquals(12, verticesAt(mesh, 6.0).size(), "the corners of the crossing are shared by both arches");
+
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            saveMeshToObj(mesh, TEST_OUTPUT_DIR + "/crossing_passages_different_heights.obj");
+        }
+    }
+
+    /**
+     * One road mapped as several ways in a row with different maxheights: the corridor is one passage, so it is
+     * roofed with the tallest of its ways, and the arch does not step in the middle of the corridor.
+     */
+    @Test
+    void testChainOfWaysTakesTheTallestMappedHeight() {
+        ArrayList<Point2D> base = createRectangularBase(20, 12);
+        BuildingRecipe recipe = createTestBuilding(base, RoofShapes.FLAT, 0, 0, 10);
+        Mesh mesh = RenderableElement.composeMesh(recipe);
+
+        List<BuildingPassage> passages = List.of(
+                passage(4, 4.0, new Point2D(-12, 0), new Point2D(0, 0)),
+                passage(4, 6.0, new Point2D(0, 0), new Point2D(12, 0)));
+        assertEquals(2, PassageCutter.apply(mesh, recipe.getContour2(), recipe.minHeight, recipe.wallHeight, passages),
+                "both ways of the road must be cut");
+
+        AssertMeshTopology(mesh, 0, 10, "one road mapped as two ways of different heights");
+        assertInsideTheContour(mesh, recipe.getContour2(), "one road mapped as two ways of different heights");
+        assertEquals(10, mesh.faces.size(), "the corridor is cut as one straight passage");
+        assertEquals(1, countHorizontalFaces(mesh, 6.0), "one ceiling of the corridor, at the tallest mapped height");
+        assertEquals(0, countHorizontalFaces(mesh, 4.0), "the arch does not step inside the corridor");
+        assertEquals(2, countFaces(mesh, Mesh.WALL_COLOUR_IDX, 8), "the two openings of the corridor");
+
+        if (SAVE_TEST_RESULTS_TO_FILE) {
+            saveMeshToObj(mesh, TEST_OUTPUT_DIR + "/chain_of_ways_different_heights.obj");
+        }
+    }
+
+  
 
 }

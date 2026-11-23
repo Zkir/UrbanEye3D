@@ -1,10 +1,16 @@
 # Development History
 
+## Nov 23, 2026
+
+* Passages through a building no longer all become the same height. Each one is now as tall as its own  tags say.
+* Passages that cross one another inside a building, and a road mapped as several ways in a row, still share the tallest
+  of their heights, so their ceilings stay one surface and the building stays watertight.
+
 ## Nov 22, 2026
 
 * A way tagged `tunnel=building_passage` now cuts a  rectangular-shaped passage through the buildings it crosses, and real geometry is created.
     * The width follows the `width` tag or the kind of the way (a footway gets a narrow opening, and residental road gets a wider one),
-    * The height is the height of the first floor unless `maxheight` says otherwise. 
+    * The height follows `height`, `maxheight`, `maxheight:physical` and `tunnel:height` tags. By default the height of the first floor is used. 
   
   ![building passage](docs/images/building_passage.png)
 

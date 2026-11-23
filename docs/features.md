@@ -104,9 +104,9 @@ A way tagged `tunnel=building_passage` cuts a rectangular-shaped passage through
 ![building passage](images/building_passage.png)
 
 * The width of a passage can be affected by the `width` and `lanes` tags (These are well-established tags for roads, which is 
-essentially what 'building passages'are.
+essentially what 'building passages' are.
 
-* The height of a passage can be specified using the `maxheight` tag. This tag appears to be the best option for now and is already in use for tunnels.
+* The height of a passage can be specified using the `tunnel:height`, `maxheight`, `maxheight:physical` and `height` tags. These tag appear to be the best options for now and are already in use for tunnels (not only building passages).
 
 
 

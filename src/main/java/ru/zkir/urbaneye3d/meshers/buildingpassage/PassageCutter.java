@@ -42,7 +42,12 @@ import static ru.zkir.urbaneye3d.UrbanEye3dPlugin.DEFAULT_LEVEL_HEIGHT;
  * the passage; the plan becomes the ceiling of the arch, and the strip cuts the floor.  Every new edge is shared
  * by two faces, so the body stays watertight.
  *
- * <p>All passages of one building share the height of the arch, so the ceilings form one consistent surface.
+ * <p>The passages of one building are split into groups by their strips in plan: the passages whose strips touch
+ * or cross one another — and the pieces of one corridor, which {@link BuildingPassage#joinChains} has already
+ * joined — are roofed with one arch of the tallest of them, so that the ceiling of a crossing and the ceiling of a
+ * corridor stay one surface.  The groups that do not touch one another at all are roofed independently, each at the
+ * height of the tallest of its own ways: a footway mapped with {@code maxheight=3} beside a road mapped with
+ * {@code maxheight=10} keeps its low arch instead of inheriting the tall one.
  */
 public class PassageCutter {
 
@@ -68,6 +73,10 @@ public class PassageCutter {
     private static final double COLLINEAR_EDGE = 0.05;
     /** Two openings of the passages of one object closer than this are the cut of the same corner, metres. */
     private static final double MIN_OPENING_GAP = 0.01;
+    /** Two corridors of passages nearer than this in plan are roofed with one arch, metres.  They cross or touch,
+     *  so their ceilings have to share an edge and cannot stand at different heights; a corridor that crosses a
+     *  group bridges the groups it touches.  Anything farther apart is roofed separately. */
+    private static final double ONE_ARCH_TOLERANCE = 1e-9;
     /** The mapped way of a passage must reach this far inside the contour to be a passage of the object, metres:
      *  a strip as wide as the road can cover a piece of the contour even when the way passes outside.  The
      *  tolerance also saves ways digitised a few millimetres over a neighbouring outline. */
@@ -110,33 +119,6 @@ public class PassageCutter {
             return 0;
         }
 
-        //An arch is not higher than the first floor of the building unless maxheight says otherwise.
-        double levels = Math.max(1, Math.round((wallHeight - minHeight) / DEFAULT_LEVEL_HEIGHT));
-        double firstFloorTop = minHeight + Math.min(BuildingPassage.DEFAULT_ARCH_HEIGHT, (wallHeight - minHeight) / levels);
-        double archZ = firstFloorTop;
-
-        List<BuildingPassage> cuts = new ArrayList<>();
-        boolean raised = minHeight > 0.5;
-        for (BuildingPassage passage : passages) {
-            //a part standing above the ground gets the passage only if its declared height reaches it
-            if (raised && (passage.height <= minHeight + BuildingPassage.MIN_ARCH_HEIGHT)) {
-                continue;
-            }
-            if (passage.height > archZ) {
-                archZ = passage.height;
-            }
-            cuts.add(passage);
-        }
-        //some wall above the arch must remain, otherwise the roof of the building floats in the air
-        archZ = Math.min(archZ, wallHeight - BuildingPassage.MIN_LINTEL);
-        if (cuts.isEmpty() || archZ < minHeight + BuildingPassage.MIN_ARCH_HEIGHT) {
-            if (!cuts.isEmpty() && archZ < minHeight + BuildingPassage.MIN_ARCH_HEIGHT) {
-                UrbanEye3dPlugin.debugMsg(refusal(host, "the object is too low for an arch"
-                        + " of at least " + BuildingPassage.MIN_ARCH_HEIGHT + " m (its walls are "
-                        + (wallHeight - minHeight) + " m high)"));
-            }
-            return 0;
-        }
         String unclosed = firstUnclosedEdge(mesh);
         if (unclosed != null) {
             //the body is not closed even before it is pierced; piercing it would only add more holes
@@ -145,7 +127,7 @@ public class PassageCutter {
             return 0;
         }
 
-        return new PassageCutter(host, mesh, footprint, minHeight, archZ).cut(cuts);
+        return new PassageCutter(host, mesh, footprint, minHeight, wallHeight).cut(passages);
     }
 
     /** One message telling why the passages of one object were refused. */
@@ -200,7 +182,8 @@ public class PassageCutter {
     private final Geometry innerFootprint;
     private final GeometryFactory factory = new GeometryFactory();
     private final double floorZ;
-    private final double archZ;
+    /** z of the top of the walls, so that some wall always stays above the arch. */
+    private final double wallZ;
 
     /** Faces to be replaced (index in mesh.faces -> new faces; an empty list means "delete this face"). */
     private final Map<Integer, List<int[]>> replacements = new HashMap<>();
@@ -224,14 +207,14 @@ public class PassageCutter {
         }
     }
 
-    private PassageCutter(PrimitiveId host, Mesh mesh, Geometry footprint, double floorZ, double archZ) {
+    private PassageCutter(PrimitiveId host, Mesh mesh, Geometry footprint, double floorZ, double wallZ) {
         this.host = host;
         this.mesh = mesh;
         this.footprint = footprint;
         this.contourBoundary = footprint.getBoundary();
         this.innerFootprint = shrinkInside(footprint);
         this.floorZ = floorZ;
-        this.archZ = archZ;
+        this.wallZ = wallZ;
         //the new vertices must be the existing ones where they coincide, or the mesh is not watertight
         for (int i = 0; i < mesh.verts.size(); i++) {
             Point3D p = mesh.verts.get(i);
@@ -370,8 +353,13 @@ public class PassageCutter {
         List<BuildingPassage> accepted = new ArrayList<>();
         //the part of the contour that each single passage crosses, kept to not compute it twice
         List<Geometry> crossings = new ArrayList<>();
+        boolean raised = minHeightRaised();
         int relevant = 0;
         for (BuildingPassage passage : passages) {
+            //a part standing above the ground gets the passage only if the height of the passage reaches it
+            if (raised && (passage.height <= floorZ + BuildingPassage.MIN_ARCH_HEIGHT)) {
+                continue;
+            }
             Geometry strip = snapCornersToTheOutline(passage.strip(factory));
             if (strip == null || strip.isEmpty()) {
                 continue;
@@ -429,86 +417,106 @@ public class PassageCutter {
         }
         //the strips are built from the corridors, not the passages: a road mapped as several ways is one
         //corridor (see BuildingPassage.joinChains)
-        Geometry strip;
+        List<PassageGroup> groups = new ArrayList<>();
         try {
             List<BuildingPassage> corridors = BuildingPassage.joinChains(accepted);
-            List<Geometry> strips = new ArrayList<>();
             for (BuildingPassage corridor : corridors) {
                 Geometry corridorStrip = snapCornersToTheOutline(corridor.strip(factory));
                 if (corridorStrip != null && !corridorStrip.isEmpty()) {
-                    strips.add(corridorStrip);
+                    addCorridorToGroups(groups, corridor, corridorStrip);
                 }
             }
-            if (strips.isEmpty()) {
-                return 0;
-            }
-            strip = strips.size() == 1 ? strips.get(0) : UnaryUnionOp.union(strips);
         } catch (TopologyException | IllegalArgumentException e) {
             UrbanEye3dPlugin.debugMsg("Cannot join the passages of a building: " + e);
             return 0;
         }
-        if (hasHoles(strip)) {
-            //two passages that cross twice enclose a pocket between them; leave the building alone
-            markBroken("their strips enclose a pocket between them");
-            return abort(vertexMark, relevant);
+        if (groups.isEmpty()) {
+            return 0;
+        }
+        for (PassageGroup group : groups) {
+            group.archZ = archHeightOf(group);
         }
 
-        List<Polygon> openings;
-        try {
-            //for a single passage its intersection with the contour was already computed above
-            openings = polygonsOf(crossings.size() == 1 ? crossings.get(0) : footprint.intersection(strip));
-        } catch (TopologyException | IllegalArgumentException e) {
-            UrbanEye3dPlugin.debugMsg("Cannot cut a passage out of the building contour: " + e);
-            return 0;
-        }
-        //the strips cover the whole contour: the object is smaller than the passage and stands inside it, so
-        //there is no wall to cut an opening in, and nothing is refused
-        double covered = 0;
-        for (Polygon piece : openings) {
-            covered += piece.getArea();
-        }
-        if (covered > footprint.getArea() - MIN_AREA) {
-            return 0;
-        }
-        //a hairline opening is the trace of the strip grazing the contour: the floor is cut there although no
-        //wall is, which opens the body.  Half an opening is worse than none, so the passage is refused.
-        List<Polygon> grazed = new ArrayList<>();
-        List<Polygon> kept = new ArrayList<>();
-        for (Polygon opening : openings) {
-            if (opening.getArea() < MIN_AREA || isHairline(opening)) {
-                grazed.add(opening);
-            } else {
-                kept.add(opening);
+        //every opening belongs to one group and is roofed at the height of that group's arch
+        List<Arch> arches = new ArrayList<>();
+        for (PassageGroup group : groups) {
+            try {
+                group.strip = group.strips.size() == 1 ? group.strips.get(0)
+                        : UnaryUnionOp.union(group.strips);
+            } catch (TopologyException | IllegalArgumentException e) {
+                UrbanEye3dPlugin.debugMsg("Cannot join the passages of a building: " + e);
+                return 0;
             }
-        }
-        openings = kept;
-        if (openings.isEmpty()) {
-            return 0; //the passage does not cross this object, or only touches it along a hairline
-        }
-        if (!grazed.isEmpty()) {
-            markBroken("the strip of the passage leaves a hairline piece of the opening " + grazed.get(0));
-            return abort(vertexMark, relevant);
-        }
-        //JTS keeps the orientation of the input contours, while every opening needs the same one, so it is made
-        //canonical here
-        List<Polygon> canonical = new ArrayList<>();
-        for (Polygon opening : openings) {
-            canonical.add(canonicalRings(opening));
-        }
-        openings = canonical;
-
-        //the tiny collinear corners JTS leaves are removed from the openings, so that the chords, the ceiling
-        //and the passage walls share one boundary
-        List<Polygon> simplified = new ArrayList<>();
-        for (Polygon opening : openings) {
-            Polygon simple = dropHairlineCorners(opening);
-            if (simple == null) {
-                markBroken("the opening of the passage collapses into a line: " + opening);
+            if (hasHoles(group.strip)) {
+                //two passages that cross twice enclose a pocket between them; leave the building alone
+                markBroken("their strips enclose a pocket between them");
                 return abort(vertexMark, relevant);
             }
-            simplified.add(simple);
+
+            List<Polygon> openings;
+            try {
+                Geometry crossing = groups.size() == 1 && crossings.size() == 1
+                        //for a single passage its intersection with the contour was already computed above
+                        ? crossings.get(0) : footprint.intersection(group.strip);
+                openings = polygonsOf(crossing);
+            } catch (TopologyException | IllegalArgumentException e) {
+                UrbanEye3dPlugin.debugMsg("Cannot cut a passage out of the building contour: " + e);
+                return 0;
+            }
+            //the strips cover the whole contour: the object is smaller than the passage and stands inside it, so
+            //there is no wall to cut an opening in, and nothing is refused
+            double covered = 0;
+            for (Polygon piece : openings) {
+                covered += piece.getArea();
+            }
+            if (covered > footprint.getArea() - MIN_AREA) {
+                return 0;
+            }
+            //a hairline opening is the trace of the strip grazing the contour: the floor is cut there although no
+            //wall is, which opens the body.  Half an opening is worse than none, so the passage is refused.
+            List<Polygon> grazed = new ArrayList<>();
+            List<Polygon> kept = new ArrayList<>();
+            for (Polygon opening : openings) {
+                if (opening.getArea() < MIN_AREA || isHairline(opening)) {
+                    grazed.add(opening);
+                } else {
+                    kept.add(opening);
+                }
+            }
+            openings = kept;
+            if (!grazed.isEmpty()) {
+                markBroken("the strip of the passage leaves a hairline piece of the opening " + grazed.get(0));
+                return abort(vertexMark, relevant);
+            }
+            if (openings.isEmpty()) {
+                continue; //the passages of this group do not cross this object, or only touch it along a hairline
+            }
+            //JTS keeps the orientation of the input contours, while every opening needs the same one, so it is
+            //made canonical here
+            List<Polygon> canonical = new ArrayList<>();
+            for (Polygon opening : openings) {
+                canonical.add(canonicalRings(opening));
+            }
+            openings = canonical;
+
+            //the tiny collinear corners JTS leaves are removed from the openings, so that the chords, the ceiling
+            //and the passage walls share one boundary
+            for (Polygon opening : openings) {
+                Polygon simple = dropHairlineCorners(opening);
+                if (simple == null) {
+                    markBroken("the opening of the passage collapses into a line: " + opening);
+                    return abort(vertexMark, relevant);
+                }
+                arches.add(new Arch(simple, group.archZ));
+            }
         }
-        openings = simplified;
+        if (arches.isEmpty()) {
+            return 0;
+        }
+        List<Polygon> openings = new ArrayList<>();
+        for (Arch arch : arches) {
+            openings.add(arch.opening);
+        }
 
         //An opening pinching into a hairline neck inside itself means the strip crosses the contour right at a
         //corner of the building: the wall would be cut twice, a hairline apart.
@@ -534,13 +542,23 @@ public class PassageCutter {
             }
         }
         //the edges of an opening on the contour are holes in the walls ("chords"), the others are the walls
-        //of the passage
+        //of the passage; both are cut up to the height of the arch of their own group
         List<LineString> chords = new ArrayList<>();
+        List<Double> chordTop = new ArrayList<>();
         List<Coordinate[]> passageWallEdges = new ArrayList<>();
-        for (Polygon opening : openings) {
-            classifyRing(opening.getExteriorRing().getCoordinates(), chords, passageWallEdges);
-            for (int i = 0; i < opening.getNumInteriorRing(); i++) {
-                classifyRing(opening.getInteriorRingN(i).getCoordinates(), chords, passageWallEdges);
+        List<Double> passageWallTop = new ArrayList<>();
+        for (Arch arch : arches) {
+            int chordsFrom = chords.size();
+            int edgesFrom = passageWallEdges.size();
+            classifyRing(arch.opening.getExteriorRing().getCoordinates(), chords, passageWallEdges);
+            for (int i = 0; i < arch.opening.getNumInteriorRing(); i++) {
+                classifyRing(arch.opening.getInteriorRingN(i).getCoordinates(), chords, passageWallEdges);
+            }
+            for (int i = chordsFrom; i < chords.size(); i++) {
+                chordTop.add(arch.archZ);
+            }
+            for (int i = edgesFrom; i < passageWallEdges.size(); i++) {
+                passageWallTop.add(arch.archZ);
             }
         }
         if (broken) {
@@ -551,7 +569,7 @@ public class PassageCutter {
         }
 
         chordMatched = new boolean[chords.size()];
-        cutWallFaces(chords);
+        cutWallFaces(chords, chordTop);
         for (int i = 0; i < chordMatched.length; i++) {
             if (!chordMatched[i]) {
                 //a wall face is missing on the contour of this opening (another object draws that part of the
@@ -567,9 +585,9 @@ public class PassageCutter {
             return 0;
         }
 
-        cutBottomFaces(strip);
-        addPassageWalls(passageWallEdges);
-        addArchCeilings(openings);
+        cutBottomFaces(groups);
+        addPassageWalls(passageWallEdges, passageWallTop);
+        addArchCeilings(arches);
         if (broken) {
             //the floor or the ceiling could not be cut, and leaving them out would open the body
             return abort(vertexMark, relevant);
@@ -585,6 +603,95 @@ public class PassageCutter {
 
         applyChanges();
         return relevant;
+    }
+
+    /**
+     * Puts a corridor into the group of passages whose strips it touches or crosses in plan.  Those passages are
+     * roofed with one arch of the tallest of them, so that the ceilings of a crossing are one surface and the
+     * pieces of one corridor — however they are mapped — are not roofed differently.  Two corridors that touch
+     * two groups bridge them: the passages of all of them meet in one opening.
+     */
+    private static void addCorridorToGroups(List<PassageGroup> groups, BuildingPassage corridor, Geometry strip) {
+        List<PassageGroup> touched = new ArrayList<>();
+        for (PassageGroup group : groups) {
+            if (group.touches(strip)) {
+                touched.add(group);
+            }
+        }
+        if (touched.isEmpty()) {
+            PassageGroup group = new PassageGroup();
+            group.strips.add(strip);
+            group.passages.add(corridor);
+            groups.add(group);
+            return;
+        }
+        PassageGroup into = touched.get(0);
+        for (int i = 1; i < touched.size(); i++) {
+            into.absorb(touched.get(i));
+            groups.remove(touched.get(i));
+        }
+        into.strips.add(strip);
+        into.passages.add(corridor);
+    }
+
+    /** The height of the arch of one group of passages: the tallest of them, with some wall left above it. */
+    private double archHeightOf(PassageGroup group) {
+        double z = 0;
+        for (BuildingPassage passage : group.passages) {
+            if (passage.height > z) {
+                z = passage.height;
+            }
+        }
+        //some wall above the arch must remain, otherwise the roof of the building floats in the air
+        return Math.min(z, wallZ - BuildingPassage.MIN_LINTEL);
+    }
+
+    /** Is this object a part standing above the ground, so that a passage has to declare its height? */
+    private boolean minHeightRaised() {
+        return floorZ > 0.5;
+    }
+
+    /**
+     * The passages of one building that are roofed with one arch: their strips touch or cross one another in plan,
+     * so their ceilings have to be one surface.  Groups that do not touch one another are roofed independently,
+     * each with the height of the tallest of its own ways.
+     */
+    private static class PassageGroup {
+        /** The strips of the corridors of this group in plan. */
+        final List<Geometry> strips = new ArrayList<>();
+        /** The corridors of this group, to take the height of their arch from. */
+        final List<BuildingPassage> passages = new ArrayList<>();
+        /** The strips of this group as one polygon in plan. */
+        Geometry strip;
+        /** z of the ceiling of the arch of this group. */
+        double archZ;
+
+        /** Does this corridor touch or cross any corridor of this group? */
+        boolean touches(Geometry strip) {
+            for (Geometry own : strips) {
+                if (own.distance(strip) <= ONE_ARCH_TOLERANCE) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /** Joins another group to this one: their passages are crossed by one another, so they share an arch. */
+        void absorb(PassageGroup other) {
+            strips.addAll(other.strips);
+            passages.addAll(other.passages);
+        }
+    }
+
+    /** An opening in plan together with the height of the arch that roofs it. */
+    private static class Arch {
+        final Polygon opening;
+        final double archZ;
+
+        Arch(Polygon opening, double archZ) {
+            this.opening = opening;
+            this.archZ = archZ;
+        }
     }
 
     /**
@@ -787,8 +894,13 @@ public class PassageCutter {
         return shoelace(ring) < 0 ? ring : reverse(ring);
     }
 
-    /** Cuts a hole in every wall face crossed by an opening. */
-    private void cutWallFaces(List<LineString> chords) {
+    /**
+     * Cuts a hole in every wall face crossed by an opening.
+     *
+     * @param chordTop the height of the arch each chord belongs to: the holes of the passages of one group reach
+     *                 that height, and the groups of one building may be roofed at different heights
+     */
+    private void cutWallFaces(List<LineString> chords, List<Double> chordTop) {
         for (int faceIndex = 0; faceIndex < mesh.faces.size(); faceIndex++) {
             if (mesh.faceMaterials.get(faceIndex) != Mesh.WALL_COLOUR_IDX) {
                 continue;
@@ -797,14 +909,14 @@ public class PassageCutter {
             if (wall == null) {
                 continue; //not a flat vertical wall (a roof slope, a conical or hyperboloid wall)
             }
-            if (wall.faceMinZ > archZ) {
-                continue; //this band of the wall stands above the top of the arch, there is nothing to cut in it
-            }
             List<double[]> intervals = new ArrayList<>();
             for (int c = 0; c < chords.size(); c++) {
+                if (wall.faceMinZ > chordTop.get(c)) {
+                    continue; //this band of the wall stands above the top of this arch, there is nothing to cut
+                }
                 double[] interval = wall.intervalOf(chords.get(c));
                 if (interval != null) {
-                    intervals.add(interval);
+                    intervals.add(new double[]{interval[0], interval[1], chordTop.get(c)});
                     chordMatched[c] = true;
                 }
             }
@@ -820,9 +932,12 @@ public class PassageCutter {
 
     /**
      * The wall face is clipped in its own plane: it is a polygon in a vertical plane, described by s (along the
-     * wall) and z only.  The holes are rectangles from the floor to the top of the arch and always touch the
-     * lower edge of the face, so the result is still one face, non-convex.
+     * wall) and z only.  The holes are rectangles from the floor to the top of their own arch and always touch
+     * the lower edge of the face, so the result is still one face, non-convex.  Where two arches of different
+     * heights are cut in one wall, their holes give one staircase-shaped opening, and the wall between them stays
+     * a face of its own.
      *
+     * @param intervals the parts of the wall to cut out, as s0, s1 and the z of the top of the arch
      * @return the faces replacing the wall face, or null if it cannot be cut: half a cut would open the body
      */
     private List<int[]> cutFaceInItsPlane(int faceIndex, WallLine wall, List<double[]> intervals) {
@@ -840,7 +955,7 @@ public class PassageCutter {
         }
         List<Geometry> holes = new ArrayList<>();
         for (double[] interval : intervals) {
-            holes.add(rectangle(interval[0], interval[1], wall.faceMinZ - 1.0, archZ));
+            holes.add(rectangle(interval[0], interval[1], wall.faceMinZ - 1.0, interval[2]));
         }
         Geometry rest;
         try {
@@ -880,8 +995,23 @@ public class PassageCutter {
         return pieces;
     }
 
-    /** Cuts the floor of the building, so that the passage is not closed by it and the body stays watertight. */
-    private void cutBottomFaces(Geometry strip) {
+    /**
+     * Cuts the floor of the building, so that the passage is not closed by it and the body stays watertight.
+     * A floor above the arch of a group is not touched by that group, so every floor is cut with the strips of
+     * the groups that reach it.
+     */
+    private void cutBottomFaces(List<PassageGroup> groups) {
+        List<Geometry> all = new ArrayList<>();
+        for (PassageGroup group : groups) {
+            all.add(group.strip);
+        }
+        Geometry allStrips;
+        try {
+            allStrips = all.size() == 1 ? all.get(0) : UnaryUnionOp.union(all);
+        } catch (TopologyException | IllegalArgumentException e) {
+            markBroken("the strips of the passages cannot be joined: " + e);
+            return;
+        }
         for (int faceIndex = 0; faceIndex < mesh.faces.size(); faceIndex++) {
             if (mesh.faceMaterials.get(faceIndex) != Mesh.BOTTOM_COLOUR_IDX) {
                 continue;
@@ -901,13 +1031,17 @@ public class PassageCutter {
             if (!horizontal) {
                 //a "floor" that is not horizontal cannot be cut in the XY plane, so a passage through it
                 //opens the body
-                if (crosses(ring, strip)) {
+                if (crosses(ring, allStrips)) {
                     markBroken("the bottom of the object is not horizontal " + Arrays.toString(ring));
                 }
                 continue;
             }
-            if (z > archZ) {
-                continue; //a floor above the top of the arch is not touched
+            Geometry strip = stripsOfArchesReaching(groups, z);
+            if (strip == null) {
+                if (broken) {
+                    return;
+                }
+                continue; //no arch of this object reaches this floor
             }
             Polygon original = factory.createPolygon(ring);
             if (!original.isValid()) {
@@ -958,6 +1092,30 @@ public class PassageCutter {
         }
     }
 
+    /**
+     * The strips of the groups whose arch reaches the floor at this z: the passage of a group roofed below this
+     * floor does not cut it.
+     *
+     * @return the strips as one polygon, or null when no arch reaches this floor or they cannot be joined
+     */
+    private Geometry stripsOfArchesReaching(List<PassageGroup> groups, double z) {
+        List<Geometry> strips = new ArrayList<>();
+        for (PassageGroup group : groups) {
+            if (z <= group.archZ) {
+                strips.add(group.strip);
+            }
+        }
+        if (strips.isEmpty()) {
+            return null;
+        }
+        try {
+            return strips.size() == 1 ? strips.get(0) : UnaryUnionOp.union(strips);
+        } catch (TopologyException | IllegalArgumentException e) {
+            markBroken("the strips of the passages cannot be joined: " + e);
+            return null;
+        }
+    }
+
     /** Is the area of a face (given by its ring in the floor plane) crossed by the strip of a passage? */
     private boolean crosses(Coordinate[] ring, Geometry strip) {
         try {
@@ -972,9 +1130,14 @@ public class PassageCutter {
      * Vertical walls of the passage, floor to top of the arch.  The lower edge of such a wall lies on the
      * boundary of the cut floor, which may have a vertex in the middle of that edge, at a seam between the
      * pieces of the floor: such vertices are inserted into the wall face so that wall and floor share edges.
+     *
+     * @param tops the height of the arch each wall belongs to, so that the passages of one building may be
+     *             roofed at different heights
      */
-    private void addPassageWalls(List<Coordinate[]> edges) {
-        for (Coordinate[] edge : edges) {
+    private void addPassageWalls(List<Coordinate[]> edges, List<Double> tops) {
+        for (int e = 0; e < edges.size(); e++) {
+            Coordinate[] edge = edges.get(e);
+            double top = tops.get(e);
             if (edge[0].distance(edge[1]) < MIN_EDGE) {
                 continue;
             }
@@ -991,8 +1154,8 @@ public class PassageCutter {
             //the upper edge is not split, because the ceiling of the arch has a single edge there
             Coordinate last = bottom.get(n - 1);
             Coordinate first = bottom.get(0);
-            face[n] = vertexId(last.x, last.y, archZ);
-            face[n + 1] = vertexId(first.x, first.y, archZ);
+            face[n] = vertexId(last.x, last.y, top);
+            face[n + 1] = vertexId(first.x, first.y, top);
             addFace(face, Mesh.WALL_COLOUR_IDX);
         }
     }
@@ -1023,13 +1186,14 @@ public class PassageCutter {
         return found;
     }
 
-    /** The ceiling of the arch: the plan of the opening at the height of the arch, looking down. */
-    private void addArchCeilings(List<Polygon> openings) {
-        for (Polygon opening : openings) {
+    /** The ceiling of the arch: the plan of the opening at the height of the arch of its own group, looking down. */
+    private void addArchCeilings(List<Arch> arches) {
+        for (Arch arch : arches) {
+            Polygon opening = arch.opening;
             Coordinate[] outer = opening.getExteriorRing().getCoordinates();
             if (opening.getNumInteriorRing() == 0) {
                 //reversed, so that the normal of the horizontal face points down
-                int[] face = ringToFace(reverse(outer), false, (s, z) -> new Point3D(s, z, archZ));
+                int[] face = ringToFace(reverse(outer), false, (s, z) -> new Point3D(s, z, arch.archZ));
                 if (face == null) {
                     markBroken("the ceiling of the arch collapsed into a line: " + opening);
                     return;
@@ -1037,7 +1201,7 @@ public class PassageCutter {
                 addFace(face, Mesh.WALL_COLOUR_IDX);
             } else {
                 //an opening with a hole cannot be a single face, so it is tessellated, as MesherFlat does
-                tessellateLookingDown(opening, archZ, Mesh.WALL_COLOUR_IDX, "the ceiling of the arch");
+                tessellateLookingDown(opening, arch.archZ, Mesh.WALL_COLOUR_IDX, "the ceiling of the arch");
             }
         }
     }

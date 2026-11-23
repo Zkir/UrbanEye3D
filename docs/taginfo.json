@@ -1,6 +1,6 @@
 {
   "data_format" : 1,
-  "data_updated" : "20261119T175019Z",
+  "data_updated" : "20261127T193647Z",
   "project" : {
     "name" : "Urban Eye 3D",
     "description" : "JOSM plugin for 3D visualization of buildings",
@@ -1435,6 +1435,9 @@
   }, {
     "key" : "tunnel",
     "description" : "Used for 2D ground plane rendering"
+  }, {
+    "key" : "tunnel:height",
+    "description" : "Used as a primary tag for a height of a building passage."
   }, {
     "key" : "tunnel",
     "value" : "building_passage",
