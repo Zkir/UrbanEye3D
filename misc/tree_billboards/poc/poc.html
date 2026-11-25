@@ -1,0 +1,103 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>poc</title>
+<script>
+window.__errors = [];
+window.__logs = [];
+window.addEventListener('error', (e) => window.__errors.push('error: ' + (e.message || e.error)));
+window.addEventListener('unhandledrejection', (e) => window.__errors.push('reject: ' + String(e.reason)));
+const realLog = console.log;
+console.log = (...a) => { window.__logs.push(a.map(String).join(' ')); realLog(...a); };
+</script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "/node_modules/three/build/three.module.js",
+    "three/webgpu": "/node_modules/three/build/three.webgpu.js",
+    "three/tsl": "/node_modules/three/build/three.tsl.js",
+    "three/addons/": "/node_modules/three/examples/jsm/",
+    "lil-gui": "/node_modules/lil-gui/dist/lil-gui.esm.js"
+  }
+}
+</script>
+<script type="module">
+import {
+  WebGPURenderer, OrthographicCamera, Box3, Vector3, TextureLoader, SRGBColorSpace,
+} from 'three/webgpu';
+import { createTree, setWind } from '/src/api/seedthree.js';
+import { bakeGroupToTextures } from '/src/core/impostor.js';
+
+const loader = new TextureLoader();
+const loadTexture = (path, { srgb } = {}) => new Promise((resolve) => {
+  loader.load(path, (tex) => {
+    if (srgb) tex.colorSpace = SRGBColorSpace;
+    tex.anisotropy = 8;
+    resolve(tex);
+  }, undefined, () => resolve(null));
+});
+
+let renderer = null;
+
+window.__bake = async ({ species, seed = 1, size = 512, lod = {}, controls = {}, views = ['front', 'side'] }) => {
+  const log = [];
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 32;
+  document.body.appendChild(canvas);
+  renderer = renderer || new WebGPURenderer({ canvas, antialias: false });
+  await renderer.init();
+  log.push('backend: ' + (renderer.backend?.isWebGPUBackend ? 'webgpu' : 'other'));
+
+  setWind({ strength: 0 });
+  const tree = await createTree({ species, seed, lod, controls, loadTexture, assetsDir: '/assets', level: 'LOD0' });
+  const root = tree.object;
+  root.updateMatrixWorld(true);
+  log.push('stats: ' + JSON.stringify(tree.stats.summary));
+
+  const box = new Box3().setFromObject(root);
+  const s = box.getSize(new Vector3());
+  const margin = 1.03;
+  const halfH = (s.y / 2) * margin;
+  const halfW = (Math.max(s.x, s.z) / 2) * margin;
+  const iso = Math.max(halfW, halfH);          // isotropic square frustum → square RT keeps square pixels
+  const center = new Vector3(0, (box.min.y + box.max.y) / 2, 0);
+
+  const cams = [];
+  for (const [name, dir] of [['front', new Vector3(0, 0, 1)], ['side', new Vector3(1, 0, 0)]]) {
+    if (!views.includes(name)) continue;
+    const cam = new OrthographicCamera(-iso, iso, iso, -iso, 0.1, iso * 2 + 5);
+    cam.position.copy(center).addScaledVector(dir, iso + 2.5);
+    cam.lookAt(center);
+    cams.push({ name, camera: cam });
+  }
+
+  const t0 = performance.now();
+  const baked = await bakeGroupToTextures(renderer, root, cams, { size, dilate: 4, rawPixels: true });
+  const ms = Math.round(performance.now() - t0);
+
+  const out = {
+    log, ms,
+    meta: {
+      species, seed, size,
+      realHeightMeters: +s.y.toFixed(3), realWidthMeters: +Math.max(s.x, s.z).toFixed(3),
+      halfW: +halfW.toFixed(4), halfH: +halfH.toFixed(4), iso: +iso.toFixed(4),
+      // crop box inside the square RT that restores the tight, aspect-correct raster
+      cropW: Math.round((size * halfW) / iso),
+      cropH: Math.round((size * halfH) / iso),
+      cropX: Math.round((size - Math.round((size * halfW) / iso)) / 2),
+      cropY: Math.round((size - Math.round((size * halfH) / iso)) / 2),
+    },
+  };
+  const toB64 = (bytes) => {
+    let s2 = '';
+    const chunk = 8192;
+    for (let i = 0; i < bytes.length; i += chunk) {
+      s2 += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+    }
+    return btoa(s2);
+  };
+  for (const v of Object.keys(baked)) out[v] = toB64(baked[v].albedo.data);
+  window.__done = out;
+  return { log: out.log, meta: out.meta, ms, views: Object.keys(baked), bytes: Object.keys(baked).map((v) => [v, baked[v].albedo.data.length]) };
+};
+document.title = 'ready';
+</script>
