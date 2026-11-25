@@ -9,3 +9,4 @@
 /misc/__pycache__
 /misc/osmupdate_temp
 .qwen/settings.json
+*.pyc

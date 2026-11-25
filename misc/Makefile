@@ -1,5 +1,9 @@
 # GNU Makefile for the tree analysis project
 
+# Python scripts print Latin names with '×': keep their output encoding fixed,
+# independent of the console codepage (otherwise cp850/cp1251 shells crash them).
+export PYTHONIOENCODING := utf-8
+
 .PHONY: all clean
 
 # Define the different analysis groupings we want to perform
@@ -12,6 +16,7 @@ TREE_STATS_FILES := $(patsubst %,data/10_trees/tree_stats_%.csv,$(ANALYSIS_TYPES
 #all: $(TREE_STATS_FILES) data/building_analysis_full.csv 
 all: data/15_trees_output/tree_species.csv data/15_trees_output/tree_species_invalid.md data/15_trees_output/leaf_type_family_violations.csv data/10_trees/correlations.txt \
          data/15_trees_output/spatial_stats_5x5.json  data/15_trees_output/map_leaf_types.png\
+         data/17_seedthree_textures/assets_trees.mapcss data/17_seedthree_textures/coverage.md \
          data/07_tags/popular_missing_tags.md  \
 		 data\30_flags\flag_rules.json data\30_flags\images-png.milestone \
 		 data/40_wind_generators/turbine_rules.json
@@ -84,6 +89,22 @@ data/15_trees_output/tree_species_invalid.md: data/10_trees/tree_species_all.csv
 data/15_trees_output/leaf_type_family_violations.csv: data/15_trees_output/tree_species.csv
 	python verify_leaf_types.py
 
+# Stage 17: SeedThree tree billboard textures (see misc/AGENTS.md, stage 17 section).
+# Needs an external SeedThree dependency (default D:\src\SeedThree, `npm install` done)
+# and Chrome/Edge with working WebGPU
+data/17_seedthree_textures/bake.milestone: data/15_trees_output/tree_species.csv | data/17_seedthree_textures
+	python tree_billboards\make_tree_billboards.py --size 512
+	touch data\17_seedthree_textures\bake.milestone
+
+data/17_seedthree_textures/assets_trees.mapcss: data/17_seedthree_textures/bake.milestone data/15_trees_output/tree_species.csv data/15_trees_output/tree_synonyms.csv
+	python tree_billboards\make_tree_assets.py
+	cmd /c "copy /b /v /y data\17_seedthree_textures\assets_trees.mapcss ..\src\main\resources\"
+	cmd /c "copy /b /v /y data\17_seedthree_textures\*_01.png ..\src\main\resources\textures\trees\"
+
+data/17_seedthree_textures/coverage.md: data/17_seedthree_textures/assets_trees.mapcss data/10_trees/tree_species_all.csv
+	python tree_billboards\make_coverage_report.py
+	cmd /c "copy /b /v /y data\17_seedthree_textures\coverage.md ..\docs\seedthree_coverage.md"
+
 data/20_buildings/buildings.csv: data/05_extracts/buildings.osm | data/20_buildings
 	python osm_to_csv.py --input $< --output $@ --columns $(BUILDING_COLUMNS)
 
@@ -141,6 +162,9 @@ data/10_trees :	| data
 	
 data/15_trees_output: | data	
 	@mkdir data\15_trees_output
+	
+data/17_seedthree_textures: | data	
+	@mkdir data\17_seedthree_textures
 	
 data/20_buildings: | data	
 	@mkdir data\20_buildings

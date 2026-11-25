@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <bounds minlat='48.1269' minlon='11.5259' maxlat='48.1277' maxlon='11.5283' origin='UrbanEye3D' />
+  <node id='-26132' action='modify' visible='true' lat='48.1275' lon='11.526'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Quercus alba' />
+  </node>
+  <node id='-26133' action='modify' visible='true' lat='48.1275' lon='11.52627'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Acer rubrum' />
+  </node>
+  <node id='-26134' action='modify' visible='true' lat='48.1275' lon='11.52654'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Liriodendron tulipifera' />
+  </node>
+  <node id='-26135' action='modify' visible='true' lat='48.1275' lon='11.52681'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Liquidambar styraciflua' />
+  </node>
+  <node id='-26136' action='modify' visible='true' lat='48.1275' lon='11.52708'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Fagus grandifolia' />
+  </node>
+  <node id='-26137' action='modify' visible='true' lat='48.1275' lon='11.52735'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Pinus ponderosa' />
+  </node>
+  <node id='-26138' action='modify' visible='true' lat='48.1275' lon='11.52762'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Pinus taeda' />
+  </node>
+  <node id='-26139' action='modify' visible='true' lat='48.1275' lon='11.52789'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Pseudotsuga menziesii' />
+  </node>
+  <node id='-26140' action='modify' visible='true' lat='48.1273' lon='11.526'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Malus domestica' />
+  </node>
+  <node id='-26141' action='modify' visible='true' lat='48.1273' lon='11.52627'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Prunus avium' />
+  </node>
+  <node id='-26142' action='modify' visible='true' lat='48.1273' lon='11.52654'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Betula papyrifera' />
+  </node>
+  <node id='-26143' action='modify' visible='true' lat='48.1273' lon='11.52681'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Populus tremuloides' />
+  </node>
+  <node id='-26144' action='modify' visible='true' lat='48.1273' lon='11.52708'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Platanus occidentalis' />
+  </node>
+  <node id='-26145' action='modify' visible='true' lat='48.1273' lon='11.52735'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Cornus florida' />
+  </node>
+  <node id='-26146' action='modify' visible='true' lat='48.1273' lon='11.52762'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Salix babylonica' />
+  </node>
+  <node id='-26147' action='modify' visible='true' lat='48.1273' lon='11.52789'>
+    <tag k='height' v='4' />
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Carnegiea gigantea' />
+  </node>
+  <node id='-26148' action='modify' visible='true' lat='48.1271' lon='11.526'>
+    <tag k='natural' v='tree' />
+    <tag k='species' v='Yucca brevifolia' />
+  </node>
+  <node id='-26149' action='modify' visible='true' lat='48.1271' lon='11.52627'>
+    <tag k='natural' v='tree' />
+    <tag k='note' v='control: fallback tree_001' />
+    <tag k='species' v='Picea abies' />
+  </node>
+  <node id='-26150' action='modify' visible='true' lat='48.1271' lon='11.52654'>
+    <tag k='natural' v='tree' />
+    <tag k='note' v='control: lowercase name, expect Quercus texture' />
+    <tag k='species' v='quercus alba' />
+  </node>
+  <node id='-26151' action='modify' visible='true' lat='48.1271' lon='11.52681'>
+    <tag k='natural' v='tree' />
+    <tag k='note' v='control: cultivar, expect red maple texture' />
+    <tag k='species' v='Acer rubrum &apos;Red Sunset&apos;' />
+  </node>
+  <node id='-26152' action='modify' visible='true' lat='48.1271' lon='11.52708'>
+    <tag k='genus' v='Betula' />
+    <tag k='natural' v='tree' />
+    <tag k='note' v='control: genus only, expect generic broadleaved' />
+  </node>
+  <node id='-26153' action='modify' visible='true' lat='48.1271' lon='11.52735'>
+    <tag k='leaf_type' v='palm' />
+    <tag k='natural' v='tree' />
+    <tag k='note' v='control: palm fallback' />
+  </node>
+  <node id='-26154' action='modify' visible='true' lat='48.1271' lon='11.52762'>
+    <tag k='natural' v='tree' />
+    <tag k='note' v='control: no tags, geographic inference' />
+  </node>
+  <node id='-26155' action='modify' visible='true' lat='48.1271' lon='11.52789'>
+    <tag k='diameter_crown' v='15' />
+    <tag k='natural' v='tree' />
+    <tag k='note' v='control: diameter_crown 15' />
+    <tag k='species' v='Quercus alba' />
+  </node>
+  <node id='-26156' action='modify' visible='true' lat='48.1271' lon='11.52816'>
+    <tag k='height' v='20' />
+    <tag k='natural' v='tree' />
+    <tag k='note' v='control: height 20' />
+    <tag k='species' v='Pseudotsuga menziesii' />
+  </node>
+  <node id='-26157' action='modify' visible='true' lat='48.1271' lon='11.52843'>
+    <tag k='natural' v='tree' />
+    <tag k='note' v='control: synonym, expect cherry texture' />
+    <tag k='species' v='Cerasus avium' />
+  </node>
+  <node id='-26276' action='modify' visible='true' lat='48.1274017257' lon='11.52595237164' />
+  <node id='-26313' action='modify' visible='true' lat='48.12741423274' lon='11.52842263839' />
+  <node id='-26380' action='modify' visible='true' lat='48.12718910554' lon='11.5259367568' />
+  <node id='-26423' action='modify' visible='true' lat='48.12720786618' lon='11.52844762212' />
+  <node id='-26844' action='modify' visible='true' lat='48.12777128685' lon='11.52593664424' />
+  <node id='-26869' action='modify' visible='true' lat='48.12777170546' lon='11.52616837539' />
+  <node id='-26894' action='modify' visible='true' lat='48.12768081378' lon='11.52616874393' />
+  <node id='-26913' action='modify' visible='true' lat='48.12767943137' lon='11.52593701668' />
+  <node id='-27336' action='modify' visible='true' lat='48.12767952037' lon='11.52598628433' />
+  <node id='-27371' action='modify' visible='true' lat='48.12768071549' lon='11.52611433063' />
+  <node id='-27402' action='modify' visible='true' lat='48.12765461428' lon='11.52598638531' />
+  <node id='-27459' action='modify' visible='true' lat='48.1276548456' lon='11.52611443552' />
+  <way id='-581' action='modify' visible='true'>
+    <nd ref='-26276' />
+    <nd ref='-26313' />
+    <tag k='highway' v='service' />
+  </way>
+  <way id='-583' action='modify' visible='true'>
+    <nd ref='-26380' />
+    <nd ref='-26423' />
+    <tag k='highway' v='service' />
+  </way>
+  <way id='-618' action='modify' visible='true'>
+    <nd ref='-26844' />
+    <nd ref='-26869' />
+    <nd ref='-26894' />
+    <nd ref='-27371' />
+    <nd ref='-27459' />
+    <nd ref='-27402' />
+    <nd ref='-27336' />
+    <nd ref='-26913' />
+    <nd ref='-26844' />
+    <tag k='building' v='house' />
+    <tag k='roof:shape' v='gabled' />
+  </way>
+</osm>

@@ -18,6 +18,28 @@
 	* The final species list is placed in the plugin's resources ('src/main/resources/data/tree_species.csv') to drive the 3D rendering engine.
 	* The geographic vegetation statistics ('spatial_stats_5x5.json') are visualized as a world map by `make_tree_map.py` and published to `docs/map_leaf_types.png`. The map is a quick sanity check of the statistics: a wrong dominant leaf type in a cell means either bad OSM data or a bug in the analysis.
 	
+*   **Tree Billboard Texture Generation (`misc/tree_billboards/`, pipeline stage 17):**
+    *   Bakes transparent 512 px tree textures from the external [SeedThree](https://github.com/SkyeShark/SeedThree)
+        generator; entry point `make_tree_billboards.py` (`--only`, `--seeds`, `--ban key:seed`, `--size`),
+        which calls `bake.mjs`/`bake-page.html` (SeedThree `createTree` + `bakeGroupToTextures` in one
+        headless Chrome/WebGPU session over CDP). 4 seed variants per species; `--ban` drops bad ones.
+        Plan: `docs/dev/SEEDTHREE_TREE_TEXTURES_PLAN.md`.
+    *   SeedThree is not vendored. If missing, initialize:
+        `git clone https://github.com/SkyeShark/SeedThree D:\src\SeedThree` then `npm install` inside it
+        (or point `SEEDTHREE_DIR` at an existing checkout; `CHROME_PATH` overrides the browser).
+        Without them the bake target fails.
+    *   Species come from SeedThree itself (`bake.mjs --list-species`), Latin included; no species list in repo.
+    *   Promotion = Makefile target `data/17_seedthree_textures/assets_trees.mapcss`: `make_tree_assets.py`
+        generates rules (exact Latin + synonyms from `tree_synonyms.csv`; no stand-ins) between
+        BEGIN/END markers; recipe copies the mapcss to `src/main/resources/` and `*_01.png` to
+        `src/main/resources/textures/trees/`. `AssetConfigLoader` appends it after base rules on purpose
+        (species rules win over leaf-type fallbacks). It prints `AssetListTest` provenance lines to add.
+    *   Outputs in `misc/data/17_seedthree_textures/` (like every stage): textures, `manifest.json`
+        (rev/seed/metres/aspect/alpha), `tree_billboards.md`, `coverage.md` (top-150 OSM species vs
+        presets, what exists and what is missing), `intermediates/`. `coverage.md` has image links
+        relative to its Makefile-copied twin `docs/seedthree_coverage.md` (dead links in the misc
+        copy are fine; one report, copied by the recipe, never generated twice).
+
 *   **Buildings** are processed in order to create a file with "smart defaults" values. This part is highly experimental and not yet used by the plugin itself.
 
 *   **Tag Popularity Analysis:**

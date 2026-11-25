@@ -1,0 +1,154 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>loading</title>
+<!--
+  In-page bake host for the UrbanEye3D billboard pipeline (driven by bake.mjs over CDP).
+  Served by bake.mjs rooted at the SeedThree checkout, so '/src/...' and '/node_modules/...'
+  resolve inside SeedThree itself; nothing here is written into the SeedThree repo.
+  Exposes: window.__bake(job) -> {ok, meta} ; window.__pixTake(viewName) -> base64 RGBA | null
+-->
+<script>
+window.__errors = [];
+window.addEventListener('error', (e) => window.__errors.push('error: ' + (e.message || e.error)));
+window.addEventListener('unhandledrejection', (e) => window.__errors.push('reject: ' + String(e.reason)));
+</script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "/node_modules/three/build/three.module.js",
+    "three/webgpu": "/node_modules/three/build/three.webgpu.js",
+    "three/tsl": "/node_modules/three/build/three.tsl.js",
+    "three/addons/": "/node_modules/three/examples/jsm/",
+    "lil-gui": "/node_modules/lil-gui/dist/lil-gui.esm.js"
+  }
+}
+</script>
+<script type="module">
+import {
+  WebGPURenderer, OrthographicCamera, Box3, Vector3, TextureLoader, SRGBColorSpace,
+} from 'three/webgpu';
+import { createTree, setWind, listSpecies } from '/src/api/seedthree.js';
+import { bakeGroupToTextures } from '/src/core/impostor.js';
+
+// Cached textures shared across bakes of the same species (bake.mjs bakes many seeds
+// per page session). Material.dispose() does not touch them; we never dispose these.
+const loader = new TextureLoader();
+const texCache = new Map();
+const loadTexture = (path, { srgb } = {}) => {
+  if (texCache.has(path)) return Promise.resolve(texCache.get(path));
+  return new Promise((resolve) => {
+    loader.load(path, (tex) => {
+      if (srgb) tex.colorSpace = SRGBColorSpace;
+      tex.anisotropy = 8;
+      texCache.set(path, tex);
+      resolve(tex);
+    }, undefined, () => resolve(null));
+  });
+};
+
+let renderer = null;
+
+// Free a baked plant's GPU/CPU geometry + materials between jobs.
+const disposeTree = (root) => {
+  const geos = new Set();
+  const mats = new Set();
+  root.traverse((o) => {
+    if (o.geometry) geos.add(o.geometry);
+    if (o.material) for (const m of (Array.isArray(o.material) ? o.material : [o.material])) mats.add(m);
+  });
+  for (const g of geos) g.dispose();
+  for (const m of mats) m.dispose();
+};
+
+/**
+ * job: { species, seed, size, views: [azimuthDeg], margin, dilate, controls, lod }
+ * Framing follows the validated POC recipe: ortho camera centred on the trunk axis
+ * (x=0,z=0), isotropic square frustum -> square RT keeps square pixels; the tight
+ * crop box is computed here and applied by bake.mjs with sharp.
+ */
+window.__bake = async (job) => {
+  try {
+    const {
+      species, seed = 1, size = 512, margin = 1.03, dilate = 4,
+      views = [0], controls = {}, lod = {},
+    } = job;
+    if (!renderer) {
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 32;
+      document.body.appendChild(canvas);
+      renderer = new WebGPURenderer({ canvas, antialias: false });
+      await renderer.init();
+      if (!renderer.backend?.isWebGPUBackend) throw new Error('no WebGPU backend');
+    }
+    setWind({ strength: 0 });
+    const tree = await createTree({ species, seed, lod, controls, loadTexture, assetsDir: '/assets', level: 'LOD0' });
+    const root = tree.object;
+    root.updateMatrixWorld(true);
+
+    const box = new Box3().setFromObject(root);
+    const s = box.getSize(new Vector3());
+    const halfH = (s.y / 2) * margin;
+    const halfW = (Math.max(s.x, s.z) / 2) * margin;
+    const iso = Math.max(halfW, halfH);
+    const center = new Vector3(0, (box.min.y + box.max.y) / 2, 0);
+
+    const cams = views.map((deg) => {
+      const dir = new Vector3(Math.sin(deg * Math.PI / 180), 0, Math.cos(deg * Math.PI / 180));
+      const camera = new OrthographicCamera(-iso, iso, iso, -iso, 0.1, iso * 2 + 5);
+      camera.position.copy(center).addScaledVector(dir, iso + 2.5);
+      camera.lookAt(center);
+      return { name: `az${deg}`, camera };
+    });
+
+    const t0 = performance.now();
+    const baked = await bakeGroupToTextures(renderer, root, cams, { size, dilate, rawPixels: true });
+    const ms = Math.round(performance.now() - t0);
+
+    window.__pix = {};
+    const toB64 = (bytes) => {
+      let s2 = '';
+      const chunk = 8192;
+      for (let i = 0; i < bytes.length; i += chunk) {
+        s2 += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+      }
+      return btoa(s2);
+    };
+    const cropW = Math.round((size * halfW) / iso);
+    const cropH = Math.round((size * halfH) / iso);
+    for (const v of Object.keys(baked)) {
+      window.__pix[v] = toB64(baked[v].albedo.data);
+      for (const ch of Object.keys(baked[v])) {
+        if (ch !== 'albedo') baked[v][ch].data = null; // free the unused channels
+      }
+    }
+    disposeTree(root);
+
+    return {
+      ok: true,
+      ms,
+      stats: tree.stats?.summary ?? null,
+      meta: {
+        species, seed, size,
+        realHeightMeters: +s.y.toFixed(3), realWidthMeters: +Math.max(s.x, s.z).toFixed(3),
+        halfW: +halfW.toFixed(4), halfH: +halfH.toFixed(4), iso: +iso.toFixed(4),
+        cropW, cropH,
+        cropX: Math.round((size - cropW) / 2),
+        cropY: Math.round((size - cropH) / 2),
+      },
+      views: Object.keys(baked),
+    };
+  } catch (err) {
+    return { ok: false, error: String(err && err.stack || err).slice(0, 1200) };
+  }
+};
+
+window.__pixTake = (name) => {
+  const v = window.__pix?.[name] ?? null;
+  if (window.__pix) delete window.__pix[name];
+  return v;
+};
+
+// Species registry straight from SeedThree (key, name, latin, biome, ...).
+window.__speciesList = () => listSpecies();
+document.title = 'ready';
+</script>

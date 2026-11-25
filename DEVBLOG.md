@@ -1,5 +1,44 @@
 # Development History
 
+## Nov 26, 2026
+
+* After the successful proof of concept (see Nov 25), **SeedThree library** has been integrated into the data pipeline, and the
+  plugin gained **twenty new tree textures**, each applied to the corresponding species via the `species=` tag. The number of 
+  tree textures grows almost eightfold — from 3 to 23 — which should visibly increase the  diversity of trees rendered in the plugin.
+* There is now a [coverage report](docs/seedthree_coverage.md) where one can see for which species specific textures
+  exist and view their thumbnails. 
+    *   **Unfortunately:** while the plugin knows about 2000 tree species, there are only these
+        20 textures so far, and they are not the most popular species in OSM — all twenty SeedThree presets are North
+        American species, the top-10 most-mapped European species are covered by nothing, and the first covered species
+        sits at rank 26 by popularity.
+    *   Growing that list is a contribution to [SeedThree](https://github.com/SkyeShark/SeedThree) itself: species presets
+        are authored upstream, without touching any engine code. I very much hope the OSM community — which knows these
+        trees better than anyone — can help with it.
+
+  ![SeedThree_trees](docs/images/SeedThree_trees.png)
+
+## Nov 25, 2026
+
+* Started work on procedural tree textures. The generator we chose is [SeedThree](https://github.com/SkyeShark/SeedThree) —
+  one of the few existing open-source libraries for procedural tree generation, and one of the few alive ones (last commit about two
+  months ago, 121 stars on GitHub as of that date). It is MIT-licensed, which is compatible with the GNU GPL 3 under which
+  this plugin is distributed. 
+    * Its key advantage for us: it ships **twenty finished tree models matched to biological
+  species** — real Latin binomials, exactly the names we have in the OSM `species=` tag — rather than yet another
+  generic "an oak, roughly".
+    * Its drawback: SeedThree is written in JavaScript, not Java. Embedding it into the plugin is out of the question, so
+  generation of tree models on the fly is out of the question too — for now. Instead we will call it from our
+  pre-release data pipeline to produce pre-baked tree textures, the same way that pipeline prepares flag textures and
+  other data the plugin ships with.
+    * The technical part turned out easy: SeedThree already offers a headless API and a render-to-texture bake that yields
+  transparent, aspect-correct rasters of a chosen size — **no upstream patches are required**. The proof of concept
+  happened, and the generated textures look attractive; the full design and decisions are in the
+  [plan](docs/dev/SEEDTHREE_TREE_TEXTURES_PLAN.md).
+  
+  | redMaple, seed 7 — 463×512 | redMaple, seed 7, side view — 463×512 | douglasFir, seed 3 — 338×512 |
+  |---|---|---|
+  |![redMaple seed 7 front](docs/dev/tree_billboards_samples/redMaple-seed7-front.png) | ![redMaple seed 7 side](docs/dev/tree_billboards_samples/redMaple-seed7-side.png) | ![douglasFir seed 3 front](docs/dev/tree_billboards_samples/douglasFir-seed3-front.png) |
+
 ## Nov 23, 2026
 
 * Passages through a building no longer all become the same height. Each one is now as tall as its own  tags say.
