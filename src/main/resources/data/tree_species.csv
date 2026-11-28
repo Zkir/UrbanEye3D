@@ -91,7 +91,7 @@ Acer lobelii,Acer,Sapindaceae,Q15287726,deciduous,broadleaved
 Acer macrophyllum,Acer,Sapindaceae,Q599523,deciduous,broadleaved
 Acer maximowiczianum,Acer,Sapindaceae,,deciduous,broadleaved
 Acer miyabei,Acer,Sapindaceae,Q660569,deciduous,broadleaved
-Acer mono,Acer,Sapindaceae,,deciduous,broadleaved
+Acer mono,Acer,Sapindaceae,Q15287991,deciduous,broadleaved
 Acer monspessulanum,Acer,Sapindaceae,Q161388,deciduous,broadleaved
 Acer neglectum,Acer,Sapindaceae,Q4673185,deciduous,broadleaved
 Acer negundo,Acer,Sapindaceae,Q161166,deciduous,broadleaved
@@ -100,7 +100,7 @@ Acer opalus,Acer,Sapindaceae,Q163822,deciduous,broadleaved
 Acer paihengii,Acer,Sapindaceae,,deciduous,broadleaved
 Acer palmatum,Acer,Sapindaceae,Q269224,deciduous,broadleaved
 Acer pensylvanicum,Acer,Sapindaceae,Q1190312,deciduous,broadleaved
-Acer pictum,Acer,Sapindaceae,,deciduous,broadleaved
+Acer pictum,Acer,Sapindaceae,Q15287991,deciduous,broadleaved
 Acer platanoides,Acer,Sapindaceae,Q26745,deciduous,broadleaved
 Acer pseudoplatanus,Acer,Sapindaceae,Q156944,deciduous,broadleaved
 Acer pseudosieboldianum,Acer,Sapindaceae,Q1043238,deciduous,broadleaved
@@ -156,7 +156,6 @@ Afrocarpus falcatus,Afrocarpus,Podocarpaceae,,evergreen,needleleaved
 Afrocarpus gracilior,Afrocarpus,Podocarpaceae,,evergreen,needleleaved
 Agathis australis,Agathis,Araucariaceae,,evergreen,needleleaved
 Agathis robusta,Agathis,Araucariaceae,,evergreen,needleleaved
-Agave americana,Agave,Asparagaceae,,evergreen,broadleaved
 Agonis flexuosa,Agonis,Myrtaceae,,deciduous,broadleaved
 Ailanthus altissima,Ailanthus,Simaroubaceae,Q159570,deciduous,broadleaved
 Ailanthus glandulosa,Ailanthus,Simaroubaceae,Q159570,deciduous,broadleaved
@@ -224,9 +223,9 @@ Aralia spinosa,Aralia,Araliaceae,,deciduous,broadleaved
 Araucaria angustifolia,Araucaria,Araucariaceae,,evergreen,needleleaved
 Araucaria araucana,Araucaria,Araucariaceae,Q158780,evergreen,needleleaved
 Araucaria bidwillii,Araucaria,Araucariaceae,,evergreen,needleleaved
-Araucaria columnaris,Araucaria,Araucariaceae,,evergreen,needleleaved
+Araucaria columnaris,Araucaria,Araucariaceae,Q134045,evergreen,needleleaved
 Araucaria cunninghamii,Araucaria,Araucariaceae,,evergreen,needleleaved
-Araucaria excelsa,Araucaria,Araucariaceae,,evergreen,needleleaved
+Araucaria excelsa,Araucaria,Araucariaceae,Q134045,evergreen,needleleaved
 Araucaria heterophylla,Araucaria,Araucariaceae,Q161070,evergreen,needleleaved
 Arbutus andrachne,Arbutus,Ericaceae,,evergreen,broadleaved
 Arbutus canariensis,Arbutus,Ericaceae,,evergreen,broadleaved
@@ -262,6 +261,7 @@ Azalea japonica,Azalea,Ericaceae,,evergreen,broadleaved
 Azara lanceolata,Azara,Salicaceae,,evergreen,broadleaved
 Azara serrata,Azara,Salicaceae,,evergreen,broadleaved
 Bactris gasipaes,Bactris,Arecaceae,,evergreen,palm
+Bambusa vulgaris,Bambusa,Poaceae,,evergreen,broadleaved
 Banksia integrifolia,Banksia,Proteaceae,,evergreen,broadleaved
 Banksia marginata,Banksia,Proteaceae,,deciduous,broadleaved
 Banksia serrata,Banksia,Proteaceae,,deciduous,broadleaved
@@ -345,13 +345,13 @@ Callistemon pallidus,Callistemon,Myrtaceae,,deciduous,broadleaved
 Callistemon phoeniceus,Callistemon,Myrtaceae,,deciduous,broadleaved
 Callistemon salignus,Callistemon,Myrtaceae,,deciduous,broadleaved
 Callistemon speciosus,Callistemon,Myrtaceae,,evergreen,broadleaved
-Callistemon viminalis,Callistemon,Myrtaceae,Q22113637,deciduous,broadleaved
+Callistemon viminalis,Callistemon,Myrtaceae,Q22113637,evergreen,broadleaved
 Callitris columellaris,Callitris,Cupressaceae,,deciduous,needleleaved
 Callitris glauca,Callitris,Cupressaceae,,deciduous,needleleaved
 Callitris preissii,Callitris,Cupressaceae,Q2715203,evergreen,needleleaved
 Callitris rhomboidea,Callitris,Cupressaceae,,deciduous,needleleaved
 Callitropsis nootkatensis,Callitropsis,Cupressaceae,Q23707222,evergreen,needleleaved
-Calocedrus decurrens,Calocedrus,Cupressaceae,,evergreen,needleleaved
+Calocedrus decurrens,Calocedrus,Cupressaceae,Q1399164,evergreen,needleleaved
 Calophyllum brasiliense,Calophyllum,Calophyllaceae,,deciduous,broadleaved
 Calophyllum inophyllum,Calophyllum,Calophyllaceae,,evergreen,broadleaved
 Calycanthus praecox,Calycanthus,Calycanthaceae,,deciduous,broadleaved
@@ -554,7 +554,7 @@ Corypha umbraculifera,Corypha,Arecaceae,,evergreen,palm
 Cotinus coggygria,Cotinus,Anacardiaceae,Q161406,deciduous,broadleaved
 Cotinus obovatus,Cotinus,Anacardiaceae,Q5175390,deciduous,broadleaved
 Cotoneaster coriaceus,Cotoneaster,Rosaceae,Q15536460,evergreen,broadleaved
-Cotoneaster frigidus,Cotoneaster,Rosaceae,Q811476,semi_evergreen,broadleaved
+Cotoneaster frigidus,Cotoneaster,Rosaceae,Q811476,deciduous,broadleaved
 Cotoneaster glaucophyllus,Cotoneaster,Rosaceae,,evergreen,broadleaved
 Cotoneaster salicifolius,Cotoneaster,Rosaceae,,evergreen,broadleaved
 Cotoneaster × watereri,Cotoneaster,Rosaceae,,evergreen,broadleaved
@@ -590,7 +590,7 @@ Crataegus laevigata,Crataegus,Rosaceae,Q159553,deciduous,broadleaved
 Crataegus macrosperma,Crataegus,Rosaceae,Q5182572,deciduous,broadleaved
 Crataegus margaretta,Crataegus,Rosaceae,Q137643271,deciduous,broadleaved
 Crataegus marshallii,Crataegus,Rosaceae,Q5182573,deciduous,broadleaved
-Crataegus media,Crataegus,Rosaceae,Q1940705,deciduous,broadleaved
+Crataegus media,Crataegus,Rosaceae,Q5182572,deciduous,broadleaved
 Crataegus mollis,Crataegus,Rosaceae,Q2671022,deciduous,broadleaved
 Crataegus monogyna,Crataegus,Rosaceae,Q161511,deciduous,broadleaved
 Crataegus nigra,Crataegus,Rosaceae,,deciduous,broadleaved
@@ -626,7 +626,7 @@ Crataegus viridis,Crataegus,Rosaceae,Q2084514,deciduous,broadleaved
 Crataegus wootoniana,Crataegus,Rosaceae,Q17249438,deciduous,broadleaved
 Crataegus × grignonensis,Crataegus,Rosaceae,Q5182597,deciduous,broadleaved
 Crataegus × lavalleei,Crataegus,Rosaceae,Q1693676,deciduous,broadleaved
-Crataegus × media,Crataegus,Rosaceae,,deciduous,broadleaved
+Crataegus × media,Crataegus,Rosaceae,Q1940705,deciduous,broadleaved
 Crataegus × mordenensis,Crataegus,Rosaceae,,deciduous,broadleaved
 Crescentia cujete,Crescentia,Bignoniaceae,,evergreen,broadleaved
 Crinodendron patagua,Crinodendron,Elaeocarpaceae,,evergreen,broadleaved
@@ -638,7 +638,7 @@ Cryptomeria japonica,Cryptomeria,Cupressaceae,Q147388,evergreen,needleleaved
 Cunninghamia lanceolata,Cunninghamia,Cupressaceae,Q149115,evergreen,needleleaved
 Cupania americana,Cupania,Sapindaceae,,evergreen,broadleaved
 Cupaniopsis anacardioides,Cupaniopsis,Sapindaceae,,evergreen,broadleaved
-Cupressus arizonica,Cupressus,Cupressaceae,Q670040,evergreen,needleleaved
+Cupressus arizonica,Cupressus,Cupressaceae,Q50843037,evergreen,needleleaved
 Cupressus cashmeriana,Cupressus,Cupressaceae,Q917216,evergreen,needleleaved
 Cupressus funebris,Cupressus,Cupressaceae,,evergreen,needleleaved
 Cupressus glabra,Cupressus,Cupressaceae,,evergreen,needleleaved
@@ -658,7 +658,7 @@ Dalbergia latifolia,Dalbergia,Fabaceae,,deciduous,broadleaved
 Dalbergia sissoo,Dalbergia,Fabaceae,,deciduous,broadleaved
 Daphniphyllum macropodum,Daphniphyllum,Daphniphyllaceae,,evergreen,broadleaved
 Davidia involucrata,Davidia,Nyssaceae,Q334697,deciduous,broadleaved
-Decaspermum blancoi,Decaspermum,Myrtaceae,,evergreen,broadleaved
+Decaspermum blancoi,Decaspermum,Myrtaceae,,deciduous,broadleaved
 Delonix regia,Delonix,Fabaceae,Q238486,evergreen,broadleaved
 Delostoma integrifolium,Delostoma,Bignoniaceae,,evergreen,broadleaved
 Dillenia indica,Dillenia,Dilleniaceae,,evergreen,broadleaved
@@ -863,7 +863,7 @@ Guaiacum officinale,Guaiacum,Zygophyllaceae,,evergreen,broadleaved
 Guarea guidonia,Guarea,Meliaceae,,deciduous,broadleaved
 Guazuma ulmifolia,Guazuma,Malvaceae,,evergreen,broadleaved
 Gustavia superba,Gustavia,Lecythidaceae,,evergreen,broadleaved
-Gymnocladus dioicus,Gymnocladus,Fabaceae,Q105034954,deciduous,broadleaved
+Gymnocladus dioicus,Gymnocladus,Fabaceae,Q549418,deciduous,broadleaved
 Hakea bucculenta,Hakea,Proteaceae,,deciduous,broadleaved
 Hakea commutata,Hakea,Proteaceae,,deciduous,broadleaved
 Hakea drupacea,Hakea,Proteaceae,,deciduous,broadleaved
@@ -893,12 +893,12 @@ Hedlundia hybrida,Hedlundia,Rosaceae,,deciduous,broadleaved
 Hedlundia intermedia,Hedlundia,Rosaceae,Q139936592,deciduous,broadleaved
 Hedlundia mougeotii,Hedlundia,Rosaceae,,deciduous,broadleaved
 Hedlundia pseudofennica,Hedlundia,Rosaceae,,deciduous,broadleaved
-Hedlundia thuringiaca,Hedlundia,Rosaceae,Q41297396,deciduous,broadleaved
+Hedlundia thuringiaca,Hedlundia,Rosaceae,Q134483448,deciduous,broadleaved
 Hemiptelea davidii,Hemiptelea,Ulmaceae,,deciduous,broadleaved
 Heptacodium miconioides,Heptacodium,Caprifoliaceae,,deciduous,broadleaved
 Heptapleurum actinophyllum,Heptapleurum,Araliaceae,,evergreen,broadleaved
 Hesperocyparis abramsiana,Hesperocyparis,Cupressaceae,Q32856048,evergreen,needleleaved
-Hesperocyparis arizonica,Hesperocyparis,Cupressaceae,Q670040,evergreen,needleleaved
+Hesperocyparis arizonica,Hesperocyparis,Cupressaceae,Q50843037,evergreen,needleleaved
 Hesperocyparis bakeri,Hesperocyparis,Cupressaceae,Q32856049,evergreen,needleleaved
 Hesperocyparis glabra,Hesperocyparis,Cupressaceae,,evergreen,needleleaved
 Hesperocyparis guadalupensis,Hesperocyparis,Cupressaceae,Q67192921,evergreen,needleleaved
@@ -929,7 +929,7 @@ Ilex canariensis,Ilex,Aquifoliaceae,Q3315524,evergreen,broadleaved
 Ilex cassine,Ilex,Aquifoliaceae,Q3141413,evergreen,broadleaved
 Ilex chinensis,Ilex,Aquifoliaceae,,evergreen,broadleaved
 Ilex coriacea,Ilex,Aquifoliaceae,Q5997666,evergreen,broadleaved
-Ilex cornuta,Ilex,Aquifoliaceae,Q10744050,evergreen,broadleaved
+Ilex cornuta,Ilex,Aquifoliaceae,Q1074050,evergreen,broadleaved
 Ilex crenata,Ilex,Aquifoliaceae,,deciduous,broadleaved
 Ilex cuthbertii,Ilex,Aquifoliaceae,Q17270999,deciduous,broadleaved
 Ilex decidua,Ilex,Aquifoliaceae,Q5997670,deciduous,broadleaved
@@ -1017,7 +1017,7 @@ Leucaena leucocephala,Leucaena,Fabaceae,,evergreen,broadleaved
 Libidibia ferrea,Libidibia,Fabaceae,,deciduous,broadleaved
 Libidibia leiostachya,Libidibia,Fabaceae,,deciduous,broadleaved
 Libidibia punctata,Libidibia,Fabaceae,,evergreen,broadleaved
-Libocedrus decurrens,Libocedrus,Cupressaceae,,evergreen,needleleaved
+Libocedrus decurrens,Libocedrus,Cupressaceae,Q1399164,evergreen,needleleaved
 Licania tomentosa,Licania,Chrysobalanaceae,,evergreen,broadleaved
 Ligustrum compactum,Ligustrum,Oleaceae,Q15227996,deciduous,broadleaved
 Ligustrum ibota,Ligustrum,Oleaceae,,deciduous,broadleaved
@@ -1094,39 +1094,39 @@ Magnolia × veitchii,Magnolia,Magnoliaceae,Q21370187,deciduous,broadleaved
 Magnolia × wieseneri,Magnolia,Magnoliaceae,Q5989920,deciduous,broadleaved
 Mahonia aquifolium,Mahonia,Berberidaceae,,deciduous,broadleaved
 Malpighia emarginata,Malpighia,Malpighiaceae,,evergreen,broadleaved
-Malus asiatica,Malus,Rosaceae,,deciduous,broadleaved
+Malus asiatica,Malus,Rosaceae,Q1075968,deciduous,broadleaved
 Malus baccata,Malus,Rosaceae,Q1743596,deciduous,broadleaved
 Malus communis,Malus,Rosaceae,Q146281,deciduous,broadleaved
-Malus coronaria,Malus,Rosaceae,,deciduous,broadleaved
+Malus coronaria,Malus,Rosaceae,Q1936759,deciduous,broadleaved
 Malus denboerii,Malus,Rosaceae,,deciduous,broadleaved
 Malus domestica,Malus,Rosaceae,Q18674606,deciduous,broadleaved
-Malus floribunda,Malus,Rosaceae,,deciduous,broadleaved
-Malus fusca,Malus,Rosaceae,,deciduous,broadleaved
+Malus floribunda,Malus,Rosaceae,Q1683370,deciduous,broadleaved
+Malus fusca,Malus,Rosaceae,Q2564409,deciduous,broadleaved
 Malus hupehensis,Malus,Rosaceae,Q1712421,deciduous,broadleaved
-Malus ioensis,Malus,Rosaceae,,deciduous,broadleaved
+Malus ioensis,Malus,Rosaceae,Q3332919,deciduous,broadleaved
 Malus niedzwetzkyana,Malus,Rosaceae,Q18674606,deciduous,broadleaved
-Malus prunifolia,Malus,Rosaceae,,deciduous,broadleaved
+Malus prunifolia,Malus,Rosaceae,Q738571,deciduous,broadleaved
 Malus pumila,Malus,Rosaceae,Q18674606,deciduous,broadleaved
-Malus purpurea,Malus,Rosaceae,,deciduous,broadleaved
-Malus sargentii,Malus,Rosaceae,,deciduous,broadleaved
-Malus sieboldii,Malus,Rosaceae,,deciduous,broadleaved
+Malus purpurea,Malus,Rosaceae,Q886464,deciduous,broadleaved
+Malus sargentii,Malus,Rosaceae,Q52626848,deciduous,broadleaved
+Malus sieboldii,Malus,Rosaceae,Q52626848,deciduous,broadleaved
 Malus sieversii,Malus,Rosaceae,Q18674606,deciduous,broadleaved
 Malus spectabilis,Malus,Rosaceae,Q1074153,deciduous,broadleaved
 Malus sylvestris,Malus,Rosaceae,Q47161,deciduous,broadleaved
-Malus toringo,Malus,Rosaceae,,deciduous,broadleaved
-Malus toringoides,Malus,Rosaceae,,deciduous,broadleaved
-Malus trilobata,Malus,Rosaceae,,deciduous,broadleaved
+Malus toringo,Malus,Rosaceae,Q52626848,deciduous,broadleaved
+Malus toringoides,Malus,Rosaceae,Q1023519,deciduous,broadleaved
+Malus trilobata,Malus,Rosaceae,Q10951249,deciduous,broadleaved
 Malus tschonoskii,Malus,Rosaceae,Q17245524,deciduous,broadleaved
-Malus yunnanensis,Malus,Rosaceae,,deciduous,broadleaved
-Malus zumi,Malus,Rosaceae,,deciduous,broadleaved
+Malus yunnanensis,Malus,Rosaceae,Q6745003,deciduous,broadleaved
+Malus zumi,Malus,Rosaceae,Q5990804,deciduous,broadleaved
 Malus × adstringens,Malus,Rosaceae,,deciduous,broadleaved
-Malus × atrosanguinea,Malus,Rosaceae,,deciduous,broadleaved
+Malus × atrosanguinea,Malus,Rosaceae,Q21370191,deciduous,broadleaved
 Malus × denboerii,Malus,Rosaceae,,deciduous,broadleaved
-Malus × floribunda,Malus,Rosaceae,,deciduous,broadleaved
-Malus × moerlandsii,Malus,Rosaceae,,deciduous,broadleaved
-Malus × purpurea,Malus,Rosaceae,,deciduous,broadleaved
-Malus × robusta,Malus,Rosaceae,,deciduous,broadleaved
-Malus × zumi,Malus,Rosaceae,,deciduous,broadleaved
+Malus × floribunda,Malus,Rosaceae,Q1683370,deciduous,broadleaved
+Malus × moerlandsii,Malus,Rosaceae,Q886464,deciduous,broadleaved
+Malus × purpurea,Malus,Rosaceae,Q886464,deciduous,broadleaved
+Malus × robusta,Malus,Rosaceae,Q19309094,deciduous,broadleaved
+Malus × zumi,Malus,Rosaceae,Q5990804,deciduous,broadleaved
 Mangifera indica,Mangifera,Anacardiaceae,Q3919027,evergreen,broadleaved
 Manihot grahamii,Manihot,Euphorbiaceae,,deciduous,broadleaved
 Manilkara kauki,Manilkara,Sapotaceae,,evergreen,broadleaved
@@ -1135,19 +1135,19 @@ Matisia cordata,Matisia,Malvaceae,,evergreen,broadleaved
 Mauritia flexuosa,Mauritia,Arecaceae,,deciduous,palm
 Maytenus boaria,Maytenus,Celastraceae,Q1152753,evergreen,broadleaved
 Maytenus orbicularis,Maytenus,Celastraceae,,deciduous,broadleaved
-Melaleuca armillaris,Melaleuca,Myrtaceae,Q145525,deciduous,broadleaved
+Melaleuca armillaris,Melaleuca,Myrtaceae,Q145525,evergreen,broadleaved
 Melaleuca bracteata,Melaleuca,Myrtaceae,,deciduous,broadleaved
 Melaleuca cajuputi,Melaleuca,Myrtaceae,,deciduous,broadleaved
 Melaleuca citrina,Melaleuca,Myrtaceae,,evergreen,broadleaved
 Melaleuca deanei,Melaleuca,Myrtaceae,,deciduous,broadleaved
 Melaleuca decussata,Melaleuca,Myrtaceae,,deciduous,broadleaved
 Melaleuca elliptica,Melaleuca,Myrtaceae,,deciduous,broadleaved
-Melaleuca ericifolia,Melaleuca,Myrtaceae,Q145525,deciduous,broadleaved
+Melaleuca ericifolia,Melaleuca,Myrtaceae,Q145525,evergreen,broadleaved
 Melaleuca glauca,Melaleuca,Myrtaceae,,evergreen,broadleaved
 Melaleuca halmaturorum,Melaleuca,Myrtaceae,,deciduous,broadleaved
 Melaleuca hypericifolia,Melaleuca,Myrtaceae,,deciduous,broadleaved
 Melaleuca lanceolata,Melaleuca,Myrtaceae,,deciduous,broadleaved
-Melaleuca linariifolia,Melaleuca,Myrtaceae,Q2709936,deciduous,broadleaved
+Melaleuca linariifolia,Melaleuca,Myrtaceae,Q2709936,evergreen,broadleaved
 Melaleuca linearis,Melaleuca,Myrtaceae,,deciduous,broadleaved
 Melaleuca lophantha,Melaleuca,Myrtaceae,,deciduous,broadleaved
 Melaleuca lutea,Melaleuca,Myrtaceae,,deciduous,broadleaved
@@ -1157,8 +1157,8 @@ Melaleuca parvistaminea,Melaleuca,Myrtaceae,,deciduous,broadleaved
 Melaleuca phoenicea,Melaleuca,Myrtaceae,,deciduous,broadleaved
 Melaleuca quinquenervia,Melaleuca,Myrtaceae,,evergreen,broadleaved
 Melaleuca squarrosa,Melaleuca,Myrtaceae,,deciduous,broadleaved
-Melaleuca styphelioides,Melaleuca,Myrtaceae,Q6811101,deciduous,broadleaved
-Melaleuca viminalis,Melaleuca,Myrtaceae,Q22113637,deciduous,broadleaved
+Melaleuca styphelioides,Melaleuca,Myrtaceae,Q6811101,evergreen,broadleaved
+Melaleuca viminalis,Melaleuca,Myrtaceae,Q22113637,evergreen,broadleaved
 Melia azedarach,Melia,Meliaceae,Q162171,deciduous,broadleaved
 Melicoccus bijugatus,Melicoccus,Sapindaceae,,evergreen,broadleaved
 Mespilus germanica,Mespilus,Rosaceae,Q146186,deciduous,broadleaved
@@ -1198,7 +1198,7 @@ Myrcianthes rhopaloides,Myrcianthes,Myrtaceae,,evergreen,broadleaved
 Myrica pensylvanica,Myrica,Myricaceae,,deciduous,broadleaved
 Myrica pubescens,Myrica,Myricaceae,,evergreen,broadleaved
 Myrica rubra,Myrica,Myricaceae,,evergreen,broadleaved
-Myrtus communis,Myrtus,Myrtaceae,,evergreen,broadleaved
+Myrtus communis,Myrtus,Myrtaceae,,deciduous,broadleaved
 Nageia nagi,Nageia,Podocarpaceae,,evergreen,needleleaved
 Nandina domestica,Nandina,Berberidaceae,,evergreen,broadleaved
 Nauclea orientalis,Nauclea,Rubiaceae,,deciduous,broadleaved
@@ -1208,9 +1208,9 @@ Neltuma chilensis,Neltuma,Fabaceae,,evergreen,broadleaved
 Neltuma juliflora,Neltuma,Fabaceae,,evergreen,broadleaved
 Nerium oleander,Nerium,Apocynaceae,,evergreen,broadleaved
 Normanbya normanbyi,Normanbya,Arecaceae,,deciduous,palm
-Nothofagus alpina,Nothofagus,Nothofagaceae,,deciduous,broadleaved
+Nothofagus alpina,Nothogafus,Nothofagaceae,Q1317892,deciduous,broadleaved
 Nothofagus antarctica,Nothofagus,Nothofagaceae,Q571422,deciduous,broadleaved
-Nothofagus dombeyi,Nothofagus,Nothofagaceae,,evergreen,broadleaved
+Nothofagus dombeyi,Nothofagus,Nothofagaceae,Q1107183,evergreen,broadleaved
 Nothofagus menziesii,Nothofagus,Nothofagaceae,,evergreen,broadleaved
 Nothofagus obliqua,Nothofagus,Nothofagaceae,Q1486147,deciduous,broadleaved
 Nyssa sinensis,Nyssa,Nyssaceae,,deciduous,broadleaved
@@ -1363,11 +1363,11 @@ Pittosporum undulatum,Pittosporum,Pittosporaceae,,evergreen,broadleaved
 Platanus acerifolia,Platanus,Platanaceae,Q161374,deciduous,broadleaved
 Platanus hispanica,Platanus,Platanaceae,Q161374,deciduous,broadleaved
 Platanus hybrida,Platanus,Platanaceae,Q161374,deciduous,broadleaved
-Platanus mexicana,Platanus,Platanaceae,,deciduous,broadleaved
+Platanus mexicana,Platanus,Platanaceae,Q4364558,deciduous,broadleaved
 Platanus occidentalis,Platanus,Platanaceae,Q157739,deciduous,broadleaved
 Platanus orientalis,Platanus,Platanaceae,Q161105,deciduous,broadleaved
-Platanus racemosa,Platanus,Platanaceae,,deciduous,broadleaved
-Platanus wrightii,Platanus,Platanaceae,,deciduous,broadleaved
+Platanus racemosa,Platanus,Platanaceae,Q164301,deciduous,broadleaved
+Platanus wrightii,Platanus,Platanaceae,Q4115345,deciduous,broadleaved
 Platanus × acerifolia,Platanus,Platanaceae,Q161374,deciduous,broadleaved
 Platanus × hispanica,Platanus,Platanaceae,Q161374,deciduous,broadleaved
 Platanus × hybrida,Platanus,Platanaceae,Q161374,deciduous,broadleaved
@@ -1504,11 +1504,10 @@ Pterocarpus rohrii,Pterocarpus,Fabaceae,,evergreen,broadleaved
 Pterocarpus violaceus,Pterocarpus,Fabaceae,,evergreen,broadleaved
 Pterocarya caucasica,Pterocarya,Juglandaceae,Q121749,deciduous,broadleaved
 Pterocarya fraxinifolia,Pterocarya,Juglandaceae,Q121749,deciduous,broadleaved
-Pterocarya rhoifolia,Pterocarya,Juglandaceae,,deciduous,broadleaved
-Pterocarya stenoptera,Pterocarya,Juglandaceae,,deciduous,broadleaved
+Pterocarya rhoifolia,Pterocarya,Juglandaceae,Q3008950,deciduous,broadleaved
+Pterocarya stenoptera,Pterocarya,Juglandaceae,Q2699896,deciduous,broadleaved
 Pteroceltis tatarinowii,Pteroceltis,Cannabaceae,,deciduous,broadleaved
 Punica granatum,Punica,Lythraceae,,deciduous,broadleaved
-Puya raimondii,Puya,Bromeliaceae,,evergreen,broadleaved
 Pyracantha coccinea,Pyracantha,Rosaceae,,evergreen,broadleaved
 Pyrus amygdaliformis,Pyrus,Rosaceae,,deciduous,broadleaved
 Pyrus calleryana,Pyrus,Rosaceae,Q3079266,deciduous,broadleaved
@@ -1518,25 +1517,25 @@ Pyrus cordata,Pyrus,Rosaceae,Q7263791,deciduous,broadleaved
 Pyrus domestica,Pyrus,Rosaceae,Q18593737,deciduous,broadleaved
 Pyrus kawakamii,Pyrus,Rosaceae,Q3079266,deciduous,broadleaved
 Pyrus malus,Pyrus,Rosaceae,Q18674606,deciduous,broadleaved
-Pyrus nivalis,Pyrus,Rosaceae,,deciduous,broadleaved
+Pyrus nivalis,Pyrus,Rosaceae,Q7263800,deciduous,broadleaved
 Pyrus pyraster,Pyrus,Rosaceae,Q146281,deciduous,broadleaved
-Pyrus pyrifolia,Pyrus,Rosaceae,,deciduous,broadleaved
-Pyrus regelii,Pyrus,Rosaceae,,deciduous,broadleaved
-Pyrus salicifolia,Pyrus,Rosaceae,,deciduous,broadleaved
+Pyrus pyrifolia,Pyrus,Rosaceae,Q838963,deciduous,broadleaved
+Pyrus regelii,Pyrus,Rosaceae,Q17238257,deciduous,broadleaved
+Pyrus salicifolia,Pyrus,Rosaceae,Q1591053,deciduous,broadleaved
 Pyrus spinosa,Pyrus,Rosaceae,,deciduous,broadleaved
-Pyrus ussuriensis,Pyrus,Rosaceae,,deciduous,broadleaved
+Pyrus ussuriensis,Pyrus,Rosaceae,Q13172138,deciduous,broadleaved
 Quercus acuta,Quercus,Fagaceae,Q1075957,evergreen,broadleaved
 Quercus acutissima,Quercus,Fagaceae,Q1034859,deciduous,broadleaved
 Quercus agrifolia,Quercus,Fagaceae,Q514052,evergreen,broadleaved
 Quercus alba,Quercus,Fagaceae,Q469555,deciduous,broadleaved
 Quercus aliena,Quercus,Fagaceae,,deciduous,broadleaved
 Quercus bicolor,Quercus,Fagaceae,Q142792,deciduous,broadleaved
-Quercus calliprinos,Quercus,Fagaceae,,evergreen,broadleaved
+Quercus calliprinos,Quercus,Fagaceae,Q158178,evergreen,broadleaved
 Quercus canariensis,Quercus,Fagaceae,,deciduous,broadleaved
 Quercus castaneifolia,Quercus,Fagaceae,,deciduous,broadleaved
 Quercus cerrioides,Quercus,Fagaceae,,deciduous,broadleaved
 Quercus cerris,Quercus,Fagaceae,Q157277,deciduous,broadleaved
-Quercus coccifera,Quercus,Fagaceae,,evergreen,broadleaved
+Quercus coccifera,Quercus,Fagaceae,Q158178,evergreen,broadleaved
 Quercus coccinea,Quercus,Fagaceae,Q854714,deciduous,broadleaved
 Quercus congesta,Quercus,Fagaceae,,deciduous,broadleaved
 Quercus crenata,Quercus,Fagaceae,Q15337558,evergreen,broadleaved
@@ -1659,7 +1658,7 @@ Salix atrocinerea,Salix,Salicaceae,Q3320649,deciduous,broadleaved
 Salix aurita,Salix,Salicaceae,Q157519,deciduous,broadleaved
 Salix babylonica,Salix,Salicaceae,Q156307,deciduous,broadleaved
 Salix caprea,Salix,Salicaceae,Q159565,deciduous,broadleaved
-Salix chilensis,Salix,Salicaceae,,deciduous,broadleaved
+Salix chilensis,Salix,Salicaceae,Q50864811,deciduous,broadleaved
 Salix cinerea,Salix,Salicaceae,Q157540,deciduous,broadleaved
 Salix daphnoides,Salix,Salicaceae,,deciduous,broadleaved
 Salix discolor,Salix,Salicaceae,,deciduous,broadleaved
@@ -1719,7 +1718,7 @@ Sesbania punicea,Sesbania,Fabaceae,,deciduous,broadleaved
 Shorea robusta,Shorea,Dipterocarpaceae,,deciduous,broadleaved
 Socratea exorrhiza,Socratea,Arecaceae,,deciduous,palm
 Solanum aviculare,Solanum,Solanaceae,,deciduous,broadleaved
-Sophora cassioides,Sophora,Fabaceae,,evergreen,broadleaved
+Sophora cassioides,Sophora,Fabaceae,Q3237144,evergreen,broadleaved
 Sophora japonica,Sophora,Fabaceae,Q288558,deciduous,broadleaved
 Sophora microphylla,Sophora,Fabaceae,,deciduous,broadleaved
 Sophora sinensis,Sophora,Fabaceae,Q288558,deciduous,broadleaved
@@ -1741,13 +1740,13 @@ Sorbus intermedia,Sorbus,Rosaceae,,deciduous,broadleaved
 Sorbus latifolia,Sorbus,Rosaceae,,deciduous,broadleaved
 Sorbus mougeotii,Sorbus,Rosaceae,,deciduous,broadleaved
 Sorbus scalaris,Sorbus,Rosaceae,Q1037204,deciduous,broadleaved
-Sorbus thuringiaca,Sorbus,Rosaceae,,deciduous,broadleaved
+Sorbus thuringiaca,Sorbus,Rosaceae,Q134483448,deciduous,broadleaved
 Sorbus torminalis,Sorbus,Rosaceae,Q139936561,deciduous,broadleaved
 Sorbus ulleungensis,Sorbus,Rosaceae,,deciduous,broadleaved
 Sorbus vilmorinii,Sorbus,Rosaceae,Q1037212,deciduous,broadleaved
 Sorbus × arnoldiana,Sorbus,Rosaceae,,deciduous,broadleaved
 Sorbus × incana,Sorbus,Rosaceae,,deciduous,broadleaved
-Sorbus × thuringiaca,Sorbus,Rosaceae,,deciduous,broadleaved
+Sorbus × thuringiaca,Sorbus,Rosaceae,Q134483448,deciduous,broadleaved
 Spathodea campanulata,Spathodea,Bignoniaceae,,evergreen,broadleaved
 Spondias dulcis,Spondias,Anacardiaceae,,deciduous,broadleaved
 Spondias mombin,Spondias,Anacardiaceae,,deciduous,broadleaved
@@ -1817,7 +1816,7 @@ Taxodium ascendens,Taxodium,Cupressaceae,Q148950,deciduous,needleleaved
 Taxodium distichum,Taxodium,Cupressaceae,Q148950,deciduous,needleleaved
 Taxodium mucronatum,Taxodium,Cupressaceae,Q148950,deciduous,needleleaved
 Taxus baccata,Taxus,Taxaceae,Q179729,evergreen,needleleaved
-Taxus brevifolia,Taxus,Taxaceae,Q20655540,evergreen,needleleaved
+Taxus brevifolia,Taxus,Taxaceae,Q2065540,evergreen,needleleaved
 Taxus canadensis,Taxus,Taxaceae,Q1723511,evergreen,needleleaved
 Taxus cuspidata,Taxus,Taxaceae,Q1144815,evergreen,needleleaved
 Taxus × media,Taxus,Taxaceae,,evergreen,needleleaved
@@ -1901,7 +1900,6 @@ Ulmus japonica,Ulmus,Ulmaceae,Q1074099,deciduous,broadleaved
 Ulmus laevis,Ulmus,Ulmaceae,Q147492,deciduous,broadleaved
 Ulmus latifolia,Ulmus,Ulmaceae,Q147498,deciduous,broadleaved
 Ulmus minor,Ulmus,Ulmaceae,Q147487,deciduous,broadleaved
-Ulmus nigra,Ulmus,Ulmaceae,Q147498,deciduous,broadleaved
 Ulmus parvifolia,Ulmus,Ulmaceae,Q1074099,deciduous,broadleaved
 Ulmus procera,Ulmus,Ulmaceae,Q147487,deciduous,broadleaved
 Ulmus propinqua,Ulmus,Ulmaceae,Q2109921,deciduous,broadleaved
@@ -1953,7 +1951,7 @@ Ziziphus joazeiro,Ziziphus,Rhamnaceae,,evergreen,broadleaved
 Ziziphus jujuba,Ziziphus,Rhamnaceae,Q11181633,deciduous,broadleaved
 Ziziphus mauritiana,Ziziphus,Rhamnaceae,,deciduous,broadleaved
 Zygia longifolia,Zygia,Fabaceae,,evergreen,broadleaved
-× Arsorbus thuringiaca,Arsorbus,Rosaceae,,deciduous,broadleaved
+× Arsorbus thuringiaca,× Arsorbus,Rosaceae,Q134483448,deciduous,broadleaved
 × Chitalpa tashkentensis,Chitalpa,Bignoniaceae,,deciduous,broadleaved
 × Cupressocyparis leylandii,Cupressocyparis,Cupressaceae,Q42688380,evergreen,needleleaved
 × Hesperotropsis leylandii,× Hesperotropsis,Cupressaceae,Q42688380,evergreen,needleleaved

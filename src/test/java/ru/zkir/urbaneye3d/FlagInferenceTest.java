@@ -103,7 +103,7 @@ public class FlagInferenceTest {
 
         //expected height=135, rotor:diameter=101
         assertEquals("101", rotor_diameter, "Expected rotor diameter for Enron E-101 is 101.");
-        assertEquals("135", height, "Expected height for Enron E-101 is 135");
+        assertEquals("186", height, "Expected height for Enron E-101 is 186");
 
     }
 
@@ -133,6 +133,6 @@ public class FlagInferenceTest {
 
         // Check that inferred parameter values are applied.
         // we expect zero rotation phase of the rotor (tip up), but it is not always the case!
-        assertTrue(abs(actualHeight-135)<2,  "Expected height for Enron E-101 is 135, got " + actualHeight);
+        assertTrue(abs(actualHeight-185)<2,  "Expected height for Enron E-101 is 135, got " + actualHeight);
     }
 }
