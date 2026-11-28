@@ -1,5 +1,7 @@
 # Development History
 
+## Version 2.10.0 (Nov 28, 2026)
+
 ## Nov 26, 2026
 
 * After the successful proof of concept (see Nov 25), **SeedThree library** has been integrated into the data pipeline, and the
